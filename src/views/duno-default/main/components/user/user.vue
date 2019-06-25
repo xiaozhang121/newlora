@@ -47,7 +47,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="dataListLoading" @click="handleSubmit('formValidate')">确 定</el-button>
-        <el-button type="primary" @click="isShow = false" :disabled="dataListLoading">取 消</el-button>
+        <el-button @click="isShow = false" :disabled="dataListLoading">取 消</el-button>
       </div>
     </el-dialog>
   </div>

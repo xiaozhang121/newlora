@@ -249,8 +249,8 @@
     .el-color-predefine__color-selector:nth-child(10n + 1) {
       margin-left: 0; }
     .el-color-predefine__color-selector.selected {
-      -webkit-box-shadow: 0 0 3px 2px #444b5e;
-      box-shadow: 0 0 3px 2px #444b5e; }
+      -webkit-box-shadow: 0 0 3px 2px #515970;
+      box-shadow: 0 0 3px 2px #515970; }
     .el-color-predefine__color-selector > div {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -399,16 +399,16 @@
       color: #cccccc;
       cursor: not-allowed; }
     .el-color-dropdown__btn:hover {
-      color: #444b5e;
-      border-color: #444b5e; }
+      color: #515970;
+      border-color: #515970; }
   .el-color-dropdown__link-btn {
     cursor: pointer;
-    color: #444b5e;
+    color: #515970;
     text-decoration: none;
     padding: 15px;
     font-size: 12px; }
     .el-color-dropdown__link-btn:hover {
-      color: tint(#444b5e, 20%); }
+      color: tint(#515970, 20%); }
 
 .el-color-picker {
   display: inline-block;
