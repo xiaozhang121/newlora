@@ -3,11 +3,15 @@
     <duno-btn-top @on-diagram="changDiagram" />
     <div class="mainList" v-if="mainlistShow">
     <duno-main  v-if="kilovoltKind == 'all'">
-      <div class="main" ref="firstElE">
+      <div class="main_ctx" ref="firstElE">
         <div class="toward">
           <img :src="toward"/>
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
+          <!--<camera-panel style="position: absolute"></camera-panel>-->
+          <historical-documents @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleCamera" class="historical">
+
+          </historical-documents>
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />
@@ -30,7 +34,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
-      <div class="item_ctx"  ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE"  v-if="isDiagram">
         <div class="toward">
             <img :src="toward"/>
         </div>
@@ -44,7 +48,7 @@
         <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
       </div>
-      <div class="item_ctx"  ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]"  ref="secondElE">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -60,7 +64,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '500'">
-      <div class="item_ctx" ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -74,7 +78,7 @@
         <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
       </div>
-      <div class="item_ctx" ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -90,7 +94,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '220'">
-      <div class="item_ctx"  ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE"  v-if="isDiagram">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -104,7 +108,7 @@
         <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
       </div>
-      <div class="item_ctx" ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -120,7 +124,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '110'">
-      <div class="item_ctx" ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -134,7 +138,7 @@
         <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
       </div>
-      <div class="item_ctx"  ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -150,7 +154,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '35'">
-        <div class="item_ctx" ref="firstElE"  v-if="isDiagram">
+        <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
           <div class="toward">
             <img :src="toward"/>
           </div>
@@ -164,7 +168,7 @@
           <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
         </div>
-        <div class="item_ctx" ref="secondElE">
+        <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
           <div class="toward">
             <img :src="toward"/>
           </div>
@@ -192,6 +196,8 @@ import { postAxiosData } from '@/api/axiosType'
 import dunoBtnTop  from '_c/duno-m/duno-btn-top'
 import dunoMain  from '_c/duno-m/duno-main'
 import drappable  from '_c/duno-m/drappable'
+import cameraPanel from '_c/duno-m/cameraPanel'
+import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinViewModule],
@@ -199,7 +205,9 @@ export default {
   components: {
       dunoBtnTop,
       dunoMain,
-      drappable
+      drappable,
+      cameraPanel,
+      HistoricalDocuments
   },
   computed:{
     ...mapState([
@@ -214,7 +222,8 @@ export default {
     return {
       isDiagram: false,
       mainlistShow: true,
-      isFullscreen: false
+      isFullscreen: false,
+      visibleCamera: true
     }
   },
   watch: {
@@ -227,6 +236,12 @@ export default {
       }
   },
   methods: {
+      changeShow(name){
+
+      },
+      onClose(now){
+          this.visibleCamera = now
+      },
       changeFullScreen(target){
           debugger
           screenfull.toggle(target)
@@ -256,6 +271,9 @@ export default {
       right: 25px;
       bottom: 20px;
     }
+    .main_ctx{
+
+    }
     .toward{
       position: absolute;
       left: 15px;
@@ -268,6 +286,11 @@ export default {
       top:53%;
       width: 1900px;
       height: 675px;
+      .historical{
+        position: absolute;
+        width: 400px;
+        height: 300px;
+      }
         #dragAble{
           width: 1900px;
           height: 675px;
@@ -288,10 +311,10 @@ export default {
         position: relative;
         overflow: hidden;
       }
-      .item_ctx:first-child{
+      .item_ctx.active:first-child{
         border-right: 6px solid #18191D;
       }
-      .item_ctx:last-child{
+      .item_ctx.active:last-child{
         border-left: 6px solid #18191D;
       }
     }
