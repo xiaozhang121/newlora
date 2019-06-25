@@ -94,6 +94,137 @@ export default [
                         meta: {
                             access: ['11001010'],
                             title: '列表',
+                            kind: 'all',
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/realEnv/index.vue'),
+                    }
+                ]
+            },
+            {
+                path: 'kilovolt1000',
+                name: 'kilovolt1000Index',
+                meta: {
+                    title: '1000千伏',
+                    access: ['200001'],
+                    notCache: true,
+                    toListName: 'kilovolt1000List',
+                    btnArr: [{'name': '列表', 'code': '200001_1'}]
+                },
+                component: parentView,
+                children: [
+                    {
+                        path: 'list',
+                        name: 'kilovolt1000List',
+                        meta: {
+                            access: ['11001010'],
+                            title: '列表',
+                            kind: 1000,
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/realEnv/index.vue'),
+                    }
+                ]
+            },
+            {
+                path: 'kilovolt500',
+                name: 'kilovolt500Index',
+                meta: {
+                    title: '500千伏',
+                    access: ['200001'],
+                    notCache: true,
+                    toListName: 'kilovolt500List',
+                    btnArr: [{'name': '列表', 'code': '200001_1'}]
+                },
+                component: parentView,
+                children: [
+                    {
+                        path: 'list',
+                        name: 'kilovolt500List',
+                        meta: {
+                            access: ['11001010'],
+                            title: '列表',
+                            kind: 500,
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/realEnv/index.vue'),
+                    }
+                ]
+            },
+            {
+                path: 'kilovolt220',
+                name: 'kilovolt220Index',
+                meta: {
+                    title: '220千伏',
+                    access: ['200001'],
+                    notCache: true,
+                    toListName: 'kilovolt220List',
+                    btnArr: [{'name': '列表', 'code': '200001_1'}]
+                },
+                component: parentView,
+                children: [
+                    {
+                        path: 'list',
+                        name: 'kilovolt220List',
+                        meta: {
+                            access: ['11001010'],
+                            title: '列表',
+                            kind: 220,
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/realEnv/index.vue'),
+                    }
+                ]
+            },
+            {
+                path: 'kilovolt110',
+                name: 'kilovolt110Index',
+                meta: {
+                    title: '110千伏',
+                    access: ['200001'],
+                    notCache: true,
+                    toListName: 'kilovolt110List',
+                    btnArr: [{'name': '列表', 'code': '200001_1'}]
+                },
+                component: parentView,
+                children: [
+                    {
+                        path: 'list',
+                        name: 'kilovolt110List',
+                        meta: {
+                            access: ['11001010'],
+                            title: '列表',
+                            kind: 110,
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/realEnv/index.vue'),
+                    }
+                ]
+            },
+            {
+                path: 'kilovolt35',
+                name: 'kilovolt35Index',
+                meta: {
+                    title: '35千伏',
+                    access: ['200001'],
+                    notCache: true,
+                    toListName: 'kilovolt35List',
+                    btnArr: [{'name': '列表', 'code': '200001_1'}]
+                },
+                component: parentView,
+                children: [
+                    {
+                        path: 'list',
+                        name: 'kilovolt35List',
+                        meta: {
+                            access: ['11001010'],
+                            title: '列表',
+                            kind: 35,
                             hideInMenu: true,
                             isDetails: true
                         },

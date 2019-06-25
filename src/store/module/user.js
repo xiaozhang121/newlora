@@ -62,6 +62,7 @@ export default {
         logout(state.token).then(() => {
           commit('setToken', '')
           commit('setAccess', [])
+          sessionStorage.clear()
           resolve()
         }).catch(err => {
           reject(err)

@@ -5,7 +5,8 @@ export default {
     breadCrumbList: [],
     tagNavList: [],
     homeRoute: getHomeRoute(routers),
-    local: ''
+    local: '',
+    kilovolt: ''
   },
   getters: {
     menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access)

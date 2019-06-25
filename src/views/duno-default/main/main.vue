@@ -8,7 +8,7 @@
     </el-header>
     <el-container class="mainAside">
       <el-aside hide-trigger collapsible :width="collapsed ? '64px' : '256px'" class="left-sider" :style="{overflow: 'hidden'}">
-        <side-menu :unique-opened="true" ref="sideMenu" backgroundColor="#23262F" textColor="#fff" activeTextColor="#05E0E1" :default-active="defaultActive" :collapsed="collapsed" @select="turnToPage" :menu-list="menuList"></side-menu>
+        <side-menu :unique-opened="true" ref="sideMenu" backgroundColor="#23262F" textColor="#fff" activeTextColor="#0A70F8" :default-active="defaultActive" :collapsed="collapsed" @select="turnToPage" :menu-list="menuList"></side-menu>
       </el-aside>
       <el-main class="main-content-con">
         <el-container class="main-layout-con">
@@ -167,10 +167,10 @@ export default {
     border-right: none !important;
   }
   .el-submenu.is-active .el-submenu__title{
-    border-left: 4px solid #00FEFE;
+    border-left: 4px solid #0A70F8;
    }
   .el-menu-item.is-active{
-    border-left: 4px solid #00FEFE;
+    border-left: 4px solid #0A70F8;
   }
   .el-menu-item,.el-submenu__title,.el-submenu .el-menu-item{
     border-left: 4px solid transparent;

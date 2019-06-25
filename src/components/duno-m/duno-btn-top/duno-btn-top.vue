@@ -7,7 +7,7 @@
       <span class="title">一次接线图</span>
       <el-switch
               v-model="isDiagram"
-              active-color="#13ce66"
+              active-color="#26FFB1"
               inactive-color="#ff4949">
       </el-switch>
     </div>
@@ -23,17 +23,17 @@ export default {
     return {
         dataList:[
           {
-            circleColor:'pink',
+            circleColor:'#00B4FF',
             describeName: '可见光',
             isActive: true
           },
           {
-            circleColor:'#FE5EB8',
+            circleColor:'#FF5EB9',
             describeName: '红外测光',
             isActive: true
           },
           {
-            circleColor:'#53FEC0',
+            circleColor:'#4FF2B7',
             describeName: 'AR眼镜',
             isActive: true
           },
@@ -58,8 +58,13 @@ export default {
             isActive: true
           }
         ],
-        isDiagram: true
+        isDiagram: false
     }
+  },
+  watch: {
+      isDiagram(now){
+          this.$emit('on-diagram', now)
+      }
   },
   components: {
     Icons,

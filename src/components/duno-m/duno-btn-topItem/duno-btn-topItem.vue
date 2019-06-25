@@ -40,7 +40,7 @@ export default {
   align-items: center;
   cursor: pointer;
   .circle_outside{
-    border: 1px solid #A4A6A5;
+    border: 1px solid #999;
     border-radius: 300px;
     width: 13px;
     height: 13px;
@@ -57,7 +57,7 @@ export default {
   }
   .content{
     margin-left: 5px;
-    color: #A4A6A5;
+    color: #999;
     font-size: 17px;
   }
   .content.active{

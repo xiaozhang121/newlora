@@ -74,11 +74,11 @@ body .el-card__body {
 body .el-loading-spinner {
   i {
     font-size: 25px;
-    color: #05E0E1;
+    color: #0A70F8;
   }
   .el-loading-text {
     font-size: 16px;
-    color: #05E0E1;
+    color: #0A70F8;
   }
 }
 body .el-dropdown-menu {
@@ -99,8 +99,9 @@ body .el-dropdown-menu__item {
 }
 body .el-dropdown-menu__item:not(.is-disabled):hover, body .el-dropdown-menu__item:focus {
   background-color: #2b3138;
-  color: #05E0E1;
+  color: #0A70F8;
 }
+
 body .el-button {
   background: #7c7c7c;
   border-color: #7c7c7c;
