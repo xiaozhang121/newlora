@@ -1,0 +1,12 @@
+.custom-bread-crumb{
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  border-bottom: 1px solid rgba(128, 126, 126, 0.1);
+  margin-bottom: 10px;
+  min-width: 550px;
+  
+  .el-breadcrumb__item {
+    margin-bottom: 10px;
+  }
+}

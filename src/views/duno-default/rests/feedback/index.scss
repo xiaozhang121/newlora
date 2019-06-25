@@ -1,0 +1,20 @@
+.feedback {
+  h2,
+  h4 {
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+  }
+
+  &-row {
+    margin-top: 10px;
+  }
+
+  &-hint {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #afafaf;
+    margin-left: 120px;
+  }
+}

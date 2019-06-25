@@ -1,0 +1,21 @@
+$--size: 30px;
+$--transform-base: transform .2s ease;
+
+.sider-trigger-a {
+  padding: 6px;
+  // width: $--size;
+  // height: $--size;
+  display: inline-block;
+  text-align: center;
+  color: #5c6b77;
+  transition: $--transform-base;
+
+  i {
+    vertical-align: middle;
+  }
+
+  &.collapsed {
+    transform: rotateZ(180deg);
+    transition: $--transform-base;
+  }
+}

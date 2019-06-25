@@ -1,0 +1,121 @@
+<template>
+  <div id="app">
+    <router-view/>
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+
+export default {
+  name: 'App',
+  data () {
+    const that = this
+    return {
+      Socket: null,
+      SocketTime: null,
+      isSocketOk: true,
+      isLoginPage: false,
+      baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
+    }
+  },
+  watch: {
+    '$route' (to) {
+      const that = this
+      if (to.path === '/login' || to.path === '/') {
+        that.isLoginPage = true
+        if (that.Socket) {
+          that.Socket.close()
+          that.Socket = null
+        }
+      } else {
+        that.isLoginPage = false
+        if (!that.Socket) {
+          if (process.env.NODE_ENV !== 'development') {
+            that.WebSocket()
+          }
+        }
+      }
+    }
+  },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
+  methods: {
+    linkWebSocket () {
+      const that = this
+      if (!that.isLoginPage) {
+        that.SocketTime = setInterval(function () {
+          that.WebSocket()
+        }, 5000)
+      }
+    },
+    WebSocket () {
+      const that = this
+      if ('WebSocket' in window) {
+        try {
+          const index = that.baseUrl.indexOf('//')
+          const url = that.baseUrl.substring(index, that.baseUrl.length)
+          that.Socket = new WebSocket(`ws:${url}/venus/websocket`)
+          // this.Socket.onopen = function() { // 发送数据 websocket
+          // // Web Socket 已连接上，使用 send() 方法发送数据
+          // console.log("数据发送中...")
+          // }
+          that.Socket.onmessage = function (evt) { // 接收数据 websocket
+            let receivedMsg = JSON.parse(evt.data)
+            clearInterval(that.SocketTime)
+            that.SocketTime = null
+            that.isSocketOk = true
+            const account = that.$store.state.user.account
+            let num = 0
+            for (let i = 0; i < receivedMsg.length; i++) {
+              if (receivedMsg[i].account === account) {
+                num++
+              }
+            }
+            that.$store.state.user.msgNum = num
+          }
+          that.Socket.onclose = function () { // 关闭 websocket
+            that.Socket = null
+            if (that.isSocketOk) {
+              that.isSocketOk = false
+              that.linkWebSocket()
+            }
+          }
+          that.Socket.onerror = function () { // 错误 websocket
+            that.Socket = null
+          }
+        } catch (e) {
+          that.Socket = null
+        }
+      }
+    }
+  },
+  mounted () {
+    const that = this
+    console.log('后台访问地址：', that.baseUrl)
+    if (process.env.NODE_ENV !== 'development') {
+      if (that.$route.path !== '/login' && that.$route.path !== '/') { // 当前路径不是登录页
+        that.isLoginPage = false
+        that.WebSocket()
+      } else {
+        that.isLoginPage = true
+      }
+    }
+    window.onbeforeunload = function () { // 浏览器关闭
+      if (that.Socket) {
+        that.Socket.close()
+        that.Socket = null
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+  @import "./assets/defaultIcon/duno-iconfont.css"; // 框架默认图标库
+  @import "./assets/icons/iconfont.css";  // 项目引用图标库
+  @import "./style/index.scss";
+</style>

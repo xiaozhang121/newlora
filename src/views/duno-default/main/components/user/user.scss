@@ -1,0 +1,28 @@
+$--size: 40px;
+.user{
+  &-avator-dropdown{
+    margin: 0 5px;
+    cursor: pointer;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0;
+    
+    .el-dropdown-link {
+      display: inline-block;
+    }
+
+    .userAvator {
+      width: $--size;
+      height: $--size;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+
+    .el-icon-arrow-down {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+  }
+}

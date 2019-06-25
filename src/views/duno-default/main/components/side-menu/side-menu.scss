@@ -1,0 +1,19 @@
+.side-menu-wrapper{
+  user-select: none;
+  height: 100%;
+
+  .el-menu {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    i {
+      color: inherit
+    }
+  }
+}
+
+.menu-title{
+  padding-left: 0.5em;
+}
+

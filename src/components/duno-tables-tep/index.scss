@@ -1,0 +1,13 @@
+.tablesTep{
+  background: #fff;
+  &-page{
+    width: 100%;
+    text-align: right;
+    padding: 10px;
+  }
+
+  &-checkbox {
+    max-height: 100px;
+    overflow-y: auto;
+  }
+}

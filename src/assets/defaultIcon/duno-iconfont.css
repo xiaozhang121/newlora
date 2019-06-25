@@ -1,0 +1,48 @@
+/* 
+框架默认icon
+  注意事项：
+    1、font-family: "duno-iconfont"
+    2、class名称是以 duno- 开头  不是以 icon-开头
+    3、使用时应该 <i class="duno-iconfont duno-xxxx" /> 
+*/
+@font-face {font-family: "duno-iconfont";
+  src: url('iconfont.eot?t=1552466207229'); /* IE9 */
+  src: url('iconfont.eot?t=1552466207229#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAUYAAsAAAAACjgAAATKAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDXgqGbIVcATYCJAMcCxAABCAFhG0HehvOCMieg43jWMJSJGEkefpHfDx8v9//1j5y9X3RhFr8HTGZTiIUEQuR1BhCIxKSl/B+vm31yIkoJrq2Et1IRj+IhYu4kWxX3YzNOEVfjYHGhf4G9z/HUi+a7sDyX9u5ZNSiaW9UwckDqkjhDWQ8AN0DPEfU6CaeZxMYbFAAO9KtDwu+CtgoEHdEgQPfnFVpoYTO0NTsWUp8AUqX3uJPAHwOfz7+Q1n4ktQMznXhdqceWn6RX8MJ1asamVVQp3ND2o+MfUAhXtV6nwARZ/chDMbfJF0BZnWS5hf5JeVL9pf2L8+/hnu95HvC5DCLbQlVVib45xENTjthsTdyDb9IV0DwK0VA5Ve2gMyvdg2a7jkrIPE7XOdS0e36s1gB0RE3GexaOksqu1RRV/2xeTo5yg9Sk/nQwCBfxH5xndxf5O92Y3k5qpPthjtdmqgYj0dL6LXNmvWeIblrnOykQGwwqWMaYzTm8SqvbxLQlEB2TSSSotcdBcOGd4fiqc2Hs8P2HowjNxwYPbPmEcFr1gD+ZG1AgOsxOGjxeky76NDMw4sPqgciHHsMk9PJulwaj2eI2z3sgnORu65ww7OaIE93t3tK8J4rsfhOV2fQfU86semaXj2w6BCG9doOhr9/ePUkwCSenr7+uJzugaCQ1Pum9GSH7F2mV4oI1W7bXrutB2wEq1FZTZtRdZWKsvMBgV/I+d3p8nR6XvdVZOh4uvf0q6/ZWatcUShKn3D8NPfxDZ9Htneun8tVRHA797SrUHmhe+JH+WNiTu2PQx8/fTz0o3b49uNn0ex5DU8LNT+2nLhxs6xUZytZwadFVPkcU6IuUyXk5Zb4lstkCXU5ud33ku2N7ZLvXz93+1W79AgOH/G95Hf7ccSG7A1ZzAgPIF4KfnrHxgwVH4uP8UWsVCaPwceWDLjTODQFOVfv21kwZCU9/P+UGDwZo9tb2pVQluDA13L/sVSPHgNuDPBWpcb6l8f3Cw5LDAtWxRYpx5n1rycxLbAFM+n1eu/omD4dG63eUDlRtATUbnrtU7Iob1EJv3BT3qaID5l20S8SS577XW5hU+r1jg87cTJ2clLF88B0gGk8kQwwJb8hegBMvU6UAJBPEqCu/1iCASB/x71/yd+xcmat75iQhn++AQX8PPYhJYxMKTCN9H+lQ5b9AX0lET4bhakAW1v0Hm6/demaAq1zKL40swEH8bcLLnoznX6FXE/orKSQtNZD1tmGLNh9UI3WoNHZD4O9uu8/WiIjROmxx1wGwrzjkMz6Btm8p8iCfQ3Vqm/QmA8CBtci4oijHSH6t8uIU5Ce6ZrEiDrJyjsOxT9qHIQEh5mTs4qQqkWyXUwwpUUlxUJ3ZEXyFNvYxwtlisIzvCxZmG7M+ZDZLDE2WTIinVJkUBRbXXExX/dKRTrJAv4OkyEcBaLH6DIJQ6QjseL96RX+pe8fBBE4mHHklj4NYS1EZicunlGqSAkB2V1rJfW5leXtxhOUUSh4fj2eTGLB6Ma6ETNmJQxb/WpGiI6iiGFA2qZOMTcQT9UWLa+3vM4zYABP1UaKHCVqNNFGZ7jLWScbkFWwcLTdIDkmIXqiyEkuV5wiWYVJmkIvZHBYRNGtOLrqVyYtooUL1nOSgbMK9Mw4sRAAAAA=') format('woff2'),
+  url('iconfont.woff?t=1552466207229') format('woff'),
+  url('iconfont.ttf?t=1552466207229') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1552466207229#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.duno-iconfont {
+  font-family: "duno-iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.duno-yanzhengma:before {
+  content: "\e604";
+}
+
+.duno-shouye:before {
+  content: "\e6d9";
+}
+
+.duno-xiaoxi:before {
+  content: "\e627";
+}
+
+.duno-tongyong-yonghumingtubiao:before {
+  content: "\e643";
+}
+
+.duno-mima:before {
+  content: "\e61f";
+}
+
+.duno-daohangshouqi-:before {
+  content: "\e712";
+}
+

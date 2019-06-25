@@ -1,0 +1,84 @@
+@import "./defaults.scss";
+
+.head-middle{
+  width: 100%;
+  margin: 0 auto 10px;
+  
+  .el-card__body {
+    overflow: inherit;
+  }
+
+  &-left{
+    display: inline-block;
+    width: auto;
+    button {
+      margin: 0 3px;
+    }
+  }
+  &-right {
+    float: right;
+  }
+}
+
+
+.header-icon {
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  height: 100%;
+  line-height: normal;
+  padding: 0 5px;
+
+  i{
+    font-size: 24px;
+    vertical-align: middle;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+
+button.tableBtnName {
+  margin: 0 2px;
+  border: none;
+  height: 21px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0 12px;
+}
+button.tableBtnName:hover {
+  background-color: transparent;
+}
+button.tableBtnName:focus {
+  box-shadow: none;
+}
+.viewRow {
+  img {
+    max-width: 100%;
+  }
+}
+
+.duno-cons {
+  margin-bottom: 2em;
+  min-height: calc(100% - 70px);
+}
+
+body .el-card__body {
+  padding: 15px;
+}
+
+body .el-loading-spinner {
+  i {
+    font-size: 25px;
+  }
+  .el-loading-text {
+    font-size: 16px;
+  }
+}
