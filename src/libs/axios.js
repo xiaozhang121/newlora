@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { Base64 } from 'js-base64'
 import user from '@/store/module/user.js'
-// import router from '../router/index.js'
 import configIndex from '@/config'
 import { Loading } from 'element-ui'
 let loadingInstance = null
@@ -22,7 +21,7 @@ class HttpRequest {
       withCredentials: true
     }
     if (user.state.token) {
-      config.headers.Authorization = user.state.token
+      // config.headers.Authorization = user.state.token
     }
     return config
   }
@@ -75,21 +74,13 @@ class HttpRequest {
     }, error => {
       this.distroy(url)
       console.log('网络故障')
-      // return Promise.reject(error)
       return new Promise((resolve, reject) => {
         if (error.request.status === 401) {
           console.log('401')
-          // this.$router.push({ name: 'error_401' })
         } else if (error.request.status === 500) {
           console.log('500')
-          // this.$router.push({ name: 'error_500' })
         } else {
           console.log('404')
-          // router.push({
-          //   name: 'error_404'
-          // })
-          // debugger
-          // this.$router.push({ name: 'error_404' })
         }
         reject(error)
       })

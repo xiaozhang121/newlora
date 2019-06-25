@@ -26,24 +26,6 @@ for (let i = 0; i < routerArr.length; i++) {
   netRouter[routerArr[i]] = router
 }
 
-/*
-* 使用模板生成的路由示例：
-* {
-    path: '/',
-    name:'_produce',
-    component: Main,
-    meta: {
-      notCache: true,
-      icon: '_hrrenshirenshiguanli380',
-      access: ['200000'],
-      title: '生成'
-    },
-    children: [
-      netRouter['PersTeacher'], // key值为文件夹名称     ！！！！！！！！！！！
-    ]
-  }
-* */
-
 export default [
   {
     path: '/login',
@@ -122,246 +104,246 @@ export default [
         ]
     },
   /* 其他设置 */
-  {
-    path: '/rests',
-    name: '_rests',
-    component: Main,
-    meta: {
-      notCache: true,
-      icon: 'icon-shezhi',
-      access: ['11000000'],
-      title: '其他设置'
-    },
-    children: [
-      {
-        path: 'feedback',
-        name: 'feedbackIndex',
-        meta: {
-          title: '意见反馈',
-          access: ['11001000'],
-          notCache: true,
-          toListName: 'feedbackList',
-          btnArr: [{'name': '列表', 'code': '11001010'}, {'name': '详情', 'code': '11001020'}, {'name': '删除', 'code': '11001040'}]
-        },
-        component: parentView,
-        children: [
-          {
-            path: 'list',
-            name: 'feedbackList',
-            meta: {
-              access: ['11001010'],
-              title: '列表',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/rests/feedback/index.vue'),
-          },
-          {
-            path: 'view',
-            name: 'feedbackView',
-            meta: {
-              active: 'feedbackList',
-              access: ['11001020'],
-              title: '详情',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/rests/feedback/view.vue')
-          }
-        ]
-      }
-    ]
-  },
+  // {
+  //   path: '/rests',
+  //   name: '_rests',
+  //   component: Main,
+  //   meta: {
+  //     notCache: true,
+  //     icon: 'icon-shezhi',
+  //     access: ['11000000'],
+  //     title: '其他设置'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'feedback',
+  //       name: 'feedbackIndex',
+  //       meta: {
+  //         title: '意见反馈',
+  //         access: ['11001000'],
+  //         notCache: true,
+  //         toListName: 'feedbackList',
+  //         btnArr: [{'name': '列表', 'code': '11001010'}, {'name': '详情', 'code': '11001020'}, {'name': '删除', 'code': '11001040'}]
+  //       },
+  //       component: parentView,
+  //       children: [
+  //         {
+  //           path: 'list',
+  //           name: 'feedbackList',
+  //           meta: {
+  //             access: ['11001010'],
+  //             title: '列表',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/rests/feedback/index.vue'),
+  //         },
+  //         {
+  //           path: 'view',
+  //           name: 'feedbackView',
+  //           meta: {
+  //             active: 'feedbackList',
+  //             access: ['11001020'],
+  //             title: '详情',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/rests/feedback/view.vue')
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
   /* 系统设置 */
-  {
-    path: '/basic',
-    name:'basic',
-    component: Main,
-    meta: {
-      notCache: true,
-      icon: 'icon-shezhi1',
-      access: ['10000000'],
-      title: '系统设置'
-    },
-    children: [
-      {
-        path: 'role',
-        name: 'roleAuthorityIndex',
-        meta: {
-          access: ['10001000'],
-          title: '角色权限',
-          toListName: 'roleAuthority',
-          btnArr: [{'name': '列表', 'code': '10001010'},{'name': '新增', 'code': '10001020'}, {'name': '编辑', 'code': '10001030'}, {'name': '删除', 'code': '10001040'}]
-        },
-        component: parentView,
-        children: [
-          {
-            path: 'list',
-            name: 'roleAuthority',
-            meta: {
-              access: ['10001010'],
-              title: '列表',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/basic-setting/role/index.vue'),
-          },
-          {
-            path: 'add',
-            name: 'roleAuthorityAdd',
-            meta: {
-              active: 'roleAuthority',
-              access: ['10001020'],
-              title: '新增',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/basic-setting/role/edit.vue')
-          },
-          {
-            path: 'edit',
-            name: 'roleAuthorityEdit',
-            meta: {
-              active: 'roleAuthority',
-              access: ['10001030'],
-              title: '编辑',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/basic-setting/role/edit.vue')
-          }
-        ]
-      },
-      {
-        path: 'account',
-        name: 'accountIndex',
-        meta: {
-          access: ['10002000'],
-          title: '账号管理',
-          toListName: 'accountList',
-          btnArr: [{'name': '列表', 'code': '10002010'},{'name': '新增', 'code': '10002020'}, {'name': '编辑', 'code': '10002030'}, {'name': '删除', 'code': '10002040'}]
-        },
-        component: parentView,
-        children: [
-          {
-            path: 'list',
-            name: 'accountList',
-            meta: {
-              access: ['10002010'],
-              title: '列表',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/basic-setting/account/index.vue'),
-          },
-          {
-            path: 'add',
-            name: 'accountListAdd',
-            meta: {
-              active: 'accountList',
-              access: ['10002020'],
-              title: '新增',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/basic-setting/account/edit.vue')
-          },
-          {
-            path: 'edit',
-            name: 'accountListEdit',
-            meta: {
-              active: 'accountList',
-              access: ['10002030'],
-              title: '编辑',
-              hideInMenu: true,
-              isDetails: true
-            },
-            component: () => import('@/views/duno-default/basic-setting/account/edit.vue')
-          }
-        ]
-      }
-    ]
-  },
+  // {
+  //   path: '/basic',
+  //   name:'basic',
+  //   component: Main,
+  //   meta: {
+  //     notCache: true,
+  //     icon: 'icon-shezhi1',
+  //     access: ['10000000'],
+  //     title: '系统设置'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'role',
+  //       name: 'roleAuthorityIndex',
+  //       meta: {
+  //         access: ['10001000'],
+  //         title: '角色权限',
+  //         toListName: 'roleAuthority',
+  //         btnArr: [{'name': '列表', 'code': '10001010'},{'name': '新增', 'code': '10001020'}, {'name': '编辑', 'code': '10001030'}, {'name': '删除', 'code': '10001040'}]
+  //       },
+  //       component: parentView,
+  //       children: [
+  //         {
+  //           path: 'list',
+  //           name: 'roleAuthority',
+  //           meta: {
+  //             access: ['10001010'],
+  //             title: '列表',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/basic-setting/role/index.vue'),
+  //         },
+  //         {
+  //           path: 'add',
+  //           name: 'roleAuthorityAdd',
+  //           meta: {
+  //             active: 'roleAuthority',
+  //             access: ['10001020'],
+  //             title: '新增',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/basic-setting/role/edit.vue')
+  //         },
+  //         {
+  //           path: 'edit',
+  //           name: 'roleAuthorityEdit',
+  //           meta: {
+  //             active: 'roleAuthority',
+  //             access: ['10001030'],
+  //             title: '编辑',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/basic-setting/role/edit.vue')
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'account',
+  //       name: 'accountIndex',
+  //       meta: {
+  //         access: ['10002000'],
+  //         title: '账号管理',
+  //         toListName: 'accountList',
+  //         btnArr: [{'name': '列表', 'code': '10002010'},{'name': '新增', 'code': '10002020'}, {'name': '编辑', 'code': '10002030'}, {'name': '删除', 'code': '10002040'}]
+  //       },
+  //       component: parentView,
+  //       children: [
+  //         {
+  //           path: 'list',
+  //           name: 'accountList',
+  //           meta: {
+  //             access: ['10002010'],
+  //             title: '列表',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/basic-setting/account/index.vue'),
+  //         },
+  //         {
+  //           path: 'add',
+  //           name: 'accountListAdd',
+  //           meta: {
+  //             active: 'accountList',
+  //             access: ['10002020'],
+  //             title: '新增',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/basic-setting/account/edit.vue')
+  //         },
+  //         {
+  //           path: 'edit',
+  //           name: 'accountListEdit',
+  //           meta: {
+  //             active: 'accountList',
+  //             access: ['10002030'],
+  //             title: '编辑',
+  //             hideInMenu: true,
+  //             isDetails: true
+  //           },
+  //           component: () => import('@/views/duno-default/basic-setting/account/edit.vue')
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
   /* 个人中心 */
-  {
-    path: '/',
-    name: '_center',
-    component: Main,
-    meta: {
-      hide: true,
-      hideInMenu: true,
-      hideMenuAuthority: true,
-      isAlone: true,
-      title: '个人中心'
-    },
-    children: [
-      {
-        path: 'center',
-        name: 'memberCenter',
-        meta: {
-          title: '个人中心',
-          btnArr: []
-        },
-        component: () => import('@/views/duno-default/memberCenter/index.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/',
+  //   name: '_center',
+  //   component: Main,
+  //   meta: {
+  //     hide: true,
+  //     hideInMenu: true,
+  //     hideMenuAuthority: true,
+  //     isAlone: true,
+  //     title: '个人中心'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'center',
+  //       name: 'memberCenter',
+  //       meta: {
+  //         title: '个人中心',
+  //         btnArr: []
+  //       },
+  //       component: () => import('@/views/duno-default/memberCenter/index.vue')
+  //     }
+  //   ]
+  // },
   /* 消息中心 */
-  {
-    path: '/message',
-    name: '_message',
-    component: Main,
-    meta: {
-      hide: true,
-      hideInMenu: true,
-      hideMenuAuthority: true,
-      title: '消息中心',
-      btnArr: [{'name': '新增', 'code': '12001020'}, {'name': '删除', 'code': '12001040'}]
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'messageList',
-        meta: {
-          title: '消息中心'
-        },
-        component: () => import('@/views/duno-default/message/index.vue')
-      },
-      {
-        path: 'add',
-        name: 'messageAdd',
-        meta: {
-          access: ['12001020'],
-          title: '消息新增'
-        },
-        component: () => import('@/views/duno-default/message/edit.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/message',
+  //   name: '_message',
+  //   component: Main,
+  //   meta: {
+  //     hide: true,
+  //     hideInMenu: true,
+  //     hideMenuAuthority: true,
+  //     title: '消息中心',
+  //     btnArr: [{'name': '新增', 'code': '12001020'}, {'name': '删除', 'code': '12001040'}]
+  //   },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       name: 'messageList',
+  //       meta: {
+  //         title: '消息中心'
+  //       },
+  //       component: () => import('@/views/duno-default/message/index.vue')
+  //     },
+  //     {
+  //       path: 'add',
+  //       name: 'messageAdd',
+  //       meta: {
+  //         access: ['12001020'],
+  //         title: '消息新增'
+  //       },
+  //       component: () => import('@/views/duno-default/message/edit.vue')
+  //     }
+  //   ]
+  // },
   /* 新增意见反馈 */
-  {
-    path: '/feedback',
-    name: '_feedback',
-    component: Main,
-    meta: {
-      hide: true,
-      hideInMenu: true,
-      hideMenuAuthority: true,
-      isAlone: true,
-      title: '意见反馈'
-    },
-    children: [
-      {
-        path: 'add',
-        name: 'feedbackAdd',
-        meta: {
-          title: '意见反馈',
-          btnArr: []
-        },
-        component: () => import('@/views/duno-default/rests/feedback/add.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/feedback',
+  //   name: '_feedback',
+  //   component: Main,
+  //   meta: {
+  //     hide: true,
+  //     hideInMenu: true,
+  //     hideMenuAuthority: true,
+  //     isAlone: true,
+  //     title: '意见反馈'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'add',
+  //       name: 'feedbackAdd',
+  //       meta: {
+  //         title: '意见反馈',
+  //         btnArr: []
+  //       },
+  //       component: () => import('@/views/duno-default/rests/feedback/add.vue')
+  //     }
+  //   ]
+  // },
   /* 以下为系统出错时访问的路由 */
   {
     path: '/401',

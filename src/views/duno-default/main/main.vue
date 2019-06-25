@@ -2,14 +2,14 @@
   <el-container style="height: 100%" class="main">
     <el-header class="main-header">
       <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
-        <message-tip />  <!-- 用户基础操作 -->
+        <alarm-tip />  <!-- 告警消息 -->
         <user />  <!-- 用户基础操作 -->
       </header-bar>
     </el-header>
     <el-container class="mainAside">
       <el-aside hide-trigger collapsible :width="collapsed ? '64px' : '256px'" class="left-sider" :style="{overflow: 'hidden'}">
-      <side-menu :unique-opened="true" ref="sideMenu" backgroundColor="#23262F" textColor="#fff" activeTextColor="#05E0E1" :default-active="defaultActive" :collapsed="collapsed" @select="turnToPage" :menu-list="menuList"></side-menu>
-    </el-aside>
+        <side-menu :unique-opened="true" ref="sideMenu" backgroundColor="#23262F" textColor="#fff" activeTextColor="#05E0E1" :default-active="defaultActive" :collapsed="collapsed" @select="turnToPage" :menu-list="menuList"></side-menu>
+      </el-aside>
       <el-main class="main-content-con">
         <el-container class="main-layout-con">
           <el-main class="content-wrapper">
@@ -31,7 +31,7 @@ import SideMenu from './components/side-menu' // 侧导航栏
 import HeaderBar from './components/header-bar' // header
 import customBreadCrumb from '_c/custom-bread-crumb'  // 面包屑导航
 import User from './components/user' // 用户基础操作
-import MessageTip from './components/message/message-tip.vue' // 消息
+import alarmTip from './components/alarm/alarm.vue' // 告警消息
 import DunoFooter from '_c/duno-footer'
 import './main.scss'
 export default {
@@ -41,7 +41,7 @@ export default {
     HeaderBar,
     customBreadCrumb,
     User,
-    MessageTip,
+    alarmTip,
     DunoFooter
   },
   data () {

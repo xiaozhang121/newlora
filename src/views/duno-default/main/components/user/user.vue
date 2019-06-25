@@ -6,14 +6,14 @@
         <i class="el-icon-arrow-down el-icon--right"></i>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="personal">个人中心</el-dropdown-item>
-        <el-dropdown-item command="advise" divided>意见反馈</el-dropdown-item>
-        <el-dropdown-item command="password" divided>修改密码</el-dropdown-item>
+        <!-- <el-dropdown-item command="personal">个人中心</el-dropdown-item> -->
+        <!-- <el-dropdown-item command="advise" divided>意见反馈</el-dropdown-item> -->
+        <el-dropdown-item command="password">修改密码</el-dropdown-item>
         <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
 
-    <el-dialog title="更改密码" :visible.sync="isShow" :close-on-press-escape="!dataListLoading" :show-close="!dataListLoading" :close-on-click-modal="!dataListLoading">
+    <el-dialog class="passDialog" title="更改密码" :modal="false" :visible.sync="isShow" :close-on-press-escape="!dataListLoading" :show-close="!dataListLoading" :close-on-click-modal="!dataListLoading">
       <el-form ref="formValidate" :model="formData">
         <input-tep
           label="原密码"
@@ -47,7 +47,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="dataListLoading" @click="handleSubmit('formValidate')">确 定</el-button>
-        <el-button @click="isShow = false" :disabled="dataListLoading">取 消</el-button>
+        <el-button type="primary" @click="isShow = false" :disabled="dataListLoading">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -198,3 +198,16 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.passDialog {
+  .el-dialog {
+    background: rgba(47, 51, 63, 0.7);
+  }
+  .el-dialog__title, .el-form-item__label {
+    color: #fff;
+  }
+  .el-input__inner {
+    background: transparent;
+  }
+}
+</style>

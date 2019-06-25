@@ -6,8 +6,6 @@ import store from '@/store'
 import { getToken, canTurnTo } from '@/libs/util'
 Vue.use(Router)
 
-import Cookies from 'js-cookie'
-
 const router = new Router({
   mode: 'history',
   routes
