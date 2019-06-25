@@ -40,7 +40,21 @@ export default {
       del:require('@/assets/images/btn/del.png'),
       reset:require('@/assets/images/btn/biangeng.png'),
       download:require('@/assets/images/btn/download.png'),
-      uploading:require('@/assets/images/btn/uploading.png')
+      uploading:require('@/assets/images/btn/uploading.png'),
+      kilovolt10:require('@/assets/SVG/kilovolt10.svg'),
+      kilovolt35:require('@/assets/SVG/kilovolt35.svg'),
+      kilovolt110:require('@/assets/SVG/kilovolt110.svg'),
+      kilovolt220:require('@/assets/SVG/kilovolt220.svg'),
+      kilovolt500:require('@/assets/SVG/kilovolt500.svg'),
+      kilovolt1000:require('@/assets/SVG/kilovolt1000.svg'),
+      kilovoltAll:require('@/assets/SVG/kilovoltAll.svg'),
+      Allkv:require('@/assets/realViewImg/Allkv.png'),
+      kv1000:require('@/assets/realViewImg/kv1000.png'),
+      kv500:require('@/assets/realViewImg/kv500.png'),
+      kv220:require('@/assets/realViewImg/kv220.png'),
+      kv110:require('@/assets/realViewImg/kv110.png'),
+      kv35:require('@/assets/realViewImg/kv35.png'),
+      toward: require('@/assets/images/toward.png')
     }
   },
   computed: {

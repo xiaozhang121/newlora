@@ -13,6 +13,9 @@ const router = new Router({
 const LOGIN_PAGE_NAME = 'login'
 
 router.beforeEach((to, from, next) => {
+  if('kind' in to.meta){
+      store.state.app.kilovolt = to.meta.kind
+  }
   let token = getToken()
   if (!token && to.name !== LOGIN_PAGE_NAME && !to.meta.isLogin) {
     // 未登录且要跳转的页面不是登录页

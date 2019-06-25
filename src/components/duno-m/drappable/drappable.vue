@@ -1,6 +1,6 @@
 <template>
     <div class="drappable" >
-        <div class="dragAble" :style="{width:width, height:height}" id="dragAble">
+        <div class="dragAble" :style="{width:width, height:height}" :id="idName">
             <slot></slot>
         </div>
     </div>
@@ -38,6 +38,10 @@
             },
             height:{
                 type: String,
+            },
+            idName:{
+                type: String,
+                default: 'dragAble'
             }
         },
         computed: {
@@ -45,20 +49,20 @@
         },
         methods:{
             mouseMove(event) {
-                let div = document.getElementById("dragAble");
+                let div = document.getElementById(this.idName);
                 event = event || window.event;
                 //2.获取鼠标在整个页面的位置
                 let pagex = event.pageX || this.scroll().left + event.clientX;
                 let pagey = event.pageY || this.scroll().top + event.clientY;
-                console.log(pagex, pagey)
+                // console.log(pagex, pagey)
                 //3.获取盒子在整个页面的位置
                 let xx = div.offsetLeft;
                 let yy = div.offsetTop;
-                console.log(xx, yy)
+                // console.log(xx, yy)
                 //4.用鼠标的位置减去盒子的位置赋值给盒子的内容。
                 this.targetx = Math.abs(pagex - xx);
                 this.targety = Math.abs(pagey - yy);
-                console.log(`鼠标在盒子中的X坐标为："+${this.targetx}+"鼠标在盒子中的Y坐标为："+${this.targety}+"px`)
+                // console.log(`鼠标在盒子中的X坐标为："+${this.targetx}+"鼠标在盒子中的Y坐标为："+${this.targety}+"px`)
             },
             scroll() {
                 if(window.pageYOffset != null) {  // ie9+ 高版本浏览器
@@ -141,15 +145,16 @@
             }
         },
         mounted(){
+            debugger
             const that = this
             let ie = document.all;
             let nn6 = document.getElementByIdx && !document.all;
             let isdrag = false;
-            let oImg = document.getElementById("dragAble");
+            let oImg = document.getElementById(that.idName);
             oImg.onmousemove = this.mouseMove
             this.fnWheel(oImg, function(down, oEvent) {
-                let tempWidth = document.getElementById('dragAble').style.width.split('px')[0]
-                let tempHeight = document.getElementById('dragAble').style.height.split('px')[0]
+                let tempWidth = document.getElementById(that.idName).style.width.split('px')[0]
+                let tempHeight = document.getElementById(that.idName).style.height.split('px')[0]
                 that.oldWidth = Math.ceil(tempWidth*that.scale);
                 that.oldHeight = Math.ceil(tempHeight*that.scale);
                 let oldLeft = this.offsetLeft;

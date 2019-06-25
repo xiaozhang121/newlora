@@ -37,6 +37,7 @@ export default {
   width: calc(100% - 43px);
   height: calc(100% - 96px);
   position: absolute;
+  overflow: hidden;
   .dunoMain_nr{
     position: relative;
     width: 100%;
