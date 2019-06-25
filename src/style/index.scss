@@ -115,3 +115,19 @@ body .el-button--primary:hover, body .el-button--primary:focus {
   background: #5b647e;
   border-color: #5b647e;
 }
+body .el-button--info {
+  background: #3e4557;
+  border-color: #3e4557;
+}
+body .el-button--info:hover, body .el-button--info:focus {
+  border-color: #515970;
+  background-color: #515970;
+}
+body .el-button--success {
+  background: #515970;
+  border-color: #515970;
+}
+body .el-button--success:hover, body .el-button--success:focus {
+  border-color: #3e4557;
+  background-color: #3e4557;
+}
