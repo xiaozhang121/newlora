@@ -41,7 +41,7 @@
   }
 }
 
-button.tableBtnName {
+body button.tableBtnName {
   margin: 0 2px;
   border: none;
   height: 21px;
@@ -50,10 +50,10 @@ button.tableBtnName {
   background-position: center;
   padding: 0 12px;
 }
-button.tableBtnName:hover {
+body button.tableBtnName:hover {
   background-color: transparent;
 }
-button.tableBtnName:focus {
+body button.tableBtnName:focus {
   box-shadow: none;
 }
 .viewRow {
