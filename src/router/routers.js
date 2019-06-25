@@ -234,6 +234,30 @@ export default [
             }
         ]
     },
+    {
+      path: '/',
+      name: '_alarmInfo',
+      component: Main,
+      meta: {
+        hide: true,
+        isAlone: true,
+        title: '告警信息',
+        notCache: true
+      },
+      children: [
+        {
+          path: 'alarm-info',
+          name: 'alarmInfo',
+          meta: {
+            title: '告警信息',
+            icon:"icon-shouye",
+            notCache: true,
+            isAlone: true
+          },
+          component: () => import('@/views/communal/alarmInfo/index.vue')
+        }
+      ]
+    },
   /* 其他设置 */
   // {
   //   path: '/rests',
