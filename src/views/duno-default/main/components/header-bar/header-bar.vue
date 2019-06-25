@@ -5,6 +5,7 @@
     </div>
     <!--<sider-trigger :collapsed="collapsed" @on-change="handleCollpasedChange"></sider-trigger>-->
     <div class="custom-content-con">
+      <div class="dateTime">{{ dateTime }}</div>
       <slot></slot>
     </div>
   </div>
@@ -12,6 +13,7 @@
 <script>
 import siderTrigger from './sider-trigger'
 import './header-bar.scss'
+import moment from 'moment'
 import maxLogo from '@/assets/images/logo.png'
 
 export default {
@@ -21,7 +23,8 @@ export default {
   },
   data () {
     return {
-      maxLogo
+      maxLogo,
+      dateTime: ''
     }
   },
   props: {
@@ -33,7 +36,26 @@ export default {
   methods: {
     handleCollpasedChange (state) {
       this.$emit('on-coll-change', state)
+    },
+    getDateTime () {
+        const that = this
+        const date = new Date()
+        let time = moment(date).format('YYYY.MM.DD HH:mm:ss')
+        that.dateTime = time
     }
+  },
+  mounted (){
+      const that = this
+      setInterval(() => {
+          that.getDateTime()
+      }, 1000)
   }
 }
 </script>
+<style lang="scss" scoped>
+  .dateTime{
+    float: left;
+    margin-right: 20px;
+    color: #999;
+  }
+</style>
