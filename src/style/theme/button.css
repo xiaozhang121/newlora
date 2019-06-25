@@ -361,7 +361,7 @@
   .el-button.is-round {
     padding: 12px 20px; }
   .el-button:hover, .el-button:focus {
-    color: #444b5e;
+    color: #515970;
     border-color: #c6e2ff;
     background-color: #ecf5ff; }
   .el-button:active {
@@ -374,8 +374,8 @@
     margin-left: 5px; }
   .el-button.is-plain:hover, .el-button.is-plain:focus {
     background: #FFFFFF;
-    border-color: #444b5e;
-    color: #444b5e; }
+    border-color: #515970;
+    color: #515970; }
   .el-button.is-plain:active {
     background: #FFFFFF;
     border-color: #3a8ee6;
@@ -417,8 +417,8 @@
     padding: 12px; }
   .el-button--primary {
     color: #FFFFFF;
-    background-color: #444b5e;
-    border-color: #444b5e; }
+    background-color: #515970;
+    border-color: #515970; }
     .el-button--primary:hover, .el-button--primary:focus {
       background: #66b1ff;
       border-color: #66b1ff;
@@ -437,12 +437,12 @@
       background-color: #a0cfff;
       border-color: #a0cfff; }
     .el-button--primary.is-plain {
-      color: #444b5e;
+      color: #515970;
       background: #ecf5ff;
       border-color: #b3d8ff; }
       .el-button--primary.is-plain:hover, .el-button--primary.is-plain:focus {
-        background: #444b5e;
-        border-color: #444b5e;
+        background: #515970;
+        border-color: #515970;
         color: #FFFFFF; }
       .el-button--primary.is-plain:active {
         background: #3a8ee6;
@@ -631,7 +631,7 @@
       padding: 7px; }
   .el-button--text {
     border-color: transparent;
-    color: #444b5e;
+    color: #515970;
     background: transparent;
     padding-left: 0;
     padding-right: 0; }

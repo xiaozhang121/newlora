@@ -97,7 +97,21 @@ body .el-popper[x-placement^="bottom"] .popper__arrow::after {
 body .el-dropdown-menu__item {
   color: #fff;
 }
-body .el-dropdown-menu__item:not(.is-disabled):hover, .el-dropdown-menu__item:focus {
+body .el-dropdown-menu__item:not(.is-disabled):hover, body .el-dropdown-menu__item:focus {
   background-color: #2b3138;
   color: #05E0E1;
+}
+body .el-button {
+  background: #7c7c7c;
+  border-color: #7c7c7c;
+  color: #fff;
+}
+body .el-button:hover, body .el-button:focus {
+  border-color: #616161;
+  background-color: #616161;
+  color: #fff;
+}
+body .el-button--primary:hover, body .el-button--primary:focus {
+  background: #5b647e;
+  border-color: #5b647e;
 }
