@@ -1,7 +1,7 @@
 <template>
   <div class="HistoricalDocuments">
     <el-dialog :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+      <el-tabs v-if="isShowTab"  v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane
           v-for="(tab,index) in tabPaneData"
           :key="index"
@@ -9,6 +9,7 @@
           :name="tab.name"
         ></el-tab-pane>
       </el-tabs>
+      <div v-else slot="title"><span class="title">{{title}}</span></div>
       <div class="connent">
         <slot></slot>
       </div>
@@ -21,6 +22,18 @@ import { method } from "bluebird";
 export default {
   name: "HistoricalDocuments",
   props: {
+    isShowTab: {
+      type: Boolean,
+      default: () => {
+        return true
+      }
+    },
+    title: {
+      type: String,
+      default: () => {
+        return ''
+      }
+    },
     dialogTableVisible: {
       type: Boolean,
       default: false
@@ -110,6 +123,10 @@ export default {
     height: 100%;
     .el-dialog__wrapper{
       overflow: visible !important;
+    }
+    .title {
+      color: #fff;
+      font-size: 22px;
     }
     .el-dialog {
       box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;

@@ -12,7 +12,7 @@ import alarmItem from '_c/AlarmModule'
 import { getAxiosData } from '@/api/axiosType'
 export default {
   name: 'alarmInfoIndex',
-  components: {alarmItem},
+  components: { alarmItem },
   data() {
     return {
       dataList: [
