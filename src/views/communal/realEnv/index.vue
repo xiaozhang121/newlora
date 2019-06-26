@@ -8,9 +8,8 @@
           <img :src="toward"/>
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
-          <!--<camera-panel style="position: absolute"></camera-panel>-->
-          <historical-documents @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleCamera" class="historical">
-
+          <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleCamera" class="historical">
+            <camera-panel :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
           </historical-documents>
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
@@ -224,7 +223,8 @@ export default {
       mainlistShow: true,
       isFullscreen: false,
       visibleCamera: true,
-      kilovoltList: []
+      kilovoltList: [],
+      cameraFlag: 'first'
     }
   },
   watch: {
@@ -238,7 +238,7 @@ export default {
   },
   methods: {
       changeShow(name){
-
+       this.cameraFlag = name
       },
       onClose(now){
           this.visibleCamera = now
@@ -289,8 +289,11 @@ export default {
       height: 675px;
       .historical{
         position: absolute;
-        width: 400px;
-        height: 300px;
+        top: 0;
+          .el-dialog{
+                position: absolute;
+                top: 0;
+          }
       }
         #dragAble{
           width: 1900px;

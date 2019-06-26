@@ -1,0 +1,34 @@
+  .tablesTep {
+    overflow-y: scroll;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    .ivu-table-fixed-right::before, .ivu-table-fixed::before{
+      display: none;
+    }
+    .ivu-table-wrapper {
+      tr:nth-child(odd) {
+        td {
+          background-color: rgba(81, 89, 113, 0.7);
+        }
+      }
+      border: none;
+      .ivu-table {
+        border: none !important;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0);
+      }
+      .ivu-table:before,
+      .ivu-table:after {
+        background-color: rgba(0, 0, 0, 0);
+      }
+      .ivu-table td,
+      .ivu-table th {
+        color: #fff;
+        border: none;
+        background-color: rgba(0, 0, 0, 0);
+      }
+    }
+    .ivu-select-dropdown {
+      background-color: #303544;
+    }
+  }

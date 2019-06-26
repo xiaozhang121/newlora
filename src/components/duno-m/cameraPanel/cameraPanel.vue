@@ -1,48 +1,55 @@
 <template>
     <div class="cameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
-        <template  v-if="leftBtnListFlag == 0 && topBtnListFlag == 0">
-            <div class="title">云台-TGTYS <i @click="onClose" style="color: white; float: right; cursor: pointer" class="el-icon-close"></i></div>
+        <template  v-if="panelType == 'first'">
+            <div class="title">可见光云台-TGTYS</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main">
                         <video id="video1" width="400" height="250" controls></video>
                     </div>
                     <div class="explain">
-                      <!--  <span>全屏</span>
+                        <span>全屏</span>
                         <span>录像</span>
-                        <span>存图</span>-->
+                        <span>存图</span>
                     </div>
                 </div>
-                <div class="btnList" style="padding-bottom: 0; padding-left: 49px">
+                <div class="btnList" style="padding-bottom: 0; ">
+                    <div class="description">
+                        调整镜头
+                    </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');position: relative;top: 8px;'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);position: relative;top: 8px;'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);position: relative;top: 8px;'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
                     </div>
                     <div class="row">
                         <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;left: 0px;top:-2px'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);position: relative;top: -10px;left:0px'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);position: relative;left: -1px;top:-10px'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);position: relative;top: -9px;left:-1px'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                     </div>
                 </div>
             </div>
         </template>
-        <template  v-if="leftBtnListFlag == 1 && topBtnListFlag == 0">
-            <div class="title">云台-TGTYS <i @click="onClose" style="color: white; float: right; cursor: pointer" class="el-icon-close"></i></div>
+        <template  v-if="panelType == 'second'">
+            <div class="title">可见光云台-TGTYS</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main">
                         <video id="video1" width="400" height="250" controls></video>
                     </div>
                     <div class="explain">
-                        <span style="display: flex">
-                            <div style="width: 200px">巡航间隔：</div>
-                            <div style="position: relative; top: -2px">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="btnList">
+                    <div style="display: flex; margin-bottom: 30px; position: relative; top: -10px;">
+                            <div style="margin-top: 5px">巡航间隔：</div>
+                            <div style="flex: 1">
                                  <el-select v-model="selectValue" placeholder="请选择">
                                     <el-option
                                             v-for="item in timeOptions"
@@ -52,50 +59,49 @@
                                     </el-option>
                                 </el-select>
                             </div>
-                        </span>
-                        <span>
-                            <div  style="display: flex; margin-left: 17px; margin-top: 7px">
+                     </div>
+                    <duno-table style="width: 104%" height="200"  v-for="(item, index) in dataList"  :key="index"  :columns="columns" :dataList="item.dataList"></duno-table>
+                    <div style="width: 100%; text-align: right;  margin-top: 5px">
+                        <span  style="color: white">预置位切换：<span style="color: #ffd70a">{{ secondLastShow }}s</span></span>
+                    </div>
+                    <div style="display:flex;width: 100%; text-align: right; margin-top: 8px; justify-content: space-between; align-items: baseline">
+                         <div>
+                            <div  style="display: flex;">
                                  <el-radio v-model="radioValue" label="1">单次</el-radio>
                                  <el-radio v-model="radioValue" label="2">循环</el-radio>
                             </div>
-                        </span>
-                        <span></span>
-                    </div>
-                </div>
-                <div class="btnList">
-                    <duno-table height="200"  v-for="(item, index) in dataList"  :key="index"  :columns="columns" :dataList="item.dataList"></duno-table>
-                    <div style="width: 100%; text-align: right; padding-right: 20px;">
-                        <span  style="color: white">预置位切换：<span style="color: #ffd70a">{{ secondLastShow }}s</span></span>
-                    </div>
-                    <div style="width: 100%; text-align: right; padding-right: 20px;margin-top: 8px">
-                        <el-button @click="startBoat" style="width: 90px;" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
+                        </div>
+                        <el-button @click="startBoat" style="height: 30px; line-height: 10px" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
                     </div>
                 </div>
             </div>
         </template>
-        <template  v-if="leftBtnListFlag == 2 && topBtnListFlag == 0">
-            <div class="title">云台-TGTYS <i @click="onClose" style="color: white; float: right; cursor: pointer" class="el-icon-close"></i></div>
+        <template  v-if="panelType == 'third'">
+            <div class="title">可见光云台-TGTYS</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera" style="height: inherit;">
                     <div class="main" style="height: inherit;">
                         <video id="video1" width="400" height="250" controls></video>
                     </div>
                 </div>
-                <div class="btnList" style="padding-bottom: 0; padding-left: 49px">
+                <div class="btnList" style="padding-bottom: 0; ">
+                    <div class="description">
+                        调整镜头
+                    </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');position: relative;top: 8px;'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);position: relative;top: 8px;'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);position: relative;top: 8px;'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
                     </div>
                     <div class="row">
                         <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;left: 0px;top:-2px'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);position: relative;top: -10px;left:0px'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);position: relative;left: -1px;top:-10px'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);position: relative;top: -9px;left:-1px'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                     </div>
                 </div>
             </div>
@@ -109,7 +115,7 @@
                    </div>
                </div>
                 <div class="right">
-                    <div class="title" style="padding-left: 15px">已添加预置位：</div>
+                    <div class="title">已添加预置位：</div>
                     <div class="table">
                         <duno-table height="150"  v-for="(item, index) in dataListd"  :key="index"  :columns="columnsd" :dataList="item.dataList"></duno-table>
                     </div>
@@ -140,7 +146,7 @@
         </div>
         <template v-if="topBtnListFlag == 2">
             <div style="position: relative; width: 100%; padding-bottom: 20px">
-                <span style="float: right; cursor: pointer" @click="onClose"><i class="el-icon-close"></i></span>
+                <span style="float: right; cursor: pointer" @click="onClose"></span>
                 <el-date-picker
                         style="width: 70%"
                         v-model="timeRange"
@@ -181,23 +187,23 @@
                 />
             </div>
         </template>
-        <div class="leftBtn" v-if="topBtnListFlag == 0">
+     <!--   <div class="leftBtn" v-if="topBtnListFlag == 0">
             <div v-for="(item,index) in leftBtnList" :key="index" @click="changeLeftActive(index)"  class="btn" :class="{'active':item['active']}">{{ item.name }}</div>
         </div>
         <div class="topBtn">
             <div v-for="(item,index) in topBtnList" :key="index" @click="changeRightActive(index)"  class="btn" :class="{'active':item['active']}">{{ item.name }}</div>
-        </div>
+        </div>-->
     </div>
-</template>1
+</template>
 
 <script>
     import  { playCamera, controlCamera, setPosition, mvPosition, editPosition, delPosition } from '@/api/camera'
-    // import dunoTable from '_c/self_com/table/Table'
+    import dunoTable from '_c/duno-m/table/Table'
     import clock from '@/assets/camera/clock.png'
     import { DunoCharts } from '_c/duno-charts'
     export default {
         name: 'cameraPanel',
-        components: { DunoCharts },
+        components: { dunoTable,DunoCharts },
         data() {
             return {
                 clock,
@@ -422,6 +428,10 @@
             }
         },
         props: {
+            panelType: {
+                type: String,
+                default: 'first'
+            },
             num: {
 
             },
@@ -624,7 +634,7 @@
 </script>
 
 <style lang="scss">
-    .el-range-editor--mini.el-input__inner{
+   /* .el-range-editor--mini.el-input__inner{
         background: transparent;
         border: 1px solid #00b5be;
     }
@@ -652,7 +662,7 @@
         -webkit-box-shadow: inset 0 0 5px rgba(2,145,161,0.2);
         border-radius: 0;
         background: rgba(0,0,0,0.1);
-    }
+    }*/
     .miniWidth{
         width: 364px !important;
     }
@@ -660,10 +670,14 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        border: 1px solid #04e6e7;
-        padding: 10px 20px;
+        /*border: 1px solid #04e6e7;*/
+        padding: 1px 14px;
         width: 750px;
-        background: rgba(0,39,70,0.8);
+        /*background: rgba(0,39,70,0.8);*/
+        .el-input--small .el-input__inner{
+            background: transparent;
+            color: #cccccc;
+        }
         .historyAlarm{
             display: flex;
             flex-direction: column;
@@ -692,13 +706,13 @@
             }
         }
         .element::-webkit-scrollbar {display:none}
-        .el-input__inner{
+      /*  .el-input__inner{
             border-color: #409EFF !important;
             color: white;
         }
         .el-radio__label{
             color: white;
-        }
+        }*/
         .title{
             font-size: 18px;
             color: white;
@@ -710,6 +724,7 @@
                 flex-basis: 300px;
             }
             .right{
+                padding-left: 30px;
                 flex: 1;
                 .table{
                     position: relative;
@@ -717,7 +732,8 @@
                 }
             }
             .title{
-                font-size: 18px;
+                margin-bottom: 20px;
+                font-size: 14px;
             }
             .input{
                 margin: 10px 0;
@@ -755,19 +771,31 @@
                 }
             }
             .btnList{
-                flex: 1;
                 padding-bottom: 50px;
                 display: flex;
                 flex-direction: column;
-                width: 270px;
-                height: 249px;
+                width: 256px;
+                height: 256px;
+                margin-left: 26px;
+                position: relative;
+                .description{
+                    position: absolute;
+                    color: #a2a2a5;
+                    width: 29px;
+                    height: 48px;
+                    left: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    margin: auto;
+                }
                 .row{
                     display: flex;
                     height: 83px;
                     .btn{
                         flex: 1;
                         cursor: pointer;
-                        margin: 9px;
+                        /*margin: 9px;*/
                         background-size: contain !important;
                         background-repeat: no-repeat !important;
                     }

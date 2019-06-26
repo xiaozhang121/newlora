@@ -1,6 +1,6 @@
 <template>
   <div class="HistoricalDocuments">
-    <el-dialog :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
+    <el-dialog :close-on-click-modal="false" :visible.sync="isOpen" :width="width" :top="top" :modal="false" @close="close">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane
           v-for="(tab,index) in tabPaneData"
@@ -80,7 +80,7 @@ export default {
   },
   data() {
     return {
-      activeName: "sixth",
+      activeName: "first",
       isOpen: false
     };
   },
@@ -105,137 +105,125 @@ export default {
 };
 </script>
 <style lang="scss">
-.HistoricalDocuments {
-  width: 100%;
-  height: 100%;
-  .el-dialog {
-    box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
-    background-color: rgba(47, 51, 63, 0.7);
+  .HistoricalDocuments {
     width: 100%;
-    border-radius: 5px;
-    position: relative;
-    .el-dialog__body {
-      .el-tabs {
-        .el-tabs__header {
-          width: 90%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          border: none;
-          .el-tabs__nav-wrap {
+    height: 100%;
+    .el-dialog__wrapper{
+      overflow: visible !important;
+    }
+    .el-dialog {
+      box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
+      background-color: rgba(47, 51, 63, 0.7);
+      width: 100%;
+      border-radius: 5px;
+      position: relative;
+      .el-dialog__body {
+        .el-tabs {
+          .el-tabs__header {
+            width: 90%;
+            position: absolute;
+            top: 0;
+            left: 0;
             border: none;
-            .el-tabs__nav-scroll {
+            .el-tabs__nav-wrap {
               border: none;
-              .el-tabs__nav {
+              .el-tabs__nav-scroll {
                 border: none;
-                .el-tabs__item {
-                  width: 96px;
-                  text-align: center;
+                .el-tabs__nav {
                   border: none;
-                  margin-right: 5px;
-                  border-radius: 3px;
-                  color: #fff;
-                  background-color: #515970;
-                  opacity: 0.7;
-                }
-                .is-active {
-                  opacity: 1;
-                  color: #ffffff;
-                }
-              }
-            }
-          }
-        }
-      }
-      .connent {
-        & > div {
-          p {
-            font-size: 18px;
-          }
-          color: #ffffff;
-          .AlarmModuleTable {
-            height: 272px;
-            margin-top: 20px;
-            overflow: hidden;
-            .tablesTep {
-              overflow-y: scroll;
-              height: 100%;
-              background-color: rgba(0, 0, 0, 0);
-              .ivu-table-wrapper {
-                margin-right: 15px;
-                tr:nth-child(odd) {
-                  td {
-                    background-color: rgba(81, 89, 113, 0.7);
+                  .el-tabs__item {
+                    width: 96px;
+                    text-align: center;
+                    border: none;
+                    margin-right: 5px;
+                    border-radius: 3px;
+                    color: #fff;
+                    background-color: #515970;
+                    opacity: 0.7;
+                  }
+                  .is-active {
+                    opacity: 1;
+                    color: #ffffff;
                   }
                 }
-                border: none;
-                .ivu-table {
-                  border: none !important;
-                  color: #fff;
-                  background-color: rgba(0, 0, 0, 0);
-                }
-                .ivu-table:before,
-                .ivu-table:after {
-                  background-color: rgba(0, 0, 0, 0);
-                }
-                .ivu-table td,
-                .ivu-table th {
-                  color: #fff;
-                  border: none;
-                  background-color: rgba(0, 0, 0, 0);
-                }
-              }
-              .ivu-select-dropdown {
-                background-color: #303544;
               }
             }
           }
-          //滚动条样式
-          ::-webkit-scrollbar {
-            width: 10px;
-            height: 5px;
-          }
-          ::-webkit-scrollbar-button {
-            display: none;
-          }
-          ::-webkit-scrollbar-track {
-            display: none;
-          }
-          ::-webkit-scrollbar-thumb {
-            background: #515970;
-            border-radius: 5px;
-          }
-          .fl {
-            float: left;
-          }
-          .fr {
-            float: right;
-          }
         }
-        .el-select-dropdown {
-          border: none;
-          background-color: #272b35;
-          .el-select-dropdown__item {
-            color: #fff;
+        .connent {
+          & > div {
+            p {
+              font-size: 18px;
+            }
+            color: #ffffff;
+            .AlarmModuleTable {
+              /*height: 272px;*/
+              margin-top: 20px;
+              overflow: hidden;
+              .tablesTep {
+                overflow-y: scroll;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0);
+                .ivu-table-wrapper {
+                  margin-right: 15px;
+                  tr:nth-child(odd) {
+                    td {
+                      background-color: rgba(81, 89, 113, 0.7);
+                    }
+                  }
+                  border: none;
+                  .ivu-table {
+                    border: none !important;
+                    color: #fff;
+                    background-color: rgba(0, 0, 0, 0);
+                  }
+                  .ivu-table:before,
+                  .ivu-table:after {
+                    background-color: rgba(0, 0, 0, 0);
+                  }
+                  .ivu-table td,
+                  .ivu-table th {
+                    color: #fff;
+                    border: none;
+                    background-color: rgba(0, 0, 0, 0);
+                  }
+                }
+                .ivu-select-dropdown {
+                  background-color: #303544;
+                }
+              }
+            }
+            .fl {
+              float: left;
+            }
+            .fr {
+              float: right;
+            }
           }
-          .el-select-dropdown__item:hover {
-            background-color: #303544;
-          }
-          .selected {
-            background-color: #303544;
+          .el-select-dropdown {
+            border: none;
+            background-color: #272b35;
+            .el-select-dropdown__item {
+              color: #fff;
+            }
+            .el-select-dropdown__item:hover {
+              background-color: #303544;
+            }
+            .selected {
+              background-color: #303544;
+            }
           }
         }
       }
     }
+    .tableBtnName {
+      background-size: contain;
+      box-sizing: border-box;
+      z-index: 99;
+    }
+    .el-dialog__close {
+      color: #fff;
+      font-size: 30px;
+    }
   }
-  .tableBtnName {
-    background-size: contain;
-    box-sizing: border-box;
-    z-index: 99;
-  }
-  .el-dialog__close {
-    color: #fff;
-    font-size: 30px;
-  }
-}
 </style>
