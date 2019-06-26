@@ -8,8 +8,7 @@
   <div class="realEnv">
     <duno-btn-top @on-diagram="changDiagram" />
     <div class="mainList" v-if="mainlistShow">
-    <div v-if="false"></div>
-    <duno-main class="kilovolt" v-else-if="kilovoltKind == 'all'">
+    <duno-main  v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
         <div class="toward">
           <img :src="toward"/>
@@ -39,7 +38,7 @@
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
       <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE"  v-if="isDiagram">
         <div class="toward">
-          <img :src="toward"/>
+            <img :src="toward"/>
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
@@ -157,35 +156,35 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '35'">
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
-        <div class="toward">
-          <img :src="toward"/>
-        </div>
-        <drappable class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic">
-            <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
-              <img :src="kilovolt35" />
-            </div>
+        <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
+          <div class="toward">
+            <img :src="toward"/>
           </div>
-        </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
-      </div>
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
-        <div class="toward">
-          <img :src="toward"/>
-        </div>
-        <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
-            <div class="realView">
-              <img :src="kv35" />
+          <drappable class="drappable_assembly" width="1900px" height="675px">
+            <div class="allShowPic">
+              <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
+                <img :src="kilovolt35" />
+              </div>
             </div>
+          </drappable>
+          <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+        </div>
+        <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
+          <div class="toward">
+            <img :src="toward"/>
           </div>
-        </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
-      </div>
-    </duno-main>
+          <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
+            <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
+              <div class="realView">
+                <img :src="kv35" />
+              </div>
+            </div>
+          </drappable>
+          <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+        </div>
+      </duno-main>
     </div>
   </div>
 </template>
