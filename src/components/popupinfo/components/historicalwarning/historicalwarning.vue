@@ -28,7 +28,7 @@ export default {
           //   title: '4号主变01#枪机',
           //   tepm: '98℃',
           //   threshold: '61%',
-          //   defect: '危机缺陷',
+          //   defect: '危急缺陷',
           //   time: '05-21 13:33:23',
           //   location: '此处显示设备具体方位'
           // }

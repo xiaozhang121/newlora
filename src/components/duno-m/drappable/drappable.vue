@@ -145,7 +145,6 @@
             }
         },
         mounted(){
-            debugger
             const that = this
             let ie = document.all;
             let nn6 = document.getElementByIdx && !document.all;
