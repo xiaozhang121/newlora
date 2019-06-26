@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
   } else if (token && to.name === LOGIN_PAGE_NAME) {
     // 已登录且要跳转的页面是登录页
     next({
-      name: '_realEnv' // 跳转到home页
+      name: 'realEnvList' // 跳转到home页
     })
   } else {
     if (store.state.user.userId) {

@@ -66,9 +66,9 @@ export default [
     ]
   },*/
     {
-        path: '/realEnv',
+        path: '/',
         name: '_realEnv',
-        redirect: 'realEnv/realEnv/list',
+        redirect: 'realEnv/list',
         component: Main,
         meta: {
             notCache: true,

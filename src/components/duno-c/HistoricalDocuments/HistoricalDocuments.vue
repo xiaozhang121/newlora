@@ -1,6 +1,6 @@
 <template>
   <div class="HistoricalDocuments">
-    <el-dialog :visible="isOpen" width="50%" top="25vh" :modal="false" @close="close">
+    <el-dialog :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane
           v-for="(tab,index) in tabPaneData"
@@ -61,6 +61,18 @@ export default {
           }
         ];
       }
+    },
+    width: {
+      type: String,
+      default: () => {
+        return '50%'
+      }
+    },
+    top: {
+      type: String,
+      default: () => {
+        return '15vh'
+      }
     }
   },
   components: {
@@ -74,7 +86,6 @@ export default {
   },
   watch: {
     dialogTableVisible(now) {
-        debugger
       this.isOpen = now
     }
   },
