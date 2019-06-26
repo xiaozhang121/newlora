@@ -1,140 +1,184 @@
 <template>
-    <div class="cameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
+    <div class="hotCameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
-            <div class="title">可见光云台-TGTYS</div>
-            <div class="cameraMain">
-                <div class="camera" v-if="showCamera">
-                    <div class="main">
-                        <video id="video1" width="400" height="250" controls></video>
+            <div style="padding-bottom: 20px">
+                <div class="title">红外测光云台-JKITS</div>
+                <div class="cameraMain">
+                    <div class="camera" v-if="showCamera">
+                        <div class="main">
+                            <video id="video1" width="350" height="250" controls></video>
+                        </div>
+                        <div class="explain iconList" style="margin-top: 4px">
+                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                            <span><i class="iconfont icon-jietu"></i>录像</span>
+                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                        </div>
                     </div>
-                    <div class="explain iconList">
-                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                        <span><i class="iconfont icon-jietu"></i>录像</span>
-                        <span><i class="iconfont icon-quanping"></i>存图</span>
+                    <div class="camera" v-if="showCamera" style="position: relative">
+                        <div class="main" id="videoMain"  @mouseover="overFlag = true"  @mouseout="overFlag = false" style="position: relative; width: 160px; height: 100px; transform: scale(2.2, 2.47); transform-origin: top left">
+                            <img style="width: 100%; height: 100%" :src="base64Data"/>
+                            <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
+                        </div>
+                        <div class="explain iconList" style="bottom: 10px; position: absolute;">
+                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                            <span><i class="iconfont icon-jietu"></i>录像</span>
+                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                        </div>
                     </div>
                 </div>
-                <div class="btnList" style="padding-bottom: 0; ">
-                    <div class="description">
-                        调整镜头
-                    </div>
-                    <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
-                    </div>
-                    <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
-                        <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
-                    </div>
-                    <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
-                    </div>
-                    <div class="control_slider">
-                        <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue"></el-slider>
-                        <i class="iconfont icon-fangda1"></i>
+                <div class="cameraMain" style="padding-top: 10px">
+                    <div class="btnList" style="padding-bottom: 0; ">
+                        <div class="description">
+                            调整镜头
+                        </div>
+                        <div class="row">
+                            <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
+                            <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                        </div>
+                        <div class="row">
+                            <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
+                            <div class="btn" style="visibility: hidden"></div>
+                            <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                        </div>
+                        <div class="row">
+                            <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        </div>
+                        <div class="control_slider">
+                            <i class="iconfont icon-suoxiao1"></i>
+                            <el-slider class="elSlider" v-model="sliderValue"></el-slider>
+                            <i class="iconfont icon-fangda1"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </template>
         <template  v-if="panelType == 'second'">
-            <div class="title">可见光云台-TGTYS</div>
+            <div class="title">红外测光云台-JKITS</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main">
-                        <video id="video1" width="400" height="250" controls></video>
+                        <video id="video1" width="350" height="250" controls></video>
                     </div>
-                    <div class="explain iconList">
+                    <div class="explain iconList" style="margin-bottom: 10px">
                         <span><i class="iconfont icon-luxiang"></i>全屏</span>
                         <span><i class="iconfont icon-jietu"></i>录像</span>
                         <span><i class="iconfont icon-quanping"></i>存图</span>
                     </div>
                 </div>
-                <div class="btnList">
-                    <div style="display: flex; margin-bottom: 30px; position: relative; top: -10px;">
-                        <div style="margin-top: 5px">巡航间隔：</div>
-                        <div style="flex: 1">
-                            <el-select v-model="selectValue" placeholder="请选择">
-                                <el-option
-                                        v-for="item in timeOptions"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </div>
+                <div class="camera" v-if="showCamera" style="position: relative">
+                    <div class="main" id="videoMain"  @mouseover="overFlag = true"  @mouseout="overFlag = false" style="position: relative; width: 160px; height: 100px; transform: scale(2.2, 2.47); transform-origin: top left">
+                        <img style="width: 100%; height: 100%" :src="base64Data"/>
+                        <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
                     </div>
-                    <duno-table style="width: 104%" height="200"  v-for="(item, index) in dataList"  :key="index"  :columns="columns" :dataList="item.dataList"></duno-table>
-                    <div style="width: 100%; text-align: right;  margin-top: 5px">
+                    <div class="explain iconList" style="bottom: 17px; position: absolute">
+                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                        <span><i class="iconfont icon-jietu"></i>录像</span>
+                        <span><i class="iconfont icon-quanping"></i>存图</span>
+                    </div>
+                </div>
+            </div>
+            <div class="cameraMain">
+                <div class="btnList" style="flex-basis: 440px; margin-top: 15px">
+                    <duno-table height="200"  v-for="(item, index) in dataList"  :key="index"  :columns="columns" :dataList="item.dataList"></duno-table>
+                    <div style="width: 100%; text-align: right; padding-right: 20px; margin-top: 15px">
                         <span  style="color: white">预置位切换：<span style="color: #ffd70a">{{ secondLastShow }}s</span></span>
                     </div>
-                    <div style="display:flex;width: 100%; text-align: right; margin-top: 8px; justify-content: space-between; align-items: baseline">
+                </div>
+                <div class="camera" v-if="showCamera">
+                    <div class="explain" style="display: block">
                         <div>
-                            <div  style="display: flex;">
-                                <el-radio v-model="radioValue" label="1">单次</el-radio>
-                                <el-radio v-model="radioValue" label="2">循环</el-radio>
+                            <span style="width: 200px">巡航间隔：</span>
+                            <span style="position: relative; top: -2px;  display: inline-block; text-align: right;    width: calc( 100% - 80px );">
+                                 <el-select v-model="selectValue" placeholder="请选择" style="width: calc( 100% )">
+                                    <el-option
+                                            v-for="item in timeOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </span>
+                        </div>
+                        <div style="margin-top: 20px; margin-right: 15px">
+                            <div  style="display: flex;justify-content: flex-end;">
+                                 <el-radio v-model="radioValue" label="1">单次</el-radio>
+                                 <el-radio v-model="radioValue" label="2">循环</el-radio>
                             </div>
                         </div>
-                        <el-button @click="startBoat" style="height: 30px; line-height: 10px" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
+                        <div style="text-align: right;margin-top: 20px;margin-right: 15px">
+                            <el-button @click="startBoat" style="width: 90px;" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
+                        </div>
                     </div>
                 </div>
             </div>
         </template>
         <template  v-if="panelType == 'third'">
-            <div class="title">可见光云台-TGTYS</div>
-            <div class="cameraMain">
-                <div class="camera" v-if="showCamera" style="height: inherit;">
-                    <div class="main" style="height: inherit;">
-                        <video id="video1" width="400" height="250" controls></video>
+            <div style="padding-bottom: 15px">
+                <div class="title">红外测光云台-JKITS</div>
+                <div class="cameraMain">
+                    <div class="camera" v-if="showCamera">
+                        <div class="main">
+                            <video id="video1" width="350" height="250" controls></video>
+                        </div>
+                        <div class="explain iconList" style="margin-bottom: 10px">
+                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                            <span><i class="iconfont icon-jietu"></i>录像</span>
+                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                        </div>
                     </div>
-                    <div class="explain iconList" style="padding: 20px 0">
-                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                        <span><i class="iconfont icon-jietu"></i>录像</span>
-                        <span><i class="iconfont icon-quanping"></i>存图</span>
-                    </div>
-                </div>
-                <div class="btnList" style="padding-bottom: 0; ">
-                    <div class="description">
-                        调整镜头
-                    </div>
-                    <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
-                    </div>
-                    <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
-                        <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
-                    </div>
-                    <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
-                    </div>
-                    <div class="control_slider" style="bottom: -32px">
-                        <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue"></el-slider>
-                        <i class="iconfont icon-fangda1"></i>
+                    <div class="camera" v-if="showCamera" style="position: relative">
+                        <div class="main" id="videoMain"  @mouseover="overFlag = true"  @mouseout="overFlag = false" style="position: relative; width: 160px; height: 100px; transform: scale(2.2, 2.47); transform-origin: top left">
+                            <img style="width: 100%; height: 100%" :src="base64Data"/>
+                            <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
+                        </div>
+                        <div class="explain iconList" style="bottom: 17px; position: absolute">
+                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                            <span><i class="iconfont icon-jietu"></i>录像</span>
+                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="addPosition" style="">
-                <div class="left">
-                    <div class="title">新增预置位名称：</div>
-                    <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" v-model="addPosInput" placeholder=""></el-input></div>
-                    <div class="btnEx">
-                        <span class="btnEx_title">请使用右上角图标调整预设位</span>
-                        <span class="btnEx_btn"><el-button type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></span>
+                <div class="cameraMain" style="display: flex; margin-top: 10px">
+                    <div class="btnList" style="padding-bottom: 0;">
+                        <div class="description">
+                            调整镜头
+                        </div>
+                        <div class="row">
+                            <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
+                            <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                        </div>
+                        <div class="row">
+                            <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
+                            <div class="btn" style="visibility: hidden"></div>
+                            <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                        </div>
+                        <div class="row">
+                            <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        </div>
+                        <div class="control_slider">
+                            <i class="iconfont icon-suoxiao1"></i>
+                            <el-slider class="elSlider" v-model="sliderValue"></el-slider>
+                            <i class="iconfont icon-fangda1"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="right">
-                    <div class="title">已添加预置位：</div>
-                    <div class="table">
-                        <duno-table height="150"  v-for="(item, index) in dataListd"  :key="index"  :columns="columnsd" :dataList="item.dataList"></duno-table>
+                    <div class="camera" v-if="showCamera" style="height: inherit;flex: 1; padding-left: 30px; padding-right: 10px">
+                        <div class="addPosition" style="">
+                            <div class="right">
+                                <div class="left" style="width: 97%;position: relative;">
+                                    <div class="title" style="font-size: 16px">请使用右上角图标调整预设位：</div>
+                                    <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
+                                </div>
+                                <div class="table" style="padding-top: 10px">
+                                    <duno-table height="150"  v-for="(item, index) in dataListd"  :key="index"  :columns="columnsd" :dataList="item.dataList"></duno-table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -204,48 +248,43 @@
                 />
             </div>
         </template>
-        <!--   <div class="leftBtn" v-if="topBtnListFlag == 0">
-               <div v-for="(item,index) in leftBtnList" :key="index" @click="changeLeftActive(index)"  class="btn" :class="{'active':item['active']}">{{ item.name }}</div>
-           </div>
-           <div class="topBtn">
-               <div v-for="(item,index) in topBtnList" :key="index" @click="changeRightActive(index)"  class="btn" :class="{'active':item['active']}">{{ item.name }}</div>
-           </div>-->
+
     </div>
 </template>
 
 <script>
-    import  { playCamera, controlCamera, setPosition, mvPosition, editPosition, delPosition } from '@/api/camera'
+    import  { playCamera, controlCamera } from '@/api/camera'
     import dunoTable from '_c/duno-m/table/Table'
+    import { getImage, stopImage, getPointData } from '@/api/user'
     import clock from '@/assets/camera/clock.png'
+    import { mapState } from 'vuex'
     import { DunoCharts } from '_c/duno-charts'
     export default {
         name: 'cameraPanel',
-        components: { dunoTable,DunoCharts },
+        components: { dunoTable, DunoCharts },
         data() {
             return {
-                sliderValue: 0,
                 clock,
-                timeRange: '',
-                temparams: null,
-                dataCharts: [{
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line'
-                }],
+                overFlag: false,
                 isEdit: false,
                 editIndex: -1,
                 addPosInput: '',
                 flagNow: -1,
-                secondLast: 2,
-                secondLastShow: 2,
+                secondLast: 10,
+                secondLastShow: 10,
                 timer: null,
                 showTimer: null,
                 lightTimer: null,
                 movTimer: null,
                 boatNow: true,
                 radioValue: '1',
-                selectValue: '3000',
+                selectValue: '30000',
+                dataCharts: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line'
+                }],
                 timeOptions:[
-                    { value:'3000', label: '3秒/控制位' },
+                    { value:'30000', label: '1分钟/控制位' },
                     { value:'120000', label: '2分钟/控制位' },
                     { value:'180000', label: '3分钟/控制位' },
                     { value:'240000', label: '4分钟/控制位' },
@@ -290,11 +329,7 @@
                                 temp = this.orangePointG
                             else if(params.row.flag == 'orangePointP')
                                 temp = this.orangePointP
-                            let newArr = null
-                            if(params.row.flag == 'play')
-                                newArr =  [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'}, on: { click: () => { this.checkPostion(params.row.pid) } } }) ]
-                            else
-                                newArr = [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'} }) ]
+                            let newArr =  [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'} }) ]
                             return h('div', newArr)
                         }
                     },
@@ -302,18 +337,18 @@
                 dataList: [
                     {
                         dataList: [
-                            /* {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称A',
-                                 deal: '删除'
-                             },
-                             {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称B',
-                                 deal: '删除'
-                             }*/
+                            {
+                                flag: 'play',
+                                ago: false,
+                                name: '预置位名称A',
+                                deal: '删除'
+                            },
+                            {
+                                flag: 'play',
+                                ago: false,
+                                name: '预置位名称B',
+                                deal: '删除'
+                            }
                         ]
                     }
                 ],
@@ -346,7 +381,7 @@
                             }, [
                                 h('el-button', {
                                     class:'tableBtnName', style: {backgroundImage:'url('+ this.play +')'},
-                                    on: { click: () => { this.checkPostion(params.row.pid) } }
+                                    on: { click: () => {  } }
                                 })
                             ]))
                             newArr.push(h('Tooltip', {
@@ -372,18 +407,18 @@
                 dataListd: [
                     {
                         dataList: [
-                            /* {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称A',
-                                 deal: '删除'
-                             },
-                             {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称B',
-                                 deal: '删除'
-                             }*/
+                            {
+                                flag: 'play',
+                                ago: false,
+                                name: '预置位名称A',
+                                deal: '删除'
+                            },
+                            {
+                                flag: 'play',
+                                ago: false,
+                                name: '预置位名称B',
+                                deal: '删除'
+                            }
                         ]
                     }
                 ],
@@ -406,15 +441,33 @@
                 squeraClick: require('@/assets/camera/squeraClick.png'),
                 edit: require('@/assets/images/btn/edit.png'),
                 del:require('@/assets/images/btn/del.png'),
-                activeNum: -1
+                activeNum: -1,
+                offsetX: '',
+                offsetY: '',
+                xxxx: '',
+                timerObj: null
             }
         },
         watch: {
+            overFlag(now){
+              if(!now){
+                  clearInterval(this.timerObj)
+                  this.timerObj = null
+              }
+            },
+            weatherData(){
+
+            },
+            base64Data(){
+
+            },
             topBtnListFlag(now){
                 if(now == 0){
                     const that = this
                     this.$nextTick(()=> {
                         that.initCamera()
+                        let video = document.getElementById("videoMain");
+                        video.onmousemove = this.mouseMove
                     })
                 }
             },
@@ -426,9 +479,7 @@
             },
             flagNow(now){
                 const that = this
-                // alert(now)
-                debugger
-                mvPosition({pid:this.dataList[0]['dataList'][now]['pid']})
+                alert(now)
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
                 that.lightTimer = setInterval(()=>{
@@ -460,26 +511,43 @@
                 }
             }
         },
+        computed: {
+            ...mapState([
+                'app'
+            ]),
+            base64Data(){
+                return this.$store.state.app.base64
+            },
+            weatherData(){
+                return this.$store.state.app.weatherData
+            },
+        },
         methods:{
-            checkPostion(pid){
+            mouseMove(event) {
                 const that = this
-                mvPosition({pid:pid}).then(res=>{
-
-                })
+                let div = document.getElementById("videoMain");
+                event = event || window.event;
+                let offsetX = event.offsetX
+                let offsetY = event.offsetY
+                this.offsetX = offsetX
+                this.offsetY = offsetY
+                if(!that.timerObj){
+                    that.timerObj = setInterval(()=>{
+                        console.log('--------------->',that.offsetX, 100-that.offsetY)
+                        getPointData({x:that.offsetX, y:100-that.offsetY}).then(res=>{
+                            that.xxxx = res.data
+                        })
+                    },200)
+                }
             },
             editTableData(params){
                 const that = this
                 that.editIndex = params.index
                 that.addPosInput = params.row.name
-                that.temparams = params
                 that.isEdit = true
             },
             delTableData(params){
-                const that = this
-                delPosition({pid:params.row.pid})
                 this.dataListd[0]['dataList'].splice(params.index, 1)
-                this.dataList[0]['dataList'].splice(params.index, 1)
-                sessionStorage.setItem('dataList',JSON.stringify( that.dataList[0]['dataList']))
             },
             addPosition(){
                 const that = this
@@ -489,36 +557,19 @@
                         that.$message.info('请输入新增预置位名称')
                         return
                     }
-                    let tempName = that.addPosInput
-                    setPosition({'name':that.addPosInput}).then(res=>{
-                        debugger
-                        that.dataListd[0]['dataList'].push({
-                            flag: 'play',
-                            ago: false,
-                            pid: res.data,
-                            name: tempName,
-                            deal: '删除'
-                        })
-                        that.dataList[0]['dataList'].push({
-                            flag: 'play',
-                            ago: false,
-                            pid: res.data,
-                            name: tempName,
-                            deal: '删除'
-                        })
-                        sessionStorage.setItem('dataList',JSON.stringify( that.dataList[0]['dataList']))
-                        debugger
+                    this.dataListd[0]['dataList'].push({
+                        flag: 'play',
+                        ago: false,
+                        name: that.addPosInput,
+                        deal: '删除'
                     })
                     that.addPosInput = ''
                 }else{
                     // 修改
                     this.dataListd[0]['dataList'][this.editIndex].name = that.addPosInput
-                    this.dataList[0]['dataList'][this.editIndex].name = that.addPosInput
                     this.$forceUpdate()
                     that.addPosInput = ''
                     that.isEdit = !that.isEdit
-                    editPosition({ pid: that.temparams.row.pid, name:that.temparams.row.name })
-                    sessionStorage.setItem('dataList',JSON.stringify( that.dataListd[0]['dataList']))
                 }
             },
             startBoat(){
@@ -615,6 +666,7 @@
                 this.$forceUpdate()
             },
             onClose(){
+                stopImage()
                 this.$emit('on-close')
             },
             viewCamera(command, flag){
@@ -623,10 +675,8 @@
                 })
             },
             initCamera(){
-                debugger
                 return new Promise((resolve, reject)=>{
                     if (Wfs.isSupported()) {
-                        debugger
                         let video1 = document.getElementById("video1"),
                             wfs = new Wfs();
                         wfs.attachMedia(video1, 'ch1');
@@ -637,15 +687,14 @@
         },
         created(){
             const that = this
-            debugger
-            if(sessionStorage.getItem('dataList')){
-                that.dataListd[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))
-                that.dataList[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))
-            }
+
             this.$nextTick(()=>{
+                getImage()
                 that.initCamera().then(res=>{
 
                 })
+                let video = document.getElementById("videoMain");
+                video.onmousemove = this.mouseMove
             })
         }
     }
@@ -655,28 +704,11 @@
     .miniWidth{
         width: 364px !important;
     }
-    .cameraPanel{
+    .hotCameraPanel{
         position: relative;
         display: flex;
-        padding-bottom: 30px;
         flex-direction: column;
-        /*border: 1px solid #04e6e7;*/
-        padding: 1px 14px;
         width: 750px;
-        /*background: rgba(0,39,70,0.8);*/
-        .control_slider{
-            display: flex;
-            position: absolute;
-            bottom: -40px;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-            .elSlider{
-                padding: 0 10px;
-                padding-left: 15px;
-                flex: 1;
-            }
-        }
         .iconList{
             display: flex;
             justify-content: flex-start;
@@ -693,9 +725,18 @@
                 margin-right: 7px;
             }
         }
-        .el-input--small .el-input__inner{
-            background: transparent;
-            color: #cccccc;
+        .control_slider{
+            display: flex;
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            .elSlider{
+                padding: 0 10px;
+                padding-left: 15px;
+                flex: 1;
+            }
         }
         .historyAlarm{
             display: flex;
@@ -724,14 +765,11 @@
                 margin-bottom: 0;
             }
         }
-        .element::-webkit-scrollbar {display:none}
-        /*  .el-input__inner{
-              border-color: #409EFF !important;
-              color: white;
-          }
-          .el-radio__label{
-              color: white;
-          }*/
+        .el-input--small .el-input__inner{
+            background: transparent;
+            color: #cccccc;
+        }
+        /*.element::-webkit-scrollbar {display:none}*/
         .title{
             font-size: 18px;
             color: white;
@@ -743,7 +781,6 @@
                 flex-basis: 300px;
             }
             .right{
-                padding-left: 30px;
                 flex: 1;
                 .table{
                     position: relative;
@@ -751,8 +788,7 @@
                 }
             }
             .title{
-                margin-bottom: 20px;
-                font-size: 14px;
+                font-size: 18px;
             }
             .input{
                 margin: 10px 0;
@@ -771,7 +807,6 @@
             display: flex;
             .camera{
                 width: 400px;
-                height: 300px;
                 margin-right: 7px;
                 .main{
                     width: 100%;
@@ -781,7 +816,7 @@
                     height: 20px;
                     display: flex;
                     color: white;
-                    padding-top: 20px;
+                    padding-top: 30px;
                     span{
                         text-align: center;
                         flex: 1;
@@ -795,7 +830,6 @@
                 flex-direction: column;
                 width: 256px;
                 height: 256px;
-                margin-left: 26px;
                 position: relative;
                 .description{
                     position: absolute;

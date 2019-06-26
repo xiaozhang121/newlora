@@ -1,6 +1,6 @@
 <template>
   <div class="HistoricalDocuments">
-    <el-dialog :close-on-click-modal="false" :visible.sync="isOpen" :width="width" :top="top" :modal="false" @close="close">
+    <el-dialog :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane
           v-for="(tab,index) in tabPaneData"

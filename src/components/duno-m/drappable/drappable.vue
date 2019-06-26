@@ -120,7 +120,7 @@
             },
             initDrag(e) {
                 let oDragHandle = this.nn6 ? e.target : event.srcElement;
-                if(oDragHandle.className == 'el-input__inner'){
+                if(oDragHandle.className == 'el-input__inner' || oDragHandle.className.indexOf('el-slider')>-1){
                     return;
                 }
                 if(oDragHandle.className == 'drappable-child'){

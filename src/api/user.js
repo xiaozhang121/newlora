@@ -22,3 +22,25 @@ export const logout = (token) => {
     method: 'post'
   })
 }
+
+export const getImage = (token) => {
+    return axios.request({
+        url: 'pushMDT',
+        method: 'get'
+    })
+}
+
+export const stopImage = (token) => {
+    return axios.request({
+        url: 'stopPush',
+        method: 'get'
+    })
+}
+
+export const getPointData = (token) => {
+    return axios.request({
+        url: 'getTemp',
+        params: { ...token },
+        method: 'get'
+    })
+}

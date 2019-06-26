@@ -1,16 +1,20 @@
 <template>
+<!--  <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleCamera" class="historical">
+    <camera-panel :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
+  </historical-documents>
+  <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleHotCamera" class="historical">
+    <hot-camera :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
+  </historical-documents>-->
   <div class="realEnv">
     <duno-btn-top @on-diagram="changDiagram" />
     <div class="mainList" v-if="mainlistShow">
-    <duno-main  v-if="kilovoltKind == 'all'">
+    <div v-if="false"></div>
+    <duno-main class="kilovolt" v-else-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
         <div class="toward">
           <img :src="toward"/>
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
-          <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleCamera" class="historical">
-            <camera-panel :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
-          </historical-documents>
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />
@@ -35,7 +39,7 @@
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
       <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE"  v-if="isDiagram">
         <div class="toward">
-            <img :src="toward"/>
+          <img :src="toward"/>
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
@@ -153,35 +157,35 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '35'">
-        <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
-          <div class="toward">
-            <img :src="toward"/>
-          </div>
-          <drappable class="drappable_assembly" width="1900px" height="675px">
-            <div class="allShowPic">
-              <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
-                <img :src="kilovolt35" />
-              </div>
-            </div>
-          </drappable>
-          <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
+        <div class="toward">
+          <img :src="toward"/>
         </div>
-        <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
-          <div class="toward">
-            <img :src="toward"/>
-          </div>
-          <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-            <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
-              <div class="realView">
-                <img :src="kv35" />
-              </div>
+        <drappable class="drappable_assembly" width="1900px" height="675px">
+          <div class="allShowPic">
+            <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
+              <img :src="kilovolt35" />
             </div>
-          </drappable>
-          <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
-          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+          </div>
+        </drappable>
+        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+      </div>
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
+        <div class="toward">
+          <img :src="toward"/>
         </div>
-      </duno-main>
+        <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
+          <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
+            <div class="realView">
+              <img :src="kv35" />
+            </div>
+          </div>
+        </drappable>
+        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+      </div>
+    </duno-main>
     </div>
   </div>
 </template>
@@ -196,12 +200,14 @@ import dunoBtnTop  from '_c/duno-m/duno-btn-top'
 import dunoMain  from '_c/duno-m/duno-main'
 import drappable  from '_c/duno-m/drappable'
 import cameraPanel from '_c/duno-m/cameraPanel'
+import hotCamera from '_c/duno-m/hotCamera'
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinViewModule],
   name: 'RoleIndex',
   components: {
+      hotCamera,
       dunoBtnTop,
       dunoMain,
       drappable,
@@ -222,7 +228,8 @@ export default {
       isDiagram: false,
       mainlistShow: true,
       isFullscreen: false,
-      visibleCamera: true,
+      visibleCamera: false,
+      visibleHotCamera: false,
       kilovoltList: [],
       cameraFlag: 'first'
     }
