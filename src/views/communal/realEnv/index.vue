@@ -40,7 +40,7 @@
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
-            <div class="Once_primaryDiagram" style="position:absolute;left: -700px;top: 46px">
+            <div class="Once_primaryDiagram" style="position:absolute;left: -1283px;top: 20px;transform: scale(1.3)">
               <img :src="kilovolt1000" />
             </div>
           </div>
@@ -53,7 +53,7 @@
           <img :src="toward"/>
         </div>
         <drappable idName="other"   class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -583px; top: -14px">
+          <div class="allShowPic" style="position: absolute;left: -1073px; top: -80px; transform: scale(1.3);">
             <div class="realView">
               <img :src="kv1000" />
             </div>
@@ -70,7 +70,7 @@
         </div>
         <drappable  class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
-            <div class="Once_primaryDiagram" style="position:absolute;left: -175px;top: -0px">
+            <div class="Once_primaryDiagram" style="position:absolute;left: -485px;top: -60px;transform: scale(1.3)">
               <img :src="kilovolt500" />
             </div>
           </div>
@@ -83,7 +83,7 @@
           <img :src="toward"/>
         </div>
         <drappable  idName="other"  class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: 0px; top: -58px">
+          <div class="allShowPic" style="position: absolute;left: -300px; top: -158px;transform: scale(1.3)">
             <div class="realView">
               <img :src="kv500" />
             </div>
@@ -100,7 +100,7 @@
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
-            <div class="Once_primaryDiagram" style="position:absolute;left: 530px;top: -0px">
+            <div class="Once_primaryDiagram" style="position:absolute;left: 400px;top: -80px;transform: scale(1.3)">
               <img :src="kilovolt220" />
             </div>
           </div>
@@ -113,7 +113,7 @@
           <img :src="toward"/>
         </div>
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: 610px; top: -68px">
+          <div class="allShowPic" style="position: absolute;left: 480px; top: -180px;transform: scale(1.3)">
             <div class="realView">
               <img :src="kv220" />
             </div>
@@ -130,7 +130,7 @@
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
-            <div class="Once_primaryDiagram" style="position:absolute;left: -490px;top: 8px">
+            <div class="Once_primaryDiagram" style="position:absolute;left: -890px;top: -50px;transform: scale(1.3)">
               <img :src="kilovolt110" />
             </div>
           </div>
@@ -143,7 +143,7 @@
           <img :src="toward"/>
         </div>
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -310px; top: -10px">
+          <div class="allShowPic" style="position: absolute;left: -710px; top: -50px;transform: scale(1.3)">
             <div class="realView">
               <img :src="kv110" />
             </div>
@@ -160,7 +160,7 @@
           </div>
           <drappable class="drappable_assembly" width="1900px" height="675px">
             <div class="allShowPic">
-              <div class="Once_primaryDiagram" style="position:absolute;left: 110px;top: 6px">
+              <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
                 <img :src="kilovolt35" />
               </div>
             </div>
@@ -173,7 +173,7 @@
             <img :src="toward"/>
           </div>
           <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-            <div class="allShowPic" style="position: absolute;left: 200px; top: -80px">
+            <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
               <div class="realView">
                 <img :src="kv35" />
               </div>
@@ -223,7 +223,8 @@ export default {
       isDiagram: false,
       mainlistShow: true,
       isFullscreen: false,
-      visibleCamera: true
+      visibleCamera: true,
+      kilovoltList: []
     }
   },
   watch: {
