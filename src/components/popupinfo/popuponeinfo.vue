@@ -2,9 +2,9 @@
   <historical-documents width="400px" :title="title" :isShowTab="false" :dialogTableVisible="visible" @close="onClose">
     <div class="popuponeinfo">
       <el-row>
-        <el-col :span="12"><p class="itemTitle">当前温度：<span>{{itemData.alarmValue}}</span></p></el-col>
+        <el-col :span="12"><p class="itemTitle">当前温度：<span>{{itemData.alarmValue}}℃</span></p></el-col>
         <el-col :span="12"><p class="itemTitle">超出阈值：<span>{{itemData.threshold}}</span></p></el-col>
-        <el-col :span="24"><p class="itemTitle">缺陷评估：<span :class="[itemData.alarmLevel == '1'?'alarm':(itemData.alarmLevel == '2'?'warning':'general')]">{{itemData.alarmLevelName}}</span></p></el-col>
+        <el-col :span="24"><p class="itemTitle">缺陷评估：<span :class="[itemData.alarmLevel == '1'?'general':(itemData.alarmLevel == '2'?'warning':'alarm')]">{{itemData.alarmLevelName}}</span></p></el-col>
       </el-row>
       <div>
         <div class="imgBox">

@@ -4,8 +4,8 @@
     <div class="historicalwarningBox">
       <div class="historicalwarningItem" v-for="(item, index) in dataList" :key="index">
         <div>{{item.alarmTime}}</div>
-        <div><span>温度：{{item.alarmValue}}</span><span class="threshold">超出阈值：{{item.threshold}}</span></div>
-        <div>缺陷评估：<span :class="[itemData.alarmLevel == '1'?'alarm':(itemData.alarmLevel == '2'?'warning':'general')]">{{item.alarmLevelName}}</span></div>
+        <div><span>温度：{{item.alarmValue}}℃</span><span class="threshold">超出阈值：{{item.threshold}}</span></div>
+        <div>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></div>
       </div>
     </div>
   </div>

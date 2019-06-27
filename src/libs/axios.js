@@ -3,6 +3,7 @@ import { Base64 } from 'js-base64'
 import user from '@/store/module/user.js'
 import configIndex from '@/config'
 import { Loading } from 'element-ui'
+import store from '@/store'
 let loadingInstance = null
 class HttpRequest {
   constructor (baseUrl = baseURL) {
@@ -65,6 +66,11 @@ class HttpRequest {
         const data = JSON.parse(JSON.stringify(body.data))
         const msg = body.errorMessage
         return { data, code, msg }
+      }
+      if (code === 40101 || code == 40102) {
+        store.dispatch('handleLogOut').then(res=> {
+          window.location.href = '/login'
+        })
       }
       if (code !== 200) {
         const data = body.data

@@ -15,13 +15,13 @@
       <div class="promptItemBox">
         <div class="itemData" v-for="(item, index) in itemData" :key="index">
           <el-row>
-            <el-col :span="15"><h5 class="title">{{item.deviceName}}</h5></el-col>
+            <el-col :span="15"><h5 class="title">{{item.powerDeviceName}}</h5></el-col>
             <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration(item)">复位</el-button><el-button type="success" round @click="retain(item)">保存</el-button></div></el-col>
           </el-row>
-          <p class="itemTitle">当前温度：<span>{{item.alarmValue}}</span></p>
+          <p class="itemTitle">当前温度：<span>{{item.alarmValue}}℃</span></p>
           <p class="itemTitle">超出阈值：<span>{{item.threshold}}</span></p>
           <!-- 接数据时要对此处的状态做处理，下方class类名已经写好 -->
-          <p class="itemTitle">缺陷评估：<span :class="[itemData.alarmLevel == '1'?'alarm':(itemData.alarmLevel == '2'?'warning':'general')]">{{item.alarmLevel}}</span></p>
+          <p class="itemTitle">缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></p>
           <p class="itemTitle itemBottomTitle ">{{item.alarmTime}}<span class="location">位置：{{item.deviceAddress}}</span></p>
         </div>
       </div>
