@@ -315,6 +315,7 @@ export default {
     }
     .kilovolt .dunoMain_nr{
       display: flex;
+      flex-direction: row-reverse;
       .item_ctx{
         flex: 1;
         height: 100%;
@@ -322,10 +323,10 @@ export default {
         overflow: hidden;
       }
       .item_ctx.active:first-child{
-        border-right: 6px solid #18191D;
+        border-left: 6px solid #18191D;
       }
       .item_ctx.active:last-child{
-        border-left: 6px solid #18191D;
+        border-right: 6px solid #18191D;
       }
     }
     .Once_primaryDiagram{
