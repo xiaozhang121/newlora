@@ -54,7 +54,14 @@ export default {
       kv220:require('@/assets/realViewImg/kv220.png'),
       kv110:require('@/assets/realViewImg/kv110.png'),
       kv35:require('@/assets/realViewImg/kv35.png'),
-      toward: require('@/assets/images/toward.png')
+      toward: require('@/assets/images/toward.png'),
+      ARGlass: require('@/assets/buttonPng/ARGlass.png'),
+      controlBall: require('@/assets/buttonPng/controlBall.png'),
+      handRed: require('@/assets/buttonPng/handRed.png'),
+      intelLock: require('@/assets/buttonPng/intelLock.png'),
+      redLight: require('@/assets/buttonPng/redLight.png'),
+      robot: require('@/assets/buttonPng/robot.png'),
+
     }
   },
   computed: {

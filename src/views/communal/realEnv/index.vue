@@ -1,7 +1,8 @@
 <template>
-<!--  <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleCamera" class="historical">
-    <camera-panel :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
-  </historical-documents>
+<!--    <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="true" class="historical">
+            <camera-panel :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
+            <polygonal v-else-if="cameraFlag == 'fifth'"></polygonal>
+          </historical-documents>
   <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleHotCamera" class="historical">
     <hot-camera :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
   </historical-documents>-->
@@ -14,7 +15,9 @@
           <img :src="toward"/>
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
-          <!--<div class="demo" style="width: 300px; height: 300px; background: pink;position: absolute; top: 0"></div>-->
+          <div class="deviceList">
+            <img :src="redLight" style="left: 400px; top: 300px; transform: rotate(0deg)"/>
+          </div>
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />
@@ -199,6 +202,7 @@ import { postAxiosData } from '@/api/axiosType'
 import dunoBtnTop  from '_c/duno-m/duno-btn-top'
 import dunoMain  from '_c/duno-m/duno-main'
 import drappable  from '_c/duno-m/drappable'
+import Polygonal from '_c/duno-c/Polygonal'
 import cameraPanel from '_c/duno-m/cameraPanel'
 import hotCamera from '_c/duno-m/hotCamera'
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
@@ -212,7 +216,8 @@ export default {
       dunoMain,
       drappable,
       cameraPanel,
-      HistoricalDocuments
+      HistoricalDocuments,
+      Polygonal
   },
   computed:{
     ...mapState([
@@ -231,6 +236,7 @@ export default {
       visibleCamera: false,
       visibleHotCamera: false,
       kilovoltList: [],
+      deviceList:[],
       cameraFlag: 'first'
     }
   },
@@ -256,6 +262,9 @@ export default {
       },
       changDiagram(now){
             this.isDiagram = now
+      },
+      getDeviceList(){
+          const that = this
       }
   },
   created(){
@@ -286,6 +295,20 @@ export default {
       position: absolute;
       left: 15px;
       top: 10px;
+    }
+    .deviceList{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      img{
+        cursor: pointer;
+        position: absolute;
+        width: 36px !important;
+        height: 36px !important;
+      }
     }
     .drappable_assembly{
       transform:translate(-50%,-50%);

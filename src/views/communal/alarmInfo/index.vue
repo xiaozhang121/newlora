@@ -91,7 +91,7 @@ export default {
         }
         return that.reduce(methodList)
       })
-      .then((res)=>{
+      .then(res=>{
         for(let i=0; i<res.length; i++){
             data[i]['dataList'] = res[i].tableData
         }

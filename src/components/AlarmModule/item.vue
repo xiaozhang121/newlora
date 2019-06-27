@@ -92,8 +92,8 @@ export default {
             minWidth: 100,
             align: "center"
           },
-          {
-            title: "处理",
+       /*   {
+            title: "处理记录",
             key: "id",
             width: 80,
             align: "center",
@@ -116,6 +116,15 @@ export default {
               }
               return h("div", newArr);
             }
+          }*/
+          {
+              title: "处理记录",
+              key: "id",
+              width: 100,
+              align: "center",
+              render: (h, params) => {
+                  return h("div", '暂无');
+              }
           }
       ]
     };
