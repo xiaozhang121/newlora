@@ -41,6 +41,11 @@ export default {
     }
   },
   methods: {
+    /* 
+      实时信息接口 
+      历史告警接口  /lenovo-alarm/api/alarm/history
+      图表数据接口  /lenovo-plan/api/plan/history
+    */
     onShow (data) {
       this.activeName = data
     },
