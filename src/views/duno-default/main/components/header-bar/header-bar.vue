@@ -5,7 +5,7 @@
     </div>
     <!--<sider-trigger :collapsed="collapsed" @on-change="handleCollpasedChange"></sider-trigger>-->
     <div class="custom-content-con">
-      <div class="dateTime">{{ dateTime }}</div>
+      <div class="dateTime"><span class="timeDate">UTC+08:00</span>{{ dateTime }}</div>
       <slot></slot>
     </div>
   </div>
@@ -57,5 +57,10 @@ export default {
     float: left;
     margin-right: 20px;
     color: #999;
+  }
+  .timeDate {
+    color: #666;
+    float: left;
+    margin-right: 20px;
   }
 </style>

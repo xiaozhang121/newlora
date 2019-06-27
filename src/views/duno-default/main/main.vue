@@ -166,11 +166,20 @@ export default {
   .el-menu{
     border-right: none !important;
   }
+  .el-menu-item {
+    color: #999 !important;
+  }
+  .el-menu.el-menu--inline, .el-submenu .el-menu-item, .side-menu-wrapper ul > li > ul .el-menu-item.is-active {
+    background: #1d1f26 !important;
+  }
   .el-submenu.is-active .el-submenu__title{
     border-left: 4px solid #0A70F8;
+    background: #303544 !important;
    }
-  .el-menu-item.is-active{
+  .el-menu-item.is-active {
     border-left: 4px solid #0A70F8;
+    background: #303544 !important;
+    color: #fff !important;
   }
   .el-menu-item,.el-submenu__title,.el-submenu .el-menu-item{
     border-left: 4px solid transparent;

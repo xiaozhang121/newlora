@@ -250,7 +250,6 @@ export default {
           this.visibleCamera = now
       },
       changeFullScreen(target){
-          debugger
           screenfull.toggle(target)
       },
       changDiagram(now){
