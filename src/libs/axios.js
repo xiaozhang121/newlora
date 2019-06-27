@@ -21,7 +21,7 @@ class HttpRequest {
       withCredentials: true
     }
     if (user.state.token) {
-      // config.headers.Authorization = user.state.token
+      config.headers.Authorization = user.state.token
     }
     return config
   }
@@ -55,7 +55,7 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.distroy(url)
       const body = res.data
-      const code = body.code
+      const code = body.errorCode
       // console.log('返回参数的类型=', typeof body)
       if (typeof body === 'string' && !code) {
         const data = body
@@ -63,12 +63,12 @@ class HttpRequest {
       }
       if (code === 200) {
         const data = JSON.parse(JSON.stringify(body.data))
-        const msg = body.msg
+        const msg = body.errorMessage
         return { data, code, msg }
       }
       if (code !== 200) {
         const data = body.data
-        const msg = body.msg
+        const msg = body.errorMessage
         return { data, code, msg }
       }
     }, error => {
@@ -93,11 +93,11 @@ class HttpRequest {
       let dataObj = options.params ? options.params : options.data
       if (!(options.data instanceof FormData)) {
         data = Object.assign(dataObj, dataObj)
-        if (options.method === 'post' || options.method === 'put') {
-          if (!configIndex.isMock || process.env.NODE_ENV !== 'development') {
-            data = Base64.encode(JSON.stringify(data))
-          }
-        }
+        // if (options.method === 'post' || options.method === 'put') {
+        //   if (!configIndex.isMock || process.env.NODE_ENV !== 'development') {
+        //     data = Base64.encode(JSON.stringify(data))
+        //   }
+        // }
       } else {
         data = dataObj
       }

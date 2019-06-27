@@ -2,9 +2,9 @@
 const isMock = true
 
 /* dev开发地址 */
-let baseUrl = 'http://dunoinfo.synology.me:8052'
+let baseUrl = 'http://192.168.0.49:8008'/* 如果开始mock数据模式dev启动自动切换至mock
 /* mock地址 */
-const mockUrl = 'http://dunoinfo.synology.me:8052'
+const mockUrl = 'http://192.168.0.49:8008'
 /* 如果开始mock数据模式dev启动自动切换至mock地址 */
 if (isMock) {
   baseUrl = mockUrl

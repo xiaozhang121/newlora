@@ -45,10 +45,10 @@ export default {
       userName = userName.trim()
       // console.log('设置token')
       return new Promise((resolve, reject) => {
-        const query = { 'account': userName, 'password': password, 'code': code, 'uuid': uuid }
+        const query = { 'userName': userName, 'password': password, 'code': code, 'uuid': uuid }
         login(query).then(res => {
           if (res.code === 200) {
-            commit('setToken', res.data.token)
+            commit('setToken', res.data.accessToken)
           }
           resolve(res)
         }).catch(err => {

@@ -40,7 +40,7 @@ export default {
         if (res.code === 200) {
           this.getUserInfo().then(res => {
             this.isLoading = false
-            this.$router.push({ name: '_realEnv' })
+            this.$router.push({ name: 'realEnvList' })
           })
         } else {
           this.isLoading = false

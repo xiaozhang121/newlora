@@ -5,7 +5,7 @@ import { logout, getUserInfo, login } from './mockData'
 if (config.isMock) {
   // 登录相关和获取用户信息
   Mock.mock(/\/logout/, logout)
-  Mock.mock(/\/userinfo/, getUserInfo)
+  Mock.mock(/\/user-info/, getUserInfo)
   Mock.mock(/\/login/, login)
 }
 

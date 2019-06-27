@@ -14,7 +14,7 @@
         </span>
       </el-input>
     </el-form-item>
-    <el-form-item prop="code">
+    <!-- <el-form-item prop="code">
       <el-row :gutter="20">
         <el-col :span="14">
           <el-input type="text" v-model.trim="form.code" size="medium" placeholder="请输入验证码">
@@ -27,7 +27,7 @@
           <img :src="imgSrc" alt="验证码" @click="codeUrl()" class="loginCode">
         </el-col>
       </el-row>
-    </el-form-item>
+    </el-form-item> -->
     <el-form-item>
       <el-button @click="handleSubmit" type="primary" long :loading="isLoading" style="width: 100%;">登录</el-button>
     </el-form-item>

@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const login = (data) => {
   return axios.request({
-    url: 'auth/login',
+    url: '/lenovo-user/api/user/login',
     data,
     method: 'post'
   })
@@ -10,7 +10,7 @@ export const login = (data) => {
 
 export const getUserInfo = (token) => {
   return axios.request({
-    url: '/auth/userinfo',
+    url: '/lenovo-user/api/user/user-info',
     params: { token },
     method: 'get'
   })
@@ -18,7 +18,7 @@ export const getUserInfo = (token) => {
 
 export const logout = (token) => {
   return axios.request({
-    url: 'logout',
+    url: '/lenovo-user/api/user/logout',
     method: 'post'
   })
 }

@@ -70,9 +70,16 @@ export default {
     },
     getData () {
       const that = this
-      const url = '/venus/user/massage/num'
-      const query = { 'account': that.user.account }
+      const url = '/lenovo-alarm/api/alarm/list'
+      const query = {
+        'account': that.user.account,
+        'pageIndex': 1,
+        'pageRows': -1,
+        'isDeal': '0',
+        'deviceName': ''
+      }
       getAxiosData(url, query).then(res => {
+        debugger
         if (res.code !== 200) {
           that.value = 0
           return false
@@ -82,7 +89,7 @@ export default {
     }
   },
   mounted () {
-    // this.getData()
+    this.getData()
     this.itemData = [
         {
           title: '4号主变01#枪机',
