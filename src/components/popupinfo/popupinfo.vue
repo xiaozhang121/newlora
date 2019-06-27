@@ -2,8 +2,8 @@
   <historical-documents width="500px" :tabPaneData="tabPaneData" @on-show="onShow" :dialogTableVisible="visible" @close="onClose">
     <div>
       <realtime v-if="activeName == 'first'" />
-      <historicalwarning title="红外测光-RTS980" :dataList="alarmHistoryData" v-if="activeName == 'second'" />
-      <polygonal @onChange="setTime" v-if="activeName == 'third'" />
+      <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'second'" />
+      <polygonal @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'third'" />
     </div>
   </historical-documents>
 </template>
@@ -36,10 +36,20 @@ export default {
         },
       ],
       startTime: '',
-      endTime: ''
+      endTime: '',
+      isChange: true,
+      legendData: [],
+      xAxisData: [],
+      seriesData: []
     }
   },
   props: {
+    title: {
+      type: String,
+      default: () => {
+        return ''
+      }
+    },
     visible: {
       type: Boolean,
       default: () => {
@@ -56,18 +66,18 @@ export default {
     },
     typeProp: {                    // 两种类型monitor(监控)  power(电网)
       type: String,
-      default: 'power'
+      default: 'monitor'
     }
   },
   computed: {
-      deviceType(){
-          switch (this.typeProp){
-              case 'monitor':
-                return 'monitorDeviceId'
-              case 'power':
-                return 'powerDeviceId'
-          }
+    deviceType(){
+      switch (this.typeProp){
+        case 'monitor':
+          return 'monitorDeviceId'
+        case 'power':
+          return 'powerDeviceId'
       }
+    }
   },
   methods: {
     /* 
@@ -82,7 +92,6 @@ export default {
       this.$emit('onClose', data)
     },
     initData(){
-        // 1234567
         const that = this
         let query = {
             [this['deviceType']]:this.deviceId,
@@ -93,15 +102,41 @@ export default {
             res.data.tableData.map(item=>{
                 item['show'] = false
             })
+            console.log(res.data.tableData)
+            debugger
             that.alarmHistoryData = res.data.tableData
         })
         let queryT = {
             [this['deviceType']]:this.deviceId,
             'monitorDeviceType': this.monitorDeviceType,
-            'startTime': this.startTime,
-            'endTime': this.endTime
+            'startTime': `${this.startTime} 00:00:00`,
+            'endTime': `${this.endTime} 23:59:59`
         }
         getPlanHistory(queryT).then(res=>{
+          const dataList = res.data.dataList
+          const legendData = []
+          const xAxisData = []
+          const seriesData = []
+          for (let i = 0; i < dataList.length; i++) {
+            legendData.push(dataList[i].itemName)
+            const itemDataList = dataList[i].itemDataList
+            const obj = {
+              name: dataList[i].itemName,
+              type:'line',
+              data: []
+            }
+            for (let item in itemDataList) {
+              if (i == 0) {
+                xAxisData.push(itemDataList[item].time)
+              }
+              obj.data.push(Number(itemDataList[item].data))
+            }
+            seriesData.push(obj)
+          }
+          that.legendData = legendData
+          that.xAxisData = xAxisData
+          that.seriesData = seriesData
+          that.isChange = !that.isChange
         })
     },
     setTime(target){
@@ -111,6 +146,8 @@ export default {
     }
   },
   created (){
+    this.startTime = moment().format('YYYY-MM-DD')
+    this.endTime = moment().format('YYYY-MM-DD')
     this.initData()
   }
 }

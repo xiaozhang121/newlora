@@ -16,14 +16,15 @@
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="deviceList">
-            <img v-for="(item, index) in deviceList"  @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
-            :style="[
-            {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
-            {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
-            ]"
-            />
+            <template  v-for="(item, index) in deviceList">
+              <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+              :style="[
+              {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
+              {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
+              ]"
+              />
+            </template>
           </div>
-          <!--<popupinfo :visible="true"></popupinfo>-->
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />
@@ -54,12 +55,15 @@
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: -1283px;top: 20px;transform: scale(1.3)">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt1000Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt1000Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxisDiagram']+'px'},
                     {'top':  item['yAxisDiagram']+'px'}
                     ]"
-                />
+                  />
+                </template>
+                
               </div>
               <img :src="kilovolt1000" />
             </div>
@@ -76,12 +80,14 @@
           <div class="allShowPic" style="position: absolute;left: -1073px; top: -80px; transform: scale(1.3);">
             <div class="realView">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt1000Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt1000Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxis']+'px'},
                     {'top':  item['yAxis']+'px'}
                     ]"
-                />
+                  />
+                </template>
               </div>
               <img :src="kv1000" />
             </div>
@@ -100,12 +106,14 @@
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: -485px;top: -60px;transform: scale(1.3)">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt500Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt500Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxisDiagram']+'px'},
                     {'top':  item['yAxisDiagram']+'px'}
                     ]"
-                />
+                  />
+                </template>
               </div>
               <img :src="kilovolt500" />
             </div>
@@ -122,12 +130,14 @@
           <div class="allShowPic" style="position: absolute;left: -300px; top: -158px;transform: scale(1.3)">
             <div class="realView">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt500Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt500Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxis']+'px'},
                     {'top':  item['yAxis']+'px'}
                     ]"
-                />
+                  />
+                </template>
               </div>
               <img :src="kv500" />
             </div>
@@ -146,12 +156,14 @@
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: 400px;top: -80px;transform: scale(1.3)">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt220Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt220Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
-                    {'left': item['xAxisDiagram']+'px'},
-                    {'top':  item['yAxisDiagram']+'px'}
+                      {'left': item['xAxisDiagram']+'px'},
+                      {'top':  item['yAxisDiagram']+'px'}
                     ]"
-                />
+                  />
+                </template>
               </div>
               <img :src="kilovolt220" />
             </div>
@@ -168,12 +180,14 @@
           <div class="allShowPic" style="position: absolute;left: 480px; top: -180px;transform: scale(1.3)">
             <div class="realView">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt220Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt220Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
-                    {'left': item['xAxis']+'px'},
-                    {'top':  item['yAxis']+'px'}
+                      {'left': item['xAxis']+'px'},
+                      {'top':  item['yAxis']+'px'}
                     ]"
-                />
+                  />
+                </template>
               </div>
               <img :src="kv220" />
             </div>
@@ -192,12 +206,14 @@
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: -890px;top: -50px;transform: scale(1.3)">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt110Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt110Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
-                    {'left': item['xAxisDiagram']+'px'},
-                    {'top':  item['yAxisDiagram']+'px'}
+                      {'left': item['xAxisDiagram']+'px'},
+                      {'top':  item['yAxisDiagram']+'px'}
                     ]"
-                />
+                  />
+                </template>
               </div>
               <img :src="kilovolt110" />
             </div>
@@ -214,12 +230,14 @@
           <div class="allShowPic" style="position: absolute;left: -710px; top: -50px;transform: scale(1.3)">
             <div class="realView">
               <div class="deviceList">
-                <img v-for="(item,index) in kilovolt110Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <template v-for="(item,index) in kilovolt110Pic">
+                  <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                      :style="[
-                    {'left': item['xAxis']+'px'},
-                    {'top':  item['yAxis']+'px'}
+                      {'left': item['xAxis']+'px'},
+                      {'top':  item['yAxis']+'px'}
                     ]"
-                />
+                  />
+                </template>
               </div>
               <img :src="kv110" />
             </div>
@@ -238,12 +256,14 @@
             <div class="allShowPic">
               <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
                 <div class="deviceList">
-                  <img v-for="(item,index) in kilovolt35Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
-                       :style="[
-                    {'left': item['xAxisDiagram']+'px'},
-                    {'top': item['yAxisDiagram']+'px'}
-                    ]"
-                  />
+                  <template v-for="(item,index) in kilovolt35Pic">
+                    <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                      :style="[
+                        {'left': item['xAxisDiagram']+'px'},
+                        {'top': item['yAxisDiagram']+'px'}
+                      ]"
+                    />
+                  </template>
                 </div>
                 <img :src="kilovolt35" />
               </div>
@@ -260,12 +280,14 @@
             <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
               <div class="realView">
                 <div class="deviceList">
-                  <img v-for="(item,index) in kilovolt35Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
-                       :style="[
-                    {'left': item['xAxis']+'px'},
-                    {'top': item['yAxis']+'px'}
-                    ]"
-                  />
+                  <template v-for="(item,index) in kilovolt35Pic">
+                    <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                      :style="[
+                        {'left': item['xAxis']+'px'},
+                        {'top': item['yAxis']+'px'}
+                      ]"
+                    />
+                  </template>
                 </div>
                 <img :src="kv35" />
               </div>

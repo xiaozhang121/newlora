@@ -36,6 +36,7 @@
 <script>
 import moment from 'moment'
 import { DunoCharts } from "_c/duno-charts";
+import { constants } from 'crypto';
 export default {
   name: "Polygonal",
   components: { DunoCharts },
@@ -81,22 +82,32 @@ export default {
       default: () => {
         return [];
       }
+    },
+    isChange: {
+      type: Boolean,
+      default: () => {
+        return true
+      }
+    },
+    isItemEchart: {
+      type: Boolean,
+      default: () => {
+        return true
+      }
     }
   },
   data() {
+    const that = this
     return {
       radio: 1,
       value: "",
-      isChange: true,
-      isItemEchart: true,
       datePeriod: "",
       legendOption: {
         icon: "circle",
         textStyle: {
           color: "#999"
         },
-        // data: ["本设备", "设备0352"],
-        data: this.legendData
+        data: that.legendData
       },
       xAxisOption: {
         type: "category",
@@ -118,14 +129,14 @@ export default {
         axisTick: {
           show: false
         },
-        data: this.xAxisData
+        data: that.xAxisData
       },
       yAxisOption: {
         type: "value",
-        name: this.yName,
-        max: this.yMax,
-        min: this.yMin,
-        splitNumber: this.ySplitNumber,
+        name: that.yName,
+        max: that.yMax,
+        min: that.yMin,
+        splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
         axisLine: {
           show: true, //Y轴的线
@@ -145,7 +156,7 @@ export default {
           show: false
         }
       },
-      seriesOption: this.seriesData
+      seriesOption: that.seriesData
     };
   },
   methods: {
@@ -154,9 +165,9 @@ export default {
       let date = null
       let arr = []
       if(data == 1){
-          date = moment()
+        date = moment()
       }else{
-          date = moment().subtract(1, 'days')
+        date = moment().subtract(1, 'days')
       }
       arr.push(date,date)
       this.$emit("onChange", arr);
@@ -170,7 +181,51 @@ export default {
       this.$emit("changeHandle");
     }
   },
-  watch: {}
+  watch: {
+    legendData: {
+      handler(now) {
+        let arr = []
+        if (now && now.length) {
+          arr = now
+        }
+        this.legendOption.data = arr
+      },
+      deep: true
+    },
+    xAxisData: {
+      handler(now) {
+        let arr = []
+        if (now && now.length) {
+          arr = now
+        }
+        this.xAxisOption.data = arr
+      },
+      deep: true
+    },
+    yName(now) {
+      this.yAxisOption.yName = now
+    },
+    yMax(now) {
+      this.yAxisOption.yMax = now
+    },
+    yMin(now) {
+      this.yAxisOption.yMin = now
+    },
+    ySplitNumber(now) {
+      this.yAxisOption.ySplitNumber = now
+    },
+    seriesData: {
+      handler(now) {
+        let arr = []
+        if (now && now.length) {
+          arr = now
+        }
+        this.seriesOption = arr
+      },
+      deep: true
+    }
+  },
+  mounted () {}
 };
 </script>
 
