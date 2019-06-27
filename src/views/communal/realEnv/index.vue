@@ -16,7 +16,7 @@
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="deviceList">
-            <img v-for="item in deviceList" v-if="item['show']" :src="item['src']"
+            <img v-for="(item, index) in deviceList"  @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
             :style="[
             {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
             {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
@@ -275,6 +275,9 @@
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
         </div>
       </duno-main>
+    <div class="model" ref="model">
+      <popupinfo :visible="true"></popupinfo>
+    </div>
     </div>
   </div>
 </template>
@@ -374,6 +377,7 @@ export default {
       },
       changeFullScreen(target){
           screenfull.toggle(target)
+          target.appendChild(this.$refs.model)
       },
       changDiagram(now){
             this.isDiagram = now
@@ -414,8 +418,8 @@ export default {
         that.deviceList = data
         that.$forceUpdate()
       },
-      toDevice(item,index){
-
+      toDevice(item, index){
+        
       }
   },
   created(){
@@ -507,6 +511,13 @@ export default {
     }
     .Once_primaryDiagram{
 
+    }
+    .model{
+      z-index: 999999;
+      width: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
     }
 }
 </style>
