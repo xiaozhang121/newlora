@@ -2,19 +2,22 @@
   <div class="alarmInfoBox">
     <el-row :gutter="20">
       <el-col :span="8" v-for="(item, index) in dataList" :key="index">
-        <alarm-item :options="item.options" :dataList="item.dataList" :volt="item.volt" />
+        <alarm-item @onChange="onChange" :index="index" :options="item.options" :dataList="item.dataList" :volt="item.volt" />
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
 import alarmItem from '_c/AlarmModule'
+import { getDeviceType, getAlarmHistory, getAreaList } from '@/api/currency/currency.js'
 import { getAxiosData } from '@/api/axiosType'
 export default {
   name: 'alarmInfoIndex',
   components: { alarmItem },
   data() {
     return {
+      optionsList:[],
+      areaList: [],
       dataList: [
         {
           options: [],
@@ -49,31 +52,73 @@ export default {
       ]
     }
   },
-  methods: {
-    getData () {
-      const url = ''
-      const query = {}
-      getAxiosData(url, query).then(res => {
-        const dataList = JSON.parse(JSON.stringify(this.dataList))
-        if (res.code !== 200) {
-          for (let item in dataList) {
-            dataList[item].dataList = []
-            dataList[item].options = []
-          }
-          this.dataList = dataList
-        }
-        const resData = res.data
-        console.log('返回的值：', resData)
-        // for (let item in dataList) {
-        //   for (let j in resData) {
+  watch:{
 
-        //   }
-        // }
+  },
+  methods: {
+    onChange(obj){
+        const that = this
+        let deviceType = obj.value
+        let index = obj.index
+        getAlarmHistory({pageIndex:1, pageRows:44321, areaId: that.areaList[index]['areaId'], deviceType: deviceType}).then(res=>{
+            that.dataList[index]['dataList'] = res.data.tableData
+            that.$forceUpdate()
+        })
+    },
+    getData () {
+      const that = this
+      let data = []
+      let methodList = []
+      that.dataList = []
+      getAreaList()
+      .then(res=>{
+        that.areaList = res.data.areaList
+        that.areaList.forEach(item=>{
+            let obj  = {
+                options: [],
+                dataList: [],
+                volt: item['areaName']
+            }
+           obj = Object.assign(obj,item)
+           data.push(obj)
+        })
+        for(let i=0; i<that.areaList.length; i++){
+            methodList.push(
+                function () {
+                    return getAlarmHistory({pageIndex:1, pageRows:44321, areaId: that.areaList[i]['areaId']})
+                }
+            )
+        }
+        return that.reduce(methodList)
       })
+      .then((res)=>{
+        for(let i=0; i<res.length; i++){
+            data[i]['dataList'] = res[i].tableData
+        }
+        return getDeviceType()
+      })
+      .then(res=>{
+        data.map(item=>{
+            item['options'] = res.data
+        })
+        that.dataList = data
+        that.$forceUpdate()
+      })
+    },
+    reduce(arr) {
+        let sequence = Promise.resolve()
+        let res = []
+        arr.forEach(function(item) {
+            sequence = sequence.then(item).then(info=>{
+                res.push(info.data)
+                return res
+            })
+        })
+        return sequence
     }
   },
   mounted() {
-    // this.getData()
+    this.getData()
   }
 }
 </script>

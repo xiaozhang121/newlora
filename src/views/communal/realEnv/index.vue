@@ -14,6 +14,7 @@
           <img :src="toward"/>
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
+          <!--<div class="demo" style="width: 300px; height: 300px; background: pink;position: absolute; top: 0"></div>-->
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />

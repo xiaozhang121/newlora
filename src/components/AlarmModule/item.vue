@@ -33,6 +33,10 @@ import { DunoTablesTep } from "_c/duno-tables-tep";
 export default {
   name: "Item",
   props: {
+    index:{
+      type: [String, Number],
+      default: ''
+    },
     options: {
       type: Array,
       default: () => {
@@ -71,7 +75,7 @@ export default {
       handleImg: require("@/assets/images/btn/ico_operation__check.png"),
       newColumns: [
         {
-            key: "time",
+            key: "alarmTime",
             title: "时间",
             minWidth: 80,
             align: "left"
@@ -83,7 +87,7 @@ export default {
             align: "left"
           },
           {
-            key: "warnInformation",
+            key: "alarmContent",
             title: "告警信息",
             minWidth: 100,
             align: "center"
@@ -129,7 +133,7 @@ export default {
   },
   methods: {
     onChange() {
-      this.$emit("onChange", this.value);
+      this.$emit("onChange", {value: this.value, index: this.index});
     }
   },
   mounted () {}
