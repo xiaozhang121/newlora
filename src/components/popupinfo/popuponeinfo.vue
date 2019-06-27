@@ -1,5 +1,5 @@
 <template>
-  <historical-documents width="400px" :title="title" :isShowTab="false" :dialogTableVisible="visible" @close="onClose">
+  <historical-documents class="popuponeinfoBox" width="400px" :title="itemData.powerDeviceName" :isShowTab="false" :dialogTableVisible="visible" @close="onClose">
     <div class="popuponeinfo">
       <el-row>
         <el-col :span="12"><p class="itemTitle">当前温度：<span>{{itemData.alarmValue}}℃</span></p></el-col>
@@ -8,40 +8,31 @@
       </el-row>
       <div>
         <div class="imgBox">
-          <img :src="imgSrc">
+          <img :src="itemData.alarmFileAddress">
           <p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>
         </div>
       </div>
       <el-row>
         <el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>
-        <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration()">复位</el-button><el-button type="success" round @click="retain()">保存</el-button></div></el-col>
+        <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复位</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
       </el-row>
     </div>
   </historical-documents>
 </template>
 <script>
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
+import { getAxiosData, postAxiosData } from '@/api/axiosType'
 export default {
   name: 'popuponeinfo',
   components: {HistoricalDocuments},
+  data () {
+    return {
+      itemData: {}
+    }
+  },
   props: {
-    title: {
-      type: String,
-      default: () => {
-        return ''
-      }
-    },
-    imgSrc: {
-      type: String,
-      default: () => {
-        return ''
-      }
-    },
-    itemData: {
-      type: Object,
-      default: () => {
-        return {}
-      }
+    itemId: {
+      type: String | Number
     },
     visible: {
       type: Boolean,
@@ -50,20 +41,46 @@ export default {
       }
     }
   },
+  watch: {
+    visible (now) {
+      if (now) this.getData()
+    }
+  },
+  created () {
+    if (this.visible) this.getData()
+  },
   methods: {
-    restoration () {
-      console.log('复位')
-      const url = "/lenovo-alarm/api/alarm/reset"
+    restoration (type) {
+      console.log(type == '1'?'复位':'保存')
+      const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
       const query = {
-        alarmId: itemData.alarmId
+        alarmId: this.itemData.alarmId
       }
+      postAxiosData(url, query).then(res => {
+        if (res.code !== 200) {
+          return this.$message.error(res.msg)
+        }
+        this.$emit('onRestoration', type)
+        this.onClose(false)
+        this.$message.success(res.msg)
+      })
     },
-    retain () {
-      console.log('保存')
-      const url = "/lenovo-alarm/api/alarm/save"
+    getData () {
+      const that = this
+      const url = '/lenovo-alarm/api/alarm/list'
       const query = {
-        alarmId: itemData.alarmId
+        pageIndex: 1,
+        pageRows: 1,
+        isDeal: '0',
+        powerDeviceId: that.itemId
       }
+      getAxiosData(url, query).then(res => {
+        if (res.code !== 200 || (res.data.tableData && res.data.tableData.length == 0)) {
+          that.onClose(false)
+          return that.$message.error(res.msg)
+        }
+        that.itemData = res.data.tableData[0]
+      })
     },
     onClose (data) {
       this.$emit('onClose', data)
@@ -121,4 +138,9 @@ export default {
       text-align: right;
     }
   }
+</style>
+<style lang="scss">
+.popuponeinfoBox .el-dialog__body {
+  padding: 0 20px;
+}
 </style>
