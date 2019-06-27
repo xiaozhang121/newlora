@@ -25,36 +25,43 @@ export default {
           {
             circleColor:'#00B4FF',
             describeName: '可见光',
+            monitorDeviceType: 1,
             isActive: true
           },
           {
             circleColor:'#FF5EB9',
             describeName: '红外测光',
+            monitorDeviceType: 2,
             isActive: true
           },
           {
             circleColor:'#4FF2B7',
             describeName: 'AR眼镜',
+            monitorDeviceType: 3,
             isActive: true
           },
           {
             circleColor:'#FF9000',
             describeName: '机器人',
+            monitorDeviceType: 4,
             isActive: true
           },
           {
             circleColor:'#597AFF',
             describeName: '布控球',
+            monitorDeviceType: 5,
             isActive: true
           },
           {
             circleColor:'#C06EFF',
             describeName: '手持红外',
+            monitorDeviceType: 6,
             isActive: true
           },
           {
             circleColor:'#FFCA28',
             describeName: '智能锁具',
+            monitorDeviceType: 7,
             isActive: true
           }
         ],
@@ -83,6 +90,7 @@ export default {
       handleActive(index){
         this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
         this.$forceUpdate();
+        this.$emit('on-active',this.dataList)
       },
       resetActive(){
         this.dataList.map((item)=>{

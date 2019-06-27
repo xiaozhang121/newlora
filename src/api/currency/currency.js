@@ -34,3 +34,11 @@ export const getPlanHistory = (query) => {
         params: { ...query }
     })
 }
+
+export const deviceLocation = (query) => {
+    return axios.request({
+        url: '/lenovo-device/api/device/location',
+        method: 'get',
+        params: { ...query }
+    })
+}

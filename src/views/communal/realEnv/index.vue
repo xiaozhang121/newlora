@@ -7,7 +7,7 @@
     <hot-camera :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
   </historical-documents>-->
   <div class="realEnv">
-    <duno-btn-top @on-diagram="changDiagram" />
+    <duno-btn-top @on-active="deviceShowHandle" @on-diagram="changDiagram" />
     <div class="mainList" v-if="mainlistShow">
     <duno-main  v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
@@ -16,9 +16,14 @@
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="deviceList">
-            <img :src="redLight" style="left: 400px; top: 300px; transform: rotate(0deg)"/>
+            <img v-for="item in deviceList" v-if="item['show']" :src="item['src']"
+            :style="[
+            {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
+            {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
+            ]"
+            />
           </div>
-          <popupinfo  :visible="true"></popupinfo>
+          <!--<popupinfo :visible="true"></popupinfo>-->
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />
@@ -48,6 +53,14 @@
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: -1283px;top: 20px;transform: scale(1.3)">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt1000Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxisDiagram']+'px'},
+                    {'top':  item['yAxisDiagram']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kilovolt1000" />
             </div>
           </div>
@@ -62,6 +75,14 @@
         <drappable idName="other"   class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic" style="position: absolute;left: -1073px; top: -80px; transform: scale(1.3);">
             <div class="realView">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt1000Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxis']+'px'},
+                    {'top':  item['yAxis']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kv1000" />
             </div>
           </div>
@@ -78,6 +99,14 @@
         <drappable  class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: -485px;top: -60px;transform: scale(1.3)">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt500Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxisDiagram']+'px'},
+                    {'top':  item['yAxisDiagram']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kilovolt500" />
             </div>
           </div>
@@ -92,6 +121,14 @@
         <drappable  idName="other"  class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic" style="position: absolute;left: -300px; top: -158px;transform: scale(1.3)">
             <div class="realView">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt500Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxis']+'px'},
+                    {'top':  item['yAxis']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kv500" />
             </div>
           </div>
@@ -108,6 +145,14 @@
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: 400px;top: -80px;transform: scale(1.3)">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt220Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxisDiagram']+'px'},
+                    {'top':  item['yAxisDiagram']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kilovolt220" />
             </div>
           </div>
@@ -122,6 +167,14 @@
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic" style="position: absolute;left: 480px; top: -180px;transform: scale(1.3)">
             <div class="realView">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt220Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxis']+'px'},
+                    {'top':  item['yAxis']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kv220" />
             </div>
           </div>
@@ -138,6 +191,14 @@
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
             <div class="Once_primaryDiagram" style="position:absolute;left: -890px;top: -50px;transform: scale(1.3)">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt110Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxisDiagram']+'px'},
+                    {'top':  item['yAxisDiagram']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kilovolt110" />
             </div>
           </div>
@@ -152,6 +213,14 @@
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic" style="position: absolute;left: -710px; top: -50px;transform: scale(1.3)">
             <div class="realView">
+              <div class="deviceList">
+                <img v-for="(item,index) in kilovolt110Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                     :style="[
+                    {'left': item['xAxis']+'px'},
+                    {'top':  item['yAxis']+'px'}
+                    ]"
+                />
+              </div>
               <img :src="kv110" />
             </div>
           </div>
@@ -168,6 +237,14 @@
           <drappable class="drappable_assembly" width="1900px" height="675px">
             <div class="allShowPic">
               <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
+                <div class="deviceList">
+                  <img v-for="(item,index) in kilovolt35Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                       :style="[
+                    {'left': item['xAxisDiagram']+'px'},
+                    {'top': item['yAxisDiagram']+'px'}
+                    ]"
+                  />
+                </div>
                 <img :src="kilovolt35" />
               </div>
             </div>
@@ -182,6 +259,14 @@
           <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
             <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
               <div class="realView">
+                <div class="deviceList">
+                  <img v-for="(item,index) in kilovolt35Pic" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                       :style="[
+                    {'left': item['xAxis']+'px'},
+                    {'top': item['yAxis']+'px'}
+                    ]"
+                  />
+                </div>
                 <img :src="kv35" />
               </div>
             </div>
@@ -208,6 +293,7 @@ import cameraPanel from '_c/duno-m/cameraPanel'
 import hotCamera from '_c/duno-m/hotCamera'
 import { popupinfo, popupOneInfo } from '_c/popupinfo'
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
+import { deviceLocation } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinViewModule],
@@ -229,6 +315,31 @@ export default {
     ]),
     kilovoltKind(){
       return this.$store.state.app.kilovolt
+    },
+    kilovolt1000Pic(){
+        return this.deviceList.filter((item)=>{
+            return item['areaId'] == '6'
+        })
+    },
+    kilovolt500Pic(){
+        return this.deviceList.filter((item)=>{
+            return item['areaId'] == '5'
+        })
+    },
+    kilovolt220Pic(){
+        return this.deviceList.filter((item)=>{
+            return item['areaId'] == '4'
+        })
+    },
+    kilovolt110Pic(){
+        return this.deviceList.filter((item)=>{
+            return item['areaId'] == '3'
+        })
+    },
+    kilovolt35Pic(){
+        return this.deviceList.filter((item)=>{
+            return item['areaId'] == '2'
+        })
     }
   },
   data () {
@@ -269,9 +380,46 @@ export default {
       },
       getDeviceList(){
           const that = this
+          deviceLocation().then(res=>{
+              let data = res.data
+              data.map(item=>{
+                  if(item['monitorDeviceType'] == 1)
+                    item['src'] = that.light
+                  else if(item['monitorDeviceType'] == 2){
+                    item['src'] = that.redLight
+                  }
+                  item['show'] = true
+              })
+              that.deviceList = data
+          })
+      },
+      deviceShowHandle(arr){
+        const that = this
+        let target = arr.filter(item=>{
+            return item['isActive'] == true
+        })
+        let data = that.deviceList
+        let j = 0
+        for(let i=0; i<data.length; i++){
+            for(j=0; j<target.length; j++){
+                if(data[i]['monitorDeviceType'] == target[j]['monitorDeviceType']){
+                    data[i]['show'] = true
+                    break
+                }
+            }
+            if(j == target.length){
+                data[i]['show'] = false
+            }
+        }
+        that.deviceList = data
+        that.$forceUpdate()
+      },
+      toDevice(item,index){
+
       }
   },
   created(){
+      this.getDeviceList()
       this.$store.state.app.kilovolt = this.$route.meta.kind
   },
   mounted () {

@@ -61,7 +61,7 @@ export default {
       intelLock: require('@/assets/buttonPng/intelLock.png'),
       redLight: require('@/assets/buttonPng/redLight.png'),
       robot: require('@/assets/buttonPng/robot.png'),
-
+      light: require('@/assets/buttonPng/cameraIcon.png'),
     }
   },
   computed: {
