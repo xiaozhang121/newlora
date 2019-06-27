@@ -1,6 +1,6 @@
 <template>
   <div class="polygonal" :style="{width:width+'px'}">
-    <!-- <p>云台可见光-TGTYS</p> -->
+     <p>云台可见光-TGTYS</p>
     <div class="time">
       <div>
         <el-radio-group v-model="radio" @change="onChangeRadio">
@@ -29,11 +29,12 @@
         :seriesOption="seriesOption"
       />
     </div>
-    <p>你可拖拽设备图标至此处进行对比</p>
+    <p class="move">你可拖拽设备图标至此处进行对比</p>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import { DunoCharts } from "_c/duno-charts";
 export default {
   name: "Polygonal",
@@ -150,8 +151,15 @@ export default {
   methods: {
     onChangeRadio(data) {
       this.radio = data;
-      this.value = "";
-      this.$emit("onChange", this.radio);
+      let date = null
+      let arr = []
+      if(data == 1){
+          date = moment()
+      }else{
+          date = moment().subtract(1, 'days')
+      }
+      arr.push(date,date)
+      this.$emit("onChange", arr);
     },
     onChangeTime(data) {
       this.datePeriod = data;
@@ -186,7 +194,7 @@ export default {
       margin-right: 30px;
     }
   }
-  & > p:nth-child(3) {
+  &  .move {
     color: #999;
     text-align: center;
     font-size: 14px !important;

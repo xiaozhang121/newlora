@@ -25,3 +25,12 @@ export const getAreaList = (query) => {
         params: { ...query }
     })
 }
+
+//2.3.1巡视计划-根据监控设备id获取历史数据
+export const getPlanHistory = (query) => {
+    return axios.request({
+        url: '/lenovo-plan/api/plan/history',
+        method: 'get',
+        params: { ...query }
+    })
+}

@@ -18,6 +18,7 @@
           <div class="deviceList">
             <img :src="redLight" style="left: 400px; top: 300px; transform: rotate(0deg)"/>
           </div>
+          <popupinfo  :visible="true"></popupinfo>
           <div class="allShowPic">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />
@@ -205,6 +206,7 @@ import drappable  from '_c/duno-m/drappable'
 import Polygonal from '_c/duno-c/Polygonal'
 import cameraPanel from '_c/duno-m/cameraPanel'
 import hotCamera from '_c/duno-m/hotCamera'
+import { popupinfo, popupOneInfo } from '_c/popupinfo'
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
 import { mapState } from 'vuex'
 export default {
@@ -217,7 +219,9 @@ export default {
       drappable,
       cameraPanel,
       HistoricalDocuments,
-      Polygonal
+      Polygonal,
+      popupinfo,
+      popupOneInfo
   },
   computed:{
     ...mapState([
