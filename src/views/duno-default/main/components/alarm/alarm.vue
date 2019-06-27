@@ -16,7 +16,7 @@
         <div class="itemData" v-for="(item, index) in itemData" :key="index">
           <el-row>
             <el-col :span="15"><h5 class="title">{{item.powerDeviceName}}</h5></el-col>
-            <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration(item)">复位</el-button><el-button type="success" round @click="retain(item)">保存</el-button></div></el-col>
+            <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration(item, '1', index)">复位</el-button><el-button type="success" round @click="restoration(item, '0', index)">保存</el-button></div></el-col>
           </el-row>
           <p class="itemTitle">当前温度：<span>{{item.alarmValue}}℃</span></p>
           <p class="itemTitle">超出阈值：<span>{{item.threshold}}</span></p>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getAxiosData } from '@/api/axiosType.js'
+import { getAxiosData, postAxiosData } from '@/api/axiosType.js'
 import { mapState } from 'vuex'
 export default {
   name: 'alarmTip',
@@ -62,19 +62,19 @@ export default {
     }
   },
   methods: {
-    restoration (item) {
-      console.log('复位')
-      const url = "/lenovo-alarm/api/alarm/reset"
+    restoration (item, type, index) {
+      console.log(type == '1'?'复位':'保存')
+      const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
       const query = {
         alarmId: item.alarmId
       }
-    },
-    retain (item) {
-      console.log('保存')
-      const url = "/lenovo-alarm/api/alarm/save"
-      const query = {
-        alarmId: item.alarmId
-      }
+      postAxiosData(url, query).then(res => {
+        if (res.code !== 200) {
+          return this.$message.error(res.msg)
+        }
+        this.itemData.splice(index, 1)
+        this.$message.success(res.msg)
+      })
     },
     getData () {
       const that = this
