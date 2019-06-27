@@ -2,18 +2,18 @@
   <historical-documents width="400px" :title="title" :isShowTab="false" :dialogTableVisible="visible" @close="onClose">
     <div class="popuponeinfo">
       <el-row>
-        <el-col :span="12"><p class="itemTitle">当前温度：<span>{{itemData.tepm}}</span></p></el-col>
+        <el-col :span="12"><p class="itemTitle">当前温度：<span>{{itemData.alarmValue}}</span></p></el-col>
         <el-col :span="12"><p class="itemTitle">超出阈值：<span>{{itemData.threshold}}</span></p></el-col>
-        <el-col :span="24"><p class="itemTitle">缺陷评估：<span class="alarm">危险缺陷</span></p></el-col>
+        <el-col :span="24"><p class="itemTitle">缺陷评估：<span :class="[itemData.alarmLevel == '1'?'alarm':(itemData.alarmLevel == '2'?'warning':'general')]">{{itemData.alarmLevelName}}</span></p></el-col>
       </el-row>
       <div>
         <div class="imgBox">
           <img :src="imgSrc">
-          <p class="itemTitle itemBottomTitle">位置：{{itemData.location}}</p>
+          <p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>
         </div>
       </div>
       <el-row>
-        <el-col :span="15"><h5 class="itemTitle time">{{itemData.time}}</h5></el-col>
+        <el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>
         <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration()">复位</el-button><el-button type="success" round @click="retain()">保存</el-button></div></el-col>
       </el-row>
     </div>
@@ -53,9 +53,17 @@ export default {
   methods: {
     restoration () {
       console.log('复位')
+      const url = "/lenovo-alarm/api/alarm/reset"
+      const query = {
+        alarmId: itemData.alarmId
+      }
     },
     retain () {
       console.log('保存')
+      const url = "/lenovo-alarm/api/alarm/save"
+      const query = {
+        alarmId: itemData.alarmId
+      }
     },
     onClose (data) {
       this.$emit('onClose', data)

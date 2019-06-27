@@ -3,9 +3,9 @@
     <h3 class="title">{{title}}</h3>
     <div class="historicalwarningBox">
       <div class="historicalwarningItem" v-for="(item, index) in dataList" :key="index">
-        <div>{{item.time}}</div>
-        <div><span>温度：{{item.tepm}}</span><span class="threshold">超出阈值：{{item.threshold}}</span></div>
-        <div>缺陷评估：<span class="alarm">{{item.defect}}</span></div>
+        <div>{{item.alarmTime}}</div>
+        <div><span>温度：{{item.alarmValue}}</span><span class="threshold">超出阈值：{{item.threshold}}</span></div>
+        <div>缺陷评估：<span :class="[itemData.alarmLevel == '1'?'alarm':(itemData.alarmLevel == '2'?'warning':'general')]">{{item.alarmLevelName}}</span></div>
       </div>
     </div>
   </div>
@@ -23,16 +23,7 @@ export default {
     dataList: {
       type: Array,
       default: () => {
-        return [
-          // {
-          //   title: '4号主变01#枪机',
-          //   tepm: '98℃',
-          //   threshold: '61%',
-          //   defect: '危急缺陷',
-          //   time: '05-21 13:33:23',
-          //   location: '此处显示设备具体方位'
-          // }
-        ]
+        return []
       }
     }
   }

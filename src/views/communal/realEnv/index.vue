@@ -244,6 +244,7 @@ export default {
       }
   },
   methods: {
+    // 使用接口地址：     /lenovo-device/api/device/location
       changeShow(name){
        this.cameraFlag = name
       },

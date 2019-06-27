@@ -15,14 +15,14 @@
       <div class="promptItemBox">
         <div class="itemData" v-for="(item, index) in itemData" :key="index">
           <el-row>
-            <el-col :span="15"><h5 class="title">{{item.title}}</h5></el-col>
+            <el-col :span="15"><h5 class="title">{{item.deviceName}}</h5></el-col>
             <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration(item)">复位</el-button><el-button type="success" round @click="retain(item)">保存</el-button></div></el-col>
           </el-row>
-          <p class="itemTitle">当前温度：<span>{{item.tepm}}</span></p>
+          <p class="itemTitle">当前温度：<span>{{item.alarmValue}}</span></p>
           <p class="itemTitle">超出阈值：<span>{{item.threshold}}</span></p>
           <!-- 接数据时要对此处的状态做处理，下方class类名已经写好 -->
-          <p class="itemTitle">缺陷评估：<span class="alarm">{{item.defect}}</span></p>
-          <p class="itemTitle itemBottomTitle ">{{item.time}}<span class="location">位置：{{item.location}}</span></p>
+          <p class="itemTitle">缺陷评估：<span :class="[itemData.alarmLevel == '1'?'alarm':(itemData.alarmLevel == '2'?'warning':'general')]">{{item.alarmLevel}}</span></p>
+          <p class="itemTitle itemBottomTitle ">{{item.alarmTime}}<span class="location">位置：{{item.deviceAddress}}</span></p>
         </div>
       </div>
     </div>
@@ -63,59 +63,39 @@ export default {
   },
   methods: {
     restoration (item) {
-      console.log('复位', item)
+      console.log('复位')
+      const url = "/lenovo-alarm/api/alarm/reset"
+      const query = {
+        alarmId: item.alarmId
+      }
     },
     retain (item) {
-      console.log('保存', item)
+      console.log('保存')
+      const url = "/lenovo-alarm/api/alarm/save"
+      const query = {
+        alarmId: item.alarmId
+      }
     },
     getData () {
       const that = this
       const url = '/lenovo-alarm/api/alarm/list'
       const query = {
-        'account': that.user.account,
         'pageIndex': 1,
-        'pageRows': -1,
+        'pageRows': 44321,
         'isDeal': '0',
         'deviceName': ''
       }
       getAxiosData(url, query).then(res => {
-        debugger
         if (res.code !== 200) {
-          that.value = 0
+          that.itemData = []
           return false
         }
-        that.value = res.data
+        that.itemData = res.data.tableData
       })
     }
   },
   mounted () {
     this.getData()
-    this.itemData = [
-        {
-          title: '4号主变01#枪机',
-          tepm: '98℃',
-          threshold: '61%',
-          defect: '危急缺陷',
-          time: '05-21 13:33:23',
-          location: '此处显示设备具体方位'
-        },
-        {
-          title: '4号主变01#枪机',
-          tepm: '98℃',
-          threshold: '61%',
-          defect: '危急缺陷',
-          time: '05-21 13:33:23',
-          location: '此处显示设备具体方位'
-        },
-        {
-          title: '4号主变01#枪机',
-          tepm: '98℃',
-          threshold: '61%',
-          defect: '危急缺陷',
-          time: '05-21 13:33:23',
-          location: '此处显示设备具体方位'
-        }
-      ]
   }
 }
 </script>
