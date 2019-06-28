@@ -44,6 +44,7 @@ export default {
     }
   },
   props: {
+    index: {},
     title: {
       type: String,
       default: () => {
@@ -89,7 +90,7 @@ export default {
       this.activeName = data
     },
     onClose (data) {
-      this.$emit('onClose', data)
+      this.$emit('onClose', data, this.index)
     },
     initData(){
         const that = this

@@ -56,7 +56,7 @@
             <div class="Once_primaryDiagram" style="position:absolute;left: -1283px;top: 20px;transform: scale(1.3)">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt1000Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.firstElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.firstElE,0)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxisDiagram']+'px'},
                     {'top':  item['yAxisDiagram']+'px'}
@@ -81,7 +81,7 @@
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt1000Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxis']+'px'},
                     {'top':  item['yAxis']+'px'}
@@ -107,7 +107,7 @@
             <div class="Once_primaryDiagram" style="position:absolute;left: -485px;top: -60px;transform: scale(1.3)">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt500Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.firstElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.firstElE,0)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxisDiagram']+'px'},
                     {'top':  item['yAxisDiagram']+'px'}
@@ -131,7 +131,7 @@
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt500Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxis']+'px'},
                     {'top':  item['yAxis']+'px'}
@@ -157,7 +157,7 @@
             <div class="Once_primaryDiagram" style="position:absolute;left: 400px;top: -80px;transform: scale(1.3)">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt220Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.firstElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.firstElE,0)" v-if="item['show']" :src="item['src']"
                      :style="[
                       {'left': item['xAxisDiagram']+'px'},
                       {'top':  item['yAxisDiagram']+'px'}
@@ -181,7 +181,7 @@
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt220Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
                      :style="[
                       {'left': item['xAxis']+'px'},
                       {'top':  item['yAxis']+'px'}
@@ -207,7 +207,7 @@
             <div class="Once_primaryDiagram" style="position:absolute;left: -890px;top: -50px;transform: scale(1.3)">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt110Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.firstElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.firstElE,0)" v-if="item['show']" :src="item['src']"
                      :style="[
                       {'left': item['xAxisDiagram']+'px'},
                       {'top':  item['yAxisDiagram']+'px'}
@@ -231,7 +231,7 @@
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt110Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE)" v-if="item['show']" :src="item['src']"
+                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
                      :style="[
                       {'left': item['xAxis']+'px'},
                       {'top':  item['yAxis']+'px'}
@@ -257,7 +257,7 @@
               <div class="Once_primaryDiagram" style="position:absolute;left: -130px;top: -85px;transform: scale(1.3)">
                 <div class="deviceList">
                   <template v-for="(item,index) in kilovolt35Pic">
-                    <img :key="index" @click="toDevice(item,index,$refs.firstElE)" v-if="item['show']" :src="item['src']"
+                    <img :key="index" @click="toDevice(item,index,$refs.firstElE,0)" v-if="item['show']" :src="item['src']"
                       :style="[
                         {'left': item['xAxisDiagram']+'px'},
                         {'top': item['yAxisDiagram']+'px'}
@@ -281,7 +281,7 @@
               <div class="realView">
                 <div class="deviceList">
                   <template v-for="(item,index) in kilovolt35Pic">
-                    <img :key="index" @click="toDevice(item,index,$refs.secondElE)" v-if="item['show']" :src="item['src']"
+                    <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
                       :style="[
                         {'left': item['xAxis']+'px'},
                         {'top': item['yAxis']+'px'}
@@ -297,8 +297,9 @@
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
         </div>
       </duno-main>
-    <div class="model" id="model" ref="model">
-      <popupinfo @onClose="onClose" :monitorDeviceType="monitorDeviceType" :deviceId="deviceId" v-if="popupinfoVisable" :visible="popupinfoVisable"></popupinfo>
+    <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
+      <!--弹窗必须传index  -->
+      <popupinfo @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
     </div>
     </div>
   </div>
@@ -370,7 +371,6 @@ export default {
   data () {
     const that = this
     return {
-      popupinfoVisable: false,
       isDiagram: false,
       mainlistShow: true,
       isFullscreen: false,
@@ -378,6 +378,20 @@ export default {
       visibleHotCamera: false,
       kilovoltList: [],
       deviceList:[],
+      modeList:[
+        {
+            id: 'modelLeft',
+            monitorDeviceType: '',
+            deviceId: '',
+            popupinfoVisable: false       //控制显示
+        },
+        {
+            id: 'modelRight',
+            monitorDeviceType: '',
+            deviceId: '',
+            popupinfoVisable: false      ////控制显示
+        }
+      ],
       deviceId: '',
       monitorDeviceType: '',
       cameraFlag: 'first',
@@ -390,26 +404,30 @@ export default {
         this.$nextTick(()=>{
             this.mainlistShow = true
         })
-        this.onClose(false)
+        this.onClose(false ,'all')
         console.log(now)
       }
   },
   methods: {
     // 使用接口地址：     /lenovo-device/api/device/location
-      changeShow(name){
-       this.cameraFlag = name
-      },
-      onClose(now){
-          this.visibleCamera = now
-          this.popupinfoVisable = now
+      onClose(now, index = 0){
+          if(index == 'all'){
+              this.modeList.map(item=>{
+                  item['popupinfoVisable'] = false
+              })
+              this.$forceUpdate()
+              return
+          }
+          this.modeList[index]['popupinfoVisable'] = now
+          this.$forceUpdate()
       },
       changeFullScreen(target){
           screenfull.toggle(target)
           this.domTarget = target
           this.appendModel(target)
       },
-      appendModel(target){
-          target.appendChild(this.$refs.model)
+      appendModel(target, index=0){
+          target.appendChild(this.$refs.modelRef[index])
       },
       changDiagram(now){
           this.isDiagram = now
@@ -418,7 +436,7 @@ export default {
         const that = this
         deviceLocation().then(res=>{
             let data = res.data
-                data.map(item=>{
+            data.map(item=>{
                     if(item['monitorDeviceType'] == 1)
                         item['src'] = that.light
                     else if(item['monitorDeviceType'] == 2){
@@ -450,15 +468,17 @@ export default {
         that.deviceList = data
         that.$forceUpdate()
       },
-      toDevice(item, index, target){
+      toDevice(item, index, target, modelIndex = 0){
         if(target){
-             this.appendModel(target)
+             this.appendModel(target, modelIndex)
          }
-        this.onClose(false)
-        this.deviceId = item['monitorDeviceId']
-        this.monitorDeviceType = item['monitorDeviceType']
+        this.modeList[modelIndex].popupinfoVisable = false
+        // 赋值----
+        this.modeList[modelIndex].deviceId = item['monitorDeviceId']
+        this.modeList[modelIndex].monitorDeviceType = item['monitorDeviceType']
+        //-----
         this.$nextTick(()=>{
-            this.popupinfoVisable = true
+            this.modeList[modelIndex].popupinfoVisable = true
         })
       }
   },
