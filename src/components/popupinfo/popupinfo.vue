@@ -57,11 +57,11 @@ export default {
       }
     },
     deviceId: {
-      type: Number,
+      type: [Number, String],
       default: 1
     },
     monitorDeviceType:{
-        type: String,
+        type: [Number, String],
         default: '1'
     },
     typeProp: {                    // 两种类型monitor(监控)  power(电网)
@@ -103,7 +103,6 @@ export default {
                 item['show'] = false
             })
             console.log(res.data.tableData)
-            debugger
             that.alarmHistoryData = res.data.tableData
         })
         let queryT = {
