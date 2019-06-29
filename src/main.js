@@ -21,8 +21,9 @@ Vue.use(ElementUI, { size: 'small', zIndex: 3000, transfer: true })
 Vue.prototype.$config = config
 
 /* 全局引入iview ui组件中的Poptip组件，并且以 el-poptip使用 */
-import { Poptip }  from 'iview'
+import { Poptip, Input }  from 'iview'
 Vue.component('el-poptip', Poptip)
+Vue.component('i-input', Input)
 
 new Vue({
   router,
