@@ -10,33 +10,34 @@ export const playCamera = (token) => {
 
 export const setPosition = (query) => {
     return axios.request({
-        url: 'setPreset',
+        url: '/lenovo-visible/api/visible-equipment/preset/create',
         params: { ...query },
         method: 'get'
     })
 }
 
-export const editPosition = (query) => {
+export const editPosition = (data) => {
     return axios.request({
-        url: 'editPoint',
-        params: { ...query },
-        method: 'get'
+        url: '/lenovo-visible/api/visible-equipment/preset/edit',
+        method: 'put',
+        data: data
     })
 }
 
 export const delPosition = (query) => {
     return axios.request({
-        url: 'delPoint',
+        url: '/lenovo-visible/api/visible-equipment/preset/delete',
         params: { ...query },
         method: 'get'
     })
 }
 
 export const mvPosition = (query) => {
+    debugger
     return axios.request({
-        url: 'pointMove',
-        params: { ...query },
-        method: 'get'
+        url: '/lenovo-visible/api/visible-equipment/ptz/preset-move',
+        method: 'put',
+        params: query
     })
 }
 

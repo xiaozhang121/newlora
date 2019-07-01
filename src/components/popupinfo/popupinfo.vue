@@ -1,7 +1,7 @@
 <template>
   <historical-documents width="500px" :tabPaneData="tabPaneData" @on-show="onShow" :dialogTableVisible="visible" @close="onClose">
     <div>
-      <realtime v-if="activeName == 'first'" />
+      <realtime :itemData="itemData" v-if="activeName == 'first'" />
       <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'second'" />
       <polygonal @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'third'" />
     </div>
@@ -44,6 +44,7 @@ export default {
     }
   },
   props: {
+    itemData:{},
     index: {},
     title: {
       type: String,
@@ -90,7 +91,7 @@ export default {
       this.activeName = data
     },
     onClose (data) {
-      this.$emit('onClose', data, this.index)
+      this.$emit('onClose', data, this.index, 'popupinfoVisable')
     },
     initData(){
         const that = this

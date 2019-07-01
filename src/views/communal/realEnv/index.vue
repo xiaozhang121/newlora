@@ -292,7 +292,7 @@
       </duno-main>
     <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
-      <popupinfo @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
+      <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
       <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
       <camera-pop @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
     </div>
@@ -370,6 +370,7 @@ export default {
   data () {
     const that = this
     return {
+      tempObj: {},
       isDiagram: false,
       mainlistShow: true,
       isFullscreen: false,
@@ -415,15 +416,17 @@ export default {
   },
   methods: {
     // 使用接口地址：     /lenovo-device/api/device/location
-      onClose(now, index = 0){
+      onClose(now, index = 0, target){
           if(index == 'all'){
               this.modeList.map(item=>{
                   item['popupinfoVisable'] = false
+                  item['cameraFlagVisible'] = false
+                  item['hotcameraFlagVisible'] = false
               })
               this.$forceUpdate()
               return
           }
-          this.modeList[index]['popupinfoVisable'] = now
+          this.modeList[index][target] = now
           this.$forceUpdate()
       },
       changeCameraShow(now){
@@ -435,6 +438,7 @@ export default {
           this.appendModel(target)
       },
       appendModel(target, index=0){
+          const that = this
           target.appendChild(this.$refs.modelRef[index])
       },
       changDiagram(now){
@@ -476,14 +480,22 @@ export default {
         that.deviceList = data
         that.$forceUpdate()
       },
-      toDevice(item, index, target, modelIndex = 0){
-        debugger
-        if(target){
+      toDevice(item, index, target, modelIndex = 0, flag){
+        this.tempObj = {
+            item: item,
+            index: index,
+            target: target,
+            modelIndex: modelIndex
+        }
+        if(target && !flag){
           this.appendModel(target, modelIndex)
         }
         console.log(item)
         if (item.deviceMessage.supportPreset) {
-          this.modeList[modelIndex].cameraFlagVisible = false
+          if(item.monitorDeviceType == '1')       // 可见光
+            this.modeList[modelIndex].cameraFlagVisible = false
+          else if(item.monitorDeviceType == '2')
+            this.modeList[modelIndex].hotcameraFlagVisible = false
         } else {
           this.modeList[modelIndex].popupinfoVisable = false
         }
@@ -494,8 +506,10 @@ export default {
         //-----
         this.$nextTick(()=>{
           if (item.deviceMessage.supportPreset) {
-
-            this.modeList[modelIndex].cameraFlagVisible = true
+              if(item.monitorDeviceType == '1')       // 可见光
+                  this.modeList[modelIndex].cameraFlagVisible = true
+              else if(item.monitorDeviceType == '2')
+                  this.modeList[modelIndex].hotcameraFlagVisible = true
           } else {
             this.modeList[modelIndex].popupinfoVisable = true
           }
@@ -510,6 +524,16 @@ export default {
     const that = this
     document.addEventListener('fullscreenchange', function(event){
         that.isFullscreen = !that.isFullscreen
+        if(that.isFullscreen){
+            let data = that.modeList
+            data.map(item=>{
+                item['popupinfoVisable'] = false
+                item['cameraFlagVisible'] = false
+                item['hotcameraFlagVisible'] = false
+            })
+            that.modeList = data
+            this.$forceUpdate()
+        }
     })
   }
 }

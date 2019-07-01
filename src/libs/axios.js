@@ -30,7 +30,9 @@ class HttpRequest {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
       // 加载停止
-      loadingInstance.close()
+      if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1 && !(url.indexOf('device/temperature')>-1))) {
+          loadingInstance.close()
+      }
     }
   }
   interceptors (instance, url) {
@@ -40,12 +42,14 @@ class HttpRequest {
       // 添加全局的loading...
       if (!Object.keys(that.queue).length) {
         // 加载开始
-        loadingInstance = Loading.service({
-          lock: true,
-          text: '加载中...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0)'
-        })
+        if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1) && !(url.indexOf('device/temperature')>-1)){
+            loadingInstance = Loading.service({
+                lock: true,
+                text: '加载中...',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0)'
+            })
+        }
       }
       that.queue[url] = true
       return config
@@ -56,14 +60,15 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.distroy(url)
       const body = res.data
-      const code = body.errorCode
+      const code = body.errorCode || body.status
       // console.log('返回参数的类型=', typeof body)
       if (typeof body === 'string' && !code) {
         const data = body
         return { data }
       }
       if (code === 200) {
-        const data = JSON.parse(JSON.stringify(body.data))
+        const resData = body.data || body.result
+        const data = JSON.parse(JSON.stringify(resData))
         const msg = body.errorMessage
         return { data, code, msg }
       }
@@ -73,7 +78,7 @@ class HttpRequest {
         })
       }
       if (code !== 200) {
-        const data = body.data
+        const data = body.data || body.result
         const msg = body.errorMessage
         return { data, code, msg }
       }

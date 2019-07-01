@@ -1,7 +1,7 @@
 <template>
     <div class="cameraPop" >
         <historical-documents  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
-            <camera-panel :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
+            <camera-panel  :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
             <polygonal v-else-if="cameraFlag == 'fifth'"></polygonal>
             <historyfile :title="title" :itemId="itemId" v-if="cameraFlag == 'sixth'"/>
         </historical-documents>
@@ -54,7 +54,7 @@
                 this.cameraFlag = now
             },
             onClose(data){
-                this.$emit('onClose',data, this.index)
+                this.$emit('onClose',data, this.index, 'cameraFlagVisible')
             },
             disposeData(data) {
                 if (data && JSON.stringify(data) !== '{}') {

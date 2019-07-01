@@ -41,15 +41,16 @@
                 </div>
             </div>
         </template>
-        <template  v-if="panelType == 'second'">
+        <template  v-else-if="panelType == 'second'">
             <div class="title">可见光云台-TGTYS</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
-                    <div class="main">
-                        <video id="video1" width="400" height="250" controls></video>
+                    <div class="main" style="width: 400px; height: 250px">
+                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                        <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                        <span @click="fullScreen()"><i class="iconfont icon-luxiang"></i>全屏</span>
                         <span><i class="iconfont icon-jietu"></i>录像</span>
                         <span><i class="iconfont icon-quanping"></i>存图</span>
                     </div>
@@ -84,15 +85,16 @@
                 </div>
             </div>
         </template>
-        <template  v-if="panelType == 'third'">
+        <template  v-else-if="panelType == 'third'">
             <div class="title">可见光云台-TGTYS</div>
             <div class="cameraMain">
-                <div class="camera" v-if="showCamera" style="height: inherit;">
-                    <div class="main" style="height: inherit;">
-                        <video id="video1" width="400" height="250" controls></video>
+                <div class="camera" v-if="showCamera">
+                    <div class="main" style="width: 400px; height: 250px">
+                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                        <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
-                    <div class="explain iconList" style="padding: 20px 0">
-                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                    <div class="explain iconList">
+                        <span @click="fullScreen()"><i class="iconfont icon-luxiang"></i>全屏</span>
                         <span><i class="iconfont icon-jietu"></i>录像</span>
                         <span><i class="iconfont icon-quanping"></i>存图</span>
                     </div>
@@ -215,7 +217,7 @@
 </template>
 
 <script>
-    import {getAxiosData, putAxiosData} from '@/api/axiosType'
+    import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
     import  { playCamera, controlCamera, setPosition, mvPosition, editPosition, delPosition } from '@/api/camera'
     import dunoTable from '_c/duno-m/table/Table'
     import clock from '@/assets/camera/clock.png'
@@ -272,7 +274,7 @@
                     },
                     {
                         title: '预置位名称',
-                        key: 'name',
+                        key: 'presetName',
                         align: 'center',
                         minWidth: 100,
                         tooltip: true
@@ -297,7 +299,7 @@
                                 temp = this.orangePointP
                             let newArr = null
                             if(params.row.flag == 'play')
-                                newArr =  [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'}, on: { click: () => { this.checkPostion(params.row.pid) } } }) ]
+                                newArr =  [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'}, on: { click: () => { this.checkPostion(params.row.psIndex) } } }) ]
                             else
                                 newArr = [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'} }) ]
                             return h('div', newArr)
@@ -333,7 +335,7 @@
                     },
                     {
                         title: '预置位名称',
-                        key: 'name',
+                        key: 'presetName',
                         align: 'center',
                         minWidth: 100,
                         tooltip: true
@@ -351,7 +353,7 @@
                             }, [
                                 h('el-button', {
                                     class:'tableBtnName', style: {backgroundImage:'url('+ this.play +')'},
-                                    on: { click: () => { this.checkPostion(params.row.pid) } }
+                                    on: { click: () => { this.checkPostion(params.row.psIndex) } }
                                 })
                             ]))
                             newArr.push(h('Tooltip', {
@@ -418,8 +420,7 @@
                     stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
                 },
                 playerOptions:{
-                    width:400,
-                    height:250,
+                    width:720,
                     sources: [{
                         type: "rtmp/flv",
                         src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks2'
@@ -431,25 +432,37 @@
                 activeNum: -1
             }
         },
+        computed:{
+            deviceId(){
+                return this.itemData['monitorDeviceId'].toString()
+            }
+        },
         watch: {
+            panelType(){
+                debugger
+                const that = this
+                this.$nextTick(()=> {
+                    // that.initCamera()
+                })
+            },
             topBtnListFlag(now){
                 if(now == 0){
                     const that = this
                     this.$nextTick(()=> {
-                        that.initCamera()
+                        // that.initCamera()
                     })
                 }
             },
             leftBtnListFlag(now){
                 const that = this
                 this.$nextTick(()=> {
-                    that.initCamera()
+                    // that.initCamera()
                 })
             },
             flagNow(now){
                 const that = this
                 // alert(now)
-                mvPosition({pid:this.dataList[0]['dataList'][now]['pid']})
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+this.dataList[0]['dataList'][now]['psIndex'])
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
                 that.lightTimer = setInterval(()=>{
@@ -467,10 +480,7 @@
             }
         },
         props: {
-            deviceId:{
-                type: String,
-                default: ''
-            },
+            itemData:{ },
             panelType: {
                 type: String,
                 default: 'first'
@@ -486,29 +496,39 @@
             }
         },
         methods:{
+            getListData(){
+                const that = this
+                let url = '/lenovo-visible/api/visible-equipment/preset/list-name'
+                getAxiosData(url, {deviceId: that.deviceId}).then(res=>{
+                    let data = res.data
+                    data.map(item=>{
+                        item['flag'] = 'play'
+                    })
+                    that.dataList[0]['dataList'] = data
+                    that.dataListd[0]['dataList'] = data
+                })
+            },
             fullScreen(){
                 debugger
                 let ele = this.$refs.videoPlayer.$el.getElementsByClassName('vjs-fullscreen-control')[0].click();
             },
             checkPostion(pid){
                 const that = this
-                mvPosition({pid:pid}).then(res=>{
-
-                })
+                debugger
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+pid)
             },
             editTableData(params){
                 const that = this
                 that.editIndex = params.index
-                that.addPosInput = params.row.name
+                that.addPosInput = params.row.presetName
                 that.temparams = params
                 that.isEdit = true
             },
             delTableData(params){
                 const that = this
-                delPosition({pid:params.row.pid})
-                this.dataListd[0]['dataList'].splice(params.index, 1)
-                this.dataList[0]['dataList'].splice(params.index, 1)
-                sessionStorage.setItem('dataList',JSON.stringify( that.dataList[0]['dataList']))
+                deleteDataId('/lenovo-visible/api/visible-equipment/preset/delete/'+params.row.id, {id:params.row.id}).then(res=>{
+                    that.getListData()
+                })
             },
             addPosition(){
                 const that = this
@@ -519,32 +539,19 @@
                         return
                     }
                     let tempName = that.addPosInput
-                    setPosition({'name':that.addPosInput}).then(res=>{
-                        that.dataListd[0]['dataList'].push({
-                            flag: 'play',
-                            ago: false,
-                            pid: res.data,
-                            name: tempName,
-                            deal: '删除'
-                        })
-                        that.dataList[0]['dataList'].push({
-                            flag: 'play',
-                            ago: false,
-                            pid: res.data,
-                            name: tempName,
-                            deal: '删除'
-                        })
-                        sessionStorage.setItem('dataList',JSON.stringify( that.dataList[0]['dataList']))
+                    postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId}).then(res=>{
+                        that.getListData()
                     })
                     that.addPosInput = ''
                 }else{
                     // 修改
-                    this.dataListd[0]['dataList'][this.editIndex].name = that.addPosInput
-                    this.dataList[0]['dataList'][this.editIndex].name = that.addPosInput
+                    let temp = that.addPosInput
                     this.$forceUpdate()
                     that.addPosInput = ''
                     that.isEdit = !that.isEdit
-                    editPosition({ pid: that.temparams.row.pid, name:that.temparams.row.name })
+                    putAxiosData('/lenovo-visible/api/visible-equipment/preset/edit', { deviceId: that.deviceId.toString(), id: that.temparams.row.id.toString(), presetName:temp }).then(res=>{
+                        that.getListData()
+                    })
                     sessionStorage.setItem('dataList',JSON.stringify( that.dataListd[0]['dataList']))
                 }
             },
@@ -642,39 +649,38 @@
                 this.$forceUpdate()
             },
             onClose(){
+                this.panelType = 'none'
                 this.$emit('on-close')
             },
             viewCamera(command, flag){
                 this.activeNum = command
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                    .replace("{step}", this.sliderValue).replace("{flag}", flag);
+                    .replace("{step}", this.sliderValue).replace("{flag}", Number(flag));
                 putAxiosData(url).then(res => {
                 },error=>{
                     this.$message.error(error.message);
                 })
             },
             initCamera(){
-                return new Promise((resolve, reject)=>{
-                    if (Wfs.isSupported()) {
-                        let video1 = document.getElementById("video1"),
-                            wfs = new Wfs();
-                        wfs.attachMedia(video1, 'ch1');
-                        resolve(200)
-                    }
-                })
+                const that = this
+                const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
+                getAxiosData(url, {}).then(res => {
+                     that.playerOptions.sources[0].src = res.data;
+                });
             }
         },
         created(){
             const that = this
-            this.playerOptions.sources[0].src = 'rtmp://172.16.4.45:1935/live/test'
             if(sessionStorage.getItem('dataList')){
                 that.dataListd[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))
                 that.dataList[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))
             }
+        },
+        mounted(){
+            const that = this
             this.$nextTick(()=>{
-                that.initCamera().then(res=>{
-
-                })
+                that.initCamera()   // 初始化摄像头
+                that.getListData()  // 获取表格数据
             })
         }
     }
@@ -692,6 +698,12 @@
         /*border: 1px solid #04e6e7;*/
         padding: 1px 14px;
         width: 750px;
+        .vjs-custom-skin{
+            transform: scale(0.6);
+            transform-origin: left top;
+            position: relative;
+            left: -7px;
+        }
         /*background: rgba(0,39,70,0.8);*/
         .control_slider{
             display: flex;
