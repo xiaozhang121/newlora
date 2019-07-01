@@ -41,7 +41,8 @@
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "vue-video-player": "^5.0.2"
   },
   "postcss": {
     "plugins": {

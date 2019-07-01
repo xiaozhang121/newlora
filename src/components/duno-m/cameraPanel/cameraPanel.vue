@@ -4,11 +4,12 @@
             <div class="title">可见光云台-TGTYS</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
-                    <div class="main">
-                        <video id="video1" width="400" height="250" controls></video>
+                    <div class="main" style="width: 400px; height: 250px">
+                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                        <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
+                        <span @click="fullScreen()"><i class="iconfont icon-luxiang"></i>全屏</span>
                         <span><i class="iconfont icon-jietu"></i>录像</span>
                         <span><i class="iconfont icon-quanping"></i>存图</span>
                     </div>
@@ -34,7 +35,7 @@
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue"></el-slider>
+                        <el-slider class="elSlider" v-model="sliderValue"  :min="1" :max="8"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -117,7 +118,7 @@
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue"></el-slider>
+                        <el-slider class="elSlider" v-model="sliderValue" :min="1" :max="8"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -214,13 +215,17 @@
 </template>
 
 <script>
+    import {getAxiosData, putAxiosData} from '@/api/axiosType'
     import  { playCamera, controlCamera, setPosition, mvPosition, editPosition, delPosition } from '@/api/camera'
     import dunoTable from '_c/duno-m/table/Table'
     import clock from '@/assets/camera/clock.png'
     import { DunoCharts } from '_c/duno-charts'
+    import 'video.js/dist/video-js.css'
+    import { videoPlayer } from 'vue-video-player'
+    import 'videojs-flash'
     export default {
         name: 'cameraPanel',
-        components: { dunoTable,DunoCharts },
+        components: { dunoTable,DunoCharts, videoPlayer },
         data() {
             return {
                 sliderValue: 0,
@@ -406,6 +411,23 @@
                 squeraClick: require('@/assets/camera/squeraClick.png'),
                 edit: require('@/assets/images/btn/edit.png'),
                 del:require('@/assets/images/btn/del.png'),
+                operateUrl: {
+                    play: '/lenovo-visible/api/visible-equipment/stable/play/{deviceId}',// 视频播放
+                    pause: '/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}',// 暂停
+                    ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{id}/{cmd}/{step}/{flag}',//
+                    stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
+                },
+                playerOptions:{
+                    width:400,
+                    height:250,
+                    sources: [{
+                        type: "rtmp/flv",
+                        src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks2'
+                    }],
+                    techOrder: ['flash'],
+                    autoplay: true,
+                    controls: true
+                },
                 activeNum: -1
             }
         },
@@ -446,6 +468,10 @@
             }
         },
         props: {
+            deviceId:{
+                type: String,
+                default: ''
+            },
             panelType: {
                 type: String,
                 default: 'first'
@@ -461,6 +487,10 @@
             }
         },
         methods:{
+            fullScreen(){
+                debugger
+                let ele = this.$refs.videoPlayer.$el.getElementsByClassName('vjs-fullscreen-control')[0].click();
+            },
             checkPostion(pid){
                 const that = this
                 mvPosition({pid:pid}).then(res=>{
@@ -619,7 +649,11 @@
             },
             viewCamera(command, flag){
                 this.activeNum = command
-                controlCamera({command: command, flag:flag}).then(res=>{
+                let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
+                    .replace("{step}", this.sliderValue).replace("{flag}", flag);
+                putAxiosData(url).then(res => {
+                },error=>{
+                    this.$message.error(error.message);
                 })
             },
             initCamera(){
@@ -638,6 +672,7 @@
         created(){
             const that = this
             debugger
+            this.playerOptions.sources[0].src = 'rtmp://172.16.4.45:1935/live/test'
             if(sessionStorage.getItem('dataList')){
                 that.dataListd[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))
                 that.dataList[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))

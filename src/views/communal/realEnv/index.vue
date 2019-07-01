@@ -1,11 +1,4 @@
 <template>
-<!--    <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="true" class="historical">
-            <camera-panel :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
-            <polygonal v-else-if="cameraFlag == 'fifth'"></polygonal>
-          </historical-documents>
-  <historical-documents  width="40%" @on-show="changeShow" @close="onClose" :dialogTableVisible="visibleHotCamera" class="historical">
-    <hot-camera :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
-  </historical-documents>-->
   <div class="realEnv">
     <duno-btn-top @on-active="deviceShowHandle" @on-diagram="changDiagram" />
     <div class="mainList" v-if="mainlistShow">
@@ -301,6 +294,7 @@
       <!--弹窗必须传index  -->
       <popupinfo @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
       <camera-pop @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :visible="item['cameraFlagVisible']"/>
+      <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
     </div>
     </div>
   </div>
@@ -318,7 +312,8 @@ import drappable  from '_c/duno-m/drappable'
 import Polygonal from '_c/duno-c/Polygonal'
 import cameraPanel from '_c/duno-m/cameraPanel'
 import cameraPop from '_c/duno-m/cameraPop'
-import hotCamera from '_c/duno-m/hotCamera'
+import hotcameraPop from '_c/duno-m/hotcameraPop'                 // 可见光
+import hotCamera from '_c/duno-m/hotCamera'                       // 红外
 import { popupinfo, popupOneInfo } from '_c/popupinfo'
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
 import { deviceLocation } from '@/api/currency/currency.js'
@@ -336,7 +331,8 @@ export default {
       Polygonal,
       popupinfo,
       popupOneInfo,
-      cameraPop
+      cameraPop,
+      hotcameraPop
   },
   computed:{
     ...mapState([
@@ -387,14 +383,16 @@ export default {
             monitorDeviceType: '',
             deviceId: '',
             popupinfoVisable: false,       //控制显示
-            cameraFlagVisible: true
+            cameraFlagVisible: false,
+            hotcameraFlagVisible: false
         },
         {
             id: 'modelRight',
             monitorDeviceType: '',
             deviceId: '',
             popupinfoVisable: false,      ////控制显示
-            cameraFlagVisible: false
+            cameraFlagVisible: false,
+            hotcameraFlagVisible: false
         }
       ],
       deviceId: '',
@@ -477,6 +475,7 @@ export default {
         that.$forceUpdate()
       },
       toDevice(item, index, target, modelIndex = 0){
+        debugger
         if(target){
              this.appendModel(target, modelIndex)
          }
