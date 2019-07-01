@@ -449,7 +449,6 @@
             flagNow(now){
                 const that = this
                 // alert(now)
-                debugger
                 mvPosition({pid:this.dataList[0]['dataList'][now]['pid']})
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
@@ -521,7 +520,6 @@
                     }
                     let tempName = that.addPosInput
                     setPosition({'name':that.addPosInput}).then(res=>{
-                        debugger
                         that.dataListd[0]['dataList'].push({
                             flag: 'play',
                             ago: false,
@@ -537,7 +535,6 @@
                             deal: '删除'
                         })
                         sessionStorage.setItem('dataList',JSON.stringify( that.dataList[0]['dataList']))
-                        debugger
                     })
                     that.addPosInput = ''
                 }else{
@@ -657,10 +654,8 @@
                 })
             },
             initCamera(){
-                debugger
                 return new Promise((resolve, reject)=>{
                     if (Wfs.isSupported()) {
-                        debugger
                         let video1 = document.getElementById("video1"),
                             wfs = new Wfs();
                         wfs.attachMedia(video1, 'ch1');
@@ -671,7 +666,6 @@
         },
         created(){
             const that = this
-            debugger
             this.playerOptions.sources[0].src = 'rtmp://172.16.4.45:1935/live/test'
             if(sessionStorage.getItem('dataList')){
                 that.dataListd[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))

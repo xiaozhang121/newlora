@@ -293,8 +293,8 @@
     <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
       <popupinfo @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
-      <camera-pop @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :visible="item['cameraFlagVisible']"/>
       <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
+      <camera-pop @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
     </div>
     </div>
   </div>
@@ -384,7 +384,8 @@ export default {
             deviceId: '',
             popupinfoVisable: false,       //控制显示
             cameraFlagVisible: false,
-            hotcameraFlagVisible: false
+            hotcameraFlagVisible: false,
+            itemData: {}
         },
         {
             id: 'modelRight',
@@ -392,7 +393,8 @@ export default {
             deviceId: '',
             popupinfoVisable: false,      ////控制显示
             cameraFlagVisible: false,
-            hotcameraFlagVisible: false
+            hotcameraFlagVisible: false,
+            itemData: {}
         }
       ],
       deviceId: '',
@@ -477,15 +479,26 @@ export default {
       toDevice(item, index, target, modelIndex = 0){
         debugger
         if(target){
-             this.appendModel(target, modelIndex)
-         }
-        this.modeList[modelIndex].popupinfoVisable = false
+          this.appendModel(target, modelIndex)
+        }
+        console.log(item)
+        if (item.deviceMessage.supportPreset) {
+          this.modeList[modelIndex].cameraFlagVisible = false
+        } else {
+          this.modeList[modelIndex].popupinfoVisable = false
+        }
         // 赋值----
         this.modeList[modelIndex].deviceId = item['monitorDeviceId']
         this.modeList[modelIndex].monitorDeviceType = item['monitorDeviceType']
+        this.modeList[modelIndex].itemData = item
         //-----
         this.$nextTick(()=>{
+          if (item.deviceMessage.supportPreset) {
+
+            this.modeList[modelIndex].cameraFlagVisible = true
+          } else {
             this.modeList[modelIndex].popupinfoVisable = true
+          }
         })
       }
   },

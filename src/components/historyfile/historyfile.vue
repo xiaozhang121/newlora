@@ -141,7 +141,14 @@ export default {
     itemId: {
       type: String | Number,
       default: () => {
-        return 1
+        return 0
+      }
+    }
+  },
+  watch: {
+    itemId(now) {
+      if (now) {
+        this.getData()
       }
     }
   },
@@ -216,7 +223,9 @@ export default {
     }
   },
   mounted() {
-    this.getData()
+    if (this.itemId) {
+      this.getData()
+    }
   }
 }
 </script>
