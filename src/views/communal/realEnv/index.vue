@@ -300,6 +300,7 @@
     <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
       <popupinfo @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
+      <camera-pop @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :visible="item['cameraFlagVisible']"/>
     </div>
     </div>
   </div>
@@ -316,6 +317,7 @@ import dunoMain  from '_c/duno-m/duno-main'
 import drappable  from '_c/duno-m/drappable'
 import Polygonal from '_c/duno-c/Polygonal'
 import cameraPanel from '_c/duno-m/cameraPanel'
+import cameraPop from '_c/duno-m/cameraPop'
 import hotCamera from '_c/duno-m/hotCamera'
 import { popupinfo, popupOneInfo } from '_c/popupinfo'
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
@@ -333,7 +335,8 @@ export default {
       HistoricalDocuments,
       Polygonal,
       popupinfo,
-      popupOneInfo
+      popupOneInfo,
+      cameraPop
   },
   computed:{
     ...mapState([
@@ -383,13 +386,15 @@ export default {
             id: 'modelLeft',
             monitorDeviceType: '',
             deviceId: '',
-            popupinfoVisable: false       //控制显示
+            popupinfoVisable: false,       //控制显示
+            cameraFlagVisible: true
         },
         {
             id: 'modelRight',
             monitorDeviceType: '',
             deviceId: '',
-            popupinfoVisable: false      ////控制显示
+            popupinfoVisable: false,      ////控制显示
+            cameraFlagVisible: false
         }
       ],
       deviceId: '',
@@ -420,6 +425,9 @@ export default {
           }
           this.modeList[index]['popupinfoVisable'] = now
           this.$forceUpdate()
+      },
+      changeCameraShow(now){
+          this.cameraFlag = now
       },
       changeFullScreen(target){
           screenfull.toggle(target)
