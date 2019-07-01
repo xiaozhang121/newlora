@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h4>{{title}}</h4>
+  <div class="historyfile">
+    <h4 class="title">{{title}}</h4>
     <duno-tables-tep
       :columns="columns"
       :data="dataList"
@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { getAxiosData, deleteDataId, postAxiosData, putAxiosData } from '@/api/axiosType'
+import { getAxiosData, deleteDataId, putAxiosData } from '@/api/axiosType'
 import { DunoTablesTep } from "_c/duno-tables-tep"
 import HistoricalDocuments from "_c/duno-c/HistoricalDocuments"
 import { error } from 'util';
@@ -230,6 +230,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.historyfile {
+  .title {
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: bold;
+  }
+}
+
 .viewBox {
   width: 100%;
   height: 0;
