@@ -1,6 +1,6 @@
 <template>
   <div class="polygonal" :style="{width:width+'px'}">
-     <p>云台可见光-TGTYS</p>
+    <h4 class="title">{{title}}</h4>
     <div class="time">
       <div>
         <el-radio-group v-model="radio" @change="onChangeRadio">
@@ -94,6 +94,21 @@ export default {
       default: () => {
         return true
       }
+    },
+    title: {
+      type: String,
+      default: () => {
+        return ''
+      }
+    },
+    itemId: {
+      type: String | Number
+    },
+    type: {
+      type: String,
+      default: () => {
+        return ''
+      }
     }
   },
   data() {
@@ -175,7 +190,11 @@ export default {
     onChangeTime(data) {
       this.datePeriod = data;
       this.radio = null;
-      this.$emit("onChange", this.datePeriod);
+      if (!data) {
+        this.onChangeRadio(1)
+      } else {
+        this.$emit("onChange", this.datePeriod);
+      }
     },
     handle() {
       this.$emit("changeHandle");
@@ -225,13 +244,25 @@ export default {
       deep: true
     }
   },
-  mounted () {}
+  mounted () {
+    if (this.radio) {
+      this.onChangeRadio(this.radio)
+    } else if (!this.radio && this.datePeriod) {
+      this.onChangeTime(this.datePeriod)
+    }
+
+  }
 };
 </script>
 
 <style lang="scss">
 .polygonal {
   height: 100%;
+  .title {
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: bold;
+  }
   .time {
     overflow: hidden;
     margin-top: 20px;
