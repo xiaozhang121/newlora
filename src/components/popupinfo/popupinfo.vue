@@ -3,7 +3,7 @@
     <div>
       <realtime :itemData="itemData" v-if="activeName == 'first'" />
       <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'second'" />
-      <polygonal @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'third'" />
+      <polygonal  @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'third'" />
     </div>
   </historical-documents>
 </template>

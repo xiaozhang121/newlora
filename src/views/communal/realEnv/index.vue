@@ -4,21 +4,24 @@
     <div class="mainList" v-if="mainlistShow">
     <duno-main  v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
-        <div class="toward">
+        <div :class="['toward']">
           <img :src="toward"/>
         </div>
+        <drappable idName="other" class="weatherCheck">
+          <img id="weatherCheck" @mouseup="mouseupWeatherCheck"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
+        </drappable>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="deviceList">
             <template  v-for="(item, index) in deviceList">
-              <img :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
-              :style="[
-              {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
-              {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
-              ]"
-              />
+                <img  :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                :style="[
+                {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
+                {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
+                ]"
+                />
             </template>
           </div>
-          <div class="allShowPic">
+          <div :class="['allShowPic']">
             <div class="Once_primaryDiagram" v-if="isDiagram">
               <img :src="kilovolt1000" />
               <img :src="kilovolt500" />
@@ -294,7 +297,7 @@
       <!--弹窗必须传index  -->
       <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
       <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
-      <camera-pop @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
+      <camera-pop @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
     </div>
     </div>
   </div>
@@ -401,7 +404,8 @@ export default {
       deviceId: '',
       monitorDeviceType: '',
       cameraFlag: 'first',
-      domTarget: null
+      domTarget: null,
+      tempDeviceList: null
     }
   },
   watch: {
@@ -415,6 +419,35 @@ export default {
       }
   },
   methods: {
+      changPoint(monitorDeviceType){
+          const that = this
+          that.$nextTick(()=>{
+              let data = JSON.parse(JSON.stringify(that.deviceList))
+              if(monitorDeviceType == -1){
+                  data.map(item=>{
+                      item['isShow'] = true
+                  })
+              }else if(monitorDeviceType == 1){
+                  data.map(item=>{
+                      item['isShow'] = false
+                  })
+                  data= data.filter(item=>{
+                      return item['monitorDeviceType'] == 1
+                  })
+                  data.map(item=>{
+                      item['isShow'] = true
+                  })
+              }
+              that.deviceList = data
+              that.$forceUpdate()
+          })
+      },
+      mouseupWeatherCheck(){
+          let flag = this.isOverlap('moveTarget', 'weatherCheck')
+          if(flag){
+              alert('')
+          }
+      },
     // 使用接口地址：     /lenovo-device/api/device/location
       onClose(now, index = 0, target){
           if(index == 'all'){
@@ -428,6 +461,30 @@ export default {
           }
           this.modeList[index][target] = now
           this.$forceUpdate()
+      },
+      isOverlap(idOne,idTwo){
+          debugger
+          let objOne=$("#"+idOne),
+              objTwo=$("#"+idTwo),
+              offsetOne = objOne.offset(),
+              offsetTwo = objTwo.offset(),
+              topOne=offsetOne.top,
+              topTwo=offsetTwo.top,
+              leftOne=offsetOne.left,
+              leftTwo=offsetTwo.left,
+              widthOne = objOne.width(),
+              widthTwo = objTwo.width(),
+              heightOne = objOne.height(),
+              heightTwo = objTwo.height();
+          let leftTop = leftTwo > leftOne && leftTwo < leftOne+widthOne
+              && topTwo > topOne && topTwo < topOne+heightOne,
+              rightTop = leftTwo+widthTwo > leftOne && leftTwo+widthTwo < leftOne+widthOne
+                  && topTwo > topOne && topTwo < topOne+heightOne,
+              leftBottom = leftTwo > leftOne && leftTwo < leftOne+widthOne
+                  && topTwo+heightTwo > topOne && topTwo+heightTwo < topOne+heightOne,
+              rightBottom = leftTwo+widthTwo > leftOne && leftTwo+widthTwo < leftOne+widthOne
+                  && topTwo+heightTwo > topOne && topTwo+heightTwo < topOne+heightOne;
+          return leftTop || rightTop || leftBottom || rightBottom;
       },
       changeCameraShow(now){
           this.cameraFlag = now
@@ -455,8 +512,10 @@ export default {
                         item['src'] = that.redLight
                     }
                     item['show'] = true
+                    item['isShow'] = true
                 })
             that.deviceList = data
+            that.tempDeviceList = data
         })
       },
       deviceShowHandle(arr){
@@ -480,7 +539,18 @@ export default {
         that.deviceList = data
         that.$forceUpdate()
       },
+      visableHandle(item, flag, modelIndex){
+          if (item.deviceMessage.supportPreset) {
+              if(item.monitorDeviceType == '1')       // 可见光
+                  this.modeList[modelIndex].cameraFlagVisible = flag
+              else if(item.monitorDeviceType == '2')
+                  this.modeList[modelIndex].hotcameraFlagVisible = flag
+          } else {
+              this.modeList[modelIndex].popupinfoVisable = flag
+          }
+      },
       toDevice(item, index, target, modelIndex = 0, flag){
+        this.onClose(false ,'all')
         this.tempObj = {
             item: item,
             index: index,
@@ -491,28 +561,14 @@ export default {
           this.appendModel(target, modelIndex)
         }
         console.log(item)
-        if (item.deviceMessage.supportPreset) {
-          if(item.monitorDeviceType == '1')       // 可见光
-            this.modeList[modelIndex].cameraFlagVisible = false
-          else if(item.monitorDeviceType == '2')
-            this.modeList[modelIndex].hotcameraFlagVisible = false
-        } else {
-          this.modeList[modelIndex].popupinfoVisable = false
-        }
+        this.visableHandle(item, false, modelIndex)
         // 赋值----
         this.modeList[modelIndex].deviceId = item['monitorDeviceId']
         this.modeList[modelIndex].monitorDeviceType = item['monitorDeviceType']
         this.modeList[modelIndex].itemData = item
         //-----
-        this.$nextTick(()=>{
-          if (item.deviceMessage.supportPreset) {
-              if(item.monitorDeviceType == '1')       // 可见光
-                  this.modeList[modelIndex].cameraFlagVisible = true
-              else if(item.monitorDeviceType == '2')
-                  this.modeList[modelIndex].hotcameraFlagVisible = true
-          } else {
-            this.modeList[modelIndex].popupinfoVisable = true
-          }
+        this.$nextTick(()=> {
+            this.visableHandle(item, true, modelIndex)
         })
       }
   },
@@ -524,22 +580,33 @@ export default {
     const that = this
     document.addEventListener('fullscreenchange', function(event){
         that.isFullscreen = !that.isFullscreen
-        if(that.isFullscreen){
             let data = that.modeList
             data.map(item=>{
-                item['popupinfoVisable'] = false
-                item['cameraFlagVisible'] = false
-                item['hotcameraFlagVisible'] = false
+                if(item['popupinfoVisable']){
+                    that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+                }
+                if(item['cameraFlagVisible']){
+                    that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+                }
+                if(item['hotcameraFlagVisible']){
+                    that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+                }
             })
             that.modeList = data
             this.$forceUpdate()
-        }
     })
   }
 }
 </script>
 <style lang="scss">
 .realEnv{
+    .weatherCheck{
+      position: absolute; bottom: 14px; right: 62px;z-index: 1;
+    }
+    .turnHCircle{
+      transform: rotate(180deg);
+      transform-origin: 53% 292px;
+    }
     .fullScreen{
       color: white;
       position: absolute;

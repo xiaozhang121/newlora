@@ -29,7 +29,7 @@
         :seriesOption="seriesOption"
       />
     </div>
-    <p class="move">你可拖拽设备图标至此处进行对比</p>
+    <p class="move moveTarget" id="moveTarget"><span>你可拖拽设备图标至此处进行对比</span></p>
   </div>
 </template>
 
@@ -281,6 +281,7 @@ export default {
     }
   }
   &  .move {
+    height: 40px;
     color: #999;
     text-align: center;
     font-size: 14px !important;

@@ -14,7 +14,7 @@
       </el-col>
     </el-row>
     <div class="progress">
-      <el-progress type="circle" :percentage="tepmNum" :width="100" color="#87CEEB" :format="format" />
+      <el-progress type="circle" :percentage="tepmNum" :width="90" color="#87CEEB" :format="format" />
       <p>温度℃</p>
     </div>
   </div>
@@ -38,7 +38,7 @@ export default {
               height: 120,
               sources: [{
                   type: "rtmp/flv",
-                  src: 'rtmp://122.96.115.82:1935/live/infrared'
+                  src: ''
               }],
               techOrder: ['flash'],
               autoplay: true,
@@ -89,7 +89,18 @@ export default {
     },
     format(percentage) {
       return `${percentage}`;
+    },
+    initCamera(){
+        const that = this
+        const url = '/lenovo-iir/device/video/url/rtmp/'+that.deviceId;
+        getAxiosData(url, {}).then(res => {
+            that.playerOptions.sources[0].src = res.data;
+            that.$forceUpdate()
+        });
     }
+  },
+  created(){
+      this.initCamera()
   },
   mounted(){
       putAxiosData('/lenovo-iir/device/video/play/'+this.deviceId)
@@ -101,7 +112,7 @@ export default {
 </script>
 <style lang="scss">
   .realtime_video > div{
-    transform: scale(1.2);
+    transform: scale(1.355, 1.2);
     transform-origin: left top;
   }
   .el-progress__text{
@@ -132,6 +143,9 @@ export default {
     text-align: center;
     margin-top: 20px;
     font-size: 18px;
+    p{
+      font-size: 16px !important;
+    }
   }
 }
 </style>

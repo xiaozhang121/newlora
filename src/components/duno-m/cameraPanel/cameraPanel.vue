@@ -1,7 +1,7 @@
 <template>
     <div class="cameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
-            <div class="title">可见光云台-TGTYS</div>
+            <div class="title">{{ cameraName }}</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
@@ -42,7 +42,7 @@
             </div>
         </template>
         <template  v-else-if="panelType == 'second'">
-            <div class="title">可见光云台-TGTYS</div>
+            <div class="title">{{ cameraName }}</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
@@ -86,7 +86,7 @@
             </div>
         </template>
         <template  v-else-if="panelType == 'third'">
-            <div class="title">可见光云台-TGTYS</div>
+            <div class="title">{{ cameraName }}</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
@@ -435,6 +435,9 @@
         computed:{
             deviceId(){
                 return this.itemData['monitorDeviceId'].toString()
+            },
+            cameraName(){
+                return this.itemData['deviceMessage']['cameraName']
             }
         },
         watch: {
@@ -671,10 +674,6 @@
         },
         created(){
             const that = this
-            if(sessionStorage.getItem('dataList')){
-                that.dataListd[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))
-                that.dataList[0]['dataList'] = JSON.parse(sessionStorage.getItem('dataList'))
-            }
         },
         mounted(){
             const that = this

@@ -69,6 +69,11 @@
         methods:{
             changeCameraShow(now){
                 this.cameraFlag = now
+                if(now == 'fifth'){
+                    this.$emit('chang-Point', 1)
+                }else{
+                    this.$emit('chang-Point', -1)
+                }
             },
             onClose(data){
                 this.$emit('onClose',data, this.index, 'cameraFlagVisible')
