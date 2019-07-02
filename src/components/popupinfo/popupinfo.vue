@@ -1,9 +1,9 @@
 <template>
-  <historical-documents width="500px" :tabPaneData="tabPaneData" @on-show="onShow" :dialogTableVisible="visible" @close="onClose">
+  <historical-documents width="500px" :itemId="deviceId" :tabPaneData="tabPaneData" @on-show="onShow" :dialogTableVisible="visible" @close="onClose">
     <div>
       <realtime :itemData="itemData" v-if="activeName == 'first'" />
-      <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'second'" />
-      <polygonal  @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'third'" />
+      <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'fourth'" />
+      <polygonal @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'fifth'" />
     </div>
   </historical-documents>
 </template>
@@ -28,11 +28,11 @@ export default {
         },
         {
           label: "历史告警",
-          name: "second"
+          name: "fourth"
         },
         {
           label: "历史数据",
-          name: "third"
+          name: "fifth"
         },
       ],
       startTime: '',

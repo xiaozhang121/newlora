@@ -47,7 +47,8 @@ export default {
       isEdit: true,
       isDel: true,
       bianji: require('@/assets/images/btn/bianji.png'),
-      chakan: require('@/assets/images/btn/chakan.png'),
+      imgBtn: require('@/assets/images/btn/imgBtn.png'),
+      bofang: require('@/assets/images/btn/bofang.png'),
       del: require('@/assets/images/btn/del.png'),
       columnsIndex: -1,
       columnsValue: '',
@@ -100,7 +101,7 @@ export default {
                 props: { content: '查看' }
               }, [
                   h('el-button', {
-                    class:'tableBtnName', style: {backgroundImage:'url('+ this.chakan +')'},
+                    class:'tableBtnName', style: {backgroundImage:'url('+ (params.row.fileTypeId == '1' || params.row.fileTypeId == 1 ? this.imgBtn : this.bofang) +')'},
                     on: { click: () => { this.clickView(params.row) } }
                   })
               ]))

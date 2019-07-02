@@ -1,6 +1,6 @@
 <template>
     <div class="cameraPop" >
-        <historical-documents  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents :itemId="itemId" width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
             <camera-panel :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
             <polygonal :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal>
             <historyfile :title="title" :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>

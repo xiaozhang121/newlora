@@ -1,7 +1,14 @@
 <template>
   <div class="HistoricalDocuments">
     <el-dialog :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
-      <el-tabs v-if="isShowTab"  v-model="activeName" @tab-click="handleClick" type="card">
+      <div slot="title">
+        <span class="title" v-if="!isShowTab">{{title}}</span>
+        <div v-if="isShowTab" class="titleBtn">
+          <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()"><i class="iconfont icon-daochu"></i></el-button>
+          <el-button class="titleTopBtn" v-if="activeName == 'fifth'" @click="clickMagnify($refs.contentMagnify)"><i class="iconfont icon-fangda"></i></el-button>
+        </div>
+      </div>
+      <el-tabs v-if="isShowTab" v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane
           v-for="(tab,index) in tabPaneData"
           :key="index"
@@ -9,8 +16,7 @@
           :name="tab.name"
         ></el-tab-pane>
       </el-tabs>
-      <div v-else slot="title"><span class="title">{{title}}</span></div>
-      <div class="connent">
+      <div class="connent" ref="contentMagnify">
         <slot></slot>
       </div>
     </el-dialog>
@@ -19,6 +25,9 @@
 <script>
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { method } from "bluebird";
+import { mapState } from 'vuex'
+import screenfull from 'screenfull'
+import qs from 'qs'
 export default {
   name: "HistoricalDocuments",
   props: {
@@ -86,6 +95,9 @@ export default {
       default: () => {
         return '15vh'
       }
+    },
+    itemId: {
+      type: Number | String
     }
   },
   components: {
@@ -97,12 +109,28 @@ export default {
       isOpen: false
     };
   },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
   watch: {
     dialogTableVisible(now) {
       this.isOpen = now
     }
   },
   methods: {
+    clickExport () {
+      const baseUrl = process.env.NODE_ENV === 'development' ? this.$config.baseUrl.dev : this.$config.baseUrl.pro
+      let params = qs.stringify({
+        't': this.user.token,
+        'monitorDeviceId': this.itemId
+      })
+      window.location.href = `${baseUrl}/lenovo-alarm/api/alarm/history/export?${params}`
+    },
+    clickMagnify (target) {
+      screenfull.toggle(target)
+    },
     close() {
       this.isOpen = !this.isOpen;
       this.$emit("close", this.isOpen);
@@ -241,6 +269,25 @@ export default {
     .el-dialog__close {
       color: #fff;
       font-size: 30px;
+    }
+    .titleBtn {
+      float: right;
+      margin-right: 32px;
+      margin-top: 2px;
+      z-index: 5;
+      position: relative;
+      .titleTopBtn {
+        background: transparent;
+        width: auto;
+        height: auto;
+        line-height: initial;
+        padding: 0;
+        border: none;
+        .iconfont {
+          font-size: 22px;
+          color: #fff;
+        }
+      }
     }
   }
 </style>

@@ -318,7 +318,6 @@ import cameraPop from '_c/duno-m/cameraPop'
 import hotcameraPop from '_c/duno-m/hotcameraPop'                 // 可见光
 import hotCamera from '_c/duno-m/hotCamera'                       // 红外
 import { popupinfo, popupOneInfo } from '_c/popupinfo'
-import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
 import { deviceLocation } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
 export default {
@@ -330,7 +329,6 @@ export default {
       dunoMain,
       drappable,
       cameraPanel,
-      HistoricalDocuments,
       Polygonal,
       popupinfo,
       popupOneInfo,
@@ -614,9 +612,6 @@ export default {
       cursor: pointer;
       right: 25px;
       bottom: 20px;
-    }
-    .main_ctx{
-
     }
     .toward{
       position: absolute;
