@@ -135,3 +135,6 @@ body .el-button--success:hover, body .el-button--success:focus {
 body .el-picker-panel__icon-btn {
   color: #bbb;
 }
+body .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: transparent;
+}

@@ -65,440 +65,318 @@ export default [
       }
     ]
   },*/
-    {
-        path: '/',
-        name: '_realEnv',
-        redirect: 'realEnv/list',
-        component: Main,
-        meta: {
-            notCache: true,
-            access: ['200000'],
-            title: '实景展示'
-        },
-        children: [
-            {
-                path: 'realEnv',
-                name: 'realEnvIndex',
-                meta: {
-                    title: '全图展示',
-                    access: ['200001'],
-                    notCache: true,
-                    toListName: 'realEnvList',
-                    btnArr: [{'name': '列表', 'code': '200001_1'}]
-                },
-                component: parentView,
-                children: [
-                    {
-                        path: 'list',
-                        name: 'realEnvList',
-                        meta: {
-                            access: ['11001010'],
-                            title: '列表',
-                            kind: 'all',
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/realEnv/index.vue'),
-                    }
-                ]
-            },
-            {
-                path: 'kilovolt1000',
-                name: 'kilovolt1000Index',
-                meta: {
-                    title: '1000千伏',
-                    access: ['200001'],
-                    notCache: true,
-                    toListName: 'kilovolt1000List',
-                    btnArr: [{'name': '列表', 'code': '200001_1'}]
-                },
-                component: parentView,
-                children: [
-                    {
-                        path: 'list',
-                        name: 'kilovolt1000List',
-                        meta: {
-                            access: ['11001010'],
-                            title: '列表',
-                            kind: 1000,
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/realEnv/index.vue'),
-                    }
-                ]
-            },
-            {
-                path: 'kilovolt500',
-                name: 'kilovolt500Index',
-                meta: {
-                    title: '500千伏',
-                    access: ['200001'],
-                    notCache: true,
-                    toListName: 'kilovolt500List',
-                    btnArr: [{'name': '列表', 'code': '200001_1'}]
-                },
-                component: parentView,
-                children: [
-                    {
-                        path: 'list',
-                        name: 'kilovolt500List',
-                        meta: {
-                            access: ['11001010'],
-                            title: '列表',
-                            kind: 500,
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/realEnv/index.vue'),
-                    }
-                ]
-            },
-            {
-                path: 'kilovolt220',
-                name: 'kilovolt220Index',
-                meta: {
-                    title: '220千伏',
-                    access: ['200001'],
-                    notCache: true,
-                    toListName: 'kilovolt220List',
-                    btnArr: [{'name': '列表', 'code': '200001_1'}]
-                },
-                component: parentView,
-                children: [
-                    {
-                        path: 'list',
-                        name: 'kilovolt220List',
-                        meta: {
-                            access: ['11001010'],
-                            title: '列表',
-                            kind: 220,
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/realEnv/index.vue'),
-                    }
-                ]
-            },
-            {
-                path: 'kilovolt110',
-                name: 'kilovolt110Index',
-                meta: {
-                    title: '110千伏',
-                    access: ['200001'],
-                    notCache: true,
-                    toListName: 'kilovolt110List',
-                    btnArr: [{'name': '列表', 'code': '200001_1'}]
-                },
-                component: parentView,
-                children: [
-                    {
-                        path: 'list',
-                        name: 'kilovolt110List',
-                        meta: {
-                            access: ['11001010'],
-                            title: '列表',
-                            kind: 110,
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/realEnv/index.vue'),
-                    }
-                ]
-            },
-            {
-                path: 'kilovolt35',
-                name: 'kilovolt35Index',
-                meta: {
-                    title: '35千伏',
-                    access: ['200001'],
-                    notCache: true,
-                    toListName: 'kilovolt35List',
-                    btnArr: [{'name': '列表', 'code': '200001_1'}]
-                },
-                component: parentView,
-                children: [
-                    {
-                        path: 'list',
-                        name: 'kilovolt35List',
-                        meta: {
-                            access: ['11001010'],
-                            title: '列表',
-                            kind: 35,
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/realEnv/index.vue'),
-                    }
-                ]
-            }
-        ]
-    },
-    {
+  {
       path: '/',
-      name: '_alarmInfo',
+      name: '_realEnv',
+      redirect: 'realEnv/list',
       component: Main,
       meta: {
-        hide: true,
-        isAlone: true,
-        title: '告警信息',
-        notCache: true
+          notCache: true,
+          access: ['200000'],
+          title: '实景展示'
       },
       children: [
-        {
-          path: 'alarm-info',
-          name: 'alarmInfo',
-          meta: {
-            title: '告警信息',
-            icon:"icon-shouye",
-            notCache: true,
-            isAlone: true
+          {
+              path: 'realEnv',
+              name: 'realEnvIndex',
+              meta: {
+                  title: '全图展示',
+                  access: ['200001'],
+                  notCache: true,
+                  toListName: 'realEnvList',
+                  btnArr: [{'name': '列表', 'code': '200001_1'}]
+              },
+              component: parentView,
+              children: [
+                  {
+                      path: 'list',
+                      name: 'realEnvList',
+                      meta: {
+                          access: ['11001010'],
+                          title: '列表',
+                          kind: 'all',
+                          hideInMenu: true,
+                          isDetails: true
+                      },
+                      component: () => import('@/views/communal/realEnv/index.vue'),
+                  }
+              ]
           },
-          component: () => import('@/views/communal/alarmInfo/index.vue')
-        }
+          {
+              path: 'kilovolt1000',
+              name: 'kilovolt1000Index',
+              meta: {
+                  title: '1000千伏',
+                  access: ['200001'],
+                  notCache: true,
+                  toListName: 'kilovolt1000List',
+                  btnArr: [{'name': '列表', 'code': '200001_1'}]
+              },
+              component: parentView,
+              children: [
+                  {
+                      path: 'list',
+                      name: 'kilovolt1000List',
+                      meta: {
+                          access: ['11001010'],
+                          title: '列表',
+                          kind: 1000,
+                          hideInMenu: true,
+                          isDetails: true
+                      },
+                      component: () => import('@/views/communal/realEnv/index.vue'),
+                  }
+              ]
+          },
+          {
+              path: 'kilovolt500',
+              name: 'kilovolt500Index',
+              meta: {
+                  title: '500千伏',
+                  access: ['200001'],
+                  notCache: true,
+                  toListName: 'kilovolt500List',
+                  btnArr: [{'name': '列表', 'code': '200001_1'}]
+              },
+              component: parentView,
+              children: [
+                  {
+                      path: 'list',
+                      name: 'kilovolt500List',
+                      meta: {
+                          access: ['11001010'],
+                          title: '列表',
+                          kind: 500,
+                          hideInMenu: true,
+                          isDetails: true
+                      },
+                      component: () => import('@/views/communal/realEnv/index.vue'),
+                  }
+              ]
+          },
+          {
+              path: 'kilovolt220',
+              name: 'kilovolt220Index',
+              meta: {
+                  title: '220千伏',
+                  access: ['200001'],
+                  notCache: true,
+                  toListName: 'kilovolt220List',
+                  btnArr: [{'name': '列表', 'code': '200001_1'}]
+              },
+              component: parentView,
+              children: [
+                  {
+                      path: 'list',
+                      name: 'kilovolt220List',
+                      meta: {
+                          access: ['11001010'],
+                          title: '列表',
+                          kind: 220,
+                          hideInMenu: true,
+                          isDetails: true
+                      },
+                      component: () => import('@/views/communal/realEnv/index.vue'),
+                  }
+              ]
+          },
+          {
+              path: 'kilovolt110',
+              name: 'kilovolt110Index',
+              meta: {
+                  title: '110千伏',
+                  access: ['200001'],
+                  notCache: true,
+                  toListName: 'kilovolt110List',
+                  btnArr: [{'name': '列表', 'code': '200001_1'}]
+              },
+              component: parentView,
+              children: [
+                  {
+                      path: 'list',
+                      name: 'kilovolt110List',
+                      meta: {
+                          access: ['11001010'],
+                          title: '列表',
+                          kind: 110,
+                          hideInMenu: true,
+                          isDetails: true
+                      },
+                      component: () => import('@/views/communal/realEnv/index.vue'),
+                  }
+              ]
+          },
+          {
+              path: 'kilovolt35',
+              name: 'kilovolt35Index',
+              meta: {
+                  title: '35千伏',
+                  access: ['200001'],
+                  notCache: true,
+                  toListName: 'kilovolt35List',
+                  btnArr: [{'name': '列表', 'code': '200001_1'}]
+              },
+              component: parentView,
+              children: [
+                  {
+                      path: 'list',
+                      name: 'kilovolt35List',
+                      meta: {
+                          access: ['11001010'],
+                          title: '列表',
+                          kind: 35,
+                          hideInMenu: true,
+                          isDetails: true
+                      },
+                      component: () => import('@/views/communal/realEnv/index.vue'),
+                  }
+              ]
+          }
       ]
+  },
+  {
+    path: '/',
+    name: '_environmental',
+    component: Main,
+    meta: {
+      hide: true,
+      isAlone: true,
+      title: '环境监测',
+      notCache: true
     },
-  /* 其他设置 */
-  // {
-  //   path: '/rests',
-  //   name: '_rests',
-  //   component: Main,
-  //   meta: {
-  //     notCache: true,
-  //     icon: 'icon-shezhi',
-  //     access: ['11000000'],
-  //     title: '其他设置'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'feedback',
-  //       name: 'feedbackIndex',
-  //       meta: {
-  //         title: '意见反馈',
-  //         access: ['11001000'],
-  //         notCache: true,
-  //         toListName: 'feedbackList',
-  //         btnArr: [{'name': '列表', 'code': '11001010'}, {'name': '详情', 'code': '11001020'}, {'name': '删除', 'code': '11001040'}]
-  //       },
-  //       component: parentView,
-  //       children: [
-  //         {
-  //           path: 'list',
-  //           name: 'feedbackList',
-  //           meta: {
-  //             access: ['11001010'],
-  //             title: '列表',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/rests/feedback/index.vue'),
-  //         },
-  //         {
-  //           path: 'view',
-  //           name: 'feedbackView',
-  //           meta: {
-  //             active: 'feedbackList',
-  //             access: ['11001020'],
-  //             title: '详情',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/rests/feedback/view.vue')
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
-  /* 系统设置 */
-  // {
-  //   path: '/basic',
-  //   name:'basic',
-  //   component: Main,
-  //   meta: {
-  //     notCache: true,
-  //     icon: 'icon-shezhi1',
-  //     access: ['10000000'],
-  //     title: '系统设置'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'role',
-  //       name: 'roleAuthorityIndex',
-  //       meta: {
-  //         access: ['10001000'],
-  //         title: '角色权限',
-  //         toListName: 'roleAuthority',
-  //         btnArr: [{'name': '列表', 'code': '10001010'},{'name': '新增', 'code': '10001020'}, {'name': '编辑', 'code': '10001030'}, {'name': '删除', 'code': '10001040'}]
-  //       },
-  //       component: parentView,
-  //       children: [
-  //         {
-  //           path: 'list',
-  //           name: 'roleAuthority',
-  //           meta: {
-  //             access: ['10001010'],
-  //             title: '列表',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/basic-setting/role/index.vue'),
-  //         },
-  //         {
-  //           path: 'add',
-  //           name: 'roleAuthorityAdd',
-  //           meta: {
-  //             active: 'roleAuthority',
-  //             access: ['10001020'],
-  //             title: '新增',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/basic-setting/role/edit.vue')
-  //         },
-  //         {
-  //           path: 'edit',
-  //           name: 'roleAuthorityEdit',
-  //           meta: {
-  //             active: 'roleAuthority',
-  //             access: ['10001030'],
-  //             title: '编辑',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/basic-setting/role/edit.vue')
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'account',
-  //       name: 'accountIndex',
-  //       meta: {
-  //         access: ['10002000'],
-  //         title: '账号管理',
-  //         toListName: 'accountList',
-  //         btnArr: [{'name': '列表', 'code': '10002010'},{'name': '新增', 'code': '10002020'}, {'name': '编辑', 'code': '10002030'}, {'name': '删除', 'code': '10002040'}]
-  //       },
-  //       component: parentView,
-  //       children: [
-  //         {
-  //           path: 'list',
-  //           name: 'accountList',
-  //           meta: {
-  //             access: ['10002010'],
-  //             title: '列表',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/basic-setting/account/index.vue'),
-  //         },
-  //         {
-  //           path: 'add',
-  //           name: 'accountListAdd',
-  //           meta: {
-  //             active: 'accountList',
-  //             access: ['10002020'],
-  //             title: '新增',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/basic-setting/account/edit.vue')
-  //         },
-  //         {
-  //           path: 'edit',
-  //           name: 'accountListEdit',
-  //           meta: {
-  //             active: 'accountList',
-  //             access: ['10002030'],
-  //             title: '编辑',
-  //             hideInMenu: true,
-  //             isDetails: true
-  //           },
-  //           component: () => import('@/views/duno-default/basic-setting/account/edit.vue')
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
-  /* 个人中心 */
-  // {
-  //   path: '/',
-  //   name: '_center',
-  //   component: Main,
-  //   meta: {
-  //     hide: true,
-  //     hideInMenu: true,
-  //     hideMenuAuthority: true,
-  //     isAlone: true,
-  //     title: '个人中心'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'center',
-  //       name: 'memberCenter',
-  //       meta: {
-  //         title: '个人中心',
-  //         btnArr: []
-  //       },
-  //       component: () => import('@/views/duno-default/memberCenter/index.vue')
-  //     }
-  //   ]
-  // },
-  /* 消息中心 */
-  // {
-  //   path: '/message',
-  //   name: '_message',
-  //   component: Main,
-  //   meta: {
-  //     hide: true,
-  //     hideInMenu: true,
-  //     hideMenuAuthority: true,
-  //     title: '消息中心',
-  //     btnArr: [{'name': '新增', 'code': '12001020'}, {'name': '删除', 'code': '12001040'}]
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'messageList',
-  //       meta: {
-  //         title: '消息中心'
-  //       },
-  //       component: () => import('@/views/duno-default/message/index.vue')
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'messageAdd',
-  //       meta: {
-  //         access: ['12001020'],
-  //         title: '消息新增'
-  //       },
-  //       component: () => import('@/views/duno-default/message/edit.vue')
-  //     }
-  //   ]
-  // },
-  /* 新增意见反馈 */
-  // {
-  //   path: '/feedback',
-  //   name: '_feedback',
-  //   component: Main,
-  //   meta: {
-  //     hide: true,
-  //     hideInMenu: true,
-  //     hideMenuAuthority: true,
-  //     isAlone: true,
-  //     title: '意见反馈'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'add',
-  //       name: 'feedbackAdd',
-  //       meta: {
-  //         title: '意见反馈',
-  //         btnArr: []
-  //       },
-  //       component: () => import('@/views/duno-default/rests/feedback/add.vue')
-  //     }
-  //   ]
-  // },
+    children: [
+      {
+        path: 'environmental',
+        name: 'environmental',
+        meta: {
+          title: '环境监测',
+          icon:"",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('_c/duno-developing/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: '_equipment',
+    component: Main,
+    meta: {
+      hide: true,
+      isAlone: true,
+      title: '设备监测',
+      notCache: true
+    },
+    children: [
+      {
+        path: 'equipment',
+        name: 'equipment',
+        meta: {
+          title: '设备监测',
+          icon:"",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('_c/duno-developing/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: '_robot-inspection',
+    component: Main,
+    meta: {
+      hide: true,
+      isAlone: true,
+      title: '机器人巡检',
+      notCache: true
+    },
+    children: [
+      {
+        path: 'robot',
+        name: 'robot-inspection',
+        meta: {
+          title: '机器人巡检',
+          icon:"",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('_c/duno-developing/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: '_ARglasses',
+    component: Main,
+    meta: {
+      hide: true,
+      isAlone: true,
+      title: 'AR眼镜巡检',
+      notCache: true
+    },
+    children: [
+      {
+        path: 'ARglasses',
+        name: 'ARglasses',
+        meta: {
+          title: 'AR眼镜巡检',
+          icon:"",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('_c/duno-developing/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: '_configuration',
+    component: Main,
+    meta: {
+      hide: true,
+      isAlone: true,
+      title: '配置管理',
+      notCache: true
+    },
+    children: [
+      {
+        path: 'configuration',
+        name: 'configuration',
+        meta: {
+          title: '配置管理',
+          icon:"",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('_c/duno-developing/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: '_report-forms',
+    component: Main,
+    meta: {
+      title: '所有报表',
+      notCache: true
+    },
+    children: [
+      {
+        path: 'alarm-info',
+        name: 'alarmInfo',
+        meta: {
+          title: '告警信息',
+          icon:"icon-shouye",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('@/views/communal/alarmInfo/index.vue')
+      }
+    ]
+  },
+ 
   /* 以下为系统出错时访问的路由 */
   {
     path: '/401',
