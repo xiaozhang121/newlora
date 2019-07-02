@@ -32,7 +32,20 @@
                 newHeight: ''
             }
         },
+        watch:{
+            scaleData:{
+                handler(now){
+                    if(now){
+                        this.scale = now
+                    }
+                },
+                immediate: true
+            }
+        },
         props: {
+            scaleData:{
+
+            },
             width:{
                 type: String,
             },
@@ -120,6 +133,9 @@
             },
             initDrag(e) {
                 let oDragHandle = this.nn6 ? e.target : event.srcElement;
+                if(oDragHandle.className == 'no-drappable'){
+                    return
+                }
                 if(oDragHandle.className == 'el-input__inner' || oDragHandle.className.indexOf('el-slider')>-1){
                     return;
                 }

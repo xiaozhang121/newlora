@@ -2,7 +2,7 @@
   <div class="realEnv">
     <duno-btn-top @on-active="deviceShowHandle" @on-diagram="changDiagram" />
     <div class="mainList" v-if="mainlistShow">
-    <duno-main  v-if="kilovoltKind == 'all'">
+    <duno-main   v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
         <div :class="['toward']">
           <img :src="toward"/>
@@ -11,13 +11,15 @@
           <img id="weatherCheck" @mouseup="mouseupWeatherCheck"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
         </drappable>
         <drappable class="drappable_assembly" width="1900px" height="675px">
+          <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->
           <div class="deviceList">
             <template  v-for="(item, index) in deviceList">
-                <img  :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
+                <img draggable="true" @dragstart="drag($event, item)" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
                 :style="[
                 {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
                 {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
                 ]"
+                class="no-drappable"
                 />
             </template>
           </div>
@@ -59,7 +61,6 @@
                     ]"
                   />
                 </template>
-                
               </div>
               <img :src="kilovolt1000" />
             </div>
@@ -293,6 +294,7 @@
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
         </div>
       </duno-main>
+
     <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
         <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
@@ -417,6 +419,9 @@ export default {
       }
   },
   methods: {
+      drag(event, item){
+          event.dataTransfer.setData("itemData",JSON.stringify(item))
+      },
       changPoint(monitorDeviceType){
           const that = this
           that.$nextTick(()=>{
@@ -440,6 +445,7 @@ export default {
       },
     // 使用接口地址：     /lenovo-device/api/device/location
       onClose(now, index = 0, target){
+          this.changPoint(-1)
           if(index == 'all'){
               this.modeList.map(item=>{
                   item['popupinfoVisable'] = false

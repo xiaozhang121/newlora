@@ -30,7 +30,7 @@
         :seriesOption="seriesOption"
       />
     </div>
-    <p class="move moveTarget" id="moveTarget"><span>你可拖拽设备图标至此处进行对比</span></p>
+    <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)"><span>你可拖拽设备图标至此处进行对比</span></p>
   </div>
 </template>
 
@@ -176,6 +176,15 @@ export default {
     };
   },
   methods: {
+    allowDrop(ev){
+        ev.preventDefault();
+    },
+    drop(ev){
+        debugger
+        ev.preventDefault();
+        let data=JSON.parse(ev.dataTransfer.getData("itemData"));
+        $(ev.target).append(`<img src="${data.src}" />`);
+    },
     onChangeRadio(data) {
       this.radio = data;
       let date = null
@@ -286,6 +295,12 @@ export default {
     color: #999;
     text-align: center;
     font-size: 14px !important;
+    img{
+      width: 30px;
+      margin-right: 10px;
+      margin-left: 10px;
+      height: 30px;
+    }
   }
   .block {
     .el-date-editor {
