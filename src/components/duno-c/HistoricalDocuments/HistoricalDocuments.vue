@@ -16,6 +16,11 @@
           :name="tab.name"
         ></el-tab-pane>
       </el-tabs>
+      <div v-if="isClassify" class="classifyBtn">
+        <el-button :class="[classifyActive == 'A'? 'classifyActive':'']" @click="clickClassify('A', true)">A 相</el-button>
+        <el-button :class="[classifyActive == 'B'? 'classifyActive':'']" @click="clickClassify('B', true)">B 相</el-button>
+        <el-button :class="[classifyActive == 'C'? 'classifyActive':'']" @click="clickClassify('C', true)">C 相</el-button>
+      </div>
       <div class="connent" ref="contentMagnify">
         <slot></slot>
       </div>
@@ -98,6 +103,12 @@ export default {
     },
     itemId: {
       type: Number | String
+    },
+    isClassify: {
+      type: Boolean,
+      default: () => {
+        return false
+      }
     }
   },
   components: {
@@ -106,6 +117,7 @@ export default {
   data() {
     return {
       activeName: "first",
+      classifyActive: "A",
       isOpen: false
     };
   },
@@ -120,6 +132,10 @@ export default {
     }
   },
   methods: {
+    clickClassify (type, flag) {
+      this.classifyActive = type
+      this.$emit('clickClassify', type, flag)
+    },
     clickExport () {
       const baseUrl = process.env.NODE_ENV === 'development' ? this.$config.baseUrl.dev : this.$config.baseUrl.pro
       let params = qs.stringify({
@@ -133,6 +149,9 @@ export default {
     },
     close() {
       this.isOpen = !this.isOpen;
+      if (this.isClassify && !this.isOpen) {
+        this.clickClassify('A', false)
+      }
       this.$emit("close", this.isOpen);
     },
     handleClick(tab) {
@@ -287,6 +306,20 @@ export default {
           font-size: 22px;
           color: #fff;
         }
+      }
+    }
+    .classifyBtn {
+      position: absolute;
+      top: 45px;
+      left: -68px;
+      button {
+        display: block;
+        margin: 10px 0;
+        background-color: rgba(47, 51, 63, 0.7);
+        border: none;
+      }
+      .classifyActive {
+        background: rgba(81, 89, 113, 0.7);
       }
     }
   }
