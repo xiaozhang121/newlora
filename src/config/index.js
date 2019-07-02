@@ -30,10 +30,6 @@ export default {
    */
   baseUrl: {
     dev: baseUrl,
-    pro: 'http://192.168.0.241:8052'
-  },
-  cameraUrl:{
-    dev: 'http://172.20.10.7:6549',
-    pro: 'http://172.20.10.7:6549'
+    pro: 'http://10.0.0.164:8088'
   }
 }
