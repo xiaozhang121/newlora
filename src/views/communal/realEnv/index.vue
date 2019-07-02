@@ -419,7 +419,7 @@ export default {
   methods: {
       changPoint(monitorDeviceType){
           const that = this
-          that.$nextTick(()=>{
+      /*    that.$nextTick(()=>{
               let data = JSON.parse(JSON.stringify(that.deviceList))
               if(monitorDeviceType == -1){
                   data.map(item=>{
@@ -438,7 +438,7 @@ export default {
               }
               that.deviceList = data
               that.$forceUpdate()
-          })
+          })*/
       },
       mouseupWeatherCheck(){
           let flag = this.isOverlap('moveTarget', 'weatherCheck')
@@ -580,15 +580,15 @@ export default {
         that.isFullscreen = !that.isFullscreen
             let data = that.modeList
             data.map(item=>{
-                if(item['popupinfoVisable']){
-                    that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+               /* if(item['popupinfoVisable']){
+                    item['popupinfoVisable'] = false
                 }
                 if(item['cameraFlagVisible']){
-                    that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+                    item['popupinfoVisable'] = false
                 }
                 if(item['hotcameraFlagVisible']){
-                    that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
-                }
+                    item['popupinfoVisable'] = false
+                }*/
             })
             that.modeList = data
             this.$forceUpdate()
