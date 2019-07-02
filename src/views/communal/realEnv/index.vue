@@ -295,9 +295,9 @@
       </duno-main>
     <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
-      <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
-      <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
-      <camera-pop @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
+        <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
+        <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
+        <camera-pop @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
     </div>
     </div>
   </div>
@@ -419,26 +419,18 @@ export default {
   methods: {
       changPoint(monitorDeviceType){
           const that = this
-      /*    that.$nextTick(()=>{
-              let data = JSON.parse(JSON.stringify(that.deviceList))
+          that.$nextTick(()=>{
+              let data = JSON.parse(JSON.stringify(that.tempDeviceList))
               if(monitorDeviceType == -1){
-                  data.map(item=>{
-                      item['isShow'] = true
-                  })
+                  that.deviceList = data
               }else if(monitorDeviceType == 1){
-                  data.map(item=>{
-                      item['isShow'] = false
-                  })
                   data= data.filter(item=>{
                       return item['monitorDeviceType'] == 1
-                  })
-                  data.map(item=>{
-                      item['isShow'] = true
                   })
               }
               that.deviceList = data
               that.$forceUpdate()
-          })*/
+          })
       },
       mouseupWeatherCheck(){
           let flag = this.isOverlap('moveTarget', 'weatherCheck')

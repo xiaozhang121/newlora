@@ -1,6 +1,6 @@
 <template>
   <div class="HistoricalDocuments">
-    <el-dialog :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
+    <el-dialog class="elDialogMain" v-dialogDrag :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
       <div slot="title">
         <span class="title" v-if="!isShowTab">{{title}}</span>
         <div v-if="isShowTab" class="titleBtn">
@@ -165,7 +165,7 @@ export default {
       .el-dialog__body {
         .el-tabs {
           .el-tabs__header {
-            width: 90%;
+            width: 84%;
             position: absolute;
             top: 0;
             left: 0;
