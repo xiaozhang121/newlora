@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
                         <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
@@ -116,7 +116,7 @@
                     <div class="row">
                         <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
                         <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>
@@ -218,7 +218,6 @@
 
 <script>
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
-    import  { playCamera, controlCamera, setPosition, mvPosition, editPosition, delPosition } from '@/api/camera'
     import dunoTable from '_c/duno-m/table/Table'
     import clock from '@/assets/camera/clock.png'
     import { DunoCharts } from '_c/duno-charts'

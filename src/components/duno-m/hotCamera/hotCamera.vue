@@ -44,7 +44,7 @@
                         <div class="row">
                             <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
                             <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                         </div>
                         <div class="control_slider">
                             <i class="iconfont icon-suoxiao1"></i>
@@ -159,7 +159,7 @@
                         <div class="row">
                             <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
                             <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'"@mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                         </div>
                         <div class="control_slider">
                             <i class="iconfont icon-suoxiao1"></i>
@@ -253,7 +253,7 @@
 </template>
 
 <script>
-    import  { playCamera, controlCamera } from '@/api/camera'
+    import  { controlCamera } from '@/api/camera'
     import dunoTable from '_c/duno-m/table/Table'
     import { getImage, stopImage, getPointData } from '@/api/user'
     import clock from '@/assets/camera/clock.png'
