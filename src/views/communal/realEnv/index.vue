@@ -488,6 +488,21 @@ export default {
           this.cameraFlag = now
       },
       changeFullScreen(target){
+          const that = this
+          let data = that.modeList
+          data.map(item=>{
+              if(item['popupinfoVisable']){
+                  that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+              }
+              if(item['cameraFlagVisible']){
+                  that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+              }
+              if(item['hotcameraFlagVisible']){
+                  that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+              }
+          })
+          that.modeList = data
+          this.$forceUpdate()
           screenfull.toggle(target)
           this.domTarget = target
           this.appendModel(target)
