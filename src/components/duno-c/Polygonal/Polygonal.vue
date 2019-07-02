@@ -10,6 +10,7 @@
       </div>
       <div class="block">
         <el-date-picker
+          unlink-panels
           v-model="value"
           type="daterange"
           range-separator="-"
