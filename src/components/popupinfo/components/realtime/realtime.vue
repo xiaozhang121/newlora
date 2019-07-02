@@ -28,28 +28,28 @@ export default {
   name: 'realtimeTem',
   components: { videoPlayer },
   data(){
-      return {
-          tepmNum: 0,
-          timer: null,
-          offsetX: null,
-          offsetY: null,
-          playerOptions:{
-              width:160,
-              height: 120,
-              sources: [{
-                  type: "rtmp/flv",
-                  src: ''
-              }],
-              techOrder: ['flash'],
-              autoplay: true,
-              controls: false
-          }
+    return {
+      tepmNum: 0,
+      timer: null,
+      offsetX: null,
+      offsetY: null,
+      playerOptions:{
+        width:160,
+        height: 120,
+        sources: [{
+          type: "rtmp/flv",
+          src: ''
+        }],
+        techOrder: ['flash'],
+        autoplay: true,
+        controls: false
       }
+    }
   },
   computed:{
-      deviceId(){
-          return this.itemData['monitorDeviceId'].toString()
-      }
+    deviceId(){
+      return this.itemData['monitorDeviceId'].toString()
+    }
   },
   props: {
     itemData: {},
@@ -64,6 +64,27 @@ export default {
       default: () => {
         return []
       }
+    },
+    classifyData: {
+      type: String
+    },
+    isClassify: {
+      type: Boolean,
+      default: () => {
+        return false
+      }
+    }
+  },
+  watch: {
+    isClassify (now) {
+      if (now && this.classifyData) {
+        console.log('显示：', now, '相')
+      }
+    },
+    classifyData(now) {
+      if (now && this.isClassify) {
+        console.log('当前相变化,变化为：', now, '相')
+      }
     }
   },
   methods: {
@@ -74,39 +95,43 @@ export default {
     },
     pointerPos(event){
       const that = this
-      console.log('x:'+event.offsetX)
-      console.log('y:'+event.offsetY)
+      // console.log('x:'+event.offsetX)
+      // console.log('y:'+event.offsetY)
       that.offsetX = event.offsetX
       that.offsetY = event.offsetY
       if(!this.timer){
         this.timer = setInterval(()=>{
           getAxiosData('/lenovo-iir/device/temperature/get/probe/'+ this.deviceId,{x: that.offsetX, y: 118-that.offsetY, r: 1}).then(res=>{
-              console.log('data:'+res.data)
-              that.tepmNum = res.data/1000
+            // console.log('data:'+res.data)
+            that.tepmNum = res.data/1000
           })
         },200)
       }
     },
     format(percentage) {
+      percentage = percentage ? percentage : 0
       return `${percentage}`;
     },
     initCamera(){
-        const that = this
-        const url = '/lenovo-iir/device/video/url/rtmp/'+that.deviceId;
-        getAxiosData(url, {}).then(res => {
-            that.playerOptions.sources[0].src = res.data;
-            that.$forceUpdate()
-        });
+      const that = this
+      const url = '/lenovo-iir/device/video/url/rtmp/'+that.deviceId;
+      getAxiosData(url, {}).then(res => {
+        that.playerOptions.sources[0].src = res.data;
+        that.$forceUpdate()
+      });
     }
   },
   created(){
-      this.initCamera()
+    this.initCamera()
   },
   mounted(){
-      putAxiosData('/lenovo-iir/device/video/play/'+this.deviceId)
+    if (this.classifyData && this.isClassify) {
+      console.log('初始化加载：', this.classifyData, '相')
+    }
+    putAxiosData('/lenovo-iir/device/video/play/'+this.deviceId)
   },
- destroyed(){
-      putAxiosData('/lenovo-iir/device/video/stop/'+this.deviceId)
+  destroyed(){
+    putAxiosData('/lenovo-iir/device/video/stop/'+this.deviceId)
   }
 }
 </script>
