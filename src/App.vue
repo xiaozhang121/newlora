@@ -22,6 +22,12 @@ export default {
   watch: {
     '$route' (to) {
       const that = this
+      try{
+          for(let i=0; i<document.getElementsByClassName('addImage').length;i++){
+              document.getElementsByClassName('addImage')[i].remove()
+          }
+          document.getElementsByClassName('addImage')[0].remove()
+      }catch (e) { }
       if (to.path === '/login' || to.path === '/') {
         that.isLoginPage = true
         if (that.Socket) {
@@ -118,4 +124,22 @@ export default {
   @import "./assets/defaultIcon/duno-iconfont.css"; // 框架默认图标库
   @import "./assets/icons/iconfont.css";  // 项目引用图标库
   @import "./style/index.scss";
+  .squera{
+    position:absolute; border:1px solid #e48303; overflow:hidden;
+  }
+  .squera_p{
+    position:absolute; border:1px dashed #e48303; width:0px; height:0px;left:0px; top:0px;
+  }
+  .circled{
+    position:absolute; border:1px solid #e48303; overflow:hidden; border-radius: 50%;
+  }
+  .circle_p{
+    position:absolute; border:1px dashed #e48303; width:0px; height:0px;left:0px; top:0px; border-radius: 50%;
+  }
+  .sharp{
+    position:absolute;  overflow:hidden; background: url(../src/assets/images/sharpChosend.svg) no-repeat; background-size: 100% 100%;
+  }
+  .sharp_p{
+    position:absolute;  width:0px; height:0px;left:0px; top:0px;  background: url(../src/assets/images/sharpChosend.svg) no-repeat; background-size: 100% 100%;
+  }
 </style>

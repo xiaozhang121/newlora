@@ -4,7 +4,10 @@
     <div class="mainList" v-if="mainlistShow">
     <duno-main   v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
-        <div :class="['toward']">
+        <div :class="['toward']"  v-if="isDiagram">
+          <img :src="towardAround"/>
+        </div>
+        <div :class="['toward']"  v-else>
           <img :src="toward"/>
         </div>
           <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
@@ -23,11 +26,11 @@
           </div>
           <div :class="['allShowPic']">
             <div class="Once_primaryDiagram" v-if="isDiagram">
-              <img :src="kilovolt1000" />
-              <img :src="kilovolt500" />
+              <img :src="kilovoltAllAround" />
+             <!-- <img :src="kilovolt500" />
               <img :src="kilovolt220" />
               <img :src="kilovolt110" />
-              <img :src="kilovolt35" />
+              <img :src="kilovolt35" />-->
             </div>
             <div class="realView" v-else>
               <img :src="kv1000" />

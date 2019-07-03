@@ -302,7 +302,7 @@ export default [
           notCache: true,
           isAlone: true
         },
-        component: () => import('_c/duno-developing/index.vue')
+        component: () => import('@/views/communal/inspection/index.vue')
       }
     ]
   },
