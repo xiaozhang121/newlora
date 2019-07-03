@@ -4,12 +4,12 @@
   position: relative;
 
   .logo-con{
-    padding: 5px 10px;
+    padding: 13px 10px;
     height: 100%;
     box-sizing: border-box;
-    display: inline-block;
     width: auto;
     vertical-align: middle;
+    float: left;
 
     img{
       max-height: 100%;
@@ -18,12 +18,35 @@
       margin: 0 auto;
     }
   }
-
+  .header-middle {
+    height: 100%;
+    margin-left: 400px;
+    margin-right: 400px;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    button {
+      width: 178px;
+      margin: 0 5px;
+      font-size: 20px;
+      color: #999;
+      border: 1px solid #203944;
+      border-radius: 0;
+    }
+    .activeBtn {
+      color: #fff;
+      border-color: #707070;
+    }
+  }
   .custom-content-con{
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
     height: 100%;
     overflow: hidden;
-    line-height: 60px;
+    line-height: 80px;
     & > *{
       float: left;
     }

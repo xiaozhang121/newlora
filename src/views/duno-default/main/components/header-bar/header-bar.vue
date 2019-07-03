@@ -3,7 +3,11 @@
     <div class="logo-con">
       <img :src="maxLogo" key="max-logo" />
     </div>
-    <!--<sider-trigger :collapsed="collapsed" @on-change="handleCollpasedChange"></sider-trigger>-->
+    <div class="header-middle">
+      <el-button @click="activeBtn = '1'" :class="[activeBtn == '1' ? 'activeBtn' : '']">异常信息</el-button>
+      <el-button @click="activeBtn = '2'" :class="[activeBtn == '2' ? 'activeBtn' : '']">设备中台</el-button>
+      <el-button @click="activeBtn = '3'" :class="[activeBtn == '3' ? 'activeBtn' : '']">视频监控</el-button>
+    </div>
     <div class="custom-content-con">
       <div class="dateTime"><span class="timeDate">练塘站</span>{{ dateTime }}</div>
       <slot></slot>
@@ -23,6 +27,7 @@ export default {
   },
   data () {
     return {
+      activeBtn: '2',
       maxLogo,
       dateTime: ''
     }
