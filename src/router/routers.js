@@ -249,12 +249,139 @@ export default [
         path: 'environmental',
         name: 'environmental',
         meta: {
-          title: '环境监测',
-          icon:"",
+          title: '1000KV',
           notCache: true,
-          isAlone: true
+          toListName: 'environmentalList',
+          btnArr: []
         },
-        component: () => import('_c/duno-developing/index.vue')
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'environmentalList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'environmental500',
+        name: 'environmental500KV',
+        meta: {
+          title: '500KV',
+          notCache: true,
+          toListName: 'environmental500KVList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'environmental500KVList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'environmental220',
+        name: 'environmental220KV',
+        meta: {
+          title: '220KV',
+          notCache: true,
+          toListName: 'environmental220KVList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'environmental220KVList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'environmental110',
+        name: 'environmental110KV',
+        meta: {
+          title: '110KV',
+          notCache: true,
+          toListName: 'environmental110KVList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'environmental110KVList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'environmental35',
+        name: 'environmental35KV',
+        meta: {
+          title: '35KV',
+          notCache: true,
+          toListName: 'environmental35KVList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'environmental35KVList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'environmental10',
+        name: 'environmental10KV',
+        meta: {
+          title: '10KV',
+          notCache: true,
+          toListName: 'environmental10KVList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'environmental10KVList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
       }
     ]
   },
@@ -270,15 +397,50 @@ export default [
     },
     children: [
       {
-        path: 'equipment',
-        name: 'equipment',
+        path: 'visiblelight',
+        name: 'visiblelight',
         meta: {
-          title: '设备监测',
-          icon:"",
+          title: '可见光',
           notCache: true,
-          isAlone: true
+          toListName: 'visiblelightList',
+          btnArr: []
         },
-        component: () => import('_c/duno-developing/index.vue')
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'visiblelightList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'infrared',
+        name: 'infrared',
+        meta: {
+          title: '红外测温',
+          notCache: true,
+          toListName: 'infraredList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'infraredList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
       }
     ]
   },
@@ -294,15 +456,50 @@ export default [
     },
     children: [
       {
-        path: 'robot',
-        name: 'robot-inspection',
+        path: 'robot-one',
+        name: 'robot-one',
         meta: {
-          title: '机器人巡检',
-          icon:"",
+          title: '机器人一',
           notCache: true,
-          isAlone: true
+          toListName: 'robot-oneList',
+          btnArr: []
         },
-        component: () => import('@/views/communal/inspection/index.vue')
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'robot-oneList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'robot-two',
+        name: 'robot-two',
+        meta: {
+          title: '机器人二',
+          notCache: true,
+          toListName: 'robot-twoList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'robot-twoList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
       }
     ]
   },
@@ -318,16 +515,74 @@ export default [
     },
     children: [
       {
-        path: 'ARglasses',
-        name: 'ARglasses',
+        path: 'ticket',
+        name: 'ticket',
         meta: {
-          title: 'AR眼镜巡检',
-          icon:"",
+          title: '两票制作',
           notCache: true,
-          isAlone: true
+          toListName: 'ticketList',
+          btnArr: []
         },
-        component: () => import('_c/duno-developing/index.vue')
-      }
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'ticketList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'inspection',
+        name: 'inspection',
+        meta: {
+          title: '巡视记录',
+          notCache: true,
+          toListName: 'inspectionList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'inspectionList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'video',
+        name: 'video',
+        meta: {
+          title: '视频记录',
+          notCache: true,
+          toListName: 'videoList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'videoList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
     ]
   },
   {
@@ -345,13 +600,71 @@ export default [
         path: 'configuration',
         name: 'configuration',
         meta: {
-          title: '配置管理',
-          icon:"",
+          title: '任务配置',
           notCache: true,
-          isAlone: true
+          toListName: 'configurationList',
+          btnArr: []
         },
-        component: () => import('_c/duno-developing/index.vue')
-      }
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'configurationList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'detection',
+        name: 'detection',
+        meta: {
+          title: '检测设备管理',
+          notCache: true,
+          toListName: 'detectionList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'detectionList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'detection-status',
+        name: 'detection-status',
+        meta: {
+          title: '检测设备状态',
+          notCache: true,
+          toListName: 'detection-statusList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'detection-statusList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('_c/duno-developing/index.vue')
+            }
+        ]
+      },
     ]
   },
   {
@@ -364,15 +677,37 @@ export default [
     },
     children: [
       {
-        path: 'alarm-info',
-        name: 'alarmInfo',
+        path: 'report',
+        name: 'report',
         meta: {
-          title: '告警信息',
+          title: '巡检任务报告',
           icon:"icon-shouye",
           notCache: true,
           isAlone: true
         },
-        component: () => import('@/views/communal/alarmInfo/index.vue')
+        component: () => import('_c/duno-developing/index.vue')
+      },
+      {
+        path: 'meterdata',
+        name: 'meterdata',
+        meta: {
+          title: '表计数据',
+          icon:"icon-shouye",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('_c/duno-developing/index.vue')
+      // },
+      // {
+      //   path: 'alarm-info',
+      //   name: 'alarmInfo',
+      //   meta: {
+      //     title: '告警信息',
+      //     icon:"icon-shouye",
+      //     notCache: true,
+      //     isAlone: true
+      //   },
+      //   component: () => import('@/views/communal/alarmInfo/index.vue')
       }
     ]
   },
