@@ -1,8 +1,8 @@
 <template>
-  <div class="HistoricalDocuments">
+  <div :class="['HistoricalDocuments', !isShowTab? 'noHistorical':'']">
     <el-dialog class="elDialogMain" v-dialogDrag :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
       <div slot="title">
-        <span class="title" v-if="!isShowTab">{{title}}</span>
+        <span class="title titleSpan" v-if="!isShowTab">{{title}}</span>
         <div v-if="isShowTab" class="titleBtn">
           <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()"><i class="iconfont icon-daochu"></i></el-button>
           <el-button class="titleTopBtn" v-if="activeName == 'fifth'" @click="clickMagnify($refs.contentMagnify)"><i class="iconfont icon-fangda"></i></el-button>
@@ -165,6 +165,11 @@ export default {
 };
 </script>
 <style lang="scss">
+.noHistorical {
+  .el-dialog__headerbtn {
+    top: 25px;
+  }
+}
   .HistoricalDocuments {
     width: 100%;
     height: 100%;
@@ -175,6 +180,11 @@ export default {
       color: #fff;
       font-size: 22px;
     }
+    .titleSpan {
+      padding: 15px 10px;
+      display: block;
+      background: rgba(50, 95, 125, 0.8);
+    }
     .el-dialog {
       box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
       background-color: rgba(18, 33, 39, 0.7);
@@ -182,6 +192,10 @@ export default {
       border-radius: 5px;
       position: relative;
       border: 1px solid #4b9bc1;
+      .el-dialog__header {
+        padding: 10px;
+      }
+      
       .el-dialog__body {
         .el-tabs {
           .el-tabs__header {
@@ -292,8 +306,8 @@ export default {
     }
     .titleBtn {
       float: right;
-      margin-right: 32px;
-      margin-top: 2px;
+      margin-right: 42px;
+      margin-top: 12px;
       z-index: 5;
       position: relative;
       .titleTopBtn {
