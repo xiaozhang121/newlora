@@ -48,7 +48,7 @@ export default {
       kilovolt500:require('@/assets/SVG/kilovolt500.svg'),
       kilovolt1000:require('@/assets/SVG/kilovolt1000.svg'),
       kilovoltAllAround:require('@/assets/SVG/kilovoltAllAround.svg'),
-      Allkv:require('@/assets/realViewImg/Allkv.png'),
+      Allkv:require('@/assets/realViewImg/AllkvD.png'),
       kv1000:require('@/assets/realViewImg/kv1000.png'),
       kv500:require('@/assets/realViewImg/kv500.png'),
       kv220:require('@/assets/realViewImg/kv220.png'),

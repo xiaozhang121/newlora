@@ -4,11 +4,8 @@
     <div class="mainList" v-if="mainlistShow">
     <duno-main   v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
-        <div :class="['toward']"  v-if="isDiagram">
+        <div :class="['toward']">
           <img :src="towardAround"/>
-        </div>
-        <div :class="['toward']"  v-else>
-          <img :src="toward"/>
         </div>
           <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
         <drappable class="drappable_assembly" width="1900px" height="675px">
@@ -33,11 +30,11 @@
               <img :src="kilovolt35" />-->
             </div>
             <div class="realView" v-else>
-              <img :src="kv1000" />
-              <img :src="kv500" />
+              <img :src="Allkv" />
+           <!--   <img :src="kv500" />
               <img :src="kv220" />
               <img :src="kv110" />
-              <img :src="kv35" />
+              <img :src="kv35" />-->
             </div>
           </div>
         </drappable>
@@ -647,7 +644,7 @@ export default {
       }
     }
     .drappable_assembly{
-      transform:translate(-50%,-50%);
+      transform:translate(-46%,-50%);
       position: absolute;
       left:46%;
       top:53%;
