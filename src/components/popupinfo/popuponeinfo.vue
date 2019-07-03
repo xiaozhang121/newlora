@@ -8,7 +8,7 @@
       </el-row>
       <div>
         <div class="imgBox">
-          <img :src="itemData.alarmFileAddress">
+          <img :src="itemData.alarmFileAddress" style="height: 100% !important; width: 100% !important;">
           <p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>
         </div>
       </div>
@@ -43,7 +43,8 @@ export default {
   },
   watch: {
     visible (now) {
-      if (now) this.getData()
+      if (now)
+          this.getData()
     }
   },
   created () {
@@ -142,5 +143,6 @@ export default {
 <style lang="scss">
 .popuponeinfoBox .el-dialog__body {
   padding: 0 20px;
+
 }
 </style>

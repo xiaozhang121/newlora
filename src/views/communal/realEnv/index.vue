@@ -20,7 +20,7 @@
                 />
             </template>
             <img class="no-drappable" :class="{'isAlarm': isAlarm}"  draggable="true" @dragstart="drag($event, {'src':light,'name':'demoData'})" style="width: 40px; height: 40px; left: 420px; top: 300px; position: absolute"  :src="light" />
-            <popup-one-info @onClose="closeAlarm" :visible="isAlarm"></popup-one-info>
+            <popup-one-info @onClose="closeAlarm" :visible="isAlarmPanel"></popup-one-info>
           </div>
           <div :class="['allShowPic']">
             <div class="Once_primaryDiagram" v-if="isDiagram">
@@ -422,6 +422,7 @@ export default {
   methods: {
       closeAlarm(now){
           if(!now){
+          this.isAlarmPanel = false
           this.alarmClear()
           this.isAlarm = false
           }
@@ -561,6 +562,7 @@ export default {
           clearInterval(this.timer)
       },
       alarmSet(){
+          this.isAlarmPanel = true
           this.timer = setInterval(()=>{
               this.isAlarm = !this.isAlarm
           },500)
