@@ -35,7 +35,7 @@
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue"  :min="1" :max="20"></el-slider>
+                        <el-slider class="elSlider"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue" :min="1" :max="20"></el-slider>
+                        <el-slider class="elSlider"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
         components: { dunoTable,DunoCharts, videoPlayer },
         data() {
             return {
-                sliderValue: 0,
+                sliderValue: 1,
                 clock,
                 timeRange: '',
                 temparams: null,
@@ -243,6 +243,7 @@
                 flagNow: -1,
                 secondLast: 2,
                 secondLastShow: 2,
+                timerMove: null,
                 timer: null,
                 showTimer: null,
                 lightTimer: null,
@@ -428,7 +429,9 @@
                     autoplay: true,
                     controls: true
                 },
-                activeNum: -1
+                activeNum: -1,
+                sliderValueold: 1,
+                clearCameraTimer: null
             }
         },
         computed:{
@@ -441,10 +444,19 @@
         },
         watch: {
             sliderValue(now, old){
-                if(now < old)
-                    this.viewCamera(5, true)
-                else
+             /*   if(this.clearCameraTimer)
+                    return
+                if(now < old){
                     this.viewCamera(4, true)
+                    this.viewCamera(5, false)
+                }else{
+                    this.viewCamera(5, true)
+                    this.viewCamera(4, false)
+                }
+                this.clearCameraTimer = setTimeout(()=>{
+                    this.cameraSFClear()
+                    this.clearCameraTimer = null
+                },Math.abs(now - old)*500)*/
             },
             panelType(){
                 debugger
@@ -504,6 +516,23 @@
             }
         },
         methods:{
+            cameraSF(now){
+                let old = this.sliderValueold
+                let count = 1
+                if(now < old) {
+                    this.viewCamera(5, false)
+                }else{
+                    this.viewCamera(4, false)
+                }
+                this.sliderValueold = now
+                setTimeout(()=>{
+                    this.cameraSFClear()
+                },Math.abs(now-old)*200)
+            },
+            cameraSFClear(now){
+                this.viewCamera(5, true)
+                this.viewCamera(4, true)
+            },
             getListData(){
                 const that = this
                 let url = '/lenovo-visible/api/visible-equipment/preset/list-name'
