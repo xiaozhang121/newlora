@@ -25,12 +25,12 @@ html, body, #app {
 /* IE内核 */
 * {
   scrollbar-arrow-color: #fff; /**//*三角箭头的颜色*/ 
-  scrollbar-face-color: #44495a; /**//*立体滚动条的颜色*/ 
-  scrollbar-3dlight-color: #2f333f; /**//*立体滚动条亮边的颜色*/ 
-  scrollbar-highlight-color: #2f333f; /**//*滚动条空白部分的颜色*/ 
-  scrollbar-shadow-color: #999; /**//*立体滚动条阴影的颜色*/ 
-  scrollbar-darkshadow-color: #2f333f; /**//*立体滚动条强阴影的颜色*/ 
-  scrollbar-track-color: #2f333f; /**//*立体滚动条背景颜色*/ 
+  scrollbar-face-color: #213848; /**//*立体滚动条的颜色*/ 
+  scrollbar-3dlight-color: #12222b; /**//*立体滚动条亮边的颜色*/ 
+  scrollbar-highlight-color: #12222b; /**//*滚动条空白部分的颜色*/ 
+  scrollbar-shadow-color: #213848; /**//*立体滚动条阴影的颜色*/ 
+  scrollbar-darkshadow-color: #12222b; /**//*立体滚动条强阴影的颜色*/ 
+  scrollbar-track-color: #12222b; /**//*立体滚动条背景颜色*/ 
   scrollbar-base-color:#f8f8f8; /**//*滚动条的基本颜色*/
 }
 /* 滚动条样式 webkit内核 */
@@ -40,13 +40,13 @@ html, body, #app {
 }
 ::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-  background: #44495a;
+  -webkit-box-shadow: inset 0 0 5px rgba(18,34,43,0.2);
+  background: #213848;
 }
 ::-webkit-scrollbar-track {/*滚动条里面轨道*/
-  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset 0 0 5px rgba(18,34,43,0.2);
   border-radius: 10px;
-  background: #2f333f;
+  background: #12222b;
 }
 .ivu-poptip-popper {
   z-index: 3140 !important;

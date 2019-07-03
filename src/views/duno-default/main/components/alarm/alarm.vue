@@ -123,9 +123,12 @@ export default {
     }
     &Content {
       > h3 {
-        height: 55px;
-        line-height: 55px;
+        height: 45px;
+        line-height: 45px;
+        margin-bottom: 10px;
+        padding: 0 15px;
         font-size: 16px;
+        background: rgba(50, 95, 125, 0.8);
         > i {
           float: right;
           margin-right: 10px;
