@@ -22,7 +22,7 @@
     </div>
     <div class="echarts">
       <duno-charts
-        :isChange="isChange"
+        :isChange="isChangeFlag"
         :isItemEchart="isItemEchart"
         :legendOption="legendOption"
         :xAxisOption="xAxisOption"
@@ -36,6 +36,7 @@
 
 <script>
 import moment from 'moment'
+import { getAxiosData } from '@/api/axiosType'
 import { DunoCharts } from "_c/duno-charts";
 import { constants } from 'crypto';
 export default {
@@ -115,6 +116,9 @@ export default {
   data() {
     const that = this
     return {
+      isChangeFlag: false,
+      startTime: '',
+      endTime: '',
       radio: 1,
       value: "",
       datePeriod: "",
@@ -180,10 +184,59 @@ export default {
         ev.preventDefault();
     },
     drop(ev){
-        debugger
+        const that = this
         ev.preventDefault();
         let data=JSON.parse(ev.dataTransfer.getData("itemData"));
         $(ev.target).append(`<img src="${data.src}" />`);
+        if(data.name == 'weatherCheck'){
+            that.legendData.push(...['微型气象站'])
+            that.seriesData.push(...[{
+                data: [50, 70, 10, 0, 20, 80, 30, 10, 20, 1],
+                name: "微型气象站",
+                type: "line"
+            }])
+            that.$forceUpdate()
+            that.isChangeFlag = !that.isChangeFlag
+        }else
+          this.getHistoryData(data['areaId'], data['monitorDeviceType'])
+    },
+    getHistoryData (monitorDeviceId, monitorDeviceType) {
+        this.isGetData = false
+        const that = this
+        const url = '/lenovo-plan/api/plan/history'
+        const query = {
+            monitorDeviceId: monitorDeviceId,
+            monitorDeviceType: monitorDeviceType,
+            startTime: `${this.startTime} 00:00:00`,
+            endTime: `${this.endTime} 23:59:59`,
+        }
+        getAxiosData(url, query).then( res => {
+            debugger
+            const dataList = res.data.dataList
+            const legendData = []
+            const xAxisData = []
+            const seriesData = []
+            for (let i = 0; i < dataList.length; i++) {
+                legendData.push(dataList[i].itemName)
+                const itemDataList = dataList[i].itemDataList
+                const obj = {
+                    name: dataList[i].itemName,
+                    type:'line',
+                    data: []
+                }
+                for (let item in itemDataList) {
+                    if (i == 0) {
+                        xAxisData.push(itemDataList[item].time)
+                    }
+                    obj.data.push(Number(itemDataList[item].data))
+                }
+                seriesData.push(obj)
+            }
+            that.legendData.push(...legendData)
+            that.seriesData.push(...seriesData)
+            that.$forceUpdate()
+            that.isChangeFlag = !that.isChangeFlag
+        })
     },
     onChangeRadio(data) {
       this.radio = data;
@@ -195,9 +248,18 @@ export default {
         date = moment().subtract(1, 'days')
       }
       arr.push(date,date)
+      const startTime = moment(arr[0]).format('YYYY-MM-DD')
+      const endTime = moment(arr[1]).format('YYYY-MM-DD')
+      this.startTime = JSON.parse(JSON.stringify(startTime))
+      this.endTime = JSON.parse(JSON.stringify(endTime))
       this.$emit("onChange", arr);
     },
     onChangeTime(data) {
+      $('#moveTarget').find('img').remove()
+      const startTime = moment(data[0]).format('YYYY-MM-DD')
+      const endTime = moment(data[1]).format('YYYY-MM-DD')
+      this.startTime = JSON.parse(JSON.stringify(startTime))
+      this.endTime = JSON.parse(JSON.stringify(endTime))
       this.datePeriod = data;
       this.radio = null;
       if (!data) {
@@ -211,6 +273,12 @@ export default {
     }
   },
   watch: {
+    isChange:{
+        handler(now){
+          this.isChangeFlag = now
+        },
+        immediate: true
+    },
     legendData: {
       handler(now) {
         let arr = []

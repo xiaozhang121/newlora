@@ -7,9 +7,7 @@
         <div :class="['toward']">
           <img :src="toward"/>
         </div>
-        <drappable idName="other" class="weatherCheck">
-          <img id="weatherCheck" @mouseup="mouseupWeatherCheck"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
-        </drappable>
+          <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->
           <div class="deviceList">
@@ -612,7 +610,7 @@ export default {
 <style lang="scss">
 .realEnv{
     .weatherCheck{
-      position: absolute; bottom: 14px; right: 62px;z-index: 1;
+      position: absolute; bottom: 19px; right: 62px;z-index: 1;
     }
     .turnHCircle{
       transform: rotate(180deg);

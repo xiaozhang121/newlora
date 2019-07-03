@@ -9,9 +9,9 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <span @click="fullScreen()"><i class="iconfont icon-luxiang"></i>全屏</span>
-                        <span><i class="iconfont icon-jietu"></i>录像</span>
-                        <span><i class="iconfont icon-quanping"></i>存图</span>
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
                 <div class="btnList" style="padding-bottom: 0; ">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue"  :min="1" :max="8"></el-slider>
+                        <el-slider class="elSlider" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -50,9 +50,9 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <span @click="fullScreen()"><i class="iconfont icon-luxiang"></i>全屏</span>
-                        <span><i class="iconfont icon-jietu"></i>录像</span>
-                        <span><i class="iconfont icon-quanping"></i>存图</span>
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
                 <div class="btnList">
@@ -94,9 +94,9 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <span @click="fullScreen()"><i class="iconfont icon-luxiang"></i>全屏</span>
-                        <span><i class="iconfont icon-jietu"></i>录像</span>
-                        <span><i class="iconfont icon-quanping"></i>存图</span>
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
                 <div class="btnList" style="padding-bottom: 0; ">
@@ -120,7 +120,7 @@
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider" v-model="sliderValue" :min="1" :max="8"></el-slider>
+                        <el-slider class="elSlider" v-model="sliderValue" :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -440,6 +440,12 @@
             }
         },
         watch: {
+            sliderValue(now, old){
+                if(now < old)
+                    this.viewCamera(5, true)
+                else
+                    this.viewCamera(4, true)
+            },
             panelType(){
                 debugger
                 const that = this
@@ -657,7 +663,7 @@
             viewCamera(command, flag){
                 this.activeNum = command
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                    .replace("{step}", this.sliderValue).replace("{flag}", Number(flag));
+                    .replace("{step}", 8).replace("{flag}", Number(flag));
                 putAxiosData(url).then(res => {
                 },error=>{
                     this.$message.error(error.message);

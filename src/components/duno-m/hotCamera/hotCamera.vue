@@ -9,9 +9,9 @@
                             <video id="video1" width="350" height="250" controls></video>
                         </div>
                         <div class="explain iconList" style="margin-top: 4px">
-                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                            <span><i class="iconfont icon-jietu"></i>录像</span>
-                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
+                            <span><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                     <div class="camera" v-if="showCamera" style="position: relative">
@@ -20,9 +20,9 @@
                             <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
                         </div>
                         <div class="explain iconList" style="bottom: 10px; position: absolute;">
-                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                            <span><i class="iconfont icon-jietu"></i>录像</span>
-                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
+                            <span><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                 </div>
@@ -63,9 +63,9 @@
                         <video id="video1" width="350" height="250" controls></video>
                     </div>
                     <div class="explain iconList" style="margin-bottom: 10px">
-                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                        <span><i class="iconfont icon-jietu"></i>录像</span>
-                        <span><i class="iconfont icon-quanping"></i>存图</span>
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
                 <div class="camera" v-if="showCamera" style="position: relative">
@@ -74,9 +74,9 @@
                         <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
                     </div>
                     <div class="explain iconList" style="bottom: 17px; position: absolute">
-                        <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                        <span><i class="iconfont icon-jietu"></i>录像</span>
-                        <span><i class="iconfont icon-quanping"></i>存图</span>
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
             </div>
@@ -124,9 +124,9 @@
                             <video id="video1" width="350" height="250" controls></video>
                         </div>
                         <div class="explain iconList" style="margin-bottom: 10px">
-                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                            <span><i class="iconfont icon-jietu"></i>录像</span>
-                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
+                            <span><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                     <div class="camera" v-if="showCamera" style="position: relative">
@@ -135,9 +135,9 @@
                             <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
                         </div>
                         <div class="explain iconList" style="bottom: 17px; position: absolute">
-                            <span><i class="iconfont icon-luxiang"></i>全屏</span>
-                            <span><i class="iconfont icon-jietu"></i>录像</span>
-                            <span><i class="iconfont icon-quanping"></i>存图</span>
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
+                            <span><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                 </div>
