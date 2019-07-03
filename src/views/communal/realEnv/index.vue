@@ -5,7 +5,7 @@
     <duno-main   v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
         <div :class="['toward']">
-          <img :src="towardAround"/>
+          <img @click="alarmSet" :src="towardAround"/>
         </div>
           <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
         <drappable class="drappable_assembly" width="1900px" height="675px">
@@ -17,9 +17,10 @@
                 {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
                 {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
                 ]"
-                class="no-drappable"
                 />
             </template>
+            <img class="no-drappable" :class="{'isAlarm': isAlarm}"  draggable="true" @dragstart="drag($event, {'src':light,'name':'demoData'})" style="width: 40px; height: 40px; left: 420px; top: 300px; position: absolute"  :src="light" />
+            <popup-one-info @onClose="closeAlarm" :visible="isAlarm"></popup-one-info>
           </div>
           <div :class="['allShowPic']">
             <div class="Once_primaryDiagram" v-if="isDiagram">
@@ -371,6 +372,8 @@ export default {
   data () {
     const that = this
     return {
+      isAlarm: false,
+      timer: null,
       tempObj: {},
       isDiagram: false,
       mainlistShow: true,
@@ -417,6 +420,10 @@ export default {
       }
   },
   methods: {
+      closeAlarm(){
+          this.alarmClear()
+          this.isAlarm = false
+      },
       drag(event, item){
           event.dataTransfer.setData("itemData",JSON.stringify(item))
       },
@@ -548,6 +555,14 @@ export default {
         that.deviceList = data
         that.$forceUpdate()
       },
+      alarmClear(){
+          clearInterval(this.timer)
+      },
+      alarmSet(){
+          this.timer = setInterval(()=>{
+              this.isAlarm = !this.isAlarm
+          },500)
+      },
       visableHandle(item, flag, modelIndex){
           if (item.deviceMessage.supportPreset) {
               if(item.monitorDeviceType == '1')       // 可见光
@@ -609,6 +624,9 @@ export default {
 </script>
 <style lang="scss">
 .realEnv{
+    .isAlarm{
+      border: 3px solid red;
+    }
     .weatherCheck{
       position: absolute; bottom: 19px; right: 62px;z-index: 1;
     }

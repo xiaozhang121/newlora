@@ -520,6 +520,7 @@ export default {
   background: #ff5eb9;
 }
 .popup {
+  background: rgba(18,33,39,0.7);
   width: 60%;
   height: 80%;
   overflow-y: auto;
@@ -532,7 +533,6 @@ export default {
   border: 1px solid #008290;
   border-radius: 15px;
   padding: 20px;
-  background: rgba(0, 130, 144, 0.3);
 
   .shut {
     position: absolute;

@@ -197,6 +197,15 @@ export default {
             }])
             that.$forceUpdate()
             that.isChangeFlag = !that.isChangeFlag
+        }else if(data.name == 'demoData'){
+            that.legendData.push(...['可见光设备'])
+            that.seriesData.push(...[{
+                data: [10, 90, 50, 0, 20, 0, 20, 40, 60, 5],
+                name: "可见光设备",
+                type: "line"
+            }])
+            that.$forceUpdate()
+            that.isChangeFlag = !that.isChangeFlag
         }else
           this.getHistoryData(data['areaId'], data['monitorDeviceType'])
     },

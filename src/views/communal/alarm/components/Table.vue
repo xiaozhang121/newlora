@@ -1,5 +1,5 @@
 <template>
-  <div class="duno-table">
+  <div class="duno-table demoTable">
     <div class="duno-title" v-if="title">
       {{title}}
       <div class="duno-select">
@@ -13,7 +13,7 @@
         </el-select>
       </div>
     </div>
-    <div>
+    <div style="margin-top: 20px">
       <duno-tables-tep
         :columns="columns"
         :data="dataList"
@@ -71,33 +71,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 .duno {
-  &-table {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #008290;
-    border-radius: 15px;
-    padding: 20px;
-    background: rgba(0, 130, 144, 0.3)
-  }
-  &-title {
-    height: 50px;
-    line-height: 50px;
-    position: relative;
-    color: #fff;
-    font-weight: bold;
-    font-size: 24px;
-  }
-  &-select{
-    width: 120px;
-    height: 30px;
-    border: 1px solid #008290;
-    border-radius: 5px;
-    position: absolute;
-    right: 6px;
-    top: 11px;
-  }
+
 }
 </style>
 <style lang="scss">
-
+  .image h3{
+    margin-top: 70px;
+    text-align: center;
+  }
+.demoTable{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .tablesTep{
+    overflow: hidden;
+  }
+  .tablesTep .ivu-table-wrapper tr:nth-child(odd) td{
+    background-color: rgba(18,33,39, 0.7) !important;
+  }
+  .tablesTep{
+    border-radius: 4px;
+    padding: 30px;
+  }
+}
 </style>
