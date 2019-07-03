@@ -420,9 +420,11 @@ export default {
       }
   },
   methods: {
-      closeAlarm(){
+      closeAlarm(now){
+          if(!now){
           this.alarmClear()
           this.isAlarm = false
+          }
       },
       drag(event, item){
           event.dataTransfer.setData("itemData",JSON.stringify(item))
