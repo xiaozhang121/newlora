@@ -474,7 +474,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/inspection/index.vue')
             }
         ]
       },
@@ -697,17 +697,17 @@ export default [
           isAlone: true
         },
         component: () => import('_c/duno-developing/index.vue')
-      // },
-      // {
-      //   path: 'alarm-info',
-      //   name: 'alarmInfo',
-      //   meta: {
-      //     title: '告警信息',
-      //     icon:"icon-shouye",
-      //     notCache: true,
-      //     isAlone: true
-      //   },
-      //   component: () => import('@/views/communal/alarmInfo/index.vue')
+      },
+      {
+        path: 'alarm-info',
+        name: 'alarmInfo',
+        meta: {
+          title: '告警信息',
+          icon:"icon-shouye",
+          notCache: true,
+          isAlone: true
+        },
+        component: () => import('@/views/communal/alarmInfo/index.vue')
       }
     ]
   },
