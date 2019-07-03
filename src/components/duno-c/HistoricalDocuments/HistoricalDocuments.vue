@@ -177,10 +177,11 @@ export default {
     }
     .el-dialog {
       box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
-      background-color: rgba(47, 51, 63, 0.7);
+      background-color: rgba(18, 33, 39, 0.7);
       width: 100%;
       border-radius: 5px;
       position: relative;
+      border: 1px solid #4b9bc1;
       .el-dialog__body {
         .el-tabs {
           .el-tabs__header {
@@ -202,7 +203,7 @@ export default {
                     margin-right: 5px;
                     border-radius: 3px;
                     color: #fff;
-                    background-color: #515970;
+                    background-color: #305e83;
                     opacity: 0.7;
                   }
                   .is-active {
@@ -232,7 +233,7 @@ export default {
                   margin-right: 15px;
                   tr:nth-child(odd) {
                     td {
-                      background-color: rgba(81, 89, 113, 0.7);
+                      background-color: rgba(32, 54, 68, 0.7);
                     }
                   }
                   border: none;
@@ -253,7 +254,7 @@ export default {
                   }
                 }
                 .ivu-select-dropdown {
-                  background-color: #303544;
+                  background-color: #1b3b47;
                 }
               }
             }
@@ -271,10 +272,10 @@ export default {
               color: #fff;
             }
             .el-select-dropdown__item:hover {
-              background-color: #303544;
+              background-color: #1b3b47;
             }
             .selected {
-              background-color: #303544;
+              background-color: #1b3b47;
             }
           }
         }
@@ -315,11 +316,11 @@ export default {
       button {
         display: block;
         margin: 10px 0;
-        background-color: rgba(47, 51, 63, 0.7);
+        background-color: rgba(27, 59, 71, 0.7);
         border: none;
       }
       .classifyActive {
-        background: rgba(81, 89, 113, 0.7);
+        background: rgba(32, 54, 68, 0.7);
       }
     }
   }

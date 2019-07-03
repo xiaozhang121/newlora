@@ -128,6 +128,7 @@ export default {
     height: 100%;
     box-sizing: border-box;
     padding: 20px;
-    background: #1d2027;
+    background: #142838;
+    background: rgba(20, 40, 56, 0.8);
   }
 </style>

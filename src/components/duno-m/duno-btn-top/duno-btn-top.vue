@@ -108,7 +108,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding-bottom: 13px;
-  border-bottom: 1px solid #2E3136;
+  // border-bottom: 1px solid #2E3136;
   .btnItem{
     margin-right: 30px;
   }

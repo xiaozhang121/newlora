@@ -14,7 +14,7 @@
       </el-col>
     </el-row>
     <div class="progress">
-      <el-progress type="circle" :percentage="tepmNum" :width="90" color="#87CEEB" :format="format" />
+      <el-progress type="circle" :percentage="tepmNum" :width="80" color="#87CEEB" :format="format" />
       <p>温度℃</p>
     </div>
   </div>

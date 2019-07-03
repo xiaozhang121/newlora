@@ -201,7 +201,7 @@ export default {
 <style lang="scss">
 .passDialog {
   .el-dialog {
-    background: rgba(47, 51, 63, 0.7);
+    background: rgba(27, 59, 71, 0.7);
   }
   .el-dialog__title, .el-form-item__label {
     color: #fff;

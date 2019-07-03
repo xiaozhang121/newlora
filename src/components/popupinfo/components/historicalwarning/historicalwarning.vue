@@ -72,7 +72,7 @@ export default {
   }
   .historicalwarningItem{
     padding-left: 175px;
-    background: linear-gradient(to right,transparent 26%, #343746 10%); /* 标准的语法（必须放在最后） */
+    background: linear-gradient(to right,transparent 26%, #203644 10%); /* 标准的语法（必须放在最后） */
     position: relative;
     .picDetail{
       position: absolute;
@@ -102,7 +102,7 @@ export default {
     color: #fff;
     font-size: 18px;
     padding: 10px;
-    background: #343746;
+    background: rgba(32, 54, 68, 0.7);
     margin-bottom: 10px;
     border-radius: 4px;
 

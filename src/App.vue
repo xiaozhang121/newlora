@@ -139,7 +139,19 @@ export default {
   .sharp{
     position:absolute;  overflow:hidden; background: url(../src/assets/images/sharpChosend.svg) no-repeat; background-size: 100% 100%;
   }
-  .sharp_p{
-    position:absolute;  width:0px; height:0px;left:0px; top:0px;  background: url(../src/assets/images/sharpChosend.svg) no-repeat; background-size: 100% 100%;
+  .sharp_p {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    left: 0px;
+    top: 0px;
+    background: url(../src/assets/images/sharpChosend.svg) no-repeat;
+    background-size: 100% 100%;
+  }
+  #app {
+    overflow: hidden;
+    background: #15222d;
+    background: url('./assets/images/home-bg.png') no-repeat top left;
+    background-size: cover;
   }
 </style>
