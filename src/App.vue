@@ -118,4 +118,10 @@ export default {
   @import "./assets/defaultIcon/duno-iconfont.css"; // 框架默认图标库
   @import "./assets/icons/iconfont.css";  // 项目引用图标库
   @import "./style/index.scss";
+  #app {
+    overflow: hidden;
+    background: #15222d;
+    background: url('./assets/images/home-bg.png') no-repeat top left;
+    background-size: cover;
+  }
 </style>

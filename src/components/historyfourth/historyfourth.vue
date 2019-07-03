@@ -94,7 +94,7 @@ export default {
     color: #fff;
     font-size: 18px;
     padding: 10px;
-    background: #343746;
+    background: rgba(32, 54, 68, 0.7);
     margin-bottom: 10px;
     border-radius: 4px;
 

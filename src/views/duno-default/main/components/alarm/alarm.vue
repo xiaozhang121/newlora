@@ -113,12 +113,12 @@ export default {
   body .prompt {
     &Box {
       box-sizing: border-box;
-      background: rgba(47, 51, 63, 0.7);
+      background: rgba(18, 33, 39, 0.7);
       padding: 10px;
       border: none;
       color: #fff;
       .popper__arrow {
-        border-bottom-color:rgba(47, 51, 63, 0.7) !important;
+        border-bottom-color:rgba(27, 59, 71, 0.7) !important;
       }
     }
     &Content {
@@ -152,7 +152,7 @@ export default {
       .itemData {
         box-sizing: border-box;
         padding: 20px 20px 10px;
-        background: rgba(35, 38, 47, 0.7);
+        background: rgba(32, 54, 68, 0.7);
         margin-bottom: 10px;
       }
       .itemData:last-of-type{

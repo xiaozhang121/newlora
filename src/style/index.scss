@@ -74,22 +74,22 @@ body .el-card__body {
 body .el-loading-spinner {
   i {
     font-size: 25px;
-    color: #0A70F8;
+    color: #00fefe;
   }
   .el-loading-text {
     font-size: 16px;
-    color: #0A70F8;
+    color: #00fefe;
   }
 }
 body .el-dropdown-menu {
-  background: rgba(47, 51, 63, 0.7);
-  border-color: rgba(47, 51, 63, 0.7);
+  background: rgba(27, 59, 71, 0.7);
+  border-color: rgba(27, 59, 71, 0.7);
 }
 body .el-dropdown-menu__item--divided:before {
-  background: rgba(47, 51, 63, 0.7);
+  background: rgba(27, 59, 71, 0.7);
 }
 body .el-dropdown-menu__item--divided {
-  border-color: rgba(47, 51, 63, 0.7);
+  border-color: rgba(27, 59, 71, 0.7);
 }
 body .el-popper[x-placement^="bottom"] .popper__arrow::after {
   display: none;
@@ -99,17 +99,23 @@ body .el-dropdown-menu__item {
 }
 body .el-dropdown-menu__item:not(.is-disabled):hover, body .el-dropdown-menu__item:focus {
   background-color: #2b3138;
-  color: #0A70F8;
+  color: #00fefe;
+}
+body .el-menu-item:hover, body .el-menu-item:focus, body .el-submenu__title:hover {
+  background: transparent;
+  .menu-title {
+    color: #fff;
+  }
 }
 
 body .el-button {
-  background: #7c7c7c;
-  border-color: #7c7c7c;
+  background: #203944;
+  border-color: #203944;
   color: #fff;
 }
 body .el-button:hover, body .el-button:focus {
-  border-color: #616161;
-  background-color: #616161;
+  border-color: #203944;
+  background-color: #203944;
   color: #fff;
 }
 body .el-button--primary:hover, body .el-button--primary:focus {
@@ -117,20 +123,20 @@ body .el-button--primary:hover, body .el-button--primary:focus {
   border-color: #5b647e;
 }
 body .el-button--info {
-  background: #3e4557;
-  border-color: #3e4557;
+  background: #305e83;
+  border-color: #305e83;
 }
 body .el-button--info:hover, body .el-button--info:focus {
-  border-color: #515970;
-  background-color: #515970;
+  border-color: #3a81a1;
+  background-color: #3a81a1;
 }
 body .el-button--success {
-  background: #515970;
-  border-color: #515970;
+  background: #3a81a1;
+  border-color: #3a81a1;
 }
 body .el-button--success:hover, body .el-button--success:focus {
-  border-color: #3e4557;
-  background-color: #3e4557;
+  border-color: #305e83;
+  background-color: #305e83;
 }
 body .el-picker-panel__icon-btn {
   color: #bbb;

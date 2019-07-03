@@ -8,7 +8,7 @@
     </el-header>
     <el-container class="mainAside">
       <el-aside hide-trigger collapsible :width="collapsed ? '64px' : '256px'" class="left-sider" :style="{overflow: 'hidden'}">
-        <side-menu :unique-opened="true" ref="sideMenu" backgroundColor="#23262F" textColor="#fff" activeTextColor="#0A70F8" :default-active="defaultActive" :collapsed="collapsed" @select="turnToPage" :menu-list="menuList"></side-menu>
+        <side-menu :unique-opened="true" ref="sideMenu" textColor="#fff" activeTextColor="#00fefe" :default-active="defaultActive" :collapsed="collapsed" @select="turnToPage" :menu-list="menuList"></side-menu>
       </el-aside>
       <el-main class="main-content-con">
         <el-container class="main-layout-con">
@@ -170,19 +170,32 @@ export default {
     color: #999 !important;
   }
   .el-menu.el-menu--inline, .el-submenu .el-menu-item, .side-menu-wrapper ul > li > ul .el-menu-item.is-active {
-    background: #1d1f26 !important;
+    background: transparent !important;
   }
+  .side-menu-wrapper ul > li > .el-menu {
+    background: -webkit-linear-gradient(#15222d, #090f14) !important;
+    background: -o-linear-gradient(#15222d, #090f14) !important;
+    background: -moz-linear-gradient(#15222d, #090f14) !important;
+    background: linear-gradient(#15222d, #090f14) !important;
+  }
+
   .el-submenu.is-active .el-submenu__title{
-    border-left: 4px solid #0A70F8;
-    background: #303544 !important;
+    border-left: 4px solid #00fefe;
+    background: #1b3b47 !important;
     color: #fff !important;
    }
   .el-menu-item.is-active {
-    border-left: 4px solid #0A70F8;
-    background: #303544 !important;
+    border-left: 4px solid #00fefe;
+    background: #1b3b47 !important;
     color: #fff !important;
   }
   .el-menu-item,.el-submenu__title,.el-submenu .el-menu-item{
     border-left: 4px solid transparent;
+  }
+  body .el-menu {
+    background: #0c141b;
+    background: url('../../../assets/images/mian-bg.png') no-repeat top left;
+    background-size: cover;
+    padding-top: 1em;
   }
 </style>

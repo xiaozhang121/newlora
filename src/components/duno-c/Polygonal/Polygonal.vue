@@ -391,7 +391,7 @@ export default {
   }
 }
 .el-picker-panel {
-  background-color: rgba(47, 51, 63, 0.7);
+  background-color: rgba(27, 59, 71, 0.7);
   color: #fff;
   border: none;
   .el-picker-panel__body-wrapper {

@@ -167,7 +167,7 @@ export default {
         .el-input__inner {
           border: none;
           color: #fff;
-          background-color: #303544;
+          background-color: #1b3b47;
         }
         .el-select__caret {
           background-color: rgba(0, 0, 0, 0);
@@ -187,7 +187,7 @@ export default {
       .ivu-table-wrapper {
         tr:nth-child(odd) {
           td {
-            background-color: #303544;
+            background-color: #1b3b47;
           }
         }
         border: none;
@@ -208,7 +208,7 @@ export default {
         }
       }
       .ivu-select-dropdown {
-        background-color: #303544;
+        background-color: #1b3b47;
       }
     }
   }
@@ -226,10 +226,10 @@ export default {
     color: #fff;
   }
   .el-select-dropdown__item:hover {
-    background-color: #303544;
+    background-color: #1b3b47;
   }
   .selected {
-    background-color: #303544;
+    background-color: #1b3b47;
   }
 }
 </style>
