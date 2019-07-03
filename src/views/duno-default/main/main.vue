@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100%" class="main">
-    <el-header class="main-header">
+    <el-header class="main-header" style="height: 80px;">
       <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
         <alarm-tip />  <!-- 告警消息 -->
         <user />  <!-- 用户基础操作 -->
