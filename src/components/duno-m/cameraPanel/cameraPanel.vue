@@ -523,9 +523,9 @@
                     return
                 }
                 let old = this.sliderValueold
-                let timeSeed = 130
+                let timeSeed = 190
                 if(now == 1 || now == 20){
-                    timeSeed = 180
+                    timeSeed = 300
                 }
                 this.disabled = true
                 if(now < old) {
@@ -724,9 +724,19 @@
             },
             initCamera(){
                 const that = this
+                that.disabled = true
                 const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
                 getAxiosData(url, {}).then(res => {
                      that.playerOptions.sources[0].src = res.data;
+                     setTimeout(()=>{
+                         that.viewCamera(5, false).then(res=>{
+                             setTimeout(()=>{
+                                 this.viewCamera(5, true).then(res=>{
+                                     that.disabled = false
+                                 })
+                             },5000)
+                         })
+                     },500)
                 });
             }
         },
