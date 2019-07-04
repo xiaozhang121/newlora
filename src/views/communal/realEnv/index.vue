@@ -1,6 +1,6 @@
 <template>
   <div class="realEnv">
-    <duno-btn-top @on-active="deviceShowHandle" @on-diagram="changDiagram" />
+    <duno-btn-top ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
     <div class="mainList" v-if="mainlistShow">
     <duno-main   v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
@@ -17,6 +17,7 @@
                 {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
                 {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
                 ]"
+                 class="no-drappable"
                 />
             </template>
             <img class="no-drappable" :class="{'isAlarm': isAlarm}"  draggable="true" @dragstart="drag($event, {'src':light,'name':'demoData'})" style="width: 40px; height: 40px; left: 420px; top: 300px; position: absolute"  :src="light" />
@@ -39,8 +40,8 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+   <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
@@ -65,19 +66,19 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+     <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]"  ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE" v-else>
         <div class="toward">
           <img :src="towardAround"/>
         </div>
         <drappable idName="other"   class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: 83px; top: -150px; transform: scale(1.3);">
+          <div class="allShowPic" style="position: absolute;left: 603px; top: -150px; transform: scale(1.3);">
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt1000Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
+                  <img :key="index"  @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
                      :style="[
                     {'left': item['xAxis']+'px'},
                     {'top':  item['yAxis']+'px'}
@@ -89,8 +90,8 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+       <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '500'">
@@ -115,15 +116,15 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+      <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
         <div class="toward">
           <img :src="towardAround"/>
         </div>
         <drappable  idName="other"  class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -300px; top: -158px;transform: scale(1.3)">
+          <div class="allShowPic" style="position: absolute;left: -300px; top: -112px;transform: scale(1.3)">
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt500Pic">
@@ -139,8 +140,8 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+    <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '220'">
@@ -165,15 +166,15 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+     <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
         <div class="toward">
           <img :src="towardAround"/>
         </div>
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: 480px; top: -180px;transform: scale(1.3)">
+          <div class="allShowPic" style="position: absolute;left: -1000px; top: -100px;transform: scale(1.3)">
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt220Pic">
@@ -189,8 +190,8 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+       <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '110'">
@@ -215,15 +216,15 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+  <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
+      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
         <div class="toward">
           <img :src="towardAround"/>
         </div>
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -710px; top: -50px;transform: scale(1.3)">
+          <div class="allShowPic" style="position: absolute;left: 200px; top: -200px;transform: scale(1.3)">
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt110Pic">
@@ -239,8 +240,8 @@
             </div>
           </div>
         </drappable>
-        <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+     <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '35'">
@@ -265,15 +266,15 @@
               </div>
             </div>
           </drappable>
-          <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>
+     <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
         </div>
-        <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
+        <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
           <div class="toward">
             <img :src="towardAround"/>
           </div>
           <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-            <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">
+            <div class="allShowPic" style="position: absolute;left: -500px; top: -100px;transform: scale(1.3)">
               <div class="realView">
                 <div class="deviceList">
                   <template v-for="(item,index) in kilovolt35Pic">
@@ -289,8 +290,8 @@
               </div>
             </div>
           </drappable>
-          <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
-          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>
+        <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
       </duno-main>
 
@@ -538,6 +539,7 @@ export default {
         })
       },
       deviceShowHandle(arr){
+        debugger
         const that = this
         let target = arr.filter(item=>{
             return item['isActive'] == true
@@ -607,6 +609,8 @@ export default {
   mounted () {
     const that = this
     document.addEventListener('fullscreenchange', function(event){
+        if(that.$refs.btnTopRef)
+          that.$refs.btnTopRef.isFullscreen = !that.$refs.btnTopRef.isFullscreen
         that.isFullscreen = !that.isFullscreen
             let data = that.modeList
             data.map(item=>{
@@ -702,10 +706,10 @@ export default {
         overflow: hidden;
       }
       .item_ctx.active:first-child{
-        border-left: 6px solid #18191D;
+        /*border-left: 6px solid #18191D;*/
       }
       .item_ctx.active:last-child{
-        border-right: 6px solid #18191D;
+        /*border-right: 6px solid #18191D;*/
       }
     }
     .Once_primaryDiagram{
