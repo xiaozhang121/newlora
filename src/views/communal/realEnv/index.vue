@@ -31,11 +31,11 @@
               <img :src="kilovolt35" />-->
             </div>
             <div class="realView" v-else>
-              <img :src="Allkv" />
-           <!--   <img :src="kv500" />
+              <img :src="kv1000" />
+              <img :src="kv500" />
               <img :src="kv220" />
               <img :src="kv110" />
-              <img :src="kv35" />-->
+              <img :src="kv35" />
             </div>
           </div>
         </drappable>
@@ -70,10 +70,10 @@
       </div>
       <div :class="['item_ctx', {'active': isDiagram}]"  ref="secondElE">
         <div class="toward">
-          <img :src="toward"/>
+          <img :src="towardAround"/>
         </div>
         <drappable idName="other"   class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -1073px; top: -80px; transform: scale(1.3);">
+          <div class="allShowPic" style="position: absolute;left: 83px; top: -150px; transform: scale(1.3);">
             <div class="realView">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt1000Pic">
@@ -120,7 +120,7 @@
       </div>
       <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
         <div class="toward">
-          <img :src="toward"/>
+          <img :src="towardAround"/>
         </div>
         <drappable  idName="other"  class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic" style="position: absolute;left: -300px; top: -158px;transform: scale(1.3)">
@@ -170,7 +170,7 @@
       </div>
       <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
         <div class="toward">
-          <img :src="toward"/>
+          <img :src="towardAround"/>
         </div>
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic" style="position: absolute;left: 480px; top: -180px;transform: scale(1.3)">
@@ -220,7 +220,7 @@
       </div>
       <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
         <div class="toward">
-          <img :src="toward"/>
+          <img :src="towardAround"/>
         </div>
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic" style="position: absolute;left: -710px; top: -50px;transform: scale(1.3)">
@@ -270,7 +270,7 @@
         </div>
         <div :class="['item_ctx', {'active': isDiagram}]" ref="secondElE">
           <div class="toward">
-            <img :src="toward"/>
+            <img :src="towardAround"/>
           </div>
           <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
             <div class="allShowPic" style="position: absolute;left: -40px; top: -160px;transform: scale(1.3)">

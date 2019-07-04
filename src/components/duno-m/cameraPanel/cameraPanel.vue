@@ -35,7 +35,7 @@
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
+                        <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>
-                        <el-slider class="elSlider"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
+                        <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
                 </div>
@@ -229,6 +229,7 @@
         components: { dunoTable,DunoCharts, videoPlayer },
         data() {
             return {
+                disabled: false,
                 sliderValue: 1,
                 clock,
                 timeRange: '',
@@ -517,21 +518,40 @@
         },
         methods:{
             cameraSF(now){
+                const that = this
+                if(now == this.sliderValueold){
+                    return
+                }
                 let old = this.sliderValueold
-                let count = 1
+                let timeSeed = 130
+                if(now == 1 || now == 20){
+                    timeSeed = 180
+                }
+                this.disabled = true
                 if(now < old) {
-                    this.viewCamera(5, false)
+                    this.viewCamera(5, false).then(res=>{
+                        setTimeout(()=>{
+                            this.viewCamera(5, true).then(res=>{
+                                that.disabled = false
+                            })
+                        },Math.abs(now-old)*timeSeed)
+                    })
                 }else{
-                    this.viewCamera(4, false)
+                    this.viewCamera(4, false).then(res=>{
+                        setTimeout(()=>{
+                            this.viewCamera(4, true).then(res=>{
+                                that.disabled = false
+                            })
+                        },Math.abs(now-old)*timeSeed)
+                    })
                 }
                 this.sliderValueold = now
-                setTimeout(()=>{
-                    this.cameraSFClear()
-                },Math.abs(now-old)*200)
             },
             cameraSFClear(now){
-                this.viewCamera(5, true)
-                this.viewCamera(4, true)
+                const that = this
+                Promise.all([this.viewCamera(5, true), this.viewCamera(4, true)]).then(data=>{
+                    that.disabled = false
+                })
             },
             getListData(){
                 const that = this
@@ -693,9 +713,13 @@
                 this.activeNum = command
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
                     .replace("{step}", 8).replace("{flag}", Number(flag));
-                putAxiosData(url).then(res => {
-                },error=>{
-                    this.$message.error(error.message);
+                return new Promise((resolve, reject)=>{
+                    putAxiosData(url).then(res => {
+                        resolve(res)
+                    },error=>{
+                        reject(res)
+                        this.$message.error(error.message);
+                    })
                 })
             },
             initCamera(){
