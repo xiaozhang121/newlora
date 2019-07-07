@@ -114,6 +114,7 @@ export default {
           this.$emit('on-diagram', now)
       },
       showListFlag(now){
+          $(this.$refs.showListRef).stop()
           if(now){
               $(this.$refs.showListRef).slideDown('normal')
           }else{
