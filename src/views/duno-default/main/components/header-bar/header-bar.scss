@@ -37,7 +37,8 @@
     }
     .activeBtn {
       color: #fff;
-      background: linear-gradient(rgba(48, 107, 135, 0.6), rgb(32, 57, 68) 42%);
+      background: url(../../../../../../src/assets/buttonPng/choose.png) no-repeat !important;
+      background-cover: contain;
       border-color: #707070;
     }
   }

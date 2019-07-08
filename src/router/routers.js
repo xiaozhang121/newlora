@@ -255,6 +255,32 @@ export default [
                       component: () => import('@/views/communal/realEnv/index.vue'),
                   }
               ]
+          },
+          {
+              path: 'kilovolt10',
+              name: 'kilovolt10Index',
+              meta: {
+                  title: '10千伏',
+                  access: ['200001'],
+                  notCache: true,
+                  toListName: 'kilovolt10List',
+                  btnArr: [{'name': '列表', 'code': '200001_1'}]
+              },
+              component: parentView,
+              children: [
+                  {
+                      path: 'list',
+                      name: 'kilovolt10List',
+                      meta: {
+                          access: ['11001010'],
+                          title: '列表',
+                          kind: 35,
+                          hideInMenu: true,
+                          isDetails: true
+                      },
+                      component: () => import('@/views/communal/realEnv/index.vue'),
+                  }
+              ]
           }
       ]
   },

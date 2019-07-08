@@ -27,19 +27,19 @@
     </div>
     <div class="middleBtn"  v-if="showBtnList">
       <div v-for="(item, index) in topBtnList" :key="index" class="btn" @click="topBtnHandle(index, item)" :class="{'active': item['active']}">
-        <i v-if="!item['active']" class="iconfont icon-yincangmima"></i>
-        <i v-else class="iconfont icon-xianshi"></i>
+        <i v-if="!item['active']" class="iconfont icon-biyan"></i>
+        <i v-else class="iconfont icon-zhengyan"></i>
         {{ item['name'] }}
       </div>
     </div>
     <div class="rightBtnHandle" v-if="showBtnList">
       <div class="zoomMain">
         <span class="zoom">
-          <i class="iconfont icon-jianhao"></i>
+          <i class="iconfont icon-jianshao"></i>
         </span>
         <span class="nr">缩放图片</span>
         <span class="zoom">
-          <i class="iconfont icon-jiahao"></i>
+          <i class="iconfont icon-zengjia"></i>
         </span>
       </div>
       <span v-if="!isFullscreen"><i class="fullScreenTop iconfont icon-quanping"  @click="changeFullScreen()"></i></span>
@@ -132,21 +132,9 @@ export default {
             isActive: true
           },
           {
-            circleColor:'#FF5EB9',
-            describeName: '可见光（云台）',
-            monitorDeviceType: 3,
-            isActive: true
-          },
-          {
             circleColor:'#4FF2B7',
             describeName: '红外测光',
             monitorDeviceType: 2,
-            isActive: true
-          },
-          {
-            circleColor:'#FF9000',
-            describeName: '红外测光（云台）',
-            monitorDeviceType: 4,
             isActive: true
           },
           {
@@ -303,10 +291,9 @@ export default {
     display: flex;
     flex-direction: column;
     position: absolute;
-    // top: 17px;
     z-index: 1;
     width: 200px;
-    background: linear-gradient(top right  ,rgba(48,107,135,0.9), rgba(28,50,64,0.7) 60%);
+    background: linear-gradient(210deg, rgba(48,107,135,0.9), rgba(28,50,64,0.7) 60%);
     .title{
       cursor: pointer;
       padding: 5px 20px;

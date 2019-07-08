@@ -36,6 +36,7 @@ export default {
     },
     data() {
     return {
+        sliderValue: 1,
         xjBtn: require('@/assets/camera/xjBtn.png'),
         xjBtnClick: require('@/assets/camera/xjBtnClick.png'),
         squera: require('@/assets/camera/squera.png'),
@@ -83,7 +84,7 @@ export default {
             display: flex;
             flex-direction: column;
             /*width: 256px;*/
-            width: 239px;
+            width: 251px;
             height: 256px;
             margin-left: 26px;
             position: relative;
@@ -107,6 +108,7 @@ export default {
                     /*margin: 9px;*/
                     background-size: contain !important;
                     background-repeat: no-repeat !important;
+                    margin: 4px;
                 }
                 .btn.active{
                     background: url("../../../../src/assets/camera/xjBtnClick.png") !important;
