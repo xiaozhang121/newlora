@@ -1,6 +1,6 @@
 <template>
   <div class="keyMonitor" :style="{width:width}">
-    <div class="camera" @mouseenter="enter()" @mouseleave="leave()">
+    <div class="camera" :style="{'paddingBottom': paddingBottom}" @mouseenter="enter()" @mouseleave="leave()">
       <div class="main" id="videoPlayer">
         <video-player ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
       </div>
@@ -50,9 +50,21 @@ export default {
     videoPlayer
   },
   props: {
+    paddingBottom: {
+      type: String,
+      default: "56%"
+    },
     width: {
       type: String,
       default: "50%"
+    },
+    optionWidth: {
+      type: String,
+      default: ""
+    },
+    optionHeight: {
+        type: String,
+        default: ""
     },
     kilovolt: {
       type: String,
@@ -70,14 +82,13 @@ export default {
       showBtm: false,
       isSecond: false,
       playerOptions: {
-        // width: "100%",
         sources: [
           {
             type: "rtmp/flv",
             src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
           }
         ],
-        aspectRatio: "16:9",
+        fluid: true,
         techOrder: ["flash"],
         autoplay: true,
         controls: true
@@ -96,12 +107,22 @@ export default {
     leave() {
       this.showBtm = false;
     }
+  },
+  created(){
+     /* if(this.optionWidth && this.optionHeight){
+          this.playerOptions.width = this.optionWidth
+          this.playerOptions.height = this.optionHeight
+      }else{
+      }*/
   }
 };
 </script>
 
 <style lang="scss">
 .keyMonitor {
+  .video-player.vjs-custom-skin{
+    width: 100%;
+  }
   .camera {
     width: 100%;
     height: 0;
@@ -117,7 +138,7 @@ export default {
     }
     .iconList {
       position: absolute;
-      bottom: -2px;
+      bottom: -3px;
       display: flex;
       justify-content: space-between;
       line-height: 32px !important;

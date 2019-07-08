@@ -1,29 +1,47 @@
 <template>
   <div class="surveillance">
      <div class="title">
-       <i class="iconfont icon-zuoyoubuju"></i>
+       <i class="iconfont icon-zuoyoubuju" v-if="layoutType == '布局一'"></i>
+       <i class="iconfont icon-shangxiabuju" v-else></i>
        <span class="nr">{{ layoutType }}</span>
        <duno-btn-top @on-select="onSelect" class="dunoBtnTop" :isCheck="false" :dataList="dataList" title="切换布局" :showBtnList="false"></duno-btn-top>
      </div>
     <div class="main" :class="{widthA : layoutType == '布局二'}">
       <div class="left_main" :class="{widthA : layoutType == '布局二'}">
-        <div class="left" :class="{topHeight : layoutType == '布局二'}"></div>
+        <div class="left"  style="padding-bottom: 32%"  v-if="layoutType == '布局二'">
+          <key-monitor paddingBottom="32%" class="monitorM second"></key-monitor>
+        </div>
+        <div class="left" v-else>
+          <key-monitor  class="monitorM"></key-monitor>
+        </div>
       </div>
-      <div class="right_main" :class="{hidden : layoutType == '布局二'}">
-        <div class="right"></div>
-        <div class="right"></div>
-        <div class="right"></div>
+      <div class="right_main" v-if="layoutType != '布局二'" :class="{hidden : layoutType == '布局二'}">
+        <div class="right">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
+        <div class="right">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
+        <div class="right">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
     </div>
     <div class="oltagevMain second" v-if="layoutType == '布局二'">
       <div class="item_main">
-        <div class="item"></div>
+        <div class="item">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
       <div class="item_main">
-        <div class="item"></div>
+        <div class="item">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
       <div class="item_main">
-        <div class="item"></div>
+        <div class="item">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
     </div>
     <div class="title">
@@ -32,16 +50,24 @@
     </div>
     <div class="oltagevMain">
       <div class="item_main">
-        <div class="item"></div>
+        <div class="item">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
       <div class="item_main">
-        <div class="item"></div>
+        <div class="item">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
       <div class="item_main">
-        <div class="item"></div>
+        <div class="item">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
       <div class="item_main">
-        <div class="item"></div>
+        <div class="item">
+          <key-monitor class="monitorM"></key-monitor>
+        </div>
       </div>
     </div>
   </div>
@@ -49,10 +75,12 @@
 
 <script>
 import dunoBtnTop  from '_c/duno-m/duno-btn-top'
+import KeyMonitor from '_c/duno-c/KeyMonitor'
 export default {
   name: "surveillance",
   components: {
-      dunoBtnTop
+      dunoBtnTop,
+      KeyMonitor
   },
   data() {
     return {
@@ -91,8 +119,12 @@ export default {
 <style lang="scss">
 .surveillance {
   width: 100%;
+  .monitorM{
+    width: 100% !important; height: 100% !important;position: absolute
+  }
   .widthA{
     width: 100% !important;
+    position: relative;
   }
   .single{
     width: 100% !important;
@@ -121,7 +153,7 @@ export default {
     display: flex;
     align-items: center;
 
-    .icon-zuoyoubuju{
+    .icon-zuoyoubuju,.icon-shangxiabuju{
       font-size: 18px;
       margin-right: 7px;
     }
@@ -136,16 +168,16 @@ export default {
     .left_main{
       width: 75.5%;
       .left{
+        position: relative;
         width: 100%;
-        background: grey;
         padding-bottom: 56%;
       }
     }
     .right_main{
       width: 24.2%;
       .right{
+        position: relative;
         width: 100%;
-        background: grey;
         padding-bottom: 56%;
         margin-left: 3.3%;
         margin-bottom: 3.3%;
@@ -168,17 +200,21 @@ export default {
     .item_main{
       float: left;
       width: calc(98% / 3);
-      background: grey;
       margin-right: 1%;
       margin-bottom: 1%;
       .item{
+        position: relative;
         width: 100%;
-        background: grey;
         padding-bottom: 56%;
       }
     }
     .item_main:nth-last-child(3n-1){
       margin-right: 0;
+    }
+  }
+  .monitorM.second{
+    .vjs_video_1-dimensions.vjs-fluid{
+      padding-top: 32%;
     }
   }
 }
