@@ -437,10 +437,17 @@
         },
         computed:{
             deviceId(){
-                return this.itemData['monitorDeviceId'].toString()
+                debugger
+                if(this.itemData)
+                    return this.itemData['monitorDeviceId'].toString()
+                else
+                    return -1
             },
             cameraName(){
-                return this.itemData['deviceMessage']['cameraName']
+                if(this.itemData)
+                    return this.itemData['deviceMessage']['cameraName']
+                else
+                    return ''
             }
         },
         watch: {
@@ -901,14 +908,15 @@
                 padding-bottom: 50px;
                 display: flex;
                 flex-direction: column;
-                width: 256px;
+                /*width: 256px;*/
+                width: 249px;
                 height: 256px;
                 margin-left: 26px;
                 position: relative;
                 .description{
                     position: absolute;
                     color: #a2a2a5;
-                    width: 29px;
+                    width: 40px;
                     height: 48px;
                     left: 0;
                     top: 0;

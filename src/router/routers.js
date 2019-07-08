@@ -497,7 +497,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/inspection/index.vue')
+              component: () => import('@/views/communal/robotF/index.vue')
             }
         ]
       },
@@ -520,7 +520,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/inspection/index.vue')
             }
         ]
       }

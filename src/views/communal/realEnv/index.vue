@@ -8,20 +8,11 @@
           <img @click="alarmSet" :src="towardAround"/>
         </div>
           <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
-        <drappable class="drappable_assembly" width="1900px" height="675px">
           <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->
-          <div class="deviceList">
-            <template  v-for="(item, index) in deviceList">
-                <img draggable="true" @dragstart="drag($event, item)" :key="index" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"
-                :style="[
-                {'left': isDiagram?item['xAxisDiagram']+'px':item['xAxis']+'px'},
-                {'top': isDiagram?item['yAxisDiagram']+'px':item['yAxis']+'px'}
-                ]"
-                 class="no-drappable"
-                />
-            </template>
-            <img class="no-drappable" :class="{'isAlarm': isAlarm}"  draggable="true" @dragstart="drag($event, {'src':light,'name':'demoData'})" style="width: 40px; height: 40px; left: 420px; top: 300px; position: absolute"  :src="light" />
-            <popup-one-info @onClose="closeAlarm" :visible="isAlarmPanel"></popup-one-info>
+             <!-- <div v-for="(item, index) in deviceList" class="anchorPoint" :id="'anchor'+index" :key="index" >
+                  <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
+              </div>-->
+              <gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <div :class="['allShowPic']">
             <div class="Once_primaryDiagram" v-if="isDiagram">
@@ -39,10 +30,8 @@
               <img :src="kv35" />
             </div>
           </div>
-        </drappable>
    <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
-      </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
       <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE"  v-if="isDiagram">
@@ -322,6 +311,7 @@ import hotCamera from '_c/duno-m/hotCamera'                       // 红外
 import { popupinfo, popupOneInfo } from '_c/popupinfo'
 import { deviceLocation } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
+import gisMap from '_c/duno-m/gisMap'
 export default {
   mixins: [mixinViewModule],
   name: 'RoleIndex',
@@ -335,7 +325,8 @@ export default {
       popupinfo,
       popupOneInfo,
       cameraPop,
-      hotcameraPop
+      hotcameraPop,
+      gisMap
   },
   computed:{
     ...mapState([

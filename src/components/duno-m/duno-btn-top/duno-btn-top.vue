@@ -153,8 +153,23 @@ export default {
             isActive: true
           }
         ]
-      }
+    },
+    isDiagram: false,
+    isClick: false
     }
+  },
+  watch: {
+      isDiagram(now){
+          this.$emit('on-diagram', now)
+      },
+      showListFlag(now){
+          $(this.$refs.showListRef).stop()
+          if(now){
+              $(this.$refs.showListRef).slideDown('normal')
+          }else{
+              $(this.$refs.showListRef).slideUp('normal')
+          }
+      }
   },
   computed: {
       dataListName(){
