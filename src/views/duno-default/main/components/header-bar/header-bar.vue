@@ -86,8 +86,8 @@ export default {
   }
   .header-middle{
     .title{
-      line-height: 25px;
-      font-size: 16px;
+      background: url(../../../../../../src/assets/buttonPng/unchoose.png) no-repeat;
+      background-cover: contain;
     }
   }
 </style>
