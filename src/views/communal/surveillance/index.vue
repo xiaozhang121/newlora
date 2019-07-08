@@ -5,9 +5,44 @@
        <span class="nr">{{ layoutType }}</span>
        <duno-btn-top @on-select="onSelect" class="dunoBtnTop" :isCheck="false" :dataList="dataList" title="切换布局" :showBtnList="false"></duno-btn-top>
      </div>
-    <div class="main">
-      <div class="left"></div>
-      <div class="right"></div>
+    <div class="main" :class="{widthA : layoutType == '布局二'}">
+      <div class="left_main" :class="{widthA : layoutType == '布局二'}">
+        <div class="left" :class="{topHeight : layoutType == '布局二'}"></div>
+      </div>
+      <div class="right_main" :class="{hidden : layoutType == '布局二'}">
+        <div class="right"></div>
+        <div class="right"></div>
+        <div class="right"></div>
+      </div>
+    </div>
+    <div class="oltagevMain second" v-if="layoutType == '布局二'">
+      <div class="item_main">
+        <div class="item"></div>
+      </div>
+      <div class="item_main">
+        <div class="item"></div>
+      </div>
+      <div class="item_main">
+        <div class="item"></div>
+      </div>
+    </div>
+    <div class="title">
+      <span class="nr">{{ oltagevLevel  }}</span>
+      <duno-btn-top  class="dunoBtnTop" :isCheck="false" :dataList="oltagevLevelList" title="按电压等级" :showBtnList="false"></duno-btn-top>
+    </div>
+    <div class="oltagevMain">
+      <div class="item_main">
+        <div class="item"></div>
+      </div>
+      <div class="item_main">
+        <div class="item"></div>
+      </div>
+      <div class="item_main">
+        <div class="item"></div>
+      </div>
+      <div class="item_main">
+        <div class="item"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +66,17 @@ export default {
               isActive: false
             }
         ],
+        oltagevLevelList:[
+            {
+                describeName: '电压一',
+                isActive: true
+            },
+            {
+                describeName: '电压二',
+                isActive: false
+            }
+        ],
+        oltagevLevel: '所有区域',
         layoutType: '布局一'
     }
   },
@@ -45,6 +91,19 @@ export default {
 <style lang="scss">
 .surveillance {
   width: 100%;
+  .widthA{
+    width: 100% !important;
+  }
+  .single{
+    width: 100% !important;
+    height: 50% !important;
+  }
+  .hidden{
+    display: none;
+  }
+  .topHeight{
+    padding-bottom: 34% !important;
+  }
   .dunoBtnTop{
     width: 134px;
     display: inline-flex;
@@ -73,15 +132,53 @@ export default {
   }
   .main{
     display: flex;
-    .left{
-      width: 60%;
-      background: pink;
-      padding-bottom: 20%;
+    width: 99.5%;
+    .left_main{
+      width: 75.5%;
+      .left{
+        width: 100%;
+        background: grey;
+        padding-bottom: 56%;
+      }
     }
-    .right{
-      width: 40%;
+    .right_main{
+      width: 24.2%;
+      .right{
+        width: 100%;
+        background: grey;
+        padding-bottom: 56%;
+        margin-left: 3.3%;
+        margin-bottom: 3.3%;
+      }
+    }
+  }
+  .oltagevMain{
+    width: 100%;
+    zoom:1;
+    &:after { clear:both;content:'';display:block;width:0;height:0;visibility:hidden; }
+    &.second{
+      margin-top: 1%;
+      .item_main{
+        margin-right: 1% !important;
+      }
+      .item_main:last-child{
+        margin-right: 0 !important;
+      }
+    }
+    .item_main{
+      float: left;
+      width: calc(98% / 3);
       background: grey;
-      padding-bottom: 20%;
+      margin-right: 1%;
+      margin-bottom: 1%;
+      .item{
+        width: 100%;
+        background: grey;
+        padding-bottom: 56%;
+      }
+    }
+    .item_main:nth-last-child(3n-1){
+      margin-right: 0;
     }
   }
 }

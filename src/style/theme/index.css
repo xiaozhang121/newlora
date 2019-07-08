@@ -31922,7 +31922,7 @@
 
 .el-slider__bar {
   height: 6px;
-  background-color: #515970;
+  background-color: #3a81a1;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   position: absolute; }
@@ -31958,11 +31958,12 @@
     cursor: grabbing; }
 
 .el-slider__button {
-  width: 16px;
+  width: 8px;
   height: 16px;
-  border: solid 2px #515970;
-  background-color: #FFFFFF;
-  border-radius: 50%;
+  border: solid 2px transparent;
+  /*background-color: #FFFFFF;*/
+  background: linear-gradient(135deg, transparent 15px, red 0) top left,linear-gradient(-135deg, transparent 15px, red 0) top right,linear-gradient(-45deg, transparent 15px, red 0) bottomright,linear-gradient(45deg, transparent 15px, red 0) bottom left;
+  /*border-radius: 50%;*/
   -webkit-transition: .2s;
   transition: .2s;
   -webkit-user-select: none;

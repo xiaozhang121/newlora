@@ -5,7 +5,7 @@
     </div>
     <div class="header-middle">
       <el-button @click="activeBtn = '1'" :class="[activeBtn == '1' ? 'activeBtn' : '']" class="title">异常信息</el-button>
-      <el-button @click="activeBtn = '2'" :class="[activeBtn == '2' ? 'activeBtn' : '']" class="title">设备中台</el-button>
+      <el-button @click="activeBtn = '2'" :class="[activeBtn == '2' ? 'activeBtn' : '']" class="title">操作中台</el-button>
       <el-button @click="activeBtn = '3'" :class="[activeBtn == '3' ? 'activeBtn' : '']" class="title">视频监控</el-button>
     </div>
     <div class="custom-content-con">
@@ -37,7 +37,6 @@ export default {
   },
   watch:{
       activeBtn(now){
-          debugger
           this.$store.state.app.topNav = now
           sessionStorage.setItem('topNav', now)
           if(now == 3){
