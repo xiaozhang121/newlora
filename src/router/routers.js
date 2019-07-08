@@ -27,6 +27,30 @@ for (let i = 0; i < routerArr.length; i++) {
 }
 
 export default [
+    {
+        path: '/',
+        name: '_surveillance',
+        component: Main,
+        meta: {
+            hide: true,
+            isAlone: true,
+            hideInMenu: true,
+            title: '视频监控',
+            notCache: true
+        },
+        children: [
+            {
+                path: 'surveillancePath',
+                name: 'surveillanceName',
+                meta: {
+                    title: '视频监控',
+                    notCache: true,
+                    isAlone: true
+                },
+                component: () => import('@/views/communal/surveillance/index.vue')
+            },
+        ]
+    },
   {
     path: '/login',
     name: 'login',

@@ -8,17 +8,22 @@
           {{ title }}
           <div class="iconfont icon-xiala" :class="{'active':showListFlag}"></div>
       </div>
-        <div class="btn_main" ref="showListRef" style="display: none">
-          <div>
+        <div v-if="isCheck" class="btn_main" ref="showListRef" style="display: none">
+          <div >
             <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           </div>
-          <el-checkbox-group v-model="checkedCities"  @change="handleCheckedCitiesChange">
+          <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
             <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
-              <el-checkbox :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">{{item['describeName']}}</el-checkbox>
+              <el-checkbox  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">{{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
         </div>
+      <div v-else class="btn_main" ref="showListRef" style="display: none; margin-top: 0; padding: 5px 0">
+          <div class="btnItem" v-for="(item,index) in dataList" :key="index" style="margin:inherit">
+            <div class="btnNr" @click="singleSelect(item, index)">{{item['describeName']}}</div>
+          </div>
+      </div>
     </div>
     <div class="middleBtn"  v-if="showBtnList">
       <div v-for="(item, index) in topBtnList" :key="index" class="btn" @click="topBtnHandle(index, item)" :class="{'active': item['active']}">
@@ -89,6 +94,10 @@ export default {
     dunoBtnTopItem
   },
   props: {
+    isCheck:{
+        type: Boolean,
+        default: true
+    },
     showBtnList: {
         type: Boolean,
         default: true
@@ -181,6 +190,11 @@ export default {
       }
   },
   methods:{
+      singleSelect(item, index){
+        this.showListFlag = !this.showListFlag
+        $(this.$refs.showListRef).slideUp('normal')
+        this.$emit('on-select', item, index)
+      },
       changeFullScreen(){
           this.$emit('change-screen')
       },
@@ -307,6 +321,15 @@ export default {
       flex-direction: column;
       .btnItem{
         margin: 12px 0;
+        .btnNr{
+           cursor: pointer;
+          line-height: 37px;
+          padding: 0 20px;
+          font-size: 14px;
+          &:hover{
+            background: #1a2f42
+          }
+        }
       }
     }
   }

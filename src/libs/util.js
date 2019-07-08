@@ -167,6 +167,10 @@ export const getTagNavListFromLocalstorage = () => {
   return list ? JSON.parse(list) : []
 }
 
+export const getTopNav = ()=>{
+  return sessionStorage.getItem('topNav')?sessionStorage.getItem('topNav'):'2'
+}
+
 /**
  * @param {Array} routers 路由列表数组
  * @description 用于找到路由列表中name为home的对象
