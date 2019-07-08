@@ -2,9 +2,10 @@
   <div class="dunoBtnTop">
     <div class="placeHolder" v-if="showBtnList">
     </div>
-    <div class="btnList" v-if="showBtnList">
+    <div class="btnList" v-if="showBtnList?true:isSingleDrop" :style="{top:top,right:right}">
       <div class="title" @click="showListFlag = !showListFlag">
-          全部固定监控设备
+          <!-- 全部固定监控设备 -->
+          {{ title }}
           <div class="iconfont icon-xiala" :class="{'active':showListFlag}"></div>
       </div>
         <div class="btn_main" ref="showListRef" style="display: none">
@@ -12,8 +13,8 @@
             <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           </div>
           <el-checkbox-group v-model="checkedCities"  @change="handleCheckedCitiesChange">
-            <!--<duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']" :circleColor="item['circleColor']"  :describeName="item['describeName']"/>-->
-            <div class="btnItem" v-for="(item,index) in dataList" >
+            <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
+            <div class="btnItem" v-for="(item,index) in dataList" :key="index">
               <el-checkbox :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">{{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
@@ -67,7 +68,54 @@ export default {
             {active: false, name:'设备布置图'},
             {active: false, name:'一次接线图'}
         ],
-        dataList:[
+        isDiagram: false,
+        isClick: false
+    }
+  },
+  watch: {
+      isDiagram(now){
+          this.$emit('on-diagram', now)
+      },
+      showListFlag(now){
+          if(now){
+              $(this.$refs.showListRef).slideDown('normal')
+          }else{
+              $(this.$refs.showListRef).slideUp('normal')
+          }
+      }
+  },
+  components: {
+    Icons,
+    dunoBtnTopItem
+  },
+  props: {
+    showBtnList: {
+        type: Boolean,
+        default: true
+    },
+    title:{
+      type:String,
+      default:()=>{
+        return "全部固定监控设备"
+      }
+    },
+    isSingleDrop:{
+      type:Boolean,
+      default:()=>{
+        return true
+      }
+    },
+    top:{
+      type:String,
+      default:'17px'
+    },
+    right:{
+      type:String,
+    },
+    dataList:{
+      type:Array,
+      default:()=>{
+        return [
           {
             circleColor:'#00B4FF',
             describeName: '可见光',
@@ -104,31 +152,8 @@ export default {
             monitorDeviceType: 6,
             isActive: true
           }
-        ],
-        isDiagram: false,
-        isClick: false
-    }
-  },
-  watch: {
-      isDiagram(now){
-          this.$emit('on-diagram', now)
-      },
-      showListFlag(now){
-          if(now){
-              $(this.$refs.showListRef).slideDown('normal')
-          }else{
-              $(this.$refs.showListRef).slideUp('normal')
-          }
+        ]
       }
-  },
-  components: {
-    Icons,
-    dunoBtnTopItem
-  },
-  props: {
-    showBtnList: {
-        type: Boolean,
-        default: true
     }
   },
   computed: {
@@ -249,7 +274,7 @@ export default {
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 17px;
+    // top: 17px;
     z-index: 1;
     width: 200px;
     background: linear-gradient(top right  ,rgba(48,107,135,0.9), rgba(28,50,64,0.7) 60%);

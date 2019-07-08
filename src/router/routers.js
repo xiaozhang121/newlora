@@ -241,7 +241,7 @@ export default [
     meta: {
       hide: true,
       isAlone: true,
-      title: '环境监测',
+      title: '安防检测',
       notCache: true
     },
     children: [
@@ -249,7 +249,7 @@ export default [
         path: 'environmental',
         name: 'environmental',
         meta: {
-          title: '1000KV',
+          title: '安防总览',
           notCache: true,
           toListName: 'environmentalList',
           btnArr: []
@@ -259,6 +259,29 @@ export default [
             {
               path: 'list',
               name: 'environmentalList',
+              meta: {
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true
+              },
+              component: () => import('@/views/communal/security/index.vue')
+            }
+        ]
+      },
+      {
+        path: 'environmental1000',
+        name: 'environmental1000KV',
+        meta: {
+          title: '1000KV',
+          notCache: true,
+          toListName: 'environmental1000KVList',
+          btnArr: []
+        },
+        component: parentView,
+        children: [
+            {
+              path: 'list',
+              name: 'environmental1000KVList',
               meta: {
                   title: '列表',
                   hideInMenu: true,

@@ -3,7 +3,7 @@
         <md-card-media>
             <!-- swiper -->
             <swiper class="swiperList" :options="swiperOption">
-                <swiper-slide v-for="(item, index) in imgList">
+                <swiper-slide v-for="(item, index) in imgList" :key="index">
                     <div class="slideItem" :class="{'active':item.active}" @click="changImg(item, index)"><img :src="item.value" /></div>
                 </swiper-slide>
             </swiper>
