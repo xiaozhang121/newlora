@@ -83,9 +83,8 @@ export default {
   },
   data() {
     return {
-      paddingBottom: "",
       value2: 15,
-      showBtm: false,
+      showBtm: true,
       isSecond: false,
       playerOptions: {
         sources: [
