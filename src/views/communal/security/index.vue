@@ -37,6 +37,7 @@
         v-for="(item,index) in dataMonitor"
         :class="{'noMargin': (index+1) % active == 0}"
         :key="index"
+        @on-push="onPush"
         :width="videoWidth"
       />
     </div>
@@ -52,6 +53,7 @@
     <div class="alarmLogIn">
       <AlarmLog v-for="(item,index) in dataAlarm" :key="index" />
     </div>
+    <push-mov @on-close="onClose" :visible="pushMovVisable"/>
   </div>
 </template>
 
@@ -60,17 +62,19 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import AlarmLog from "_c/duno-c/AlarmLog";
-
+import pushMov from '_c/duno-m/pushMov'
 export default {
   name: "security",
   components: {
     Breadcrumb,
     dunoBtnTop,
     KeyMonitor,
-    AlarmLog
+    AlarmLog,
+    pushMov
   },
   data() {
     return {
+      pushMovVisable: false,
       showBtnList: false,
       isSecond: false,
       top: "40px",
@@ -150,6 +154,12 @@ export default {
     };
   },
   methods: {
+    onClose(){
+        this.pushMovVisable = false
+    },
+    onPush(){
+        this.pushMovVisable = true
+    },
     onSelect(item) {
       this.titleValueL = item["describeName"];
       console.log(item.widthType);
@@ -178,6 +188,7 @@ export default {
 .duno-security {
   width: 100%;
   height: 100%;
+  position: relative;
   .dunoDrap {
     display: flex;
     justify-content: space-between;

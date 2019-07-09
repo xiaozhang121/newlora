@@ -1,46 +1,46 @@
 <template>
   <div class="surveillance">
      <div class="title">
-       <i class="iconfont icon-zuoyoubuju" v-if="layoutType == '布局一'"></i>
+       <i class="iconfont icon-zuoyoubuju" v-if="$store.state.app.format == '1'"></i>
        <i class="iconfont icon-shangxiabuju" v-else></i>
-       <span class="nr">{{ layoutType }}</span>
+       <span class="nr">{{ layoutTypeName }}</span>
        <duno-btn-top @on-select="onSelect" class="dunoBtnTop" :isCheck="false" :dataList="dataList" title="切换布局" :showBtnList="false"></duno-btn-top>
      </div>
-    <div class="main" :class="{widthA : layoutType == '布局二'}">
-      <div class="left_main" :class="{widthA : layoutType == '布局二'}">
-        <div class="left"  style="padding-bottom: 32%"  v-if="layoutType == '布局二'">
-          <key-monitor paddingBottom="32%" class="monitorM second"></key-monitor>
+    <div class="main" :class="{widthA : $store.state.app.format == '2'}">
+      <div class="left_main" :class="{widthA : $store.state.app.format == '2'}">
+        <div class="left"  style="padding-bottom: 32%"  v-if="$store.state.app.format == '2'">
+          <key-monitor  :showBtmOption="false" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor  class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
-      <div class="right_main" v-if="layoutType != '布局二'" :class="{hidden : layoutType == '布局二'}">
+      <div class="right_main" v-if="$store.state.app.format != '2'" :class="{hidden : $store.state.app.format == '2'}">
         <div class="right">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
-    <div class="oltagevMain second" v-if="layoutType == '布局二'">
+    <div class="oltagevMain second" v-if="$store.state.app.format == '2'">
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -51,22 +51,22 @@
     <div class="oltagevMain">
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -76,21 +76,32 @@
 <script>
 import dunoBtnTop  from '_c/duno-m/duno-btn-top'
 import KeyMonitor from '_c/duno-c/KeyMonitor'
+import { mapState } from 'vuex'
 export default {
   name: "surveillance",
   components: {
       dunoBtnTop,
       KeyMonitor
   },
+  computed: {
+      ...mapState([
+          'app'
+      ]),
+      layoutTypeName(){
+          return this.dataList[this.$store.state.app.format-1]['describeName']
+      }
+  },
   data() {
     return {
         dataList:[
             {
               describeName: '布局一',
+              format: 1,
               isActive: true
             },
             {
               describeName: '布局二',
+              format: 2,
               isActive: false
             }
         ],
@@ -105,12 +116,14 @@ export default {
             }
         ],
         oltagevLevel: '所有区域',
-        layoutType: '布局一'
+        layoutType: 1
     }
   },
   methods:{
       onSelect(item, index){
-          this.layoutType = item['describeName']
+          this.$store.state.app.format = item['format']
+          sessionStorage.setItem('format', item['format'])
+          this.layoutType = item['format']
       }
   }
 };
