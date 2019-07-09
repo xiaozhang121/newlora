@@ -20,8 +20,8 @@
           <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
-          <span>
-            <i class="iconfont icon-tuisong"></i>推送
+          <span @click="pushMov()">
+            <i  class="iconfont icon-tuisong"></i>推送
           </span>
         </div>
         <div v-show="showBtm" v-else class="explain iconList">
@@ -71,21 +71,29 @@ export default {
       default: "机器人一"
     },
     showBtmOption:{
-        handler(now){
-            this.showBtm = now
-        },
-        immediate: true
+      type: Boolean,
+      default: () => {
+          return true
+      }
     },
     patrol: {
       type: String,
       default: "正在巡视中"
     }
   },
+  watch:{
+    showBtmOption:{
+      handler(now){
+          this.isSecond = now
+      },
+      immediate: true
+    }
+  },
   data() {
     return {
       value2: 15,
-      showBtm: true,
-      isSecond: false,
+      showBtm: false,
+      isSecond: true,
       playerOptions: {
         sources: [
           {
@@ -101,6 +109,9 @@ export default {
     };
   },
   methods: {
+    pushMov(){
+        this.$emit('on-push')
+    },
     fullScreen() {
       let ele = this.$refs.videoPlayer.$el
         .getElementsByClassName("vjs-fullscreen-control")[0]

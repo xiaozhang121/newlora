@@ -1,4 +1,4 @@
-import { getTopNav, getBreadCrumbList, setTagNavListInLocalstorage, getMenuByRouter, getTagNavListFromLocalstorage, getHomeRoute, routeHasExist } from '@/libs/util'
+import { getFormat, getTopNav, getBreadCrumbList, setTagNavListInLocalstorage, getMenuByRouter, getTagNavListFromLocalstorage, getHomeRoute, routeHasExist } from '@/libs/util'
 import routers from '@/router/routers'
 export default {
   state: {
@@ -7,7 +7,8 @@ export default {
     homeRoute: getHomeRoute(routers),
     local: '',
     kilovolt: '',
-    topNav: getTopNav()
+    topNav: getTopNav(),
+    format: getFormat()
   },
   getters: {
     menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access)
