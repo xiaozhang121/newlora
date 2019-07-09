@@ -5,31 +5,31 @@
     </div>
     <div class="dunoDrap">
       <div>重点检测区域</div>
-      <div>
-        <!-- <dunoBtnTop :showBtnList="showBtnList" :top="top" :right="right_r" /> -->
-        <duno-btn-top
-          @on-select="onSelect"
-          class="dunoBtnTop"
-          :isCheck="false"
-          :dataList="cameraSelection"
-          :top="top"
-          :right="right_r"
-          :title="titleValueR"
-          :showBtnList="false"
-        ></duno-btn-top>
-      </div>
-      <div>
-        <!-- <dunoBtnTop :showBtnList="showBtnList" :top="top" :right="right_l" /> -->
-        <duno-btn-top
-          @on-select="onSelect"
-          class="dunoBtnTop"
-          :isCheck="false"
-          :dataList="numberCameras"
-          :top="top"
-          :right="right_l"
-          :title="titleValueL"
-          :showBtnList="false"
-        ></duno-btn-top>
+      <div class="selectBtn">
+        <div>
+          <duno-btn-top
+            @on-select="onSelect"
+            class="dunoBtnTop"
+            :isCheck="false"
+            :dataList="numberCameras"
+            :top="top"
+            :right="right_l"
+            :title="titleValueL"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <div>
+          <duno-btn-top
+            @on-select="onSelect"
+            class="dunoBtnTop"
+            :isCheck="false"
+            :dataList="cameraSelection"
+            :top="top"
+            :right="right_r"
+            :title="titleValueR"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
       </div>
     </div>
     <div class="monitorArea">
@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="alarmLogIn">
-      <AlarmLog />
+      <AlarmLog v-for="(item,index) in dataAlarm" :key="index" />
     </div>
     <push-mov @on-close="onClose" :visible="pushMovVisable"/>
   </div>
@@ -110,32 +110,42 @@ export default {
           item: ""
         }
       ],
+      dataAlarm: [
+        {
+          item: ""
+        },
+        {
+          item: ""
+        },
+        {
+          item: ""
+        },
+        {
+          item: ""
+        }
+      ],
       numberCameras: [
         {
           circleColor: "#00B4FF",
           describeName: "两个摄像头",
-          // widthType: 'calc(50% - 20px)',
           widthType: 2,
           isActive: true
         },
         {
           circleColor: "#FF5EB9",
           describeName: "四个摄像头",
-          // widthType: 'calc(50% - 20px)',
           widthType: 2,
           isActive: true
         },
         {
           circleColor: "#4FF2B7",
           describeName: "六个摄像头",
-          // widthType: 'calc(100%/3 - 40px)',
           widthType: 3,
           isActive: true
         },
         {
           circleColor: "#FF9000",
           describeName: "八个摄像头",
-          // widthType: 'calc(25% - 60px)',
           widthType: 4,
           isActive: true
         }
@@ -151,7 +161,7 @@ export default {
         this.pushMovVisable = true
     },
     onSelect(item) {
-      this.titleValueL = item.describeName;
+      this.titleValueL = item["describeName"];
       console.log(item.widthType);
       switch (item.widthType) {
         case 2:
@@ -180,22 +190,44 @@ export default {
   height: 100%;
   position: relative;
   .dunoDrap {
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
     & > div:first-child {
-      float: left;
-      margin-top: 20px;
-      color: #ffffff;
+      line-height: 45px;
     }
-    & > div:not(:first-child) {
-      float: right;
-      margin-top: 27px;
+    .selectBtn {
+      display: flex;
+      justify-content: space-between;
+      width: 340px;
+      .dunoBtnTop {
+        width: 165px;
+        display: inline-flex;
+        padding-bottom: 0;
+        .btnList {
+          top: inherit !important;
+          width: 165px;
+          .title {
+            font-size: 15px;
+          }
+        }
+      }
     }
-    & > div:nth-child(2) {
-      margin-left: 500px;
-    }
-    & > div:nth-child(3) {
-      margin-left: 300px;
-    }
+    // overflow: hidden;
+    // & > div:first-child {
+    //   float: left;
+    //   margin-top: 20px;
+    //   color: #ffffff;
+    // }
+    // & > div:not(:first-child) {
+    //   float: right;
+    //   margin-top: 27px;
+    // }
+    // & > div:nth-child(2) {
+    //   margin-left: 500px;
+    // }
+    // & > div:nth-child(3) {
+    //   margin-left: 300px;
+    // }
   }
   .monitorArea {
     box-sizing: border-box;
@@ -219,10 +251,10 @@ export default {
     justify-content: space-between;
     & > div {
       color: #ffffff;
-      margin: 20px 0;
+      margin: 10px 0;
+      line-height: 40px;
     }
     & > div:last-child {
-      line-height: 40px;
       width: 146px;
       background-image: url(../../../assets/images/btn/btnanfang.png);
       padding-left: 13px;
@@ -235,6 +267,10 @@ export default {
     background-color: #142838;
     opacity: 0.8;
     padding: 21px 27px;
+    overflow: hidden;
+    & > div:nth-child(odd) {
+      margin-left: 0 !important;
+    }
   }
 }
 </style>

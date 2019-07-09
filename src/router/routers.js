@@ -767,7 +767,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/toConfigure/index.vue')
             }
         ]
       },

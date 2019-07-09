@@ -27,8 +27,8 @@
         <p>
           拍摄来源:
           <span>摄像头ID</span>
-          <i>复归</i>
           <i>备注</i>
+          <i>复归</i>
         </p>
       </div>
     </div>
@@ -72,7 +72,10 @@ export default {
 
 <style lang="scss">
 .alarmLog {
-  width: calc(50% - 20px);
+  float: left;
+  margin-bottom: 20px;
+  width: calc(50% - 10px);
+  margin-left: 20px;
   height: 180px;
   background-color: #203644;
   border-radius: 2px;
