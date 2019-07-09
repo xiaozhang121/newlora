@@ -194,6 +194,7 @@ export default {
     justify-content: space-between;
     & > div:first-child {
       line-height: 45px;
+      color: #ffffff;
     }
     .selectBtn {
       display: flex;
@@ -212,22 +213,6 @@ export default {
         }
       }
     }
-    // overflow: hidden;
-    // & > div:first-child {
-    //   float: left;
-    //   margin-top: 20px;
-    //   color: #ffffff;
-    // }
-    // & > div:not(:first-child) {
-    //   float: right;
-    //   margin-top: 27px;
-    // }
-    // & > div:nth-child(2) {
-    //   margin-left: 500px;
-    // }
-    // & > div:nth-child(3) {
-    //   margin-left: 300px;
-    // }
   }
   .monitorArea {
     box-sizing: border-box;

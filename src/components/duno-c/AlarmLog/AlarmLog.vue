@@ -19,7 +19,7 @@
         <div>
           <i>处理记录:</i>
           <p>
-            <span v-for="(item,index) in remarks.slice(0,2)" :key="index">{{item}}</span>
+            <span v-for="(item,index) in remarksData.slice(0,2)" :key="index">{{item}}</span>
           </p>
         </div>
       </div>
@@ -28,7 +28,7 @@
           拍摄来源:
           <span>摄像头ID</span>
           <i>备注</i>
-          <i>复归</i>
+          <i @click="addReturn" :disabled="isDisabled">复归</i>
         </p>
       </div>
     </div>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   name: "AlarmLog",
   props: {
@@ -51,7 +52,6 @@ export default {
       type: Array,
       default: () => {
         return [
-          "复归 (2019-07-08 19:32:00)",
           "现场查询原因 (2019-07-08 19:32:00)",
           "现场原因 (2019-07-08 19:32:00)",
           "现场查询 (2019-07-08 19:32:00)",
@@ -63,8 +63,28 @@ export default {
   },
   data() {
     return {
-      address: ""
+      address: "",
+      isDisabled: true,
+      remarksData: []
     };
+  },
+  methods: {
+    addReturn() {
+      if (this.isDisabled) {
+        let strTime =
+          "复归 (" + moment(new Date()).format("YYYY-MM-DD HH:mm:ss") + ")";
+        this.remarksData.unshift(strTime);
+        this.isDisabled = false;
+      }
+    }
+  },
+  watch: {
+    remarks(now) {
+      this.remarksData = now;
+    }
+  },
+  mounted() {
+    this.remarksData = this.remarks;
   }
 };
 </script>

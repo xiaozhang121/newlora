@@ -8,7 +8,7 @@
             @on-select="onSelect"
             class="dunoBtnTo"
             :isCheck="false"
-            :dataList="typeSelection"
+            :dataList="typeSelect"
             :title="titleType"
             :showBtnList="false"
           ></duno-btn-top>
@@ -18,7 +18,7 @@
             @on-select="onSelect"
             class="dunoBtnTop"
             :isCheck="false"
-            :dataList="typeSelection"
+            :dataList="typeSelect"
             :title="titleType"
             :showBtnList="false"
           ></duno-btn-top>
@@ -143,7 +143,7 @@ export default {
           autoManual: "自动"
         }
       ],
-      typeSelection: [
+      typeSelect: [
         {
           describeName: "分合状态"
         },
