@@ -187,7 +187,7 @@ export default {
   .el-menu-item.is-active {
     border-left: 4px solid #00fefe;
     background: #1b3b47 !important;
-    color: #fff !important;
+    color: #00fefe !important;
   }
   .el-menu-item,.el-submenu__title,.el-submenu .el-menu-item{
     border-left: 4px solid transparent;

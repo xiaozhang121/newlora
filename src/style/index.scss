@@ -104,7 +104,7 @@ body .el-dropdown-menu__item:not(.is-disabled):hover, body .el-dropdown-menu__it
 body .el-menu-item:hover, body .el-menu-item:focus, body .el-submenu__title:hover {
   background: transparent;
   .menu-title {
-    color: #fff;
+    color: #00fefe;
   }
 }
 
@@ -116,7 +116,7 @@ body .el-button {
 body .el-button:hover, body .el-button:focus {
   border-color: #203944;
   background-color: #203944;
-  color: #fff;
+  color: #00fefe;
 }
 body .el-button--primary:hover, body .el-button--primary:focus {
   background: #5b647e;
