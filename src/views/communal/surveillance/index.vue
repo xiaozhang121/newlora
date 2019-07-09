@@ -9,38 +9,38 @@
     <div class="main" :class="{widthA : layoutType == '布局二'}">
       <div class="left_main" :class="{widthA : layoutType == '布局二'}">
         <div class="left"  style="padding-bottom: 32%"  v-if="layoutType == '布局二'">
-          <key-monitor paddingBottom="32%" class="monitorM second"></key-monitor>
+          <key-monitor :showBtmOption="false" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor  class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="right_main" v-if="layoutType != '布局二'" :class="{hidden : layoutType == '布局二'}">
         <div class="right">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
     <div class="oltagevMain second" v-if="layoutType == '布局二'">
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -51,22 +51,22 @@
     <div class="oltagevMain">
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>

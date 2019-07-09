@@ -70,6 +70,12 @@ export default {
       type: String,
       default: "机器人一"
     },
+    showBtmOption:{
+        handler(now){
+            this.showBtm = now
+        },
+        immediate: true
+    },
     patrol: {
       type: String,
       default: "正在巡视中"
