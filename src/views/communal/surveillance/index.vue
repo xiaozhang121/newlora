@@ -213,7 +213,7 @@ export default {
     }
   }
   .monitorM.second{
-    .vjs_video_1-dimensions.vjs-fluid{
+    .vjs-fluid{
       padding-top: 32%;
     }
   }

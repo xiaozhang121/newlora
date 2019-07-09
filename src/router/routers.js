@@ -27,30 +27,6 @@ for (let i = 0; i < routerArr.length; i++) {
 }
 
 export default [
-    {
-        path: '/',
-        name: '_surveillance',
-        component: Main,
-        meta: {
-            hide: true,
-            isAlone: true,
-            hideInMenu: true,
-            title: '视频监控',
-            notCache: true
-        },
-        children: [
-            {
-                path: 'surveillancePath',
-                name: 'surveillanceName',
-                meta: {
-                    title: '视频监控',
-                    notCache: true,
-                    isAlone: true
-                },
-                component: () => import('@/views/communal/surveillance/index.vue')
-            },
-        ]
-    },
   {
     path: '/login',
     name: 'login',
@@ -284,6 +260,86 @@ export default [
           }
       ]
   },
+  {
+        path: '/',
+        name: '_surveillance',
+        component: Main,
+        meta: {
+            hide: true,
+            hideInMenu: true,
+            title: '视频监控',
+            notCache: true,
+        },
+        children: [
+            {
+                path: 'surveillancePath',
+                name: 'surveillanceName',
+                meta: {
+                    title: '视频监控',
+                    notCache: true,
+                    toListName: 'surveillanceList',
+                },
+                component: parentView,
+                children:[
+                    {
+                        path: 'list',
+                        name: 'surveillanceList',
+                        meta: {
+                            title: '列表',
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/surveillance/index.vue')
+                    },
+                    {
+                        path: 'detail',
+                        name: 'surveillanceList',
+                        meta: {
+                            title: '详情',
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/surveillance/detail.vue')
+                    }
+                ]
+            }
+        ]
+    },
+  {
+        path: '/',
+        name: '_abnormalInfo',
+        component: Main,
+        meta: {
+            hide: true,
+            hideInMenu: true,
+            title: '异常信息',
+            notCache: true,
+        },
+        children: [
+            {
+                path: 'abnormalInfoPath',
+                name: 'abnormalInfoName',
+                meta: {
+                    title: '异常信息',
+                    notCache: true,
+                    toListName: 'abnormalInfoList',
+                },
+                component: parentView,
+                children:[
+                    {
+                        path: 'list',
+                        name: 'abnormalInfoList',
+                        meta: {
+                            title: '列表',
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/abnormalInfo/index.vue')
+                    }
+                ]
+            }
+        ]
+    },
   {
     path: '/',
     name: '_environmental',

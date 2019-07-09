@@ -40,9 +40,13 @@ export default {
           this.$store.state.app.topNav = now
           sessionStorage.setItem('topNav', now)
           if(now == 3){
-              this.$router.push({name:'surveillanceName'})
+              if(this.$route.name != 'surveillanceList')
+                this.$router.push({name:'surveillanceList'})
           }else if(now == 2){
               this.$router.push({name:'_realEnv'})
+          }else if(now == 1){
+              if(this.$route.name != 'abnormalInfoList')
+                this.$router.push({name:'abnormalInfoList'})
           }
       }
   },

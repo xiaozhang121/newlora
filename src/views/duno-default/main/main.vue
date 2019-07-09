@@ -7,7 +7,7 @@
       </header-bar>
     </el-header>
     <el-container class="mainAside">
-      <el-aside v-if="$store.state.app.topNav != 3" hide-trigger collapsible :width="collapsed ? '64px' : '256px'" class="left-sider" :style="{overflow: 'hidden'}">
+      <el-aside v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1" hide-trigger collapsible :width="collapsed ? '64px' : '256px'" class="left-sider" :style="{overflow: 'hidden'}">
         <side-menu :unique-opened="true" ref="sideMenu" textColor="#fff" activeTextColor="#00fefe" :default-active="defaultActive" :collapsed="collapsed" @select="turnToPage" :menu-list="menuList"></side-menu>
       </el-aside>
       <el-main class="main-content-con">
