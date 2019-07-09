@@ -14,7 +14,7 @@ export default {
             type:Object,
             default:()=>{
                 return {
-                    '/':'设备中台',
+                    '/':'操作中台',
                     '/environmental':'安防监测',
                     '/environmental/list':'安防总览'
                 }

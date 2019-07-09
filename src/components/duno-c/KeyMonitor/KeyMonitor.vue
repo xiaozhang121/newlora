@@ -7,9 +7,9 @@
       <transition name="el-zoom-in-bottom">
         <div v-show="showBtm" v-if="isSecond" class="explain iconList">
           <div class="block">
-            <span class="demonstration">-15s</span>
+            <!-- <span class="demonstration">-15s</span>
             <el-slider v-model="value2"></el-slider>
-            <span>当前</span>
+            <span>当前</span> -->
           </div>
           <span>
             <i class="iconfont icon-luxiang"></i>录像
@@ -78,8 +78,8 @@ export default {
   data() {
     return {
       value2: 15,
-      showBtm: true,
-      isSecond: false,
+      showBtm: false,
+      isSecond: true,
       playerOptions: {
         sources: [
           {

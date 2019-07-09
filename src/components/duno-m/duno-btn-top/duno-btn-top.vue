@@ -2,7 +2,7 @@
   <div class="dunoBtnTop">
     <div class="placeHolder" v-if="showBtnList">
     </div>
-    <div class="btnList" v-if="showBtnList?true:isSingleDrop" :style="{top:top,right:right}">
+    <div class="btnList" v-if="showBtnList?true:isSingleDrop">
       <div class="title" @click="showListFlag = !showListFlag">
           <!-- 全部固定监控设备 -->
           {{ title }}
@@ -113,13 +113,6 @@ export default {
       default:()=>{
         return true
       }
-    },
-    top:{
-      type:String,
-      default:'17px'
-    },
-    right:{
-      type:String,
     },
     dataList:{
       type:Array,
@@ -291,6 +284,7 @@ export default {
     display: flex;
     flex-direction: column;
     position: absolute;
+    top: 17px;
     z-index: 1;
     width: 200px;
     background: linear-gradient(210deg, rgba(48,107,135,0.9), rgba(28,50,64,0.7) 60%);
