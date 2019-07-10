@@ -770,8 +770,8 @@ export default [
               component: () => import('@/views/communal/toConfigure/index.vue')
             }
         ]
-      },
-      {
+      }
+  /*    {
         path: 'detection-status',
         name: 'detection-status',
         meta: {
@@ -793,7 +793,7 @@ export default [
               component: () => import('_c/duno-developing/index.vue')
             }
         ]
-      },
+      },*/
     ]
   },
   {

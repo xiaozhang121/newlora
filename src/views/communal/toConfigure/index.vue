@@ -81,7 +81,9 @@ export default {
     dunoMain
   },
   data() {
+    const that = this
     return {
+      radio: '1',
       value: "",
       totalNum:500,
       titleTypeL: "所有监测设备",
@@ -152,12 +154,38 @@ export default {
         {
           key: "state",
           title: "当前状态",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+              let newArr = [];
+              newArr.push([h("span", { class: {circleStatus: true, green: true}, draggable: false })]);
+              newArr.push([h("span", { draggable: false },'开启')]);
+              return h("div", newArr);
+          }
         },
         {
           key: "cycle",
           title: "巡视周期",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+              let newArr = []
+              newArr.push(
+                  h('el-poptip', {
+                      props: { placement: 'right' },
+                      on: { 'on-ok': () => { this.deleteHandle(params.row.id) } }
+                  }, [
+                      h('el-button', { class:'', props: { type: "text" }},'123132'),
+                      h('div',{slot: "content", style:{overflow: 'hidden', display:'flex', flexDirection:'column'}},[
+                          h('i-radioGroup',{ props:{vModel:that.radio}},[
+                              h('i-radio',{ props:{label: '1'},style:{display: 'block', textAlign:'left', marginBottom: '5px', color:'black'}},'无'),
+                              h('i-radio',{ props:{label: '2'},style:{display: 'block', textAlign:'left', color:'black'} },[
+                              ])
+                          ])
+
+                      ])
+                  ])
+             )
+              return h('div', newArr)
+          }
         },
         {
           key: "cycle",
@@ -202,6 +230,58 @@ export default {
 @import "@/style/tableStyle.scss";
 .toConfigure {
   width: 100%;
+  .circleStatus{
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    border-radius: 20px;
+    margin-right: 5px;
+    position: relative;
+    top: 1px;
+    &.green{
+      background: #53fec0;
+    }
+    &.fault{
+      background: #ff9000;
+    }
+    &.close{
+      background: #ee183b;
+    }
+  }
+  .el-button--text {
+    border-color: transparent !important;
+    background: transparent !important;
+  }
+  .alarmLevel {
+  }
+  .flexPos {
+    display: flex;
+    align-items: center;
+  }
+  .imgOrMv {
+    width: 100%;
+    height: 39px;
+    position: relative;
+    top: 2px;
+  }
+  .table_link {
+    color: #5fafff !important;
+    text-decoration: underline;
+  }
+  .table_abnormalInfo {
+    padding: 28px 17px;
+  }
+  .table_select {
+    cursor: pointer;
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 22px;
+      border-radius: 20px;
+    }
+  }
   .top {
     color: #ffffff;
     display: flex;

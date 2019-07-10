@@ -8,7 +8,6 @@ import ElementUI from 'element-ui'
 import 'iview/dist/styles/iview.css'
 import './style/theme/index.css'
 import VueI18n from 'vue-i18n'
-
 Vue.config.productionTip = false
 
 // 实际打包时应该不引入mock
@@ -20,12 +19,17 @@ Vue.use(ElementUI, { size: 'small', zIndex: 3000, transfer: true })
 Vue.prototype.$config = config
 
 /* 全局引入iview ui组件中的Poptip组件，并且以 el-poptip使用 */
-import { Poptip, Input, Dropdown, DropdownMenu, DropdownItem }  from 'iview'
+import { Poptip, Input, Dropdown, DropdownMenu, DropdownItem, Radio, RadioGroup,Select, Option}  from 'iview'
 Vue.component('el-poptip', Poptip)
 Vue.component('i-input', Input)
 Vue.component('i-dropdown', Dropdown)
 Vue.component('i-dropdownMenu', DropdownMenu)
 Vue.component('i-dropdownItem', DropdownItem)
+Vue.component('i-radio', Radio)
+Vue.component('i-radioGroup', RadioGroup)
+Vue.component('i-radioGroup', RadioGroup)
+Vue.component('i-select', Select)
+Vue.component('i-option', Option)
 
 // v-dialogDrag: 弹窗拖拽
 Vue.directive('dialogDrag', {

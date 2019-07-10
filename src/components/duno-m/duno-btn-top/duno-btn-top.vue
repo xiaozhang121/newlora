@@ -70,7 +70,7 @@ export default {
         isIndeterminate: false,
         topBtnList:[
             {active: false, name:'实景航拍图'},
-            {active: false, name:'设备布置图'},
+            {active: true, name:'设备布置图'},
             {active: false, name:'一次接线图'}
         ],
         isDiagram: false,
