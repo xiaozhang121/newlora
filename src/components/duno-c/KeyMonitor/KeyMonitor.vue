@@ -7,7 +7,7 @@
       @mouseleave="leave()"
     >
       <div class="main" id="videoPlayer">
-        <video-player ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+        <video-player v-if="showView" ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
       </div>
       <transition name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
@@ -55,6 +55,10 @@ export default {
     videoPlayer
   },
   props: {
+    streamAddr:{
+        type: String,
+        default: ''
+    },
     paddingBottom: {
       type: String,
       default: "56%"
@@ -87,6 +91,12 @@ export default {
     }
   },
   watch: {
+    streamAddr(now){
+        this.playerOptions['sources'][0]['src'] = now
+        if(now){
+            this.showView = true
+        }
+    },
     showBtmOption: {
       handler(now) {
         this.isSecond = now;
@@ -96,6 +106,7 @@ export default {
   },
   data() {
     return {
+      showView: false,
       value2: 15,
       showBtm: false,
       isSecond: false,
