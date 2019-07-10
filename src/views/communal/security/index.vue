@@ -235,7 +235,7 @@ export default {
   margin-top: 1px !important;
   margin-left: 6px;
   border-radius: 0;
-  min-width: 162px;
+  min-width: 179px !important;
 }
 .el-select-dropdown__item,.el-select-dropdown__empty,.el-select-dropdown__item.selected{
   color: white;
@@ -258,24 +258,25 @@ export default {
   .selectSearch{
     .el-input--small .el-input__inner{
       background: #1a2f42;
+      height: 36px;
       border: none;
       margin-left: 5px;
       border-radius: 0 !important;
-      width: 163px;
+      width: 180px;
       color: white;
-      font-size: 15px;
+      font-size: 18px;
     }
     .el-input--small .el-input__inner::-webkit-input-placeholder {
       color: white;
-      font-size: 15px;
+      font-size: 18px;
     }
     .el-input--small .el-input__inner:-moz-placeholder {
       color: white;
-      font-size: 15px;
+      font-size: 18px;
     }
     .el-input--small .el-input__inner:-ms-input-placeholder {
       color: white;
-      font-size: 15px;
+      font-size: 18px;
     }
   }
   .dunoDrap {
