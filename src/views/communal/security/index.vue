@@ -53,7 +53,7 @@
     <div class="alarmLogIn">
       <AlarmLog v-for="(item,index) in dataAlarm" :key="index" />
     </div>
-    <push-mov @on-close="onClose" :visible="pushMovVisable"/>
+    <push-mov @on-close="onClose" :visible="pushMovVisable" />
   </div>
 </template>
 
@@ -62,9 +62,11 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import AlarmLog from "_c/duno-c/AlarmLog";
-import pushMov from '_c/duno-m/pushMov'
+import pushMov from "_c/duno-m/pushMov";
+// import mixinViewModule from "@/mixins/view-module";
 export default {
   name: "security",
+  // mixins: [mixinViewModule],
   components: {
     Breadcrumb,
     dunoBtnTop,
@@ -74,6 +76,10 @@ export default {
   },
   data() {
     return {
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/lenovo-device/api/monitor/device-list"
+      // },
       pushMovVisable: false,
       showBtnList: false,
       isSecond: false,
@@ -154,11 +160,21 @@ export default {
     };
   },
   methods: {
-    onClose(){
-        this.pushMovVisable = false
+    onClose() {
+      this.pushMovVisable = false;
     },
-    onPush(){
-        this.pushMovVisable = true
+    onPush() {
+      this.pushMovVisable = true;
+    },
+    handleNum() {
+      getAxiosData("/lenovo-device/api/security/monitor-select").then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          that.totalNum = 0;
+          return that.$message.error(res.msg);
+        }
+        this.TestEquipment = res.data;
+      });
     },
     onSelect(item) {
       this.titleValueL = item["describeName"];

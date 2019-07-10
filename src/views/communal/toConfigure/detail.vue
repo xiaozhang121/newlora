@@ -5,11 +5,11 @@
     </div>
     <div class="top">任务配置</div>
     <duno-main class="dunoMain">
-      <Patrol />
-      <Patrol />
+      <Patrol :dataList="allInspectList" />
+      <Patrol :dataList="nightInspectList" :title="titleTwo" />
       <Patrol
         :columns="columnsData"
-        :dataList="dataList"
+        :dataList="specialInspectList"
         :title="title"
         :titleCon="titleCon"
         :isShowBtn="true"
@@ -24,6 +24,7 @@ import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import Patrol from "_c/duno-c/Patrol";
 import alert from "_c/duno-j/statistics/components/alert";
+import { getAxiosData } from "@/api/axiosType";
 export default {
   name: "configDetail",
   components: {
@@ -35,9 +36,13 @@ export default {
   data() {
     return {
       title: "特殊巡视 (2)",
+      titleTwo: "熄灯巡视",
       titleCon: "",
       visible: false,
-      dataBread:['操作中台','配置管理','任务管理'],
+      allInspectList: [],
+      nightInspectList: [],
+      specialInspectList: [],
+      dataBread: ["操作中台", "配置管理", "任务管理"],
       dataList: [
         {
           step: "暴风雨巡视",
@@ -49,14 +54,14 @@ export default {
       columnsData: [
         {
           title: "巡视名称",
-          key: "step",
+          key: "inspectName",
           minWidth: 50,
           align: "center",
           tooltip: true
         },
         {
           title: "巡视步骤",
-          key: "device",
+          key: "stepNum",
           minWidth: 50,
           align: "center",
           tooltip: true
@@ -67,44 +72,44 @@ export default {
           minWidth: 50,
           align: "center",
           tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "a",
-                {
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      this.visible = true;
-                    }
-                  }
-                },
-                "无"
-              )
-            ]);
-            return h(
-              "div",
-              {
-                class: {
-                  member_operate_div: true
-                }
-              },
-              newArr
-            );
-          }
+          // render: (h, params) => {
+          //   let newArr = [];
+          //   newArr.push([
+          //     h(
+          //       "a",
+          //       {
+          //         class: "table_link",
+          //         props: { type: "text" },
+          //         on: {
+          //           click: () => {
+          //             this.visible = true;
+          //           }
+          //         }
+          //       },
+          //       "无"
+          //     )
+          //   ]);
+          //   return h(
+          //     "div",
+          //     {
+          //       class: {
+          //         member_operate_div: true
+          //       }
+          //     },
+          //     newArr
+          //   );
+          // }
         },
         {
           title: "已巡视次数",
-          key: "frequency",
+          key: "inspectNum",
           minWidth: 50,
           align: "center",
           tooltip: true
         },
         {
           title: "状态",
-          key: "state",
+          key: "status",
           minWidth: 50,
           align: "center",
           tooltip: true,
@@ -135,7 +140,7 @@ export default {
         },
         {
           title: " ",
-          key: "Presentation",
+          // key: "Presentation",
           minWidth: 150,
           align: "center",
           tooltip: true,
@@ -219,7 +224,24 @@ export default {
       // 提交更改
       console.log(info);
       this.visible = false;
+    },
+    getDataList() {
+      debugger;
+      const that = this;
+      getAxiosData("/lenovo-plan/api/plan/all-list").then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          that.totalNum = 0;
+          return that.$message.error(res.msg);
+        }
+        this.allInspectList = res.data.allInspectList;
+        this.nightInspectList = res.data.nightInspectList;
+        this.specialInspectList = res.data.specialInspectList;
+      });
     }
+  },
+  mounted() {
+    this.getDataList();
   }
 };
 </script>
@@ -227,7 +249,7 @@ export default {
 <style lang="scss">
 .configDetail {
   width: 100%;
-  &>.top {
+  & > .top {
     color: #ffffff;
     margin: 10px 0;
     line-height: 40px;
@@ -238,6 +260,7 @@ export default {
     text-decoration: underline;
   }
   .dunoMain{
+    height: inherit;
   }
 }
 </style>
