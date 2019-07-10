@@ -282,7 +282,7 @@
         </div>
         <drappable class="drappable_assembly" width="1900px" height="675px">
           <div class="allShowPic">
-            <div class="Once_primaryDiagram" style="position:absolute;left: -250px;top: -95px;transform: scale(1.3)">
+            <div class="Once_primaryDiagram" style="position:absolute;left: -910px;top: -320px;transform: scale(2)">
               <div class="deviceList">
                 <template v-for="(item,index) in kilovolt10Pic">
                   <img :key="index" @click="toDevice(item,index,$refs.firstElE,0)" v-if="item['show']" :src="item['src']"
