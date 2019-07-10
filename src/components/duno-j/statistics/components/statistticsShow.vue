@@ -46,16 +46,21 @@ export default {
   .warningStatistics {
     width: 70%;
     float: left;
-    padding: 10px 26px;
+    padding-left: 30px;
     & > p {
       padding-left: 15px;
     }
     .warnTtype {
-      margin-top: 20px;
+      margin-top: 40px;
       overflow: hidden;
+      & > div {
+        margin-right: 10px;
+      }
     }
     .warningCount {
-      font-size: 20px;
+      font-size: 34px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
     .warnTtype :nth-child(-n + 3) {
       .typeStatisticsCircle {

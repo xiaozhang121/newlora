@@ -168,10 +168,12 @@ export default {
 @import "@/style/tableStyle.scss";
 .patrol {
   margin: 0 20px;
-  padding-top: 30px;
+  padding-top: 20px;
   padding-bottom: 20px;
   .top {
     overflow: hidden;
+    color: #ffffff;
+    padding-bottom: 10px;
     & > div:first-child {
       float: left;
       & > span:first-child {
@@ -179,7 +181,7 @@ export default {
         padding-right: 20px;
       }
       & > span:last-child {
-        font-size: 16px;
+        font-size: 18px;
       }
     }
     & > div:nth-child(2) {
@@ -187,7 +189,7 @@ export default {
       text-align: center;
       cursor: pointer;
       width: 176px;
-      height: 40px;
+      line-height: 40px;
       background-image: url(../../../assets/images/btn/createTask.png);
     }
   }
@@ -209,9 +211,12 @@ export default {
     color: #fff;
     border: none;
     height: 60px;
+    font-size: 20px;
+    font-weight: normal;
     background-color: #2d5980 !important;
   }
   .ivu-table-border td {
+    font-size: 16px;
     color: #fff;
     border: none;
   }

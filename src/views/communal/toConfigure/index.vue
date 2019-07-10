@@ -79,11 +79,7 @@ export default {
       titleTypeL: "所有监测设备",
       titleTypeC: "所有电压等级",
       titleTypeR: "所有状态",
-      dataBread: {
-        "/": "操作中台",
-        "/environmental": "配置管理",
-        "/environmental/list": "监测设备管理"
-      },
+      dataBread:['操作中台','配置管理','检测设备管理'],
       dataList: [
         {
           id: "可见光54536",
@@ -417,52 +413,6 @@ export default {
   .table_abnormalInfo {
     padding: 28px 17px;
   }
-  //   .tables {
-  //     overflow: hidden;
-  //     background-color: #142838;
-  //     padding: 20px;
-  //     .tablesTep {
-  //       height: 100%;
-  //       background-color: rgba(0, 0, 0, 0);
-  //       .ivu-table-wrapper {
-  //         tr:nth-child(even) {
-  //           td {
-  //             background-color: #213848;
-  //           }
-  //         }
-  //         border: none;
-  //         .ivu-table {
-  //           border: none !important;
-  //           color: #fff;
-  //           background-color: rgba(0, 0, 0, 0);
-  //           .ivu-table-header {
-  //             line-height: 60px;
-  //             background-color: #325e82;
-  //           }
-  //           .ivu-table-body {
-  //             .ivu-table-row {
-  //               .ivu-table-column-center {
-  //                 height: 48px;
-  //               }
-  //             }
-  //           }
-  //         }
-  //         .ivu-table:before,
-  //         .ivu-table:after {
-  //           background-color: rgba(0, 0, 0, 0);
-  //         }
-  //         .ivu-table td,
-  //         .ivu-table th {
-  //           color: #fff;
-  //           border: none;
-  //           background-color: rgba(0, 0, 0, 0);
-  //         }
-  //       }
-  //       // .ivu-select-dropdown {
-  //       //   background-color: #1b3b47;
-  //       // }
-  //     }
-  //   }
 }
 .toConfigure {
   //-------------------表格样式
@@ -470,6 +420,8 @@ export default {
     color: #fff;
     border: none;
     height: 60px;
+    font-size: 20px;
+    font-weight: normal;
     background-color: #2d5980 !important;
   }
   .ivu-page {

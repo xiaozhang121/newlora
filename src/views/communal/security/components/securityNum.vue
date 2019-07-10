@@ -28,16 +28,22 @@ export default {
     title: {
       type: String,
       default: "1000千伏安防警告"
+    },
+    navBar: {
+      type: Array,
+      default: () => {
+        return ["操作中台", "安防监测", "1000千伏"];
+      }
     }
   },
   data() {
     return {
-      dataBread: {
-        "/": "操作中台",
-        "/environmental": "安防监测",
-        "/environmental/list": "1000千伏"
-      }
+      dataBread: []
     };
+  },
+  mounted() {
+    this.dataBread = this.navBar;
+    console.log(this.$route);
   }
 };
 </script>

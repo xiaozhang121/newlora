@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="top">检测设备管理</div>
+    <div class="top">任务配置</div>
     <duno-main class="dunoMain">
       <Patrol />
       <Patrol />
@@ -37,11 +37,7 @@ export default {
       title: "特殊巡视 (2)",
       titleCon: "",
       visible: false,
-      dataBread: {
-        "/": "操作中台",
-        "/environmental": "配置管理",
-        "/environmental/list": "任务配置"
-      },
+      dataBread:['操作中台','配置管理','任务管理'],
       dataList: [
         {
           step: "暴风雨巡视",
@@ -231,14 +227,17 @@ export default {
 <style lang="scss">
 .configDetail {
   width: 100%;
-
-  .top {
+  &>.top {
     color: #ffffff;
+    margin: 10px 0;
     line-height: 40px;
+    font-size: 24px;
   }
   .table_link {
     color: #5fafff !important;
     text-decoration: underline;
+  }
+  .dunoMain{
   }
 }
 </style>

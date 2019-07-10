@@ -2,7 +2,6 @@
   <div style="float: left;width:100px">
     <div
       class="typeStatisticsCircle"
-      
     >{{oneTypeInfo.count}}</div>
     <p style="text-align: center;font-size: 14px">{{oneTypeInfo.msg}}</p>
   </div>
@@ -13,7 +12,6 @@ export default {
     oneTypeInfo: {
       type: Object
     }
-    // :style="'border-color:'+oneTypeInfo.type"
   }
 };
 </script>
@@ -21,10 +19,9 @@ export default {
 .typeStatisticsCircle {
   margin: 10px auto;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
+  width: 88px;
+  line-height: 88px;
   text-align: center;
-  font-size: 24px;
+  font-size: 28px;
 }
 </style>

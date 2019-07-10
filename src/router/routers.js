@@ -801,7 +801,7 @@ export default [
     name: '_report-forms',
     component: Main,
     meta: {
-      title: '所有报表',
+      title: '所有报表(开发中)',
       notCache: true
     },
     children: [
