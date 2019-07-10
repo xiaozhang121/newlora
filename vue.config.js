@@ -28,19 +28,7 @@ module.exports = {
         .end()
   },
   configureWebpack:{
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              warnings: true,
-              drop_console: true, //删除console
-              drop_debugger: true // 删除debugger
-            }
-          }
-        })
-      ]
-    }
+
   },
   // 打包时不生成.map文件
   productionSourceMap: false,
