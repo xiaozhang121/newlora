@@ -7,7 +7,14 @@
     <duno-main class="dunoMain">
       <Patrol />
       <Patrol />
-      <Patrol :columns="columnsData" :title='title' :titleCon='titleCon' :isShowBtn="true" />
+      <Patrol
+        :columns="columnsData"
+        :dataList="dataList"
+        :title="title"
+        :titleCon="titleCon"
+        :isShowBtn="true"
+      />
+      <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
   </div>
 </template>
@@ -16,32 +23,43 @@
 import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import Patrol from "_c/duno-c/Patrol";
+import alert from "_c/duno-j/statistics/components/alert";
 export default {
   name: "configDetail",
   components: {
     Breadcrumb,
     dunoMain,
-    Patrol
+    Patrol,
+    alert
   },
   data() {
     return {
-      title:'特殊巡视 (2)',
-      titleCon:'',
+      title: "特殊巡视 (2)",
+      titleCon: "",
+      visible: false,
       dataBread: {
         "/": "操作中台",
         "/environmental": "配置管理",
         "/environmental/list": "任务配置"
       },
+      dataList: [
+        {
+          step: "暴风雨巡视",
+          device: "16",
+          interval: "无",
+          frequency: "2"
+        }
+      ],
       columnsData: [
         {
-          title: "总步骤",
+          title: "巡视名称",
           key: "step",
           minWidth: 50,
           align: "center",
           tooltip: true
         },
         {
-          title: "监测设备",
+          title: "巡视步骤",
           key: "device",
           minWidth: 50,
           align: "center",
@@ -52,7 +70,34 @@ export default {
           key: "interval",
           minWidth: 50,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "a",
+                {
+                  class: "table_link",
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      this.visible = true;
+                    }
+                  }
+                },
+                "无"
+              )
+            ]);
+            return h(
+              "div",
+              {
+                class: {
+                  member_operate_div: true
+                }
+              },
+              newArr
+            );
+          }
         },
         {
           title: "已巡视次数",
@@ -170,7 +215,16 @@ export default {
       ]
     };
   },
-  methods: {}
+  methods: {
+    closeDia() {
+      this.visible = false;
+    },
+    submitChange(info) {
+      // 提交更改
+      console.log(info);
+      this.visible = false;
+    }
+  }
 };
 </script>
 
@@ -181,6 +235,10 @@ export default {
   .top {
     color: #ffffff;
     line-height: 40px;
+  }
+  .table_link {
+    color: #5fafff !important;
+    text-decoration: underline;
   }
 }
 </style>

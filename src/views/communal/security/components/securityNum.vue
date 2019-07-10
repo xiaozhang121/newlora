@@ -1,9 +1,9 @@
 <template>
-  <div class="thousand">
+  <div class="securityNum">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div>1000千伏安防警告</div>
+    <div>{{title}}</div>
     <div class="number">
       <statistics />
     </div>
@@ -18,11 +18,17 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import PageHisRecords from "_c/duno-c/PageHisRecords";
 import statistics from "_c/duno-j/statistics";
 export default {
-  name: "thousand",
+  name: "securityNum",
   components: {
     Breadcrumb,
     PageHisRecords,
     statistics
+  },
+  props: {
+    title: {
+      type: String,
+      default: "1000千伏安防警告"
+    }
   },
   data() {
     return {
@@ -37,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss">
-.thousand {
+.securityNum {
   & > div:nth-child(2) {
     font-size: 22px;
     line-height: 60px;
@@ -47,8 +53,8 @@ export default {
     height: 310px;
     padding: 20px;
     background-color: #142838;
-    &>div{
-        height: 100%;
+    & > div {
+      height: 100%;
     }
   }
   .thRecord {

@@ -6,11 +6,9 @@
 </template>
 <script>
 import statisticsShow from "./components/statistticsShow";
-// import alert from "./components/alert";
 export default {
   components: {
-    statisticsShow,
-    // alert
+    statisticsShow
   },
   data() {
     return {
@@ -29,6 +27,31 @@ export default {
         {
           type: "red",
           count: 6,
+          msg: "安全帽佩戴"
+        },
+        {
+          type: "red",
+          count: 46,
+          msg: "安全帽佩戴"
+        },
+        {
+          type: "red",
+          count: 46,
+          msg: "安全帽佩戴"
+        },
+        {
+          type: "red",
+          count: 46,
+          msg: "安全帽佩戴"
+        },
+        {
+          type: "red",
+          count: 6,
+          msg: "安全帽佩戴"
+        },
+        {
+          type: "red",
+          count: 46,
           msg: "安全帽佩戴"
         },
         {

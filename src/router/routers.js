@@ -393,7 +393,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/security/thousand.vue')
+              component: () => import('@/views/communal/security/monitorKilovolt/monitor1000.vue')
             }
         ]
       },
@@ -416,7 +416,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/security/monitorKilovolt/monitor500.vue')
             }
         ]
       },
@@ -439,7 +439,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/security/monitorKilovolt/monitor220.vue')
             }
         ]
       },
@@ -462,7 +462,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/security/monitorKilovolt/monitor110.vue')
             }
         ]
       },
@@ -485,7 +485,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/security/monitorKilovolt/monitor35.vue')
             }
         ]
       },
@@ -508,7 +508,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('_c/duno-developing/index.vue')
+              component: () => import('@/views/communal/security/monitorKilovolt/monitor10.vue')
             }
         ]
       }

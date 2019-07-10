@@ -45,6 +45,19 @@ export default {
       type: Boolean,
       default: false
     },
+    dataList: {
+      type: Array,
+      default: () => {
+        return [
+          {
+            step: "120",
+            device: "可见光摄像机、红外热像仪、机器人",
+            interval: "每周一 8:00 am",
+            frequency: "12"
+          }
+        ];
+      }
+    },
     columns: {
       type: Array,
       default: () => {
@@ -142,15 +155,7 @@ export default {
   data() {
     return {
       interval: true,
-      patrol: false,
-      dataList: [
-        {
-          step: "120",
-          device: "可见光摄像机、红外热像仪、机器人",
-          interval: "每周一 8:00 am",
-          frequency: "12"
-        }
-      ]
+      patrol: false
     };
   },
   methods: {

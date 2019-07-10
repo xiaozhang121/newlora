@@ -47,15 +47,30 @@ export default {
     width: 70%;
     float: left;
     padding: 10px 26px;
-    &>p {
+    & > p {
       padding-left: 15px;
     }
-    .warnTtype{
+    .warnTtype {
       margin-top: 20px;
       overflow: hidden;
     }
     .warningCount {
       font-size: 20px;
+    }
+    .warnTtype :nth-child(-n + 3) {
+      .typeStatisticsCircle {
+        border: 4px solid #f00;
+      }
+    }
+    .warnTtype :nth-child(n + 4) {
+      .typeStatisticsCircle {
+        border: solid 4px #f5a623;
+      }
+    }
+    .warnTtype :nth-child(n + 7) {
+      .typeStatisticsCircle {
+        border: solid 4px #5fafff;
+      }
     }
   }
 }

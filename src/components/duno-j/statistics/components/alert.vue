@@ -70,7 +70,8 @@
 export default {
   props: {
     visible: {
-      type: Boolean
+      type: Boolean,
+      default:false
     }
   },
   data() {
