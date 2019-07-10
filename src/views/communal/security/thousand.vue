@@ -4,21 +4,25 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div>1000千伏安防警告</div>
-    <div class="number"></div>
+    <div class="number">
+      <statistics />
+    </div>
     <div class="thRecord">
-      <HisRecords />
+      <PageHisRecords />
     </div>
   </div>
 </template>
 
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-import HisRecords from "_c/duno-c/HisRecords";
+import PageHisRecords from "_c/duno-c/PageHisRecords";
+import statistics from "_c/duno-j/statistics";
 export default {
   name: "thousand",
   components: {
     Breadcrumb,
-    HisRecords
+    PageHisRecords,
+    statistics
   },
   data() {
     return {
@@ -40,11 +44,15 @@ export default {
     color: #ffffff;
   }
   .number {
-    height: 311px;
+    height: 310px;
+    padding: 20px;
     background-color: #142838;
+    &>div{
+        height: 100%;
+    }
   }
-  .thRecord{
-      margin-top: 20px;
+  .thRecord {
+    margin-top: 20px;
   }
 }
 </style>

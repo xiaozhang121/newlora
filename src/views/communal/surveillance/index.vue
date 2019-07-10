@@ -9,38 +9,38 @@
     <div class="main" :class="{widthA : $store.state.app.format == '2'}">
       <div class="left_main" :class="{widthA : $store.state.app.format == '2'}">
         <div class="left"  style="padding-bottom: 32%"  v-if="$store.state.app.format == '2'">
-          <key-monitor  :showBtmOption="false" paddingBottom="32%" class="monitorM second"></key-monitor>
+          <key-monitor  :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="right_main" v-if="$store.state.app.format != '2'" :class="{hidden : $store.state.app.format == '2'}">
         <div class="right">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
     <div class="oltagevMain second" v-if="$store.state.app.format == '2'">
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -51,22 +51,22 @@
     <div class="oltagevMain">
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="false" class="monitorM"></key-monitor>
+          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@ export default {
     display: flex;
     width: 99.5%;
     .left_main{
-      width: 75.5%;
+      width: 80.7%;
       .left{
         position: relative;
         width: 100%;
@@ -193,7 +193,7 @@ export default {
         width: 100%;
         padding-bottom: 56%;
         margin-left: 3.3%;
-        margin-bottom: 3.3%;
+        margin-bottom: 9.3%;
       }
     }
   }
@@ -202,7 +202,7 @@ export default {
     zoom:1;
     &:after { clear:both;content:'';display:block;width:0;height:0;visibility:hidden; }
     &.second{
-      margin-top: 1%;
+      margin-top: 3%;
       .item_main{
         margin-right: 1% !important;
       }
@@ -214,7 +214,7 @@ export default {
       float: left;
       width: calc(98% / 3);
       margin-right: 1%;
-      margin-bottom: 1%;
+      margin-bottom: 3%;
       .item{
         position: relative;
         width: 100%;

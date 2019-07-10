@@ -1,15 +1,20 @@
 <template>
   <div class="keyMonitor" :style="{width:width}">
-    <div class="camera" :style="{'paddingBottom': paddingBottom}" @mouseenter="enter()" @mouseleave="leave()">
+    <div
+      class="camera"
+      :style="{'paddingBottom': paddingBottom}"
+      @mouseenter="enter()"
+      @mouseleave="leave()"
+    >
       <div class="main" id="videoPlayer">
         <video-player ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
       </div>
       <transition name="el-zoom-in-bottom">
-        <div v-show="showBtm" v-if="isSecond" class="explain iconList">
+        <div v-show="showBtm" class="explain iconList">
           <div class="block">
             <!-- <span class="demonstration">-15s</span>
             <el-slider v-model="value2"></el-slider>
-            <span>当前</span> -->
+            <span>当前</span>-->
           </div>
           <span>
             <i class="iconfont icon-luxiang"></i>录像
@@ -21,20 +26,20 @@
             <i class="iconfont icon-quanping"></i>全屏
           </span>
           <span @click="pushMov()">
-            <i  class="iconfont icon-tuisong"></i>推送
-          </span>
-        </div>
-        <div v-show="showBtm" v-else class="explain iconList">
-          <div class="text">
-            <span>{{kilovolt}}</span>
-            <span>{{patrol}}</span>
-            <i class="iconfont icon-jiantou"></i>
-          </div>
-          <span @click="fullScreen()">
-            <i class="iconfont icon-quanping"></i>
+            <i class="iconfont icon-tuisong"></i>推送
           </span>
         </div>
       </transition>
+      <div v-if="isSecond" class="explain iconList detailIcon">
+        <div class="text">
+          <span>{{kilovolt}}</span>
+          <span>{{patrol}}</span>
+          <i class="iconfont icon-jiantou"></i>
+        </div>
+        <span @click="fullScreen()">
+          <i class="iconfont icon-quanping"></i>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -63,17 +68,17 @@ export default {
       default: ""
     },
     optionHeight: {
-        type: String,
-        default: ""
+      type: String,
+      default: ""
     },
     kilovolt: {
       type: String,
       default: "机器人一"
     },
-    showBtmOption:{
+    showBtmOption: {
       type: Boolean,
       default: () => {
-          return true
+        return false;
       }
     },
     patrol: {
@@ -81,10 +86,10 @@ export default {
       default: "正在巡视中"
     }
   },
-  watch:{
-    showBtmOption:{
-      handler(now){
-          this.isSecond = now
+  watch: {
+    showBtmOption: {
+      handler(now) {
+        this.isSecond = now;
       },
       immediate: true
     }
@@ -93,7 +98,7 @@ export default {
     return {
       value2: 15,
       showBtm: false,
-      isSecond: true,
+      isSecond: false,
       playerOptions: {
         sources: [
           {
@@ -109,8 +114,8 @@ export default {
     };
   },
   methods: {
-    pushMov(){
-        this.$emit('on-push')
+    pushMov() {
+      this.$emit("on-push");
     },
     fullScreen() {
       let ele = this.$refs.videoPlayer.$el
@@ -124,8 +129,8 @@ export default {
       this.showBtm = false;
     }
   },
-  created(){
-     /* if(this.optionWidth && this.optionHeight){
+  created() {
+    /* if(this.optionWidth && this.optionHeight){
           this.playerOptions.width = this.optionWidth
           this.playerOptions.height = this.optionHeight
       }else{
@@ -136,7 +141,7 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
-  .video-player.vjs-custom-skin{
+  .video-player.vjs-custom-skin {
     width: 100%;
   }
   .camera {
@@ -206,11 +211,14 @@ export default {
           padding-right: 10px;
           font-size: 14px;
         }
-        span:nth-child(2){
+        span:nth-child(2) {
           padding-right: 10px;
           font-size: 12px;
         }
       }
+    }
+    .detailIcon{
+      bottom: -33px;
     }
   }
   .camera:hover {
