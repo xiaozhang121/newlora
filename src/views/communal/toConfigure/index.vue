@@ -157,24 +157,99 @@ export default {
           title: "巡视周期",
           align: "center",
           render: (h, params) => {
-              let newArr = []
+              let newArr = [];
               newArr.push(
-                  h('el-poptip', {
-                      props: { placement: 'right' },
-                      on: { 'on-ok': () => { this.deleteHandle(params.row.id) } }
-                  }, [
-                      h('el-button', { class:'', props: { type: "text" }},'123132'),
-                      h('div',{slot: "content", style:{overflow: 'hidden', display:'flex', flexDirection:'column'}},[
-                          h('i-radioGroup',{ props:{vModel:that.radio}},[
-                              h('i-radio',{ props:{label: '1'},style:{display: 'block', textAlign:'left', marginBottom: '5px', color:'black'}},'无'),
-                              h('i-radio',{ props:{label: '2'},style:{display: 'block', textAlign:'left', color:'black'} },[
-                              ])
-                          ])
-
-                      ])
-                  ])
-             )
-              return h('div', newArr)
+                  h(
+                      "i-dropdown",
+                      {
+                          props: { trigger: "click", placement: "bottom-start" },
+                          style: {
+                              marginLeft: "5px"
+                          },
+                          on: {
+                              "on-click": value => {
+                                  console.log(value);
+                              }
+                          }
+                      },
+                      [
+                          h(
+                              "div",
+                              {
+                                  class: {
+                                      member_operate_div: true
+                                  }
+                              },
+                              [
+                                  h(
+                                      "div",
+                                      {
+                                          class: {
+                                              table_select: true
+                                          }
+                                      },
+                                      [
+                                          h("span", '每日1次', {
+                                              class: {
+                                                  member_operate_div: true
+                                              }
+                                          }),
+                                          h("i", {
+                                              style: {
+                                                  marginLeft: "5px"
+                                              },
+                                              class: {
+                                                  "iconfont icon-xiala": true
+                                              }
+                                          })
+                                      ]
+                                  )
+                              ]
+                          ),
+                          h(
+                              "i-dropdownMenu",
+                              {
+                                  slot: "list"
+                              },
+                              [
+                                  h("i-dropdownItem", {}, [
+                                      h(
+                                          "div",
+                                          {
+                                              class: {
+                                                  alarmLevel: true
+                                              },
+                                              on: {
+                                                  click: () => {
+                                                      that.selectInfo = "每日1次";
+                                                  }
+                                              }
+                                          },
+                                          "每日1次"
+                                      )
+                                  ]),
+                                  h("i-dropdownItem", {}, [
+                                      h(
+                                          "div",
+                                          {
+                                              class: {
+                                                  alarmLevel: true
+                                              },
+                                              on: {
+                                                  click: () => {
+                                                      that.selectInfo = "每周1次";
+                                                  }
+                                              }
+                                          },
+                                          "每周1次"
+                                      )
+                                  ]),
+                              ]
+                          )
+                      ]
+                  )
+              );
+              return h("div", newArr);
           }
         },
         {
@@ -236,6 +311,19 @@ export default {
     }
     &.close{
       background: #ee183b;
+    }
+  }
+  .table_select {
+    cursor: pointer;
+    span {
+      position: relative;
+      top: -2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 22px;
+      border-radius: 20px;
     }
   }
   .el-button--text {

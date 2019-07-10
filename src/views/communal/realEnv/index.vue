@@ -5,7 +5,8 @@
     <duno-main   v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
         <div :class="['toward']">
-          <img @click="alarmSet" :src="towardAround"/>
+          <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2"/>
+          <img @click="alarmSet" :src="towardAround" v-else-if="isDiagram == 1"/>
         </div>
           <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
           <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->

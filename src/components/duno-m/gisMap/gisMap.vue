@@ -103,9 +103,7 @@ export default {
             let mapcontainer = this.$refs.rootmap;
             this.mapTarget = new Map({
                 controls: defaultControls({
-                    attribution: false,
-                    rotate: false,
-                    zoom: false
+
                 }),
                 target: "map",
                 layers: [
@@ -117,7 +115,7 @@ export default {
                                 let x = 'C'+that.zeroPad(tileCoord[1],8,16);
                                 let y = 'R'+that.zeroPad(-tileCoord[2]-1,8,16);
                                 let z = 'L'+that.zeroPad(tileCoord[0],2,10);
-                                return 'http://52.82.107.5:8090/state_grid_map/'+z+'/'+y+'/'+x+'.png';
+                                return 'http://127.0.0.1:8080/'+z+'/'+y+'/'+x+'.png';
                             },
                             projection: 'EPSG:3857'
                         })
@@ -126,7 +124,7 @@ export default {
                 view: new View({
                     center: [118.79129270,32.06046262],
                     projection: 'EPSG:4326',
-                    zoom: 15,
+                    zoom: 14,
                     minZoom: 13,
                     maxZoom: 19
                 })

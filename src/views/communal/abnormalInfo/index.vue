@@ -49,7 +49,7 @@
         <div>
           <div>导出Excel</div>
         </div>
-        <div>
+        <div class="setting" @click="showSetting">
           <i class="iconfont icon-ico_menu__systemsettings"></i>
         </div>
       </div>
@@ -69,6 +69,7 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
+    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption"/>
   </div>
 </template>
 
@@ -76,6 +77,7 @@
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import warningSetting from '_c/duno-j/warningSetting'
 import { DunoTablesTep } from "_c/duno-tables-tep";
 export default {
   name: "abnormalInfo",
@@ -83,11 +85,13 @@ export default {
     dunoBtnTop,
     KeyMonitor,
     dunoMain,
-    DunoTablesTep
+    DunoTablesTep,
+    warningSetting
   },
   data() {
     const that = this;
     return {
+      visibleSettingOption: false,
       totalNum: 500,
       pageRows: 20,
       selectInfo: "更多",
@@ -425,6 +429,12 @@ export default {
     };
   },
   methods: {
+    onClose(){
+        this.visibleSettingOption = false
+    },
+    showSetting(){
+        this.visibleSettingOption = true
+    },
     onSelect(item, index) {
       this.layoutType = item["describeName"];
     },
@@ -625,6 +635,9 @@ export default {
     color: white;
     font-size: 13px;
   }
+}
+.setting{
+  cursor: pointer;
 }
 .el-picker-panel {
   background-color: rgba(27, 59, 71, 0.7);
