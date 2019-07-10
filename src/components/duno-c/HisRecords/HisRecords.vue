@@ -288,7 +288,6 @@ export default {
     }
   }
   .tables {
-    margin-top: 20px;
     overflow: hidden;
     background-color: #142838;
     .tablesTep {

@@ -38,16 +38,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="tables">
-      <duno-tables-tep
-        :columns="infoColumns"
-        :data="dataList"
-        :border="true"
-        :stripe="true"
-        :isShowPage="false"
-        :height="360"
-      />
-    </div>-->
     <duno-main class="dunoMain">
       <duno-tables-tep
         class="table_abnormalInfo"
