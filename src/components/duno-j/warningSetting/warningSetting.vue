@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    v-dialogDrag
     custom-class='myDia'
     title='告警提示设置'
     :visible="visible"
@@ -99,12 +100,19 @@
 <script>
 export default {
   props: {
-    visible: {
+    visibleOption: {
       type: Boolean
     }
   },
+  watch:{
+      visibleOption(now){
+          debugger
+          this.visible = now
+      }
+  },
   data () {
     return {
+      visible: false,
       options: [{
         value: '弹窗',
         label: '弹窗'
@@ -131,6 +139,7 @@ export default {
   },
   methods: {
     handleClose() {
+      this.visible = false
       this.$emit('handleClose')
     },
     submitForm(formName) {

@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="rightBtnHandle" v-if="showBtnList">
-      <div class="zoomMain">
+      <div class="zoomMain" style="visibility: hidden">
         <span class="zoom">
           <i class="iconfont icon-jianshao"></i>
         </span>
