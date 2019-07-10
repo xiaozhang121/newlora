@@ -1,8 +1,9 @@
-import { login, logout, getUserInfo } from '@/api/user'
+import { initConfigure, login, logout, getUserInfo } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
 import avatorImg from '@/assets/images/avatar.jpg'
 export default {
   state: {
+    configInfo: {},
     isCollapsed: false,  // 侧边栏是否收起
     isSimple: true,
     userName: '',
@@ -16,6 +17,9 @@ export default {
     isFormWidthTop: false // from表单中的label是否切换至top
   },
   mutations: {
+    setconfigInfo(state, configinfo){
+        state.configInfo = configinfo
+    },
     setAvator (state, avatorPath) {
       state.avatorImgPath = avatorPath
     },
@@ -72,6 +76,19 @@ export default {
         // commit('setAccess', [])
         // resolve()
       })
+    },
+    // 初始化配置
+    setConfigure ({ state, commit }) {
+        return new Promise((resolve, reject) => {
+            initConfigure({userId:state.userId, type: '1'}).then(res => {
+                console.log('获取配置信息', res.data)
+                const data = res.data
+                commit('setconfigInfo', data)
+                resolve(data)
+            }).catch(err => {
+                reject(err)
+            })
+        })
     },
     // 获取用户相关信息
     getUserInfo ({ state, commit }) {

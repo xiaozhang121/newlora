@@ -42,3 +42,28 @@ export const deviceLocation = (query) => {
         params: { ...query }
     })
 }
+
+// 设备信息-全部电力设备的信息
+export const deviceList = () => {
+    return axios.request({
+        url: '/lenovo-device/api/device/list',
+        method: 'get',
+    })
+}
+
+//安防监测-安防总览-重点监测区域摄像下拉列表
+export const getMonitorSelect = () => {
+    return axios.request({
+        url: '/lenovo-device/api/security/monitor-select',
+        method: 'get',
+    })
+}
+
+//安防监测-安防总览-重点监测区域摄像信息
+export const securityMonitor = (query) => {
+    return axios.request({
+        url: '/lenovo-device/api/security/monitor',
+        method: 'get',
+        params: { ...query }
+    })
+}

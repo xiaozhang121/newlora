@@ -14,17 +14,18 @@
                   <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
               </div>-->
               <!--<gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>-->
-          </div>
-      <gis-map :isDiagram="isDiagram==2" :deviceList="deviceList"  v-if="isDiagram == 2"></gis-map>
-      <div :class="['allShowPic']" v-else-if="isDiagram == 1">
-          <drappable class="drappable_assembly" width="1900px" height="675px" >
-              <div class="realView">
-                <img :src="kilovoltAllAround" />
-              </div>
-          </drappable>
+        <gis-map :isDiagram="isDiagram==2" :deviceList="deviceList"  v-if="isDiagram == 2"></gis-map>
+        <div :class="['allShowPic']" v-else-if="isDiagram == 1">
+            <drappable class="drappable_assembly" width="1900px" height="675px" >
+                <div class="realView">
+                  <img :src="kilovoltAllAround" />
+                </div>
+            </drappable>
+        </div>
       </div>
-   <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
-        <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
+
+      <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
       <div :class="['item_ctx']"  ref="firstElE"  v-if="isDiagram==1">
@@ -344,7 +345,7 @@ import cameraPop from '_c/duno-m/cameraPop'
 import hotcameraPop from '_c/duno-m/hotcameraPop'                 // 可见光
 import hotCamera from '_c/duno-m/hotCamera'                       // 红外
 import { popupinfo, popupOneInfo } from '_c/popupinfo'
-import { deviceLocation } from '@/api/currency/currency.js'
+import { deviceLocation, deviceList } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
 import gisMap from '_c/duno-m/gisMap'
 export default {
@@ -570,6 +571,10 @@ export default {
       changDiagram(now){
           this.isDiagram = now
       },
+      getPower(){
+        const that = this
+        deviceList().then(res=>{})
+      },
       getDeviceList(){
         const that = this
         deviceLocation().then(res=>{
@@ -661,6 +666,11 @@ export default {
           that.$refs.btnTopRef.isFullscreen = !that.$refs.btnTopRef.isFullscreen
         that.isFullscreen = !that.isFullscreen
             let data = that.modeList
+            if(that.isFullscreen){
+              that.$refs.firstElE.style.background = 'rgba(20, 40, 56)'
+            }else{
+              that.$refs.firstElE.style.background = 'transparent'
+            }
             data.map(item=>{
                /* if(item['popupinfoVisable']){
                     item['popupinfoVisable'] = false
@@ -709,6 +719,7 @@ export default {
       bottom: 20px;
     }
     .toward{
+      z-index: 1;
       position: absolute;
       left: 15px;
       top: 10px;
