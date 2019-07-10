@@ -52,7 +52,7 @@
     <div class="alarmLogIn">
       <AlarmLog v-for="(item,index) in dataAlarm" :key="index" />
     </div>
-    <push-mov @on-close="onClose" :visible="pushMovVisable"/>
+    <push-mov @on-close="onClose" :visible="pushMovVisable" />
   </div>
 </template>
 
@@ -65,6 +65,7 @@ import pushMov from '_c/duno-m/pushMov'
 import { getMonitorSelect, securityMonitor } from '@/api/currency/currency.js'
 export default {
   name: "security",
+  // mixins: [mixinViewModule],
   components: {
     Breadcrumb,
     dunoBtnTop,
@@ -186,8 +187,18 @@ export default {
     onClose(){
         this.pushMovVisable = false
     },
-    onPush(){
-        this.pushMovVisable = true
+    onPush() {
+      this.pushMovVisable = true;
+    },
+    handleNum() {
+      getAxiosData("/lenovo-device/api/security/monitor-select").then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          that.totalNum = 0;
+          return that.$message.error(res.msg);
+        }
+        this.TestEquipment = res.data;
+      });
     },
     initData(){
         const that = this

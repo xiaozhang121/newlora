@@ -48,14 +48,7 @@ export default {
     dataList: {
       type: Array,
       default: () => {
-        return [
-          {
-            step: "120",
-            device: "可见光摄像机、红外热像仪、机器人",
-            interval: "每周一 8:00 am",
-            frequency: "12"
-          }
-        ];
+        return [];
       }
     },
     columns: {
@@ -64,14 +57,14 @@ export default {
         return [
           {
             title: "总步骤",
-            key: "step",
+            key: "stepNum",
             minWidth: 50,
             align: "center",
             tooltip: true
           },
           {
             title: "监测设备",
-            key: "device",
+            key: "monitorDeviceName",
             minWidth: 50,
             align: "center",
             tooltip: true
@@ -85,14 +78,14 @@ export default {
           },
           {
             title: "已巡视次数",
-            key: "frequency",
+            key: "inspectNum",
             minWidth: 50,
             align: "center",
             tooltip: true
           },
           {
             title: "状态",
-            key: "state",
+            key: "status",
             minWidth: 50,
             align: "center",
             tooltip: true,
@@ -123,7 +116,7 @@ export default {
           },
           {
             title: " ",
-            key: "Presentation",
+            // key: "Presentation",
             minWidth: 150,
             align: "center",
             tooltip: true,
