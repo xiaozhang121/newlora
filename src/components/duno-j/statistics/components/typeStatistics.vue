@@ -2,7 +2,6 @@
   <div style="float: left;width:100px">
     <div
       class="typeStatisticsCircle"
-      
     >{{oneTypeInfo.count}}</div>
     <p style="text-align: center;font-size: 14px">{{oneTypeInfo.msg}}</p>
   </div>

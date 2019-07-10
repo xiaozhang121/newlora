@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="top">检测设备管理</div>
+    <div class="top">任务配置</div>
     <duno-main class="dunoMain">
       <Patrol />
       <Patrol />
@@ -227,14 +227,17 @@ export default {
 <style lang="scss">
 .configDetail {
   width: 100%;
-
-  .top {
+  &>.top {
     color: #ffffff;
+    margin: 10px 0;
     line-height: 40px;
+    font-size: 24px;
   }
   .table_link {
     color: #5fafff !important;
     text-decoration: underline;
+  }
+  .dunoMain{
   }
 }
 </style>

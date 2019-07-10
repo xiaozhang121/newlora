@@ -46,7 +46,6 @@ export default {
   .warningStatistics {
     width: 70%;
     float: left;
-    // padding: 10px 26px;
     padding-left: 30px;
     & > p {
       padding-left: 15px;
