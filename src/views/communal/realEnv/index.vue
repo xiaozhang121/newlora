@@ -12,29 +12,21 @@
              <!-- <div v-for="(item, index) in deviceList" class="anchorPoint" :id="'anchor'+index" :key="index" >
                   <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
               </div>-->
-              <gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+              <!--<gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>-->
           </div>
-          <div :class="['allShowPic']">
-            <div class="Once_primaryDiagram" v-if="isDiagram">
-              <img :src="kilovoltAllAround" />
-             <!-- <img :src="kilovolt500" />
-              <img :src="kilovolt220" />
-              <img :src="kilovolt110" />
-              <img :src="kilovolt35" />-->
-            </div>
-            <div class="realView" v-else>
-              <img :src="kv1000" />
-              <img :src="kv500" />
-              <img :src="kv220" />
-              <img :src="kv110" />
-              <img :src="kv35" />
-            </div>
-          </div>
+      <gis-map :isDiagram="isDiagram==2" :deviceList="deviceList"  v-if="isDiagram == 2"></gis-map>
+      <div :class="['allShowPic']" v-else-if="isDiagram == 1">
+          <drappable class="drappable_assembly" width="1900px" height="675px" >
+              <div class="realView">
+                <img :src="kilovoltAllAround" />
+              </div>
+          </drappable>
+      </div>
    <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
-      <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx']"  ref="firstElE"  v-if="isDiagram==1">
         <div class="toward">
             <img :src="toward"/>
         </div>
@@ -58,7 +50,7 @@
      <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE" v-else>
+      <div :class="['item_ctx']"  ref="firstElE" v-else-if="isDiagram == 2">
         <div class="toward">
           <img :src="towardAround"/>
         </div>
@@ -84,7 +76,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '500'">
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -108,7 +100,7 @@
       <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
+      <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
         <div class="toward">
           <img :src="towardAround"/>
         </div>
@@ -134,7 +126,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '220'">
-      <div :class="['item_ctx', {'active': isDiagram}]"  ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx']"  ref="firstElE"  v-if="isDiagram==1">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -158,7 +150,7 @@
      <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
+      <div :class="['item_ctx']" ref="firstElE"   v-else-if="isDiagram == 2">
         <div class="toward">
           <img :src="towardAround"/>
         </div>
@@ -184,7 +176,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '110'">
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
+      <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
         <div class="toward">
           <img :src="toward"/>
         </div>
@@ -208,7 +200,7 @@
   <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
-      <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
+      <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
         <div class="toward">
           <img :src="towardAround"/>
         </div>
@@ -234,7 +226,7 @@
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '35'">
-        <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE"  v-if="isDiagram">
+        <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
           <div class="toward">
             <img :src="toward"/>
           </div>
@@ -258,7 +250,7 @@
      <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
         </div>
-        <div :class="['item_ctx', {'active': isDiagram}]" ref="firstElE" v-else>
+        <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
           <div class="toward">
             <img :src="towardAround"/>
           </div>
@@ -282,7 +274,49 @@
         <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
-      </duno-main>
+    </duno-main>
+    <duno-main class="kilovolt" v-else-if="kilovoltKind == '10'">
+      <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
+        <div class="toward">
+          <img :src="toward"/>
+        </div>
+        <drappable class="drappable_assembly" width="1900px" height="675px">
+          <div class="allShowPic">
+            <div class="Once_primaryDiagram" style="position:absolute;left: -250px;top: -95px;transform: scale(1.3)">
+              <div class="deviceList">
+                <template v-for="(item,index) in kilovolt10Pic">
+                  <img :key="index" @click="toDevice(item,index,$refs.firstElE,0)" v-if="item['show']" :src="item['src']"
+                       :style="[
+                      {'left': item['xAxisDiagram']+'px'},
+                      {'top': item['yAxisDiagram']+'px'}
+                    ]"
+                  />
+                </template>
+              </div>
+              <img :src="kilovolt10" />
+            </div>
+          </div>
+        </drappable>
+        <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
+             <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
+      </div>
+      <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
+        <div class="toward">
+          <img :src="towardAround"/>
+        </div>
+        <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
+          <div class="allShowPic center" style="position: absolute;top:-80px;transform: scale(1.3)">
+            <div class="realView">
+              <div class="deviceList">
+              </div>
+              <div class="center">无此图片</div>
+            </div>
+          </div>
+        </drappable>
+        <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+      </div>
+    </duno-main>
 
     <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
@@ -336,29 +370,52 @@ export default {
       return this.$store.state.app.kilovolt
     },
     kilovolt1000Pic(){
-        return this.deviceList.filter((item)=>{
-            return item['areaId'] == '6'
-        })
+        if(this.deviceList)
+          return this.deviceList.filter((item)=>{
+              return item['areaId'] == '6'
+          })
+        else
+          return []
     },
     kilovolt500Pic(){
-        return this.deviceList.filter((item)=>{
-            return item['areaId'] == '5'
-        })
+        if(this.deviceList)
+          return this.deviceList.filter((item)=>{
+              return item['areaId'] == '5'
+          })
+        else
+            return []
     },
     kilovolt220Pic(){
-        return this.deviceList.filter((item)=>{
-            return item['areaId'] == '4'
-        })
+        if(this.deviceList)
+          return this.deviceList.filter((item)=>{
+              return item['areaId'] == '4'
+          })
+        else
+            return []
     },
     kilovolt110Pic(){
-        return this.deviceList.filter((item)=>{
-            return item['areaId'] == '3'
-        })
+        if(this.deviceList)
+          return this.deviceList.filter((item)=>{
+              return item['areaId'] == '3'
+          })
+        else
+            return []
     },
     kilovolt35Pic(){
-        return this.deviceList.filter((item)=>{
-            return item['areaId'] == '2'
-        })
+        if(this.deviceList)
+          return this.deviceList.filter((item)=>{
+              return item['areaId'] == '2'
+          })
+        else
+            return []
+    },
+    kilovolt10Pic(){
+        if(this.deviceList)
+            return this.deviceList.filter((item)=>{
+                return item['areaId'] == '1'
+            })
+        else
+            return []
     }
   },
   data () {
@@ -367,7 +424,7 @@ export default {
       isAlarm: false,
       timer: null,
       tempObj: {},
-      isDiagram: false,
+      isDiagram: 2,
       mainlistShow: true,
       isFullscreen: false,
       visibleCamera: false,
@@ -530,7 +587,6 @@ export default {
         })
       },
       deviceShowHandle(arr){
-        debugger
         const that = this
         let target = arr.filter(item=>{
             return item['isActive'] == true
@@ -623,6 +679,16 @@ export default {
 </script>
 <style lang="scss">
 .realEnv{
+    .center{
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      width: 66px;
+      height: 20px;
+    }
     .isAlarm{
       border: 3px solid red;
     }

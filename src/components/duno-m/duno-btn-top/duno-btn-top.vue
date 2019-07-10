@@ -73,7 +73,7 @@ export default {
             {active: true, name:'设备布置图'},
             {active: false, name:'一次接线图'}
         ],
-        isDiagram: false,
+        isDiagram: 2,
         isClick: false
     }
   },
@@ -144,7 +144,7 @@ export default {
           }
         ]
     },
-    isDiagram: false,
+    isDiagram: 2,
     isClick: false
     }
   },
@@ -181,7 +181,11 @@ export default {
       },
       topBtnHandle(index ,item){
         if(item['name'].indexOf('一次接线图')>-1){
-            this.isDiagram = !this.isDiagram
+            this.isDiagram =  1
+        }else if(item['name'].indexOf('设备布置图')>-1){
+            this.isDiagram =  2
+        }else{
+            this.isDiagram =  3
         }
         let data = JSON.parse(JSON.stringify(this.topBtnList))
         if(!this.topBtnList[index]['active']){
@@ -190,7 +194,7 @@ export default {
           })
         }
         this.topBtnList = data
-        this.topBtnList[index]['active'] = !this.topBtnList[index]['active']
+        this.topBtnList[index]['active'] = true
         this.$forceUpdate()
       },
       handleCheckedCitiesChange(value) {

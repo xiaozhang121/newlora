@@ -250,7 +250,7 @@ export default [
                       meta: {
                           access: ['11001010'],
                           title: '列表',
-                          kind: 35,
+                          kind: 10,
                           hideInMenu: true,
                           isDetails: true
                       },
