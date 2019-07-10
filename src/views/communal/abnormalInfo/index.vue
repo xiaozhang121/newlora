@@ -69,7 +69,8 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
-    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption"/>
+    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
+    <wraning :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -77,21 +78,30 @@
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
-import warningSetting from '_c/duno-j/warningSetting'
+import warningSetting from "_c/duno-j/warningSetting";
+import wraning from "_c/duno-j/warning";
+import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 export default {
   name: "abnormalInfo",
+  mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
     KeyMonitor,
     dunoMain,
     DunoTablesTep,
-    warningSetting
+    warningSetting,
+    wraning
   },
   data() {
     const that = this;
     return {
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-alarm/api/alarm/history"
+      },
       visibleSettingOption: false,
+      visible: false,
       totalNum: 500,
       pageRows: 20,
       selectInfo: "更多",
@@ -105,21 +115,21 @@ export default {
       columns: [
         {
           title: "时间",
-          key: "nickname",
+          key: "alarmTime",
           minWidth: 50,
           align: "center",
           tooltip: true
         },
         {
           title: "报警对象",
-          key: "phone",
+          key: "powerDeviceName",
           minWidth: 50,
           align: "center",
           tooltip: true
         },
         {
           title: "报警部位",
-          key: "phone",
+          key: "alarmPart",
           minWidth: 50,
           align: "center",
           tooltip: true
@@ -133,14 +143,14 @@ export default {
         },
         {
           title: "报警内容",
-          key: "phone",
+          key: "alarmContent",
           minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "警告级别",
-          key: "submitTime",
+          key: "alarmLevelName",
           minWidth: 90,
           align: "center",
           tooltip: true,
@@ -261,7 +271,7 @@ export default {
         },
         {
           title: "信息来源",
-          key: "sysUserId",
+          key: "monitorDeviceId",
           minWidth: 90,
           align: "center",
           tooltip: true,
@@ -308,7 +318,7 @@ export default {
         },
         {
           title: "处理记录",
-          key: "id",
+          key: "dealRecord",
           width: 120,
           fixed: "right",
           align: "center",
@@ -339,20 +349,21 @@ export default {
               )
             ]);
             newArr.push([
-              h("i", {
-                class: "iconfont icon-daochu",
-                style: {
-                  cursor: "pointer",
-                  position: "relative",
-                  top: "0.2px"
-                },
-                props: { type: "text" },
-                on: {
-                  click: () => {
-                    alert("");
+              h(
+                "el-button",
+                {
+                  class: "table_link",
+                  style: { marginRight: "20px" },
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      // alert("");
+                      this.visible = true;
+                    }
                   }
-                }
-              })
+                },
+                "详情"
+              )
             ]);
             return h(
               "div",
@@ -429,11 +440,11 @@ export default {
     };
   },
   methods: {
-    onClose(){
-        this.visibleSettingOption = false
+    onClose() {
+      this.visibleSettingOption = false;
     },
-    showSetting(){
-        this.visibleSettingOption = true
+    showSetting() {
+      this.visibleSettingOption = true;
     },
     onSelect(item, index) {
       this.layoutType = item["describeName"];
@@ -444,6 +455,9 @@ export default {
       this.startTime = JSON.parse(JSON.stringify(startTime));
       this.endTime = JSON.parse(JSON.stringify(endTime));
       this.$emit("onChange", data);
+    },
+    handleClose() {
+      this.visible = false;
     }
   }
 };
@@ -596,7 +610,7 @@ export default {
       justify-content: space-between;
       & > div {
         margin-left: 10px;
-        i{
+        i {
           font-size: 25px;
           padding-right: 5px;
         }
@@ -636,7 +650,7 @@ export default {
     font-size: 13px;
   }
 }
-.setting{
+.setting {
   cursor: pointer;
 }
 .el-picker-panel {

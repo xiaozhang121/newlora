@@ -19,7 +19,7 @@
         <div>
           <i>处理记录:</i>
           <p>
-            <span v-for="(item,index) in remarksData.slice(0,2)" :key="index">{{item}}</span>
+            <span v-for="(item,index) in dataList.slice(0,2)" :key="index">{{item}}</span>
           </p>
         </div>
       </div>
@@ -65,7 +65,8 @@ export default {
     return {
       address: "",
       isDisabled: true,
-      remarksData: []
+      remarksData: [],
+      dataList: []
     };
   },
   methods: {
@@ -73,7 +74,7 @@ export default {
       if (this.isDisabled) {
         let strTime =
           "复归 (" + moment(new Date()).format("YYYY-MM-DD HH:mm:ss") + ")";
-        this.remarksData.unshift(strTime);
+        this.dataList.unshift(strTime);
         this.isDisabled = false;
       }
     }
@@ -85,6 +86,10 @@ export default {
   },
   mounted() {
     this.remarksData = this.remarks;
+    this.remarksData.forEach(el => {
+      let str = el.dealType + "(" + el.dealTime + ")";
+      this.dataList.push(str);
+    });
   }
 };
 </script>

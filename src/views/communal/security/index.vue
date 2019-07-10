@@ -19,14 +19,20 @@
           ></duno-btn-top>
         </div>
         <div>
-        <el-select @change="selectData" class="selectSearch" v-model="valueSelect" filterable :placeholder="titleValueR">
-          <el-option
-                  v-for="item in optionsList"
-                  :key="item.monitorDeviceId"
-                  :label="item.serialNo"
-                  :value="item.monitorDeviceId">
-          </el-option>
-        </el-select>
+          <el-select
+            @change="selectData"
+            class="selectSearch"
+            v-model="valueSelect"
+            filterable
+            :placeholder="titleValueR"
+          >
+            <el-option
+              v-for="item in optionsList"
+              :key="item.monitorDeviceId"
+              :label="item.serialNo"
+              :value="item.monitorDeviceId"
+            ></el-option>
+          </el-select>
         </div>
       </div>
     </div>
@@ -50,7 +56,12 @@
       </div>
     </div>
     <div class="alarmLogIn">
-      <AlarmLog v-for="(item,index) in dataAlarm" :key="index" />
+      <AlarmLog
+        v-for="(item,index) in dataAlarm"
+        :time="item.alarmTime"
+        :remarks="item.dealList"
+        :key="index"
+      />
     </div>
     <push-mov @on-close="onClose" :visible="pushMovVisable" />
   </div>
@@ -61,11 +72,13 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import AlarmLog from "_c/duno-c/AlarmLog";
-import pushMov from '_c/duno-m/pushMov'
-import { getMonitorSelect, securityMonitor } from '@/api/currency/currency.js'
+import pushMov from "_c/duno-m/pushMov";
+import mixinViewModule from "@/mixins/view-module";
+import { getAxiosData } from "@/api/axiosType";
+import { getMonitorSelect, securityMonitor } from "@/api/currency/currency.js";
 export default {
+  mixins: [mixinViewModule],
   name: "security",
-  // mixins: [mixinViewModule],
   components: {
     Breadcrumb,
     dunoBtnTop,
@@ -75,25 +88,36 @@ export default {
   },
   data() {
     return {
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/lenovo-alarm/api/security/list"
+      // },
       isCenter: false,
-      optionsList:[
+      time: "",
+      remarks: [],
+      optionsList: [
         {
-            value: '选项1',
-            label: '黄金糕'
-        }, {
-            value: '选项2',
-            label: '双皮奶'
-        }, {
-            value: '选项3',
-            label: '蚵仔煎'
-        }, {
-            value: '选项4',
-            label: '龙须面'
-        }, {
-            value: '选项5',
-            label: '北京烤鸭'
-      }],
-      valueSelect: '',
+          value: "选项1",
+          label: "黄金糕"
+        },
+        {
+          value: "选项2",
+          label: "双皮奶"
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎"
+        },
+        {
+          value: "选项4",
+          label: "龙须面"
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭"
+        }
+      ],
+      valueSelect: "",
       pushMovVisable: false,
       showBtnList: false,
       isSecond: false,
@@ -130,20 +154,7 @@ export default {
           item: ""
         }
       ],
-      dataAlarm: [
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        }
-      ],
+      dataAlarm: [],
       numberCameras: [
         {
           circleColor: "#00B4FF",
@@ -174,18 +185,18 @@ export default {
     };
   },
   methods: {
-    selectData(value){
-        const that = this
-        securityMonitor({'monitorDeviceId':value}).then(res=>{
-            that.titleValueL = "监控摄像头数量"
-            that.dataMonitor = res.data.tableData
-            that.videoWidth = "calc(50%)";
-            that.active = 1;
-            that.isCenter = true
-        })
+    selectData(value) {
+      const that = this;
+      securityMonitor({ monitorDeviceId: value }).then(res => {
+        that.titleValueL = "监控摄像头数量";
+        that.dataMonitor = res.data.tableData;
+        that.videoWidth = "calc(50%)";
+        that.active = 1;
+        that.isCenter = true;
+      });
     },
-    onClose(){
-        this.pushMovVisable = false
+    onClose() {
+      this.pushMovVisable = false;
     },
     onPush() {
       this.pushMovVisable = true;
@@ -200,11 +211,20 @@ export default {
         this.TestEquipment = res.data;
       });
     },
-    initData(){
-        const that = this
-        getMonitorSelect().then(res=>{
-            that.optionsList = res.data.tableData
-        })
+
+    initData() {
+      const that = this;
+      getMonitorSelect().then(res => {
+        that.optionsList = res.data.tableData;
+      });
+      getAxiosData("/lenovo-alarm/api/security/list").then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          that.totalNum = 0;
+          return that.$message.error(res.msg);
+        }
+        this.dataAlarm = res.data.tableData;
+      });
     },
     onSelect(item) {
       this.titleValueL = item["describeName"];
@@ -215,47 +235,53 @@ export default {
         case 2:
           this.videoWidth = "calc(50% - 10px)";
           this.active = 2;
-          this.isCenter = false
+          this.isCenter = false;
           break;
         case 3:
           this.videoWidth = "calc(100%/3 - 14px)";
           this.active = 3;
-          this.isCenter = false
+          this.isCenter = false;
           break;
         case 4:
           this.videoWidth = "calc(25% - 15px)";
           this.active = 4;
-          this.isCenter = false
+          this.isCenter = false;
           break;
         default:
           this.active = 4;
-          this.isCenter = false
+          this.isCenter = false;
       }
     }
   },
-  created(){
-      this.initData()
+  created() {
+    this.initData();
   }
 };
 </script>
 
 <style lang="scss">
-.el-select-dropdown{
-  background:linear-gradient(210deg, rgba(48, 107, 135, 0.9), rgba(28, 50, 64, 0.7) 60%) !important;
+.el-select-dropdown {
+  background: linear-gradient(
+    210deg,
+    rgba(48, 107, 135, 0.9),
+    rgba(28, 50, 64, 0.7) 60%
+  ) !important;
   border: none !important;
   margin-top: 1px !important;
   margin-left: 6px;
   border-radius: 0;
   min-width: 179px !important;
 }
-.el-select-dropdown__item,.el-select-dropdown__empty,.el-select-dropdown__item.selected{
+.el-select-dropdown__item,
+.el-select-dropdown__empty,
+.el-select-dropdown__item.selected {
   color: white;
 }
-.el-select-dropdown__list{
+.el-select-dropdown__list {
   position: relative;
   top: -5px;
 }
-.el-popper[x-placement^="bottom"] .popper__arrow{
+.el-popper[x-placement^="bottom"] .popper__arrow {
   display: none;
 }
 .duno-security {
@@ -263,11 +289,11 @@ export default {
   height: 100%;
   position: relative;
 
-  .popper__arrow{
+  .popper__arrow {
     display: none !important;
   }
-  .selectSearch{
-    .el-input--small .el-input__inner{
+  .selectSearch {
+    .el-input--small .el-input__inner {
       background: #1a2f42;
       height: 36px;
       border: none;
@@ -312,7 +338,7 @@ export default {
           .title {
             font-size: 18px;
           }
-          .btnNr{
+          .btnNr {
             color: white;
           }
         }
@@ -327,7 +353,7 @@ export default {
     opacity: 0.8;
     padding: 21px 27px;
     overflow: hidden;
-    &.center{
+    &.center {
       display: flex;
       justify-content: center;
     }

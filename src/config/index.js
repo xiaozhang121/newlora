@@ -1,10 +1,10 @@
 /* 是否开始mock */
-const isMock = false
+const isMock = true
 
 /* dev开发地址 */
 let baseUrl = 'http://192.168.0.49:8008'/* 如果开始mock数据模式dev启动自动切换至mock
 /* mock地址 */
-const mockUrl = 'http://192.168.0.49:8008'
+const mockUrl = 'https://nei.netease.com/api/apimock/57f58ef205ee52da278d328008655e99'
 /* 如果开始mock数据模式dev启动自动切换至mock地址 */
 if (isMock) {
   baseUrl = mockUrl
