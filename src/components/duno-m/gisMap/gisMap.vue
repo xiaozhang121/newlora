@@ -1,7 +1,7 @@
 <template>
     <div class="gisMap">
         <div id="map" ref="rootmap" style="height: 100%"></div>
-        <div v-for="(item, index) in deviceList" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
+        <div v-for="(item, index) in deviceList" @click="toDeviced(item,index,null,1)" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
     </div>
 </template>
 <script>
@@ -10,7 +10,7 @@ import { Map, View, Overlay, Feature } from "ol";
 import  { Draw } from 'ol/interaction'
 import Polygon from 'ol/geom/Polygon.js';
 import { XYZ, TileImage } from "ol/source"
-import { transform } from "ol/proj"
+import { transform, getTransform } from "ol/proj"
 import { defaults  as defaultControls } from "ol/control"
 import { createRegularPolygon, createBox } from 'ol/interaction/Draw.js'
 import { Vector as VectorLayer, Tile as TileLayer } from "ol/layer"
@@ -25,7 +25,9 @@ export default {
         return {
             anchor: require('@/assets/anchor.png'),
             mapTarget: null,
-            pointListObj: []
+            pointListObj: [],
+            vector: null,
+            source: null
         }
     },
     watch: {
@@ -42,6 +44,10 @@ export default {
         }
     },
     props: {
+        kind:{
+            type: [String, Number],
+            default: ''
+        },
         deviceList:{
             type: Array,
             default () {
@@ -49,25 +55,44 @@ export default {
             }
         },
         isDiagram:{
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 1
         }
     },
     computed: {
 
     },
     methods:{
+        toDeviced(item,index,flag){
+            this.$emit('toDetail',item,index,null,1)
+        },
+        initFeature(){
+            let polygon = null
+            if(this.kind == 500){
+                polygon = new Polygon([[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13222332.214123132,3775340.9051271309],[13222332.214123132,3768098.9051271309],[13225612.214123132,3768098.9051271309],[13225612.214123132,3768788.9051271309],[13224342.214123132,3768808.9051271309],[13224342.214123132,3775340.9051271309],[13222332.214123132,3775340.9051271309]]])
+            }else if(this.kind == 110){
+                polygon = new Polygon([[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13219594.214123132,3774064.9051271309],[13219574.214123132,3766954.9051271309],[13222152.214123132,3766954.9051271309],[13222172.214123132,3774044.9051271309],[13219594.214123132,3774064.9051271309]]])
+            }else if(this.kind == 1000){
+                polygon = new Polygon([[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13216809.214123132,3775470.9051271309],[13216789.214123132,3767214.9051271309],[13219494.214123132,3767234.9051271309],[13219514.214123132,3775490.9051271309],[13216809.214123132,3775470.9051271309]]])
+            }else if(this.kind == 220){
+                polygon = new Polygon([[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13226522.214123132,3773627.9051271309],[13226522.214123132,3769797.9051271309],[13228012.214123132,3769797.9051271309],[13228012.214123132,3770537.9051271309],[13231342.214123132,3770537.9051271309],[13231342.214123132,3772957.9051271309],[13228012.214123132,3772957.9051271309],[13228012.214123132,3773627.9051271309],[13226522.214123132,3773627.9051271309]]])
+            }else if(this.kind == 35){
+                polygon = new Polygon([[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13224342.214123132,3775480.9051271309],[13224342.214123132,3768808.9051271309],[13226442.214123132,3768808.9051271309],[13226442.214123132,3775480.9051271309],[13224342.214123132,3775480.9051271309]]])
+            }
+            polygon.applyTransform(getTransform('EPSG:3857', 'EPSG:4326'))
+            let feature = new Feature(polygon)
+            this.vector.getSource().addFeature(feature)
+        },
         addPointList(arr){
             const that = this
             arr.forEach((item, index)=>{
                 let anchor = new Overlay({
                     element: document.getElementById('anchor'+index)
                 });
-                debugger
-                if(that.isDiagram){
+                if(that.isDiagram == 1){
 
                 }else{
-                    anchor.setPosition(transform([item['xAxis'],item['yAxis']], 'EPSG:3857' ,'EPSG:4326'));
+                    anchor.setPosition(transform([item['cadX'],item['cadY']], 'EPSG:3857' ,'EPSG:4326'));
                 }
                 this.setZoom(anchor)
                 that.pointListObj.push({anchor: anchor})
@@ -101,6 +126,15 @@ export default {
         initMap(){
             const that = this
             let mapcontainer = this.$refs.rootmap;
+            this.source = new VectorSource();
+            this.vector = new VectorLayer({
+                source: this.source,
+                  style: new Style({
+                      fill: new Fill({
+                          color: '#142838'
+                      }),
+                  })
+            });
             this.mapTarget = new Map({
                 controls: defaultControls({
 
@@ -119,7 +153,8 @@ export default {
                             },
                             projection: 'EPSG:3857'
                         })
-                    })
+                    }),
+                    that.vector
                 ],
                 view: new View({
                     center: [118.79129270,32.06046262],
@@ -133,6 +168,8 @@ export default {
     },
     mounted(){
         this.initMap()
+        this.initFeature()
+
     }
 }
 </script>
@@ -144,6 +181,7 @@ export default {
  }
 .anchorList{
     img{
+        cursor: pointer;
         width: 30px;
         height: 30px;
     }

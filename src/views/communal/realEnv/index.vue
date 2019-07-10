@@ -14,7 +14,7 @@
                   <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
               </div>-->
               <!--<gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>-->
-        <gis-map :isDiagram="isDiagram==2" :deviceList="deviceList"  v-if="isDiagram == 2"></gis-map>
+        <gis-map @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 2"></gis-map>
         <div :class="['allShowPic']" v-else-if="isDiagram == 1">
             <drappable class="drappable_assembly" width="1900px" height="675px" >
                 <div class="realView">
@@ -53,26 +53,10 @@
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
       <div :class="['item_ctx']"  ref="firstElE" v-else-if="isDiagram == 2">
-        <div class="toward">
+        <div class="toward" style="left: 60px">
           <img :src="towardAround"/>
         </div>
-        <drappable idName="other"   class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: 603px; top: -150px; transform: scale(1.3);">
-            <div class="realView">
-              <div class="deviceList">
-                <template v-for="(item,index) in kilovolt1000Pic">
-                  <img :key="index"  @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
-                     :style="[
-                    {'left': item['xAxis']+'px'},
-                    {'top':  item['yAxis']+'px'}
-                    ]"
-                  />
-                </template>
-              </div>
-              <img :src="kv1000" />
-            </div>
-          </div>
-        </drappable>
+        <gis-map @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"  v-if="isDiagram == 2"></gis-map>
        <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
@@ -103,26 +87,10 @@
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
       <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
-        <div class="toward">
+        <div class="toward"  style="left: 60px">
           <img :src="towardAround"/>
         </div>
-        <drappable  idName="other"  class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -300px; top: -112px;transform: scale(1.3)">
-            <div class="realView">
-              <div class="deviceList">
-                <template v-for="(item,index) in kilovolt500Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
-                     :style="[
-                    {'left': item['xAxis']+'px'},
-                    {'top':  item['yAxis']+'px'}
-                    ]"
-                  />
-                </template>
-              </div>
-              <img :src="kv500" />
-            </div>
-          </div>
-        </drappable>
+        <gis-map @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"  v-if="isDiagram == 2"></gis-map>
     <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
@@ -153,26 +121,10 @@
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
       <div :class="['item_ctx']" ref="firstElE"   v-else-if="isDiagram == 2">
-        <div class="toward">
+        <div class="toward"  style="left: 60px">
           <img :src="towardAround"/>
         </div>
-        <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: -1000px; top: -100px;transform: scale(1.3)">
-            <div class="realView">
-              <div class="deviceList">
-                <template v-for="(item,index) in kilovolt220Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
-                     :style="[
-                      {'left': item['xAxis']+'px'},
-                      {'top':  item['yAxis']+'px'}
-                    ]"
-                  />
-                </template>
-              </div>
-              <img :src="kv220" />
-            </div>
-          </div>
-        </drappable>
+        <gis-map @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 2"></gis-map>
        <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
@@ -203,26 +155,10 @@
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
       <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
-        <div class="toward">
+        <div class="toward"  style="left: 60px">
           <img :src="towardAround"/>
         </div>
-        <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-          <div class="allShowPic" style="position: absolute;left: 200px; top: -200px;transform: scale(1.3)">
-            <div class="realView">
-              <div class="deviceList">
-                <template v-for="(item,index) in kilovolt110Pic">
-                  <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
-                     :style="[
-                      {'left': item['xAxis']+'px'},
-                      {'top':  item['yAxis']+'px'}
-                    ]"
-                  />
-                </template>
-              </div>
-              <img :src="kv110" />
-            </div>
-          </div>
-        </drappable>
+        <gis-map @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 2"></gis-map>
      <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
@@ -253,26 +189,10 @@
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
         </div>
         <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
-          <div class="toward">
+          <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
-            <div class="allShowPic" style="position: absolute;left: -500px; top: -100px;transform: scale(1.3)">
-              <div class="realView">
-                <div class="deviceList">
-                  <template v-for="(item,index) in kilovolt35Pic">
-                    <img :key="index" @click="toDevice(item,index,$refs.secondElE,1)" v-if="item['show']" :src="item['src']"
-                      :style="[
-                        {'left': item['xAxis']+'px'},
-                        {'top': item['yAxis']+'px'}
-                      ]"
-                    />
-                  </template>
-                </div>
-                <img :src="kv35" />
-              </div>
-            </div>
-          </drappable>
+          <gis-map @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 2"></gis-map>
         <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
@@ -303,7 +223,7 @@
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </div>
       <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 2">
-        <div class="toward">
+        <div class="toward"  style="left: 60px">
           <img :src="towardAround"/>
         </div>
         <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
@@ -320,7 +240,7 @@
       </div>
     </duno-main>
 
-    <div v-for="(item,index) of modeList" :key="index" class="model" :id="item['id']" ref="modelRef">
+    <div v-for="(item,index) of modeList" style="position: absolute; top: 0" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
         <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
         <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
@@ -372,9 +292,10 @@ export default {
       return this.$store.state.app.kilovolt
     },
     kilovolt1000Pic(){
+        debugger
         if(this.deviceList)
           return this.deviceList.filter((item)=>{
-              return item['areaId'] == '6'
+              return item['areaId'] == '1'
           })
         else
           return []
@@ -382,7 +303,7 @@ export default {
     kilovolt500Pic(){
         if(this.deviceList)
           return this.deviceList.filter((item)=>{
-              return item['areaId'] == '5'
+              return item['areaId'] == '2'
           })
         else
             return []
@@ -390,7 +311,7 @@ export default {
     kilovolt220Pic(){
         if(this.deviceList)
           return this.deviceList.filter((item)=>{
-              return item['areaId'] == '4'
+              return item['areaId'] == '3'
           })
         else
             return []
@@ -398,7 +319,7 @@ export default {
     kilovolt110Pic(){
         if(this.deviceList)
           return this.deviceList.filter((item)=>{
-              return item['areaId'] == '3'
+              return item['areaId'] == '4'
           })
         else
             return []
@@ -406,7 +327,7 @@ export default {
     kilovolt35Pic(){
         if(this.deviceList)
           return this.deviceList.filter((item)=>{
-              return item['areaId'] == '2'
+              return item['areaId'] == '5'
           })
         else
             return []
@@ -414,7 +335,7 @@ export default {
     kilovolt10Pic(){
         if(this.deviceList)
             return this.deviceList.filter((item)=>{
-                return item['areaId'] == '1'
+                return item['areaId'] == '6'
             })
         else
             return []
@@ -623,6 +544,7 @@ export default {
           },500)
       },
       visableHandle(item, flag, modelIndex){
+          debugger
           if (item.deviceMessage.supportPreset) {
               if(item.monitorDeviceType == '1')       // 可见光
                   this.modeList[modelIndex].cameraFlagVisible = flag
@@ -632,7 +554,9 @@ export default {
               this.modeList[modelIndex].popupinfoVisable = flag
           }
       },
-      toDevice(item, index, target, modelIndex = 0, flag){
+      toDevice(item, index, targetd, modelIndex = 0, flag){
+          debugger
+        let target = this.$refs.firstElE
         this.onClose(false ,'all')
         this.tempObj = {
             item: item,

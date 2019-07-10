@@ -37,6 +37,7 @@
         :key="index"
         :streamAddr="item['streamAddr']"
         @on-push="onPush"
+        :monitorInfo="item"
         :width="videoWidth"
       />
     </div>
@@ -52,7 +53,7 @@
     <div class="alarmLogIn">
       <AlarmLog v-for="(item,index) in dataAlarm" :key="index" />
     </div>
-    <push-mov @on-close="onClose" :visible="pushMovVisable" />
+    <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
   </div>
 </template>
 
@@ -61,8 +62,9 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import AlarmLog from "_c/duno-c/AlarmLog";
+import { mapState } from 'vuex'
 import pushMov from '_c/duno-m/pushMov'
-import { getMonitorSelect, securityMonitor } from '@/api/currency/currency.js'
+import { getMonitorSelect, securityMonitor, editConfig } from '@/api/currency/currency.js'
 export default {
   name: "security",
   // mixins: [mixinViewModule],
@@ -101,9 +103,10 @@ export default {
       right_r: "20px",
       right_l: "230px",
       titleValueR: "监控摄像头选择",
-      titleValueL: "监控摄像头数量",
+      titleValueL: "四个摄像头",
       videoWidth: "calc(25% - 15px)",
       cameraSelection: [],
+      dataMonitorAll:[],
       dataMonitor: [
         {
           item: ""
@@ -149,29 +152,46 @@ export default {
           circleColor: "#00B4FF",
           describeName: "两个摄像头",
           widthType: 2,
+          count: 2,
           isActive: true
         },
         {
           circleColor: "#FF5EB9",
           describeName: "四个摄像头",
           widthType: 2,
+          count: 4,
           isActive: true
         },
         {
           circleColor: "#4FF2B7",
           describeName: "六个摄像头",
+          count: 6,
           widthType: 3,
           isActive: true
         },
         {
           circleColor: "#FF9000",
           describeName: "八个摄像头",
+          count: 8,
           widthType: 4,
           isActive: true
         }
       ],
+      cameraInfo: null,
       active: 4
     };
+  },
+  computed: {
+      ...mapState([
+          'user'
+      ]),
+      cameraPic(){
+          if(this.cameraInfo){
+              return this.cameraInfo['pic']
+          }else{
+              return ''
+          }
+      }
   },
   methods: {
     selectData(value){
@@ -187,18 +207,29 @@ export default {
     onClose(){
         this.pushMovVisable = false
     },
-    onPush() {
-      this.pushMovVisable = true;
-    },
-    handleNum() {
-      getAxiosData("/lenovo-device/api/security/monitor-select").then(res => {
-        if (res.code !== 200) {
-          that.dataList = [];
-          that.totalNum = 0;
-          return that.$message.error(res.msg);
+    onPushReal(index){
+        const that = this
+        let query  = {
+            ['cameraPos0'+index]: this.cameraInfo['monitorDeviceId'],
+            id: this.$store.state.user.configInfo,
         }
-        this.TestEquipment = res.data;
-      });
+        editConfig(query).then(res=>{
+            if(res.data.isSuccess)
+              that.$message.success(res.msg)
+            else
+              that.$message.error(res.msg)
+        })
+    },
+    onPush(item) {
+      this.pushMovVisable = true;
+      this.cameraInfo = item
+    },
+    getCamera(){
+        const that = this
+        securityMonitor().then(res=>{
+            that.dataMonitorAll = res.data.tableData
+            that.dataMonitor = res.data.tableData.slice(0,4)
+        })
     },
     initData(){
         const that = this
@@ -209,9 +240,9 @@ export default {
     onSelect(item) {
       this.titleValueL = item["describeName"];
       console.log(item.widthType);
+      this.dataMonitor = this.dataMonitorAll.slice(item['count'])
+      this.valueSelect = ''
       switch (item.widthType) {
-        case 1:
-          break;
         case 2:
           this.videoWidth = "calc(50% - 10px)";
           this.active = 2;
@@ -235,6 +266,7 @@ export default {
   },
   created(){
       this.initData()
+      this.getCamera()
   }
 };
 </script>
