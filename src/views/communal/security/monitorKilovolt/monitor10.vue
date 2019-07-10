@@ -1,6 +1,6 @@
 <template>
   <div>
-    <securityNum :title='title' />
+    <securityNum :navBar='navBar' :title='title' />
   </div>
 </template>
 <script>
@@ -12,7 +12,8 @@ export default {
   },
   data(){
       return{
-          title:"10千伏安防警告"
+          title:"10千伏安防警告",
+          navBar:["操作中台", "安防监测", "10千伏"]
       }
   }
 };

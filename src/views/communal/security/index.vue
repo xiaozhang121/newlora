@@ -194,21 +194,22 @@ export default {
     justify-content: space-between;
     & > div:first-child {
       line-height: 45px;
+      font-size: 20px;
       color: #ffffff;
     }
     .selectBtn {
       display: flex;
       justify-content: space-between;
-      width: 340px;
+      width: 380px;
       .dunoBtnTop {
-        width: 165px;
+        width: 185px;
         display: inline-flex;
         padding-bottom: 0;
         .btnList {
           top: inherit !important;
-          width: 165px;
+          width: 185px;
           .title {
-            font-size: 15px;
+            font-size: 18px;
           }
         }
       }
@@ -237,12 +238,14 @@ export default {
     & > div {
       color: #ffffff;
       margin: 10px 0;
+      font-size: 20px;
       line-height: 40px;
     }
     & > div:last-child {
       width: 146px;
       background-image: url(../../../assets/images/btn/btnanfang.png);
-      padding-left: 13px;
+      padding-left: 7px;
+      font-size: 18px;
     }
   }
   .alarmLogIn {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <statistics-show :allWarningCount="112" :warningList="warningList" />
+    <statistics-show :allWarningCount="allWarningCount" :warningList="warningList" />
     <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
   </div>
 </template>
@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       visible: true,
+      allWarningCount:112,
       warningList: [
         {
           type: "#0f0",

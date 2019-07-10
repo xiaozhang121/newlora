@@ -37,11 +37,7 @@ export default {
       title: "特殊巡视 (2)",
       titleCon: "",
       visible: false,
-      dataBread: {
-        "/": "操作中台",
-        "/environmental": "配置管理",
-        "/environmental/list": "任务配置"
-      },
+      dataBread:['操作中台','配置管理','任务管理'],
       dataList: [
         {
           step: "暴风雨巡视",

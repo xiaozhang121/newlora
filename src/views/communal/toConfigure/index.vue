@@ -79,11 +79,7 @@ export default {
       titleTypeL: "所有监测设备",
       titleTypeC: "所有电压等级",
       titleTypeR: "所有状态",
-      dataBread: {
-        "/": "操作中台",
-        "/environmental": "配置管理",
-        "/environmental/list": "监测设备管理"
-      },
+      dataBread:['操作中台','配置管理','监测设备管理'],
       dataList: [
         {
           id: "可见光54536",
