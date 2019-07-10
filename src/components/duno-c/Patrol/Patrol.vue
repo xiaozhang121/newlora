@@ -211,11 +211,12 @@ export default {
     color: #fff;
     border: none;
     height: 60px;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: normal;
     background-color: #2d5980 !important;
   }
   .ivu-table-border td {
-    // font-size: 16px;
+    font-size: 16px;
     color: #fff;
     border: none;
   }
