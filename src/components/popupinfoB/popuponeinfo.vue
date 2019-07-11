@@ -76,7 +76,6 @@ export default {
         powerDeviceId: that.itemId
       }
       getAxiosData(url, query).then(res => {
-          debugger
         // if (res.code !== 200 || (res.data.tableData && res.data.tableData.length == 0)) {
          /* that.onClose(false)
           return that.$message.error(res.msg)*/
