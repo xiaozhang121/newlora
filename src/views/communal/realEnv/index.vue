@@ -466,7 +466,6 @@ export default {
       alarmClose(){
           this.visible = false
           this.$refs.gisMapObj.clearAlarm()
-          this.$refs.gisMapObj.clearCircle()
       },
       onAlarm(){
         this.$refs.gisMapObj.isAlarm()

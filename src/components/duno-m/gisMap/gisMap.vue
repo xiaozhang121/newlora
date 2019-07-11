@@ -1,7 +1,7 @@
 <template>
     <div class="gisMap">
         <div id="map" ref="rootmap" style="height: 100%"></div>
-        <div v-for="(item, index) in deviceList" @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
+        <div v-for="(item, index) in deviceList" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
         <div v-for="(item, index) in powerPointList" @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
     </div>
 </template>
@@ -189,6 +189,7 @@ export default {
         clearAlarm(){
             clearInterval(this.timer)
             this.timer = null
+            this.clearCircle()
         },
         clearCircle(){
             let feature = this.vector.getSource().getFeatureById('alarmBorder')
@@ -330,6 +331,7 @@ export default {
  }
 .anchorList{
     img{
+        transform-origin:center;
         cursor: pointer;
         width: 30px;
         height: 30px;
