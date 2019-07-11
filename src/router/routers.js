@@ -347,7 +347,7 @@ export default [
     meta: {
       hide: true,
       isAlone: true,
-      title: '安防检测',
+      title: '安防监测',
       notCache: true
     },
     children: [
