@@ -1,6 +1,6 @@
 <template>
   <div>
-    <statistics-show :allWarningCount="allWarningCount" :warningList="warningList" />
+    <statistics-show :img="imgBack" :allWarningCount="allWarningCount" :warningList="warningList" />
     <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
   </div>
 </template>
@@ -12,10 +12,16 @@ export default {
     statisticsShow,
     alert
   },
+  props: {
+    img: {
+      type: String
+    }
+  },
   data() {
     return {
       visible: false,
-      allWarningCount:112,
+      allWarningCount: 112,
+      imgBack: "",
       warningList: [
         {
           type: "#0f0",
@@ -73,6 +79,10 @@ export default {
       // 提交更改
       console.log(info);
     }
+  },
+  mounted() {
+    this.imgBack = this.img;
+    console.log(this.imgBack)
   }
 };
 </script>

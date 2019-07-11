@@ -220,7 +220,7 @@ export default {
                   class: "table_link",
                   props: { type: "text" },
                   on: {click: () => {console.log("摄像头ID：", params.row.monitorDeviceId) }}
-                },"可见光摄像头ID")
+                }, params.row.monitorDeviceId)
             ]);
             return h(
               "div", {class: {member_operate_div: true}},

@@ -1,6 +1,8 @@
 <template>
   <div class="statisticsCom">
-    <div class="mapStatistics"></div>
+    <div class="mapStatistics">
+      <img :src="imgSrc" />
+    </div>
     <div class="warningStatistics">
       <p class="allWraning" style="margin-bottom:16px">
         月度统计警告
@@ -20,7 +22,15 @@ export default {
     typeStatistics
   },
   data() {
-    return {};
+    return {
+      imgSrc:'',
+      imgAddress: require("@/assets/demo/1000kv.png"),
+      imgAddress1: require("@/assets/demo/500kv.png"),
+      imgAddress2: require("@/assets/demo/220kv.png"),
+      imgAddress3: require("@/assets/demo/110kv.png"),
+      imgAddress4: require("@/assets/demo/35.png"),
+      routeName: ""
+    };
   },
   props: {
     allWarningCount: {
@@ -28,7 +38,33 @@ export default {
     },
     warningList: {
       type: Array
+    },
+    img: {
+      type: String
     }
+  },
+  watch: {
+    $route(to) {
+      this.routeName = to.name;
+    },
+    routeName(now){
+      if(now =='environmental1000KVList'){
+        this.imgSrc= JSON.parse(JSON.stringify(this.imgAddress))
+      }else if(now =='environmental500KVList'){
+        this.imgSrc= JSON.parse(JSON.stringify(this.imgAddress1))
+      }else if(now =='environmental220KVList'){
+        this.imgSrc= JSON.parse(JSON.stringify(this.imgAddress2))
+      }else if(now =='environmental110KVList'){
+        this.imgSrc= JSON.parse(JSON.stringify(this.imgAddress3))
+      }else if(now =='environmental35KVList'){
+        this.imgSrc= JSON.parse(JSON.stringify(this.imgAddress4))
+      }else if(now =='environmental10KVList'){
+        this.imgSrc= JSON.parse(JSON.stringify(this.imgAddress))
+      }
+    }
+  },
+  mounted() {
+    this.routeName = this.$route.name;
   }
 };
 </script>
@@ -42,6 +78,10 @@ export default {
     height: 270px;
     float: left;
     background-color: #000;
+    img {
+      width: 100%;
+      display: block;
+    }
   }
   .warningStatistics {
     width: 70%;

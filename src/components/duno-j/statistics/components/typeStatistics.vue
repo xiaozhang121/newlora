@@ -11,7 +11,7 @@ export default {
   props: {
     oneTypeInfo: {
       type: Object
-    }
+    },
   }
 };
 </script>

@@ -85,33 +85,33 @@ export default {
           key: "warnLocation",
           title: "拍摄来源",
           align: "center",
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "a",
-                {
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      alert("");
-                    }
-                  }
-                },
-                "可见光摄像头ID"
-              )
-            ]);
-            return h(
-              "div",
-              {
-                class: {
-                  member_operate_div: true
-                }
-              },
-              newArr
-            );
-          }
+          // render: (h, params) => {
+          //   let newArr = [];
+          //   newArr.push([
+          //     h(
+          //       "a",
+          //       {
+          //         class: "table_link",
+          //         props: { type: "text" },
+          //         on: {
+          //           click: () => {
+          //             alert("");
+          //           }
+          //         }
+          //       },
+          //       "可见光摄像头ID"
+          //     )
+          //   ]);
+          //   return h(
+          //     "div",
+          //     {
+          //       class: {
+          //         member_operate_div: true
+          //       }
+          //     },
+          //     newArr
+          //   );
+          // }
         },
         {
           key: "dataType",

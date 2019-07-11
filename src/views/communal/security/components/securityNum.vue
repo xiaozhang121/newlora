@@ -5,7 +5,7 @@
     </div>
     <div>{{title}}</div>
     <div class="number">
-      <statistics />
+      <statistics :img="imgage" />
     </div>
     <div class="thRecord">
       <PageHisRecords :titleCode="titleCode" />
@@ -19,6 +19,7 @@ import PageHisRecords from "_c/duno-c/PageHisRecords";
 import statistics from "_c/duno-j/statistics";
 import { getAxiosData } from "@/api/axiosType";
 import { mapState } from 'vuex'
+import { type } from 'os';
 export default {
   name: "securityNum",
   components: {
@@ -39,6 +40,9 @@ export default {
     },
     securityRecord: {
       type: String
+    },
+    img:{
+      type:String
     }
   },
   data() {
@@ -46,7 +50,8 @@ export default {
       dataBread: [],
       titleCode: "",
       deviceList:[],
-      areaId:''
+      areaId:'',
+      imgage:''
     };
   },
   computed:{
@@ -56,23 +61,10 @@ export default {
     kilovoltKind(){
       return this.$store.state.app.kilovolt
     },
-    kilovolt1000Pic(){
-        
-    },
-    kilovolt500Pic(){
-        
-    },
-    kilovolt220Pic(){
-        
-    },
-    kilovolt110Pic(){
-        
-    },
-    kilovolt35Pic(){
-        
-    },
-    kilovolt10Pic(){
-        
+  },
+  watch:{
+    img(now){
+      this.imgage=now
     }
   },
   methods: {
@@ -85,19 +77,13 @@ export default {
         }
         let dataList = res.data.dataList;
       });
-      // getAxiosData("/lenovo-alarm/api/security/statistics",this.areaId).then(res => {
-      //   if (res.code !== 200) {
-      //     that.dataList = [];
-      //     that.totalNum = 0;
-      //     return that.$message.error(res.msg);
-      //   }
-      
-      // });
     }
   },
   mounted() {
     this.dataBread = this.navBar;
     this.titleCode = this.securityRecord;
+    this.imgage=this.img
+    console.log(this.imgage)
     this.getAreaData();
   }
 };
@@ -111,7 +97,6 @@ export default {
     color: #ffffff;
   }
   .number {
-    // height: 310px;
     padding: 20px;
     background-color: #142838;
     & > div {
