@@ -109,31 +109,16 @@ export default {
         },
         {
           title: "状态",
-          key: "status",
+          key: "statusName",
           minWidth: 50,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push(
-              h(
-                "div",
-                {
-                  class: {
-                    interval: true,
-                    patrol: false
-                  }
-                },
-                [
-                  h(
-                    "span",
-                    {
-                      class: {}
-                    },
-                    "任务间隔中"
-                  )
-                ]
-              )
+              h('div',{
+                  class: { table_select: true,interval: (params.row.status === '0'),patrol: (params.row.status === '1')}
+                },params.row.statusName)
             );
             return h("div", newArr);
           }
@@ -259,6 +244,14 @@ export default {
   }
   .dunoMain{
     height: inherit;
+  }
+  .table_select{
+    &.interval{
+      color: #ff9000;
+    }
+    &.patrol{
+      color: #53fec0;
+    }
   }
 }
 </style>

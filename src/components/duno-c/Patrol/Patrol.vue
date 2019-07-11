@@ -92,24 +92,9 @@ export default {
             render: (h, params) => {
               let newArr = [];
               newArr.push(
-                h(
-                  "div",
-                  {
-                    class: {
-                      interval: true,
-                      patrol: false
-                    }
-                  },
-                  [
-                    h(
-                      "span",
-                      {
-                        style: {color:'#ff9000'}
-                      },
-                      "任务间隔中"
-                    )
-                  ]
-                )
+                h('div',{
+                  class: { table_select: true,interval: (params.row.status === '0'),patrol: (params.row.status === '1')}
+                },params.row.statusName)
               );
               return h("div", newArr);
             }
@@ -280,6 +265,14 @@ export default {
     background-color: #3a81a1;
     border-radius: 16px;
     border: none;
+  }
+  .table_select{
+    &.interval{
+      color: #ff9000;
+    }
+    &.patrol{
+      color: #53fec0;
+    }
   }
 }
 </style>

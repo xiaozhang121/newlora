@@ -6,16 +6,6 @@
         <div>
           <duno-btn-top
             @on-select="onSelect"
-            class="dunoBtnTo"
-            :isCheck="false"
-            :dataList="typeSelect"
-            :title="titleType"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div>
-          <duno-btn-top
-            @on-select="onSelect"
             class="dunoBtnTop"
             :isCheck="false"
             :dataList="typeSelect"
@@ -76,98 +66,12 @@ export default {
     titleCode:{
       type:String,
       default:'1000千伏安防记录'
-    }
-  },
-  data() {
-    return {
-      value: "",
-      titleType: "全部数据类型",
-      totalNum: 500,
-      pageRows: 20,
-      dataList: [
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        }
-      ],
-      typeSelect: [
-        {
-          describeName: "分合状态"
-        },
-        {
-          describeName: "仪表读数"
-        }
-      ],
-      infoColumns: [
-        {
+    },
+    infoColumns:{
+      type:Array,
+      default:()=>{
+        return[
+           {
           key: "time",
           title: "拍摄时间",
           align: "center"
@@ -272,7 +176,71 @@ export default {
             return h("div", newArr);
           }
         }
-      ]
+        ]
+      }
+    },
+    dataList:{
+      type:Array,
+      default:()=>{
+        return[
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        }
+        ]
+      }
+    }
+  },
+  data() {
+    return {
+      value: "",
+      titleType: "全部数据类型",
+      totalNum: 500,
+      pageRows: 20,
+      typeSelect: [
+        {
+          describeName: "分合状态"
+        },
+        {
+          describeName: "仪表读数"
+        }
+      ],
     };
   },
   methods: {
