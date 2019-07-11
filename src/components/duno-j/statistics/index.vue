@@ -6,13 +6,15 @@
 </template>
 <script>
 import statisticsShow from "./components/statistticsShow";
+import alert from "./components/alert";
 export default {
   components: {
-    statisticsShow
+    statisticsShow,
+    alert
   },
   data() {
     return {
-      visible: true,
+      visible: false,
       allWarningCount:112,
       warningList: [
         {

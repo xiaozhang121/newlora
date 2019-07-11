@@ -10,7 +10,7 @@
                 >
             <span slot="title"></span>
             <div class="cameraPos">
-                <div v-if="this.$store.state.user.configInfo['displayType'] == 1" class="first">
+                <div v-if="$store.state.user.configInfo['displayType'] == 1" class="first">
                     <div class="left_main">
                         <div class="cameraItem" @click="pushInfo(1, $event)" :style="'background:url('+ cameraPic01 +')'">
                             <span class="explain Max">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-else="this.$store.state.user.configInfo['displayType'] == 2" class="second">
+                <div v-else-if="$store.state.user.configInfo['displayType'] == 2" class="second">
                     <div class="left_main">
                         <div class="cameraItem" @click="pushInfo(1, $event)" :style="'background:url('+ cameraPic01 +')'">
                             <span class="explain Max">

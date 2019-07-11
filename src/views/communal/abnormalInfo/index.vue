@@ -79,12 +79,12 @@ import dunoMain from "_c/duno-m/duno-main";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
-// import mixinViewModule from "@/mixins/view-module";
+import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from '@/api/axiosType'
 export default {
   name: "abnormalInfo",
-  // mixins: [mixinViewModule],
+  mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
     KeyMonitor,
