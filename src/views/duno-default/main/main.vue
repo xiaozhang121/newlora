@@ -118,10 +118,12 @@ export default {
     },
     getWidth () {
       let that = this
-      let ivuLayoutWidth = document.getElementsByClassName('el-aside')[0].clientWidth
-      window.screenWidth = document.body.clientWidth
-      that.screenWidth = window.screenWidth - ivuLayoutWidth
-      that.bodyWidth = window.screenWidth
+      try {
+        let ivuLayoutWidth = document.getElementsByClassName('el-aside')[0].clientWidth
+        window.screenWidth = document.body.clientWidth
+        that.screenWidth = window.screenWidth - ivuLayoutWidth
+        that.bodyWidth = window.screenWidth
+      } catch(e) {}
     }
   },
   watch: {
