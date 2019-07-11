@@ -1,10 +1,10 @@
 <template>
     <div class="cameraPop" >
         <historical-documents :itemId="itemId" width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
-            <camera-panel :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
-            <polygonal :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal>
+            <camera-panel-back-u-p :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel-back-u-p>
+            <polygonal-backup :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile :title="title" :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
-            <historyfourth :title="title" :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"/>
+            <historyfourth-backup :title="title" :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
         </historical-documents>
     </div>
 </template>
@@ -13,18 +13,24 @@
     import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
     import historyfile from "_c/historyfile"
     import historyfourth from "_c/historyfourth"
+    import historyfourthBackup from "_c/historyfourthBackup"
     import Polygonal from '_c/duno-c/Polygonal'
+    import PolygonalBackup from '_c/duno-c/PolygonalBackup'
     import cameraPanel from '_c/duno-m/cameraPanel'
+    import cameraPanelBackUP from '_c/duno-m/cameraPanelBackUP'
     import moment from 'moment'
     import { getAxiosData } from '@/api/axiosType'
     export default {
         name: 'cameraPop',
         components: {
+            cameraPanelBackUP,
             HistoricalDocuments,
             Polygonal,
             cameraPanel,
             historyfile,
-            historyfourth
+            PolygonalBackup,
+            historyfourth,
+            historyfourthBackup
         },
         data() {
             return {

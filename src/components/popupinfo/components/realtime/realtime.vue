@@ -4,7 +4,7 @@
     <el-row :gutter="20">
       <el-col :span="12">
         <div class="itemImgBox">
-            <video-player @mousemove.native="pointerPos($event)" @mouseout.native="clearTimer()"  ref="videoPlayer" class="vjs-custom-skin realtime_video" :options="playerOptions"></video-player>
+            <video-player @mousemove.native="pointerPos($event)" @mouseout.native="clearTimer()"  ref="videoPlayer" class="vjs-custom-skin realtime_video" :options="playerOptiond"></video-player>
         </div>
       </el-col>
       <el-col :span="12">
@@ -43,6 +43,17 @@ export default {
         techOrder: ['flash'],
         autoplay: true,
         controls: false
+      },
+      playerOptiond:{
+          width:160,
+          height: 120,
+          sources: [{
+              type: "rtmp/flv",
+              src: ''
+          }],
+          techOrder: ['flash'],
+          autoplay: true,
+          controls: false
       }
     }
   },
@@ -118,6 +129,12 @@ export default {
       getAxiosData(url, {}).then(res => {
         that.playerOptions.sources[0].src = res.data;
         that.$forceUpdate()
+      });
+
+      const urld = '/lenovo-iir/device/visible/url/rtmp/'+that.deviceId;
+      getAxiosData(urld, {}).then(res => {
+          that.playerOptiond.sources[0].src = res.data;
+          that.$forceUpdate()
       });
     }
   },
