@@ -9,14 +9,15 @@
           <div class="iconfont icon-xiala" :class="{'active':showListFlag}"></div>
       </div>
         <div v-if="isCheck" class="btn_main" ref="showListRef" style="display: none">
-          <div >
+          <div>
             <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           </div>
           <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
             <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
               <el-checkbox  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">
-                <i class="item.icon"></i>
+                <!-- <i class="item.icon"></i> -->
+                <img :src="item.img">
                 {{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
@@ -76,7 +77,7 @@ export default {
             {active: false, name:'一次接线图'}
         ],
         isDiagram: 2,
-        isClick: false
+        isClick: false,
     }
   },
   watch: {
@@ -121,24 +122,28 @@ export default {
       default:()=>{
         return [
           {
+            img:require('@/assets/iconCover/ico_visible_light.png'),
             circleColor:'#00B4FF',
             describeName: '可见光',
             monitorDeviceType: 1,
             isActive: true
           },
           {
+            img:require('@/assets/iconCover/ico_Infra-red.png'),
             circleColor:'#4FF2B7',
             describeName: '红外测光',
             monitorDeviceType: 2,
             isActive: true
           },
           {
+            img:require('@/assets/iconCover/ico_Locks.png'),
             circleColor:'#597AFF',
             describeName: '智能锁具',
             monitorDeviceType: 5,
             isActive: true
           },
           {
+            img:require('@/assets/iconCover/ico_weather.png'),
             circleColor:'#C06EFF',
             describeName: '微型气象站',
             monitorDeviceType: 6,
