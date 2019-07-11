@@ -73,10 +73,9 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import AlarmLog from "_c/duno-c/AlarmLog";
-import pushMov from "_c/duno-m/pushMov";
 import mixinViewModule from "@/mixins/view-module";
 import { getAxiosData } from "@/api/axiosType";
-import { getMonitorSelect, securityMonitor } from "@/api/currency/currency.js";
+// import { getMonitorSelect, securityMonitor } from "@/api/currency/currency.js";
 import { mapState } from 'vuex'
 import pushMov from '_c/duno-m/pushMov'
 import { getMonitorSelect, securityMonitor, editConfig } from '@/api/currency/currency.js'
