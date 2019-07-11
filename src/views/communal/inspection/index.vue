@@ -349,6 +349,12 @@ export default {
       }
   },
   methods: {
+    deviceShowHandle() {
+      console.log('dian')
+    },
+    changDiagram() {
+      console.log('dian')
+    },
     showTable(){
         this.tableShow = true
     },

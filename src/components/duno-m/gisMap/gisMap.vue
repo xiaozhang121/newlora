@@ -1,7 +1,7 @@
 <template>
     <div class="gisMap">
         <div id="map" ref="rootmap" style="height: 100%"></div>
-        <div v-for="(item, index) in deviceList" @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
+        <div v-for="(item, index) in deviceList" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
         <div v-for="(item, index) in powerPointList" @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
     </div>
 </template>
@@ -89,31 +89,33 @@ export default {
             this.$emit('toDetail',item,index,null,1)
         },
         initFeature(){
-            let polygon = null
-            let polygon500Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13222332.214123132,3775340.9051271309],[13222332.214123132,3768098.9051271309],[13225612.214123132,3768098.9051271309],[13225612.214123132,3768788.9051271309],[13224342.214123132,3768808.9051271309],[13224342.214123132,3775340.9051271309],[13222332.214123132,3775340.9051271309]]]
-            let polygon110Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13219594.214123132,3774064.9051271309],[13219574.214123132,3766954.9051271309],[13222152.214123132,3766954.9051271309],[13222172.214123132,3774044.9051271309],[13219594.214123132,3774064.9051271309]]]
-            let polygon1000Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13216809.214123132,3775470.9051271309],[13216789.214123132,3767214.9051271309],[13219494.214123132,3767234.9051271309],[13219514.214123132,3775490.9051271309],[13216809.214123132,3775470.9051271309]]]
-            let polygon220Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13226522.214123132,3773627.9051271309],[13226522.214123132,3769797.9051271309],[13228012.214123132,3769797.9051271309],[13228012.214123132,3770537.9051271309],[13231342.214123132,3770537.9051271309],[13231342.214123132,3772957.9051271309],[13228012.214123132,3772957.9051271309],[13228012.214123132,3773627.9051271309],[13226522.214123132,3773627.9051271309]]]
-            let polygon35Arr =[[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13224342.214123132,3775480.9051271309],[13224342.214123132,3768808.9051271309],[13226442.214123132,3768808.9051271309],[13226442.214123132,3775480.9051271309],[13224342.214123132,3775480.9051271309]]]
-            if(this.kind == 500){
-                polygon = new Polygon(polygon500Arr)
-                this.mapTarget.getView().setCenter([118.788106,32.062603])
-            }else if(this.kind == 110){
-                polygon = new Polygon(polygon110Arr)
-                this.mapTarget.getView().setCenter([118.765119,32.054787])
-            }else if(this.kind == 1000){
-                polygon = new Polygon(polygon1000Arr)
-                this.mapTarget.getView().setCenter([118.740677,32.061241])
-            }else if(this.kind == 220){
-                polygon = new Polygon(polygon220Arr)
-                this.mapTarget.getView().setCenter([118.835237,32.064143])
-            }else if(this.kind == 35){
-                polygon = new Polygon(polygon35Arr)
-                this.mapTarget.getView().setCenter([118.805720,32.067273])
-            }
-            polygon.applyTransform(getTransform('EPSG:3857', 'EPSG:4326'))
-            let feature = new Feature(polygon)
-            this.vector.getSource().addFeature(feature)
+            try {
+                let polygon = null
+                let polygon500Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13222332.214123132,3775340.9051271309],[13222332.214123132,3768098.9051271309],[13225612.214123132,3768098.9051271309],[13225612.214123132,3768788.9051271309],[13224342.214123132,3768808.9051271309],[13224342.214123132,3775340.9051271309],[13222332.214123132,3775340.9051271309]]]
+                let polygon110Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13219594.214123132,3774064.9051271309],[13219574.214123132,3766954.9051271309],[13222152.214123132,3766954.9051271309],[13222172.214123132,3774044.9051271309],[13219594.214123132,3774064.9051271309]]]
+                let polygon1000Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13216809.214123132,3775470.9051271309],[13216789.214123132,3767214.9051271309],[13219494.214123132,3767234.9051271309],[13219514.214123132,3775490.9051271309],[13216809.214123132,3775470.9051271309]]]
+                let polygon220Arr = [[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13226522.214123132,3773627.9051271309],[13226522.214123132,3769797.9051271309],[13228012.214123132,3769797.9051271309],[13228012.214123132,3770537.9051271309],[13231342.214123132,3770537.9051271309],[13231342.214123132,3772957.9051271309],[13228012.214123132,3772957.9051271309],[13228012.214123132,3773627.9051271309],[13226522.214123132,3773627.9051271309]]]
+                let polygon35Arr =[[[13232286.214123132,3776249.9050271306],[13232286.214123132,3766249.9049271308],[13215286.214023132,3766249.9049271308],[13215286.214023132,3776249.9050271306],[13232286.214123132,3776249.9050271306]],[[13224342.214123132,3775480.9051271309],[13224342.214123132,3768808.9051271309],[13226442.214123132,3768808.9051271309],[13226442.214123132,3775480.9051271309],[13224342.214123132,3775480.9051271309]]]
+                if(this.kind == 500){
+                    polygon = new Polygon(polygon500Arr)
+                    this.mapTarget.getView().setCenter([118.788106,32.062603])
+                }else if(this.kind == 110){
+                    polygon = new Polygon(polygon110Arr)
+                    this.mapTarget.getView().setCenter([118.765119,32.054787])
+                }else if(this.kind == 1000){
+                    polygon = new Polygon(polygon1000Arr)
+                    this.mapTarget.getView().setCenter([118.740677,32.061241])
+                }else if(this.kind == 220){
+                    polygon = new Polygon(polygon220Arr)
+                    this.mapTarget.getView().setCenter([118.835237,32.064143])
+                }else if(this.kind == 35){
+                    polygon = new Polygon(polygon35Arr)
+                    this.mapTarget.getView().setCenter([118.805720,32.067273])
+                }
+                polygon.applyTransform(getTransform('EPSG:3857', 'EPSG:4326'))
+                let feature = new Feature(polygon)
+                this.vector.getSource().addFeature(feature)
+            } catch (err) {}
         },
         addPointdList(arr){
             const that = this
@@ -137,7 +139,6 @@ export default {
                 anchor.on('mousein',function (event) {
                 if(that.mapTarget.getView().getZoom()>15) {
                     let item = JSON.parse(event.target.values_.dataInfo)
-                    debugger
                     let anchor = new Feature({
                         geometry: new Point(transform([item['xReal'], item['yReal']], 'EPSG:3857', 'EPSG:4326'))
                     })
@@ -158,8 +159,7 @@ export default {
                 }
                 })
             })
-         /*   debugger
-            arr.forEach((item, index)=>{
+         /* arr.forEach((item, index)=>{
                 let anchor = new Overlay({
                     element: document.getElementById('anchord'+index)
                 });
@@ -171,7 +171,6 @@ export default {
 
         },
         isAlarm(){
-            debugger
             if(!this.timer){
                 this.mapTarget.getView().setCenter(transform([13218514.714, 3768404.705], 'EPSG:3857', 'EPSG:4326'))
                 this.mapTarget.getView().setZoom(20)
@@ -189,6 +188,7 @@ export default {
         clearAlarm(){
             clearInterval(this.timer)
             this.timer = null
+            this.clearCircle()
         },
         clearCircle(){
             let feature = this.vector.getSource().getFeatureById('alarmBorder')
@@ -218,7 +218,7 @@ export default {
             const that = this
             arr.forEach((item, index)=>{
                 if(index == 14){
-                    debugger
+                    // debugger
                 }
                 let anchor = new Overlay({
                     element: document.getElementById('anchor'+index)
@@ -226,7 +226,6 @@ export default {
                 if(that.isDiagram == 1){
 
                 }else if(that.isDiagram == 3){
-                    debugger
                     anchor.setPosition(transform([item['realX'],item['realY']], 'EPSG:3857' ,'EPSG:4326'));
                 }else{
                     anchor.setPosition(transform([item['cadX'],item['cadY']], 'EPSG:3857' ,'EPSG:4326'));
@@ -249,7 +248,7 @@ export default {
             this.mapTarget.getView().on('change:resolution', function(){
                 let element = anchor.element;
                 // 重新设置图标的缩放率，基于层级10来做缩放
-                console.log(Math.abs((this.getZoom() / 10))-0.5)
+                // console.log(Math.abs((this.getZoom() / 10))-0.5)
                 element.style.transform = `scale(${Math.abs((this.getZoom() / 10))-0.5})`
             })
         },
@@ -283,7 +282,7 @@ export default {
                         source: new XYZ({
                             wrapX: false,
                             tileUrlFunction: function(tileCoord) {
-                                console.log(tileCoord + "---X=" + tileCoord[1] + "---Y=" + (-tileCoord[2]-1));
+                                // console.log(tileCoord + "---X=" + tileCoord[1] + "---Y=" + (-tileCoord[2]-1));
                                 let x = 'C'+that.zeroPad(tileCoord[1],8,16);
                                 let y = 'R'+that.zeroPad(-tileCoord[2]-1,8,16);
                                 let z = 'L'+that.zeroPad(tileCoord[0],2,10);
@@ -309,8 +308,12 @@ export default {
                         feature.dispatchEvent({type: 'mousein'});
                     });
                 }else{
+                    try{
                     let feature = that.vector.getSource().getFeatureById('pointName')
                     that.vector.getSource().removeFeature(feature)
+                    }catch (e) {
+                        
+                    }
                 }
             })
         }
@@ -330,6 +333,7 @@ export default {
  }
 .anchorList{
     img{
+        transform-origin:center;
         cursor: pointer;
         width: 30px;
         height: 30px;
