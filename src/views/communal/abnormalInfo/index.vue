@@ -69,7 +69,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :visible="visible" warningID="20190711002" :alarmFileAddress="popData.alarmFileAddress || ''" :judgeResult="popData.alarmContent || ''" :origin="popData.monitorDeviceId" :handleResult="popData.dealRecord || ''" @handleClose="handleClose" />
+    <wraning :visible="visible" warningID="20190711002" :monitorUrl="popData.alarmFileAddress || ''" :judgeResult="popData.alarmContent || ''" :origin="popData.monitorDeviceId" :handleResult="popData.dealRecord || ''" @handleClose="handleClose" />
   </div>
 </template>
 
