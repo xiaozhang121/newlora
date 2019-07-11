@@ -270,14 +270,14 @@ export default {
     font-size: 9px;
     position: absolute;
     width: 10px;
-    height: 12px;
-    right: 23px;
-    top: 7px;
+    height: 16px;
+    right: 20px;
+    top: 12px;
     &.active{
       transform: rotate(180deg);
+      //  transform-origin:(50%,50%);
     }
   }
-  // border-bottom: 1px solid #2E3136;
   .el-checkbox__label{
     color: white !important;
     margin-left: 5px;

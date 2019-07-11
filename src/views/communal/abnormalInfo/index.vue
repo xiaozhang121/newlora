@@ -461,7 +461,6 @@ export default {
     }
     tr:nth-child(odd) {
       td {
-        // background-color: #0a1c2a;
         background: rgba(0, 0, 0, 0)!important;
       }
     }
@@ -543,11 +542,12 @@ export default {
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            line-height: 30px;
+            // line-height: 30px;
             width: 120px;
-            // .title {
-            //   font-size: 16px;
-            // }
+            .title {
+              // font-size: 16px;
+              padding: 8px 20px;
+            }
           }
         }
       }
