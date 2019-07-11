@@ -76,3 +76,12 @@ export const editConfig = (query) => {
         params: query
     })
 }
+
+// 设备信息-全部电力设备的信息
+export const lastDeviceList = (query) => {
+    return axios.request({
+        url: '/lenovo-device/api/device/list',
+        method: 'get',
+        params: { ...query }
+    })
+}
