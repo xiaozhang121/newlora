@@ -309,8 +309,8 @@
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
     </duno-main>
-    <popup-one-info @onClose="alarmClose" :visible="visible"></popup-one-info>
     <div v-for="(item,index) of modeList" style="position: absolute; top: 0" :key="index" class="model" :id="item['id']" ref="modelRef">
+      <popup-one-info v-if="index==modeList.length-1" @onClose="alarmClose" :visible="visible"></popup-one-info>
       <!--弹窗必须传index  -->
         <camera-pop-back-u-p   @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisibled']" :itemData="item['itemData']" :visible="item['cameraFlagVisibled']"></camera-pop-back-u-p>
         <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
