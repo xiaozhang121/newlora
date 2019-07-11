@@ -481,6 +481,7 @@ export default {
           const that = this
           lastDeviceList().then(res=>{
               let data = res.data
+              debugger
               if(that.kilovoltKind == 10){
                   data = data.filter(item=>{
                       return item['areaId'] == '6'
@@ -509,7 +510,7 @@ export default {
               data.map(item=>{
                   item['src'] = that.robot
               })
-              this.powerPointList = res.data
+              this.powerPointList = data
           })
       },
       closeAlarm(now){
