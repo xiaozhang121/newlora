@@ -310,8 +310,12 @@ export default {
                         feature.dispatchEvent({type: 'mousein'});
                     });
                 }else{
+                    try{
                     let feature = that.vector.getSource().getFeatureById('pointName')
                     that.vector.getSource().removeFeature(feature)
+                    }catch (e) {
+                        
+                    }
                 }
             })
         }
