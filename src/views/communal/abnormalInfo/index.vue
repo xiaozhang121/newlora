@@ -413,7 +413,7 @@ export default {
   .ivu-table th {
     color: #fff;
     border: none;
-    height: 80px;
+    height: 60px;
     background-color: #2d5980 !important;
     font-size: 18px;
     font-weight: normal;

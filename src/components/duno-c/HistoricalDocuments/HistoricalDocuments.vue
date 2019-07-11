@@ -186,7 +186,7 @@ export default {
       background: rgba(50, 95, 125, 0.8);
     }
     .el-dialog {
-      box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
+      // box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
       background-color: rgba(18, 33, 39, 0.7);
       width: 100%;
       border-radius: 5px;
