@@ -3,37 +3,31 @@
 <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
 <style type="text/css">
-	.st0{opacity:0.46;fill:url(#SVGID_1_);}
-	.st1{opacity:0.46;fill:url(#SVGID_2_);}
+	.st0{opacity:0.46;fill:url(#SVGID_1_);enable-background:new    ;}
+	.st1{opacity:0.46;fill:url(#SVGID_2_);enable-background:new    ;}
 	.st2{fill:#00B4FF;}
-	.st3{fill:url(#SVGID_3_);}
-	.st4{fill:url(#SVGID_4_);}
-	.st5{fill:url(#SVGID_5_);}
-	.st6{fill:url(#SVGID_6_);}
-	.st7{fill:url(#SVGID_7_);}
-	.st8{fill:url(#SVGID_8_);}
 </style>
 <g>
 	
-		<radialGradient id="SVGID_1_" cx="1188.6149" cy="-249.9222" r="20.1328" gradientTransform="matrix(-16.6439 19.602 -19.8375 -16.4463 15555.4697 -26888.7734)" gradientUnits="userSpaceOnUse">
+		<radialGradient id="SVGID_1_" cx="1174.3276" cy="1734.9495" r="20.1328" gradientTransform="matrix(-19.602 -16.6439 -16.4463 19.8375 52055.8867 -14141.5479)" gradientUnits="userSpaceOnUse">
 		<stop  offset="0" style="stop-color:#00B4FF"/>
 		<stop  offset="1" style="stop-color:#00B4FF;stop-opacity:0.5"/>
 	</radialGradient>
-	<path class="st0" d="M551.5,18.8c-0.7,0.3-1.5,0.6-2.2,0.8c-78.9,31.5-151.4,82.1-210,151c-190.8,224.7-161.1,559.6,66.3,748.1
-		c41.7,34.6,87.2,61.7,134.8,81.8L751,511.9L551.5,18.8z"/>
+	<path class="st0" d="M1005.2,551.5c-0.3-0.7-0.6-1.5-0.8-2.2c-31.5-78.9-82.1-151.4-151-210c-224.7-190.8-559.6-161.1-748.1,66.3
+		c-34.6,41.7-61.7,87.2-81.8,134.8L512.1,751L1005.2,551.5z"/>
 	
-		<radialGradient id="SVGID_2_" cx="1188.8042" cy="-249.2755" r="7.7736" fx="1187.453" fy="-250.8494" gradientTransform="matrix(-16.6439 19.602 -19.8375 -16.4463 15555.4697 -26888.7734)" gradientUnits="userSpaceOnUse">
+		<radialGradient id="SVGID_2_" cx="1174.517" cy="1734.3027" r="7.7736" fx="1173.1658" fy="1732.7289" gradientTransform="matrix(-19.602 -16.6439 -16.4463 19.8375 52055.8867 -14141.5479)" gradientUnits="userSpaceOnUse">
 		<stop  offset="0" style="stop-color:#00B4FF"/>
 		<stop  offset="1" style="stop-color:#00B4FF;stop-opacity:0.5"/>
 	</radialGradient>
-	<path class="st1" d="M653.4,270.7c-39,15.4-74.9,40.2-103.8,74.3c-93.3,109.9-78.8,273.7,32.4,365.9c20.4,16.9,42.6,30.2,65.9,40
-		l103-239L653.4,270.7z"/>
+	<path class="st1" d="M753.3,653.4c-15.4-39-40.2-74.9-74.3-103.8c-109.9-93.3-273.7-78.8-365.9,32.4c-16.9,20.4-30.2,42.6-40,65.9
+		l239,103L753.3,653.4z"/>
 	<g>
-		<path class="st2" d="M751,531.1c-7.6,0-14.9-4.5-18-11.9L532.7,36.7c-4.1-9.8,0.7-21,10.6-25c9.9-4,21.3,0.7,25.3,10.5
-			l200.3,482.5c4.1,9.8-0.7,21-10.6,25C755.9,530.6,753.4,531.1,751,531.1z"/>
-		<path class="st2" d="M550.4,1013.7c-2.5,0-5.1-0.5-7.5-1.5c-9.9-4.1-14.6-15.3-10.4-25.1L736.1,506c4.2-9.8,15.5-14.4,25.4-10.3
-			c9.9,4.1,14.6,15.3,10.4,25.1L568.3,1002C565.1,1009.3,557.9,1013.7,550.4,1013.7z"/>
+		<path class="st2" d="M492.9,751c0-7.6,4.5-14.9,11.9-18l482.5-200.3c9.8-4.1,21,0.7,25,10.6c4,9.9-0.7,21.3-10.5,25.3L519.3,768.9
+			c-9.8,4.1-21-0.7-25-10.6C493.4,755.9,492.9,753.4,492.9,751z"/>
+		<path class="st2" d="M10.3,550.4c0-2.5,0.5-5.1,1.5-7.5c4.1-9.9,15.3-14.6,25.1-10.4L518,736.1c9.8,4.2,14.4,15.5,10.3,25.4
+			c-4.1,9.9-15.3,14.6-25.1,10.4L22,568.3C14.7,565.1,10.3,557.9,10.3,550.4z"/>
 	</g>
-	<ellipse class="st2" cx="734.5" cy="513.3" rx="75.9" ry="75"/>
+	<ellipse class="st2" cx="510.7" cy="734.5" rx="75" ry="75.9"/>
 </g>
 </svg>

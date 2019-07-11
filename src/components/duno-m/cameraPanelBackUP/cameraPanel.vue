@@ -5,12 +5,11 @@
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
-                        <!--<video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>-->
+                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                         <!--<video id="video1" width="400" height="250" controls></video>-->
-                        <img style="width: 410px; height: 247px" :src="normal"/>
                     </div>
                     <div class="explain iconList">
-                        <span @click="alarmNow()" ref="alarmDemo"><i class="iconfont icon-luxiang" ></i>录像</span>
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
                         <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
@@ -230,8 +229,6 @@
         components: { dunoTable,DunoCharts, videoPlayer },
         data() {
             return {
-                alarm: require('@/assets/demo/alarm.jpg'),
-                normal: require('@/assets/demo/normal.jpg'),
                 disabled: false,
                 sliderValue: 1,
                 clock,
@@ -525,10 +522,6 @@
             }
         },
         methods:{
-            alarmNow(){
-                this.normal = this.alarm
-                this.$emit('on-alarm')
-            },
             cameraSF(now){
                 const that = this
                 if(now == this.sliderValueold){
@@ -919,7 +912,7 @@
                 .description{
                     position: absolute;
                     color: #a2a2a5;
-                    width: 28px;
+                    width: 40px;
                     height: 48px;
                     left: 0;
                     top: 0;

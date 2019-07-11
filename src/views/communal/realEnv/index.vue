@@ -15,7 +15,7 @@
               </div>-->
               <!--<gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>-->
         <div v-if="isDiagram == 2">
-        <gis-map :powerPointList="powerPointList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
+        <gis-map ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
         </div>
         <div :class="['allShowPic']" v-else-if="isDiagram == 1">
             <drappable class="drappable_assembly" width="1900px" height="675px" >
@@ -309,12 +309,12 @@
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
     </duno-main>
-
+    <popup-one-info @onClose="alarmClose" :visible="visible"></popup-one-info>
     <div v-for="(item,index) of modeList" style="position: absolute; top: 0" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
         <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
         <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
-        <camera-pop @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
+        <camera-pop @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
     </div>
     </div>
   </div>
@@ -413,6 +413,7 @@ export default {
   data () {
     const that = this
     return {
+      visible: false,
       powerPointList: [],
       isAlarm: false,
       timer: null,
@@ -462,6 +463,14 @@ export default {
       }
   },
   methods: {
+      alarmClose(){
+          this.visible = false
+          this.$refs.gisMapObj.clearAlarm()
+      },
+      onAlarm(){
+        this.$refs.gisMapObj.isAlarm()
+        this.visible = true
+      },
       initOtherPoint(){
           const that = this
           lastDeviceList().then(res=>{

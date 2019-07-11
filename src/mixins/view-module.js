@@ -62,7 +62,7 @@ export default {
       intelLock: require('@/assets/buttonPng/intelLock.png'),
       redLight: require('@/assets/buttonPng/redLight.png'),
       robot: require('@/assets/buttonPng/robot.png'),
-      light: require('@/assets/buttonPng/cameraIcon.png'),
+      light: require('@/assets/buttonPng/lightCamera.svg'),
       lightNoCamera: require('@/assets/buttonPng/light.svg'),
       weatherCheck: require('@/assets/SVG/weatherCheck.svg')
     }
