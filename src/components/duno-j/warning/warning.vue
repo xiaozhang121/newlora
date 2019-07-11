@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-dialog
-      :title="'安全警告ID' + warningID"
+      :title="warningID"
       :visible="newVisible"
       width="900px"
       center
       @close="handleClose"
     >
       <div class="monitor">
-        <img :src="monitorUrl" alt="">
+        <img :src="monitorUrl || newMonitorUrl" alt="">
       </div>
       <div class="info">
         <div>
@@ -16,13 +16,12 @@
           <p>{{judgeResult}}</p>
         </div>
         <div>
-          <p class="monitorTitle2">人员徘徊</p>
           <a href="javascript:;">结果修订</a>
           <span class="origin">{{'来源：' + origin}}</span>
         </div>
         <div>
           <p class="monitorTitle">处理结果</p>
-          <div class="handleResult"></div>
+          <p>{{handleResult}}</p>
         </div>
       </div>
       <div style="clear: both"></div>
@@ -34,12 +33,18 @@ export default {
   data() {
     return {
       newVisible: false,
-      monitorUrl: require("@/assets/camera2.png") 
+      newMonitorUrl: require("@/assets/camera2.png") 
     };
   },
   props: {
     visible: {
       type: Boolean
+    },
+    monitorUrl: {
+      type: String,
+      default: () => {
+        return ''
+      }
     },
     warningID: {
       type: String,
@@ -51,7 +56,7 @@ export default {
       type: String
     },
     origin: {
-      type: String,
+      type: String | Number,
       default: () => {
         return ''
       }
