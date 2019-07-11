@@ -10,7 +10,7 @@
                 >
             <span slot="title"></span>
             <div class="cameraPos">
-                <div v-if="this.$store.state.app.configInfo['displayType'] == 1" class="first">
+                <div v-if="this.$store.state.user.configInfo['displayType'] == 1" class="first">
                     <div class="left_main">
                         <div class="cameraItem" @click="pushInfo(1, $event)" :style="'background:url('+ cameraPic01 +')'">
                             <span class="explain Max">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-else="this.$store.state.app.configInfo['displayType'] == 2" class="second">
+                <div v-else="this.$store.state.user.configInfo['displayType'] == 2" class="second">
                     <div class="left_main">
                         <div class="cameraItem" @click="pushInfo(1, $event)" :style="'background:url('+ cameraPic01 +')'">
                             <span class="explain Max">
@@ -115,29 +115,29 @@
                 'user'
             ]),
             cameraPic01(){
-                if(this.$store.state.app.configInfo.cameraPic01){
-                    return this.$store.state.app.configInfo.cameraPic01
+                if(this.$store.state.user.configInfo.cameraPic01){
+                    return this.$store.state.user.configInfo.cameraPic01
                 }
             },
             cameraPic02(){
-                if(this.$store.state.app.configInfo.cameraPic02){
-                    return this.$store.state.app.configInfo.cameraPic02
+                if(this.$store.state.user.configInfo.cameraPic02){
+                    return this.$store.state.user.configInfo.cameraPic02
                 }
             },
             cameraPic03(){
-                if(this.$store.state.app.configInfo.cameraPic03){
-                    return this.$store.state.app.configInfo.cameraPic03
+                if(this.$store.state.user.configInfo.cameraPic03){
+                    return this.$store.state.user.configInfo.cameraPic03
                 }
             },
             cameraPic04(){
-                if(this.$store.state.app.configInfo.cameraPic04){
-                    return this.$store.state.app.configInfo.cameraPic04
+                if(this.$store.state.user.configInfo.cameraPic04){
+                    return this.$store.state.user.configInfo.cameraPic04
                 }
             },
             widthSet(){
-                 if(this.$store.state.app.configInfo['displayType'] == 1){
+                 if(this.$store.state.user.configInfo['displayType'] == 1){
                      return '600px'
-                 }else if(this.$store.state.app.configInfo['displayType']  == 2){
+                 }else if(this.$store.state.user.configInfo['displayType']  == 2){
                      return '500px'
                  }
             }

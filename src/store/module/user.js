@@ -81,6 +81,7 @@ export default {
     setConfigure ({ state, commit }) {
         return new Promise((resolve, reject) => {
             initConfigure({userId:state.userId, type: '1'}).then(res => {
+              debugger
                 console.log('获取配置信息', res.data)
                 const data = res.data
                 commit('setconfigInfo', data)

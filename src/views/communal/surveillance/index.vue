@@ -1,46 +1,46 @@
 <template>
   <div class="surveillance">
      <div class="title">
-       <i class="iconfont icon-zuoyoubuju" v-if="$store.state.app.configInfo['displayType'] == '1'"></i>
+       <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
        <i class="iconfont icon-shangxiabuju" v-else></i>
        <span class="nr">{{ layoutTypeName }}</span>
        <duno-btn-top @on-select="onSelect" class="dunoBtnTop" :isCheck="false" :dataList="dataList" title="切换布局" :showBtnList="false"></duno-btn-top>
      </div>
-    <div class="main" :class="{widthA : $store.state.app.configInfo['displayType'] == '2'}">
-      <div class="left_main" :class="{widthA : $store.state.app.configInfo['displayType'] == '2'}">
-        <div class="left"  style="padding-bottom: 32%"  v-if="$store.state.app.configInfo['displayType'] == '2'">
-          <key-monitor  :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
+    <div class="main" :class="{widthA : displayType == '2'}">
+      <div class="left_main" :class="{widthA : displayType == '2'}">
+        <div class="left"  style="padding-bottom: 32%"  v-if="displayType == '2'">
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
-      <div class="right_main" v-if="$store.state.app.configInfo['displayType'] != '2'" :class="{hidden : $store.state.app.configInfo['displayType'] == '2'}">
+      <div class="right_main" v-if="displayType != '2'" :class="{hidden : displayType == '2'}">
         <div class="right">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
-    <div class="oltagevMain second" v-if="$store.state.app.configInfo['displayType'] == '2'">
+    <div class="oltagevMain second" v-if="displayType == '2'">
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2"  :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -51,22 +51,22 @@
     <div class="oltagevMain">
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -86,10 +86,14 @@ export default {
   },
   computed: {
       ...mapState([
-          'app'
+          'user'
       ]),
+      displayType(){
+          debugger
+          return this.$store.state.user.configInfo['displayType']
+      },
       layoutTypeName(){
-          return this.dataList[this.$store.state.app.configInfo['displayType']-1]['describeName']
+          return this.dataList[this.$store.state.user.configInfo['displayType']-1]['describeName']
       }
   },
   data() {
@@ -122,8 +126,8 @@ export default {
   },
   methods:{
       onSelect(item, index){
-          this.$store.state.app.configInfo['displayType'] = item['format']
-          editConfig({id:this.$store.state.app.configInfo['id'],displayType:item['format']}).then(res=>{
+          this.$store.state.user.configInfo['displayType'] = item['format']
+          editConfig({id:this.$store.state.user.configInfo['id'],displayType:item['format']}).then(res=>{
               sessionStorage.setItem('format', item['format'])
               this.layoutType = item['format']
           })

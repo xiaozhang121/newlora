@@ -2,7 +2,7 @@
   <div class="dunoBtnTop">
     <div class="placeHolder" v-if="showBtnList">
     </div>
-    <div class="btnList" v-if="showBtnList?true:isSingleDrop">
+    <div class="btnList" v-if="showBtnList?true:isSingleDrop" style="position: absolute; z-index: 10">
       <div class="title" @click="showListFlag = !showListFlag">
           <!-- 全部固定监控设备 -->
           {{ title }}
@@ -250,6 +250,7 @@ export default {
 <style lang="scss">
 .dunoBtnTop{
   min-height: 38px;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   padding-bottom: 13px;
@@ -300,6 +301,8 @@ export default {
       background: #1a2f42;
     }
     .btn_main{
+      position: relative;
+      z-index: 8;
       margin-top: 7px;
       padding: 5px 20px;
       display: flex;

@@ -5,7 +5,7 @@
     <duno-main   v-if="kilovoltKind == 'all'">
       <div class="main_ctx" ref="firstElE">
         <div :class="['toward']">
-          <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2"/>
+          <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2 || isDiagram == 3"/>
           <img @click="alarmSet" :src="towardAround" v-else-if="isDiagram == 1"/>
         </div>
           <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
@@ -14,7 +14,9 @@
                   <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
               </div>-->
               <!--<gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>-->
-        <gis-map @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 2"></gis-map>
+        <div v-if="isDiagram == 2">
+        <gis-map @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
+        </div>
         <div :class="['allShowPic']" v-else-if="isDiagram == 1">
             <drappable class="drappable_assembly" width="1900px" height="675px" >
                 <div class="realView">
@@ -22,8 +24,8 @@
                 </div>
             </drappable>
         </div>
+        <gis-map @toDetail="toDevice" mapUrl="http://52.82.107.5:8085" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
       </div>
-
       <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
            <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
     </duno-main>
@@ -60,6 +62,16 @@
        <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
+      <div :class="['item_ctx']"  ref="firstElE" v-else-if="isDiagram == 3">
+        <div>
+          <div class="toward" style="left: 60px">
+            <img :src="towardAround"/>
+          </div>
+          <gis-map mapUrl="http://52.82.107.5:8085"  @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"></gis-map>
+        </div>
+         <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+      </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '500'">
       <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
@@ -93,6 +105,16 @@
         <gis-map @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"  v-if="isDiagram == 2"></gis-map>
     <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+      </div>
+      <div :class="['item_ctx']" ref="firstElE" v-if="isDiagram == 3">
+        <div>
+        <div class="toward"  style="left: 60px">
+          <img :src="towardAround"/>
+        </div>
+        <gis-map mapUrl="http://52.82.107.5:8085" @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"></gis-map>
+        <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+            <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+      </div>
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '220'">
@@ -128,6 +150,16 @@
        <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
+      <div :class="['item_ctx']" ref="firstElE"   v-else-if="isDiagram == 3">
+        <div>
+        <div class="toward"  style="left: 60px">
+          <img :src="towardAround"/>
+        </div>
+        <gis-map mapUrl="http://52.82.107.5:8085" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 3"></gis-map>
+        <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+        </div>
+      </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '110'">
       <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
@@ -161,6 +193,16 @@
         <gis-map @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 2"></gis-map>
      <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
         <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+      </div>
+      <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 3">
+        <div>
+        <div class="toward"  style="left: 60px">
+          <img :src="towardAround"/>
+        </div>
+        <gis-map mapUrl="http://52.82.107.5:8085" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 3"></gis-map>
+        <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+        </div>
       </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '35'">
@@ -196,6 +238,16 @@
         <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
+      <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 3">
+        <div>
+        <div class="toward"  style="left: 60px">
+          <img :src="towardAround"/>
+        </div>
+        <gis-map mapUrl="http://52.82.107.5:8085" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 3"></gis-map>
+        <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+        </div>
+      </div>
     </duno-main>
     <duno-main class="kilovolt" v-else-if="kilovoltKind == '10'">
       <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
@@ -235,6 +287,24 @@
             </div>
           </div>
         </drappable>
+        <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
+          <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
+      </div>
+      <div :class="['item_ctx']" ref="firstElE" v-else-if="isDiagram == 3">
+        <div>
+        <div class="toward"  style="left: 60px">
+          <img :src="towardAround"/>
+        </div>
+        <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
+          <div class="allShowPic center" style="position: absolute;top:-80px;transform: scale(1.3)">
+            <div class="realView">
+              <div class="deviceList">
+              </div>
+              <div class="center">无此图片</div>
+            </div>
+          </div>
+        </drappable>
+        </div>
         <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
       </div>
@@ -292,7 +362,6 @@ export default {
       return this.$store.state.app.kilovolt
     },
     kilovolt1000Pic(){
-        debugger
         if(this.deviceList)
           return this.deviceList.filter((item)=>{
               return item['areaId'] == '1'
@@ -439,7 +508,6 @@ export default {
           this.$forceUpdate()
       },
       isOverlap(idOne,idTwo){
-          debugger
           let objOne=$("#"+idOne),
               objTwo=$("#"+idTwo),
               offsetOne = objOne.offset(),
@@ -544,7 +612,6 @@ export default {
           },500)
       },
       visableHandle(item, flag, modelIndex){
-          debugger
           if (item.deviceMessage.supportPreset) {
               if(item.monitorDeviceType == '1')       // 可见光
                   this.modeList[modelIndex].cameraFlagVisible = flag
@@ -555,7 +622,6 @@ export default {
           }
       },
       toDevice(item, index, targetd, modelIndex = 0, flag){
-          debugger
         let target = this.$refs.firstElE
         this.onClose(false ,'all')
         this.tempObj = {
@@ -643,7 +709,7 @@ export default {
       bottom: 20px;
     }
     .toward{
-      z-index: 1;
+      z-index: 2;
       position: absolute;
       left: 15px;
       top: 10px;
@@ -695,6 +761,7 @@ export default {
       .item_ctx{
         flex: 1;
         height: 100%;
+        background: #142838 !important;
         position: relative;
         overflow: hidden;
       }

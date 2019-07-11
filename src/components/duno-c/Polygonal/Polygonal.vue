@@ -220,7 +220,6 @@ export default {
             endTime: `${this.endTime} 23:59:59`,
         }
         getAxiosData(url, query).then( res => {
-            debugger
             const dataList = res.data.dataList
             const legendData = []
             const xAxisData = []

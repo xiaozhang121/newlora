@@ -226,7 +226,6 @@ export default {
       this.visible = false;
     },
     getDataList() {
-      debugger;
       const that = this;
       getAxiosData("/lenovo-plan/api/plan/all-list").then(res => {
         if (res.code !== 200) {

@@ -106,7 +106,6 @@ export default {
   },
   watch:{
       visibleOption(now){
-          debugger
           this.visible = now
       }
   },

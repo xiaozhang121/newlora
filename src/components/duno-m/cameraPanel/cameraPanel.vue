@@ -437,7 +437,6 @@
         },
         computed:{
             deviceId(){
-                debugger
                 if(this.itemData)
                     return this.itemData['monitorDeviceId'].toString()
                 else
@@ -467,7 +466,6 @@
                 },Math.abs(now - old)*500)*/
             },
             panelType(){
-                debugger
                 const that = this
                 this.$nextTick(()=> {
                     // that.initCamera()
@@ -573,12 +571,10 @@
                 })
             },
             fullScreen(){
-                debugger
                 let ele = this.$refs.videoPlayer.$el.getElementsByClassName('vjs-fullscreen-control')[0].click();
             },
             checkPostion(pid){
                 const that = this
-                debugger
                 putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+pid)
             },
             editTableData(params){

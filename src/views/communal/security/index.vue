@@ -183,7 +183,7 @@ export default {
   },
   computed: {
       ...mapState([
-          'user'
+          'app'
       ]),
       cameraPic(){
           if(this.cameraInfo){

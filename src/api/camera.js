@@ -33,7 +33,6 @@ export const delPosition = (query) => {
 }
 
 export const mvPosition = (query) => {
-    debugger
     return axios.request({
         url: '/lenovo-visible/api/visible-equipment/ptz/preset-move',
         method: 'put',

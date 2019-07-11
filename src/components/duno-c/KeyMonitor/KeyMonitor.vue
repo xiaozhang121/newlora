@@ -97,11 +97,15 @@ export default {
     }
   },
   watch: {
-    streamAddr(now){
-        this.playerOptions['sources'][0]['src'] = now
-        if(now){
+    streamAddr:{
+      handler(now){
+          debugger
+          if(now){
+            this.playerOptions['sources'][0]['src'] = now
             this.showView = true
-        }
+          }
+      },
+      immediate: true
     },
     showBtmOption: {
       handler(now) {
