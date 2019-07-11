@@ -4,7 +4,7 @@
       <Breadcrumb />
     </div>
     <div class="dunoDrap">
-      <div>重点检测区域</div>
+      <div>重点监测区域</div>
       <div class="selectBtn">
         <div>
           <duno-btn-top
