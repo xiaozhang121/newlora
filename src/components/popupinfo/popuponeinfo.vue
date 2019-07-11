@@ -91,6 +91,8 @@ export default {
 </script>
 <style lang="scss" scoped>
   .popuponeinfo {
+    font-size: 20px;
+    font-weight: normal;
     .itemTitle {
       color: #fff;
       font-size: 18px;
