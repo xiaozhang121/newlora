@@ -11,13 +11,14 @@ import { Map, View, Overlay, Feature } from "ol";
 import {boundingExtent,getCenter} from 'ol/extent'
 import  { Draw } from 'ol/interaction'
 import Polygon from 'ol/geom/Polygon.js';
+import Point from 'ol/geom/Point.js';
 import { XYZ, TileImage } from "ol/source"
 import { transform, getTransform } from "ol/proj"
 import { defaults  as defaultControls } from "ol/control"
 import { createRegularPolygon, createBox } from 'ol/interaction/Draw.js'
 import { Vector as VectorLayer, Tile as TileLayer } from "ol/layer"
 import TileLayerd from "ol/layer/Tile";
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Circle as CircleStyle, Fill, Stroke, Style, Icon} from 'ol/style';
 import { OSM, Vector as VectorSource } from "ol/source";
 export default {
     name: 'gisMap',
@@ -25,6 +26,7 @@ export default {
     data() {
         const that = this
         return {
+            robot: require('@/assets/buttonPng/robot.png'),
             anchor: require('@/assets/anchor.png'),
             mapTarget: null,
             pointListObj: [],
@@ -114,6 +116,18 @@ export default {
         },
         addPointdList(arr){
             const that = this
+          /*  arr.forEach((item,index)=>{
+                let anchor = new Feature({
+                    geometry: new Point(transform([item['xReal'],item['yReal']], 'EPSG:3857' ,'EPSG:4326'))
+                })
+                anchor.setStyle( new Style({
+                    image: new Icon({
+                        src: that.robot,
+                        imgSize:[30, 30]
+                    })
+                }))
+                this.vector.getSource().addFeature(anchor)
+            })*/
             debugger
             arr.forEach((item, index)=>{
                 let anchor = new Overlay({
@@ -124,15 +138,22 @@ export default {
                 that.pointListObj.push({anchor: anchor})
                 that.mapTarget.addOverlay(anchor);
             })
+
         },
         addPointList(arr){
             const that = this
             arr.forEach((item, index)=>{
+                if(index == 14){
+                    debugger
+                }
                 let anchor = new Overlay({
                     element: document.getElementById('anchor'+index)
                 });
                 if(that.isDiagram == 1){
 
+                }else if(that.isDiagram == 3){
+                    debugger
+                    anchor.setPosition(transform([item['realX'],item['realY']], 'EPSG:3857' ,'EPSG:4326'));
                 }else{
                     anchor.setPosition(transform([item['cadX'],item['cadY']], 'EPSG:3857' ,'EPSG:4326'));
                 }
