@@ -1,6 +1,14 @@
 <template>
   <div class="historyfourth">
-    <h4 class="title">{{title}}</h4>
+    <!--<h4 class="title">{{title}}</h4>
+    <div class="historyfourthBox">
+      <div :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']" @mouseenter.stop="mouseNum = index" @mouseleave.stop="mouseNum = -1" v-for="(item, index) in alarmHistoryData" :key="index">
+        <div>{{item.alarmTime}}</div>
+        <div><span>温度：{{item.alarmValue}}℃</span><span class="threshold">超出阈值：{{item.threshold}}</span>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></div>
+      </div>
+    </div>-->
+
+    <h4 class="title">设备一</h4>
     <div class="historyfourthBox">
       <div :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']" @mouseenter.stop="mouseNum = index" @mouseleave.stop="mouseNum = -1" v-for="(item, index) in alarmHistoryData" :key="index">
         <div>{{item.alarmTime}}</div>
@@ -72,7 +80,12 @@ export default {
   },
   mounted() {
     if (this.itemId) {
-      this.getData()
+      // this.getData()
+        this.alarmHistoryData = [
+            {alarmLevelName: '危机缺陷', threshold: '60%', alarmValue: 60, alarmLevel:1},
+            {alarmLevelName: '严重缺陷', threshold: '60%', alarmValue: 60, alarmLevel:2},
+            {alarmLevelName: '一般缺陷', threshold: '60%', alarmValue: 60, alarmLevel:3},
+        ]
     }
   }
 }

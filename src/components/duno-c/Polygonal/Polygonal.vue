@@ -331,12 +331,20 @@ export default {
     }
   },
   mounted () {
+      const that = this
     if (this.radio) {
       this.onChangeRadio(this.radio)
     } else if (!this.radio && this.datePeriod) {
       this.onChangeTime(this.datePeriod)
     }
-
+      that.legendData.push(...['设备01'])
+      that.seriesData.push(...[{
+          data: [20, 90, 2, 10, 60, 30, 70, 50, 10, 8],
+          name: "设备01",
+          type: "line"
+      }])
+      that.$forceUpdate()
+      that.isChangeFlag = !that.isChangeFlag
   }
 };
 </script>
