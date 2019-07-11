@@ -17,6 +17,7 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import PageHisRecords from "_c/duno-c/PageHisRecords";
 import statistics from "_c/duno-j/statistics";
+import { getAxiosData } from "@/api/axiosType";
 export default {
   name: "securityNum",
   components: {
@@ -41,9 +42,32 @@ export default {
       dataBread: []
     };
   },
+  methods: {
+    getAreaData() {
+      getAxiosData("/lenovo-device/api/area/list").then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          that.totalNum = 0;
+          return that.$message.error(res.msg);
+        }
+        let dataList = res.data.dataList;
+        sessionStorage.clear();
+        sessionStorage.setItem("area", res.data.dataList.areaId);
+      });
+      getAxiosData("/lenovo-alarm/api/security/statistics").then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          that.totalNum = 0;
+          return that.$message.error(res.msg);
+        }
+        sessionStorage.clear();
+        sessionStorage.setItem("area", res.data.dataList.areaId);
+      });
+    }
+  },
   mounted() {
     this.dataBread = this.navBar;
-    console.log(this.$route);
+    this.getAreaData();
   }
 };
 </script>

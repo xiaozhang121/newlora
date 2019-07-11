@@ -339,7 +339,7 @@ export default {
     exportHandle (url) {
       if (!url) {
         let params = qs.stringify({
-          'token': this.user.token,
+          't': this.user.token,
           ...this.queryForm
         })
         window.location.href = `${baseUrl}${this.mixinViewModuleOptions.exportURL}?${params}`

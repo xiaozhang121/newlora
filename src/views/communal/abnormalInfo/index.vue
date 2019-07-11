@@ -1,6 +1,5 @@
 <template>
   <div class="abnormalInfo">
-    <!-- <div class="title"></div> -->
     <div class="top">
       <div>
         <div>
@@ -8,7 +7,7 @@
             @on-select="onSelect"
             class="dunoBtnTo"
             :isCheck="false"
-            :dataList="typeMold"
+            :dataList="regionList"
             :title="titleTypeL"
             :showBtnList="false"
           ></duno-btn-top>
@@ -18,7 +17,7 @@
             @on-select="onSelect"
             class="dunoBtnTop"
             :isCheck="false"
-            :dataList="typeMold"
+            :dataList="statusList"
             :title="titleTypeC"
             :showBtnList="false"
           ></duno-btn-top>
@@ -47,7 +46,7 @@
           ></el-date-picker>
         </div>
         <div>
-          <div>导出Excel</div>
+          <div @click="clickExcel">导出Excel</div>
         </div>
         <div class="setting" @click="showSetting">
           <i class="iconfont icon-ico_menu__systemsettings"></i>
@@ -69,7 +68,8 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
-    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption"/>
+    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
+    <wraning :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -77,21 +77,32 @@
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
-import warningSetting from '_c/duno-j/warningSetting'
+import warningSetting from "_c/duno-j/warningSetting";
+import wraning from "_c/duno-j/warning";
+// import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
+import { getAxiosData, postAxiosData, putAxiosData } from '@/api/axiosType'
 export default {
   name: "abnormalInfo",
+  // mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
     KeyMonitor,
     dunoMain,
     DunoTablesTep,
-    warningSetting
+    warningSetting,
+    wraning
   },
   data() {
     const that = this;
     return {
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        exportURL: "/lenovo-alarm/api/alarm/history/export"
+      },
       visibleSettingOption: false,
+      visible: false,
       totalNum: 500,
       pageRows: 20,
       selectInfo: "更多",
@@ -105,151 +116,87 @@ export default {
       columns: [
         {
           title: "时间",
-          key: "nickname",
-          minWidth: 50,
+          key: "alarmTime",
+          minWidth: 100,
           align: "center",
           tooltip: true
         },
         {
           title: "报警对象",
-          key: "phone",
-          minWidth: 50,
+          key: "powerDeviceName",
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "报警部位",
-          key: "phone",
-          minWidth: 50,
+          key: "alarmPart",
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "区域",
-          key: "phone",
+          key: "areaName",
           minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "报警内容",
-          key: "phone",
-          minWidth: 90,
+          key: "alarmContent",
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "警告级别",
-          key: "submitTime",
-          minWidth: 90,
+          key: "alarmLevelName",
+          minWidth: 110,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push(
               h(
-                "i-dropdown",
-                {
+                "i-dropdown", {
                   props: { trigger: "click", placement: "bottom-start" },
-                  style: {
-                    marginLeft: "5px"
-                  },
-                  on: {
-                    "on-click": value => {
-                      console.log(value);
-                    }
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      class: {
-                        member_operate_div: true
-                      }
-                    },
-                    [
-                      h(
-                        "div",
-                        {
-                          class: {
-                            table_select: true,
-                            serious: false,
-                            commonly: true,
-                            danger: false
-                          }
+                  style: {marginLeft: "5px"},
+                  on: {"on-click": value => { console.log(value)}}
+                },[
+                  h( "div", {class: { member_operate_div: true }},
+                    [h("div",{
+                          class: { table_select: true,serious: params.row.alarmLevel === '2',commonly: (params.row.alarmLevel === '1'),danger: params.row.alarmLevel === '3'}
                         },
-                        [
-                          h("span", that.selectInfo, {
-                            class: {
-                              member_operate_div: true
-                            }
+                        [h("span", this.cutOut(params.row.alarmLevelName), {
+                            class: {member_operate_div: true}
                           }),
                           h("i", {
-                            style: {
-                              marginLeft: "5px"
-                            },
-                            class: {
-                              "iconfont icon-xiala": true
-                            }
+                            style: {marginLeft: "5px"},
+                            class: {"iconfont icon-xiala": true}
                           })
                         ]
                       )
                     ]
                   ),
-                  h(
-                    "i-dropdownMenu",
-                    {
-                      slot: "list"
-                    },
-                    [
-                      h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: {
-                              alarmLevel: true
-                            },
-                            on: {
-                              click: () => {
-                                that.selectInfo = "一般";
-                              }
-                            }
-                          },
-                          "一般"
-                        )
+                  h( "i-dropdownMenu", {slot: "list"},
+                    [h("i-dropdownItem", {}, [
+                        h("div",{
+                            class: {alarmLevel: true},
+                            on: {click: () => {that.onClickDropdown(params.row, '一般', '1')}}
+                          }, "一般")
                       ]),
                       h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: {
-                              alarmLevel: true
-                            },
-                            on: {
-                              click: () => {
-                                that.selectInfo = "严重";
-                              }
-                            }
-                          },
-                          "严重"
-                        )
+                        h("div",{
+                            class: {alarmLevel: true},
+                            on: {click: () => {that.onClickDropdown(params.row, '严重', '2')}}
+                          },"严重")
                       ]),
                       h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: {
-                              alarmLevel: true
-                            },
-                            on: {
-                              click: () => {
-                                that.selectInfo = "危急";
-                              }
-                            }
-                          },
-                          "危急"
-                        )
+                        h("div",{
+                            class: {alarmLevel: true},
+                            on: {click: () => {that.onClickDropdown(params.row, '危急', '3')}}
+                          },"危急")
                       ])
                     ]
                   )
@@ -261,34 +208,21 @@ export default {
         },
         {
           title: "信息来源",
-          key: "sysUserId",
-          minWidth: 90,
+          key: "monitorDeviceId",
+          minWidth: 110,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
-              h(
-                "a",
-                {
+              h("a",{
                   class: "table_link",
                   props: { type: "text" },
-                  on: {
-                    click: () => {
-                      alert("");
-                    }
-                  }
-                },
-                "可见光摄像头ID"
-              )
+                  on: {click: () => {console.log("摄像头ID：", params.row.monitorDeviceId) }}
+                },"可见光摄像头ID")
             ]);
             return h(
-              "div",
-              {
-                class: {
-                  member_operate_div: true
-                }
-              },
+              "div", {class: {member_operate_div: true}},
               newArr
             );
           }
@@ -296,63 +230,61 @@ export default {
         {
           title: "视频/图片",
           key: "id",
-          width: 120,
-          fixed: "right",
+          minWidth: 100,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            newArr.push([h("img", { class: "imgOrMv", draggable: false })]);
+            if (params.row.fileType == '1') {
+              newArr.push([h("img", { class: "imgOrMv", attrs: {src: params.row.alarmFileAddress}, draggable: false })]);
+            } else if (params.row.fileType == '2') {
+              newArr.push([h("video", { class: "imgOrMv", attrs: {src: params.row.alarmFileAddress}, draggable: false })]);
+            }
             return h("div", newArr);
           }
         },
         {
           title: "处理记录",
-          key: "id",
+          key: "dealRecord",
           width: 120,
-          fixed: "right",
           align: "center",
           tooltip: true
         },
         {
           title: " ",
           key: "id",
-          width: 120,
-          fixed: "right",
+          width: 220,
           align: "center",
           render: (h, params) => {
-            let newArr = [];
+            let newArr = []
+            if (params.row.isReturn == '0') {
+              newArr.push([
+                h("el-button", {
+                    class: "table_link",
+                    style: { marginRight: "20px" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.restoration(params.row);
+                      }
+                    }
+                  },"复归")
+              ]);
+            }
             newArr.push([
-              h(
-                "el-button",
-                {
+              h("el-button",{
                   class: "table_link",
                   style: { marginRight: "20px" },
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      alert("");
+                      that.popData = params.row
+                      that.visible = true;
                     }
                   }
                 },
-                "复归"
+                "详情"
               )
-            ]);
-            newArr.push([
-              h("i", {
-                class: "iconfont icon-daochu",
-                style: {
-                  cursor: "pointer",
-                  position: "relative",
-                  top: "0.2px"
-                },
-                props: { type: "text" },
-                on: {
-                  click: () => {
-                    alert("");
-                  }
-                }
-              })
             ]);
             return h(
               "div",
@@ -364,76 +296,58 @@ export default {
           }
         }
       ],
-      dataList: [
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        }
-      ]
+      typeMold: [],
+      regionList: [],
+      statusList: [],
+      popData: {}
     };
   },
+  created() {
+    this.getRegion()
+    this.getStart()
+  },
   methods: {
-    onClose(){
-        this.visibleSettingOption = false
+    cutOut (data) {
+      if (data) {
+        const index = data.indexOf('缺陷')
+        if (index > -1) {
+          data = data.substring(0, index)
+        }
+        return data
+      } else {
+        return '更多'
+      }
     },
-    showSetting(){
-        this.visibleSettingOption = true
+    onClickDropdown(row, type, No) {
+      const index = row._index
+      this.dataList[index].alarmLevelName = type
+      this.dataList[index].alarmLevel = No
+      this.psotAlarmData(row, No)
+    },
+    psotAlarmData(row, No) {
+      const that = this
+      const url = '/lenovo-alarm/api/alarm/level-edit'
+      const query = {
+        id: row.id,
+        alarmLevel: No
+      }
+      putAxiosData(url, query).then(res => {
+        if (res.code !== 200) {
+          this.dataList[index].alarmLevel = row.alarmLevel
+          this.dataList[index].alarmLevelName = row.alarmLevelName
+          return that.$message.error(res.msg)
+        }
+        that.$message.success(res.msg)
+      }, error => {
+        this.dataList[index].alarmLevel = row.alarmLevel
+        this.dataList[index].alarmLevelName = row.alarmLevelName
+      })
+    },
+    onClose() {
+      this.visibleSettingOption = false;
+    },
+    showSetting() {
+      this.visibleSettingOption = true;
     },
     onSelect(item, index) {
       this.layoutType = item["describeName"];
@@ -444,6 +358,42 @@ export default {
       this.startTime = JSON.parse(JSON.stringify(startTime));
       this.endTime = JSON.parse(JSON.stringify(endTime));
       this.$emit("onChange", data);
+    },
+    handleClose() {
+      this.popData = {}
+      this.visible = false;
+    },
+    restoration (row) {
+      const url = "/lenovo-alarm/api/alarm/deal"
+      const query = {
+        alarmId: row.alarmId,
+        type: '1'
+      }
+      postAxiosData(url, query).then(res => {
+        if (res.code !== 200) {
+          return this.$message.error(res.msg)
+        }
+        this.dataList[row._index].isReturn = '1'
+        this.$message.success(res.msg)
+      })
+    },
+    clickExcel() {
+      const that = this
+      that.exportHandle()
+    },
+    getRegion() {
+      const that = this
+      const url = '/lenovo-device/api/area/select-list'
+      postAxiosData(url).then(res => {
+        this.regionList = res.data
+      })
+    },
+    getStart() {
+      const that = this
+      const url = "/lenovo-device/api/monitor/status"
+      postAxiosData(url).then(res => {
+        this.statusList = res.data
+      })
     }
   }
 };
@@ -454,11 +404,19 @@ export default {
 .abnormalInfo {
   width: 100%;
   //-------------------表格样式
+  .dunoMain{
+    height: inherit;
+  }
+  .ivu-table{
+    font-size: 16px;
+  }
   .ivu-table th {
     color: #fff;
     border: none;
-    height: 60px;
+    height: 80px;
     background-color: #2d5980 !important;
+    font-size: 18px;
+    font-weight: normal;
   }
   .ivu-page {
     text-align: center;
@@ -498,12 +456,13 @@ export default {
   .ivu-table-wrapper {
     tr {
       td {
-        height: 52px;
+        height: 60px;
       }
     }
     tr:nth-child(odd) {
       td {
-        background-color: #0a1c2a;
+        // background-color: #0a1c2a;
+        background: rgba(0, 0, 0, 0)!important;
       }
     }
     tr:nth-child(even) {
@@ -523,24 +482,23 @@ export default {
     border-color: transparent !important;
     background: transparent !important;
   }
-  .alarmLevel {
-  }
   .flexPos {
     display: flex;
     align-items: center;
   }
   .imgOrMv {
-    width: 100%;
-    height: 39px;
+    width: 80%;
+    height: 45px;
     position: relative;
     top: 2px;
   }
   .table_link {
+    font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;
   }
   .table_abnormalInfo {
-    padding: 28px 17px;
+    padding: 36px 18px;
   }
   .table_select {
     cursor: pointer;
@@ -548,8 +506,8 @@ export default {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 45px;
-      height: 22px;
+      width: 60px;
+      height: 30px;
       border-radius: 20px;
     }
     &.serious {
@@ -570,6 +528,8 @@ export default {
   }
   .top {
     color: #ffffff;
+    height: 40px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     & > div:first-child {
@@ -583,10 +543,11 @@ export default {
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
+            line-height: 30px;
             width: 120px;
-            .title {
-              font-size: 15px;
-            }
+            // .title {
+            //   font-size: 16px;
+            // }
           }
         }
       }
@@ -596,15 +557,11 @@ export default {
       justify-content: space-between;
       & > div {
         margin-left: 10px;
-        i{
-          font-size: 25px;
-          padding-right: 5px;
-        }
       }
       & > div:nth-child(2) {
         & > div {
           width: 140px;
-          line-height: 32px;
+          line-height: 40px;
           text-align: center;
           background-color: #192f41;
           cursor: pointer;
@@ -628,6 +585,16 @@ export default {
             color: #fff;
           }
         }
+        .el-range-editor--small.el-input__inner {
+          height: 40px !important;
+        }
+        .el-range-editor--small .el-range__icon,
+        .el-range-editor--small .el-range__close-icon {
+          line-height: 35px;
+        }
+        .el-range-editor--small .el-range-input {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -636,8 +603,12 @@ export default {
     font-size: 13px;
   }
 }
-.setting{
+.setting {
   cursor: pointer;
+  i {
+    font-size: 30px;
+    padding-right: 5px;
+  }
 }
 .el-picker-panel {
   background-color: rgba(27, 59, 71, 0.7);

@@ -140,7 +140,6 @@ export default {
         },
         {
           title: " ",
-          // key: "Presentation",
           minWidth: 150,
           align: "center",
           tooltip: true,

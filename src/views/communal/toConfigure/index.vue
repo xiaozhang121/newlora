@@ -439,7 +439,9 @@ export default {
     display: flex;
     justify-content: space-between;
     & > div:first-child {
-      padding-top: 15px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      font-size: 18px;
     }
     .btn {
       display: flex;
@@ -453,8 +455,9 @@ export default {
         padding-bottom: 0;
         .btnList {
           top: inherit !important;
+          line-height: 40px;
           .title {
-            font-size: 15px;
+            font-size: 16px;
           }
         }
       }
@@ -478,7 +481,7 @@ export default {
             background-color: rgba(81, 89, 112, 0);
           }
           .el-range-separator {
-            font-size: 20px;
+            font-size: 18px;
             color: #fff;
           }
           .el-range-input {
@@ -498,7 +501,7 @@ export default {
     color: #fff;
     border: none;
     height: 60px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: normal;
     background-color: #2d5980 !important;
   }

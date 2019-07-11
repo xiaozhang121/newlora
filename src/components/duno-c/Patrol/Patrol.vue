@@ -35,7 +35,7 @@ export default {
     },
     titleCon: {
       type: String,
-      default: "(集合多种监测设备，定点定时完成任务，生成巡视报告)"
+      default: "(集合多种监测设备，定点定时完成任务，生成巡视报告，异常状态及时告警)"
     },
     isShow: {
       type: Boolean,
@@ -104,7 +104,7 @@ export default {
                     h(
                       "span",
                       {
-                        class: {}
+                        style: {color:'#ff9000'}
                       },
                       "任务间隔中"
                     )
@@ -161,20 +161,22 @@ export default {
 @import "@/style/tableStyle.scss";
 .patrol {
   margin: 0 20px;
-  padding-top: 20px;
+  padding-top: 30px;
   padding-bottom: 20px;
   .top {
     overflow: hidden;
     color: #ffffff;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     & > div:first-child {
       float: left;
       & > span:first-child {
-        font-size: 20px;
+        font-size: 18px;
+        padding-left: 10px;
         padding-right: 20px;
       }
       & > span:last-child {
-        font-size: 18px;
+        font-size: 16px;
+        color: #cccccc;
       }
     }
     & > div:nth-child(2) {
@@ -204,7 +206,7 @@ export default {
     color: #fff;
     border: none;
     height: 60px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: normal;
     background-color: #2d5980 !important;
   }

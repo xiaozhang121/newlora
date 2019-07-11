@@ -45,8 +45,15 @@
       </div>
     </div>
     <div class="title">
-      <span class="nr">{{ oltagevLevel  }}</span>
-      <duno-btn-top  class="dunoBtnTop" :isCheck="false" :dataList="oltagevLevelList" title="按电压等级" :showBtnList="false"></duno-btn-top>
+      <span class="nr">{{ oltagevLevel }}</span>
+      <duno-btn-top
+        @on-select="onSelectVol"
+        class="dunoBtnTop"
+        :isCheck="false"
+        :dataList="oltagevLevelList"
+        :title="titleValue"
+        :showBtnList="false"
+      ></duno-btn-top>
     </div>
     <div class="oltagevMain">
       <div class="item_main">
@@ -74,15 +81,18 @@
 </template>
 
 <script>
-import dunoBtnTop  from '_c/duno-m/duno-btn-top'
-import KeyMonitor from '_c/duno-c/KeyMonitor'
+import dunoBtnTop from "_c/duno-m/duno-btn-top";
+import KeyMonitor from "_c/duno-c/KeyMonitor";
+import { getAxiosData } from "@/api/axiosType";
+import mixinViewModule from "@/mixins/view-module";
 import { editConfig } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
 export default {
+  mixins: [mixinViewModule],
   name: "surveillance",
   components: {
-      dunoBtnTop,
-      KeyMonitor
+    dunoBtnTop,
+    KeyMonitor
   },
   computed: {
       ...mapState([
@@ -98,31 +108,39 @@ export default {
   },
   data() {
     return {
-        dataList:[
-            {
-              describeName: '布局一',
-              format: 1,
-              isActive: true
-            },
-            {
-              describeName: '布局二',
-              format: 2,
-              isActive: false
-            }
-        ],
-        oltagevLevelList:[
-            {
-                describeName: '电压一',
-                isActive: true
-            },
-            {
-                describeName: '电压二',
-                isActive: false
-            }
-        ],
-        oltagevLevel: '所有区域',
-        layoutType: 1
-    }
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/lenovo-device/api/monitor/layout-list"
+      // },
+      dataForm: {},
+      titleLayout: "切换布局",
+      titleValue: "按电压等级",
+      dataForm: {},
+      dataList: [
+        {
+          describeName: "布局一",
+          format: 1,
+          isActive: true
+        },
+        {
+          describeName: "布局二",
+          format: 2,
+          isActive: false
+        }
+      ],
+      oltagevLevelList: [
+        {
+          describeName: "电压一",
+          isActive: true
+        },
+        {
+          describeName: "电压二",
+          isActive: false
+        }
+      ],
+      oltagevLevel: "所有区域",
+      layoutType: 1
+    };
   },
   methods:{
       onSelect(item, index){
@@ -131,71 +149,103 @@ export default {
               sessionStorage.setItem('format', item['format'])
               this.layoutType = item['format']
           })
-      }
+      },
+    onSelectVol(item) {
+      this.titleValue = item["describeName"];
+      //视屏监控-按电压等级
+      this.dataForm.areaId = this.titleValue;
+      getAxiosData(
+        "/lenovo-device/api/monitor/vol-list",
+        this.dataForm.areaId
+      ).then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          that.totalNum = 0;
+          return that.$message.error(res.msg);
+        }
+      });
+    },
+    onSelectLayout(item) {
+      this.titleLayout = item["describeName"];
+      this.dataForm.userId = this.$store.state.user.userId;
+      getAxiosData(
+        "/lenovo-device/api/monitor/layout-list",
+        this.dataForm.userId
+      ).then(res => {
+        if (res.code !== 200) {
+          that.dataList = [];
+          return that.$message.error(res.msg);
+        }
+        
+      });
+    }
   }
-};
+}
 </script>
 
 <style lang="scss">
 .surveillance {
   width: 100%;
-  .monitorM{
-    width: 100% !important; height: 100% !important;position: absolute
+  .monitorM {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
   }
-  .widthA{
+  .widthA {
     width: 100% !important;
     position: relative;
   }
-  .single{
+  .single {
     width: 100% !important;
     height: 50% !important;
   }
-  .hidden{
+  .hidden {
     display: none;
   }
-  .topHeight{
+  .topHeight {
     padding-bottom: 34% !important;
   }
-  .dunoBtnTop{
+  .dunoBtnTop {
     width: 134px;
     display: inline-flex;
     padding-bottom: 0;
-    .btnList{
+    .btnList {
       top: inherit !important;
       width: 134px;
-      .title{
+      .title {
         font-size: 15px;
       }
     }
   }
-  .title{
+  .title {
     color: white;
     display: flex;
     align-items: center;
 
-    .icon-zuoyoubuju,.icon-shangxiabuju{
+    .icon-zuoyoubuju,
+    .icon-shangxiabuju {
       font-size: 18px;
       margin-right: 7px;
     }
-    .nr{
+    .nr {
       font-size: 16px;
       margin-right: 10px;
     }
   }
-  .main{
+  .main {
     display: flex;
     width: 99.5%;
-    .left_main{
+    .left_main {
       width: 80.7%;
-      .left{
+      .left {
         position: relative;
         width: 100%;
         padding-bottom: 56%;
       }
     }
-    .right_main{
+    .right_main {
       width: 24.2%;
-      .right{
+      .right {
         position: relative;
         width: 100%;
         padding-bottom: 56%;
@@ -204,36 +254,43 @@ export default {
       }
     }
   }
-  .oltagevMain{
+  .oltagevMain {
     width: 100%;
-    zoom:1;
-    &:after { clear:both;content:'';display:block;width:0;height:0;visibility:hidden; }
-    &.second{
+    zoom: 1;
+    &:after {
+      clear: both;
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      visibility: hidden;
+    }
+    &.second {
       margin-top: 3%;
-      .item_main{
+      .item_main {
         margin-right: 1% !important;
       }
-      .item_main:last-child{
+      .item_main:last-child {
         margin-right: 0 !important;
       }
     }
-    .item_main{
+    .item_main {
       float: left;
       width: calc(98% / 3);
       margin-right: 1%;
       margin-bottom: 3%;
-      .item{
+      .item {
         position: relative;
         width: 100%;
         padding-bottom: 56%;
       }
     }
-    .item_main:nth-last-child(3n-1){
+    .item_main:nth-last-child(3n-1) {
       margin-right: 0;
     }
   }
-  .monitorM.second{
-    .vjs-fluid{
+  .monitorM.second {
+    .vjs-fluid {
       padding-top: 32%;
     }
   }

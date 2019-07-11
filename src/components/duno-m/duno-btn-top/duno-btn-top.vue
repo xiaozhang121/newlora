@@ -15,7 +15,9 @@
           <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
             <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
-              <el-checkbox  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">{{item['describeName']}}</el-checkbox>
+              <el-checkbox  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">
+                <i class="item.icon"></i>
+                {{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
         </div>
@@ -265,7 +267,7 @@ export default {
     width: 10px;
     height: 12px;
     right: 23px;
-    top: 11px;
+    top: 7px;
     &.active{
       transform: rotate(180deg);
     }
@@ -297,7 +299,7 @@ export default {
       cursor: pointer;
       padding: 5px 20px;
       color: white;
-      font-size: 17px;
+      font-size: 16px;
       background: #1a2f42;
     }
     .btn_main{
