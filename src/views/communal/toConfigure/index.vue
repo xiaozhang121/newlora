@@ -445,6 +445,7 @@ export default {
     .btn {
       display: flex;
       justify-content: space-between;
+      margin-top: 20px;
       & > div {
         margin-left: 10px;
       }
@@ -454,9 +455,10 @@ export default {
         padding-bottom: 0;
         .btnList {
           top: inherit !important;
-          line-height: 40px;
+          // line-height: 40px;
           .title {
             font-size: 16px;
+            padding:8px 20px;
           }
         }
       }

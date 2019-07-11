@@ -336,7 +336,7 @@ export default {
     & > div:first-child {
       margin-top: 20px;
       margin-bottom: 20px;
-      font-size: 16px;
+      font-size: 18px;
       color: #ffffff;
     }
     .selectBtn {

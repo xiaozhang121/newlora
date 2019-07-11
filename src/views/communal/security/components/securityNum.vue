@@ -8,7 +8,7 @@
       <statistics />
     </div>
     <div class="thRecord">
-      <PageHisRecords />
+      <PageHisRecords :titleCode="titleCode" />
     </div>
   </div>
 </template>
@@ -35,11 +35,15 @@ export default {
       default: () => {
         return ["操作中台", "安防监测", "1000千伏"];
       }
+    },
+    securityRecord:{
+      type: String,
     }
   },
   data() {
     return {
-      dataBread: []
+      dataBread: [],
+      titleCode:""
     };
   },
   methods: {
@@ -67,6 +71,7 @@ export default {
   },
   mounted() {
     this.dataBread = this.navBar;
+    this.titleCode=this.securityRecord
     this.getAreaData();
   }
 };

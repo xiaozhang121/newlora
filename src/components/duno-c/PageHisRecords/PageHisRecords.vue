@@ -302,6 +302,7 @@ export default {
     margin-bottom: 10px;
     &>div:first-child{
       padding-top: 10px;
+      font-size: 18px;
     }
     .btn {
       display: flex;
@@ -325,9 +326,10 @@ export default {
         .btnList {
           top: inherit !important;
           width: 150px;
-          line-height: 30px;
+          // line-height: 30px;
           .title {
-            font-size: 15px;
+            font-size: 16px;
+            padding: 8px 20px;
           }
         }
       }
