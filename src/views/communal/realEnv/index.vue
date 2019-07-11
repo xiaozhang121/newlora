@@ -312,6 +312,7 @@
     <popup-one-info @onClose="alarmClose" :visible="visible"></popup-one-info>
     <div v-for="(item,index) of modeList" style="position: absolute; top: 0" :key="index" class="model" :id="item['id']" ref="modelRef">
       <!--弹窗必须传index  -->
+        <camera-pop-back-u-p   @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisibled']" :itemData="item['itemData']" :visible="item['cameraFlagVisibled']"></camera-pop-back-u-p>
         <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
         <hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
@@ -332,6 +333,7 @@ import drappable  from '_c/duno-m/drappable'
 import Polygonal from '_c/duno-c/Polygonal'
 import cameraPanel from '_c/duno-m/cameraPanel'
 import cameraPop from '_c/duno-m/cameraPop'
+import cameraPopBackUP from '_c/duno-m/cameraPopBackUP'
 import hotcameraPop from '_c/duno-m/hotcameraPop'                 // 可见光
 import hotCamera from '_c/duno-m/hotCamera'                       // 红外
 import { popupinfo, popupOneInfo } from '_c/popupinfo'
@@ -352,7 +354,8 @@ export default {
       popupOneInfo,
       cameraPop,
       hotcameraPop,
-      gisMap
+      gisMap,
+      cameraPopBackUP
   },
   computed:{
     ...mapState([
@@ -432,6 +435,7 @@ export default {
             deviceId: '',
             popupinfoVisable: false,       //控制显示
             cameraFlagVisible: false,
+            cameraFlagVisibled: false,
             hotcameraFlagVisible: false,
             itemData: {}
         },
@@ -441,6 +445,7 @@ export default {
             deviceId: '',
             popupinfoVisable: false,      ////控制显示
             cameraFlagVisible: false,
+            cameraFlagVisibled: false,
             hotcameraFlagVisible: false,
             itemData: {}
         }
@@ -457,6 +462,7 @@ export default {
         this.mainlistShow = false
         this.$nextTick(()=>{
             this.mainlistShow = true
+            this.initOtherPoint()
         })
         this.onClose(false ,'all')
         console.log(now)
@@ -475,6 +481,31 @@ export default {
           const that = this
           lastDeviceList().then(res=>{
               let data = res.data
+              if(that.kilovoltKind == 10){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '6'
+                  })
+              }else if(that.kilovoltKind == 35){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '5'
+                  })
+              }else if(that.kilovoltKind == 110){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '4'
+                  })
+              }else if(that.kilovoltKind == 220){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '3'
+                  })
+              }else if(that.kilovoltKind == 500){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '2'
+                  })
+              }else if(that.kilovoltKind == 1000){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '1'
+                  })
+              }
               data.map(item=>{
                   item['src'] = that.robot
               })
@@ -497,9 +528,9 @@ export default {
               let data = JSON.parse(JSON.stringify(that.tempDeviceList))
               if(monitorDeviceType == -1){
                   that.deviceList = data
-              }else if(monitorDeviceType == 1){
+              }else if(monitorDeviceType == 1 || monitorDeviceType == 99){
                   data= data.filter(item=>{
-                      return item['monitorDeviceType'] == 1
+                      return item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99
                   })
               }
               that.deviceList = data
@@ -519,6 +550,7 @@ export default {
               this.modeList.map(item=>{
                   item['popupinfoVisable'] = false
                   item['cameraFlagVisible'] = false
+                  item['cameraFlagVisibled'] = false
                   item['hotcameraFlagVisible'] = false
               })
               this.$forceUpdate()
@@ -563,6 +595,9 @@ export default {
               if(item['cameraFlagVisible']){
                   that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
               }
+              if(item['cameraFlagVisibled']){
+                  that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+              }
               if(item['hotcameraFlagVisible']){
                   that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
               }
@@ -590,7 +625,7 @@ export default {
         deviceLocation().then(res=>{
             let data = res.data
             data.map(item=>{
-                    if(item['monitorDeviceType'] == 1){
+                    if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
                          if (item.deviceMessage.supportPreset) {
                             item['src'] = that.light
                          }else{
@@ -640,6 +675,9 @@ export default {
           if (item.deviceMessage.supportPreset) {
               if(item.monitorDeviceType == '1')       // 可见光
                   this.modeList[modelIndex].cameraFlagVisible = flag
+              else if(item.monitorDeviceType == '99'){
+                  this.modeList[modelIndex].cameraFlagVisibled = flag
+              }
               else if(item.monitorDeviceType == '2')
                   this.modeList[modelIndex].hotcameraFlagVisible = flag
           } else {
@@ -672,7 +710,9 @@ export default {
   },
   created(){
       this.getDeviceList()
-      this.initOtherPoint()
+      this.$nextTick(()=>{
+          this.initOtherPoint()
+      })
       this.$store.state.app.kilovolt = this.$route.meta.kind
   },
   mounted () {

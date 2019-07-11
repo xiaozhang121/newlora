@@ -9,38 +9,38 @@
     <div class="main" :class="{widthA : displayType == '2'}">
       <div class="left_main" :class="{widthA : displayType == '2'}">
         <div class="left"  style="padding-bottom: 32%"  v-if="displayType == '2'">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="right_main" v-if="displayType != '2'" :class="{hidden : displayType == '2'}">
         <div class="right">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
     <div class="oltagevMain second" v-if="displayType == '2'">
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2"  :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1"  :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -58,22 +58,22 @@
     <div class="oltagevMain">
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream2" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -110,7 +110,6 @@ export default {
       dataForm: {},
       titleLayout: "切换布局",
       titleValue: "按电压等级",
-      dataForm: {},
       dataList: [
         {
           describeName: "布局一",

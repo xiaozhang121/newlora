@@ -143,12 +143,13 @@ export default {
                         geometry: new Point(transform([item['xReal'], item['yReal']], 'EPSG:3857', 'EPSG:4326'))
                     })
                     let text = new Text({
+                        scale: 2,
                         text: item['mainDevice'],
                         fill: new Fill({
                             color: 'red'
                         }),
                     })
-                    text.setOffsetY(-6)
+                    text.setOffsetY(-10)
                     anchor.setStyle(new Style({
                         text: text
                     }));

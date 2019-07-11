@@ -1,2 +1,2 @@
-import cameraPanel from './cameraPanel.vue'
-export default cameraPanel
+import cameraPanelBackUP from './cameraPanel.vue'
+export default cameraPanelBackUP
