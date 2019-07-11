@@ -317,7 +317,6 @@ export default {
       });
     },
     // handleVoltage() {
-    //   debugger;
     //   getAxiosData("/lenovo-plan/api/list/monitor-device-type").then(res => {
     //     if (res.code !== 200) {
     //       that.dataList = [];

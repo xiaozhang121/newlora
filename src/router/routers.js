@@ -752,7 +752,7 @@ export default [
         path: 'detection',
         name: 'detection',
         meta: {
-          title: '检测设备管理',
+          title: '监测设备管理',
           notCache: true,
           toListName: 'detectionList',
           btnArr: []

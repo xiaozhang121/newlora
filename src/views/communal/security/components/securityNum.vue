@@ -80,7 +80,7 @@ export default {
     color: #ffffff;
   }
   .number {
-    height: 310px;
+    // height: 310px;
     padding: 20px;
     background-color: #142838;
     & > div {

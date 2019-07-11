@@ -56,9 +56,9 @@ export default {
   },
   props: {
     monitorInfo:{
-        type: Array,
+        type: Object | Array,
         default () {
-            return []
+            return {}
         }
     },
     streamAddr:{
@@ -99,7 +99,6 @@ export default {
   watch: {
     streamAddr:{
       handler(now){
-          debugger
           if(now){
             this.playerOptions['sources'][0]['src'] = now
             this.showView = true
