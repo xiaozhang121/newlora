@@ -27,6 +27,7 @@ export default {
         const that = this
         return {
             timer: null,
+            timerd: null,
             robot: require('@/assets/buttonPng/robot.png'),
             anchor: require('@/assets/anchor.png'),
             mapTarget: null,
@@ -180,7 +181,7 @@ export default {
             if(!this.timer){
                 this.timer = setInterval(()=>{
                     this.clearCircle()
-                    setTimeout(()=>{
+                    this.timerd = setTimeout(()=>{
                         this.addCircle(13218514.714, 3768404.705)
                     },1000)
                 },1500)
@@ -188,6 +189,7 @@ export default {
         },
         clearAlarm(){
             clearInterval(this.timer)
+            clearTimeout(this.timerd)
             this.timer = null
             this.clearCircle()
         },

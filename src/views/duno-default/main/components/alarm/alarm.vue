@@ -19,18 +19,14 @@
       </h3>
       <div class="promptItemBox">
         <div class="itemData" v-for="(item, index) in itemData" :key="index">
-          <div class="title">{{item.powerDeviceName}}</div>
+          <div class="title">{{!isFakeData ? item.powerDeviceName : item.monitorDeviceName}}</div>
           <div class="itemTitle">
-            <span>当前温度：{{item.alarmValue}}℃</span>
-            <span>超出阈值：{{item.threshold}}</span>
+            <span v-if="!isFakeData">当前温度：{{item.alarmValue}}℃</span>
+            <span v-if="!isFakeData">超出阈值：{{item.threshold}}</span>
+            <span v-if="isFakeData">当前状态：{{item.status}}</span>
           </div>
           <div class="itemTitle">
-            <p>
-              缺陷评估：
-              <span
-                :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]"
-              >{{item.alarmLevelName}}</span>
-            </p>
+            <p>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></p>
           </div>
           <div class="itemBottomTitle">
             <el-row>
@@ -58,8 +54,9 @@ export default {
     return {
       value: 0,
       visible: false,
-      itemData: []
-    };
+      itemData: [],
+      isFakeData: true, // 假数据
+    }
   },
   computed: {
     ...mapState(["user"]),
@@ -97,9 +94,9 @@ export default {
         this.$message.success(res.msg);
       });
     },
-    getData() {
-      const that = this;
-      const url = "/lenovo-alarm/api/alarm/list";
+    getData () {
+      const that = this
+      const url = that.isFakeData ? '/lenovo-alarm/api/alarm/unhandel-list' : '/lenovo-alarm/api/alarm/list'
       const query = {
         pageIndex: 1,
         pageRows: 44321,
@@ -111,8 +108,12 @@ export default {
           that.itemData = [];
           return false;
         }
-        that.itemData = res.data.tableData;
-      });
+        if (that.isFakeData) {
+          that.itemData = res.data
+        } else {
+          that.itemData = res.data.tableData
+        }
+      })
     }
   },
   mounted() {

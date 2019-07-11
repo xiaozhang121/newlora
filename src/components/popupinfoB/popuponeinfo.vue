@@ -1,21 +1,20 @@
 <template>
-  <historical-documents class="popuponeinfoBox" width="400px" :title="itemData.monitorDeviceName" :isShowTab="false" :dialogTableVisible="visible" @close="onClose">
+  <historical-documents class="popuponeinfoBox" width="400px" :title="itemData.powerDeviceName" :isShowTab="false" :dialogTableVisible="visible" @close="onClose">
     <div class="popuponeinfo">
       <el-row>
-        <el-col :span="24"><p class="itemTitle">设备名称：<span>{{itemData.powerDeviceName}}</span></p></el-col>
-        <el-col :span="24"><p class="itemTitle">当前状态：<span>{{itemData.status}}</span></p></el-col>
+        <el-col :span="12"><p class="itemTitle">当前温度：<span>{{itemData.alarmValue}}℃</span></p></el-col>
+        <el-col :span="12"><p class="itemTitle">超出阈值：<span>{{itemData.threshold}}</span></p></el-col>
         <el-col :span="24"><p class="itemTitle">缺陷评估：<span :class="[itemData.alarmLevel == '1'?'general':(itemData.alarmLevel == '2'?'warning':'alarm')]">{{itemData.alarmLevelName}}</span></p></el-col>
-        <el-col :span="12"><p class="itemTitle"><span>{{itemData.alarmTime}}</span></p></el-col>
       </el-row>
       <div>
         <div class="imgBox">
           <img :src="itemData.alarmFileAddress" style="height: 100% !important; width: 100% !important;">
-          <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
+          <p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>
         </div>
       </div>
-      <el-row style="position: relative; top: -12px">
-        <!--<el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>-->
-        <el-col :span="16"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复位</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
+      <el-row>
+        <el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>
+        <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复位</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
       </el-row>
     </div>
   </historical-documents>

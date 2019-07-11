@@ -1,37 +1,24 @@
 <template>
   <div class="historyfourth">
-    <h4 class="title">4号主变01#枪机</h4>
+    <h4 class="title">{{title}}</h4>
     <div class="historyfourthBox">
       <div :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']" @mouseenter.stop="mouseNum = index" @mouseleave.stop="mouseNum = -1" v-for="(item, index) in alarmHistoryData" :key="index">
         <div>{{item.alarmTime}}</div>
-        <div>
-          <span>当前状态：{{item.status}}</span>
-          <span class="threshold">缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></span>
-          <el-button class="showDetail" type="text" @click="showDetail(item.alarmFileAddress)">详细</el-button>
-        </div>
+        <div><span>温度：{{item.alarmValue}}℃</span><span class="threshold">超出阈值：{{item.threshold}}</span>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></div>
       </div>
-    </div>
-    <div>
-      <historical-documents :isShowTab="false" title="详情" :dialogTableVisible="visible" @close="visible = !visible">
-        <div class="viewBox">
-          <img :src="fileAddress" class="viewContent">
-        </div>
-      </historical-documents>
     </div>
   </div>
 </template>
 <script>
 import { getAxiosData } from '@/api/axiosType'
-import HistoricalDocuments from "_c/duno-c/HistoricalDocuments"
+import { error } from 'util';
 export default {
   name: 'historyfourth',
-  components: {HistoricalDocuments},
+  components: {},
   data () {
     return {
       alarmHistoryData: [],
-      mouseNum: -1,
-      visible: false,
-      fileAddress: ''
+      mouseNum: -1
     }
   },
   props: {
@@ -62,14 +49,9 @@ export default {
     }
   },
   methods: {
-    showDetail(url) {
-      console.log('详情：', url)
-      this.fileAddress = url
-      this.visible = true
-    },
     getData () {
       const that = this
-      const url = '/lenovo-alarm/api/alarm/unhandel-list'
+      const url = '/lenovo-alarm/api/alarm/history'
       let query = {
           monitorDeviceId: this.itemId,
           pageIndex: 1,
@@ -79,9 +61,9 @@ export default {
         query.deviceType = that.itemData.monitorDeviceType
       }
       getAxiosData(url, query).then(res=>{
-          console.log(res.data)
+          console.log(res.data.tableData)
           if (res.code == 200) {
-            that.alarmHistoryData = res.data
+            that.alarmHistoryData = res.data.tableData
           } else {
             that.alarmHistoryData = []
           }
@@ -131,13 +113,6 @@ export default {
   }
   .activeItem {
     background: #444a5a;
-  }
-  .showDetail {
-    padding: 5px 10px;
-  }
-  .viewContent {
-    width: 100%;
-    display: block;
   }
 }
 </style>
