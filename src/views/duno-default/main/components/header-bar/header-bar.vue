@@ -80,16 +80,20 @@ export default {
 <style lang="scss" scoped>
   .dateTime{
     float: left;
-    margin-right: 20px;
-    color: #999;
+    margin-right: 50px;
+    color: #fff;
+    opacity: 0.6;
   }
   .timeDate {
     color: #fff;
+    // opacity: 0.6;
     float: left;
+    font-size: 16px;
     margin-right: 20px;
   }
   .header-middle{
     .title{
+      font-size: 18px;
       background: url(../../../../../../src/assets/buttonPng/unchoose.png) no-repeat;
       background-cover: contain;
     }

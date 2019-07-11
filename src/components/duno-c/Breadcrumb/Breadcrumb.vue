@@ -35,6 +35,7 @@ export default {
 
 <style lang="scss">
 .duno-breadcrumb {
+  padding-top: 10px;
   .el-breadcrumb {
     .el-breadcrumb__item {
       .el-breadcrumb__inner {
@@ -43,7 +44,7 @@ export default {
     }
     .el-breadcrumb__item:last-child {
       .el-breadcrumb__inner {
-        color: #4289ab;
+        color: #4b9bc1;
       }
     }
   }

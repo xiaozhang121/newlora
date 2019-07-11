@@ -199,6 +199,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.user-avator-dropdown{
+  margin-left: 20px;
+}
 .passDialog {
   .el-dialog {
     background: rgba(27, 59, 71, 0.7);

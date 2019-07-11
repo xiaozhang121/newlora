@@ -328,48 +328,53 @@ export default {
   .selectSearch {
     .el-input--small .el-input__inner {
       background: #1a2f42;
-      height: 36px;
+      height: 40px;
       border: none;
       margin-left: 5px;
       border-radius: 0 !important;
       width: 180px;
       color: white;
-      font-size: 18px;
+      font-size: 16px;
     }
     .el-input--small .el-input__inner::-webkit-input-placeholder {
       color: white;
-      font-size: 18px;
+      font-size: 16px;
     }
     .el-input--small .el-input__inner:-moz-placeholder {
       color: white;
-      font-size: 18px;
+      font-size: 16px;
     }
     .el-input--small .el-input__inner:-ms-input-placeholder {
       color: white;
-      font-size: 18px;
+      font-size: 16px;
     }
   }
   .dunoDrap {
     display: flex;
     justify-content: space-between;
     & > div:first-child {
-      line-height: 45px;
-      font-size: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 16px;
       color: #ffffff;
     }
     .selectBtn {
       display: flex;
       justify-content: space-between;
       width: 380px;
+      margin-top: 14px;
+      height: 50px;
       .dunoBtnTop {
         width: 185px;
         display: inline-flex;
         padding-bottom: 0;
+        height: 40px;
         .btnList {
           top: inherit !important;
+          line-height: 30px;
           width: 185px;
           .title {
-            font-size: 18px;
+            font-size: 16px;
           }
           .btnNr {
             color: white;
@@ -384,7 +389,7 @@ export default {
     min-height: 491px;
     background-color: #142838;
     opacity: 0.8;
-    padding: 21px 27px;
+    padding: 20px 20px;
     overflow: hidden;
     &.center {
       display: flex;
@@ -404,11 +409,14 @@ export default {
     justify-content: space-between;
     & > div {
       color: #ffffff;
-      margin: 10px 0;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      // margin: 10px 0;
       font-size: 20px;
-      line-height: 40px;
+      // line-height: 40px;
     }
     & > div:last-child {
+      line-height: 40px;
       width: 146px;
       background-image: url(../../../assets/images/btn/btnanfang.png);
       padding-left: 7px;

@@ -80,11 +80,11 @@ import dunoMain from "_c/duno-m/duno-main";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
-import mixinViewModule from "@/mixins/view-module";
+// import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 export default {
   name: "abnormalInfo",
-  mixins: [mixinViewModule],
+  // mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
     KeyMonitor,
@@ -96,10 +96,10 @@ export default {
   data() {
     const that = this;
     return {
-      mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history"
-      },
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/lenovo-alarm/api/alarm/history"
+      // },
       visibleSettingOption: false,
       visible: false,
       totalNum: 500,
@@ -116,42 +116,42 @@ export default {
         {
           title: "时间",
           key: "alarmTime",
-          minWidth: 50,
+          minWidth: 100,
           align: "center",
           tooltip: true
         },
         {
           title: "报警对象",
           key: "powerDeviceName",
-          minWidth: 50,
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "报警部位",
           key: "alarmPart",
-          minWidth: 50,
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "区域",
           key: "phone",
-          minWidth: 90,
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "报警内容",
           key: "alarmContent",
-          minWidth: 90,
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "警告级别",
           key: "alarmLevelName",
-          minWidth: 90,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -272,7 +272,7 @@ export default {
         {
           title: "信息来源",
           key: "monitorDeviceId",
-          minWidth: 90,
+          minWidth: 100, 
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -306,8 +306,7 @@ export default {
         {
           title: "视频/图片",
           key: "id",
-          width: 120,
-          fixed: "right",
+          minWidth: 100,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -320,15 +319,13 @@ export default {
           title: "处理记录",
           key: "dealRecord",
           width: 120,
-          fixed: "right",
           align: "center",
           tooltip: true
         },
         {
           title: " ",
           key: "id",
-          width: 120,
-          fixed: "right",
+          width: 220,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -468,11 +465,19 @@ export default {
 .abnormalInfo {
   width: 100%;
   //-------------------表格样式
+  .dunoMain{
+    height: inherit;
+  }
+  .ivu-table{
+    font-size: 16px;
+  }
   .ivu-table th {
     color: #fff;
     border: none;
-    height: 60px;
+    height: 80px;
     background-color: #2d5980 !important;
+    font-size: 18px;
+    font-weight: normal;
   }
   .ivu-page {
     text-align: center;
@@ -512,12 +517,13 @@ export default {
   .ivu-table-wrapper {
     tr {
       td {
-        height: 52px;
+        height: 60px;
       }
     }
     tr:nth-child(odd) {
       td {
-        background-color: #0a1c2a;
+        // background-color: #0a1c2a;
+        background: rgba(0, 0, 0, 0)!important;
       }
     }
     tr:nth-child(even) {
@@ -544,17 +550,18 @@ export default {
     align-items: center;
   }
   .imgOrMv {
-    width: 100%;
-    height: 39px;
+    width: 80%;
+    height: 45px;
     position: relative;
     top: 2px;
   }
   .table_link {
+    font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;
   }
   .table_abnormalInfo {
-    padding: 28px 17px;
+    padding: 36px 18px;
   }
   .table_select {
     cursor: pointer;
@@ -562,8 +569,8 @@ export default {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 45px;
-      height: 22px;
+      width: 60px;
+      height: 30px;
       border-radius: 20px;
     }
     &.serious {
@@ -584,6 +591,8 @@ export default {
   }
   .top {
     color: #ffffff;
+    height: 40px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     & > div:first-child {
@@ -597,10 +606,11 @@ export default {
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
+            line-height: 30px;
             width: 120px;
-            .title {
-              font-size: 15px;
-            }
+            // .title {
+            //   font-size: 16px;
+            // }
           }
         }
       }
@@ -610,15 +620,11 @@ export default {
       justify-content: space-between;
       & > div {
         margin-left: 10px;
-        i {
-          font-size: 25px;
-          padding-right: 5px;
-        }
       }
       & > div:nth-child(2) {
         & > div {
           width: 140px;
-          line-height: 32px;
+          line-height: 40px;
           text-align: center;
           background-color: #192f41;
           cursor: pointer;
@@ -642,6 +648,16 @@ export default {
             color: #fff;
           }
         }
+        .el-range-editor--small.el-input__inner {
+          height: 40px !important;
+        }
+        .el-range-editor--small .el-range__icon,
+        .el-range-editor--small .el-range__close-icon {
+          line-height: 35px;
+        }
+        .el-range-editor--small .el-range-input {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -652,6 +668,10 @@ export default {
 }
 .setting {
   cursor: pointer;
+  i {
+    font-size: 30px;
+    padding-right: 5px;
+  }
 }
 .el-picker-panel {
   background-color: rgba(27, 59, 71, 0.7);

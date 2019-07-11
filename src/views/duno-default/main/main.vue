@@ -167,6 +167,7 @@ export default {
     border-right: none !important;
   }
   .el-menu-item, .el-submenu__title {
+    font-size: 18px!important;
     color: #999 !important;
   }
   .el-menu.el-menu--inline, .el-submenu .el-menu-item, .side-menu-wrapper ul > li > ul .el-menu-item.is-active {
@@ -190,6 +191,7 @@ export default {
     color: #00fefe !important;
   }
   .el-menu-item,.el-submenu__title,.el-submenu .el-menu-item{
+    font-size: 16px!important;
     border-left: 4px solid transparent;
   }
   body .el-menu {
