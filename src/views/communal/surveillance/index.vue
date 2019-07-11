@@ -107,10 +107,6 @@ export default {
   },
   data() {
     return {
-      // mixinViewModuleOptions: {
-      //   activatedIsNeed: true,
-      //   getDataListURL: "/lenovo-device/api/monitor/layout-list"
-      // },
       dataForm: {},
       titleLayout: "切换布局",
       titleValue: "按电压等级",
@@ -164,20 +160,6 @@ export default {
         }
       });
     },
-    onSelectLayout(item) {
-      this.titleLayout = item["describeName"];
-      this.dataForm.userId = this.$store.state.user.userId;
-      getAxiosData(
-        "/lenovo-device/api/monitor/layout-list",
-        this.dataForm.userId
-      ).then(res => {
-        if (res.code !== 200) {
-          that.dataList = [];
-          return that.$message.error(res.msg);
-        }
-        
-      });
-    }
   }
 }
 </script>

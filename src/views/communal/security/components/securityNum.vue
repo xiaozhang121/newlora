@@ -78,7 +78,6 @@ export default {
   methods: {
     getAreaData() {
       getAxiosData("/lenovo-device/api/area/list").then(res => {
-        // debugger
         if (res.code !== 200) {
           that.dataList = [];
           that.totalNum = 0;
@@ -86,13 +85,14 @@ export default {
         }
         let dataList = res.data.dataList;
       });
-      getAxiosData("/lenovo-alarm/api/security/statistics",this.areaId).then(res => {
-        if (res.code !== 200) {
-          that.dataList = [];
-          that.totalNum = 0;
-          return that.$message.error(res.msg);
-        }
-      });
+      // getAxiosData("/lenovo-alarm/api/security/statistics",this.areaId).then(res => {
+      //   if (res.code !== 200) {
+      //     that.dataList = [];
+      //     that.totalNum = 0;
+      //     return that.$message.error(res.msg);
+      //   }
+      
+      // });
     }
   },
   mounted() {
