@@ -1,6 +1,6 @@
 <template>
   <div class="polygonal" :style="{width:width+'px'}">
-    <h4 class="title">{{title}}</h4>
+    <h4 class="title">4号主变01#枪机</h4>
     <div class="time">
       <div>
         <el-radio-group v-model="radio" @change="onChangeRadio">
@@ -65,7 +65,7 @@ export default {
     },
     yName: {
       type: String,
-      default: "(温度℃)"
+      // default: "(温度℃)"
     },
     yMax: {
       type: Number,
@@ -154,8 +154,8 @@ export default {
       yAxisOption: {
         type: "value",
         name: that.yName,
-        max: that.yMax,
-        min: that.yMin,
+        // max: that.yMax,
+        // min: that.yMin,
         splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
         axisLine: {
@@ -303,7 +303,7 @@ export default {
         if (now && now.length) {
           arr = now
         }
-        this.xAxisOption.data = arr
+        // this.xAxisOption.data = arr
       },
       deep: true
     },
@@ -332,17 +332,18 @@ export default {
   },
   mounted () {
       const that = this
-    if (this.radio) {
-      this.onChangeRadio(this.radio)
-    } else if (!this.radio && this.datePeriod) {
-      this.onChangeTime(this.datePeriod)
-    }
+    // if (this.radio) {
+    //   this.onChangeRadio(this.radio)
+    // } else if (!this.radio && this.datePeriod) {
+    //   this.onChangeTime(this.datePeriod)
+    // }
       that.legendData.push(...['设备01'])
       that.seriesData.push(...[{
-          data: [20, 90, 2, 10, 60, 30, 70, 50, 10, 8],
+          data: [0,1,0,0,1,1,1,0,1,1],
           name: "设备01",
           type: "line"
       }])
+      that.xAxisOption.data = ['02', '03', '04', '05', '09', '10', '11', '15', '16', '17']
       that.$forceUpdate()
       that.isChangeFlag = !that.isChangeFlag
   }
