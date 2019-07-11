@@ -1,7 +1,7 @@
 <template>
   <div class="pageHisRecords">
     <div class="top">
-      <div>历史信息记录</div>
+      <div>{{titleCode}}</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -71,6 +71,12 @@ export default {
   components: {
     dunoBtnTop,
     DunoTablesTep
+  },
+  props:{
+    titleCode:{
+      type:String,
+      default:'1000千伏安防记录'
+    }
   },
   data() {
     return {
