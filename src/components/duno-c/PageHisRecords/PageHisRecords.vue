@@ -293,6 +293,10 @@ export default {
     color: #ffffff;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
+    &>div:first-child{
+      padding-top: 10px;
+    }
     .btn {
       display: flex;
       justify-content: space-between;
@@ -302,7 +306,7 @@ export default {
       & > div:last-child {
         & > div {
           width: 140px;
-          line-height: 32px;
+          line-height: 40px;
           text-align: center;
           background-color: #192f41;
           cursor: pointer;
@@ -315,12 +319,14 @@ export default {
         .btnList {
           top: inherit !important;
           width: 150px;
+          line-height: 30px;
           .title {
             font-size: 15px;
           }
         }
       }
       .dateChose {
+        height: 40px;
         .el-date-editor {
           background-color: #192f41;
           border: none;
@@ -335,6 +341,12 @@ export default {
             color: #fff;
           }
         }
+        .el-range-editor--small.el-input__inner{
+            height: 40px;
+          }
+          .el-range-editor--small .el-range-input{
+            font-size: 16px;
+          }
       }
     }
   }
@@ -394,9 +406,12 @@ export default {
     color: #fff;
     border: none;
     height: 60px;
+    font-size: 18px;
+    font-weight: normal;
     background-color: #2d5980 !important;
   }
   .ivu-table-border td {
+    font-size: 16px;
     color: #fff;
     border: none;
   }
