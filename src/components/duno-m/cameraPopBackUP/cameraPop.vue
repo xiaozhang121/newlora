@@ -1,7 +1,7 @@
 <template>
     <div class="cameraPop" >
         <historical-documents :itemId="itemId" width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
-            <camera-panel @on-alarm="onAlarm" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
+            <camera-panel :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
             <polygonal :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal>
             <historyfile :title="title" :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth :title="title" :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"/>
@@ -67,9 +67,6 @@
             }
         },
         methods:{
-            onAlarm(){
-                this.$emit('on-alarm')
-            },
             changeCameraShow(now){
                 this.cameraFlag = now
                 if(now == 'fifth'){

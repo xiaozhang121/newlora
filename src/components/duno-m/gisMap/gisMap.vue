@@ -18,7 +18,7 @@ import { defaults  as defaultControls } from "ol/control"
 import { createRegularPolygon, createBox } from 'ol/interaction/Draw.js'
 import { Vector as VectorLayer, Tile as TileLayer } from "ol/layer"
 import TileLayerd from "ol/layer/Tile";
-import {Circle as CircleStyle, Fill, Stroke, Style, Icon} from 'ol/style';
+import {Circle as CircleStyle, Fill, Stroke, Style, Icon, Text, RegularShape} from 'ol/style';
 import { OSM, Vector as VectorSource } from "ol/source";
 export default {
     name: 'gisMap',
@@ -26,6 +26,7 @@ export default {
     data() {
         const that = this
         return {
+            timer: null,
             robot: require('@/assets/buttonPng/robot.png'),
             anchor: require('@/assets/anchor.png'),
             mapTarget: null,
@@ -116,19 +117,48 @@ export default {
         },
         addPointdList(arr){
             const that = this
-          /*  arr.forEach((item,index)=>{
+            let style = new Style({
+                image: new CircleStyle({
+                    radius: 2,
+                    fill: new Fill({
+                        color: '#ff9000'
+                    })
+                })
+            })
+            arr.forEach((item,index)=>{
                 let anchor = new Feature({
                     geometry: new Point(transform([item['xReal'],item['yReal']], 'EPSG:3857' ,'EPSG:4326'))
                 })
-                anchor.setStyle( new Style({
-                    image: new Icon({
-                        src: that.robot,
-                        imgSize:[30, 30]
-                    })
-                }))
+                anchor.setStyle( style )
+                anchor.setId(index)
+                anchor.set('dataInfo', JSON.stringify(item))
+                anchor.set('dataId', index)
                 this.vector.getSource().addFeature(anchor)
-            })*/
-            debugger
+                anchor.on('mousein',function (event) {
+                if(that.mapTarget.getView().getZoom()>15) {
+                    let item = JSON.parse(event.target.values_.dataInfo)
+                    debugger
+                    let anchor = new Feature({
+                        geometry: new Point(transform([item['xReal'], item['yReal']], 'EPSG:3857', 'EPSG:4326'))
+                    })
+                    let text = new Text({
+                        text: item['mainDevice'],
+                        fill: new Fill({
+                            color: 'red'
+                        }),
+                    })
+                    text.setOffsetY(-6)
+                    anchor.setStyle(new Style({
+                        text: text
+                    }));
+                    anchor.setId('pointName')
+                    that.vector.getSource().addFeature(anchor)
+                    /*   let feature = that.vector.getSource().getFeatureById(event.target.values_.dataId)
+                that.vector.getSource().removeFeature(feature)*/
+                }
+                })
+            })
+         /*   debugger
             arr.forEach((item, index)=>{
                 let anchor = new Overlay({
                     element: document.getElementById('anchord'+index)
@@ -137,8 +167,50 @@ export default {
                 this.setZoom(anchor)
                 that.pointListObj.push({anchor: anchor})
                 that.mapTarget.addOverlay(anchor);
-            })
+            })*/
 
+        },
+        isAlarm(){
+            debugger
+            if(!this.timer){
+                this.mapTarget.getView().setCenter(transform([13218514.714, 3768404.705], 'EPSG:3857', 'EPSG:4326'))
+                this.mapTarget.getView().setZoom(20)
+            }
+            this.addCircle(13218514.714, 3768404.705)
+            if(!this.timer){
+                this.timer = setInterval(()=>{
+                    this.clearCircle()
+                    this.addCircle(13218514.714, 3768404.705)
+                },1500)
+            }
+        },
+        clearAlarm(){
+            clearInterval(this.timer)
+            this.timer = null
+        },
+        clearCircle(){
+            let feature = this.vector.getSource().getFeatureById('alarmBorder')
+            this.vector.getSource().removeFeature(feature)
+        },
+        addCircle(xReal, yReal){
+            const that = this
+            let anchor = new Feature({
+                geometry: new Point(transform([xReal, yReal], 'EPSG:3857', 'EPSG:4326'))
+            })
+            let sharp = new RegularShape({
+                rotation: 40,
+                points: 4,    // 顶点数
+                radius: 40,    // 图形大小，单位为像素
+                stroke: new Stroke({ // 设置边的样式
+                    color: 'red',
+                    size: 2
+                })
+            })
+            anchor.setStyle(new Style({
+                image: sharp
+            }));
+            anchor.setId('alarmBorder')
+            that.vector.getSource().addFeature(anchor)
         },
         addPointList(arr){
             const that = this
@@ -228,6 +300,17 @@ export default {
                     maxZoom: 19
                 })
             });
+            this.mapTarget.on('pointermove', function (event) {
+                if(that.mapTarget.hasFeatureAtPixel(event.pixel)){
+                    that.mapTarget.forEachFeatureAtPixel(event.pixel, function(feature){
+                        // 为移动到的feature发送自定义的mousemove消息
+                        feature.dispatchEvent({type: 'mousein'});
+                    });
+                }else{
+                    let feature = that.vector.getSource().getFeatureById('pointName')
+                    that.vector.getSource().removeFeature(feature)
+                }
+            })
         }
     },
     mounted(){
