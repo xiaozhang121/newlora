@@ -569,9 +569,13 @@ export default {
         deviceLocation().then(res=>{
             let data = res.data
             data.map(item=>{
-                    if(item['monitorDeviceType'] == 1)
-                        item['src'] = that.light
-                    else if(item['monitorDeviceType'] == 2){
+                    if(item['monitorDeviceType'] == 1){
+                         if (item.deviceMessage.supportPreset) {
+                            item['src'] = that.light
+                         }else{
+                            item['src'] = that.lightNoCamera
+                         }
+                    }else if(item['monitorDeviceType'] == 2){
                         item['src'] = that.redLight
                     }
                     item['show'] = true
