@@ -178,60 +178,12 @@ export default {
         }
         ]
       }
-    },
-    dataList:{
-      type:Array,
-      default:()=>{
-        return[
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        }
-        ]
-      }
     }
   },
   data() {
     return {
       value: "",
       titleType: "全部数据类型",
-      totalNum: 500,
       pageRows: 20,
       typeSelect: [
         {
@@ -241,7 +193,49 @@ export default {
           describeName: "仪表读数"
         }
       ],
-      clcikQueryData: {}
+      clcikQueryData: {},
+      dataList: [
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        }
+      ]
     };
   },
   methods: {
@@ -269,6 +263,9 @@ export default {
       // this.clickQuery(this.clcikQueryData)
     },
     dataListSelectionChangeHandle() {}
+  },
+  mounted () {
+    this.totalNum = this.dataList.length
   }
 };
 </script>

@@ -21,7 +21,7 @@
             </div>
             <div class="control_slider">
                 <i class="iconfont icon-suoxiao1"></i>
-                <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
+                <el-slider class="elSlider" :disabled="disabled" @change="cameraSF" v-model="sliderValue" :min="1" :max="20"></el-slider>
                 <i class="iconfont icon-fangda1"></i>
             </div>
         </div>
@@ -48,7 +48,12 @@ export default {
 
     },
     props: {
-
+        disabled: {
+            type: Boolean,
+            default: () => {
+                return false
+            }
+        }
     },
     computed: {
 
@@ -56,6 +61,9 @@ export default {
     methods:{
         viewCamera(command, flag){
             this.activeNum = command
+        },
+        cameraSF() {
+            console.log('dian')
         }
     },
     mounted(){
