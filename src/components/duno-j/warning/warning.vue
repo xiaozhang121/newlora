@@ -7,7 +7,9 @@
       center
       @close="handleClose"
     >
-      <div class="monitor"></div>
+      <div class="monitor">
+        <img :src="monitorUrl" alt="">
+      </div>
       <div class="info">
         <div>
           <p class="monitorTitle">判定结果</p>
@@ -31,7 +33,8 @@
 export default {
   data() {
     return {
-      newVisible: false
+      newVisible: false,
+      monitorUrl: require("@/assets/camera2.png") 
     };
   },
   props: {
@@ -79,6 +82,11 @@ export default {
   height: 360px;
   background-color: #000;
   float: left;
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
 }
 .info {
   width: 200px;

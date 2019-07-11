@@ -27,7 +27,7 @@
             @on-select="onSelect"
             class="dunoBtnTop"
             :isCheck="false"
-            :dataList="typeMold"
+            :dataList="typeList"
             :title="titleTypeR"
             :showBtnList="false"
           ></duno-btn-top>
@@ -76,6 +76,7 @@
 <script>
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
+import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
@@ -152,7 +153,7 @@ export default {
         {
           title: "警告级别",
           key: "alarmLevelName",
-          minWidth: 110,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -209,7 +210,7 @@ export default {
         {
           title: "信息来源",
           key: "monitorDeviceId",
-          minWidth: 110,
+          minWidth: 150,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -230,7 +231,7 @@ export default {
         {
           title: "视频/图片",
           key: "id",
-          minWidth: 100,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -296,15 +297,17 @@ export default {
           }
         }
       ],
-      typeMold: [],
+      typeList: [],
       regionList: [],
       statusList: [],
-      popData: {}
+      popData: {},
+      clcikQueryData: {}
     };
   },
   created() {
     this.getRegion()
     this.getStart()
+    this.getType()
   },
   methods: {
     cutOut (data) {
@@ -350,14 +353,26 @@ export default {
       this.visibleSettingOption = true;
     },
     onSelect(item, index) {
-      this.layoutType = item["describeName"];
+      this[item.title] = item["describeName"]
+      if (item.title == 'titleTypeL') {
+        this.clcikQueryData.areaId = item.monitorDeviceType
+      } else if (item.title == 'titleTypeC') {
+        this.clcikQueryData.status = item.monitorDeviceType
+      } else if (item.title == 'titleTypeR') {
+        this.clcikQueryData.source = item.monitorDeviceType
+      }
+      this.clickQuery(this.clcikQueryData)
     },
     onChangeTime(data) {
-      const startTime = moment(data[0]).format("YYYY-MM-DD");
-      const endTime = moment(data[1]).format("YYYY-MM-DD");
-      this.startTime = JSON.parse(JSON.stringify(startTime));
-      this.endTime = JSON.parse(JSON.stringify(endTime));
-      this.$emit("onChange", data);
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD");
+        endTime = moment(data[1]).format("YYYY-MM-DD");
+      }
+      this.clcikQueryData.startTime = startTime
+      this.clcikQueryData.endTime = endTime
+      this.clickQuery(this.clcikQueryData)
     },
     handleClose() {
       this.popData = {}
@@ -385,14 +400,64 @@ export default {
       const that = this
       const url = '/lenovo-device/api/area/select-list'
       postAxiosData(url).then(res => {
-        this.regionList = res.data
+        const resData = res.data
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: 'titleTypeL'
+          }
+          return obj
+        })
+        map.unshift({
+          describeName: '所有区域',
+          monitorDeviceType: '',
+          title: 'titleTypeL'
+        })
+        this.regionList = map
       })
     },
     getStart() {
       const that = this
       const url = "/lenovo-device/api/monitor/status"
       postAxiosData(url).then(res => {
-        this.statusList = res.data
+        const resData = res.data
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: 'titleTypeC'
+          }
+          return obj
+        })
+        map.unshift({
+          describeName: '所有状态',
+          monitorDeviceType: '',
+          title: 'titleTypeC'
+        })
+        this.statusList = map
+      })
+    },
+    getType() {
+      const that = this
+      const url = "/lenovo-plan/api/list/monitor-device-type"
+      postAxiosData(url).then(res => {
+        const resData = res.data
+        let mapList = resData.filter(item => item.label != '请选择')
+        const map = mapList.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: 'titleTypeR'
+          }
+          return obj
+        })
+        map.unshift({
+          describeName: '所有来源',
+          monitorDeviceType: '',
+          title: 'titleTypeR'
+        })
+        this.typeList = map
       })
     }
   }
