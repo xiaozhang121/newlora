@@ -1,6 +1,5 @@
 <template>
   <div class="abnormalInfo">
-    <!-- <div class="title"></div> -->
     <div class="top">
       <div>
         <div>
@@ -8,7 +7,7 @@
             @on-select="onSelect"
             class="dunoBtnTo"
             :isCheck="false"
-            :dataList="typeMold"
+            :dataList="regionList"
             :title="titleTypeL"
             :showBtnList="false"
           ></duno-btn-top>
@@ -18,7 +17,7 @@
             @on-select="onSelect"
             class="dunoBtnTop"
             :isCheck="false"
-            :dataList="typeMold"
+            :dataList="statusList"
             :title="titleTypeC"
             :showBtnList="false"
           ></duno-btn-top>
@@ -47,7 +46,7 @@
           ></el-date-picker>
         </div>
         <div>
-          <div>导出Excel</div>
+          <div @click="clickExcel">导出Excel</div>
         </div>
         <div class="setting" @click="showSetting">
           <i class="iconfont icon-ico_menu__systemsettings"></i>
@@ -82,6 +81,7 @@ import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
+import { getAxiosData, postAxiosData, putAxiosData } from '@/api/axiosType'
 export default {
   name: "abnormalInfo",
   mixins: [mixinViewModule],
@@ -98,7 +98,8 @@ export default {
     return {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history"
+        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
       visibleSettingOption: false,
       visible: false,
@@ -123,20 +124,20 @@ export default {
         {
           title: "报警对象",
           key: "powerDeviceName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "报警部位",
           key: "alarmPart",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "区域",
-          key: "phone",
+          key: "areaName",
           minWidth: 90,
           align: "center",
           tooltip: true
@@ -151,115 +152,51 @@ export default {
         {
           title: "警告级别",
           key: "alarmLevelName",
-          minWidth: 90,
+          minWidth: 110,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push(
               h(
-                "i-dropdown",
-                {
+                "i-dropdown", {
                   props: { trigger: "click", placement: "bottom-start" },
-                  style: {
-                    marginLeft: "5px"
-                  },
-                  on: {
-                    "on-click": value => {
-                      console.log(value);
-                    }
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      class: {
-                        member_operate_div: true
-                      }
-                    },
-                    [
-                      h(
-                        "div",
-                        {
-                          class: {
-                            table_select: true,
-                            serious: false,
-                            commonly: true,
-                            danger: false
-                          }
+                  style: {marginLeft: "5px"},
+                  on: {"on-click": value => { console.log(value)}}
+                },[
+                  h( "div", {class: { member_operate_div: true }},
+                    [h("div",{
+                          class: { table_select: true,serious: params.row.alarmLevel === '2',commonly: (params.row.alarmLevel === '1'),danger: params.row.alarmLevel === '3'}
                         },
-                        [
-                          h("span", that.selectInfo, {
-                            class: {
-                              member_operate_div: true
-                            }
+                        [h("span", this.cutOut(params.row.alarmLevelName), {
+                            class: {member_operate_div: true}
                           }),
                           h("i", {
-                            style: {
-                              marginLeft: "5px"
-                            },
-                            class: {
-                              "iconfont icon-xiala": true
-                            }
+                            style: {marginLeft: "5px"},
+                            class: {"iconfont icon-xiala": true}
                           })
                         ]
                       )
                     ]
                   ),
-                  h(
-                    "i-dropdownMenu",
-                    {
-                      slot: "list"
-                    },
-                    [
-                      h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: {
-                              alarmLevel: true
-                            },
-                            on: {
-                              click: () => {
-                                that.selectInfo = "一般";
-                              }
-                            }
-                          },
-                          "一般"
-                        )
+                  h( "i-dropdownMenu", {slot: "list"},
+                    [h("i-dropdownItem", {}, [
+                        h("div",{
+                            class: {alarmLevel: true},
+                            on: {click: () => {that.onClickDropdown(params.row, '一般', '1')}}
+                          }, "一般")
                       ]),
                       h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: {
-                              alarmLevel: true
-                            },
-                            on: {
-                              click: () => {
-                                that.selectInfo = "严重";
-                              }
-                            }
-                          },
-                          "严重"
-                        )
+                        h("div",{
+                            class: {alarmLevel: true},
+                            on: {click: () => {that.onClickDropdown(params.row, '严重', '2')}}
+                          },"严重")
                       ]),
                       h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: {
-                              alarmLevel: true
-                            },
-                            on: {
-                              click: () => {
-                                that.selectInfo = "危急";
-                              }
-                            }
-                          },
-                          "危急"
-                        )
+                        h("div",{
+                            class: {alarmLevel: true},
+                            on: {click: () => {that.onClickDropdown(params.row, '危急', '3')}}
+                          },"危急")
                       ])
                     ]
                   )
@@ -272,33 +209,20 @@ export default {
         {
           title: "信息来源",
           key: "monitorDeviceId",
-          minWidth: 90,
+          minWidth: 110,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
-              h(
-                "a",
-                {
+              h("a",{
                   class: "table_link",
                   props: { type: "text" },
-                  on: {
-                    click: () => {
-                      alert("");
-                    }
-                  }
-                },
-                "可见光摄像头ID"
-              )
+                  on: {click: () => {console.log("摄像头ID：", params.row.monitorDeviceId) }}
+                },"可见光摄像头ID")
             ]);
             return h(
-              "div",
-              {
-                class: {
-                  member_operate_div: true
-                }
-              },
+              "div", {class: {member_operate_div: true}},
               newArr
             );
           }
@@ -312,7 +236,11 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            newArr.push([h("img", { class: "imgOrMv", draggable: false })]);
+            if (params.row.fileType == '1') {
+              newArr.push([h("img", { class: "imgOrMv", attrs: {src: params.row.alarmFileAddress}, draggable: false })]);
+            } else if (params.row.fileType == '2') {
+              newArr.push([h("video", { class: "imgOrMv", attrs: {src: params.row.alarmFileAddress}, draggable: false })]);
+            }
             return h("div", newArr);
           }
         },
@@ -331,34 +259,30 @@ export default {
           fixed: "right",
           align: "center",
           render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "el-button",
-                {
-                  class: "table_link",
-                  style: { marginRight: "20px" },
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      alert("");
+            let newArr = []
+            if (params.row.isReturn == '0') {
+              newArr.push([
+                h("el-button", {
+                    class: "table_link",
+                    style: { marginRight: "20px" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.restoration(params.row);
+                      }
                     }
-                  }
-                },
-                "复归"
-              )
-            ]);
+                  },"复归")
+              ]);
+            }
             newArr.push([
-              h(
-                "el-button",
-                {
+              h("el-button",{
                   class: "table_link",
                   style: { marginRight: "20px" },
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      // alert("");
-                      this.visible = true;
+                      that.popData = params.row
+                      that.visible = true;
                     }
                   }
                 },
@@ -375,71 +299,53 @@ export default {
           }
         }
       ],
-      dataList: [
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        },
-        {
-          nickname: 123123,
-          phone: 235646465,
-          submitTime: 6545646,
-          sysUserId: 6544564
-        }
-      ]
+      typeMold: [],
+      regionList: [],
+      statusList: [],
+      popData: {}
     };
   },
+  created() {
+    this.getRegion()
+    this.getStart()
+  },
   methods: {
+    cutOut (data) {
+      if (data) {
+        const index = data.indexOf('缺陷')
+        if (index > -1) {
+          data = data.substring(0, index)
+        }
+        return data
+      } else {
+        return '更多'
+      }
+    },
+    onClickDropdown(row, type, No) {
+      const index = row._index
+      this.dataList[index].alarmLevelName = type
+      this.dataList[index].alarmLevel = No
+      this.psotAlarmData(row, No)
+    },
+    psotAlarmData(row, No) {
+      const that = this
+      const url = '/lenovo-alarm/api/alarm/level-edit'
+      const query = {
+        id: row.id,
+        alarmLevel: No
+      }
+      putAxiosData(url, query).then(res => {
+        if (res.code !== 200) {
+          this.dataList[index].alarmLevel = row.alarmLevel
+          this.dataList[index].alarmLevelName = row.alarmLevelName
+          return that.$message.error(res.msg)
+        }
+        that.$message.success(res.msg)
+      }, error => {
+        this.dataList[index].alarmLevel = row.alarmLevel
+        this.dataList[index].alarmLevelName = row.alarmLevelName
+      })
+    },
     onClose() {
       this.visibleSettingOption = false;
     },
@@ -457,7 +363,40 @@ export default {
       this.$emit("onChange", data);
     },
     handleClose() {
+      this.popData = {}
       this.visible = false;
+    },
+    restoration (row) {
+      const url = "/lenovo-alarm/api/alarm/deal"
+      const query = {
+        alarmId: row.alarmId,
+        type: '1'
+      }
+      postAxiosData(url, query).then(res => {
+        if (res.code !== 200) {
+          return this.$message.error(res.msg)
+        }
+        this.dataList[row._index].isReturn = '1'
+        this.$message.success(res.msg)
+      })
+    },
+    clickExcel() {
+      const that = this
+      that.exportHandle()
+    },
+    getRegion() {
+      const that = this
+      const url = '/lenovo-device/api/area/select-list'
+      postAxiosData(url).then(res => {
+        this.regionList = res.data
+      })
+    },
+    getStart() {
+      const that = this
+      const url = "/lenovo-device/api/monitor/status"
+      postAxiosData(url).then(res => {
+        this.statusList = res.data
+      })
     }
   }
 };
@@ -536,8 +475,6 @@ export default {
   .el-button--text {
     border-color: transparent !important;
     background: transparent !important;
-  }
-  .alarmLevel {
   }
   .flexPos {
     display: flex;

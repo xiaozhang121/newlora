@@ -2,7 +2,7 @@
   <div>
     <el-dialog
       :title="'安全警告ID' + warningID"
-      :visible="visible"
+      :visible="newVisible"
       width="900px"
       center
       @close="handleClose"
@@ -30,7 +30,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      newVisible: false
+    };
   },
   props: {
     visible: {
@@ -38,23 +40,36 @@ export default {
     },
     warningID: {
       type: String,
-      required: true
+      default: () => {
+        return ''
+      }
     },
     judgeResult: {
       type: String
     },
     origin: {
-      type: String
+      type: String,
+      default: () => {
+        return ''
+      }
     },
     handleResult: {
       type: String
     }
   },
+  watch: {
+    visible(now) {
+      this.newVisible = now
+    }
+  },
   methods: {
     handleClose() {
-      this.visible = false;
+      this.newVisible = false;
       this.$emit('handleClose')
     }
+  },
+  mounted() {
+    this.newVisible = this.visible
   }
 };
 </script>
