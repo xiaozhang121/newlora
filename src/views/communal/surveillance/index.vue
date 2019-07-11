@@ -99,7 +99,6 @@ export default {
           'user'
       ]),
       displayType(){
-          debugger
           return this.$store.state.user.configInfo['displayType']
       },
       layoutTypeName(){

@@ -61,11 +61,13 @@
 </template>
 
 <script>
+import mixinViewModule from "@/mixins/view-module";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import moment from "moment";
 export default {
   name: "PageHisRecords",
+  mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
     DunoTablesTep
