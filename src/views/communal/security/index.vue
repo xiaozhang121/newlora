@@ -226,7 +226,11 @@ export default {
       getMonitorSelect().then(res => {
         that.optionsList = res.data.tableData;
       });
-      getAxiosData("/lenovo-alarm/api/security/list").then(res => {
+      const query = {
+        pageIndex: 1,
+        pageRows: 44321,
+      }
+      getAxiosData("/lenovo-alarm/api/security/list", query).then(res => {
         if (res.code !== 200) {
           that.dataList = [];
           that.totalNum = 0;

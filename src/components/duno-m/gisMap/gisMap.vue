@@ -2,6 +2,7 @@
     <div class="gisMap">
         <div id="map" ref="rootmap" style="height: 100%"></div>
         <div v-for="(item, index) in deviceList" @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
+        <div v-for="(item, index) in powerPointList" @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
     </div>
 </template>
 <script>
@@ -32,6 +33,13 @@ export default {
         }
     },
     watch: {
+        powerPointList(now){
+            if(now.length){
+                this.$nextTick(()=>{
+                    this.addPointdList(now)
+                })
+            }
+        },
         deviceList:{
             handler(now){
                 if(now.length){
@@ -47,6 +55,10 @@ export default {
         }
     },
     props: {
+        powerPointList:{
+            type: Array,
+            default: () => []
+        },
         mapUrl:{
             type: String,
             default: 'http://52.82.107.5:8090'
@@ -99,6 +111,19 @@ export default {
             polygon.applyTransform(getTransform('EPSG:3857', 'EPSG:4326'))
             let feature = new Feature(polygon)
             this.vector.getSource().addFeature(feature)
+        },
+        addPointdList(arr){
+            const that = this
+            debugger
+            arr.forEach((item, index)=>{
+                let anchor = new Overlay({
+                    element: document.getElementById('anchord'+index)
+                });
+                anchor.setPosition(transform([item['xReal'],item['yReal']], 'EPSG:3857' ,'EPSG:4326'));
+                this.setZoom(anchor)
+                that.pointListObj.push({anchor: anchor})
+                that.mapTarget.addOverlay(anchor);
+            })
         },
         addPointList(arr){
             const that = this
