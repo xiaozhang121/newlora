@@ -112,25 +112,17 @@ export default {
     *   val：查询携带的参数
     *
     *   注意：
-    *     1、查询时参数前面都通过该方法在字段前方拼接了 cond__ 字段
+    *     1、查询时参数
     * */
     clickQuery (val) {
       const that = this
       const newObj = {}
       const newVal = JSON.parse(JSON.stringify(val))
       for (let key in this.dataForm) {
-        if (key.indexOf('cond__') === -1 && key !== 'id' && key !== 'ID') {
-          newObj['cond__' + key] = this.dataForm[key]
-        } else {
-          newObj[key] = this.dataForm[key]
-        }
+        newObj[key] = this.dataForm[key]
       }
       for (let key in newVal) {
-        if (key.indexOf('cond__') === -1 && key !== 'id' && key !== 'ID') {
-          newObj['cond__' + key] = newVal[key]
-        } else {
-          newObj[key] = newVal[key]
-        }
+        newObj[key] = newVal[key]
       }
       that.queryForm = { ...newObj }
       that.pageIndex = 1

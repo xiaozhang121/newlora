@@ -155,7 +155,7 @@ export default {
       }
     }
     .btn {
-      margin-top: 20px;
+      margin-top: 10px;
       line-height: 32px;
       p {
         font-size: 14px;

@@ -1,7 +1,7 @@
 <template>
   <div class="pageHisRecords">
     <div class="top">
-      <div>历史信息记录</div>
+      <div>{{titleCode}}</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -71,6 +71,12 @@ export default {
   components: {
     dunoBtnTop,
     DunoTablesTep
+  },
+  props:{
+    titleCode:{
+      type:String,
+      default:'1000千伏安防记录'
+    }
   },
   data() {
     return {
@@ -266,19 +272,33 @@ export default {
             return h("div", newArr);
           }
         }
-      ]
+      ],
+      clcikQueryData: {}
     };
   },
   methods: {
     onSelect(item) {
       this.titleType = item["describeName"];
+      // this[item.title] = item["describeName"]
+      // if (item.title == 'titleTypeL') {
+      //   this.clcikQueryData.areaId = item.monitorDeviceType
+      // } else if (item.title == 'titleTypeC') {
+      //   this.clcikQueryData.status = item.monitorDeviceType
+      // } else if (item.title == 'titleTypeR') {
+      //   this.clcikQueryData.source = item.monitorDeviceType
+      // }
+      // this.clickQuery(this.clcikQueryData)
     },
     onChangeTime(data) {
-      const startTime = moment(data[0]).format("YYYY-MM-DD");
-      const endTime = moment(data[1]).format("YYYY-MM-DD");
-      this.startTime = JSON.parse(JSON.stringify(startTime));
-      this.endTime = JSON.parse(JSON.stringify(endTime));
-      this.$emit("onChange", data);
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD");
+        endTime = moment(data[1]).format("YYYY-MM-DD");
+      }
+      this.clcikQueryData.startTime = startTime
+      this.clcikQueryData.endTime = endTime
+      // this.clickQuery(this.clcikQueryData)
     },
     dataListSelectionChangeHandle() {}
   }
@@ -296,6 +316,7 @@ export default {
     margin-bottom: 10px;
     &>div:first-child{
       padding-top: 10px;
+      font-size: 18px;
     }
     .btn {
       display: flex;
@@ -319,9 +340,10 @@ export default {
         .btnList {
           top: inherit !important;
           width: 150px;
-          line-height: 30px;
+          // line-height: 30px;
           .title {
-            font-size: 15px;
+            font-size: 16px;
+            padding: 8px 20px;
           }
         }
       }

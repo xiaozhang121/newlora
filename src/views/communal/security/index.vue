@@ -336,7 +336,7 @@ export default {
     & > div:first-child {
       margin-top: 20px;
       margin-bottom: 20px;
-      font-size: 16px;
+      font-size: 18px;
       color: #ffffff;
     }
     .selectBtn {
@@ -352,10 +352,11 @@ export default {
         height: 40px;
         .btnList {
           top: inherit !important;
-          line-height: 30px;
+          // line-height: 30px;
           width: 185px;
           .title {
-            font-size: 16px;
+            // font-size: 16px;
+            padding: 8px 20px;
           }
           .btnNr {
             color: white;
