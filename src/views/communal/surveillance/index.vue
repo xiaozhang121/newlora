@@ -1,32 +1,21 @@
 <template>
   <div class="surveillance">
-    <div class="title">
-      <i class="iconfont icon-zuoyoubuju" v-if="$store.state.app.format == '1'"></i>
-      <i class="iconfont icon-shangxiabuju" v-else></i>
-      <span class="nr">{{ layoutTypeName }}</span>
-      <duno-btn-top
-        @on-select="onSelectLayout"
-        class="dunoBtnTop"
-        :isCheck="false"
-        :dataList="dataList"
-        :title="titleLayout"
-        :showBtnList="false"
-      ></duno-btn-top>
-    </div>
-    <div class="main" :class="{widthA : $store.state.app.format == '2'}">
-      <div class="left_main" :class="{widthA : $store.state.app.format == '2'}">
-        <div class="left" style="padding-bottom: 32%" v-if="$store.state.app.format == '2'">
-          <key-monitor :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
+     <div class="title">
+       <i class="iconfont icon-zuoyoubuju" v-if="$store.state.app.configInfo['displayType'] == '1'"></i>
+       <i class="iconfont icon-shangxiabuju" v-else></i>
+       <span class="nr">{{ layoutTypeName }}</span>
+       <duno-btn-top @on-select="onSelect" class="dunoBtnTop" :isCheck="false" :dataList="dataList" title="切换布局" :showBtnList="false"></duno-btn-top>
+     </div>
+    <div class="main" :class="{widthA : $store.state.app.configInfo['displayType'] == '2'}">
+      <div class="left_main" :class="{widthA : $store.state.app.configInfo['displayType'] == '2'}">
+        <div class="left"  style="padding-bottom: 32%"  v-if="$store.state.app.configInfo['displayType'] == '2'">
+          <key-monitor  :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
           <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
-      <div
-        class="right_main"
-        v-if="$store.state.app.format != '2'"
-        :class="{hidden : $store.state.app.format == '2'}"
-      >
+      <div class="right_main" v-if="$store.state.app.configInfo['displayType'] != '2'" :class="{hidden : $store.state.app.configInfo['displayType'] == '2'}">
         <div class="right">
           <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
@@ -38,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div class="oltagevMain second" v-if="$store.state.app.format == '2'">
+    <div class="oltagevMain second" v-if="$store.state.app.configInfo['displayType'] == '2'">
       <div class="item_main">
         <div class="item">
           <key-monitor :showBtmOption="true" class="monitorM"></key-monitor>
@@ -96,7 +85,8 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import { getAxiosData } from "@/api/axiosType";
 import mixinViewModule from "@/mixins/view-module";
-import { mapState } from "vuex";
+import { editConfig } from '@/api/currency/currency.js'
+import { mapState } from 'vuex'
 export default {
   mixins: [mixinViewModule],
   name: "surveillance",
@@ -105,10 +95,12 @@ export default {
     KeyMonitor
   },
   computed: {
-    ...mapState(["app"]),
-    layoutTypeName() {
-      return this.dataList[this.$store.state.app.format - 1]["describeName"];
-    }
+      ...mapState([
+          'app'
+      ]),
+      layoutTypeName(){
+          return this.dataList[this.$store.state.app.configInfo['displayType']-1]['describeName']
+      }
   },
   data() {
     return {
@@ -147,12 +139,13 @@ export default {
     };
   },
   methods: {
-    onSelect(item, index) {
-      this.$store.state.app.format = item["format"];
-      sessionStorage.setItem("format", item["format"]);
-      this.layoutType = item["format"];
-    },
-
+    onSelect(item, index){
+          this.$store.state.app.configInfo['displayType'] = item['format']
+          editConfig({id:this.$store.state.app.configInfo['id'],displayType:item['format']}).then(res=>{
+              sessionStorage.setItem('format', item['format'])
+              this.layoutType = item['format']
+          })
+      },
     onSelectVol(item) {
       this.titleValue = item["describeName"];
       //视屏监控-按电压等级
@@ -183,7 +176,7 @@ export default {
       });
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

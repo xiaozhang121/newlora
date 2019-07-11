@@ -71,10 +71,11 @@ export default {
   .dunoMain_nr{
     position: relative;
     width: calc(100% - 6px);
-    height: calc(100% - 6px);
+    height: calc(100% - 7px);
     margin: 3px;
     background: #142838;
     background: rgba(20, 40, 56, 0.8);
+    overflow: hidden;
   }
 }
 </style>

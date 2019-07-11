@@ -10,35 +10,35 @@
                 >
             <span slot="title"></span>
             <div class="cameraPos">
-                <div v-if="this.$store.state.app.format == 1" class="first">
+                <div v-if="this.$store.state.app.configInfo['displayType'] == 1" class="first">
                     <div class="left_main">
-                        <div class="cameraItem">
+                        <div class="cameraItem" @click="pushInfo(1, $event)" :style="'background:url('+ cameraPic01 +')'">
                             <span class="explain Max">
                                 选择推送至此区域
                             </span>
                         </div>
                     </div>
                     <div class="right_main">
-                        <div class="cameraItem">
+                        <div class="cameraItem" @click="pushInfo(2, $event)" :style="'background:url('+ cameraPic02 +')'">
                              <span class="explain">
                                 选择推送至此区域
                             </span>
                         </div>
-                        <div class="cameraItem">
+                        <div class="cameraItem" @click="pushInfo(3,$event)" :style="'background:url('+ cameraPic03 +')'">
                              <span class="explain">
                                 选择推送至此区域
                             </span>
                         </div>
-                        <div class="cameraItem">
+                        <div class="cameraItem" @click="pushInfo(4,$event)" :style="'background:url('+ cameraPic04 +')'">
                              <span class="explain">
                                 选择推送至此区域
                             </span>
                         </div>
                     </div>
                 </div>
-                <div v-else="this.$store.state.app.format == 2" class="second">
+                <div v-else="this.$store.state.app.configInfo['displayType'] == 2" class="second">
                     <div class="left_main">
-                        <div class="cameraItem">
+                        <div class="cameraItem" @click="pushInfo(1, $event)" :style="'background:url('+ cameraPic01 +')'">
                             <span class="explain Max">
                                 选择推送至此区域
                             </span>
@@ -46,21 +46,21 @@
                     </div>
                     <div class="bottomMain">
                         <div class="right_main">
-                            <div class="cameraItem">
+                            <div class="cameraItem" @click="pushInfo(2, $event)" :style="'background:url('+ cameraPic02 +')'">
                              <span class="explain">
                                 选择推送至此区域
                             </span>
                             </div>
                         </div>
                         <div class="right_main">
-                            <div class="cameraItem">
+                            <div class="cameraItem" @click="pushInfo(3, $event)" :style="'background:url('+ cameraPic03 +')'">
                              <span class="explain">
                                 选择推送至此区域
                             </span>
                             </div>
                         </div>
                         <div class="right_main">
-                            <div class="cameraItem">
+                            <div class="cameraItem" @click="pushInfo(4, $event)" :style="'background:url('+ cameraPic04 +')'">
                              <span class="explain">
                                 选择推送至此区域
                             </span>
@@ -96,6 +96,10 @@
          visible:{
             type: Boolean,
             default: false
+         },
+         pic:{
+            type: String,
+            default: ''
          }
         },
         watch: {
@@ -108,17 +112,41 @@
         },
         computed: {
             ...mapState([
-                'app'
+                'user'
             ]),
+            cameraPic01(){
+                if(this.$store.state.app.configInfo.cameraPic01){
+                    return this.$store.state.app.configInfo.cameraPic01
+                }
+            },
+            cameraPic02(){
+                if(this.$store.state.app.configInfo.cameraPic02){
+                    return this.$store.state.app.configInfo.cameraPic02
+                }
+            },
+            cameraPic03(){
+                if(this.$store.state.app.configInfo.cameraPic03){
+                    return this.$store.state.app.configInfo.cameraPic03
+                }
+            },
+            cameraPic04(){
+                if(this.$store.state.app.configInfo.cameraPic04){
+                    return this.$store.state.app.configInfo.cameraPic04
+                }
+            },
             widthSet(){
-                 if(this.$store.state.app.format == 1){
+                 if(this.$store.state.app.configInfo['displayType'] == 1){
                      return '600px'
-                 }else if(this.$store.state.app.format == 2){
+                 }else if(this.$store.state.app.configInfo['displayType']  == 2){
                      return '500px'
                  }
             }
         },
         methods:{
+            pushInfo(index, event){
+                $(event.currentTarget).css("cssText",`background: url(${this.pic}) !important`)
+                this.$emit('on-push', index)
+            },
             handleClose(){
                 this.$emit('on-close')
             },
@@ -154,6 +182,8 @@
             height: 0;
             padding-bottom: 56%;
             position: relative;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
             .explain{
                 pointer-events: none;
                 color: white;

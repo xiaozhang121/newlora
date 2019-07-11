@@ -55,6 +55,12 @@ export default {
     videoPlayer
   },
   props: {
+    monitorInfo:{
+        type: Array,
+        default () {
+            return []
+        }
+    },
     streamAddr:{
         type: String,
         default: ''
@@ -126,7 +132,7 @@ export default {
   },
   methods: {
     pushMov() {
-      this.$emit("on-push");
+      this.$emit("on-push", this.monitorInfo);
     },
     fullScreen() {
       let ele = this.$refs.videoPlayer.$el

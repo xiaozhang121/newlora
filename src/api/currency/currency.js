@@ -67,3 +67,12 @@ export const securityMonitor = (query) => {
         params: { ...query }
     })
 }
+
+// 配置信息-修改(推送)
+export const editConfig = (query) => {
+    return axios.request({
+        url: '/lenovo-user/api/config/edit',
+        method: 'put',
+        params: query
+    })
+}
