@@ -132,32 +132,7 @@ export default {
       videoWidth: "calc(25% - 15px)",
       cameraSelection: [],
       dataMonitorAll:[],
-      dataMonitor: [
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        },
-        {
-          item: ""
-        }
-      ],
+      dataMonitor: [],
       dataAlarm: [],
       numberCameras: [
         {
@@ -210,7 +185,7 @@ export default {
       const that = this;
       securityMonitor({ monitorDeviceId: value }).then(res => {
         that.titleValueL = "监控摄像头数量";
-        that.dataMonitor = res.data.tableData;
+        that.dataMonitor = res.data;
         that.videoWidth = "calc(50%)";
         that.active = 1;
         that.isCenter = true;
@@ -239,8 +214,10 @@ export default {
     getCamera(){
         const that = this
         securityMonitor().then(res=>{
-            that.dataMonitorAll = res.data.tableData
-            that.dataMonitor = res.data.tableData.slice(0,4)
+          if (res.data && res.data.length) {
+            that.dataMonitorAll = res.data
+            that.dataMonitor = res.data.slice(0,4)
+          }
         })
     },
 
