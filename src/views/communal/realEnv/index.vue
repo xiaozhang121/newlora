@@ -680,6 +680,9 @@ export default {
 </script>
 <style lang="scss">
 .realEnv{
+    .ol-zoom{
+      z-index: 4;
+    }
     .center{
       position: absolute;
       left: 0;
