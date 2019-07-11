@@ -1,5 +1,5 @@
 <template>
-    <div class="cameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
+    <div class="cameraPanele" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
             <div class="title">{{ cameraName }}</div>
             <div class="cameraMain">
@@ -226,7 +226,7 @@
     import { videoPlayer } from 'vue-video-player'
     import 'videojs-flash'
     export default {
-        name: 'cameraPanel',
+        name: 'cameraPanele',
         components: { dunoTable,DunoCharts, videoPlayer },
         data() {
             return {
@@ -767,7 +767,7 @@
     .miniWidth{
         width: 364px !important;
     }
-    .cameraPanel{
+    .cameraPanele{
         position: relative;
         display: flex;
         padding-bottom: 30px;

@@ -1,5 +1,5 @@
 <template>
-    <div class="cameraPop" >
+    <div class="cameraPope" >
         <historical-documents :itemId="itemId" width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
             <camera-panel @on-alarm="onAlarm" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
             <polygonal :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal>
@@ -18,7 +18,7 @@
     import moment from 'moment'
     import { getAxiosData } from '@/api/axiosType'
     export default {
-        name: 'cameraPop',
+        name: 'cameraPope',
         components: {
             HistoricalDocuments,
             Polygonal,
