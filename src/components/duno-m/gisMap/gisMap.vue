@@ -180,7 +180,9 @@ export default {
             if(!this.timer){
                 this.timer = setInterval(()=>{
                     this.clearCircle()
-                    this.addCircle(13218514.714, 3768404.705)
+                    setTimeout(()=>{
+                        this.addCircle(13218514.714, 3768404.705)
+                    },1000)
                 },1500)
             }
         },
