@@ -26,6 +26,7 @@ export default {
     data() {
         const that = this
         return {
+            clickTarget: null,
             timer: null,
             timerd: null,
             robot: require('@/assets/buttonPng/robot.png'),
@@ -140,6 +141,7 @@ export default {
                 anchor.on('mousein',function (event) {
                 if(that.mapTarget.getView().getZoom()>15) {
                     let item = JSON.parse(event.target.values_.dataInfo)
+                    that.clickTarget = item
                     let anchor = new Feature({
                         geometry: new Point(transform([item['xReal'], item['yReal']], 'EPSG:3857', 'EPSG:4326'))
                     })
@@ -262,6 +264,14 @@ export default {
             }
             return str;
         },
+        bindEvent(){
+            const that = this
+            this.$refs.rootmap.addEventListener('click',function () {
+                if(that.clickTarget){
+
+                }
+            })
+        },
         initMap(){
             const that = this
             let mapcontainer = this.$refs.rootmap;
@@ -314,6 +324,7 @@ export default {
                     try{
                     let feature = that.vector.getSource().getFeatureById('pointName')
                     that.vector.getSource().removeFeature(feature)
+                    that.clickTarget = null
                     }catch (e) {
                         
                     }
@@ -324,7 +335,7 @@ export default {
     mounted(){
         this.initMap()
         this.initFeature()
-
+        this.bindEvent()
     }
 }
 </script>
@@ -333,6 +344,9 @@ export default {
  .gisMap{
     width: 100%;
     height: 100%;
+     #map{
+         height: calc( 100vh - 166px ) !important;
+     }
  }
 .anchorList{
     img{
