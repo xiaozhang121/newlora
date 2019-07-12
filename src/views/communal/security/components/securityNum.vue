@@ -54,19 +54,6 @@ export default {
       imgage:''
     };
   },
-  computed:{
-    ...mapState([
-        'user'
-    ]),
-    kilovoltKind(){
-      return this.$store.state.app.kilovolt
-    },
-  },
-  watch:{
-    img(now){
-      this.imgage=now
-    }
-  },
   methods: {
     getAreaData() {
       getAxiosData("/lenovo-device/api/area/list").then(res => {
@@ -80,10 +67,10 @@ export default {
     }
   },
   mounted() {
+    
     this.dataBread = this.navBar;
     this.titleCode = this.securityRecord;
     this.imgage=this.img
-    console.log(this.imgage)
     this.getAreaData();
   }
 };

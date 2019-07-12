@@ -809,12 +809,12 @@ export default [
         path: 'report',
         name: 'report',
         meta: {
-          title: '巡检任务报告',
+          title: '巡检任务报表',
           icon:"icon-shouye",
           notCache: true,
           isAlone: true
         },
-        component: () => import('_c/duno-developing/index.vue')
+        component: () => import('@/views/communal/alarmInfo/reportFrom.vue')
       },
       {
         path: 'meterdata',

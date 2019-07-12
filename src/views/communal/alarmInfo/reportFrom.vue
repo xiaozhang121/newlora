@@ -1,0 +1,185 @@
+<template>
+  <div class="duno-reportFrom">
+    <div class="breadcrumb">
+      <Breadcrumb :dataList="dataBread" />
+    </div>
+    <div class="dunoDrap">
+      <div>巡检任务报表</div>
+      <div class="selectBtn">
+        <div>
+          <duno-btn-top
+            @on-select="onSelect"
+            class="dunoBtnTop"
+            :isCheck="false"
+            :dataList="reportData"
+            :title="titleValue"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <div class="dateChose">
+          <el-date-picker
+            unlink-panels
+            v-model="value"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="onChangeTime"
+          ></el-date-picker>
+        </div>
+      </div>
+    </div>
+    <duno-main class="dunoMain">
+      <div class="task">
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+        <ReportTable />
+      </div>
+    </duno-main>
+  </div>
+</template>
+
+<script>
+import Breadcrumb from "_c/duno-c/Breadcrumb";
+import dunoMain from "_c/duno-m/duno-main";
+import ReportTable from "_c/duno-c/ReportTable";
+import dunoBtnTop from "_c/duno-m/duno-btn-top";
+export default {
+  name: "ReportFrom",
+  components: {
+    Breadcrumb,
+    dunoBtnTop,
+    ReportTable,
+    dunoMain
+  },
+  data() {
+    return {
+      dataBread: ["视频监控", "所有报表", "巡检任务报表"],
+      titleValue: "所有巡检报表",
+      value: "",
+      reportData: [
+        {
+          describeName: "全面巡视"
+        },
+        {
+          describeName: "特殊巡视"
+        },
+        {
+          describeName: "熄灯巡视"
+        },
+        {
+          describeName: "手动巡视"
+        }
+      ]
+    };
+  },
+  methods: {
+    onSelect(item) {
+      this.titleValue = item["describeName"];
+    },
+    onChangeTime() {}
+  }
+};
+</script>
+
+<style lang="scss">
+.duno-reportFrom {
+  width: 100%;
+  height: 100%;
+  .dunoDrap {
+    display: flex;
+    justify-content: space-between;
+    & > div:first-child {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #ffffff;
+    }
+    .selectBtn {
+      display: flex;
+      justify-content: space-between;
+      width: 545px;
+      margin-top: 14px;
+      height: 50px;
+      .dunoBtnTop {
+        width: 185px;
+        display: inline-flex;
+        padding-bottom: 0;
+        height: 40px;
+        .btnList {
+          top: inherit !important;
+          width: 185px;
+          .title {
+            padding: 8px 20px;
+          }
+          .btnNr {
+            color: white;
+          }
+        }
+      }
+      .dateChose {
+        height: 40px;
+        .el-date-editor {
+          background-color: #192f41;
+          border: none;
+          .el-range-input {
+            background-color: rgba(81, 89, 112, 0);
+          }
+          .el-range-separator {
+            font-size: 20px;
+            color: #fff;
+          }
+          .el-range-input {
+            color: #fff;
+          }
+        }
+        .el-range-editor--small.el-input__inner {
+          height: 40px;
+        }
+        .el-range-editor--small .el-range-input {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  .dunoMain {
+    height: inherit!important;
+  }
+  .task {
+    padding: 20px;
+    width: 100%;
+    overflow: hidden;
+    & > div {
+      width: calc(24% - 80px);
+      float: left;
+      margin-right: 20px;
+    }
+    & > div:nth-child(5n + 0) {
+      margin-right: 0;
+    }
+  }
+}
+.el-picker-panel {
+  background-color: rgba(27, 59, 71, 0.7);
+  color: #fff;
+  border: none;
+  .el-picker-panel__body-wrapper {
+    .el-picker-panel__body {
+      .in-range {
+        div {
+          background-color: rgba(81, 89, 112, 0.7);
+        }
+      }
+    }
+  }
+}
+</style>
+

@@ -317,7 +317,6 @@ export default {
       .btnItem{
         margin: 12px 0;
         img{
-          // display: block;
           vertical-align: top
         }
         .btnNr{

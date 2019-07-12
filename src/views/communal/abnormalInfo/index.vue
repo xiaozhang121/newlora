@@ -566,6 +566,7 @@ export default {
   }
   .table_select {
     cursor: pointer;
+    color: #1d1f26;
     span {
       display: inline-flex;
       align-items: center;

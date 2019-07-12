@@ -85,33 +85,20 @@ export default {
           key: "warnLocation",
           title: "拍摄来源",
           align: "center",
-          // render: (h, params) => {
-          //   let newArr = [];
-          //   newArr.push([
-          //     h(
-          //       "a",
-          //       {
-          //         class: "table_link",
-          //         props: { type: "text" },
-          //         on: {
-          //           click: () => {
-          //             alert("");
-          //           }
-          //         }
-          //       },
-          //       "可见光摄像头ID"
-          //     )
-          //   ]);
-          //   return h(
-          //     "div",
-          //     {
-          //       class: {
-          //         member_operate_div: true
-          //       }
-          //     },
-          //     newArr
-          //   );
-          // }
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h("a",{
+                  class: "table_link",
+                  props: { type: "text" },
+                  on: {click: () => { }}
+                }, params.row.monitorDeviceId)
+            ],'可见光摄像头');
+            return h(
+              "div", {class: {member_operate_div: true}},
+              newArr
+            );
+          }
         },
         {
           key: "dataType",
@@ -305,7 +292,6 @@ export default {
         .btnList {
           top: inherit !important;
           width: 150px;
-          // line-height: 30px;
           .title {
             font-size: 16px;
             padding: 8px 20px;
@@ -381,6 +367,7 @@ export default {
   }
   .table_link {
     color: #5fafff !important;
+    text-decoration: underline;
   }
   .btn_pre {
     padding: 10px 15px;
