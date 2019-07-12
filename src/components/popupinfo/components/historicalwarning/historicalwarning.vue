@@ -1,16 +1,18 @@
 <template>
-  <div class="historicalwarning">
+  <div class="historicalwarning" @mouseenter="noEvent = false">
     <h3 class="title">{{title}}</h3>
-    <div class="historicalwarningBox">
-      <div class="historicalwarningItem" @mouseenter.stop="mouseenter(index)" @mouseleave.stop="mouseleave" v-for="(item, index) in dataList" :key="index">
-        <transition name="el-zoom-in-center">
-          <div class="picDetail" v-show="item.show">
-            <img :src="item.alarmFileAddress"/>
-          </div>
-        </transition>
-        <div>{{item.alarmTime}}</div>
-        <div><span>温度：{{item.alarmValue}}℃</span><span class="threshold">超出阈值：{{item.threshold}}</span></div>
-        <div>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></div>
+    <div class="historicalwarningBox" :class="{'noEvent': noEvent}">
+      <div  v-for="(item, index) in dataList" :key="index" class="itemData">
+        <div class="historicalwarningItem" :class="{'clip': isClip,'noEvent': noEvent}" style="position: absolute"  @mouseenter.stop="mouseenter(index)" @mouseleave.stop="mouseleave">
+          <transition name="el-zoom-in-center">
+            <div class="picDetail" v-show="item.show">
+              <img :src="item.alarmFileAddress"/>
+            </div>
+          </transition>
+          <div>{{item.alarmTime}}</div>
+          <div><span>温度：{{item.alarmValue}}℃</span><span class="threshold">超出阈值：{{item.threshold}}</span></div>
+          <div>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -20,7 +22,9 @@ export default {
   name: 'historicalwarning',
   data (){
       return{
-          timer: null
+          timer: null,
+          noEvent: false,
+          isClip: true
       }
   },
   props: {
@@ -43,9 +47,15 @@ export default {
             this.dataList.map(item=>{
                 item['show'] = false
             })
-        },500)
+            setTimeout(()=>{
+                this.noEvent = true
+                this.isClip = true
+            },200)
+        },300)
     },
     mouseenter(index){
+        this.noEvent = false
+        this.isClip = false
         if(this.timer){
             clearTimeout(this.timer)
             this.timer = null
@@ -62,6 +72,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .historicalwarning {
+  .itemData{
+    position: relative; height: 100px;
+    margin-bottom: 10px;
+    background: linear-gradient(to right,transparent 26%, #203644 10%); /* 标准的语法（必须放在最后） */
+  }
+  .noEvent{
+    pointer-events: none;
+  }
+  .clip{
+    /*pointer-events: none;*/
+    clip: rect(0px,613px,99px,157px);
+  }
+  .itemData:last-child{
+    margin-bottom: 0px;
+  }
   .historicalwarningBox{
     width: 136%;
     max-height: 400px;
@@ -72,7 +97,9 @@ export default {
   }
   .historicalwarningItem{
     padding-left: 175px;
-    background: linear-gradient(to right,transparent 26%, #203644 10%); /* 标准的语法（必须放在最后） */
+    width: 100%;
+    background: transparent;
+    /*background: linear-gradient(to right,transparent 26%, #203644 10%); !* 标准的语法（必须放在最后） *!*/
     position: relative;
     .picDetail{
       position: absolute;
