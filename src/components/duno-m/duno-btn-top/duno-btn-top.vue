@@ -316,6 +316,10 @@ export default {
       flex-direction: column;
       .btnItem{
         margin: 12px 0;
+        img{
+          // display: block;
+          vertical-align: top
+        }
         .btnNr{
            cursor: pointer;
           line-height: 37px;

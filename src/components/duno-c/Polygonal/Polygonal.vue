@@ -339,11 +339,11 @@ export default {
     // }
       that.legendData.push(...['设备01'])
       that.seriesData.push(...[{
-          data: [0,1,0,0,1,1,1,0,1,1],
+          data: [1,1,1,1,1,1,1,1,1,0],
           name: "设备01",
           type: "line"
       }])
-      that.xAxisOption.data = ['02', '03', '04', '05', '09', '10', '11', '15', '16', '17']
+      that.xAxisOption.data = ['02', '03', '04', '05', '09', '10', '11', '13', '14', '15']
       that.$forceUpdate()
       that.isChangeFlag = !that.isChangeFlag
   }
