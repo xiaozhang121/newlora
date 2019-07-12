@@ -2,13 +2,13 @@
   <div class="dunoBtnTop">
     <div class="placeHolder" v-if="showBtnList">
     </div>
-    <div class="btnList" v-if="showBtnList?true:isSingleDrop" style="position: absolute; z-index: 10">
-      <div class="title" @click="showListFlag = !showListFlag">
+    <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" style="position: absolute; z-index: 10">
+      <div class="title dropSelf" @click="showListFlag = !showListFlag">
           <!-- 全部固定监控设备 -->
           {{ title }}
-          <div class="iconfont icon-xiala" :class="{'active':showListFlag}"></div>
+          <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
-        <div v-if="isCheck" class="btn_main" ref="showListRef" style="display: none">
+        <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
           <div>
             <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           </div>
@@ -22,7 +22,7 @@
             </div>
           </el-checkbox-group>
         </div>
-      <div v-else class="btn_main" ref="showListRef" style="display: none; margin-top: 0; padding: 5px 0">
+      <div v-else class="btn_main dropSelf" ref="showListRef" style="display: none; margin-top: 0; padding: 5px 0">
           <div class="btnItem" v-for="(item,index) in dataList" :key="index" style="margin:inherit">
             <div class="btnNr" @click="singleSelect(item, index)">{{item['describeName']}}</div>
           </div>
@@ -178,6 +178,15 @@ export default {
       }
   },
   methods:{
+      hiddenDrapdown(){
+          const that = this
+          document.addEventListener('click',function (event) {
+              if(event.target.className.indexOf('dropSelf')<0 && event.target.className.indexOf('el-checkbox')<0){
+                  $(that.$refs.showListRef).slideUp('normal')
+                  that.showListFlag = false
+              }
+          })
+      },
       singleSelect(item, index){
         this.showListFlag = !this.showListFlag
         $(this.$refs.showListRef).slideUp('normal')
@@ -249,6 +258,7 @@ export default {
   mounted(){
       $(this.$refs.showListRef).hide('normal')
       this.handleCheckAllChange(true)
+      this.hiddenDrapdown()
       this.checkAll = true
   }
 }
@@ -270,7 +280,7 @@ export default {
     font-size: 9px;
     position: absolute;
     width: 10px;
-    height: 16px;
+    height: 12px;
     right: 20px;
     top: 12px;
     &.active{
