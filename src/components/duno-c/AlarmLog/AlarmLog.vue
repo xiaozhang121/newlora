@@ -173,7 +173,6 @@ export default {
           width: 68px;
           background-color: #3a81a1;
           border-radius: 16px;
-          opacity: 0.68;
           margin-left: 10px;
           text-align: center;
         }

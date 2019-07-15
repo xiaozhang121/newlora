@@ -394,7 +394,7 @@ export default {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 45px;
+      width: 60px;
       height: 22px;
       border-radius: 20px;
     }
@@ -402,8 +402,6 @@ export default {
   .el-button--text {
     border-color: transparent !important;
     background: transparent !important;
-  }
-  .alarmLevel {
   }
   .flexPos {
     display: flex;
@@ -428,7 +426,7 @@ export default {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 45px;
+      width: 60px;
       height: 22px;
       border-radius: 20px;
     }
@@ -545,6 +543,7 @@ export default {
     tr {
       td {
         height: 52px;
+        font-size: 16px;
       }
     }
     tr:nth-child(odd) {

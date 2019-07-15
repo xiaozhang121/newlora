@@ -151,20 +151,20 @@ export default {
     }
   }
   .dunoMain {
-    height: inherit!important;
+    height: inherit !important;
   }
   .task {
-    padding: 20px;
+    padding: 20px 0 20px 20px;
     width: 100%;
     overflow: hidden;
     & > div {
-      width: calc(24% - 80px);
+      width: calc(20% - 20px);
       float: left;
       margin-right: 20px;
     }
-    & > div:nth-child(5n + 0) {
-      margin-right: 0;
-    }
+    // & > div:nth-child(5n + 0) {
+    //   margin-right: 0;
+    // }
   }
 }
 .el-picker-panel {
