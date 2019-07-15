@@ -74,6 +74,7 @@ export default {
 
 <style lang="scss">
     .controBtn{
+        width: 100%;
         .control_slider{
             display: flex;
             position: absolute;
@@ -92,15 +93,15 @@ export default {
             display: flex;
             flex-direction: column;
             /*width: 256px;*/
-            width: 251px;
-            height: 256px;
-            margin-left: 26px;
+            width: 100%;
+            height: 100%;
+            /*margin-left: 26px;*/
             position: relative;
             .description{
                 position: absolute;
                 color: #a2a2a5;
                 width: 34px;
-                height: 55px;
+                height: 51px;
                 left: 0;
                 top: 0;
                 right: 0;
@@ -109,11 +110,12 @@ export default {
             }
             .row{
                 display: flex;
-                height: 83px;
+                /*height: 83px;*/
                 .btn{
                     flex: 1;
                     cursor: pointer;
                     /*margin: 9px;*/
+                    padding-bottom: 30%;
                     background-size: contain !important;
                     background-repeat: no-repeat !important;
                     margin: 4px;
