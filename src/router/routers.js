@@ -393,7 +393,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/security/monitorKilovolt/monitor1000.vue')
+              component: () => import('@/views/communal/security/securityNum.vue')
             }
         ]
       },
@@ -416,7 +416,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/security/monitorKilovolt/monitor500.vue')
+              component: () => import('@/views/communal/security/securityNum.vue')
             }
         ]
       },
@@ -439,7 +439,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/security/monitorKilovolt/monitor220.vue')
+              component: () => import('@/views/communal/security/securityNum.vue')
             }
         ]
       },
@@ -462,7 +462,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/security/monitorKilovolt/monitor110.vue')
+              component: () => import('@/views/communal/security/securityNum.vue')
             }
         ]
       },
@@ -485,7 +485,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/security/monitorKilovolt/monitor35.vue')
+              component: () => import('@/views/communal/security/securityNum.vue')
             }
         ]
       },
@@ -508,7 +508,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/security/monitorKilovolt/monitor10.vue')
+              component: () => import('@/views/communal/security/securityNum.vue')
             }
         ]
       }
@@ -801,7 +801,7 @@ export default [
     name: '_report-forms',
     component: Main,
     meta: {
-      title: '所有报表(开发中)',
+      title: '所有报表',
       notCache: true
     },
     children: [
