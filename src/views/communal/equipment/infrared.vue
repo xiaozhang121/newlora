@@ -102,7 +102,7 @@ export default {
       dataMonitor: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      dataBread: ["操作中台", "设备管理", "可见光监测"],
+      dataBread: ["操作中台", "设备管理", "红外测温"],
       numberCameras: [
         {
           circleColor: "#00B4FF",
