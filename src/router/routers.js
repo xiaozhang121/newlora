@@ -820,12 +820,12 @@ export default [
         path: 'meterdata',
         name: 'meterdata',
         meta: {
-          title: '表计数据',
+          title: '表计分析',
           icon:"icon-shouye",
           notCache: true,
           isAlone: true
         },
-        component: () => import('_c/duno-developing/index.vue')
+        component: () => import('@/views/communal/alarmInfo/analysis.vue')
       },
       {
         path: 'alarm-info',

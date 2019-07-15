@@ -13,7 +13,7 @@
     </div>
     <div class="promptContent">
       <h3>
-        当前告警信息
+        当前异常信息
         <span class="DotNum" v-if="isDot">{{value}}</span>
         <i @click="visible = !visible" class="iconfont icon-guanbi" />
       </h3>

@@ -12,8 +12,6 @@
             class="dunoBtnTop"
             :isCheck="false"
             :dataList="numberCameras"
-            :top="top"
-            :right="right_l"
             :title="titleValueL"
             :showBtnList="false"
           ></duno-btn-top>
@@ -48,7 +46,7 @@
       />
     </div>
     <div class="alarmTitle">
-      <div>3天内安防警告记录</div>
+      <div>1天内安防警告记录</div>
       <div>
         <div>
           <i class="iconfont icon-gaojingxinxi"></i>
@@ -127,9 +125,6 @@ export default {
       pushMovVisable: false,
       showBtnList: false,
       isSecond: false,
-      top: "40px",
-      right_r: "20px",
-      right_l: "230px",
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
       videoWidth: "calc(25% - 15px)",
@@ -351,10 +346,8 @@ export default {
         height: 40px;
         .btnList {
           top: inherit !important;
-          // line-height: 30px;
           width: 185px;
           .title {
-            // font-size: 16px;
             padding: 8px 20px;
           }
           .btnNr {

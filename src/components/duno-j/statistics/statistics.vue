@@ -101,6 +101,7 @@ export default {
           margin: 10px auto;
           border-radius: 50%;
           width: 88px;
+          height: 88px;
           line-height: 88px;
           text-align: center;
           font-size: 28px;
