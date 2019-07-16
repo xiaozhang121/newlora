@@ -3,47 +3,8 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="dunoDrap">
-      <div>重点监测区域</div>
-      <div class="selectBtn">
-        <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="numberCameras"
-            :title="titleValueL"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div>
-          <el-select
-            @change="selectData"
-            class="selectSearch"
-            v-model="valueSelect"
-            filterable
-            :placeholder="titleValueR"
-          >
-            <el-option
-              v-for="item in optionsList"
-              :key="item.monitorDeviceId"
-              :label="item.serialNo"
-              :value="item.monitorDeviceId"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-    </div>
-    <div class="monitorArea" :class="{'center': isCenter}">
-      <KeyMonitor
-        v-for="(item,index) in dataMonitor"
-        :class="{'noMargin': (index+1) % active == 0}"
-        :key="index"
-        :streamAddr="item['streamAddr']"
-        @on-push="onPush"
-        :monitorInfo="item"
-        :width="videoWidth"
-      />
+    <div>
+      <KeyErea />
     </div>
     <div class="reportRecode">
       <div class="right">
@@ -102,14 +63,22 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import ReportTable from "_c/duno-c/ReportTable";
 import AlarmLog from "_c/duno-c/AlarmLog";
+import KeyErea from "_c/duno-c/KeyErea";
 export default {
-  components: { Breadcrumb, dunoBtnTop, KeyMonitor, ReportTable, AlarmLog },
+  components: {
+    Breadcrumb,
+    dunoBtnTop,
+    KeyMonitor,
+    ReportTable,
+    AlarmLog,
+    KeyErea
+  },
   name: "visiblelightTep",
   data() {
     return {
       isCenter: false,
       valueSelect: "",
-      img:"",
+      img: "",
       dataMonitor: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
@@ -254,60 +223,6 @@ export default {
       font-size: 16px;
     }
   }
-  .dunoDrap {
-    display: flex;
-    justify-content: space-between;
-    & > div:first-child {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      font-size: 18px;
-      color: #ffffff;
-    }
-    .selectBtn {
-      display: flex;
-      justify-content: space-between;
-      width: 380px;
-      margin-top: 14px;
-      height: 50px;
-      .dunoBtnTop {
-        width: 185px;
-        display: inline-flex;
-        padding-bottom: 0;
-        height: 40px;
-        .btnList {
-          top: inherit !important;
-          width: 185px;
-          .title {
-            padding: 8px 20px;
-          }
-          .btnNr {
-            color: white;
-          }
-        }
-      }
-    }
-  }
-  .monitorArea {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 491px;
-    background-color: #142838;
-    opacity: 0.8;
-    padding: 20px 20px;
-    overflow: hidden;
-    &.center {
-      display: flex;
-      justify-content: center;
-    }
-    & > div {
-      float: left;
-      margin-bottom: 20px;
-      margin-right: 20px;
-    }
-    .noMargin {
-      margin-right: 0;
-    }
-  }
   .reportRecode {
     width: 100%;
     margin-top: 20px;
@@ -376,8 +291,8 @@ export default {
       min-height: 246px;
       padding: 20px 0 20px 20px;
       div {
-          padding-right: 20px;
-          float: left;
+        padding-right: 20px;
+        float: left;
         img {
           display: block;
           width: 180px;

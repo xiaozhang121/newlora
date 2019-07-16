@@ -61,10 +61,9 @@ export default {
       const that = this;
       let query = {
         alarmId: that.remarkData.alarmId,
-        type: '1'
+        type: "1"
       };
       dealRemarks(query).then(res => {
-        // debugger;
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
       });
@@ -77,6 +76,9 @@ export default {
     }
   },
   mounted() {
+    if (!this.remarkData.dealList) {
+      return;
+    }
     this.remarkData.dealList.forEach(el => {
       let str = el.dealType + " (" + el.dealTime + ")";
       this.dealList.push(str);

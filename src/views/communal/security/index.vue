@@ -3,6 +3,10 @@
     <div class="breadcrumb">
       <Breadcrumb />
     </div>
+    <div>
+      <KeyErea />
+    </div>
+    <!--
     <div class="dunoDrap">
       <div>重点监测区域</div>
       <div class="selectBtn">
@@ -45,6 +49,7 @@
         :width="videoWidth"
       />
     </div>
+    -->
     <div class="alarmTitle">
       <div>1天内安防警告记录</div>
       <div>
@@ -69,8 +74,7 @@
 
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-import dunoBtnTop from "_c/duno-m/duno-btn-top";
-import KeyMonitor from "_c/duno-c/KeyMonitor";
+import KeyErea from "_c/duno-c/KeyErea";
 import AlarmLog from "_c/duno-c/AlarmLog";
 import mixinViewModule from "@/mixins/view-module";
 import { getAxiosData } from "@/api/axiosType";
@@ -86,10 +90,9 @@ export default {
   name: "security",
   components: {
     Breadcrumb,
-    dunoBtnTop,
-    KeyMonitor,
     AlarmLog,
-    pushMov
+    pushMov,
+    KeyErea
   },
   data() {
     return {
@@ -214,7 +217,6 @@ export default {
         }
       });
     },
-
     initData() {
       const that = this;
       getMonitorSelect().then(res => {
