@@ -1,6 +1,6 @@
 <template>
   <div class="polygonal" :style="{width:width+'px'}">
-    <h4 class="title">4号主变01#枪机</h4>
+    <h4 class="title">{{ title }}</h4>
     <div class="time">
       <div>
         <el-radio-group v-model="radio" @change="onChangeRadio">

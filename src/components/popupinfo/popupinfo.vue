@@ -1,11 +1,13 @@
 <template>
-  <historical-documents width="500px" :itemId="deviceId" :isClassify="isShowClassify" :tabPaneData="tabPaneData" @clickClassify="clickClassify" @on-show="onShow" :dialogTableVisible="visible" @close="onClose">
-    <div>
-      <realtime :itemData="itemData" :classifyData="classifyData" :isClassify="isShowClassify" v-if="activeName == 'first'" />
-      <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'fourth'" />
-      <polygonal @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'fifth'" />
-    </div>
-  </historical-documents>
+  <div class="popupinfo">
+    <historical-documents :showHeader="true" title="4号主变01#枪机" width="500px" :itemId="deviceId" :isClassify="isShowClassify" :tabPaneData="tabPaneData" @clickClassify="clickClassify" @on-show="onShow" :dialogTableVisible="visible" @close="onClose">
+      <div>
+        <realtime :itemData="itemData" :classifyData="classifyData" :isClassify="isShowClassify" v-if="activeName == 'first'" />
+        <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'fourth'" />
+        <polygonal @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'fifth'" />
+      </div>
+    </historical-documents>
+  </div>
 </template>
 <script>
 import moment from 'moment'
@@ -173,5 +175,17 @@ export default {
 <style lang="scss">
   .time > div{
       margin-bottom: 10px;
+  }
+  .popupinfo{
+    .historicalwarning, .realtime,.polygonal{
+      position: relative;
+      top: -13px;
+    }
+    .HistoricalDocuments{
+      .titleBtn{
+        margin-right: 53px;
+        margin-top: -40px;
+      }
+    }
   }
 </style>

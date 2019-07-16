@@ -150,4 +150,17 @@
         }
     }
 </script>
+<style lang="scss">
+    .cameraPop{
+        .HistoricalDocuments{
+            .titleBtn{
+                margin-right: 48px;
+                margin-top: -40px;
+            }
+        }
+        .historyfile{
+            padding-bottom: 15px;
+        }
+    }
+</style>
 

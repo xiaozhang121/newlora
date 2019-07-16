@@ -1,6 +1,6 @@
 <template>
     <div class="hotcameraPop" >
-        <historical-documents  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
             <hot-camera :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
         </historical-documents>
     </div>
@@ -21,6 +21,7 @@
         },
         data() {
             return {
+                title: '测试头部',
                 cameraFlag: 'first'
             }
         },
