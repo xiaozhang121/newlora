@@ -2,7 +2,7 @@
   <div :class="['HistoricalDocuments', !isShowTab? 'noHistorical':'']">
     <el-dialog class="elDialogMain" v-dialogDrag :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
       <div slot="title">
-        <span class="title titleSpan" v-if="!isShowTab">{{title}}</span>
+        <span class="title titleSpan" v-if="!isShowTab || showHeader">{{title}}</span>
         <div v-if="isShowTab" class="titleBtn">
           <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()"><i class="iconfont icon-daochu"></i></el-button>
           <el-button class="titleTopBtn" v-if="activeName == 'fifth'" @click="clickMagnify($refs.contentMagnify)"><i class="iconfont icon-fangda"></i></el-button>
@@ -36,6 +36,12 @@ import qs from 'qs'
 export default {
   name: "HistoricalDocuments",
   props: {
+    showHeader: {
+      type: Boolean,
+      default: () => {
+          return false
+      }
+    },
     isShowTab: {
       type: Boolean,
       default: () => {
@@ -181,7 +187,7 @@ export default {
       font-size: 22px;
     }
     .titleSpan {
-      padding: 15px 10px;
+      padding: 10px 10px;
       display: block;
       background: rgba(50, 95, 125, 0.8);
     }
@@ -189,7 +195,7 @@ export default {
       // box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
       background-color: rgba(18, 33, 39, 0.7);
       width: 100%;
-      border-radius: 5px;
+      border-radius: 0;
       position: relative;
       border: 1px solid #4b9bc1;
       .el-dialog__header {
@@ -199,10 +205,10 @@ export default {
       .el-dialog__body {
         .el-tabs {
           .el-tabs__header {
-            width: 84%;
+            /*width: 84%;*/
             position: absolute;
-            top: 0;
-            left: 0;
+            top: -41px;
+            left: -1px;
             border: none;
             .el-tabs__nav-wrap {
               border: none;
@@ -211,16 +217,14 @@ export default {
                 .el-tabs__nav {
                   border: none;
                   .el-tabs__item {
-                    width: 96px;
-                    text-align: center;
+                    width: 123px;
                     border: none;
-                    margin-right: 5px;
-                    border-radius: 3px;
                     color: #fff;
-                    background-color: #305e83;
-                    opacity: 0.7;
+                    background: linear-gradient(225deg, transparent 30px, rgba(18, 33, 39, 0.7) 0) top left;
+                    /*background: linear-gradient(225deg, transparent 30px, #58a 0) top left;*/
                   }
                   .is-active {
+                    background: linear-gradient(225deg, transparent 30px, #58a 0) top left;
                     opacity: 1;
                     color: #ffffff;
                   }

@@ -60,7 +60,8 @@ export default {
     },
     methods:{
         viewCamera(command, flag){
-            this.activeNum = command
+            if(!flag)
+                this.activeNum = command
         },
         cameraSF() {
             console.log('dian')

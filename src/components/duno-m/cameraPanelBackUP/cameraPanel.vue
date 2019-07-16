@@ -1,7 +1,7 @@
 <template>
     <div class="cameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
-            <div class="title">{{ cameraName }}</div>
+            <!--<div class="title">{{ cameraName }}</div>-->
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
@@ -42,8 +42,8 @@
             </div>
         </template>
         <template  v-else-if="panelType == 'second'">
-            <div class="title">{{ cameraName }}</div>
-            <div class="cameraMain">
+            <!--<div class="title">{{ cameraName }}</div>-->
+            <div class="cameraMain" style="padding-bottom: 39px;">
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
                         <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="btnList">
-                    <div style="display: flex; margin-bottom: 30px; position: relative; top: -10px;">
+                    <div style="display: flex; margin-bottom: 30px; position: relative; top: 5px;">
                         <div style="margin-top: 5px">巡航间隔：</div>
                         <div style="flex: 1">
                             <el-select v-model="selectValue" placeholder="请选择">
@@ -86,7 +86,7 @@
             </div>
         </template>
         <template  v-else-if="panelType == 'third'">
-            <div class="title">{{ cameraName }}</div>
+            <!--<div class="title">{{ cameraName }}</div>-->
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
@@ -763,13 +763,13 @@
     .cameraPanel{
         position: relative;
         display: flex;
-        padding-bottom: 30px;
+        /*padding-bottom: 30px;*/
         flex-direction: column;
         /*border: 1px solid #04e6e7;*/
-        padding: 1px 14px;
+        /*padding: 1px 20px;*/
         width: 750px;
         .vjs-custom-skin{
-            transform: scale(0.6);
+            transform: scale(0.62, 0.6);
             transform-origin: left top;
             position: relative;
             left: -7px;
@@ -907,12 +907,13 @@
                 /*width: 256px;*/
                 width: 249px;
                 height: 256px;
-                margin-left: 26px;
+                margin-left: 50px;
                 position: relative;
+                top: -3px;
                 .description{
                     position: absolute;
                     color: #a2a2a5;
-                    width: 40px;
+                    width: 28px;
                     height: 48px;
                     left: 0;
                     top: 0;
@@ -926,7 +927,7 @@
                     .btn{
                         flex: 1;
                         cursor: pointer;
-                        /*margin: 9px;*/
+                        margin: 3px;
                         background-size: contain !important;
                         background-repeat: no-repeat !important;
                     }

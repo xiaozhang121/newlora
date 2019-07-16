@@ -1,10 +1,10 @@
 <template>
     <div class="cameraPop" >
-        <historical-documents :itemId="itemId" width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
-            <camera-panel-back-u-p :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel-back-u-p>
-            <polygonal-backup :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
-            <historyfile :title="title" :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
-            <historyfourth-backup :title="title" :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
+        <historical-documents :showHeader="true"  :title="title" :itemId="itemId" width="744px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
+            <camera-panel-back-u-p  :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel-back-u-p>
+            <polygonal-backup  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
+            <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
+            <historyfourth-backup  :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
         </historical-documents>
     </div>
 </template>
@@ -86,7 +86,7 @@
             },
             disposeData(data) {
                 if (data && JSON.stringify(data) !== '{}') {
-                    if (data.monitorDeviceType == '1') {
+                    if (data.monitorDeviceType == '1' || data.monitorDeviceType == '99') {
                         this.title = data.deviceMessage.name || data.deviceMessage.cameraName
                     } else if (data.monitorDeviceType == '2') {
                         this.title = data.deviceMessage.cameraName
