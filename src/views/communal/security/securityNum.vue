@@ -8,7 +8,7 @@
       <statistics :warningList="circleData" />
     </div>
     <div class="thRecord">
-      <PageHisRecords :titleCode="titleData.securityRecord" />
+      <PageHisRecords :areaId="areaId" :titleCode="titleData.securityRecord" />
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
       areaData: [],
       deviceList: [],
       circleData: {},
-      areaId: "",
+      areaId: null,
       areaName: "",
       selectAreaId: [],
       routeName: "",
@@ -46,6 +46,11 @@ export default {
     },
     routeName(now) {
       this.getAreaData();
+      this.getRouteName(now);
+    }
+  },
+  methods: {
+    getRouteName(now) {
       switch (now) {
         case "environmental1000KVList":
           this.titleData = {
@@ -91,9 +96,7 @@ export default {
           break;
         default:
       }
-    }
-  },
-  methods: {
+    },
     getAreaData() {
       let that = this;
       getAreaList().then(res => {
