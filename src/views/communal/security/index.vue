@@ -68,7 +68,7 @@
         :key="index"
       />
     </div>
-    <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
+    <!-- <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" /> -->
   </div>
 </template>
 

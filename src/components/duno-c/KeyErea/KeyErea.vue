@@ -42,6 +42,7 @@
         :width="videoWidth"
       />
     </div>
+    <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
   </div>
 </template>
 
@@ -49,6 +50,8 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import { mapState } from "vuex";
+import pushMov from "_c/duno-m/pushMov";
 import {
   getMonitorSelect,
   securityMonitor,
@@ -59,12 +62,14 @@ export default {
   components: {
     Breadcrumb,
     dunoBtnTop,
-    KeyMonitor
+    KeyMonitor,
+    pushMov
   },
   data() {
     return {
       isSecond: false,
       isCenter: false,
+      pushMovVisable: false,
       showBtnList: false,
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
@@ -126,10 +131,34 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapState(["app"]),
+    cameraPic() {
+      if (this.cameraInfo) {
+        return this.cameraInfo["pic"];
+      } else {
+        return "";
+      }
+    }
+  },
   methods: {
+    onClose() {
+      this.pushMovVisable = false;
+    },
+    onPushReal(index) {
+      const that = this;
+      let query = {
+        ["cameraPos0" + index]: this.cameraInfo["monitorDeviceId"],
+        id: this.$store.state.user.configInfo
+      };
+      editConfig(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+      });
+    },
     onPush(item) {
-    //   this.pushMovVisable = true;
-    //   this.cameraInfo = item;
+      this.pushMovVisable = true;
+      this.cameraInfo = item;
     },
     getCamera() {
       const that = this;
