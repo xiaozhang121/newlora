@@ -2,10 +2,20 @@
     <div class="inspection" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
             <div class="title">{{ cameraName }}</div>
-            <div class="cameraMain">
+            <div class="cameraMaind">
                 <div class="btnList">
                     <div class="title">
-                       已设置预置位：
+                       <div class="name">已设置预置位：</div>
+                       <div class="select">
+                           <el-select v-model="startPoint" placeholder="请选择">
+                               <el-option
+                                       v-for="item in dataList[0]['dataList']"
+                                       :key="item.name"
+                                       :label="item.name"
+                                       :value="item.name">
+                               </el-option>
+                           </el-select>
+                       </div>
                     </div>
                     <duno-table ref="table" style="width: 100%" :height="tableHeight"  v-for="(item, index) in dataList"  :key="index"  :columns="columns" :dataList="item.dataList"></duno-table>
                     <div>
@@ -50,7 +60,7 @@
         components: { dunoTable,DunoCharts, videoPlayer },
         data() {
             return {
-                tableHeight: 390,
+                tableHeight: 0,
                 alarm: require('@/assets/demo/alarm.jpg'),
                 normal: require('@/assets/demo/normal.jpg'),
                 disabled: false,
@@ -66,6 +76,7 @@
                 editIndex: -1,
                 addPosInput: '',
                 flagNow: -1,
+                initFlag: 0,
                 secondLast: 2,
                 secondLastShow: 2,
                 timerMove: null,
@@ -131,10 +142,11 @@
                         }
                     },
                 ],
+                startPoint: '预置位名称A',
                 dataList: [
                     {
                         dataList: [
-                            /* {
+                             {
                                  flag: 'play',
                                  ago: false,
                                  name: '预置位名称A',
@@ -145,7 +157,19 @@
                                  ago: false,
                                  name: '预置位名称B',
                                  deal: '删除'
-                             }*/
+                             },
+                            {
+                                flag: 'play',
+                                ago: false,
+                                name: '预置位名称B',
+                                deal: '删除'
+                            },
+                            {
+                                flag: 'play',
+                                ago: false,
+                                name: '预置位名称B',
+                                deal: '删除'
+                            }
                         ]
                     }
                 ],
@@ -312,6 +336,7 @@
             flagNow(now){
                 const that = this
                 // alert(now)
+                console.log(now)
                 putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+this.dataList[0]['dataList'][now]['psIndex'])
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
@@ -448,16 +473,14 @@
                 this.boatNow = !this.boatNow
                 if(!this.boatNow){
                     clearInterval(that.showTimer)
+                    if(that.radioValue == 1 && that.allGreen()){
+                        that.flagNow = -1
+                    }
                     if(that.flagNow == -1){
                         that.initGrey()
                         that.flagNow = 0;
-                        that.mvFunc()
+                        that.mvFunc(true)
                     }else{
-                        if(that.dataList[0]['dataList'].length-1 == that.flagNow && that.radioValue == 1){
-                            that.flagNow = -1;
-                            that.initGrey()
-                            that.mvFunc()
-                        }
                         that.timeoutFun()
                     }
                     // 查看到期
@@ -471,18 +494,36 @@
                     that.dataList[0]['dataList'][that.flagNow]['flag'] = 'greenPoint'
                 }
             },
+            allGreen(){
+                const that = this
+                let arr = []
+                arr = that.dataList[0]['dataList'].filter(item=>{
+                    return item['ago']
+                })
+                if(that.radioValue == 1){
+                    return arr.length == that.dataList[0]['dataList'].length
+                }else{
+                    return false
+                }
+            },
             timeoutFun(){
                 const that = this
-                if(that.flagNow+1<that.dataList[0]['dataList'].length){
+                if(that.flagNow+1<that.dataList[0]['dataList'].length && !that.allGreen()){
                     that.flagNow++
-                    if(that.flagNow-1 >=0)
+                    if(that.flagNow-1 >=0){
                         that.dataList[0]['dataList'][that.flagNow-1]['flag'] = 'greenPoint'
+                    }
                 }else{
                     that.dataList[0]['dataList'][that.dataList[0]['dataList'].length-1]['flag'] = 'greenPoint'
                     if(that.radioValue == 1){
-                        clearInterval(that.timer)
-                        that.boatNow = true
-                        return
+                        if(that.allGreen()){
+                            clearInterval(that.timer)
+                            that.boatNow = true
+                            that.dataList[0]['dataList'][that.flagNow]['flag'] = 'greenPoint'
+                            return
+                        }else{
+                            that.flagNow = 0
+                        }
                     }
                     that.flagNow = 0
                     that.dataList[0]['dataList'][0]['flag'] = 'greenPoint'
@@ -490,11 +531,14 @@
                 that.mvFunc()
                 that.$forceUpdate()
             },
-            mvFunc(){
+            mvFunc(flag){
                 const that = this
                 clearInterval(that.lightTimer)
                 clearInterval(that.showTimer)
                 that.secondLastShow = that.secondLast
+                if(flag){
+                    that.flagNow = that.initFlag
+                }
                 // 摄像头旋转期间
                 that.movTimer = setTimeout(()=>{
                     clearInterval(that.lightTimer)
@@ -577,10 +621,11 @@
         mounted(){
             const that = this
             window.addEventListener('resize', function () {
-                that.tableHeight =  document.querySelector('.right.nr').offsetHeight - 170
+                console.log(document.querySelector('.contain').offsetHeight)
+                that.tableHeight =  document.querySelector('.contain').offsetHeight - 170
             })
             this.$nextTick(()=>{
-                that.tableHeight =  document.querySelector('.right.nr').offsetHeight - 170
+                that.tableHeight =  document.querySelector('.contain').offsetHeight - 170
                 that.initCamera()   // 初始化摄像头
                 that.getListData()  // 获取表格数据
             })
@@ -701,10 +746,28 @@
               color: white;
           }
         .title{
-            font-size: 18px;
+            font-size: 15px;
             color: white;
             margin-top: 5px;
             margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            .name{
+
+            }
+            .select{
+                position: relative;
+                top: -4px;
+                width: 133px !important;
+                .el-select .el-input .el-select__caret{
+                    color: white !important;
+                }
+                .el-input__inner{
+                    font-size: 15px;
+                    color: white !important;
+                    border-color: transparent !important;
+                }
+            }
         }
         .addPosition{
             display: flex;
@@ -734,116 +797,6 @@
                 .btnEx_btn{
                     float: right;
                 }
-            }
-        }
-        .cameraMain{
-            display: flex;
-            .camera{
-                width: 400px;
-                height: 300px;
-                margin-right: 7px;
-                .main{
-                    width: 100%;
-                    height: 83%;
-                }
-                .explain{
-                    height: 20px;
-                    display: flex;
-                    color: white;
-                    padding-top: 20px;
-                    span{
-                        text-align: center;
-                        flex: 1;
-                        cursor: pointer;
-                    }
-                }
-            }
-            .btnList{
-                padding-bottom: 50px;
-                display: flex;
-                flex-direction: column;
-                /*width: 256px;*/
-                height: 256px;
-                position: relative;
-                .title{
-                    font-size: 15px;
-                    margin: 4px 0;
-                }
-                .description{
-                    position: absolute;
-                    color: #a2a2a5;
-                    width: 28px;
-                    height: 48px;
-                    left: 0;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    margin: auto;
-                }
-                .row{
-                    display: flex;
-                    height: 83px;
-                    .btn{
-                        flex: 1;
-                        cursor: pointer;
-                        /*margin: 9px;*/
-                        background-size: contain !important;
-                        background-repeat: no-repeat !important;
-                    }
-                    .btn.active{
-                        background: url("../../../../src/assets/camera/xjBtnClick.png") !important;
-                        background-size: contain !important;
-                        background-repeat: no-repeat !important;
-                    }
-                    .btn.actived{
-                        background: url("../../../../src/assets/camera/squeraClick.png")  !important;
-                        background-size: contain !important;
-                        background-repeat: no-repeat !important;
-                    }
-                }
-            }
-        }
-        .leftBtn{
-            position: absolute;
-            top: 0;
-            left: -80px;
-            width: 80px;
-            .btn{
-                cursor: pointer;
-                border-top-left-radius: 5px;
-                border-bottom-left-radius: 5px;
-                text-align: center;
-                margin-bottom: 5px;
-                color: white;
-                padding: 6px 0;
-                border: 1px solid #d9dbda;
-                background: rgba(63,68,74,0.3);
-            }
-            .btn.active{
-                border: 1px solid #04e6e7;
-                background: rgba(4,230,231,0.3);
-            }
-        }
-        .topBtn{
-            position: absolute;
-            top: -38px;
-            left: 0px;
-            display: flex;
-            .btn{
-                cursor: pointer;
-                width: 80px;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-                text-align: center;
-                margin-right: 5px;
-                color: white;
-                padding: 6px 0;
-                border: 1px solid #d9dbda;
-                background: rgba(63,68,74,0.3);
-            }
-            .btn.active{
-                border: 1px solid #04e6e7;
-                background: rgba(4,230,231,0.3);
             }
         }
     }

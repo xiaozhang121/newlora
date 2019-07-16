@@ -292,14 +292,24 @@ export default [
                         component: () => import('@/views/communal/surveillance/index.vue')
                     },
                     {
-                        path: 'detail',
+                        path: 'detailLight',
                         name: 'surveillanceList',
                         meta: {
-                            title: '详情',
+                            title: '可见光详情',
                             hideInMenu: true,
                             isDetails: true
                         },
-                        component: () => import('@/views/communal/surveillance/detail.vue')
+                        component: () => import('@/views/communal/surveillance/detailVlight.vue')
+                    },
+                    {
+                        path: 'detailRed',
+                        name: 'surveillanceList',
+                        meta: {
+                            title: '可见光详情',
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/surveillance/detailVRed.vue')
                     }
                 ]
             }
@@ -626,7 +636,7 @@ export default [
                   hideInMenu: true,
                   isDetails: true
               },
-              component: () => import('@/views/communal/inspection/index.vue')
+              component: () => import('@/views/communal/robotF/index.vue')
             }
         ]
       }

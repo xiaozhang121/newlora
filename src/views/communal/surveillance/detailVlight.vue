@@ -7,8 +7,10 @@
           <div class="content">
               <div class="left nr">
                   <div class="item">
-                      <div class="camera">
-                          <div class="contain"></div>
+                      <div class="camera_surveillanceDetail">
+                          <div class="contain">
+                              <key-monitor paddingBottom="56%"  class="monitor" streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="false"></key-monitor>
+                          </div>
                       </div>
                       <div class="control">
                           <div class="controBtnContain">
@@ -21,7 +23,7 @@
                       </div>
                   </div>
               </div>
-              <div class="right nr">
+              <div class="right nr contain">
                   <inspection></inspection>
               </div>
           </div>
@@ -367,20 +369,26 @@ export default {
             &.nr{
                 display: flex;
                 flex-direction: column;
+                padding-bottom: 3px;
                 .item{
                     background: #132838;
                     display: flex;
                     &:first-child{
                         /*margin-bottom: 15px;*/
                     }
-                    .camera{
+                    .camera_surveillanceDetail{
                         width: 68%;
-                        border: 1px solid pink;
                         .contain{
                             position: relative;
                             width: 100%;
                             padding-bottom: 56%;
                             background: grey;
+                            .monitor{
+                                position: absolute;
+                                width: 100% !important;
+                                top: 0;
+                                left: 0;
+                            }
                         }
                     }
                     .control{
