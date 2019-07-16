@@ -203,6 +203,7 @@ export default {
       }
       
       .el-dialog__body {
+        padding: 8px 20px;
         .el-tabs {
           .el-tabs__header {
             /*width: 84%;*/
