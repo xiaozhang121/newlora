@@ -174,10 +174,10 @@ export default {
   },
   data() {
     return {
-      //   mixinViewModuleOptions: {
-      //     activatedIsNeed: true,
-      //     getDataListURL: "/lenovo-alarm/api/security/list"
-      //   },
+      mixinViewModuleOptions: {
+        activatedIsNeed: false,
+        getDataListURL: "/lenovo-alarm/api/security/list"
+      },
       value: "",
       titleType: "全部数据类型",
       dataForm: {},
@@ -190,49 +190,57 @@ export default {
         }
       ],
       clcikQueryData: {}
-      //   dataList: [
-      //     {
-      //       time: "2019-07-09 15:16:00",
-      //       alarmObject: "断路器GDEF",
-      //       warnLocation: "设备左上角",
-      //       dataType: "仪表读数",
-      //       content: "45",
-      //       autoManual: "自动"
-      //     },
-      //     {
-      //       time: "2019-07-09 15:16:00",
-      //       alarmObject: "断路器GDEF",
-      //       warnLocation: "设备左上角",
-      //       dataType: "仪表读数",
-      //       content: "45",
-      //       autoManual: "自动"
-      //     },
-      //     {
-      //       time: "2019-07-09 15:16:00",
-      //       alarmObject: "断路器GDEF",
-      //       warnLocation: "设备左上角",
-      //       dataType: "仪表读数",
-      //       content: "45",
-      //       autoManual: "自动"
-      //     },
-      //     {
-      //       time: "2019-07-09 15:16:00",
-      //       alarmObject: "断路器GDEF",
-      //       warnLocation: "设备左上角",
-      //       dataType: "仪表读数",
-      //       content: "45",
-      //       autoManual: "自动"
-      //     },
-      //     {
-      //       time: "2019-07-09 15:16:00",
-      //       alarmObject: "断路器GDEF",
-      //       warnLocation: "设备左上角",
-      //       dataType: "仪表读数",
-      //       content: "45",
-      //       autoManual: "自动"
-      //     }
-      //   ]
+      /*
+      dataList: [
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        },
+        {
+          time: "2019-07-09 15:16:00",
+          alarmObject: "断路器GDEF",
+          warnLocation: "设备左上角",
+          dataType: "仪表读数",
+          content: "45",
+          autoManual: "自动"
+        }
+      ]
+      */
     };
+  },
+  watch: {
+    areaId(now) {
+      this.dataForm.areaId = now;
+      this.getDataList();
+    }
   },
   methods: {
     onSelect(item) {
@@ -262,8 +270,8 @@ export default {
   },
   mounted() {
     // this.totalNum = this.dataList.length;
-    this.dataForm.areaId = this.areaId;
-    console.log(this.areaId);
+    // this.dataForm.areaId = this.areaId;
+    // console.log(this.areaId);
   }
 };
 </script>

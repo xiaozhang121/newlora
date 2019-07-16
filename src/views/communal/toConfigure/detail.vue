@@ -72,33 +72,33 @@ export default {
           minWidth: 50,
           align: "center",
           tooltip: true,
-          // render: (h, params) => {
-          //   let newArr = [];
-          //   newArr.push([
-          //     h(
-          //       "a",
-          //       {
-          //         class: "table_link",
-          //         props: { type: "text" },
-          //         on: {
-          //           click: () => {
-          //             this.visible = true;
-          //           }
-          //         }
-          //       },
-          //       "无"
-          //     )
-          //   ]);
-          //   return h(
-          //     "div",
-          //     {
-          //       class: {
-          //         member_operate_div: true
-          //       }
-          //     },
-          //     newArr
-          //   );
-          // }
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "a",
+                {
+                  class: "table_link",
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      this.visible = true;
+                    }
+                  }
+                },
+                params.row.interval
+              )
+            ]);
+            return h(
+              "div",
+              {
+                class: {
+                  member_operate_div: true
+                }
+              },
+              newArr
+            );
+          }
         },
         {
           title: "已巡视次数",
@@ -116,9 +116,17 @@ export default {
           render: (h, params) => {
             let newArr = [];
             newArr.push(
-              h('div',{
-                  class: { table_select: true,interval: (params.row.status === '0'),patrol: (params.row.status === '1')}
-                },params.row.statusName)
+              h(
+                "div",
+                {
+                  class: {
+                    table_select: true,
+                    interval: params.row.status === "0",
+                    patrol: params.row.status === "1"
+                  }
+                },
+                params.row.statusName
+              )
             );
             return h("div", newArr);
           }
@@ -242,14 +250,14 @@ export default {
     color: #5fafff !important;
     text-decoration: underline;
   }
-  .dunoMain{
+  .dunoMain {
     height: inherit;
   }
-  .table_select{
-    &.interval{
+  .table_select {
+    &.interval {
       color: #ff9000;
     }
-    &.patrol{
+    &.patrol {
       color: #53fec0;
     }
   }

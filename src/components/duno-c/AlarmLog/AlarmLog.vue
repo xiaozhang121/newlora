@@ -24,11 +24,16 @@
         </div>
       </div>
       <div class="btn">
-        <p>
+        <p v-if="isShow">
           拍摄来源:
           <span>{{remarkData.monitorDeviceId}}</span>
           <i>备注</i>
           <i @click="addReturn" :disabled="isDisabled">复归</i>
+        </p>
+        <p v-else>
+          拍摄来源:
+          <span>{{remarkData.monitorDeviceId}}</span>
+          <i>查看详情></i>
         </p>
       </div>
     </div>
@@ -42,6 +47,12 @@ import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
   props: {
+    isShow: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     remarkData: {
       type: Object,
       default: () => {
@@ -165,7 +176,8 @@ export default {
           float: right;
           font-style: normal;
           display: block;
-          width: 68px;
+          //   width: 68px;
+          padding: 0 20px;
           background-color: #3a81a1;
           border-radius: 16px;
           margin-left: 10px;
