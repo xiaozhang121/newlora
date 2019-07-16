@@ -51,7 +51,7 @@ export const deviceList = () => {
     })
 }
 
-//安防监测-安防总览-重点监测区域摄像下拉列表
+//动态环境监测-安防总览-重点监测区域摄像下拉列表
 export const getMonitorSelect = () => {
     return axios.request({
         url: '/lenovo-device/api/security/monitor-select',
@@ -59,7 +59,7 @@ export const getMonitorSelect = () => {
     })
 }
 
-//安防监测-安防总览-重点监测区域摄像信息
+//动态环境监测-安防总览-重点监测区域摄像信息
 export const securityMonitor = (query) => {
     return axios.request({
         url: '/lenovo-device/api/security/monitor',

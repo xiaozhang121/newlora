@@ -62,116 +62,125 @@ export default {
     dunoBtnTop,
     DunoTablesTep
   },
-  props:{
-    titleCode:{
-      type:String,
-      default:'1000千伏安防记录'
+  props: {
+    areaId: {
+      type: Number,
+      default: null
     },
-    infoColumns:{
-      type:Array,
-      default:()=>{
-        return[
-           {
-          key: "time",
-          title: "拍摄时间",
-          align: "center"
-        },
-        {
-          key: "alarmObject",
-          title: "告警类型",
-          align: "center"
-        },
-        {
-          key: "warnLocation",
-          title: "拍摄来源",
-          align: "center",
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h("a",{
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {click: () => { }}
-                }, params.row.monitorDeviceId)
-            ],'可见光摄像头');
-            return h(
-              "div", {class: {member_operate_div: true}},
-              newArr
-            );
-          }
-        },
-        {
-          key: "dataType",
-          title: "处理记录",
-          align: "center"
-        },
-        {
-          key: "content",
-          title: "处理时间",
-          align: "center"
-        },
-        {
-          key: "imgVideo",
-          title: "图片/视频",
-          align: "center",
-          render: (h, params) => {
-            return h("i", {
-              class: "iconfont icon-bofang"
-            });
-          }
-        },
-        {
-          title: " ",
-          key: "Presentation",
-          minWidth: 150,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#3a81a1" },
-                  props: { type: "text", content: "复归" },
-                  on: {
-                    click: () => {
-                      console.log(111);
+    titleCode: {
+      type: String,
+      default: "1000千伏安防记录"
+    },
+    infoColumns: {
+      type: Array,
+      default: () => {
+        return [
+          {
+            key: "alarmId",
+            title: "拍摄时间",
+            align: "center"
+          },
+          {
+            key: "alarmType",
+            title: "告警类型",
+            align: "center"
+          },
+          {
+            key: "monitorDeviceId",
+            title: "拍摄来源",
+            align: "center",
+            render: (h, params) => {
+              let newArr = [];
+              newArr.push([
+                h(
+                  "a",
+                  {
+                    class: "table_link",
+                    props: { type: "text" },
+                    on: { click: () => {} }
+                  },
+                  params.row.monitorDeviceId
+                )
+              ]);
+              return h("div", { class: { member_operate_div: true } }, newArr);
+            }
+          },
+          {
+            key: "dataType",
+            title: "处理记录",
+            align: "center"
+          },
+          {
+            key: "content",
+            title: "处理时间",
+            align: "center"
+          },
+          {
+            key: "imgVideo",
+            title: "图片/视频",
+            align: "center",
+            render: (h, params) => {
+              return h("i", {
+                class: "iconfont icon-bofang"
+              });
+            }
+          },
+          {
+            title: " ",
+            key: "Presentation",
+            minWidth: 150,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let newArr = [];
+              newArr.push([
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#3a81a1" },
+                    props: { type: "text", content: "复归" },
+                    on: {
+                      click: () => {
+                        console.log(111);
+                      }
                     }
-                  }
-                },
-                "复归"
-              )
-            ]);
-            newArr.push([
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#3a81a1" },
-                  props: { type: "text", content: "备注" },
-                  on: {
-                    click: () => {
-                      console.log(111);
+                  },
+                  "复归"
+                )
+              ]);
+              newArr.push([
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#3a81a1" },
+                    props: { type: "text", content: "备注" },
+                    on: {
+                      click: () => {
+                        console.log(111);
+                      }
                     }
-                  }
-                },
-                "备注"
-              )
-            ]);
-            return h("div", newArr);
+                  },
+                  "备注"
+                )
+              ]);
+              return h("div", newArr);
+            }
           }
-        }
-        ]
+        ];
       }
     }
   },
   data() {
     return {
+      //   mixinViewModuleOptions: {
+      //     activatedIsNeed: true,
+      //     getDataListURL: "/lenovo-alarm/api/security/list"
+      //   },
       value: "",
       titleType: "全部数据类型",
-      pageRows: 20,
+      dataForm: {},
       typeSelect: [
         {
           describeName: "分合状态"
@@ -180,49 +189,49 @@ export default {
           describeName: "仪表读数"
         }
       ],
-      clcikQueryData: {},
-      dataList: [
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        }
-      ]
+      clcikQueryData: {}
+      //   dataList: [
+      //     {
+      //       time: "2019-07-09 15:16:00",
+      //       alarmObject: "断路器GDEF",
+      //       warnLocation: "设备左上角",
+      //       dataType: "仪表读数",
+      //       content: "45",
+      //       autoManual: "自动"
+      //     },
+      //     {
+      //       time: "2019-07-09 15:16:00",
+      //       alarmObject: "断路器GDEF",
+      //       warnLocation: "设备左上角",
+      //       dataType: "仪表读数",
+      //       content: "45",
+      //       autoManual: "自动"
+      //     },
+      //     {
+      //       time: "2019-07-09 15:16:00",
+      //       alarmObject: "断路器GDEF",
+      //       warnLocation: "设备左上角",
+      //       dataType: "仪表读数",
+      //       content: "45",
+      //       autoManual: "自动"
+      //     },
+      //     {
+      //       time: "2019-07-09 15:16:00",
+      //       alarmObject: "断路器GDEF",
+      //       warnLocation: "设备左上角",
+      //       dataType: "仪表读数",
+      //       content: "45",
+      //       autoManual: "自动"
+      //     },
+      //     {
+      //       time: "2019-07-09 15:16:00",
+      //       alarmObject: "断路器GDEF",
+      //       warnLocation: "设备左上角",
+      //       dataType: "仪表读数",
+      //       content: "45",
+      //       autoManual: "自动"
+      //     }
+      //   ]
     };
   },
   methods: {
@@ -245,14 +254,16 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
-      this.clcikQueryData.startTime = startTime
-      this.clcikQueryData.endTime = endTime
+      this.clcikQueryData.startTime = startTime;
+      this.clcikQueryData.endTime = endTime;
       // this.clickQuery(this.clcikQueryData)
     },
     dataListSelectionChangeHandle() {}
   },
-  mounted () {
-    this.totalNum = this.dataList.length
+  mounted() {
+    // this.totalNum = this.dataList.length;
+    this.dataForm.areaId = this.areaId;
+    console.log(this.areaId);
   }
 };
 </script>
@@ -266,7 +277,7 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-    &>div:first-child{
+    & > div:first-child {
       padding-top: 10px;
       font-size: 18px;
     }
@@ -314,12 +325,12 @@ export default {
             color: #fff;
           }
         }
-        .el-range-editor--small.el-input__inner{
-            height: 40px;
-          }
-          .el-range-editor--small .el-range-input{
-            font-size: 16px;
-          }
+        .el-range-editor--small.el-input__inner {
+          height: 40px;
+        }
+        .el-range-editor--small .el-range-input {
+          font-size: 16px;
+        }
       }
     }
   }

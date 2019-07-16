@@ -56,7 +56,8 @@
     </div>
     <div class="alarmLogIn">
       <AlarmLog
-        v-for="(item,index) in dataAlarm"
+        v-for="(item,index) in dataList"
+        :remarkData="dataList[index]"
         :time="item.alarmTime"
         :remarks="item.dealList"
         :key="index"
@@ -92,10 +93,10 @@ export default {
   },
   data() {
     return {
-      // mixinViewModuleOptions: {
-      //   activatedIsNeed: true,
-      //   getDataListURL: "/lenovo-alarm/api/security/list"
-      // },
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-alarm/api/security/list"
+      },
       isCenter: false,
       time: "",
       remarks: [],
@@ -131,7 +132,6 @@ export default {
       cameraSelection: [],
       dataMonitorAll: [],
       dataMonitor: [],
-      dataAlarm: [],
       numberCameras: [
         {
           circleColor: "#00B4FF",
@@ -219,18 +219,6 @@ export default {
       const that = this;
       getMonitorSelect().then(res => {
         that.optionsList = res.data.tableData;
-      });
-      const query = {
-        pageIndex: 1,
-        pageRows: 44321
-      };
-      getAxiosData("/lenovo-alarm/api/security/list", query).then(res => {
-        if (res.code !== 200) {
-          that.dataList = [];
-          that.totalNum = 0;
-          return that.$message.error(res.msg);
-        }
-        this.dataAlarm = res.data.tableData;
       });
     },
     onSelect(item) {
