@@ -17,15 +17,16 @@
           <el-select
             @change="selectData"
             class="selectSearch"
+            multiple
             v-model="valueSelect"
             filterable
             :placeholder="titleValueR"
           >
             <el-option
               v-for="item in optionsList"
-              :key="item.monitorDeviceId"
-              :label="item.serialNo"
-              :value="item.monitorDeviceId"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
             ></el-option>
           </el-select>
         </div>
@@ -67,16 +68,17 @@ export default {
   },
   data() {
     return {
+      cameraPic: '',
       isSecond: false,
       isCenter: false,
       pushMovVisable: false,
       showBtnList: false,
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      videoWidth: "calc(25% - 15px)",
+      videoWidth: "calc(50% - 10px)",
       valueSelect: "",
       dataMonitor: [],
-      active: 4,
+      active: 2,
       optionsList: [
         {
           value: "选项1",
@@ -133,23 +135,17 @@ export default {
   },
   computed: {
     ...mapState(["app"]),
-    cameraPic() {
-      if (this.cameraInfo) {
-        return this.cameraInfo["pic"];
-      } else {
-        return "";
-      }
-    }
   },
   methods: {
     onClose() {
       this.pushMovVisable = false;
     },
     onPushReal(index) {
+        debugger
       const that = this;
       let query = {
         ["cameraPos0" + index]: this.cameraInfo["monitorDeviceId"],
-        id: this.$store.state.user.configInfo
+        id: this.$store.state.user.configInfo.id
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
@@ -159,20 +155,29 @@ export default {
     onPush(item) {
       this.pushMovVisable = true;
       this.cameraInfo = item;
+      if (this.cameraInfo) {
+          this.cameraPic =  this.cameraInfo["pic"]
+      } else {
+          this.cameraPic =  ""
+      }
     },
     getCamera() {
       const that = this;
       securityMonitor().then(res => {
         if (res.data && res.data.length) {
-          that.dataMonitorAll = res.data;
-          that.dataMonitor = res.data.slice(0, 4);
+          let data = res.data
+          data.map(item=>{
+              item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
+          })
+          that.dataMonitorAll = data;
+          that.dataMonitor = data.slice(0, 4);
         }
       });
     },
     initData() {
       const that = this;
       getMonitorSelect().then(res => {
-        that.optionsList = res.data.tableData;
+        // that.optionsList = res.data.tableData;
       });
     },
     selectData(value) {
@@ -188,7 +193,7 @@ export default {
     onSelect(item) {
       this.titleValueL = item["describeName"];
       console.log(item.widthType);
-      this.dataMonitor = this.dataMonitorAll.slice(item["count"]);
+      this.dataMonitor = this.dataMonitorAll.slice(0,item["count"]);
       this.valueSelect = "";
       switch (item.widthType) {
         case 2:

@@ -7,12 +7,12 @@
                     <div class="title">
                        <div class="name">已设置预置位：</div>
                        <div class="select">
-                           <el-select v-model="startPoint" placeholder="请选择">
+                           <el-select :disabled="!boatNow" v-model="startPoint" placeholder="请选择">
                                <el-option
-                                       v-for="item in dataList[0]['dataList']"
-                                       :key="item.name"
+                                       v-for="(item, index) in dataList[0]['dataList']"
+                                       :key="index"
                                        :label="item.name"
-                                       :value="item.name">
+                                       :value="index">
                                </el-option>
                            </el-select>
                        </div>
@@ -22,7 +22,7 @@
                         <div class="cruiseInterval">
                             <div class="name">巡航间隔：</div>
                             <div style="flex: 1">
-                                <el-select v-model="selectValue" placeholder="请选择">
+                                <el-select :disabled="!boatNow" v-model="selectValue" placeholder="请选择">
                                     <el-option
                                             v-for="item in timeOptions"
                                             :key="item.value"
@@ -77,6 +77,7 @@
                 addPosInput: '',
                 flagNow: -1,
                 initFlag: 0,
+                startPoint: 0,
                 secondLast: 2,
                 secondLastShow: 2,
                 timerMove: null,
@@ -142,7 +143,6 @@
                         }
                     },
                 ],
-                startPoint: '预置位名称A',
                 dataList: [
                     {
                         dataList: [
@@ -161,13 +161,13 @@
                             {
                                 flag: 'play',
                                 ago: false,
-                                name: '预置位名称B',
+                                name: '预置位名称C',
                                 deal: '删除'
                             },
                             {
                                 flag: 'play',
                                 ago: false,
-                                name: '预置位名称B',
+                                name: '预置位名称D',
                                 deal: '删除'
                             }
                         ]
@@ -298,6 +298,14 @@
             }
         },
         watch: {
+            selectValue(now){
+                this.resetBoot()
+            },
+            startPoint(now){
+                const that = this
+                this.initFlag = now
+                this.resetBoot()
+            },
             sliderValue(now, old){
              /*   if(this.clearCameraTimer)
                     return
@@ -371,6 +379,11 @@
             }
         },
         methods:{
+            resetBoot(){
+                this.flagNow = -1
+                this.boatNow = false
+                this.startBoat()
+            },
             alarmNow(){
                 this.normal = this.alarm
                 this.$emit('on-alarm')
