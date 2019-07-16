@@ -144,7 +144,7 @@
         },
         methods:{
             pushInfo(index, event){
-                $(event.currentTarget).css("cssText",`background: url(${this.pic}) !important`)
+                $(event.currentTarget).css("cssText",`background: url(${this.pic})`)
                 this.$emit('on-push', index)
             },
             handleClose(){

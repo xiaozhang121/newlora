@@ -123,6 +123,9 @@ export default {
         sources: [
           {
             type: "rtmp/flv",
+            type: "video/ogg",
+            type:"video/webm",
+            type: "video/mp4",
             src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
           }
         ],
