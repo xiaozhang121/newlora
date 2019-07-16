@@ -767,7 +767,7 @@
         flex-direction: column;
         /*border: 1px solid #04e6e7;*/
         /*padding: 1px 20px;*/
-        width: 750px;
+        width: 710px;
         .vjs-custom-skin{
             transform: scale(0.62, 0.6);
             transform-origin: left top;
