@@ -157,9 +157,9 @@ export default {
       ],
       infoColumns: [
         {
-          key: "id",
+          key: "monitorDeviceId",
           title: "设备ID",
-          align: "monitorDeviceId"
+          align: "center"
         },
         {
           key: "areaName",
@@ -174,11 +174,16 @@ export default {
             let newArr = [];
             newArr.push([
               h("span", {
-                class: { circleStatus: true, green: true },
+                class: {
+                  circleStatus: true,
+                  green: params.row.status === "1",
+                  fault: params.row.status === "2",
+                  close: params.row.status === "0"
+                },
                 draggable: false
               })
             ]);
-            newArr.push([h("span", { draggable: false }, "开启")]);
+            newArr.push([h("span", { draggable: true }, params.row.statusName)]);
             return h("div", newArr);
           }
         },
@@ -219,7 +224,7 @@ export default {
                           }
                         },
                         [
-                          h("span", "每日1次", {
+                          h("span", params.row.inspectCycle, {
                             class: {
                               member_operate_div: true
                             }
@@ -456,7 +461,7 @@ export default {
           // line-height: 40px;
           .title {
             font-size: 16px;
-            padding:8px 20px;
+            padding: 8px 20px;
           }
         }
       }
