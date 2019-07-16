@@ -723,9 +723,11 @@ export default {
         that.isFullscreen = !that.isFullscreen
             let data = that.modeList
             if(that.isFullscreen){
+              document.querySelector('#map').setAttribute('style','height:100vh !important')
               that.$refs.firstElE.style.background = 'rgba(20, 40, 56)'
             }else{
-              that.$refs.firstElE.style.background = 'transparent'
+                document.querySelector('#map').setAttribute('style','calc( 100vh - 166px) !important')
+                that.$refs.firstElE.style.background = 'transparent'
             }
             data.map(item=>{
                /* if(item['popupinfoVisable']){
