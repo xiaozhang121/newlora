@@ -17,9 +17,9 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import PageHisRecords from "_c/duno-c/PageHisRecords";
 import statistics from "_c/duno-j/statistics";
-import { getAxiosData } from "@/api/axiosType";
+import { getAreaList, circleMonth } from "@/api/configuration/configuration.js";
 import { mapState } from "vuex";
-import { type } from "os";
+import { async } from "q";
 export default {
   name: "securityNum",
   components: {
@@ -30,10 +30,12 @@ export default {
   data() {
     return {
       dataBread: [],
-      titleCode: "",
+      areaData: [],
       deviceList: [],
-      circleData: [],
+      circleData: {},
       areaId: "",
+      areaName: "",
+      selectAreaId: [],
       routeName: "",
       titleData: {}
     };
@@ -43,53 +45,48 @@ export default {
       this.routeName = to.name;
     },
     routeName(now) {
+      this.getAreaData();
       switch (now) {
         case "environmental1000KVList":
-          this.areaId = "1";
           this.titleData = {
             title: "1000千伏安防警告",
             securityRecord: "1000千伏安防记录",
-            navBar: ["操作中台", "安防监测", "1000千伏"]
+            navBar: ["操作中台", "动态环境监测", "1000千伏"]
           };
           break;
         case "environmental500KVList":
-          this.areaId = "2";
           this.titleData = {
             title: "500千伏安防警告",
             securityRecord: "500千伏安防记录",
-            navBar: ["操作中台", "安防监测", "500千伏"]
+            navBar: ["操作中台", "动态环境监测", "500千伏"]
           };
           break;
         case "environmental220KVList":
-          this.areaId = "3";
           this.titleData = {
             title: "220千伏安防警告",
             securityRecord: "220千伏安防记录",
-            navBar: ["操作中台", "安防监测", "220千伏"]
+            navBar: ["操作中台", "动态环境监测", "220千伏"]
           };
           break;
         case "environmental110KVList":
-          this.areaId = "4";
           this.titleData = {
             title: "110千伏安防警告",
             securityRecord: "110千伏安防记录",
-            navBar: ["操作中台", "安防监测", "110千伏"]
+            navBar: ["操作中台", "动态环境监测", "110千伏"]
           };
           break;
         case "environmental35KVList":
-          this.areaId = "5";
           this.titleData = {
             title: "35千伏安防警告",
             securityRecord: "35千伏安防记录",
-            navBar: ["操作中台", "安防监测", "350千伏"]
+            navBar: ["操作中台", "动态环境监测", "350千伏"]
           };
           break;
         case "environmental10KVList":
-          this.areaId = "6";
           this.titleData = {
             title: "10千伏安防警告",
             securityRecord: "10千伏安防记录",
-            navBar: ["操作中台", "安防监测", "10千伏"]
+            navBar: ["操作中台", "动态环境监测", "10千伏"]
           };
           break;
         default:
@@ -98,19 +95,38 @@ export default {
   },
   methods: {
     getAreaData() {
-      getAxiosData("/lenovo-alarm/api/security/statistics", this.areaId).then(
-        res => {
-          if (res.code !== 200) {
-            that.dataList = [];
-            that.totalNum = 0;
-            return that.$message.error(res.msg);
-          }
-          this.circleData = res.data;
+      let that = this;
+      getAreaList().then(res => {
+        that.areaData = res.data.areaList;
+        switch (that.routeName) {
+          case "environmental1000KVList":
+            that.areaId = res.data.areaList[0].areaId;
+            break;
+          case "environmental500KVList":
+            that.areaId = res.data.areaList[1].areaId;
+            break;
+          case "environmental220KVList":
+            that.areaId = res.data.areaList[2].areaId;
+            break;
+          case "environmental110KVList":
+            that.areaId = res.data.areaList[3].areaId;
+            break;
+          case "environmental35KVList":
+            that.areaId = res.data.areaList[4].areaId;
+            break;
+          case "environmental10KVList":
+            that.areaId = res.data.areaList[5].areaId;
+            break;
+          default:
         }
-      );
+        circleMonth({ areaId: that.areaId }).then(res => {
+          that.circleData = res.data;
+        });
+      });
     }
   },
   mounted() {
+    this.routeName = this.$route.name;
     this.getAreaData();
   }
 };

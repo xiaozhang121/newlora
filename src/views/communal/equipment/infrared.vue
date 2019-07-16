@@ -81,6 +81,16 @@
           <AlarmLog />
           <AlarmLog />
           <AlarmLog />
+          <AlarmLog />
+        </div>
+      </div>
+    </div>
+    <div class="allRecodes">
+      <div>所有记录</div>
+      <div>
+        <div>
+          <img :src="img" alt />
+          <p>4号主变</p>
         </div>
       </div>
     </div>
@@ -99,6 +109,7 @@ export default {
     return {
       isCenter: false,
       valueSelect: "",
+      img:"",
       dataMonitor: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
@@ -350,6 +361,31 @@ export default {
           margin-left: 0;
           box-sizing: border-box;
           width: 100%;
+        }
+      }
+    }
+  }
+  .allRecodes {
+    & > div:first-child {
+      margin: 20px 0 30px 0;
+      color: #ffffff;
+      font-size: 20px;
+    }
+    & > div:nth-child(2) {
+      background-color: #142838;
+      min-height: 246px;
+      padding: 20px 0 20px 20px;
+      div {
+          padding-right: 20px;
+          float: left;
+        img {
+          display: block;
+          width: 180px;
+          height: 180px;
+        }
+        p {
+          text-align: center;
+          color: #ffffff;
         }
       }
     }

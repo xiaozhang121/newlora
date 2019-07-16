@@ -1,32 +1,32 @@
 <template>
   <div class="alarmLog">
     <div class="img">
-      <img :src="address" alt />
+      <img :src="remarkData.alarmFileAddress" alt />
       <i class="iconfont icon-bofang"></i>
     </div>
     <div class="content">
       <div class="top">
         <p>
           机械判断:
-          <span>{{mechanics}}</span>
+          <span>{{remarkData.machineJudge}}</span>
         </p>
       </div>
       <div class="main">
         <div>
           拍摄时间:
-          <span>{{time}}</span>
+          <span>{{remarkData.alarmTime}}</span>
         </div>
         <div>
           <i>处理记录:</i>
           <p>
-            <span v-for="(item,index) in dataList.slice(0,2)" :key="index">{{item}}</span>
+            <span v-for="(item,index) in dealList" :key="index">{{item}}</span>
           </p>
         </div>
       </div>
       <div class="btn">
         <p>
           拍摄来源:
-          <span>摄像头ID</span>
+          <span>{{remarkData.monitorDeviceId}}</span>
           <i>备注</i>
           <i @click="addReturn" :disabled="isDisabled">复归</i>
         </p>
@@ -37,27 +37,15 @@
 
 <script>
 import moment from "moment";
+import { constants } from "crypto";
+import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
   props: {
-    mechanics: {
-      type: String,
-      default: "人员徘徊"
-    },
-    time: {
-      type: String,
-      default: "2019-07-08 19:32:00"
-    },
-    remarks: {
-      type: Array,
+    remarkData: {
+      type: Object,
       default: () => {
-        return [
-          "现场查询原因 (2019-07-08 19:32:00)",
-          "现场原因 (2019-07-08 19:32:00)",
-          "现场查询 (2019-07-08 19:32:00)",
-          "查询原因 (2019-07-08 19:32:00)",
-          "现查因 (2019-07-08 19:32:00)"
-        ];
+        return {};
       }
     }
   },
@@ -65,30 +53,33 @@ export default {
     return {
       address: "",
       isDisabled: true,
-      remarksData: [],
-      dataList: []
+      dealList: []
     };
   },
   methods: {
     addReturn() {
-      if (this.isDisabled) {
-        let strTime =
-          "复归 (" + moment(new Date()).format("YYYY-MM-DD HH:mm:ss") + ")";
-        this.dataList.unshift(strTime);
-        this.isDisabled = false;
-      }
-    }
-  },
-  watch: {
-    remarks(now) {
-      this.remarksData = now;
+      const that = this;
+      let query = {
+        alarmId: that.remarkData.alarmId,
+        type: '1'
+      };
+      dealRemarks(query).then(res => {
+        // debugger;
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+      });
+      //   if (this.isDisabled) {
+      //     let strTime =
+      //       "复归 (" + moment(new Date()).format("YYYY-MM-DD HH:mm:ss") + ")";
+      //     this.dealList.unshift(strTime);
+      //     this.isDisabled = false;
+      //   }
     }
   },
   mounted() {
-    this.remarksData = this.remarks;
-    this.remarksData.forEach(el => {
-      let str = el.dealType + "(" + el.dealTime + ")";
-      this.dataList.push(str);
+    this.remarkData.dealList.forEach(el => {
+      let str = el.dealType + " (" + el.dealTime + ")";
+      this.dealList.push(str);
     });
   }
 };
@@ -111,11 +102,13 @@ export default {
     height: 100%;
     position: relative;
     img {
+      display: block;
+      height: 100%;
       width: 100%;
     }
     i {
       position: absolute;
-      top: 35%;
+      top: 39%;
       left: 45%;
       font-size: 30px;
       color: #ffffff;

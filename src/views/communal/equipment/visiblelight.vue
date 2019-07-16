@@ -81,6 +81,16 @@
           <AlarmLog />
           <AlarmLog />
           <AlarmLog />
+          <AlarmLog />
+        </div>
+      </div>
+    </div>
+    <div class="allRecodes">
+      <div>所有记录</div>
+      <div>
+        <div>
+          <img src alt />
+          <p>4号主变</p>
         </div>
       </div>
     </div>
@@ -329,13 +339,17 @@ export default {
     }
     .right {
       .inspection {
-        padding: 20px 0 20px 20px;
+        padding: 20px 0 0 20px;
         background-color: #142838;
         overflow: hidden;
         & > div {
+          //   height: 367px;
           float: left;
           width: calc(100% / 3 - 20px);
           margin-right: 20px;
+          .reportTable {
+            height: 367px;
+          }
         }
       }
     }
@@ -343,13 +357,39 @@ export default {
       .hours {
         width: 100%;
         // padding: 20px 20px 20px 0;
-        padding: 20px;
+        padding: 20px 20px 14px 20px;
         overflow: hidden;
         background-color: #142838;
         .alarmLog {
           margin-left: 0;
           box-sizing: border-box;
+          height: 170px;
           width: 100%;
+        }
+      }
+    }
+  }
+  .allRecodes {
+    & > div:first-child {
+      margin: 20px 0 30px 0;
+      color: #ffffff;
+      font-size: 20px;
+    }
+    & > div:nth-child(2) {
+      background-color: #142838;
+      min-height: 246px;
+      padding: 20px 0 20px 20px;
+      div {
+        padding-right: 20px;
+        float: left;
+        img {
+          display: block;
+          width: 180px;
+          height: 180px;
+        }
+        p {
+          text-align: center;
+          color: #ffffff;
         }
       }
     }

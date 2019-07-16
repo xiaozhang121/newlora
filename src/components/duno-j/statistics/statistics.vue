@@ -35,11 +35,11 @@ export default {
   },
   props: {
     warningList: {
-      type: Array,
+      type: Object,
       default: () => {
-        return [];
+        return {};
       }
-    },
+    }
   },
   watch: {
     $route(to) {
