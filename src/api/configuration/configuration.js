@@ -14,10 +14,44 @@ export const getAreaList = (data) => {
         method: "get"
     })
 }
+
 //动态环境监测-10-1000KV-安放警告
 export const circleMonth = (data) => {
     return axios.request({
         url: "/lenovo-alarm/api/security/statistics",
         method: "get"
+    })
+}
+
+//动态环境监测-10-1000KV-告警类型
+export const alarmType = (data) => {
+    return axios.request({
+        url: "/lenovo-alarm/api/alarm-type/list",
+        method: "get"
+    })
+}
+
+//设备监测-可见光-最新巡检报告
+export const lightNewReport = (data) => {
+    return axios.request({
+        url: "/lenovo-plan/api/plan/visible-report/list",
+        method: 'get'
+    })
+}
+
+//设备监测-可见光-最新24小时记录信息
+export const lightNewInformation = (data) => {
+    // debugger
+    return axios.request({
+        url: "/lenovo-plan/api/task/visible-result/list",
+        method: 'get'
+    })
+}
+
+//所有报表-表计分析-echarts
+export const getEchartsData = (data) => {
+    return axios.request({
+        url: "/lenovo-plan/api/statistics/meter-data/chart",
+        method: 'get'
     })
 }

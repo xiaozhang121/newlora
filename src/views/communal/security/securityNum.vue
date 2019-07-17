@@ -8,7 +8,7 @@
       <statistics :warningList="circleData" />
     </div>
     <div class="thRecord">
-      <PageHisRecords :areaId="areaId" :titleCode="titleData.securityRecord" />
+      <PageHisRecords :areaId="areaId" :titleCode="titleData" />
     </div>
   </div>
 </template>
@@ -17,9 +17,12 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import PageHisRecords from "_c/duno-c/PageHisRecords";
 import statistics from "_c/duno-j/statistics";
-import { getAreaList, circleMonth } from "@/api/configuration/configuration.js";
+import {
+  getAreaList,
+  circleMonth,
+  alarmType
+} from "@/api/configuration/configuration.js";
 import { mapState } from "vuex";
-import { async } from "q";
 export default {
   name: "securityNum",
   components: {
@@ -36,6 +39,7 @@ export default {
       areaId: null,
       areaName: "",
       selectAreaId: [],
+      //   alarmTypeData:[],
       routeName: "",
       titleData: {}
     };
@@ -56,42 +60,54 @@ export default {
           this.titleData = {
             title: "1000千伏安防警告",
             securityRecord: "1000千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "1000千伏"]
+            navBar: ["操作中台", "动态环境监测", "1000千伏"],
+            titleType: "全部类型",
+            value: ""
           };
           break;
         case "environmental500KVList":
           this.titleData = {
             title: "500千伏安防警告",
             securityRecord: "500千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "500千伏"]
+            navBar: ["操作中台", "动态环境监测", "500千伏"],
+            titleType: "全部类型",
+            value: ""
           };
           break;
         case "environmental220KVList":
           this.titleData = {
             title: "220千伏安防警告",
             securityRecord: "220千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "220千伏"]
+            navBar: ["操作中台", "动态环境监测", "220千伏"],
+            titleType: "全部类型",
+            value: ""
           };
           break;
         case "environmental110KVList":
           this.titleData = {
             title: "110千伏安防警告",
             securityRecord: "110千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "110千伏"]
+            navBar: ["操作中台", "动态环境监测", "110千伏"],
+            titleType: "全部类型",
+            value: ""
           };
           break;
         case "environmental35KVList":
           this.titleData = {
             title: "35千伏安防警告",
             securityRecord: "35千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "350千伏"]
+            navBar: ["操作中台", "动态环境监测", "350千伏"],
+            titleType: "全部类型",
+            value: ""
           };
           break;
         case "environmental10KVList":
           this.titleData = {
             title: "10千伏安防警告",
             securityRecord: "10千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "10千伏"]
+            navBar: ["操作中台", "动态环境监测", "10千伏"],
+            titleType: "全部类型",
+            value: ""
           };
           break;
         default:

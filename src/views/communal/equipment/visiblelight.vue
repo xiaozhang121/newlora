@@ -13,23 +13,8 @@
           <div>查看更多 ></div>
         </div>
         <div class="inspection">
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
+          <div v-for="(item,index) in inspecReport.slice(0,6)" :key="index">
+            <ReportTable :url="url" :reportData="item" />
           </div>
         </div>
       </div>
@@ -49,9 +34,9 @@
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div>
-          <img src alt />
-          <p>4号主变</p>
+        <div v-for="(item,index) in dataList" :key="index">
+          <img :src="item.fileAddress" alt />
+          <p>{{item.deviceName}}</p>
         </div>
       </div>
     </div>
@@ -64,7 +49,17 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import ReportTable from "_c/duno-c/ReportTable";
 import AlarmLog from "_c/duno-c/AlarmLog";
 import KeyErea from "_c/duno-c/KeyErea";
+import mixinViewModule from "@/mixins/view-module";
+import {
+  lightNewInformation,
+  lightNewReport,
+  lightDownload,
+  lightViewreport
+} from "@/api/configuration/configuration.js";
+import moment from "moment";
 export default {
+  mixins: [mixinViewModule],
+  name: "visiblelight",
   components: {
     Breadcrumb,
     dunoBtnTop,
@@ -76,9 +71,19 @@ export default {
   name: "visiblelightTep",
   data() {
     return {
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-device/api/main-device/list"
+      },
       isCenter: false,
       valueSelect: "",
       dataMonitor: [],
+      url: {
+        downloadUrl: "/lenovo-plan/api/plan/visible-report/download",
+        viewUrl: "/lenovo-plan/api/plan/visible-report/view"
+      },
+      timeQueryData: {},
+      inspecReport: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
       dataBread: ["操作中台", "设备管理", "可见光监测"],
@@ -112,6 +117,7 @@ export default {
           isActive: true
         }
       ],
+      /*
       optionsList: [
         {
           value: "选项1",
@@ -134,6 +140,7 @@ export default {
           label: "北京烤鸭"
         }
       ]
+      */
     };
   },
   methods: {
@@ -171,7 +178,24 @@ export default {
           this.active = 4;
           this.isCenter = false;
       }
+    },
+    getlightData() {
+      let startTime = "";
+      let endTime = "";
+      endTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      startTime = moment()
+        .add(-1, "days")
+        .format("YYYY-MM-DD HH:mm:ss");
+      this.timeQueryData.startTime = startTime;
+      this.timeQueryData.endTime = endTime;
+      lightNewReport(this.timeQueryData).then(res => {
+        this.inspecReport = res.data.tableData;
+      });
+      lightNewInformation().then(res => {});
     }
+  },
+  mounted() {
+    this.getlightData();
   }
 };
 </script>

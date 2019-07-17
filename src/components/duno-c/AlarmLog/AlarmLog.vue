@@ -1,8 +1,10 @@
 <template>
   <div class="alarmLog">
     <div class="img">
-      <img :src="remarkData.alarmFileAddress" alt />
-      <i class="iconfont icon-bofang"></i>
+      <KeyMonitor
+        streamAddr="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+        :imgAdress="remarkData.alarmFileAddress"
+      />
     </div>
     <div class="content">
       <div class="top">
@@ -19,7 +21,7 @@
         <div>
           <i>处理记录:</i>
           <p>
-            <span v-for="(item,index) in dealList" :key="index">{{item}}</span>
+            <span v-for="(item,index) in dealList.slice(0,2)" :key="index">{{item}}</span>
           </p>
         </div>
       </div>
@@ -27,7 +29,7 @@
         <p v-if="isShow">
           拍摄来源:
           <span>{{remarkData.monitorDeviceId}}</span>
-          <i>备注</i>
+          <i @click="clickRemarks">备注</i>
           <i @click="addReturn" :disabled="isDisabled">复归</i>
         </p>
         <p v-else>
@@ -42,10 +44,11 @@
 
 <script>
 import moment from "moment";
-import { constants } from "crypto";
+import KeyMonitor from "_c/duno-c/KeyMonitor";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
+  components: { KeyMonitor },
   props: {
     isShow: {
       type: Boolean,
@@ -58,6 +61,9 @@ export default {
       default: () => {
         return {};
       }
+    },
+    content: {
+      type: String
     }
   },
   data() {
@@ -78,12 +84,26 @@ export default {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
       });
+      this.$emit("handleListData");
       //   if (this.isDisabled) {
       //     let strTime =
       //       "复归 (" + moment(new Date()).format("YYYY-MM-DD HH:mm:ss") + ")";
       //     this.dealList.unshift(strTime);
       //     this.isDisabled = false;
       //   }
+    },
+    clickRemarks() {
+      const that = this;
+      let query = {
+        alarmId: that.remarkData.alarmId,
+        type: "2",
+        content: that.content
+      };
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+      });
+      this.$emit("handleListData");
     }
   },
   mounted() {
@@ -113,19 +133,22 @@ export default {
   .img {
     width: 40%;
     height: 100%;
-    position: relative;
-    img {
-      display: block;
-      height: 100%;
-      width: 100%;
+    // position: relative;
+    .keyMonitor {
+      width: 100% !important;
     }
-    i {
-      position: absolute;
-      top: 39%;
-      left: 45%;
-      font-size: 30px;
-      color: #ffffff;
-    }
+    // img {
+    //   display: block;
+    //   height: 100%;
+    //   width: 100%;
+    // }
+    // i {
+    //   position: absolute;
+    //   top: 39%;
+    //   left: 45%;
+    //   font-size: 30px;
+    //   color: #ffffff;
+    // }
   }
   .content {
     width: 60%;

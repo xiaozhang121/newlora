@@ -1,16 +1,16 @@
 <template>
   <div class="reportTable">
     <div>
-      <img :src="reportData.img" />
+      <img :src="reportData.pic" />
     </div>
     <div class="content">
       <h3>
         任务ID:
-        <span>{{reportData.taskID}}</span>
+        <span>{{reportData.planId}}</span>
       </h3>
       <p>
         类型:
-        <span>{{reportData.typa}}</span>
+        <span>{{reportData.planType}}</span>
       </p>
       <p>
         日期:
@@ -18,23 +18,27 @@
       </p>
       <p>
         时长:
-        <span>{{reportData.duration}}</span>
+        <span>{{reportData.timeLong}}</span>
       </p>
       <p>
         异常信息数量:
-        <span>{{reportData.abnormal}}</span>
+        <span>{{reportData.alarmNum}}</span>
       </p>
       <p>
+        <!-- <i>来源:</i> -->
         来源:
-        <span v-for="(item,index) in reportData.origin" :key="index">{{item}}</span>
+        <span
+          v-for="(item,index) in reportData.monitorDeviceList"
+          :key="index"
+        >{{item.monitorDeviceName}},</span>
       </p>
     </div>
     <div class="btn">
-      <div>
+      <div @click="clickDownload">
         <i class="iconfont icon-xiazai"></i>
         <span>下载报告</span>
       </div>
-      <div>
+      <div @click="viewReports">
         <i class="iconfont icon-chakan"></i>
         <span>查看报告</span>
       </div>
@@ -43,22 +47,45 @@
 </template>
 
 <script>
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import {
+  reportDownload,
+  getViewreport
+} from "@/api/configuration/configuration.js";
 export default {
   name: "ReportTable",
   props: {
     reportData: {
       type: Object,
       default: () => {
-        return {
-          img: require("@/assets/demo/110kv.png"),
-          taskID: "54654564564541",
-          typa: "全面巡视",
-          date: "2019-07-12 14:45:20",
-          duration: "03:23:12",
-          abnormal: "0",
-          origin: ["机器人1,", "机器人2,", "机器人3"]
-        };
+        return {};
       }
+    },
+    url: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
+  methods: {
+    clickDownload() {
+      let url = this.url.downloadUrl;
+      console.log(url);
+      let query = {
+        planId: this.reportData.planId,
+        t: this.$store.state.user.token
+      };
+      getAxiosData(url, query).then(res => {
+        this.$message({
+          message: "开始下载",
+          type: "success"
+        });
+      });
+    },
+    viewReports() {
+      let url = this.url.viewUrl;
+      getAxiosData(url).then(res => {});
     }
   }
 };
@@ -80,7 +107,6 @@ export default {
     padding: 20px 20px 10px 20px;
     h3 {
       font-size: 16px;
-      //   font-weight: normal;
       margin-bottom: 10px;
       span {
         padding-left: 10px;
@@ -93,6 +119,7 @@ export default {
       }
     }
     & > p:last-child {
+      word-wrap: break-word;
       margin-top: 15px;
       span {
         color: #3baddf;
@@ -103,6 +130,7 @@ export default {
   .btn {
     overflow: hidden;
     & > div {
+      cursor: pointer;
       box-sizing: border-box;
       float: left;
       width: 50%;
@@ -110,8 +138,8 @@ export default {
       text-align: center;
       font-size: 16px;
       background-color: #2b516f;
-      span{
-          padding-left: 5px;
+      span {
+        padding-left: 5px;
       }
     }
     & > div:first-child {

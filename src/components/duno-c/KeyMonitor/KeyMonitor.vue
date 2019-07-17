@@ -7,7 +7,15 @@
       @mouseleave="leave()"
     >
       <div class="main" id="videoPlayer">
-        <video-player v-if="showView" ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+        <video-player
+          v-if="showView"
+          ref="videoPlayer"
+          class="vjs-custom-skin"
+          :options="playerOptions"
+          :playsinline="true"
+          @play="onPlayerPlay($event)"
+          @pause="onPlayerPause($event)"
+        ></video-player>
       </div>
       <transition name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
@@ -55,15 +63,21 @@ export default {
     videoPlayer
   },
   props: {
-    monitorInfo:{
-        type: Object | Array,
-        default () {
-            return {}
-        }
+    imgAdress: {
+      type: String,
+      default() {
+        return;
+      }
     },
-    streamAddr:{
-        type: String,
-        default: ''
+    monitorInfo: {
+      type: Object | Array,
+      default() {
+        return {};
+      }
+    },
+    streamAddr: {
+      type: String,
+      default: ""
     },
     paddingBottom: {
       type: String,
@@ -97,12 +111,12 @@ export default {
     }
   },
   watch: {
-    streamAddr:{
-      handler(now){
-          if(now){
-            this.playerOptions['sources'][0]['src'] = now
-            this.showView = true
-          }
+    streamAddr: {
+      handler(now) {
+        if (now) {
+          this.playerOptions["sources"][0]["src"] = now;
+          this.showView = true;
+        }
       },
       immediate: true
     },
@@ -112,6 +126,10 @@ export default {
       },
       immediate: true
     }
+    // imgAdress(now) {
+    //   debugger;
+    //   this.playerOptions.poster = now;
+    // }
   },
   data() {
     return {
@@ -122,21 +140,36 @@ export default {
       playerOptions: {
         sources: [
           {
-            type: "rtmp/flv",
-            type: "video/ogg",
-            type:"video/webm",
+            // type: "rtmp/flv",
+            // type: "video/ogg",
+            // type: "video/webm",
             type: "video/mp4",
-            src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
+            // src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
+            src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
           }
         ],
         fluid: true,
         techOrder: ["flash"],
         autoplay: true,
-        controls: true
+        controls: true,
+        notSupportedMessage: "此视频暂无法播放，请稍后再试",
+        poster:
+          "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
       }
     };
   },
+  computed: {
+    player() {
+      return this.$refs.videoPlayer.player;
+    }
+  },
   methods: {
+    onPlayerPlay(player) {
+      alert("play");
+    },
+    onPlayerPause(player) {
+      alert("pause");
+    },
     pushMov() {
       this.$emit("on-push", this.monitorInfo);
     },
@@ -240,7 +273,7 @@ export default {
         }
       }
     }
-    .detailIcon{
+    .detailIcon {
       bottom: -33px;
     }
   }

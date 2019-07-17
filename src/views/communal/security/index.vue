@@ -66,6 +66,7 @@
         :time="item.alarmTime"
         :remarks="item.dealList"
         :key="index"
+        @handleListData="handleData"
       />
     </div>
     <!-- <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" /> -->
@@ -248,6 +249,9 @@ export default {
           this.active = 4;
           this.isCenter = false;
       }
+    },
+    handleData() {
+      this.getDataList();
     }
   },
   created() {

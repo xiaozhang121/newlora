@@ -102,6 +102,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoCharts } from "_c/duno-charts";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
+import { getEchartsData } from "@/api/configuration/configuration.js";
 export default {
   name: "analysis",
   mixins: [mixinViewModule],
@@ -115,7 +116,7 @@ export default {
     return {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history"
+        getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
       },
       titleAmmeter: "泄露电流表",
       titleParts: "主设备名-部件名",
@@ -127,18 +128,19 @@ export default {
       phaseData: [],
       ByDayData: [],
       dateData: [],
+      echartsData: [],
       dataBread: ["视频监控", "所有报表", "表计分析"],
       isChangeFlag: true,
       isItemEchart: true,
-    //   titleOption: {
-    //     text: "泄露电流表24小时温度分析",
-    //     x: "center",
-    //     y: "20",
-    //     textStyle: {
-    //       color: "#fff",
-    //       fontWeight: "normal"
-    //     }
-    //   },
+      //   titleOption: {
+      //     text: "泄露电流表24小时温度分析",
+      //     x: "center",
+      //     y: "20",
+      //     textStyle: {
+      //       color: "#fff",
+      //       fontWeight: "normal"
+      //     }
+      //   },
       legendOption: {
         icon: "circle",
         y: "20",
@@ -283,7 +285,7 @@ export default {
       columns: [
         {
           title: "时间",
-          key: "alarmTime",
+          key: "date",
           minWidth: 100,
           align: "center",
           tooltip: true
@@ -297,21 +299,21 @@ export default {
         },
         {
           title: "部件/相别",
-          key: "alarmPart",
+          key: "part",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "描述",
-          key: "areaName",
+          key: "description",
           minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "缺陷等级",
-          key: "alarmLevelName",
+          key: "alarmLevel",
           minWidth: 120,
           align: "center",
           tooltip: true,
@@ -430,14 +432,14 @@ export default {
         },
         {
           title: "数据",
-          key: "areaName",
+          key: "resultValue",
           minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "视频/图片",
-          key: "id",
+          key: "fileType",
           minWidth: 120,
           align: "center",
           tooltip: true,
@@ -461,7 +463,6 @@ export default {
         },
         {
           title: " ",
-          key: "id",
           width: 220,
           align: "center",
           render: (h, params) => {
@@ -495,6 +496,9 @@ export default {
       ]
     };
   },
+  watch:{
+
+  },
   methods: {
     cutOut(data) {
       if (data) {
@@ -504,7 +508,7 @@ export default {
         }
         return data;
       } else {
-        return "更多";
+        return "无";
       }
     },
     onSelectAmmeter(item) {
@@ -522,9 +526,18 @@ export default {
     onSelectDate(item) {
       this.titlePhase = item["describeName"];
     },
+    getEcharts() {
+      let that = this;
+      getEchartsData().then(res => {
+        that.echartsData = res.data.deviceList;
+      });
+    },
     dataListSelectionChangeHandle() {},
     pageCurrentChangeHandle() {},
     pageSizeChangeHandle() {}
+  },
+  mounted() {
+    this.getEcharts();
   }
 };
 </script>
@@ -603,15 +616,15 @@ export default {
               .title {
                 margin-top: 0;
                 background: rgba(0, 0, 0, 0);
-                &>div{
-                    font-size: 16px;
+                & > div {
+                  font-size: 16px;
                 }
               }
             }
-            .icon-xiala{
-                height: 22px;
-                right: 3px;
-                top: 8px;
+            .icon-xiala {
+              height: 22px;
+              right: 3px;
+              top: 8px;
             }
           }
         }
@@ -649,27 +662,31 @@ export default {
   }
   .table_select {
     cursor: pointer;
-    color: #1d1f26;
+    // color: #1d1f26;
     span {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 60px;
       height: 30px;
+      color: #fff;
       border-radius: 20px;
     }
     &.serious {
       span {
+        color: #1d1f26;
         background: #f4a723;
       }
     }
     &.commonly {
       span {
+        color: #1d1f26;
         background: #5eb0fc;
       }
     }
     &.danger {
       span {
+        color: #1d1f26;
         background: #d0011b;
       }
     }

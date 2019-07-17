@@ -11,7 +11,7 @@
             @on-select="onSelect"
             class="dunoBtnTop"
             :isCheck="false"
-            :dataList="reportData"
+            :dataList="inspectionData"
             :title="titleValue"
             :showBtnList="false"
           ></duno-btn-top>
@@ -31,17 +31,7 @@
     </div>
     <duno-main class="dunoMain">
       <div class="task">
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
-        <ReportTable />
+        <ReportTable v-for="(item,index) in dataList" :key="index" :reportData="item" :url="url" />
       </div>
     </duno-main>
   </div>
@@ -52,7 +42,10 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoMain from "_c/duno-m/duno-main";
 import ReportTable from "_c/duno-c/ReportTable";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
+import mixinViewModule from "@/mixins/view-module";
+import moment from "moment";
 export default {
+  mixins: [mixinViewModule],
   name: "ReportFrom",
   components: {
     Breadcrumb,
@@ -62,10 +55,19 @@ export default {
   },
   data() {
     return {
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-plan/api/statistics/plan/list"
+      },
+      url: {
+        downloadUrl: "/lenovo-plan/api/statistics/plan/download",
+        viewUrl: "/lenovo-plan/api/statistics/plan/view"
+      },
       dataBread: ["视频监控", "所有报表", "巡检任务报表"],
       titleValue: "所有巡检报表",
       value: "",
-      reportData: [
+      dataForm: {},
+      inspectionData: [
         {
           describeName: "全面巡视"
         },
@@ -84,8 +86,20 @@ export default {
   methods: {
     onSelect(item) {
       this.titleValue = item["describeName"];
+      this.dataForm.planType = item["describeName"];
+      this.getDataList();
     },
-    onChangeTime() {}
+    onChangeTime(data) {
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD");
+        endTime = moment(data[1]).format("YYYY-MM-DD");
+      }
+      this.dataForm.startTime = startTime;
+      this.dataForm.endTime = endTime;
+      this.getDataList();
+    }
   }
 };
 </script>

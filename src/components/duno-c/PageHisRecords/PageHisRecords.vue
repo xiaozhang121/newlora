@@ -1,7 +1,7 @@
 <template>
   <div class="pageHisRecords">
     <div class="top">
-      <div>{{titleCode}}</div>
+      <div>{{titleCode.securityRecord}}</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -25,7 +25,7 @@
           ></el-date-picker>
         </div>
         <div>
-          <div>
+          <div @click="clickExcel">
             <i class="iconfont icon-tuisong"></i>
             导出表格
           </div>
@@ -55,6 +55,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import moment from "moment";
+import { alarmType } from "@/api/configuration/configuration.js";
 export default {
   name: "PageHisRecords",
   mixins: [mixinViewModule],
@@ -68,8 +69,8 @@ export default {
       default: null
     },
     titleCode: {
-      type: String,
-      default: "1000千伏安防记录"
+      type: Object,
+      default: {}
     },
     infoColumns: {
       type: Array,
@@ -176,20 +177,20 @@ export default {
     return {
       mixinViewModuleOptions: {
         activatedIsNeed: false,
-        getDataListURL: "/lenovo-alarm/api/security/list"
+        getDataListURL: "/lenovo-alarm/api/security/list",
+        exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
       value: "",
-      titleType: "全部数据类型",
+      titleType: "全部类型",
       dataForm: {},
       typeSelect: [
-        {
-          describeName: "分合状态"
-        },
-        {
-          describeName: "仪表读数"
-        }
-      ],
-      clcikQueryData: {}
+        // {
+        //   describeName: "分合状态"
+        // },
+        // {
+        //   describeName: "仪表读数"
+        // }
+      ]
       /*
       dataList: [
         {
@@ -240,20 +241,17 @@ export default {
     areaId(now) {
       this.dataForm.areaId = now;
       this.getDataList();
+    },
+    titleCode(now) {
+      this.value = now.value;
+      this.titleType = now.titleType;
     }
   },
   methods: {
     onSelect(item) {
       this.titleType = item["describeName"];
-      // this[item.title] = item["describeName"]
-      // if (item.title == 'titleTypeL') {
-      //   this.clcikQueryData.areaId = item.monitorDeviceType
-      // } else if (item.title == 'titleTypeC') {
-      //   this.clcikQueryData.status = item.monitorDeviceType
-      // } else if (item.title == 'titleTypeR') {
-      //   this.clcikQueryData.source = item.monitorDeviceType
-      // }
-      // this.clickQuery(this.clcikQueryData)
+      this.dataForm.alarmType = item["describeName"];
+      this.getDataList();
     },
     onChangeTime(data) {
       let startTime = "";
@@ -262,16 +260,32 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
-      this.clcikQueryData.startTime = startTime;
-      this.clcikQueryData.endTime = endTime;
-      // this.clickQuery(this.clcikQueryData)
+      this.dataForm.startTime = startTime;
+      this.dataForm.endTime = endTime;
+      this.getDataList();
+    },
+    clickExcel() {
+      const that = this;
+      that.exportHandle();
+    },
+    getAlarmType() {
+      alarmType().then(res => {
+        if (res.data) {
+          let obj = {};
+          res.data.forEach(el => {
+            obj.describeName = el.value;
+            this.typeSelect.push(obj);
+          });
+          console.log(this.typeSelect);
+        }
+      });
     },
     dataListSelectionChangeHandle() {}
   },
   mounted() {
-    // this.totalNum = this.dataList.length;
-    // this.dataForm.areaId = this.areaId;
-    // console.log(this.areaId);
+    this.value = this.titleCode.value;
+    this.titleType = this.titleCode.titleType;
+    this.getAlarmType();
   }
 };
 </script>
