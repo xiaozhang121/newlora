@@ -726,7 +726,7 @@ export default {
               document.querySelector('#map').setAttribute('style','height:100vh !important')
               that.$refs.firstElE.style.background = 'rgba(20, 40, 56)'
             }else{
-                document.querySelector('#map').setAttribute('style','calc( 100vh - 166px) !important')
+                document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
                 that.$refs.firstElE.style.background = 'transparent'
             }
             data.map(item=>{

@@ -1,7 +1,7 @@
 <template>
   <div class="statisticsCom">
     <div class="mapStatistics">
-      <img :src="imgSrc" />
+      <gis-map ref="gisMapObj" :deviceList="deviceList" fillColor="#0f1b21" :zoom="13" :minZoom="13" :kind="mapKind" :controlBtn="false" />
     </div>
     <div class="warningStatistics">
       <p class="allWraning" style="margin-bottom:16px">
@@ -19,10 +19,20 @@
   </div>
 </template>
 <script>
+import gisMap from '_c/duno-m/gisMap'
+import mixinViewModule from '@/mixins/view-module'
+import { deviceLocation } from '@/api/currency/currency.js'
 export default {
+  mixins: [mixinViewModule],
   name: "statistics",
+  components:{
+      gisMap
+  },
   data() {
     return {
+      deviceList: [],
+      tempDeviceList: [],
+      mapKind: 0,
       imgSrc: "",
       imgAddress: require("@/assets/demo/1000kv.png"),
       imgAddress1: require("@/assets/demo/500kv.png"),
@@ -42,27 +52,89 @@ export default {
     }
   },
   watch: {
+    mapKind(now){
+        if(now == 1000){
+            this.filterPoint('1')
+        }else if(now == 500){
+            this.filterPoint('2')
+        }else if(now == 220){
+            this.filterPoint('3')
+        }else if(now == 110){
+            this.filterPoint('4')
+        }else if(now == 35){
+            this.filterPoint('5')
+        }else if(now == 10){
+            this.filterPoint('6')
+        }
+    },
     $route(to) {
       this.routeName = to.name;
     },
     routeName(now) {
       if (now == "environmental1000KVList") {
+        this.mapKind = 1000
         this.imgSrc = JSON.parse(JSON.stringify(this.imgAddress));
       } else if (now == "environmental500KVList") {
+        this.mapKind = 500
         this.imgSrc = JSON.parse(JSON.stringify(this.imgAddress1));
       } else if (now == "environmental220KVList") {
+        this.mapKind = 220
         this.imgSrc = JSON.parse(JSON.stringify(this.imgAddress2));
       } else if (now == "environmental110KVList") {
+        this.mapKind = 110
         this.imgSrc = JSON.parse(JSON.stringify(this.imgAddress3));
       } else if (now == "environmental35KVList") {
+        this.mapKind = 35
         this.imgSrc = JSON.parse(JSON.stringify(this.imgAddress4));
       } else if (now == "environmental10KVList") {
+        this.mapKind = 10
         this.imgSrc = JSON.parse(JSON.stringify(this.imgAddress));
       }
     }
   },
+  methods:{
+      filterPoint(areaId){
+          let data = JSON.parse(JSON.stringify(this.tempDeviceList))
+          if(this.tempDeviceList){
+              data = data.filter((item)=>{
+                  return item['areaId'] == areaId
+              })
+              this.deviceList = data
+          }
+          else
+              this.deviceList = []
+      },
+      getDeviceList(){
+          const that = this
+          deviceLocation().then(res=>{
+              let data = res.data
+              data.map(item=>{
+                  if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
+                      if (item.deviceMessage.supportPreset) {
+                          item['src'] = that.light
+                      }else{
+                          item['src'] = that.lightNoCamera
+                      }
+                  }else if(item['monitorDeviceType'] == 2){
+                      item['src'] = that.redLight
+                  }
+                  item['show'] = true
+                  item['isShow'] = true
+              })
+              that.deviceList = data
+              that.tempDeviceList = data
+          })
+      }
+  },
+  created(){
+      this.getDeviceList()
+  },
   mounted() {
+    document.querySelector('#map').setAttribute('style','height:100% !important')
     this.routeName = this.$route.name;
+  },
+  beforeDestroy(){
+      document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
   }
 };
 </script>
@@ -75,7 +147,7 @@ export default {
     width: 30%;
     height: 270px;
     float: left;
-    background-color: #000;
+    background-color: #0f1b21;
     img {
       width: 100%;
       display: block;
