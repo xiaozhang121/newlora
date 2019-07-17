@@ -624,7 +624,7 @@ export default {
         const that = this
         deviceLocation().then(res=>{
             let data = res.data
-            data.map(item=>{
+            data.map((item, index)=>{
                     if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
                          if (item.deviceMessage.supportPreset) {
                             item['src'] = that.light

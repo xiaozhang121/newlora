@@ -73,6 +73,10 @@ export default {
         }
     },
     props: {
+        small: {
+            type: Boolean,
+            default: false
+        },
         zoom: {
             type: Number,
             default: 14
@@ -256,12 +260,13 @@ export default {
         },
         addPointList(arr){
             const that = this
+            debugger
             arr.forEach((item, index)=>{
+                debugger
                 if(index == 14){
                     // debugger
                 }
                 let anchor = new Overlay({
-                    stopEvent: false,
                     element: document.getElementById('anchor'+index)
                 });
                 if(that.isDiagram == 1){
@@ -392,14 +397,23 @@ export default {
                 console.log(that.pointListObj)
             });
             setTimeout(()=>{
-                this.dropOverlay()
+                // this.dropOverlay()
             },10000)
         }
     },
     mounted(){
-        this.$nextTick(()=>{
-            this.isFirst = false
+       /* this.isFirst = false
+        this.initMap()
+        this.initFeature()
+        this.bindEvent()*/
+        if(!this.small){
             this.initMap()
+        }
+        this.$nextTick(()=>{
+            if(this.small){
+                this.initMap()
+            }
+            this.isFirst = false
             this.initFeature()
             this.bindEvent()
         })
@@ -419,8 +433,8 @@ export default {
     img{
         transform-origin:center;
         cursor: pointer;
-        width: 30px;
-        height: 30px;
+        width: 30px !important;
+        height: 30px !important;
     }
 }
 </style>

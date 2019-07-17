@@ -1,7 +1,7 @@
 <template>
   <div class="statisticsCom">
     <div class="mapStatistics">
-      <gis-map ref="gisMapObj" :deviceList="deviceList" fillColor="#0f1b21" :zoom="13" :minZoom="13" :kind="mapKind" :controlBtn="false" />
+      <gis-map ref="gisMapObj" :small="true" :isDiagram="3" :deviceList="deviceList" fillColor="#0f1b21" :zoom="13" :minZoom="13" :kind="mapKind" :controlBtn="false" />
     </div>
     <div class="warningStatistics">
       <p class="allWraning" style="margin-bottom:16px">
@@ -53,19 +53,7 @@ export default {
   },
   watch: {
     mapKind(now){
-        if(now == 1000){
-            this.filterPoint('1')
-        }else if(now == 500){
-            this.filterPoint('2')
-        }else if(now == 220){
-            this.filterPoint('3')
-        }else if(now == 110){
-            this.filterPoint('4')
-        }else if(now == 35){
-            this.filterPoint('5')
-        }else if(now == 10){
-            this.filterPoint('6')
-        }
+        this.initPoint()
     },
     $route(to) {
       this.routeName = to.name;
@@ -93,20 +81,41 @@ export default {
     }
   },
   methods:{
+      initPoint(){
+          let now = this.mapKind
+          if(now == 1000){
+              this.filterPoint('1')
+          }else if(now == 500){
+              this.filterPoint('2')
+          }else if(now == 220){
+              this.filterPoint('3')
+          }else if(now == 110){
+              this.filterPoint('4')
+          }else if(now == 35){
+              this.filterPoint('5')
+          }else if(now == 10){
+              this.filterPoint('6')
+          }
+      },
       filterPoint(areaId){
+          debugger
           let data = JSON.parse(JSON.stringify(this.tempDeviceList))
           if(this.tempDeviceList){
-              data = data.filter((item)=>{
-                  return item['areaId'] == areaId
+              data.map((item)=>{
+                  if(item['areaId'] == areaId){
+                      item['show'] = true
+                  }else{
+                      item['show'] = false
+                  }
               })
               this.deviceList = data
           }
-          else
-              this.deviceList = []
+          this.$forceUpdate()
       },
       getDeviceList(){
           const that = this
           deviceLocation().then(res=>{
+              debugger
               let data = res.data
               data.map(item=>{
                   if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
@@ -123,6 +132,7 @@ export default {
               })
               that.deviceList = data
               that.tempDeviceList = data
+              that.initPoint()
           })
       }
   },

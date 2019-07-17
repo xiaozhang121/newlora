@@ -140,17 +140,17 @@ export default {
       playerOptions: {
         sources: [
           {
-            // type: "rtmp/flv",
-            // type: "video/ogg",
-            // type: "video/webm",
-            type: "video/mp4",
+            type: "rtmp/flv",
+           /* type: "video/ogg",
+            type: "video/webm",
+            type: "video/mp4",*/
             // src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
             src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
           }
         ],
         fluid: true,
         techOrder: ["flash"],
-        autoplay: true,
+        autoplay: false,
         controls: true,
         notSupportedMessage: "此视频暂无法播放，请稍后再试",
         poster:
@@ -165,10 +165,10 @@ export default {
   },
   methods: {
     onPlayerPlay(player) {
-      alert("play");
+      // alert("play");
     },
     onPlayerPause(player) {
-      alert("pause");
+      // alert("pause");
     },
     pushMov() {
       this.$emit("on-push", this.monitorInfo);
@@ -199,6 +199,21 @@ export default {
 .keyMonitor {
   .video-player.vjs-custom-skin {
     width: 100%;
+  }
+  .video-js .vjs-big-play-button{
+    /*
+     播放按钮换成圆形
+    */
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border-radius: 1em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
   }
   .camera {
     width: 100%;
