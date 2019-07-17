@@ -18,15 +18,17 @@
             @change="selectData"
             class="selectSearch"
             multiple
+            collapse-tags
+            :multiple-limit="selectCount"
             v-model="valueSelect"
             filterable
             :placeholder="titleValueR"
           >
             <el-option
               v-for="item in optionsList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.label"
+              :key="item.monitorDeviceId"
+              :label="item.serialNo"
+              :value="item.monitorDeviceId"
             ></el-option>
           </el-select>
         </div>
@@ -56,7 +58,8 @@ import pushMov from "_c/duno-m/pushMov";
 import {
   getMonitorSelect,
   securityMonitor,
-  editConfig
+  editConfig,
+  getMonitorView
 } from "@/api/currency/currency.js";
 export default {
   name: "keyErea",
@@ -68,6 +71,7 @@ export default {
   },
   data() {
     return {
+      selectCount: 4,
       cameraPic: '',
       isSecond: false,
       isCenter: false,
@@ -76,11 +80,11 @@ export default {
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
       videoWidth: "calc(50% - 10px)",
-      valueSelect: "",
+      valueSelect: [],
       dataMonitor: [],
       active: 2,
       optionsList: [
-        {
+       /* {
           value: "选项1",
           label: "黄金糕"
         },
@@ -99,7 +103,7 @@ export default {
         {
           value: "选项5",
           label: "北京烤鸭"
-        }
+        }*/
       ],
       numberCameras: [
         {
@@ -136,6 +140,14 @@ export default {
   computed: {
     ...mapState(["app"]),
   },
+  watch:{
+      valueSelect:{
+          handler(now, old){
+              this.getCameraInfo(now)
+          },
+          deep: true
+      }
+  },
   methods: {
     onClose() {
       this.pushMovVisable = false;
@@ -166,9 +178,9 @@ export default {
       securityMonitor().then(res => {
         if (res.data && res.data.length) {
           let data = res.data
-          data.map(item=>{
+        /*  data.map(item=>{
               item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
-          })
+          })*/
           that.dataMonitorAll = data;
           that.dataMonitor = data.slice(0, 4);
         }
@@ -177,20 +189,67 @@ export default {
     initData() {
       const that = this;
       getMonitorSelect().then(res => {
-        // that.optionsList = res.data.tableData;
+        let data = res.data.tableData
+        data = data.filter(item=>{
+            return item['isSelected'] == true || item['isSelected'] == 1
+        })
+        if(data.length){
+          that.valueSelect = data
+          // that.getCameraInfo(data)
+        }else{
+          that.valueSelect = []
+        }
+        that.optionsList = res.data.tableData;
       });
+    },
+    getCameraInfo(arr){
+        const that = this
+        // 现在正在播放，但是没有被选择的项
+        let addArr = []
+        that.dataMonitor.forEach((item, index)=>{
+            if(arr.indexOf(item['monitorDeviceId'])< 0){
+                addArr.push(item['monitorDeviceId'])
+            }
+        })
+        arr = [...arr,...addArr].slice(0,that.selectCount)
+        let methodList = []
+        for(let i=0; i<arr.length; i++){
+            methodList.push(
+                function () {
+                    return getMonitorView()
+                }
+            )
+        }
+        that.reduce(methodList).then(res=>{
+            that.dataMonitor = res
+         /*   for(let i=0; i<res.length; i++){
+                data[i]['dataList'] = res[i].tableData
+            }*/
+        })
+    },
+    reduce(arr) {
+        let sequence = Promise.resolve()
+        let res = []
+        arr.forEach(function(item) {
+            sequence = sequence.then(item).then(info=>{
+                res.push(info.data)
+                return res
+            })
+        })
+        return sequence
     },
     selectData(value) {
       const that = this;
       securityMonitor({ monitorDeviceId: value }).then(res => {
-        that.titleValueL = "监控摄像头数量";
+        // that.titleValueL = "监控摄像头数量";
         that.dataMonitor = res.data;
-        that.videoWidth = "calc(50%)";
-        that.active = 1;
-        that.isCenter = true;
+        // that.videoWidth = "calc(50%)";
+        // that.active = 1;
+        // that.isCenter = true;
       });
     },
     onSelect(item) {
+      this.selectCount = item['count']
       this.titleValueL = item["describeName"];
       console.log(item.widthType);
       this.dataMonitor = this.dataMonitorAll.slice(0,item["count"]);
@@ -215,17 +274,40 @@ export default {
           this.active = 4;
           this.isCenter = false;
       }
+    },
+    beforeunload(e){
+        console.log('保存相关操作')
+        console.log("I want to cancel");
+        // Cancel the event
+        e.preventDefault();
+        // Chrome requires returnValue to be set
+        e.returnValue = "hello";
     }
+  },
+  beforeDestroy(){
+      console.log('destory')
+      window.removeEventListener('beforeunload', this.beforeunload)
   },
   created() {
     this.initData();
     this.getCamera();
-  }
+  },
+  mounted(){
+      this.$nextTick(()=>{
+          window.addEventListener("beforeunload", this.beforeunload);
+      })
+  },
 };
 </script>
 
 <style lang="scss">
+
+
+
 .keyErea {
+  .el-select .el-tag:first-child{
+    margin-left: 14px;
+  }
   .dunoDrap {
     display: flex;
     justify-content: space-between;

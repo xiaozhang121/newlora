@@ -3,12 +3,12 @@
     <div class="placeHolder" v-if="showBtnList">
     </div>
     <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" style="position: absolute; z-index: 10">
-      <div class="title dropSelf" @click="showListFlag = !showListFlag">
+      <div class="title dropSelf"  @click="showListFlag = !showListFlag">
           <!-- 全部固定监控设备 -->
-          {{ title }}
+          <input class="selfInput" @blur="hiddenDrapdown()" readonly :value="title" />
           <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
-        <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
+      <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
           <div>
             <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           </div>
@@ -180,16 +180,13 @@ export default {
   methods:{
       hiddenDrapdown(){
           const that = this
-          document.addEventListener('click',function (event) {
-              if(event.target.className.indexOf('dropSelf')<0 && event.target.className.indexOf('el-checkbox')<0){
-                  $(that.$refs.showListRef).slideUp('normal')
-                  that.showListFlag = false
-              }
-          })
+          if(that.isCheck){
+              return
+          }
+          $(that.$refs.showListRef).slideUp('normal')
+          that.showListFlag = false
       },
       singleSelect(item, index){
-        this.showListFlag = !this.showListFlag
-        $(this.$refs.showListRef).slideUp('normal')
         this.$emit('on-select', item, index)
       },
       changeFullScreen(){
@@ -258,7 +255,6 @@ export default {
   mounted(){
       $(this.$refs.showListRef).hide('normal')
       this.handleCheckAllChange(true)
-      this.hiddenDrapdown()
       this.checkAll = true
   }
 }
@@ -312,10 +308,19 @@ export default {
     background: linear-gradient(210deg, rgba(48,107,135,0.9), rgba(28,50,64,0.7) 60%);
     .title{
       cursor: pointer;
-      padding: 5px 20px;
+      padding: 0 !important;
       color: white;
       font-size: 16px;
       background: #1a2f42;
+      position: relative;
+      .selfInput{
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        color: white;
+        width: 100%;
+        padding: 8px 11px;
+      }
     }
     .btn_main{
       position: relative;

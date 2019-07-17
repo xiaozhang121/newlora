@@ -85,3 +85,12 @@ export const lastDeviceList = (query) => {
         params: { ...query }
     })
 }
+
+//监控设备-根据监控id获得监控摄像头信息
+export const getMonitorView = (query) => {
+    return axios.request({
+        url: '/lenovo-device/api/device/monitor/view',
+        method: 'get',
+        params: { ...query }
+    })
+}

@@ -26,6 +26,8 @@ export default {
     data() {
         const that = this
         return {
+            isFirst: true,
+            isClick: true,
             clickTarget: null,
             timer: null,
             timerd: null,
@@ -38,6 +40,17 @@ export default {
         }
     },
     watch: {
+        kind(now){
+            if(!this.isFirst){
+                let feature = this.vector.getSource().getFeatures()
+                feature.forEach(item=>{
+                    if(item['id_'] == null){
+                        this.vector.getSource().removeFeature(item)
+                    }
+                })
+                this.initFeature()
+            }
+        },
         powerPointList(now){
             if(now.length){
                 this.$nextTick(()=>{
@@ -60,6 +73,26 @@ export default {
         }
     },
     props: {
+        zoom: {
+            type: Number,
+            default: 14
+        },
+        minZoom: {
+            type: Number,
+            default: 13
+        },
+        maxZoom:{
+            type: Number,
+            default: 19
+        },
+        fillColor: {
+            type: String,
+            default: '#142838'
+        },
+        controlBtn:{
+            type: Boolean,
+            default: true
+        },
         powerPointList:{
             type: Array,
             default: () => []
@@ -88,7 +121,9 @@ export default {
     },
     methods:{
         toDeviced(item,index,flag){
-            this.$emit('toDetail',item,index,null,1)
+            debugger
+            if(this.isClick)
+                this.$emit('toDetail',item,index,null,1)
         },
         initFeature(){
             try {
@@ -226,6 +261,7 @@ export default {
                     // debugger
                 }
                 let anchor = new Overlay({
+                    stopEvent: false,
                     element: document.getElementById('anchor'+index)
                 });
                 if(that.isDiagram == 1){
@@ -251,10 +287,10 @@ export default {
         setZoom(anchor){
             // 监听地图层级变化
             this.mapTarget.getView().on('change:resolution', function(){
-                let element = anchor.element;
+              /*  let element = anchor.element;
                 // 重新设置图标的缩放率，基于层级10来做缩放
                 // console.log(Math.abs((this.getZoom() / 10))-0.5)
-                element.style.transform = `scale(${Math.abs((this.getZoom() / 10))-0.5})`
+                element.style.transform = `scale(${Math.abs((this.getZoom() / 10))-0.5})`*/
             })
         },
         zeroPad(num,len,radix){
@@ -263,6 +299,22 @@ export default {
                 str = "0"+ str;
             }
             return str;
+        },
+        dropOverlay(){
+           const that = this
+           let data = that.pointListObj
+           data.map(item=>{
+               item['stopEvent'] = true
+           })
+           that.pointListObj = data
+        },
+        stopEventOverlay(){
+            const that = this
+            let data = that.pointListObj
+            data.map(item=>{
+                item['stopEvent'] = false
+            })
+            that.pointListObj = data
         },
         bindEvent(){
             const that = this
@@ -280,14 +332,16 @@ export default {
                 source: this.source,
                 style: new Style({
                    fill: new Fill({
-                     color: '#142838'
+                     color: that.fillColor
                    }),
                 }),
                 renderBuffer: 8000
             });
             this.mapTarget = new Map({
                 controls: defaultControls({
-
+                    attribution: that.controlBtn,
+                    rotate: that.controlBtn,
+                    zoom: that.controlBtn
                 }),
                 target: "map",
                 layers: [
@@ -309,9 +363,9 @@ export default {
                 view: new View({
                     center: [118.79129270,32.06046262],
                     projection: 'EPSG:4326',
-                    zoom: 14,
-                    minZoom: 13,
-                    maxZoom: 19
+                    zoom: that.zoom,
+                    minZoom: that.minZoom,
+                    maxZoom: that.maxZoom
                 })
             });
             this.mapTarget.on('pointermove', function (event) {
@@ -330,12 +384,25 @@ export default {
                     }
                 }
             })
+            this.mapTarget.on('movestart', function (evt) {
+                that.isClick = false
+            });
+            this.mapTarget.on('moveend', function (evt) {
+                that.isClick = true
+                console.log(that.pointListObj)
+            });
+            setTimeout(()=>{
+                this.dropOverlay()
+            },10000)
         }
     },
     mounted(){
-        this.initMap()
-        this.initFeature()
-        this.bindEvent()
+        this.$nextTick(()=>{
+            this.isFirst = false
+            this.initMap()
+            this.initFeature()
+            this.bindEvent()
+        })
     }
 }
 </script>
