@@ -496,9 +496,7 @@ export default {
       ]
     };
   },
-  watch:{
-
-  },
+  watch: {},
   methods: {
     cutOut(data) {
       if (data) {
@@ -510,6 +508,12 @@ export default {
       } else {
         return "无";
       }
+    },
+    onClickDropdown(row, type, No) {
+      const index = row._index;
+      this.dataList[index].alarmLevelName = type;
+      this.dataList[index].alarmLevel = No;
+      this.psotAlarmData(row, No);
     },
     onSelectAmmeter(item) {
       this.titleAmmeter = item["describeName"];

@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top">
-      <div>检测设备管理</div>
+      <div>监测设备管理</div>
       <div class="btn">
         <div>
           <duno-btn-top

@@ -13,23 +13,8 @@
           <div>查看更多 ></div>
         </div>
         <div class="inspection">
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
-          </div>
-          <div>
-            <ReportTable />
+          <div v-for="(item,index) in inspecReport.slice(0,6)" :key="index">
+            <ReportTable :url="url" :reportData="item" />
           </div>
         </div>
       </div>
@@ -39,19 +24,22 @@
           <div>查看更多 ></div>
         </div>
         <div class="hours">
-          <AlarmLog />
-          <AlarmLog />
-          <AlarmLog />
-          <AlarmLog />
+          <MonitorWarn
+            v-for="(item,index) in lightInformation"
+            :remarkData="lightInformation[index]"
+            :time="item.alarmTime"
+            :remarks="item.dealList"
+            :key="index"
+          />
         </div>
       </div>
     </div>
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div>
-          <img :src="img" alt />
-          <p>4号主变</p>
+        <div v-for="(item,index) in dataList" :key="index">
+          <img :src="item.fileAddress" alt />
+          <p>{{item.deviceName}}</p>
         </div>
       </div>
     </div>
@@ -62,27 +50,45 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import ReportTable from "_c/duno-c/ReportTable";
-import AlarmLog from "_c/duno-c/AlarmLog";
 import KeyErea from "_c/duno-c/KeyErea";
+import mixinViewModule from "@/mixins/view-module";
+import MonitorWarn from "./components/MonitorWarn";
+import {
+  infraNewReport,
+  infraNewInformation
+} from "@/api/configuration/configuration.js";
+import moment from "moment";
 export default {
+  mixins: [mixinViewModule],
+  name: "visiblelight",
   components: {
     Breadcrumb,
     dunoBtnTop,
     KeyMonitor,
     ReportTable,
-    AlarmLog,
-    KeyErea
+    KeyErea,
+    MonitorWarn
   },
   name: "visiblelightTep",
   data() {
     return {
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-device/api/main-device/list"
+      },
       isCenter: false,
       valueSelect: "",
-      img: "",
       dataMonitor: [],
+      url: {
+        downloadUrl: "/lenovo-plan/api/plan/iir-report/download",
+        viewUrl: "/lenovo-plan/api/plan/iir-report/view"
+      },
+      timeQueryData: {},
+      inspecReport: [],
+      lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      dataBread: ["操作中台", "设备管理", "红外测温"],
+      dataBread: ["操作中台", "设备管理", "红外检测"],
       numberCameras: [
         {
           circleColor: "#00B4FF",
@@ -111,28 +117,6 @@ export default {
           count: 8,
           widthType: 4,
           isActive: true
-        }
-      ],
-      optionsList: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
         }
       ]
     };
@@ -172,7 +156,26 @@ export default {
           this.active = 4;
           this.isCenter = false;
       }
+    },
+    getlightData() {
+      let startTime = "";
+      let endTime = "";
+      endTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      startTime = moment()
+        .add(-1, "days")
+        .format("YYYY-MM-DD HH:mm:ss");
+      this.timeQueryData.startTime = startTime;
+      this.timeQueryData.endTime = endTime;
+      infraNewReport(this.timeQueryData).then(res => {
+        this.inspecReport = res.data.tableData;
+      });
+      infraNewInformation().then(res => {
+        this.lightInformation = res.data.tableData;
+      });
     }
+  },
+  mounted() {
+    this.getlightData();
   }
 };
 </script>
@@ -255,13 +258,17 @@ export default {
     }
     .right {
       .inspection {
-        padding: 20px 0 20px 20px;
+        padding: 20px 0 0 20px;
         background-color: #142838;
         overflow: hidden;
         & > div {
+          //   height: 367px;
           float: left;
           width: calc(100% / 3 - 20px);
           margin-right: 20px;
+          .reportTable {
+            height: 367px;
+          }
         }
       }
     }
@@ -269,12 +276,13 @@ export default {
       .hours {
         width: 100%;
         // padding: 20px 20px 20px 0;
-        padding: 20px;
+        padding: 20px 20px 14px 20px;
         overflow: hidden;
         background-color: #142838;
         .alarmLog {
           margin-left: 0;
           box-sizing: border-box;
+          height: 170px;
           width: 100%;
         }
       }

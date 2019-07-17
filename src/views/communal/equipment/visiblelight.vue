@@ -24,10 +24,13 @@
           <div>查看更多 ></div>
         </div>
         <div class="hours">
-          <AlarmLog />
-          <AlarmLog />
-          <AlarmLog />
-          <AlarmLog />
+          <MonitorWarn
+            v-for="(item,index) in lightInformation"
+            :remarkData="lightInformation[index]"
+            :time="item.alarmTime"
+            :remarks="item.dealList"
+            :key="index"
+          />
         </div>
       </div>
     </div>
@@ -47,14 +50,12 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import ReportTable from "_c/duno-c/ReportTable";
-import AlarmLog from "_c/duno-c/AlarmLog";
 import KeyErea from "_c/duno-c/KeyErea";
 import mixinViewModule from "@/mixins/view-module";
+import MonitorWarn from "./components/MonitorWarn";
 import {
-  lightNewInformation,
   lightNewReport,
-  lightDownload,
-  lightViewreport
+  lightNewInformation
 } from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
@@ -65,8 +66,8 @@ export default {
     dunoBtnTop,
     KeyMonitor,
     ReportTable,
-    AlarmLog,
-    KeyErea
+    KeyErea,
+    MonitorWarn
   },
   name: "visiblelightTep",
   data() {
@@ -84,6 +85,7 @@ export default {
       },
       timeQueryData: {},
       inspecReport: [],
+      lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
       dataBread: ["操作中台", "设备管理", "可见光监测"],
@@ -116,31 +118,7 @@ export default {
           widthType: 4,
           isActive: true
         }
-      ],
-      /*
-      optionsList: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
       ]
-      */
     };
   },
   methods: {
@@ -191,7 +169,9 @@ export default {
       lightNewReport(this.timeQueryData).then(res => {
         this.inspecReport = res.data.tableData;
       });
-      lightNewInformation().then(res => {});
+      lightNewInformation().then(res => {
+        this.lightInformation = res.data.tableData;
+      });
     }
   },
   mounted() {

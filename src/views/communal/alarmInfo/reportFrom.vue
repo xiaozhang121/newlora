@@ -33,6 +33,7 @@
       <div class="task">
         <ReportTable v-for="(item,index) in dataList" :key="index" :reportData="item" :url="url" />
       </div>
+      <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="100"></el-pagination>
     </duno-main>
   </div>
 </template>
@@ -180,6 +181,28 @@ export default {
     //   margin-right: 0;
     // }
   }
+  //分页--
+  .el-pagination {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+  }
+  .el-pagination .btn-prev,
+  .el-pagination .btn-next {
+    background-color: rgba(0, 0, 0, 0);
+    color: #142838;
+  }
+  .el-pager li {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .el-pager li.active {
+    color: #5fafff;
+  }
+  .el-pager li.btn-quicknext,
+  .el-pager li.btn-quickprev {
+    color: #fff;
+  }
+  //--
 }
 .el-picker-panel {
   background-color: rgba(27, 59, 71, 0.7);
