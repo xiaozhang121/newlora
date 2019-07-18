@@ -69,7 +69,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :visible="visible" warningID="20190711002" :monitorUrl="popData.alarmFileAddress || ''" :judgeResult="popData.alarmContent || ''" :origin="popData.monitorDeviceId" :handleResult="popData.dealRecord || ''" @handleClose="handleClose" />
+    <wraning :discriminate="false" :hasSelect="true" :alarmLevel="alarmLevel" :visible="visible" warningID="20190711002" :monitorUrl="popData.alarmFileAddress || ''" :judgeResult="popData.alarmContent || ''" :origin="popData.monitorDeviceId" :handleResult="popData.dealRecord || ''" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -280,6 +280,7 @@ export default {
                   on: {
                     click: () => {
                       that.popData = params.row
+                      that.alarmLevel = params.row.alarmLevel
                       that.visible = true;
                     }
                   }
@@ -301,7 +302,8 @@ export default {
       regionList: [],
       statusList: [],
       popData: {},
-      clcikQueryData: {}
+      clcikQueryData: {},
+      alarmLevel: ''
     };
   },
   created() {

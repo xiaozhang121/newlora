@@ -1,28 +1,63 @@
 <template>
-  <div>
+  <div class="warningDialog">
     <el-dialog
-      :title="warningID"
+      v-dialogDrag
       :visible="newVisible"
       width="900px"
       center
       @close="handleClose"
     >
-      <div class="monitor">
-        <img :src="monitorUrl || newMonitorUrl" alt="">
+      <div slot="title">
+        <div class="title_top">
+          记录{{ warningID }}
+        </div>
+        <div class="extend">
+          动态环境类
+        </div>
       </div>
-      <div class="info">
-        <div>
-          <p class="monitorTitle">判定结果</p>
-          <p>{{judgeResult}}</p>
+      <div class="main">
+        <div class="monitor">
+          <img :src="monitorUrl || newMonitorUrl" alt="">
         </div>
-        <div>
-          <a href="javascript:;">结果修订</a>
-          <span class="origin">{{'来源：' + origin}}</span>
+        <div class="info">
+          <div class="info_top">
+            <p class="monitorTitle">判定结果:</p>
+            <p>{{judgeResult}}</p>
+          </div>
+          <div v-if="!discriminate" class="temperature">
+            <p class="monitorTitle">温度正常</p>
+            <p>16℃
+            <i-dropdown v-if="hasSelect && !discriminate" trigger="click" placement="bottom-start">
+                <div class="table_select" :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]">
+                  <span class="member_operate_div"><span>{{ alarmLevelT }}</span></span><i class="iconfont icon-xiala"></i>
+                </div>
+                <i-dropdownMenu slot="list">
+                  <i-dropdownItem v-for="(item, index) in selectList" :key="index" @click.native="selectItem(item, index)">
+                      <div class="alarmLevel">{{ item }}</div>
+                  </i-dropdownItem>
+                </i-dropdownMenu>
+            </i-dropdown></p>
+          </div>
+          <div v-else class="discriminate">
+            <div class="title">识别</div>
+            <div class="nr">人员徘徊</div>
+          </div>
+          <div>
+            <a href="javascript:;">结果修订</a>
+          </div>
+          <div class="from">
+            <span class="origin">来源： <a href="javascript:;">{{origin}}</a></span>
+          </div>
         </div>
-        <div>
-          <p class="monitorTitle">处理结果</p>
-          <p>{{handleResult}}</p>
-        </div>
+      </div>
+      <div class="handleInfo">
+         <div>
+           <p class="monitorTitle">处理记录</p>
+           <p v-for="(item, index) in handleList" :key="index" class="item">
+             <span class="title">{{ item['time'] }}</span>
+             <span class="info">{{ item['info'] }}</span>
+           </p>
+         </div>
       </div>
       <div style="clear: both"></div>
     </el-dialog>
@@ -32,11 +67,37 @@
 export default {
   data() {
     return {
+      handleList:[
+          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
+          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
+          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
+          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
+          {time:'2019-06-31 12:22:32', info: '自定义文字描述'}
+      ],
       newVisible: false,
+      selectList:['一般','严重','危急'],
+      alarmLevelT: '',
+      alarmLevelN: '',
       newMonitorUrl: require("@/assets/camera2.png") 
     };
   },
   props: {
+    hasSelect:{
+      type: Boolean,
+      default: () => {
+          return false
+      }
+    },
+    discriminate: {
+      type: Boolean,
+      default: () => {
+          return false
+      }
+    },
+    alarmLevel:{
+      type: [String, Number],
+      default: '1'
+    },
     visible: {
       type: Boolean
     },
@@ -65,14 +126,29 @@ export default {
       type: String
     }
   },
+  computed: {
+  },
   watch: {
+    alarmLevel:{
+        handler(now){
+            this.alarmLevelN = now
+            this.alarmLevelT = this.selectList[now-1]
+        },
+        deep: true,
+        immediate: true
+    },
     visible(now) {
       this.newVisible = now
     }
   },
   methods: {
+    selectItem(item, index){
+       this.alarmLevelT = item
+       this.alarmLevelN = index+1
+    },
     handleClose() {
       this.newVisible = false;
+      this.$emit('change-level', item, index+1)
       this.$emit('handleClose')
     }
   },
@@ -82,44 +158,161 @@ export default {
 };
 </script>
 <style lang="scss">
-.monitor {
-  width: 640px;
-  height: 360px;
-  background-color: #000;
-  float: left;
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
+.warningDialog{
+  .iconfont.icon-xiala{
+    color: #999999;
+    font-size: 10px;
+    margin-left: 3px;
   }
-}
-.info {
-  width: 200px;
-  height: 360px;
-  float: right;
-  padding: 18px 0;
-  color: #777;
-  font-size: 12px;
-  div {
-    padding: 10px;
-    .origin {
-      float: right;
+  .serious {
+    span {
+      background: #f4a723;
     }
-    .monitorTitle {
-      color: #777;
-      font-size: 18px;
-      line-height: 44px;
+  }
+  .commonly {
+    span {
+      background: #5eb0fc;
     }
-    .monitorTitle2 {
-      font-size: 20px;
-      line-height: 44px;
-      color: #000;
+  }
+  .danger {
+    span {
+      background: #d0011b;
     }
-    .handleResult {
-      width: 100%;
-      height: 100px;
-      background-color: #ccc;
+  }
+  .table_select {
+    cursor: pointer;
+    color: #1d1f26;
+    .member_operate_div{
+      span{
+        font-size: 14px !important;
+      }
     }
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 47px !important;
+      height: 24px !important;
+      border-radius: 20px;
+    }
+    &.serious {
+      span {
+        background: #f4a723;
+      }
+    }
+    &.commonly {
+      span {
+        background: #5eb0fc;
+      }
+    }
+    &.danger {
+      span {
+        background: #d0011b;
+      }
+    }
+  }
+  .main{
+    display: flex;
+    .monitor {
+      width: 540px;
+      height: 303.75px;
+      background-color: #000;
+      float: left;
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+    .info {
+      position: relative;
+      margin-left: 25px;
+      flex: 1;
+      color: #333333;
+      font-size: 14px;
+      .info_top{
+        .monitorTitle{
+          font-size: 14px;
+          margin-bottom: 30px;
+        }
+        & > p{
+          margin-bottom: 17px;
+        }
+      }
+      .temperature{
+        margin-bottom: 30px;
+        p{
+          font-size: 20px;
+          font-weight: bold;
+        }
+         .monitorTitle{
+           margin-bottom: 17px;
+         }
+        & > p{
+          .ivu-dropdown{
+            position: relative;
+            top: -2px;
+            margin-left: 5px;
+          }
+        }
+      }
+      .temperature + div a{
+        text-decoration: underline;
+      }
+      .discriminate{
+        margin-top: 25px;
+        .title{
+          margin-bottom: 5px;
+        }
+        .nr{
+          color: #cb0e09;
+          font-size: 21px;
+          font-weight: bold;
+          margin-bottom: 30px;
+        }
+      }
+      .discriminate + div a{
+        text-decoration: underline;
+      }
+      .from{
+        position: absolute;
+        bottom: 0;
+      }
+    }
+  }
+  .handleInfo{
+    color: #333333;
+    .monitorTitle{
+      margin: 14px 0;
+    }
+    .item{
+      display: flex;
+      line-height: 34px;
+      padding: 0 20px;
+      .title{
+          margin-right: 40px;
+      }
+      .info{
+          flex-grow: 1;
+      }
+      &:nth-last-child(odd){
+        background: #c7c7c7;
+      }
+    }
+  }
+  .el-dialog{
+    background: #e0e0e0;
+  }
+  .el-dialog__header{
+    text-align: left;
+    padding-bottom: 0;
+  }
+  .title_top{
+    font-weight: bold;
+  }
+  .extend{
+    font-size: 14px;
+    margin-top: 3px;
   }
 }
 </style>

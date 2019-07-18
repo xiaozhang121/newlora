@@ -153,7 +153,6 @@ export default {
       this.pushMovVisable = false;
     },
     onPushReal(index) {
-        debugger
       const that = this;
       let query = {
         ["cameraPos0" + index]: this.cameraInfo["monitorDeviceId"],

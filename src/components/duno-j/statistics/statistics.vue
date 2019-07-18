@@ -98,7 +98,6 @@ export default {
           }
       },
       filterPoint(areaId){
-          debugger
           let data = JSON.parse(JSON.stringify(this.tempDeviceList))
           if(this.tempDeviceList){
               data.map((item)=>{
@@ -115,7 +114,6 @@ export default {
       getDeviceList(){
           const that = this
           deviceLocation().then(res=>{
-              debugger
               let data = res.data
               data.map(item=>{
                   if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){

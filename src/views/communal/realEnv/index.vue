@@ -465,6 +465,9 @@ export default {
             this.initOtherPoint()
         })
         this.onClose(false ,'all')
+        this.$refs.btnTopRef.handleCheckAllChange(true)
+        this.$refs.btnTopRef.checkAll = true
+        // this.deviceShowHandle(this.$refs.btnTopRef.dataList)
         console.log(now)
       }
   },

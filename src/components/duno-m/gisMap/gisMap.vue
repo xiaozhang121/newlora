@@ -125,7 +125,6 @@ export default {
     },
     methods:{
         toDeviced(item,index,flag){
-            debugger
             if(this.isClick)
                 this.$emit('toDetail',item,index,null,1)
         },
@@ -260,11 +259,8 @@ export default {
         },
         addPointList(arr){
             const that = this
-            debugger
             arr.forEach((item, index)=>{
-                debugger
                 if(index == 14){
-                    // debugger
                 }
                 let anchor = new Overlay({
                     element: document.getElementById('anchor'+index)
