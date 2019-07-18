@@ -98,6 +98,8 @@
   </el-dialog>
 </template>
 <script>
+import { getAlarmAction } from '@/api/currency/currency.js'
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   props: {
     visibleOption: {
@@ -112,7 +114,8 @@ export default {
   data () {
     return {
       visible: false,
-      options: [{
+      options: [
+      /*{
         value: '弹窗',
         label: '弹窗'
       },{
@@ -121,7 +124,8 @@ export default {
       },{
         value: '不提示仅记录',
         label: '不提示仅记录'
-      }],
+      }*/
+      ],
       form: {
         danger: '',
         serious: '',
@@ -137,6 +141,38 @@ export default {
     }
   },
   methods: {
+    initData(){
+        const that = this
+        getAlarmAction().then(res=>{
+            that.options = res.data
+            that.$forceUpdate()
+            this.initSelect()
+        })
+    },
+    setData(){
+        let query = JSON.parse(JSON.stringify(this.form))
+        query['userId'] = this.$store.state.user.userId
+        postAxiosData('/lenovo-alarm/api/alarm-tip/set',this.form).then(res=>{
+            if(res.data.isSuccess){
+                this.$message.success(res.errorMessage)
+            }else{
+                this.$message.error(res.errorMessage)
+            }
+        })
+    },
+    initSelect(){
+        const that = this
+        getAxiosData('/lenovo-alarm/api/alarm-tip/info',{userId:this.$store.state.user.userId}).then(res=>{
+            that.form = {
+                danger: res.data.dangerAction,
+                serious: res.data.seriousAction,
+                primary: res.data.normalAction,
+                people: res.data.personAction,
+                environment: res.data.envAction
+            }
+            that.$forceUpdate()
+        })
+    },
     handleClose() {
       this.visible = false
       this.$emit('handleClose')
@@ -150,6 +186,9 @@ export default {
         }
       });
     },
+  },
+  created(){
+      this.initData()
   }
 }
 </script>
