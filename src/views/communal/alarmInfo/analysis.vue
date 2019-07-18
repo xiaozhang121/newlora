@@ -76,7 +76,7 @@
     </div>
     <div class="btn">
       <div>最新记录</div>
-      <div>查看更多 ></div>
+      <div @click="handleToMore">查看更多 ></div>
     </div>
     <div class="table">
       <duno-tables-tep
@@ -535,6 +535,9 @@ export default {
       getEchartsData().then(res => {
         that.echartsData = res.data.deviceList;
       });
+    },
+    handleToMore(){
+        this.$router.push({name:"meterdata-detail"})
     },
     dataListSelectionChangeHandle() {},
     pageCurrentChangeHandle() {},

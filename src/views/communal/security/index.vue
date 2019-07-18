@@ -6,54 +6,10 @@
     <div>
       <KeyErea />
     </div>
-    <!--
-    <div class="dunoDrap">
-      <div>重点监测区域</div>
-      <div class="selectBtn">
-        <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="numberCameras"
-            :title="titleValueL"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div>
-          <el-select
-            @change="selectData"
-            class="selectSearch"
-            v-model="valueSelect"
-            filterable
-            :placeholder="titleValueR"
-          >
-            <el-option
-              v-for="item in optionsList"
-              :key="item.monitorDeviceId"
-              :label="item.serialNo"
-              :value="item.monitorDeviceId"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-    </div>
-    <div class="monitorArea" :class="{'center': isCenter}">
-      <KeyMonitor
-        v-for="(item,index) in dataMonitor"
-        :class="{'noMargin': (index+1) % active == 0}"
-        :key="index"
-        :streamAddr="item['streamAddr']"
-        @on-push="onPush"
-        :monitorInfo="item"
-        :width="videoWidth"
-      />
-    </div>
-    -->
     <div class="alarmTitle">
       <div>1天内安防警告记录</div>
       <div>
-        <div>
+        <div @click="clickToDetail">
           <i class="iconfont icon-gaojingxinxi"></i>
           所有安防警告
         </div>
@@ -252,6 +208,9 @@ export default {
     },
     handleData() {
       this.getDataList();
+    },
+    clickToDetail(){
+        this.$router.push({name:"security-all"})
     }
   },
   created() {
