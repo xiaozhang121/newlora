@@ -49,7 +49,7 @@
           <div @click="clickExcel">导出Excel</div>
         </div>
         <div class="setting" @click="showSetting">
-          <i class="iconfont icon-ico_menu__systemsettings"></i>
+          <i class="iconfont icon-shezhi"></i>
         </div>
       </div>
     </div>
@@ -674,7 +674,9 @@ export default {
 .setting {
   cursor: pointer;
   i {
-    font-size: 30px;
+    font-size: 25px;
+    position: relative;
+    top: 3px;
     padding-right: 5px;
   }
 }

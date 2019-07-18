@@ -1,8 +1,8 @@
 <template>
     <div class="gisMap">
         <div id="map" ref="rootmap" style="height: 100%"></div>
-        <div v-for="(item, index) in deviceList" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
-        <div v-for="(item, index) in powerPointList" @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
+        <div v-for="(item, index) in deviceList" @dragstart="drag($event, item)" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
+        <div v-for="(item, index) in powerPointList"  @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
     </div>
 </template>
 <script>
@@ -124,6 +124,9 @@ export default {
 
     },
     methods:{
+        drag(event, item){
+            this.$emit('on-drag',event,item)
+        },
         toDeviced(item,index,flag){
             if(this.isClick)
                 this.$emit('toDetail',item,index,null,1)

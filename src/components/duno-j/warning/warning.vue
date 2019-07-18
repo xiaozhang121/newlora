@@ -148,7 +148,7 @@ export default {
     },
     handleClose() {
       this.newVisible = false;
-      this.$emit('change-level', item, index+1)
+      // this.$emit('change-level', item, index+1)
       this.$emit('handleClose')
     }
   },

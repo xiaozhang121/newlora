@@ -94,3 +94,11 @@ export const getMonitorView = (query) => {
         params: { ...query }
     })
 }
+
+//告警信息-告警提示设置下拉框
+export const getAlarmAction = (data) => {
+    return axios.request({
+        url: '/lenovo-alarm/api/alarm/action',
+        method: 'post'
+    })
+}

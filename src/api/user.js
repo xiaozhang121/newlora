@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const initConfigure = (data) => {
     return axios.request({
-        url: '/lenovo-user/api/config/view',
+        url: '/lenovo-device/api/config/view',
         params: { ...data },
         method: 'get'
     })
