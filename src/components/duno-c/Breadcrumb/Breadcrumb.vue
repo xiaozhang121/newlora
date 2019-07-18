@@ -17,7 +17,7 @@ export default {
       //面包屑
       type: Array,
       default: () => {
-        return ['操作中台','动态环境监测','安防总览']
+        return ['操作中台','动态环境监测','动态环境总览']
       }
     },
     separator: {
