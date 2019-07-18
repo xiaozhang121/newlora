@@ -16,16 +16,6 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <!-- <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="statusList"
-            :title="titleTypeC"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div> -->
         <div>
           <duno-btn-top
             @on-select="onSelect"
@@ -124,7 +114,6 @@ export default {
       danger: false,
       value: "",
       titleTypeL: "全部电压等级",
-    //   titleTypeC: "所有报表",
       titleTypeR: "全部类型",
       dataBread: ["视频监控", "所有报表", "表计分析", "所有动态环境警告"],
       columns: [
@@ -170,17 +159,23 @@ export default {
         },
         {
           title: "处理记录",
-          key: "dealList.dealType",
+          key: "dealType",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            return h("div", params.row.dealList[0].dealType);
+          }
         },
         {
           title: "处理时间",
-          key: "dealList.dealTime",
+          key: "dealTime",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            return h("div", params.row.dealList[0].dealTime);
+          }
         },
         {
           title: "视频/图片",
@@ -192,14 +187,18 @@ export default {
             let newArr = [];
             if (params.row.fileType == "1") {
               newArr.push([
-                h("i", {
-                  class: "iconfont icon-tupian"
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
                 })
               ]);
             } else if (params.row.fileType == "2") {
               newArr.push([
-                h("i", {
-                  class: "iconfont icon-bofang"
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
                 })
               ]);
             }
@@ -209,6 +208,47 @@ export default {
         {
           title: " ",
           width: 220,
+          align: "center",
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83!important" },
+                  props: { type: "text", content: "复归" },
+                  on: {
+                    click: () => {
+                      console.log(111);
+                    }
+                  }
+                },
+                "复归"
+              )
+            );
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1!important" },
+                  props: { type: "text", content: "备注" },
+                  on: {
+                    click: () => {
+                      console.log(111);
+                    }
+                  }
+                },
+                "备注"
+              )
+            );
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          width: 120,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -301,8 +341,6 @@ export default {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
         this.clcikQueryData.areaId = item.monitorDeviceType;
-      } else if (item.title == "titleTypeC") {
-        this.clcikQueryData.status = item.monitorDeviceType;
       } else if (item.title == "titleTypeR") {
         this.clcikQueryData.source = item.monitorDeviceType;
       }
@@ -496,13 +534,14 @@ export default {
     align-items: center;
   }
   .imgOrMv {
-    width: 80%;
+    width: 60%;
     height: 45px;
     position: relative;
     top: 2px;
   }
   .table_link {
     font-size: 16px;
+    text-align: center;
     color: #5fafff !important;
     text-decoration: underline;
   }
@@ -535,6 +574,11 @@ export default {
         background: #d0011b;
       }
     }
+  }
+  .btn_pre {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 20px;
   }
   .top {
     color: #ffffff;

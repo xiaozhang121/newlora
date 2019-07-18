@@ -35,8 +35,6 @@ import KeyErea from "_c/duno-c/KeyErea";
 import AlarmLog from "_c/duno-c/AlarmLog";
 import mixinViewModule from "@/mixins/view-module";
 import { getAxiosData } from "@/api/axiosType";
-import { mapState } from "vuex";
-import pushMov from "_c/duno-m/pushMov";
 import {
   getMonitorSelect,
   securityMonitor,
@@ -48,7 +46,6 @@ export default {
   components: {
     Breadcrumb,
     AlarmLog,
-    pushMov,
     KeyErea
   },
   data() {
@@ -83,7 +80,6 @@ export default {
         }
       ],
       valueSelect: "",
-      pushMovVisable: false,
       showBtnList: false,
       isSecond: false,
       titleValueR: "监控摄像头选择",
@@ -126,16 +122,6 @@ export default {
       active: 4
     };
   },
-  computed: {
-    ...mapState(["app"]),
-    cameraPic() {
-      if (this.cameraInfo) {
-        return this.cameraInfo["pic"];
-      } else {
-        return "";
-      }
-    }
-  },
   methods: {
     selectData(value) {
       const that = this;
@@ -146,24 +132,6 @@ export default {
         that.active = 1;
         that.isCenter = true;
       });
-    },
-    onClose() {
-      this.pushMovVisable = false;
-    },
-    onPushReal(index) {
-      const that = this;
-      let query = {
-        ["cameraPos0" + index]: this.cameraInfo["monitorDeviceId"],
-        id: this.$store.state.user.configInfo
-      };
-      editConfig(query).then(res => {
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-      });
-    },
-    onPush(item) {
-      this.pushMovVisable = true;
-      this.cameraInfo = item;
     },
     getCamera() {
       const that = this;

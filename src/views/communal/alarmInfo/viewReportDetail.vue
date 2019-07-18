@@ -266,7 +266,7 @@ export default {
         },
         {
           title: " ",
-          width: 220,
+          width: 120,
           align: "center",
           render: (h, params) => {
             let newArr = [];
