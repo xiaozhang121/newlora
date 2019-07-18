@@ -49,18 +49,25 @@
         </span>
       </div>
     </div>
+    <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
   </div>
 </template>
 
 <script>
 import "video.js/dist/video-js.css";
+import pushMov from "_c/duno-m/pushMov";
+import { mapState } from "vuex";
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
+import {
+    editConfig
+} from "@/api/currency/currency.js";
 import { setTimeout } from "timers";
 export default {
   name: "KeyMonitor",
   components: {
-    videoPlayer
+    videoPlayer,
+    pushMov
   },
   props: {
     imgAdress: {
@@ -133,6 +140,8 @@ export default {
   },
   data() {
     return {
+      cameraPic: '',
+      pushMovVisable: false,
       showView: false,
       value2: 15,
       showBtm: false,
@@ -159,6 +168,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["user"]),
     player() {
       return this.$refs.videoPlayer.player;
     }
@@ -171,8 +181,28 @@ export default {
     onPlayerPause(player) {
     //   alert("pause");
     },
+    onPushReal(index) {
+        const that = this;
+        let query = {
+            ["cameraPos0" + index]: this.monitorInfo["monitorDeviceId"],
+            id: this.$store.state.user.configInfo.id
+        };
+        editConfig(query).then(res => {
+            if (res.data.isSuccess) that.$message.success(res.msg);
+            else that.$message.error(res.msg);
+        });
+    },
+    onClose() {
+        this.pushMovVisable = false;
+    },
     pushMov() {
-      this.$emit("on-push", this.monitorInfo);
+      // this.$emit("on-push", this.monitorInfo);
+      this.pushMovVisable = true;
+      if (this.monitorInfo) {
+          this.cameraPic =  this.monitorInfo["pic"]
+      } else {
+          this.cameraPic =  ""
+      }
     },
     fullScreen() {
       let ele = this.$refs.videoPlayer.$el

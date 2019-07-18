@@ -35,17 +35,17 @@
       </div>
     </div>
     <div class="monitorArea" :class="{'center': isCenter}">
+      <!--@on-push="onPush"-->
       <KeyMonitor
         v-for="(item,index) in dataMonitor"
         :class="{'noMargin': (index+1) % active == 0}"
         :key="index"
         :streamAddr="item['streamAddr']"
-        @on-push="onPush"
         :monitorInfo="item"
         :width="videoWidth"
       />
     </div>
-    <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
+    <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->
   </div>
 </template>
 
@@ -177,9 +177,9 @@ export default {
       securityMonitor().then(res => {
         if (res.data && res.data.length) {
           let data = res.data
-        /*  data.map(item=>{
+          data.map(item=>{
               item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
-          })*/
+          })
           that.dataMonitorAll = data;
           that.dataMonitor = data.slice(0, 4);
         }
