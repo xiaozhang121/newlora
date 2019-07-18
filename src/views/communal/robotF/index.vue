@@ -4,7 +4,8 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="title">
-      机器人一
+      <span>机器人一</span>
+      <button-custom class="moreTask" title="更多任务>" />
     </div>
     <div class="content">
       <div class="top">
@@ -48,6 +49,7 @@ import mixinViewModule from '@/mixins/view-module'
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import cameraPanel from '_c/duno-m/cameraPanel'
 import controBtn from '_c/duno-m/controBtn'
+import buttonCustom from '_c/duno-m/buttonCustom'
 import ReportTable from '_c/duno-c/ReportTable'
 import rouTineInspection from '_c/duno-m/rouTineInspection'
 import { mapState } from 'vuex'
@@ -60,7 +62,8 @@ export default {
       controBtn,
       rouTineInspection,
       KeyMonitor,
-      ReportTable
+      ReportTable,
+      buttonCustom
   },
   computed:{
     ...mapState([
@@ -105,8 +108,14 @@ export default {
     margin-bottom: 15px;
   }
   .title{
+    display: flex;
     font-size: 18px;
     margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+    .moreTask{
+      transform: scale(0.8);
+    }
   }
   .content{
     .top{
