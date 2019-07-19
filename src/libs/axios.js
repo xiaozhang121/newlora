@@ -59,10 +59,10 @@ class HttpRequest {
     // 响应拦截
     instance.interceptors.response.use(res => {
       this.distroy(url)
-      const body = res.data
-      const code = body.errorCode || body.status
+      const body = res.data || res
+      const code = body.errorCode || body.status || 101010
       // console.log('返回参数的类型=', typeof body)
-      if (typeof body === 'string' && !code) {
+      if ((typeof body === 'string' && !code) || code == 101010) {
         const data = body
         return { data }
       }
