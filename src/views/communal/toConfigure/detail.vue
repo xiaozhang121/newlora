@@ -12,7 +12,6 @@
         :dataList="specialInspectList"
         :title="title"
         :titleCon="titleCon"
-        :isShowBtn="true"
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
@@ -24,7 +23,7 @@ import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import Patrol from "_c/duno-c/Patrol";
 import alert from "_c/duno-j/statistics/components/alert";
-import { getAxiosData } from "@/api/axiosType";
+import { infrInformation } from "@/api/configuration/configuration.js";
 export default {
   name: "configDetail",
   components: {
@@ -138,6 +137,7 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
+            /*
             newArr.push(
               h(
                 "el-button",
@@ -170,6 +170,7 @@ export default {
                 "复制"
               )
             );
+            */
             newArr.push(
               h(
                 "el-button",
@@ -219,15 +220,10 @@ export default {
     },
     getDataList() {
       const that = this;
-      getAxiosData("/lenovo-plan/api/plan/all-list").then(res => {
-        if (res.code !== 200) {
-          that.dataList = [];
-          that.totalNum = 0;
-          return that.$message.error(res.msg);
-        }
-        this.allInspectList = res.data.allInspectList;
-        this.nightInspectList = res.data.nightInspectList;
-        this.specialInspectList = res.data.specialInspectList;
+      infrInformation().then(res => {
+        that.allInspectList = res.data.allInspectList;
+        that.nightInspectList = res.data.nightInspectList;
+        that.specialInspectList = res.data.specialInspectList;
       });
     }
   },

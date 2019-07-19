@@ -68,6 +68,7 @@
       :judgeResult="popData.alarmContent || ''"
       :origin="popData.monitorDeviceId"
       :handleResult="popData.dealRecord || ''"
+      :handleNotes="popData.dealList"
       @handleClose="handleClose"
     />
   </div>
@@ -84,6 +85,11 @@ import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import {
+  getTypeData,
+  getRegionData,
+  dealRemarks
+} from "@/api/configuration/configuration.js";
 export default {
   name: "abnormalInfo",
   mixins: [mixinViewModule],
@@ -106,8 +112,6 @@ export default {
       },
       visibleSettingOption: false,
       visible: false,
-      totalNum: 500,
-      pageRows: 20,
       selectInfo: "更多",
       serious: false,
       commonly: false,
@@ -126,7 +130,7 @@ export default {
         },
         {
           title: "告警类型",
-          key: "alarmType",
+          key: "alarmDetailType",
           minWidth: 120,
           align: "center",
           tooltip: true
@@ -211,29 +215,49 @@ export default {
           align: "center",
           render: (h, params) => {
             let newArr = [];
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83!important" },
-                  props: { type: "text", content: "复归" },
-                  on: {
-                    click: () => {
-                      console.log(111);
+            if (params.row.isReturn == "0") {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83!important" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.addReturn(params.row);
+                      }
                     }
-                  }
-                },
-                "复归"
-              )
-            );
+                  },
+                  "复归"
+                )
+              );
+            }
+            if (params.row.isReturn == "1") {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83!important" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        console.log(111);
+                      }
+                    }
+                  },
+                  "已复归"
+                )
+              );
+            }
             newArr.push(
               h(
                 "el-button",
                 {
                   class: "btn_pre",
                   style: { background: "#3a81a1!important" },
-                  props: { type: "text", content: "备注" },
+                  props: { type: "text" },
                   on: {
                     click: () => {
                       console.log(111);
@@ -288,49 +312,9 @@ export default {
   },
   created() {
     this.getRegion();
-    this.getStart();
     this.getType();
   },
   methods: {
-    cutOut(data) {
-      if (data) {
-        const index = data.indexOf("缺陷");
-        if (index > -1) {
-          data = data.substring(0, index);
-        }
-        return data;
-      } else {
-        return "更多";
-      }
-    },
-    onClickDropdown(row, type, No) {
-      const index = row._index;
-      this.dataList[index].alarmLevelName = type;
-      this.dataList[index].alarmLevel = No;
-      this.psotAlarmData(row, No);
-    },
-    psotAlarmData(row, No) {
-      const that = this;
-      const url = "/lenovo-alarm/api/alarm/level-edit";
-      const query = {
-        id: row.id,
-        alarmLevel: No
-      };
-      putAxiosData(url, query).then(
-        res => {
-          if (res.code !== 200) {
-            this.dataList[index].alarmLevel = row.alarmLevel;
-            this.dataList[index].alarmLevelName = row.alarmLevelName;
-            return that.$message.error(res.msg);
-          }
-          that.$message.success(res.msg);
-        },
-        error => {
-          this.dataList[index].alarmLevel = row.alarmLevel;
-          this.dataList[index].alarmLevelName = row.alarmLevelName;
-        }
-      );
-    },
     onClose() {
       this.visibleSettingOption = false;
     },
@@ -361,18 +345,16 @@ export default {
       this.popData = {};
       this.visible = false;
     },
-    restoration(row) {
-      const url = "/lenovo-alarm/api/alarm/deal";
+    addReturn(row) {
+      const that = this;
       const query = {
         alarmId: row.alarmId,
         type: "1"
       };
-      postAxiosData(url, query).then(res => {
-        if (res.code !== 200) {
-          return this.$message.error(res.msg);
-        }
-        this.dataList[row._index].isReturn = "1";
-        this.$message.success(res.msg);
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.getDataList();
       });
     },
     clickExcel() {
@@ -381,8 +363,7 @@ export default {
     },
     getRegion() {
       const that = this;
-      const url = "/lenovo-device/api/area/select-list";
-      postAxiosData(url).then(res => {
+      getRegionData().then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {
@@ -400,31 +381,9 @@ export default {
         this.regionList = map;
       });
     },
-    getStart() {
-      const that = this;
-      const url = "/lenovo-device/api/monitor/status";
-      postAxiosData(url).then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeC"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有状态",
-          monitorDeviceType: "",
-          title: "titleTypeC"
-        });
-        this.statusList = map;
-      });
-    },
     getType() {
       const that = this;
-      const url = "/lenovo-plan/api/list/monitor-device-type";
-      postAxiosData(url).then(res => {
+      getTypeData().then(res => {
         const resData = res.data;
         let mapList = resData.filter(item => item.label != "请选择");
         const map = mapList.map(item => {

@@ -63,6 +63,7 @@ import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import mixinViewModule from "@/mixins/view-module";
 import { putAxiosData, getAxiosData } from "@/api/axiosType";
+import { getDevice } from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
   name: "toConfigure",
@@ -183,7 +184,9 @@ export default {
                 draggable: false
               })
             ]);
-            newArr.push([h("span", { draggable: true }, params.row.statusName)]);
+            newArr.push([
+              h("span", { draggable: true }, params.row.statusName)
+            ]);
             return h("div", newArr);
           }
         },
@@ -312,17 +315,10 @@ export default {
   },
   methods: {
     handleDevice() {
-      getAxiosData("/lenovo-device/api/area/select-list").then(res => {
-        if (res.code !== 200) {
-          that.dataList = [];
-          that.totalNum = 0;
-          return that.$message.error(res.msg);
-        }
+      getDevice().then(res => {
         this.TestEquipment = res.data;
       });
-    },
-    // handleVoltage() {
-    //   getAxiosData("/lenovo-plan/api/list/monitor-device-type").then(res => {
+    //   getAxiosData("/lenovo-device/api/area/select-list").then(res => {
     //     if (res.code !== 200) {
     //       that.dataList = [];
     //       that.totalNum = 0;
@@ -330,7 +326,7 @@ export default {
     //     }
     //     this.TestEquipment = res.data;
     //   });
-    // },
+    },
     onSelectDevice(item) {
       this.dataForm.deviceType = item["describeName"];
       this.getDataList();

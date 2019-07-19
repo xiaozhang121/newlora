@@ -55,7 +55,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import moment from "moment";
-import { alarmType } from "@/api/configuration/configuration.js";
+import { alarmType, addReturn } from "@/api/configuration/configuration.js";
 export default {
   name: "PageHisRecords",
   mixins: [mixinViewModule],
@@ -117,46 +117,82 @@ export default {
             align: "center"
           },
           {
-            key: "imgVideo",
-            title: "图片/视频",
-            align: "center",
-            render: (h, params) => {
-              return h("i", {
-                class: "iconfont icon-bofang"
-              });
-            }
-          },
-          {
-            title: " ",
-            key: "Presentation",
-            minWidth: 150,
+            title: "视频/图片",
+            key: "id",
+            minWidth: 120,
             align: "center",
             tooltip: true,
             render: (h, params) => {
               let newArr = [];
-              newArr.push([
-                h(
-                  "el-button",
-                  {
-                    class: "btn_pre",
-                    style: { background: "#3a81a1" },
-                    props: { type: "text", content: "复归" },
-                    on: {
-                      click: () => {
-                        console.log(111);
+              if (params.row.fileType == "1") {
+                newArr.push([
+                  h("img", {
+                    class: "imgOrMv",
+                    attrs: { src: params.row.alarmFileAddress },
+                    draggable: false
+                  })
+                ]);
+              } else if (params.row.fileType == "2") {
+                newArr.push([
+                  h("video", {
+                    class: "imgOrMv",
+                    attrs: { src: params.row.alarmFileAddress },
+                    draggable: false
+                  })
+                ]);
+              }
+              return h("div", newArr);
+            }
+          },
+          {
+            title: " ",
+            width: 220,
+            align: "center",
+            render: (h, params) => {
+              let newArr = [];
+              if (params.row.isReturn == "0") {
+                newArr.push(
+                  h(
+                    "el-button",
+                    {
+                      class: "btn_pre",
+                      style: { background: "#305e83!important" },
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          that.addReturn(params.row);
+                        }
                       }
-                    }
-                  },
-                  "复归"
-                )
-              ]);
-              newArr.push([
+                    },
+                    "复归"
+                  )
+                );
+              }
+              if (params.row.isReturn == "1") {
+                newArr.push(
+                  h(
+                    "el-button",
+                    {
+                      class: "btn_pre",
+                      style: { background: "#305e83!important" },
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          console.log(111);
+                        }
+                      }
+                    },
+                    "已复归"
+                  )
+                );
+              }
+              newArr.push(
                 h(
                   "el-button",
                   {
                     class: "btn_pre",
-                    style: { background: "#3a81a1" },
-                    props: { type: "text", content: "备注" },
+                    style: { background: "#3a81a1!important" },
+                    props: { type: "text" },
                     on: {
                       click: () => {
                         console.log(111);
@@ -165,7 +201,7 @@ export default {
                   },
                   "备注"
                 )
-              ]);
+              );
               return h("div", newArr);
             }
           }
@@ -183,58 +219,7 @@ export default {
       value: "",
       titleType: "全部类型",
       dataForm: {},
-      typeSelect: [
-        // {
-        //   describeName: "分合状态"
-        // },
-        // {
-        //   describeName: "仪表读数"
-        // }
-      ]
-      /*
-      dataList: [
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        },
-        {
-          time: "2019-07-09 15:16:00",
-          alarmObject: "断路器GDEF",
-          warnLocation: "设备左上角",
-          dataType: "仪表读数",
-          content: "45",
-          autoManual: "自动"
-        }
-      ]
-      */
+      typeSelect: []
     };
   },
   watch: {
@@ -250,7 +235,7 @@ export default {
   methods: {
     onSelect(item) {
       this.titleType = item["describeName"];
-      this.dataForm.alarmType = item["describeName"];
+      this.dataForm.alarmType = item["monitorDeviceType"];
       this.getDataList();
     },
     onChangeTime(data) {
@@ -270,21 +255,38 @@ export default {
     },
     getAlarmType() {
       alarmType().then(res => {
-        if (res.data) {
-          let obj = {};
-          res.data.forEach(el => {
-            obj.describeName = el.value;
-            this.typeSelect.push(obj);
-          });
-          console.log(this.typeSelect);
-        }
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleType"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "所有类型",
+          monitorDeviceType: "",
+          title: "titleTypeL"
+        });
+        this.typeSelect = map;
+      });
+    },
+    addReturn(row) {
+      const that = this;
+      const query = {
+        alarmId: row.alarmId,
+        type: "1"
+      };
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.getDataList();
       });
     },
     dataListSelectionChangeHandle() {}
   },
   mounted() {
-    this.value = this.titleCode.value;
-    this.titleType = this.titleCode.titleType;
     this.getAlarmType();
   }
 };
@@ -319,12 +321,12 @@ export default {
         }
       }
       .dunoBtnTop {
-        width: 150px;
+        width: 190px;
         display: inline-flex;
         padding-bottom: 0;
         .btnList {
           top: inherit !important;
-          width: 150px;
+          width: 190px;
           .title {
             font-size: 16px;
             padding: 8px 20px;
@@ -355,6 +357,12 @@ export default {
         }
       }
     }
+  }
+  .imgOrMv {
+    width: 80%;
+    height: 45px;
+    position: relative;
+    top: 2px;
   }
   .tables {
     overflow: hidden;

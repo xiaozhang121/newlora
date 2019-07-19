@@ -39,7 +39,6 @@ export default {
       areaId: null,
       areaName: "",
       selectAreaId: [],
-      //   alarmTypeData:[],
       routeName: "",
       titleData: {}
     };
@@ -167,6 +166,11 @@ export default {
   }
   .thRecord {
     margin-top: 20px;
+    .pageHisRecords {
+      .tables {
+        height: 486px;
+      }
+    }
   }
 }
 </style>

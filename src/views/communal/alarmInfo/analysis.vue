@@ -17,10 +17,45 @@
           ></duno-btn-top>
         </div>
         <div>
+          <el-select
+            @change="selectParts"
+            class="selectSearch"
+            multiple
+            collapse-tags
+            v-model="valueParts"
+            filterable
+            :placeholder="titleParts"
+          >
+            <el-option
+              v-for="(item,index) in partsList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+        <div>
+          <el-select
+            @change="selectPhase"
+            class="selectSearch"
+            multiple
+            collapse-tags
+            v-model="valuePhase"
+            filterable
+            :placeholder="titlePhase"
+          >
+            <el-option
+              v-for="(item,index) in phaseList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+        <!-- <div>
           <duno-btn-top
             @on-select="onSelectParts"
             class="dunoBtnTop"
-            :isCheck="false"
             :dataList="partsData"
             :title="titleParts"
             :showBtnList="false"
@@ -30,12 +65,11 @@
           <duno-btn-top
             @on-select="onSelectPhase"
             class="dunoBtnTop"
-            :isCheck="false"
             :dataList="phaseData"
             :title="titlePhase"
             :showBtnList="false"
           ></duno-btn-top>
-        </div>
+        </div>-->
       </div>
     </div>
     <div class="echarts">
@@ -102,7 +136,12 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoCharts } from "_c/duno-charts";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
-import { getEchartsData } from "@/api/configuration/configuration.js";
+import {
+  getEchartsData,
+  getAmmeter,
+  getMainEqui,
+  getDifference
+} from "@/api/configuration/configuration.js";
 export default {
   name: "analysis",
   mixins: [mixinViewModule],
@@ -123,9 +162,11 @@ export default {
       titlePhase: "选择相别",
       titleByDay: "按日",
       titleDate: "今日",
+      valueParts: [],
       ammeterData: [],
-      partsData: [],
-      phaseData: [],
+      valuePhase: [],
+      partsList: [],
+      phaseList: [],
       ByDayData: [],
       dateData: [],
       echartsData: [],
@@ -517,11 +558,20 @@ export default {
     },
     onSelectAmmeter(item) {
       this.titleAmmeter = item["describeName"];
+      let query = {
+        meterType: item["ammeterType"]
+      };
+      this.getEquipment(query);
     },
-    onSelectParts(item) {
+    selectParts(item) {
       this.titleParts = item["describeName"];
+      let query = {
+        part: item["partsType"]
+      };
+      console.log(item);
+      //   this.getdiffentData(query);
     },
-    onSelectPhase(item) {
+    selectPhase(item) {
       this.titlePhase = item["describeName"];
     },
     onSelectByDay(item) {
@@ -536,8 +586,42 @@ export default {
         that.echartsData = res.data.deviceList;
       });
     },
-    handleToMore(){
-        this.$router.push({name:"meterdata-detail"})
+    handleToMore() {
+      this.$router.push({ name: "meterdata-detail" });
+    },
+    getAmmeterData() {
+      let that = this;
+      getAmmeter().then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            ammeterType: item.value,
+            title: "titleAmmeter"
+          };
+          return obj;
+        });
+        this.ammeterData = map;
+      });
+    },
+    getEquipment(query) {
+      getMainEqui(query).then(res => {
+        this.partsList = res.data;
+        // const resData = res.data;
+        // const map = resData.map(item => {
+        //   const obj = {
+        //     describeName: item.label,
+        //     partsType: item.value,
+        //     title: "titleParts"
+        //   };
+        //   return obj;
+        // });
+        // this.partsList = map;
+        // console.log(this.partsList)
+      });
+    },
+    getdiffentData(query) {
+      getDifference(query).then(res => {});
     },
     dataListSelectionChangeHandle() {},
     pageCurrentChangeHandle() {},
@@ -545,13 +629,45 @@ export default {
   },
   mounted() {
     this.getEcharts();
+    this.getAmmeterData();
   }
 };
 </script>
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
+
 .analysis {
+  //下拉多选框
+  .popper__arrow {
+    display: none !important;
+  }
+  .selectSearch {
+    height: 40px;
+    .el-input--small .el-input__inner {
+      background: #1a2f42;
+      height: 40px;
+      border: none;
+      margin-left: 5px;
+      border-radius: 0 !important;
+      width: 180px;
+      color: white;
+      font-size: 16px;
+    }
+    .el-input--small .el-input__inner::-webkit-input-placeholder {
+      color: white;
+      font-size: 16px;
+    }
+    .el-input--small .el-input__inner:-moz-placeholder {
+      color: white;
+      font-size: 16px;
+    }
+    .el-input--small .el-input__inner:-ms-input-placeholder {
+      color: white;
+      font-size: 16px;
+    }
+  }
+  //--
   .dunoDrap {
     display: flex;
     justify-content: space-between;
@@ -769,5 +885,29 @@ export default {
     background: black;
   }
   //------------------
+}
+.el-select-dropdown {
+  background: linear-gradient(
+    210deg,
+    rgba(48, 107, 135, 0.9),
+    rgba(28, 50, 64, 0.7) 60%
+  ) !important;
+  border: none !important;
+  margin-top: 1px !important;
+  margin-left: 6px;
+  border-radius: 0;
+  min-width: 179px !important;
+}
+.el-select-dropdown__item,
+.el-select-dropdown__empty,
+.el-select-dropdown__item.selected {
+  color: white;
+}
+.el-select-dropdown__list {
+  position: relative;
+  top: -5px;
+}
+.el-popper[x-placement^="bottom"] .popper__arrow {
+  display: none;
 }
 </style>

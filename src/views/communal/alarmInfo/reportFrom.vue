@@ -33,7 +33,12 @@
       <div class="task">
         <ReportTable v-for="(item,index) in dataList" :key="index" :reportData="item" :url="url" />
       </div>
-      <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="100"></el-pagination>
+      <!-- <el-pagination
+        :page-size="dataList.pageParam.pageSize"
+        :current-page="dataList.pageParam.pageIndex"
+        layout="prev, pager, next"
+        :total="dataList.pageParam.totalRows"
+      ></el-pagination> -->
     </duno-main>
   </div>
 </template>
@@ -45,6 +50,7 @@ import ReportTable from "_c/duno-c/ReportTable";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import mixinViewModule from "@/mixins/view-module";
 import moment from "moment";
+import { getPlayType } from "@/api/configuration/configuration.js";
 export default {
   mixins: [mixinViewModule],
   name: "ReportFrom",
@@ -68,26 +74,13 @@ export default {
       titleValue: "所有巡检报表",
       value: "",
       dataForm: {},
-      inspectionData: [
-        {
-          describeName: "全面巡视"
-        },
-        {
-          describeName: "特殊巡视"
-        },
-        {
-          describeName: "熄灯巡视"
-        },
-        {
-          describeName: "手动巡视"
-        }
-      ]
+      inspectionData: []
     };
   },
   methods: {
     onSelect(item) {
       this.titleValue = item["describeName"];
-      this.dataForm.planType = item["describeName"];
+      this.dataForm.planType = item["monitorType"];
       this.getDataList();
     },
     onChangeTime(data) {
@@ -100,7 +93,29 @@ export default {
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
       this.getDataList();
+    },
+    getPlayTypeData() {
+      getPlayType().then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorType: item.value,
+            title: "titleType"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "所有类型",
+          monitorType: "",
+          title: "titleType"
+        });
+        this.inspectionData = map;
+      });
     }
+  },
+  mounted() {
+    this.getPlayTypeData();
   }
 };
 </script>

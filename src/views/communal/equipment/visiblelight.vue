@@ -258,6 +258,7 @@ export default {
     }
     .right {
       .inspection {
+        height: 795px;
         padding: 20px 0 0 20px;
         background-color: #142838;
         overflow: hidden;
@@ -275,6 +276,7 @@ export default {
     .left {
       .hours {
         width: 100%;
+        height: 795px;
         // padding: 20px 20px 20px 0;
         padding: 20px 20px 14px 20px;
         overflow: hidden;

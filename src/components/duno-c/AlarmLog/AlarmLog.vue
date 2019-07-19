@@ -30,7 +30,8 @@
           拍摄来源:
           <span>{{remarkData.monitorDeviceId}}</span>
           <i @click="clickRemarks">备注</i>
-          <i @click="addReturn" :disabled="isDisabled">复归</i>
+          <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
+          <i v-else :disabled="isDisabled">已复归</i>
         </p>
         <p v-else>
           拍摄来源:
@@ -76,21 +77,16 @@ export default {
   methods: {
     addReturn() {
       const that = this;
-      let query = {
+      const query = {
         alarmId: that.remarkData.alarmId,
         type: "1"
       };
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
+        this.showReturn = false;
       });
       this.$emit("handleListData");
-      //   if (this.isDisabled) {
-      //     let strTime =
-      //       "复归 (" + moment(new Date()).format("YYYY-MM-DD HH:mm:ss") + ")";
-      //     this.dealList.unshift(strTime);
-      //     this.isDisabled = false;
-      //   }
     },
     clickRemarks() {
       const that = this;
@@ -102,14 +98,11 @@ export default {
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
+        this.$emit("handleListData");
       });
-      this.$emit("handleListData");
     }
   },
   mounted() {
-    if (!this.remarkData.dealList) {
-      return;
-    }
     this.remarkData.dealList.forEach(el => {
       let str = el.dealType + " (" + el.dealTime + ")";
       this.dealList.push(str);

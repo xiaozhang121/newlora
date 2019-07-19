@@ -1,23 +1,13 @@
 <template>
   <div class="warningDialog">
-    <el-dialog
-      v-dialogDrag
-      :visible="newVisible"
-      width="900px"
-      center
-      @close="handleClose"
-    >
+    <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
-        <div class="title_top">
-          记录{{ warningID }}
-        </div>
-        <div class="extend">
-          动态环境类
-        </div>
+        <div class="title_top">记录{{ warningID }}</div>
+        <div class="extend">动态环境类</div>
       </div>
       <div class="main">
         <div class="monitor">
-          <img :src="monitorUrl || newMonitorUrl" alt="">
+          <img :src="monitorUrl || newMonitorUrl" alt />
         </div>
         <div class="info">
           <div class="info_top">
@@ -26,17 +16,33 @@
           </div>
           <div v-if="!discriminate" class="temperature">
             <p class="monitorTitle">温度正常</p>
-            <p>16℃
-            <i-dropdown v-if="hasSelect && !discriminate" trigger="click" placement="bottom-start">
-                <div class="table_select" :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]">
-                  <span class="member_operate_div"><span>{{ alarmLevelT }}</span></span><i class="iconfont icon-xiala"></i>
+            <p>
+              16℃
+              <i-dropdown
+                v-if="hasSelect && !discriminate"
+                trigger="click"
+                placement="bottom-start"
+              >
+                <div
+                  class="table_select"
+                  :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
+                >
+                  <span class="member_operate_div">
+                    <span>{{ alarmLevelT }}</span>
+                  </span>
+                  <i class="iconfont icon-xiala"></i>
                 </div>
                 <i-dropdownMenu slot="list">
-                  <i-dropdownItem v-for="(item, index) in selectList" :key="index" @click.native="selectItem(item, index)">
-                      <div class="alarmLevel">{{ item }}</div>
+                  <i-dropdownItem
+                    v-for="(item, index) in selectList"
+                    :key="index"
+                    @click.native="selectItem(item, index)"
+                  >
+                    <div class="alarmLevel">{{ item }}</div>
                   </i-dropdownItem>
                 </i-dropdownMenu>
-            </i-dropdown></p>
+              </i-dropdown>
+            </p>
           </div>
           <div v-else class="discriminate">
             <div class="title">识别</div>
@@ -46,18 +52,21 @@
             <a href="javascript:;">结果修订</a>
           </div>
           <div class="from">
-            <span class="origin">来源： <a href="javascript:;">{{origin}}</a></span>
+            <span class="origin">
+              来源：
+              <a href="javascript:;">{{origin}}</a>
+            </span>
           </div>
         </div>
       </div>
       <div class="handleInfo">
-         <div>
-           <p class="monitorTitle">处理记录</p>
-           <p v-for="(item, index) in handleList" :key="index" class="item">
-             <span class="title">{{ item['time'] }}</span>
-             <span class="info">{{ item['info'] }}</span>
-           </p>
-         </div>
+        <div>
+          <p class="monitorTitle">处理记录</p>
+          <p v-for="(item, index) in handleList" :key="index" class="item">
+            <span class="title">{{ item['time'] }}</span>
+            <span class="info">{{ item['info'] }}</span>
+          </p>
+        </div>
       </div>
       <div style="clear: both"></div>
     </el-dialog>
@@ -67,36 +76,48 @@
 export default {
   data() {
     return {
-      handleList:[
-          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
-          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
-          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
-          {time:'2019-06-31 12:22:32', info: '自定义文字描述'},
-          {time:'2019-06-31 12:22:32', info: '自定义文字描述'}
+      handleList: [
+        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" }
       ],
       newVisible: false,
-      selectList:['一般','严重','危急'],
-      alarmLevelT: '',
-      alarmLevelN: '',
-      newMonitorUrl: require("@/assets/camera2.png") 
+      selectList: ["一般", "严重", "危急"],
+      alarmLevelT: "",
+      alarmLevelN: "",
+      newMonitorUrl: require("@/assets/camera2.png")
     };
   },
   props: {
-    hasSelect:{
+    handleNotes: {
+      type: Array,
+      default: () => {
+        return [
+          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
+          { time: "2019-06-31 12:22:32", info: "自定义文字描述" }
+        ];
+      }
+    },
+    hasSelect: {
       type: Boolean,
       default: () => {
-          return false
+        return false;
       }
     },
     discriminate: {
       type: Boolean,
       default: () => {
-          return false
+        return false;
       }
     },
-    alarmLevel:{
+    alarmLevel: {
       type: [String, Number],
-      default: '1'
+      default: "1"
     },
     visible: {
       type: Boolean
@@ -104,13 +125,13 @@ export default {
     monitorUrl: {
       type: String,
       default: () => {
-        return ''
+        return "";
       }
     },
     warningID: {
       type: String,
       default: () => {
-        return ''
+        return "";
       }
     },
     judgeResult: {
@@ -119,47 +140,54 @@ export default {
     origin: {
       type: String | Number,
       default: () => {
-        return ''
+        return "";
       }
     },
     handleResult: {
       type: String
     }
   },
-  computed: {
-  },
+  computed: {},
   watch: {
-    alarmLevel:{
-        handler(now){
-            this.alarmLevelN = now
-            this.alarmLevelT = this.selectList[now-1]
-        },
-        deep: true,
-        immediate: true
+    handleNotes(now) {
+      let obj = {};
+      now.forEach(el => {
+        obj.time = el.dealTime;
+        obj.info = el.dealType;
+        this.handleList.push(obj);
+      });
+    },
+    alarmLevel: {
+      handler(now) {
+        this.alarmLevelN = now;
+        this.alarmLevelT = this.selectList[now - 1];
+      },
+      deep: true,
+      immediate: true
     },
     visible(now) {
-      this.newVisible = now
+      this.newVisible = now;
     }
   },
   methods: {
-    selectItem(item, index){
-       this.alarmLevelT = item
-       this.alarmLevelN = index+1
+    selectItem(item, index) {
+      this.alarmLevelT = item;
+      this.alarmLevelN = index + 1;
     },
     handleClose() {
       this.newVisible = false;
       // this.$emit('change-level', item, index+1)
-      this.$emit('handleClose')
+      this.$emit("handleClose");
     }
   },
   mounted() {
-    this.newVisible = this.visible
+    this.newVisible = this.visible;
   }
 };
 </script>
 <style lang="scss">
-.warningDialog{
-  .iconfont.icon-xiala{
+.warningDialog {
+  .iconfont.icon-xiala {
     color: #999999;
     font-size: 10px;
     margin-left: 3px;
@@ -182,8 +210,8 @@ export default {
   .table_select {
     cursor: pointer;
     color: #1d1f26;
-    .member_operate_div{
-      span{
+    .member_operate_div {
+      span {
         font-size: 14px !important;
       }
     }
@@ -211,7 +239,7 @@ export default {
       }
     }
   }
-  .main{
+  .main {
     display: flex;
     .monitor {
       width: 540px;
@@ -230,87 +258,87 @@ export default {
       flex: 1;
       color: #333333;
       font-size: 14px;
-      .info_top{
-        .monitorTitle{
+      .info_top {
+        .monitorTitle {
           font-size: 14px;
           margin-bottom: 30px;
         }
-        & > p{
+        & > p {
           margin-bottom: 17px;
         }
       }
-      .temperature{
+      .temperature {
         margin-bottom: 30px;
-        p{
+        p {
           font-size: 20px;
           font-weight: bold;
         }
-         .monitorTitle{
-           margin-bottom: 17px;
-         }
-        & > p{
-          .ivu-dropdown{
+        .monitorTitle {
+          margin-bottom: 17px;
+        }
+        & > p {
+          .ivu-dropdown {
             position: relative;
             top: -2px;
             margin-left: 5px;
           }
         }
       }
-      .temperature + div a{
+      .temperature + div a {
         text-decoration: underline;
       }
-      .discriminate{
+      .discriminate {
         margin-top: 25px;
-        .title{
+        .title {
           margin-bottom: 5px;
         }
-        .nr{
+        .nr {
           color: #cb0e09;
           font-size: 21px;
           font-weight: bold;
           margin-bottom: 30px;
         }
       }
-      .discriminate + div a{
+      .discriminate + div a {
         text-decoration: underline;
       }
-      .from{
+      .from {
         position: absolute;
         bottom: 0;
       }
     }
   }
-  .handleInfo{
+  .handleInfo {
     color: #333333;
-    .monitorTitle{
+    .monitorTitle {
       margin: 14px 0;
     }
-    .item{
+    .item {
       display: flex;
       line-height: 34px;
       padding: 0 20px;
-      .title{
-          margin-right: 40px;
+      .title {
+        margin-right: 40px;
       }
-      .info{
-          flex-grow: 1;
+      .info {
+        flex-grow: 1;
       }
-      &:nth-last-child(odd){
+      &:nth-last-child(odd) {
         background: #c7c7c7;
       }
     }
   }
-  .el-dialog{
+  .el-dialog {
     background: #e0e0e0;
   }
-  .el-dialog__header{
+  .el-dialog__header {
     text-align: left;
     padding-bottom: 0;
   }
-  .title_top{
+  .title_top {
     font-weight: bold;
   }
-  .extend{
+  .extend {
     font-size: 14px;
     margin-top: 3px;
   }
