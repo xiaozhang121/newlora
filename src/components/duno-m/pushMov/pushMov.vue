@@ -78,6 +78,7 @@
     import Polygonal from '_c/duno-c/Polygonal'
     import hotCamera from '_c/duno-m/hotCamera'
     import cameraPanel from '_c/duno-m/cameraPanel'
+    import { initConfigure } from '@/api/user'
     import { mapState } from 'vuex'
     export default {
         name: 'pushMov',
@@ -103,6 +104,13 @@
          }
         },
         watch: {
+            dialogVisible(now){
+                if(now){
+                    document.querySelector('.btnList.dropSelf').style.zIndex = 0
+                }else{
+                    document.querySelector('.btnList.dropSelf').style.zIndex = 10
+                }
+            },
             visible(now){
                 this.dialogVisible = now
                 this.$nextTick(()=>{
@@ -117,21 +125,29 @@
             cameraPic01(){
                 if(this.$store.state.user.configInfo.cameraPic01){
                     return this.$store.state.user.configInfo.cameraPic01
+                }else{
+                    return ' '
                 }
             },
             cameraPic02(){
                 if(this.$store.state.user.configInfo.cameraPic02){
                     return this.$store.state.user.configInfo.cameraPic02
+                }else{
+                    return ' '
                 }
             },
             cameraPic03(){
                 if(this.$store.state.user.configInfo.cameraPic03){
                     return this.$store.state.user.configInfo.cameraPic03
+                }else{
+                    return ' '
                 }
             },
             cameraPic04(){
                 if(this.$store.state.user.configInfo.cameraPic04){
                     return this.$store.state.user.configInfo.cameraPic04
+                }else{
+                    return ' '
                 }
             },
             widthSet(){
@@ -143,8 +159,15 @@
             }
         },
         methods:{
+            initData(){
+                const that = this
+                initConfigure({userId:this.$store.state.user.userId, type: '1'}).then(res=>{
+                    that.$store.state.user.configInfo = res.data
+                })
+            },
             pushInfo(index, event){
-                $(event.currentTarget).css("cssText",`background: url(${this.pic})`)
+                this.$store.state.user.configInfo['cameraPic0'+index] = this.pic
+                // $(event.currentTarget).css("cssText",`background: url(${this.pic})`)
                 this.$emit('on-push', index)
             },
             handleClose(){
@@ -161,6 +184,8 @@
                     })
                 }
             }
+        },
+        created(){
         },
         mounted() {
             this.$nextTick(()=>{

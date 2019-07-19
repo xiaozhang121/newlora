@@ -57,28 +57,6 @@ export default {
       isCenter: false,
       time: "",
       remarks: [],
-      optionsList: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
-      ],
       valueSelect: "",
       showBtnList: false,
       isSecond: false,
@@ -123,57 +101,6 @@ export default {
     };
   },
   methods: {
-    selectData(value) {
-      const that = this;
-      securityMonitor({ monitorDeviceId: value }).then(res => {
-        that.titleValueL = "监控摄像头数量";
-        that.dataMonitor = res.data;
-        that.videoWidth = "calc(50%)";
-        that.active = 1;
-        that.isCenter = true;
-      });
-    },
-    getCamera() {
-      const that = this;
-      securityMonitor().then(res => {
-        if (res.data && res.data.length) {
-          that.dataMonitorAll = res.data;
-          that.dataMonitor = res.data.slice(0, 4);
-        }
-      });
-    },
-    initData() {
-      const that = this;
-      getMonitorSelect().then(res => {
-        that.optionsList = res.data.tableData;
-      });
-    },
-    onSelect(item) {
-      this.titleValueL = item["describeName"];
-      console.log(item.widthType);
-      this.dataMonitor = this.dataMonitorAll.slice(item["count"]);
-      this.valueSelect = "";
-      switch (item.widthType) {
-        case 2:
-          this.videoWidth = "calc(50% - 10px)";
-          this.active = 2;
-          this.isCenter = false;
-          break;
-        case 3:
-          this.videoWidth = "calc(100%/3 - 14px)";
-          this.active = 3;
-          this.isCenter = false;
-          break;
-        case 4:
-          this.videoWidth = "calc(25% - 15px)";
-          this.active = 4;
-          this.isCenter = false;
-          break;
-        default:
-          this.active = 4;
-          this.isCenter = false;
-      }
-    },
     handleData() {
       this.getDataList();
     },
@@ -182,8 +109,6 @@ export default {
     }
   },
   created() {
-    this.initData();
-    this.getCamera();
   }
 };
 </script>

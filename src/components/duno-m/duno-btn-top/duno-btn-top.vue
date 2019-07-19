@@ -2,7 +2,7 @@
   <div class="dunoBtnTop">
     <div class="placeHolder" v-if="showBtnList">
     </div>
-    <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" style="position: absolute; z-index: 10">
+    <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" :style="'position: absolute; z-index:' + zIndex">
       <div class="title dropSelf"  @click="showListFlag = !showListFlag">
           <!-- 全部固定监控设备 -->
           <input class="selfInput" @blur="hiddenDrapdown()" readonly :value="title" />
@@ -97,6 +97,10 @@ export default {
     dunoBtnTopItem
   },
   props: {
+    zIndex: {
+        type: String,
+        default: '10'
+    },
     isCheck:{
         type: Boolean,
         default: true

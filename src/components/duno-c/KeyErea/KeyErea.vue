@@ -5,6 +5,7 @@
       <div class="selectBtn">
         <div>
           <duno-btn-top
+            zIndex="10"
             @on-select="onSelect"
             class="dunoBtnTop"
             :isCheck="false"
@@ -38,9 +39,10 @@
       <!--@on-push="onPush"-->
       <KeyMonitor
         v-for="(item,index) in dataMonitor"
+        :autoplay="true"
         :class="{'noMargin': (index+1) % active == 0}"
         :key="index"
-        :streamAddr="item['streamAddr']"
+        :streamAddr="item['streamAddress']"
         :monitorInfo="item"
         :width="videoWidth"
       />
@@ -71,18 +73,20 @@ export default {
   },
   data() {
     return {
-      selectCount: 4,
+      initCount: 0,
+      isFirst: true,
+      selectCount: 0,
       cameraPic: '',
       isSecond: false,
       isCenter: false,
       pushMovVisable: false,
       showBtnList: false,
       titleValueR: "监控摄像头选择",
-      titleValueL: "四个摄像头",
+      titleValueL: "个摄像头",
       videoWidth: "calc(50% - 10px)",
       valueSelect: [],
       dataMonitor: [],
-      active: 2,
+      active: 4,
       optionsList: [
        /* {
           value: "选项1",
@@ -109,6 +113,7 @@ export default {
         {
           circleColor: "#00B4FF",
           describeName: "两个摄像头",
+          style: 'calc(50% - 10px)',
           widthType: 2,
           count: 2,
           isActive: true
@@ -116,6 +121,7 @@ export default {
         {
           circleColor: "#FF5EB9",
           describeName: "四个摄像头",
+          style: 'calc(50% - 10px)',
           widthType: 2,
           count: 4,
           isActive: true
@@ -123,6 +129,7 @@ export default {
         {
           circleColor: "#4FF2B7",
           describeName: "六个摄像头",
+          style: 'calc(100%/3 - 14px)',
           count: 6,
           widthType: 3,
           isActive: true
@@ -130,6 +137,7 @@ export default {
         {
           circleColor: "#FF9000",
           describeName: "八个摄像头",
+          style: 'calc(25% - 15px)',
           count: 8,
           widthType: 4,
           isActive: true
@@ -141,11 +149,17 @@ export default {
     ...mapState(["app"]),
   },
   watch:{
+      selectCount(now){
+          this.numberCameras.forEach(item=>{
+              if(item['count'] == now){
+                  this.active = item['widthType']
+                  this.titleValueL = item['describeName']
+                  this.videoWidth = item['style']
+              }
+          })
+      },
       valueSelect:{
-          handler(now, old){
-              this.getCameraInfo(now)
-          },
-          deep: true
+
       }
   },
   methods: {
@@ -174,74 +188,68 @@ export default {
     },
     getCamera() {
       const that = this;
-      securityMonitor().then(res => {
+      securityMonitor({configType: 3, userId: this.$store.state.user.userId}).then(res => {
         if (res.data && res.data.length) {
           let data = res.data
           data.map(item=>{
               item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
           })
           that.dataMonitorAll = data;
-          that.dataMonitor = data.slice(0, 4);
+          that.selectCount = that.valueSelect.length
+          that.initCount = that.selectCount
+          that.dataMonitor = data.slice(0, that.selectCount);
         }
       });
     },
     initData() {
       const that = this;
-      getMonitorSelect().then(res => {
-        let data = res.data.tableData
-        data = data.filter(item=>{
-            return item['isSelected'] == true || item['isSelected'] == 1
-        })
-        if(data.length){
-          that.valueSelect = data
-          // that.getCameraInfo(data)
-        }else{
-          that.valueSelect = []
+      getMonitorSelect({configType: 3, userId: this.$store.state.user.userId}).then(res => {
+        if(res.data){
+            debugger
+          let data = res.data
+          data = data.filter(item=>{
+              return item['isSelected'] == true || item['isSelected'] == 1
+          })
+          if(data.length){
+            let arr = []
+            data.forEach(item=>{
+                arr.push(item['monitorDeviceId'])
+            })
+            that.valueSelect = arr
+            // that.getCameraInfo(data)
+          }else{
+            that.valueSelect = []
+          }
+          that.optionsList = res.data;
         }
-        that.optionsList = res.data.tableData;
       });
     },
     getCameraInfo(arr){
         const that = this
         // 现在正在播放，但是没有被选择的项
         let addArr = []
-        that.dataMonitor.forEach((item, index)=>{
+       /* that.dataMonitor.forEach((item, index)=>{
             if(arr.indexOf(item['monitorDeviceId'])< 0){
                 addArr.push(item['monitorDeviceId'])
             }
-        })
-        arr = [...arr,...addArr].slice(0,that.selectCount)
-        let methodList = []
-        for(let i=0; i<arr.length; i++){
-            methodList.push(
-                function () {
-                    return getMonitorView()
-                }
-            )
+        })*/
+      /*  arr = [...arr].slice(0,that.selectCount)
+        if(!arr.length){
+            that.selectCount = this.$store.state.user.cameraNum
         }
-        that.reduce(methodList).then(res=>{
-            that.dataMonitor = res
-         /*   for(let i=0; i<res.length; i++){
-                data[i]['dataList'] = res[i].tableData
-            }*/
-        })
-    },
-    reduce(arr) {
-        let sequence = Promise.resolve()
-        let res = []
-        arr.forEach(function(item) {
-            sequence = sequence.then(item).then(info=>{
-                res.push(info.data)
-                return res
-            })
-        })
-        return sequence
+        securityMonitor({configType: '3', monitorDeviceId: arr.join(','), userId: that.$store.state.user.userId }).then(res=>{
+            that.dataMonitor = res.data
+        })*/
     },
     selectData(value) {
       const that = this;
-      securityMonitor({ monitorDeviceId: value }).then(res => {
+      if(!value.length){
+        that.selectCount = this.initCount
+      }
+      securityMonitor({ monitorDeviceId: value.join(','), configType: '3', userId: this.$store.state.user.userId }).then(res => {
         // that.titleValueL = "监控摄像头数量";
-        that.dataMonitor = res.data;
+        that.dataMonitor = res.data
+        that.$forceUpdate()
         // that.videoWidth = "calc(50%)";
         // that.active = 1;
         // that.isCenter = true;
@@ -251,8 +259,8 @@ export default {
       this.selectCount = item['count']
       this.titleValueL = item["describeName"];
       console.log(item.widthType);
-      this.dataMonitor = this.dataMonitorAll.slice(0,item["count"]);
-      this.valueSelect = "";
+      this.dataMonitor = this.dataMonitor.slice(0,item["count"]);
+      this.valueSelect = this.valueSelect.slice(0, item["count"]);
       switch (item.widthType) {
         case 2:
           this.videoWidth = "calc(50% - 10px)";

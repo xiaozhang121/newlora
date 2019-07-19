@@ -49,7 +49,7 @@
         </span>
       </div>
     </div>
-    <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
+    <push-mov  ref="pushMov" :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
   </div>
 </template>
 
@@ -70,6 +70,12 @@ export default {
     pushMov
   },
   props: {
+    autoplay:{
+      type: Boolean,
+      default: () => {
+        return false;
+      }
+    },
     imgAdress: {
       type: String,
       default() {
@@ -196,6 +202,7 @@ export default {
         this.pushMovVisable = false;
     },
     pushMov() {
+      this.$refs.pushMov.initData()
       // this.$emit("on-push", this.monitorInfo);
       this.pushMovVisable = true;
       if (this.monitorInfo) {
@@ -217,6 +224,7 @@ export default {
     }
   },
   created() {
+    this.playerOptions.autoplay = this.autoplay
     /* if(this.optionWidth && this.optionHeight){
           this.playerOptions.width = this.optionWidth
           this.playerOptions.height = this.optionHeight
