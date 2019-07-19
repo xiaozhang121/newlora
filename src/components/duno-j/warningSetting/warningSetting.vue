@@ -7,94 +7,121 @@
     center
     width='400px'
     @close='handleClose'>
-    <el-form 
-      ref='form' 
-      :model="form" 
-      label-width="120px" 
-      :label-position='"left"'
-      :hide-required-asterisk='true'
+    <div class="elForm">
+      <el-form
+              ref='form'
+              :model="form"
+              label-width="120px"
+              :label-position='"left"'
+              :hide-required-asterisk='true'
       >
-      <el-form-item 
-        :rules='rules' 
-        prop='danger' 
-        label="缺陷告警">
-        <el-select
-          v-model="form.danger"
-          placeholder="危急：请选择"
-          >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item :rules='rules' prop='serious'>
-        <el-select
-          v-model="form.serious" 
-          placeholder="严重：请选择"
-          >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item :rules='rules' prop='primary'>
-        <el-select
-          v-model="form.primary"
-          placeholder="一般：请选择"
-          >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+        <el-form-item
+                :rules='rules'
+                prop='danger'
+                label="缺陷告警">
+          <div class="formItem">
+            <span>危急</span>
+            <el-select
+                    v-model="form.danger"
+                    placeholder="请选择"
             >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item :rules='rules' prop='people'  label="人员警告">
-        <el-select
-          v-model="form.people" 
-          placeholder="请选择"
+              <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </el-form-item>
+        <el-form-item  :rules='rules' prop='serious'>
+          <div class="formItem">
+            <span>严重</span>
+            <el-select
+                    v-model="form.serious"
+                    placeholder="请选择"
+            >
+              <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </el-form-item>
+        <el-form-item  :rules='rules' prop='primary'>
+          <div class="formItem">
+            <span>一般</span>
+            <el-select
+                    v-model="form.primary"
+                    placeholder="请选择"
+            >
+              <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </el-form-item>
+        <el-form-item :rules='rules' prop='voiceSettingF'>
+          <el-switch
+                  v-model="voiceSettingF"
+                  inactive-text="声音提示"
           >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item :rules='rules' prop='environment'  label="环境异常">
-        <el-select
-          v-model="form.environment" 
-          placeholder="请选择"
+          </el-switch>
+        </el-form-item>
+        <!-- <el-form-item :rules='rules' prop='people'  label="">
+           <el-select
+             v-model="form.people"
+             placeholder="请选择"
+             >
+             <el-option
+               v-for="item in options"
+               :key="item.value"
+               :label="item.label"
+               :value="item.value">
+             </el-option>
+           </el-select>
+         </el-form-item>-->
+        <el-form-item :rules='rules' prop='environment'  label="动态环境异常">
+          <el-select
+                  v-model="form.environment"
+                  placeholder="请选择"
           >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <div slot='footer'>
-      <el-button 
-        @click='handleClose' 
-        size='medium' 
-        class='warningBtn'
-        >取消</el-button>
-      <el-button 
-        @click='submitForm("form")' 
-        size='medium' 
-        class='warningBtn'>确定</el-button>
-    </div>,
+            <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :rules='rules' prop='voiceSettingS'>
+          <el-switch
+                  v-model="voiceSettingS"
+                  inactive-text="声音提示"
+          >
+          </el-switch>
+        </el-form-item>
+      </el-form>
+      <div slot='footer'>
+        <div class="footer">
+          <el-button
+                  @click='handleClose'
+                  size='medium'
+                  class='warningBtn'
+          >取消</el-button>
+          <el-button
+                  @click='submitForm("form")'
+                  size='medium'
+                  class='warningBtn'>确定</el-button>
+        </div>
+      </div>
+    </div>
   </el-dialog>
 </template>
 <script>
@@ -113,6 +140,8 @@ export default {
   },
   data () {
     return {
+      voiceSettingF: false,
+      voiceSettingS: false,
       visible: false,
       options: [
       /*{
@@ -195,9 +224,24 @@ export default {
 <style lang='scss'>
 .myDia {
   background-color: #eee;
+  .formItem{
+    display: flex;
+    & > span{
+      width: 47px;
+    }
+  }
+  .elForm{
+    padding: 0 20px;
+  }
+  .footer{
+    text-align: center;
+  }
   .warningBtn {
     background-color: #00688B;
     color: #fff;
+    .el-form-item__label{
+      text-align: right !important;
+    }
   }
 }
 </style>

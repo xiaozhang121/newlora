@@ -52,8 +52,9 @@ export const deviceList = () => {
 }
 
 //动态环境监测-动态环境总览-重点监测区域摄像下拉列表
-export const getMonitorSelect = () => {
+export const getMonitorSelect = (query) => {
     return axios.request({
+        params: { ...query },
         url: '/lenovo-device/api/security/monitor-select',
         method: 'get',
     })
@@ -71,7 +72,7 @@ export const securityMonitor = (query) => {
 // 配置信息-修改(推送)
 export const editConfig = (query) => {
     return axios.request({
-        url: '/lenovo-user/api/config/edit',
+        url: '/lenovo-device/api/config/edit',
         method: 'put',
         params: query
     })
