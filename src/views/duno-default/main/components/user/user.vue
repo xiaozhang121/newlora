@@ -141,7 +141,23 @@ export default {
     ]),
     goToLogin () {
       this.handleLogOut().then(() => {
+        this.getLogOutData()
         this.$router.push({ name: 'login' })
+      })
+    },
+    getLogOutData() {
+      const url = '/api/userService/userLogout'
+      const userId = localStorage.getItem('ms_userId')
+      const token = localStorage.getItem('ms_accessToken')
+      const query = {
+        "userId": userId,
+        "token": token
+      }
+      postAxiosData(url, query).then(res => {
+        localStorage.removeItem('ms_userType')
+        localStorage.removeItem('ms_userId')
+        localStorage.removeItem('ms_userName')
+        localStorage.removeItem('ms_accessToken')
       })
     },
     handleClick (name) {

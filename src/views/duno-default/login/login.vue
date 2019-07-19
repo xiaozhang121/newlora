@@ -20,6 +20,7 @@
 <script>
 import LoginForm from './components/login-form.vue'
 import { mapActions } from 'vuex'
+import { postAxiosData } from '@/api/axiosType'
 export default {
   components: {
     LoginForm
@@ -39,6 +40,7 @@ export default {
       this.handleLogin({ userName, password, code, uuid }).then(res => {
         if (res.code === 200) {
           this.getUserInfo().then(res => {
+            this.getLoginData(userName, password)
             this.isLoading = false
             this.$router.push({ name: 'realEnvList' })
           })
@@ -46,6 +48,22 @@ export default {
           this.isLoading = false
           this.$message.error(res.msg)
         }
+      })
+    },
+    getLoginData(userName, password) {
+      const url = '/api/userService/userLogin'
+      const query = {
+        "userName": userName,
+        "password": password,
+        "userType": "ADMIN",
+        "loginSource": "WEB",
+        "department": "LR"
+      }
+      postAxiosData(url, query).then(res => {
+        localStorage.setItem('ms_userType','ADMIN')
+        localStorage.setItem('ms_userId', res.data.userId)
+        localStorage.setItem('ms_userName', userName)
+        localStorage.setItem('ms_accessToken',res.data.accessToken)
       })
     }
   }

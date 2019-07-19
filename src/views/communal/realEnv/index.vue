@@ -523,7 +523,6 @@ export default {
           }
       },
       drag(event, item){
-          debugger
           event.dataTransfer.setData("itemData",JSON.stringify(item))
       },
       changPoint(monitorDeviceType){
@@ -720,7 +719,6 @@ export default {
       this.$store.state.app.kilovolt = this.$route.meta.kind
   },
   mounted () {
-      debugger
     const that = this
     document.addEventListener('fullscreenchange', function(event){
         if(that.$refs.btnTopRef)
