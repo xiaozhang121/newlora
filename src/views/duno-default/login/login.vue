@@ -61,9 +61,9 @@ export default {
       }
       postAxiosData(url, query).then(res => {
         localStorage.setItem('ms_userType','ADMIN')
-        localStorage.setItem('ms_userId', res.userId)
+        localStorage.setItem('ms_userId', res.data.userId)
         localStorage.setItem('ms_userName', userName)
-        localStorage.setItem('ms_accessToken',res.accessToken)
+        localStorage.setItem('ms_accessToken', res.data.accessToken)
       })
     }
   }

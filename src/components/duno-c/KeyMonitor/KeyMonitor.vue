@@ -79,7 +79,7 @@ export default {
     imgAdress: {
       type: String,
       default() {
-        return;
+        return '';
       }
     },
     monitorInfo: {
@@ -138,11 +138,15 @@ export default {
         this.isSecond = now;
       },
       immediate: true
+    },
+    imgAdress:{
+      handler(now){
+          if(now){
+             this.playerOptions.poster = now
+          }
+      },
+      immediate: true
     }
-    // imgAdress(now) {
-    //   debugger;
-    //   this.playerOptions.poster = now;
-    // }
   },
   data() {
     return {
@@ -168,8 +172,8 @@ export default {
         autoplay: false,
         controls: true,
         notSupportedMessage: "此视频暂无法播放，请稍后再试",
-        poster:
-          "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
+      /*  poster:
+          "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"*/
       }
     };
   },

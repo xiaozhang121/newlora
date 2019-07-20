@@ -2,8 +2,9 @@
   <div class="alarmLog">
     <div class="img">
       <KeyMonitor
-        streamAddr="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-        :imgAdress="remarkData.alarmFileAddress"
+        :streamAddr="remarkData.alarmFileAddress"
+        :imgAdress="remarkData.pic"
+        :monitorInfo="remarkData"
       />
     </div>
     <div class="content">

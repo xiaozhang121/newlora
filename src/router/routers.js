@@ -406,7 +406,7 @@ export default [{
                 path: 'environmental1000',
                 name: 'environmental1000KV',
                 meta: {
-                    title: '1000KV',
+                    title: '1000千伏',
                     notCache: true,
                     toListName: 'environmental1000KVList',
                     btnArr: []
@@ -427,7 +427,7 @@ export default [{
                 path: 'environmental500',
                 name: 'environmental500KV',
                 meta: {
-                    title: '500KV',
+                    title: '500千伏',
                     notCache: true,
                     toListName: 'environmental500KVList',
                     btnArr: []
@@ -448,7 +448,7 @@ export default [{
                 path: 'environmental220',
                 name: 'environmental220KV',
                 meta: {
-                    title: '220KV',
+                    title: '220千伏',
                     notCache: true,
                     toListName: 'environmental220KVList',
                     btnArr: []
@@ -469,7 +469,7 @@ export default [{
                 path: 'environmental110',
                 name: 'environmental110KV',
                 meta: {
-                    title: '110KV',
+                    title: '110千伏',
                     notCache: true,
                     toListName: 'environmental110KVList',
                     btnArr: []
@@ -490,7 +490,7 @@ export default [{
                 path: 'environmental35',
                 name: 'environmental35KV',
                 meta: {
-                    title: '35KV',
+                    title: '35千伏',
                     notCache: true,
                     toListName: 'environmental35KVList',
                     btnArr: []
@@ -511,7 +511,7 @@ export default [{
                 path: 'environmental10',
                 name: 'environmental10KV',
                 meta: {
-                    title: '10KV',
+                    title: '10千伏',
                     notCache: true,
                     toListName: 'environmental10KVList',
                     btnArr: []

@@ -17,12 +17,12 @@
       >
         <el-form-item
                 :rules='rules'
-                prop='danger'
+                prop='dangerAction'
                 label="缺陷告警">
           <div class="formItem">
             <span>危急</span>
             <el-select
-                    v-model="form.danger"
+                    v-model="form.dangerAction"
                     placeholder="请选择"
             >
               <el-option
@@ -34,11 +34,11 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item  :rules='rules' prop='serious'>
+        <el-form-item  :rules='rules' prop='seriousAction'>
           <div class="formItem">
             <span>严重</span>
             <el-select
-                    v-model="form.serious"
+                    v-model="form.seriousAction"
                     placeholder="请选择"
             >
               <el-option
@@ -50,11 +50,11 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item  :rules='rules' prop='primary'>
+        <el-form-item  :rules='rules' prop='normalAction'>
           <div class="formItem">
             <span>一般</span>
             <el-select
-                    v-model="form.primary"
+                    v-model="form.normalAction"
                     placeholder="请选择"
             >
               <el-option
@@ -67,9 +67,9 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item :rules='rules' prop='voiceSettingF'>
+        <el-form-item :rules='rules' prop='defectStatus'>
           <el-switch
-                  v-model="voiceSettingF"
+                  v-model="form.defectStatus"
                   inactive-text="声音提示"
           >
           </el-switch>
@@ -87,9 +87,9 @@
              </el-option>
            </el-select>
          </el-form-item>-->
-        <el-form-item :rules='rules' prop='environment'  label="动态环境异常">
+        <el-form-item :rules='rules' prop='envAction'  label="动态环境异常">
           <el-select
-                  v-model="form.environment"
+                  v-model="form.envAction"
                   placeholder="请选择"
           >
             <el-option
@@ -100,9 +100,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :rules='rules' prop='voiceSettingS'>
+        <el-form-item :rules='rules' prop='securityStatus'>
           <el-switch
-                  v-model="voiceSettingS"
+                  v-model="form.securityStatus"
                   inactive-text="声音提示"
           >
           </el-switch>
@@ -140,8 +140,6 @@ export default {
   },
   data () {
     return {
-      voiceSettingF: false,
-      voiceSettingS: false,
       visible: false,
       options: [
       /*{
@@ -156,11 +154,12 @@ export default {
       }*/
       ],
       form: {
-        danger: '',
-        serious: '',
-        primary: '',
-        people: '',
-        environment: ''
+        dangerAction: '',
+        seriousAction: '',
+        normalAction: '',
+        envAction: '',
+        securityStatus: false,
+        defectStatus: false
       },
       rules: {
         required: true,
@@ -207,8 +206,10 @@ export default {
       this.$emit('handleClose')
     },
     submitForm(formName) {
+      const that = this
       this.$refs[formName].validate((valid, obj) => {
         if (valid) {
+          that.setData()
           this.$emit('submitSetting', this.form)
         } else {
           return false;

@@ -226,8 +226,8 @@ export default {
                     this.clearCircle()
                     this.timerd = setTimeout(()=>{
                         this.addCircle(13218514.714, 3768404.705)
-                    },1000)
-                },1500)
+                    },500)
+                },1000)
             }
         },
         clearAlarm(){
@@ -246,12 +246,12 @@ export default {
                 geometry: new Point(transform([xReal, yReal], 'EPSG:3857', 'EPSG:4326'))
             })
             let sharp = new RegularShape({
-                rotation: 40,
+                rotation: 0.78,
                 points: 4,    // 顶点数
                 radius: 40,    // 图形大小，单位为像素
                 stroke: new Stroke({ // 设置边的样式
                     color: 'red',
-                    size: 2
+                    width: 2
                 })
             })
             anchor.setStyle(new Style({

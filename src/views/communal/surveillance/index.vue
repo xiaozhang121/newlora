@@ -9,38 +9,38 @@
     <div class="main" :class="{widthA : displayType == '2'}">
       <div class="left_main" :class="{widthA : displayType == '2'}">
         <div class="left"  style="padding-bottom: 32%"  v-if="displayType == '2'">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="right_main" v-if="displayType != '2'" :class="{hidden : displayType == '2'}">
         <div class="right">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
     <div class="oltagevMain second" v-if="displayType == '2'">
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1"  :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02"  :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -56,24 +56,9 @@
       ></duno-btn-top>
     </div>
     <div class="oltagevMain">
-      <div class="item_main">
+      <div class="item_main" v-for="(item, index) in areaCameraList" :key="'camera'+index" :class="{noMarginRight:(index+1)%3 == 0}">
         <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
-        </div>
-      </div>
-      <div class="item_main">
-        <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
-        </div>
-      </div>
-      <div class="item_main">
-        <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
-        </div>
-      </div>
-      <div class="item_main">
-        <div class="item">
-          <key-monitor streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :imgAdress="item['pic']" patrol="" :kilovolt="item['areaName']" :streamAddr="item['streamAddr']" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -85,7 +70,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import { getAxiosData } from "@/api/axiosType";
 import mixinViewModule from "@/mixins/view-module";
-import { editConfig } from '@/api/currency/currency.js'
+import { editConfig, getAreaList } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinViewModule],
@@ -101,15 +86,45 @@ export default {
       displayType(){
           return this.$store.state.user.configInfo['displayType']
       },
+      streamAddr01(){
+          if(this.cameraList[0]['streamAddr'])
+            return this.cameraList[0]['streamAddr']
+          else{
+            return ''
+          }
+      },
+      streamAddr02(){
+          if(this.cameraList[1]['streamAddr'])
+              return this.cameraList[1]['streamAddr']
+          else{
+              return ''
+          }
+      },
+      streamAddr03(){
+          if(this.cameraList[2]['streamAddr'])
+              return this.cameraList[2]['streamAddr']
+          else{
+              return ''
+          }
+      },
+      streamAddr04(){
+          if(this.cameraList[3]['streamAddr'])
+              return this.cameraList[3]['streamAddr']
+          else{
+              return ''
+          }
+      },
       layoutTypeName(){
           return this.dataList[this.$store.state.user.configInfo['displayType']-1]['describeName']
       }
   },
   data() {
     return {
+      activeAreaId: '',
       dataForm: {},
       titleLayout: "切换布局",
       titleValue: "按电压等级",
+      cameraList:[],
       dataList: [
         {
           describeName: "布局一",
@@ -122,6 +137,7 @@ export default {
           isActive: false
         }
       ],
+      areaCameraList: [],
       oltagevLevelList: [
         {
           describeName: "电压一",
@@ -137,34 +153,68 @@ export default {
     };
   },
   methods:{
-      onSelect(item, index){
-          this.$store.state.user.configInfo['displayType'] = item['format']
-          editConfig({id:this.$store.state.user.configInfo['id'],displayType:item['format']}).then(res=>{
-              sessionStorage.setItem('format', item['format'])
-              this.layoutType = item['format']
-          })
-      },
-    onSelectVol(item) {
-      this.titleValue = item["describeName"];
-      //视屏监控-按电压等级
-      this.dataForm.areaId = this.titleValue;
-      getAxiosData(
-        "/lenovo-device/api/monitor/vol-list",
-        this.dataForm.areaId
-      ).then(res => {
-        if (res.code !== 200) {
-          that.dataList = [];
-          that.totalNum = 0;
-          return that.$message.error(res.msg);
-        }
-      });
+    getArea(){
+        getAreaList().then(res=>{
+            let data = res.data.areaList
+            let arr = []
+            data.forEach(item=>{
+                arr.push({
+                    describeName: item['areaName'],
+                    areaId: item['areaId'],
+                    id: item['id']
+                })
+            })
+            this.oltagevLevelList = arr
+            this.$forceUpdate()
+        })
     },
+    initData(){
+        const that = this
+        getAxiosData('/lenovo-device/api/monitor/layout-list',{userId:this.$store.state.user.userId}).then(res=>{
+          that.cameraList = res.data
+          that.$forceUpdate()
+        })
+    },
+    onSelect(item, index){
+        this.$store.state.user.configInfo['displayType'] = item['format']
+        editConfig({id:this.$store.state.user.configInfo['id'],displayType:item['format']}).then(res=>{
+            sessionStorage.setItem('format', item['format'])
+            this.layoutType = item['format']
+        })
+    },
+    onSelectVol(item) {
+      this.activeAreaId = item['areaId']
+      this.titleValue = item["describeName"];
+      this.getCamera(item['areaId'])
+    },
+    getCamera(areaId){
+      const that = this
+      let query = {}
+      if(areaId){
+          query['areaId'] = areaId
+      }
+      getAxiosData("/lenovo-device/api/monitor/vol-list",query).then(res => {
+          if(res.code == 200){
+              let data = res.data
+              that.areaCameraList = data
+              that.$forceUpdate()
+          }
+      });
+    }
+  },
+  created(){
+      this.getCamera()
+      this.getArea()
+      this.initData()
   }
 }
 </script>
 
 <style lang="scss">
 .surveillance {
+  .noMarginRight{
+    margin-right: 0 !important;
+  }
   width: 100%;
   .monitorM {
     width: 100% !important;
@@ -235,6 +285,7 @@ export default {
     }
   }
   .oltagevMain {
+    min-height: 300px;
     width: 100%;
     zoom: 1;
     &:after {
@@ -266,7 +317,6 @@ export default {
       }
     }
     .item_main:nth-last-child(3n-1) {
-      margin-right: 0;
     }
   }
   .monitorM.second {
