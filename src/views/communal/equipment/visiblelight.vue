@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div>
-      <KeyErea />
+      <KeyErea configType="1"/>
     </div>
     <div class="reportRecode">
       <div class="right">

@@ -3,6 +3,7 @@
     popper-class="promptBox"
     placement="bottom"
     width="440"
+    class="alarmBell"
     v-model="visible"
     trigger="manual"
   >
@@ -19,22 +20,51 @@
       </h3>
       <div class="promptItemBox">
         <div class="itemData" v-for="(item, index) in itemData" :key="index">
-          <div class="title">{{!isFakeData ? item.powerDeviceName : item.monitorDeviceName}}</div>
+          <div class="title">{{!isFakeData ? item.mainDevice : item.monitorDeviceName}}</div>
           <div class="itemTitle">
-            <span v-if="!isFakeData">当前温度：{{item.alarmValue}}℃</span>
-            <span v-if="!isFakeData">超出阈值：{{item.threshold}}</span>
-            <span v-if="isFakeData">当前状态：{{item.status}}</span>
+            <!--<span v-if="!isFakeData">当前温度：{{item.alarmValue}}℃</span>-->
+            <!--<span v-if="!isFakeData">超出阈值：{{item.threshold}}</span>-->
+            <!--<span v-if="isFakeData">当前状态：{{item.status}}</span>-->
+            <span>{{item.powerDeviceName}}</span>
           </div>
-          <div class="itemTitle">
+      <!--    <div class="itemTitle">
             <p>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></p>
+          </div>-->
+          <div class="itemTitle">
+            <p>内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}
+              <i-dropdown
+                      class="dropAlarmDown"
+                      trigger="click"
+                      placement="bottom-start"
+              >
+                <div
+                        class="table_select"
+                        :class="[{'serious': item.alarmLevel == '2'},{'commonly': item.alarmLevel == '1'},{'danger': item.alarmLevel == '3'}]"
+                >
+                  <span class="member_operate_div">
+                    <span>{{ alarmLevelName(item.alarmLevelName) }}</span>
+                  </span>
+                  <i class="iconfont icon-xiala"></i>
+                </div>
+                <i-dropdownMenu slot="list">
+                  <i-dropdownItem
+                          v-for="(itemL, indexL) in selectList"
+                          :key="index"
+                          @click.native="selectItem(item, indexL)"
+                  >
+                    <div class="alarmLevel">{{ itemL }}</div>
+                  </i-dropdownItem>
+                </i-dropdownMenu>
+              </i-dropdown>
+            </p>
           </div>
           <div class="itemBottomTitle">
             <el-row>
               <el-col :span="15">{{item.alarmTime}}</el-col>
               <el-col :span="9">
                 <div class="buttonAll">
-                  <el-button type="info" round @click="restoration(item, '1', index)">复位</el-button>
-                  <el-button type="success" round @click="restoration(item, '0', index)">保存</el-button>
+                  <el-button v-if="item['isReturn']" type="info" round @click="restoration(item, '1', index)">复位</el-button>
+                  <el-button type="success" round @click="restoration(item, '2', index)">备注</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -46,16 +76,18 @@
 </template>
 
 <script>
-import { getAxiosData, postAxiosData } from "@/api/axiosType.js";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType.js";
+import { dealRemarks } from "@/api/configuration/configuration.js";
 import { mapState } from "vuex";
 export default {
   name: "alarmTip",
   data() {
     return {
+      selectList: ["一般", "严重", "危急"],
       value: 0,
       visible: false,
       itemData: [],
-      isFakeData: true, // 假数据
+      isFakeData: false, // 假数据
     }
   },
   computed: {
@@ -77,14 +109,32 @@ export default {
     }
   },
   methods: {
+      psotAlarmData(row, No) {
+          const that = this
+          const url = '/lenovo-alarm/api/alarm/level-edit'
+          const query = {
+              id: row,
+              alarmLevel: No
+          }
+          putAxiosData(url, query).then(res => {
+              that.getData()
+          }, error => {
+
+          })
+      },
+      alarmLevelName(name){
+          return name.substring(0,2)
+      },
+      selectItem(item, index) {
+        this.psotAlarmData(item.id, index+1)
+    },
     restoration(item, type, index) {
-      console.log(type == "1" ? "复位" : "保存");
+      console.log(type == "1" ? "复归" : "备注");
       const url =
-        type == "1"
-          ? "/lenovo-alarm/api/alarm/reset"
-          : "/lenovo-alarm/api/alarm/save";
+          "/lenovo-alarm/api/alarm/deal"
       const query = {
-        alarmId: item.alarmId
+        alarmId: item.alarmId,
+        type: type
       };
       postAxiosData(url, query).then(res => {
         if (res.code !== 200) {
@@ -122,6 +172,62 @@ export default {
 };
 </script>
 <style lang="scss">
+.dropAlarmDown{
+  margin-left: 5px;
+  .serious {
+    span {
+      background: #f4a723;
+    }
+  }
+  .commonly {
+    span {
+      background: #5eb0fc;
+    }
+  }
+  .danger {
+    span {
+      background: #d0011b;
+    }
+  }
+  .table_select {
+    cursor: pointer;
+    color: #1d1f26;
+    .member_operate_div {
+      margin-right: 3px;
+      span {
+        font-size: 14px !important;
+      }
+    }
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 47px !important;
+      height: 24px !important;
+      border-radius: 20px;
+    }
+    &.serious {
+      span {
+        background: #f4a723;
+      }
+    }
+    &.commonly {
+      span {
+        background: #5eb0fc;
+      }
+    }
+    &.danger {
+      span {
+        background: #d0011b;
+      }
+    }
+  }
+  .iconfont.icon-xiala {
+    color: white;
+    font-size: 13px;
+    margin-left: 3px;
+  }
+}
 .header-icon {
   color: white;
   position: relative;

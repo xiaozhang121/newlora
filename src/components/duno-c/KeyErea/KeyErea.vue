@@ -42,6 +42,7 @@
         :autoplay="true"
         :class="{'noMargin': (index+1) % active == 0}"
         :key="index"
+        :imgAdress="item['pic']"
         :streamAddr="item['streamAddress']"
         :monitorInfo="item"
         :width="videoWidth"
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -145,6 +147,12 @@ export default {
       ]
     };
   },
+  props:{
+      configType:{
+          type: String,
+          default: '3'
+      }
+  },
   computed: {
     ...mapState(["app"]),
   },
@@ -188,12 +196,12 @@ export default {
     },
     getCamera() {
       const that = this;
-      securityMonitor({configType: 3, userId: this.$store.state.user.userId}).then(res => {
+      securityMonitor({configType: this.configType, userId: this.$store.state.user.userId}).then(res => {
         if (res.data && res.data.length) {
           let data = res.data
-          data.map(item=>{
+        /*  data.map(item=>{
               item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
-          })
+          })*/
           that.dataMonitorAll = data;
           that.selectCount = that.valueSelect.length
           that.initCount = that.selectCount
@@ -203,9 +211,8 @@ export default {
     },
     initData() {
       const that = this;
-      getMonitorSelect({configType: 3, userId: this.$store.state.user.userId}).then(res => {
+      getMonitorSelect({configType: that.configType, userId: this.$store.state.user.userId}).then(res => {
         if(res.data){
-            debugger
           let data = res.data
           data = data.filter(item=>{
               return item['isSelected'] == true || item['isSelected'] == 1
@@ -213,7 +220,8 @@ export default {
           if(data.length){
             let arr = []
             data.forEach(item=>{
-                arr.push(item['monitorDeviceId'])
+                if(item['monitorDeviceId'] != null)
+                  arr.push(item['monitorDeviceId'])
             })
             that.valueSelect = arr
             // that.getCameraInfo(data)
@@ -241,12 +249,25 @@ export default {
             that.dataMonitor = res.data
         })*/
     },
+    saveCamera(){
+        const that = this
+        let query = {}
+        that.valueSelect.forEach((item, index)=>{
+            query['camera0'+(index+1)+'Id'] = item
+        })
+        query['selectCount'] = that.selectCount
+        query['userId'] = this.$store.state.user.userId
+        query['configType'] = that.configType
+        postAxiosData('/lenovo-device/api/camera/config/update', query).then(res=>{
+
+        })
+    },
     selectData(value) {
       const that = this;
       if(!value.length){
         that.selectCount = this.initCount
       }
-      securityMonitor({ monitorDeviceId: value.join(','), configType: '3', userId: this.$store.state.user.userId }).then(res => {
+      securityMonitor({ monitorDeviceId: value.join(','), configType: that.configType, userId: this.$store.state.user.userId }).then(res => {
         // that.titleValueL = "监控摄像头数量";
         that.dataMonitor = res.data
         that.$forceUpdate()
@@ -283,16 +304,20 @@ export default {
       }
     },
     beforeunload(e){
+        const that = this
         console.log('保存相关操作')
         console.log("I want to cancel");
         // Cancel the event
-        e.preventDefault();
+        e.preventDefault()
+        that.saveCamera()
         // Chrome requires returnValue to be set
         e.returnValue = "hello";
     }
   },
   beforeDestroy(){
+      const that = this
       console.log('destory')
+      that.saveCamera()
       window.removeEventListener('beforeunload', this.beforeunload)
   },
   created() {
