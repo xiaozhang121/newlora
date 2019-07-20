@@ -35,6 +35,9 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning
+      :discriminate="false"
+      :hasSelect="true"
+      :alarmLevel="alarmLevel"
       :visible="visible"
       warningID="20190711002"
       :monitorUrl="popData.alarmFileAddress || ''"
@@ -74,23 +77,24 @@ export default {
     return {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
+        getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
       },
       visibleSettingOption: false,
       visible: false,
-      totalNum: 500,
-      pageRows: 20,
       selectInfo: "更多",
+      popData: {},
       serious: false,
       commonly: false,
       danger: false,
       value: "",
+      alarmLevel: "",
       titleType: "按设备筛选",
       dataBread: ["视频监控", "所有报表", "表计分析", "全面巡视"],
       columns: [
         {
+          title: "序号",
           type: "index",
-          width: 60,
+          width: 100,
           align: "center"
         },
         {
@@ -306,7 +310,7 @@ export default {
   },
   created() {
     this.getRegion();
-    this.getStart();
+    // this.getStart();
     this.getType();
   },
   methods: {
@@ -413,7 +417,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有区域",
+          describeName: "所有设备",
           monitorDeviceType: "",
           title: "titleTypeL"
         });
@@ -611,12 +615,12 @@ export default {
       & > div {
         margin-left: 10px;
         .dunoBtnTop {
-          width: 120px;
+          width: 140px;
           display: inline-flex;
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            width: 120px;
+            width: 140px;
             .title {
               padding: 8px 20px;
             }

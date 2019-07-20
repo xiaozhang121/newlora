@@ -21,6 +21,12 @@ export default {
     DunoCharts
   },
   props: {
+    dataAllList: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
     legendData: {
       type: Array,
       default: () => {
@@ -94,6 +100,7 @@ export default {
   data() {
     const that = this;
     return {
+      dataList: [],
       titleOption: {
         text: that.title,
         x: "center",
@@ -161,7 +168,7 @@ export default {
           show: false
         }
       },
-    //   seriesOption: that.seriesData
+      //   seriesOption: that.seriesData
       seriesOption: [
         {
           name: "4号主变1000千伏侧压变B相",
@@ -270,6 +277,35 @@ export default {
         this.seriesOption = arr;
       },
       deep: true
+    }
+  },
+  methods: {
+    changeType() {
+      //   const dataList = res.data.dataList;
+      this.dataList = this.dataAllList;
+      const legendData = [];
+      const xAxisData = [];
+      const seriesData = [];
+      for (let i = 0; i < dataList.length; i++) {
+        legendData.push(dataList[i].itemName);
+        const itemDataList = dataList[i].itemDataList;
+        const obj = {
+          name: dataList[i].itemName,
+          type: "line",
+          data: []
+        };
+        for (let item in itemDataList) {
+          if (i == 0) {
+            xAxisData.push(itemDataList[item].time);
+          }
+          obj.data.push(Number(itemDataList[item].data));
+        }
+        seriesData.push(obj);
+      }
+      that.legendData.push(...legendData);
+      that.seriesData.push(...seriesData);
+      that.$forceUpdate();
+      that.isChangeFlag = !that.isChangeFlag;
     }
   }
 };
