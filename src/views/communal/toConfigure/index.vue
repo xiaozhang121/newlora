@@ -7,14 +7,21 @@
       <div>监测设备管理</div>
       <div class="btn">
         <div>
-          <duno-btn-top
+          <!-- <duno-btn-top
             @on-select="onSelectDevice"
             class="dunoBtnTop"
             :isCheck="false"
             :dataList="TestEquipment"
             :title="titleTypeL"
             :showBtnList="false"
-          ></duno-btn-top>
+          ></duno-btn-top>-->
+          <duno-btn-top
+            @on-select="onSelectDevice"
+            class="dunoBtnTop"
+            :dataList="TestEquipment"
+            :title="titleTypeL"
+            :showBtnList="false"
+          />
         </div>
         <div>
           <duno-btn-top
@@ -63,7 +70,7 @@ import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import mixinViewModule from "@/mixins/view-module";
 import { putAxiosData, getAxiosData } from "@/api/axiosType";
-import { getDevice } from "@/api/configuration/configuration.js";
+import { getDevice, getStatus } from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
   name: "toConfigure",
@@ -89,73 +96,9 @@ export default {
       titleTypeC: "所有电压等级",
       titleTypeR: "所有状态",
       dataBread: ["操作中台", "配置管理", "检测设备管理"],
-      dataList: [
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        },
-        {
-          id: "可见光54536",
-          area: "500千伏"
-        }
-      ],
       TestEquipment: [],
-      voltageLevel: [
-        {
-          describeName: "1000千伏"
-        },
-        {
-          describeName: "500千伏"
-        },
-        {
-          describeName: "220千伏"
-        },
-        {
-          describeName: "110千伏"
-        },
-        {
-          describeName: "35千伏"
-        },
-        {
-          describeName: "10千伏"
-        }
-      ],
-      stateSelect: [
-        {
-          describeName: "开启"
-        },
-        {
-          describeName: "关闭"
-        }
-      ],
+      voltageLevel: [],
+      stateSelect: [],
       infoColumns: [
         {
           key: "monitorDeviceId",
@@ -259,11 +202,11 @@ export default {
                             },
                             on: {
                               click: () => {
-                                that.selectInfo = "每日1次";
+                                that.onClickDropdown(params.row, "1次/周");
                               }
                             }
                           },
-                          "每日1次"
+                          "1次/日"
                         )
                       ]),
                       h("i-dropdownItem", {}, [
@@ -275,11 +218,11 @@ export default {
                             },
                             on: {
                               click: () => {
-                                that.selectInfo = "每周1次";
+                                that.onClickDropdown(params.row, "1次/周");
                               }
                             }
                           },
-                          "每周1次"
+                          "1次/周"
                         )
                       ])
                     ]
@@ -316,16 +259,22 @@ export default {
   methods: {
     handleDevice() {
       getDevice().then(res => {
-        this.TestEquipment = res.data;
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            value: item.value,
+            title: "titleTypeC"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "所有区域",
+          value: "",
+          title: "titleTypeC"
+        });
+        this.voltageLevel = map;
       });
-    //   getAxiosData("/lenovo-device/api/area/select-list").then(res => {
-    //     if (res.code !== 200) {
-    //       that.dataList = [];
-    //       that.totalNum = 0;
-    //       return that.$message.error(res.msg);
-    //     }
-    //     this.TestEquipment = res.data;
-    //   });
     },
     onSelectDevice(item) {
       this.dataForm.deviceType = item["describeName"];
@@ -333,12 +282,12 @@ export default {
       this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
-      this.dataForm.areaId = item["describeName"];
+      this.dataForm.value = item["value"];
       this.getDataList();
       this.titleTypeC = item["describeName"];
     },
     onSelectState(item) {
-      this.dataForm.status = item["describeName"];
+      this.dataForm.value = item["value"];
       this.getDataList();
       this.titleTypeR = item["describeName"];
     },
@@ -357,10 +306,55 @@ export default {
           return that.$message.error(res.msg);
         }
       });
+    },
+    onClickDropdown(row, type) {
+      const index = row._index;
+      this.dataList[index].inspectCycle = type;
+      this.psotAlarmData(row, type);
+    },
+    psotAlarmData(row, type) {
+      const that = this;
+      const url = "/lenovo-device/api/monitor/edit";
+      const query = {
+        id: row.id,
+        cycleType: type
+      };
+      putAxiosData(url, query).then(
+        res => {
+          if (res.code !== 200) {
+            this.dataList[index].cycleType = row.inspectCycle;
+            return that.$message.error(res.msg);
+          }
+          that.$message.success(res.msg);
+        },
+        error => {
+          this.dataList[index].cycleType = row.inspectCycle;
+        }
+      );
+    },
+    getSelectStatus() {
+      getStatus().then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            value: item.value,
+            title: "titleTypeR"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "所有状态",
+          value: "",
+          title: "titleTypeR"
+        });
+        this.stateSelect = map;
+      });
     }
   },
   mounted() {
     this.handleDevice();
+    this.getSelectStatus();
   }
 };
 </script>

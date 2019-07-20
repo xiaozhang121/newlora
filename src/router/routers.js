@@ -313,6 +313,16 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/surveillance/detailVRed.vue')
+                },
+                {
+                    path: 'areaVideo',
+                    name: 'surveillanceList',
+                    meta: {
+                        title: '分区域视频流',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/surveillance/areaVideo.vue')
                 }
             ]
         }]
@@ -386,7 +396,7 @@ export default [{
                             icon: "icon-shouye",
                             hideInMenu: true,
                             isDetails: true,
-                            active:'environmentalList'
+                            active: 'environmentalList'
                         },
                         component: () => import('@/views/communal/security/allSecurity.vue')
                     },
@@ -795,7 +805,7 @@ export default [{
                 name: 'report',
                 meta: {
                     title: '巡检任务报表',
-                    icon:"icon-shouye",
+                    icon: "icon-shouye",
                     notCache: true,
                     toListName: 'reportList',
                     btnArr: []
@@ -818,7 +828,7 @@ export default [{
                             title: '全面巡视',
                             hideInMenu: true,
                             isDetails: true,
-                            active:'meterdataList'
+                            active: 'meterdataList'
                         },
                         component: () => import('@/views/communal/alarmInfo/viewReportDetail.vue')
                     },
@@ -829,7 +839,7 @@ export default [{
                 name: 'meterdata',
                 meta: {
                     title: '表计分析',
-                    icon:"icon-shouye",
+                    icon: "icon-shouye",
                     notCache: true,
                     toListName: 'meterdataList',
                     btnArr: []
@@ -852,7 +862,7 @@ export default [{
                             title: '所有表计分析',
                             hideInMenu: true,
                             isDetails: true,
-                            active:'meterdataList'
+                            active: 'meterdataList'
                         },
                         component: () => import('@/views/communal/alarmInfo/detail.vue'),
                     },

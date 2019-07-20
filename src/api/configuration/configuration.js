@@ -79,7 +79,7 @@ export const infraNewReport = (data) => {
 }
 
 //设备监测-红外监测-最新24小时记录信息
-export const taskInspection = (data) => {
+export const infraNewInformation = (data) => {
     return axios.request({
         url: "/lenovo-plan/api/task/iir-result/list",
         method: 'get'
@@ -88,7 +88,6 @@ export const taskInspection = (data) => {
 
 //设备管理-任务配置-列表
 export const infrInformation = (data) => {
-    // debugger
     return axios.request({
         url: "/lenovo-plan/api/plan/all-list",
         method: 'get'
@@ -97,10 +96,17 @@ export const infrInformation = (data) => {
 
 //设备管理-设备监测管理-列表
 export const getDevice = (data) => {
-    // debugger
     return axios.request({
         url: "/lenovo-device/api/area/select-list",
-        method: 'get'
+        method: 'post'
+    })
+}
+
+//设备管理-设备监测管理-状态
+export const getStatus = (data) => {
+    return axios.request({
+        url: "/lenovo-device/api/monitor/status",
+        method: 'post'
     })
 }
 
@@ -143,6 +149,99 @@ export const getMainEqui = (query) => {
 export const getDifference = (query) => {
     return axios.request({
         url: "/lenovo-device/api/device/phase/select",
+        method: 'get',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-可见光-摄像头详情-历史信息记录
+export const getVLIght = (query) => {
+    return axios.request({
+        url: "/lenovo-alarm/api/alarm/level-edit",
+        method: 'put',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-可见光-摄像头详情-历史信息记录-全部数据类型
+export const getVType = (data) => {
+    return axios.request({
+        url: "/lenovo-device/api/device/data/type",
+        method: 'post',
+    })
+}
+
+//视频监控-可见光-摄像头详情-历史信息记录-全部异常等级
+export const getVGrade = (data) => {
+    return axios.request({
+        url: "/lenovo-alarm/api/alarm/level",
+        method: 'get',
+    })
+}
+
+//视频监控-可见光-摄像头详情-历史数据-预置位
+export const getVPreset = (data) => {
+    return axios.request({
+        url: "",
+        method: 'get',
+    })
+}
+
+//视频监控-可见光-摄像头详情-历史数据echarts
+export const getVEcharts = (query) => {
+    return axios.request({
+        url: "",
+        method: 'get',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-红外检测-摄像头详情-历史信息记录
+export const getRedLIght = (query) => {
+    return axios.request({
+        url: "/lenovo-alarm/api/alarm/level-edit",
+        method: 'put',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-红外检测-摄像头详情-历史信息记录-全部数据类型
+export const getRedType = (data) => {
+    // debugger
+    return axios.request({
+        url: "/lenovo-device/api/device/data/type",
+        method: 'post',
+    })
+}
+
+//视频监控-红外检测-摄像头详情-历史信息记录-全部异常等级
+export const getRedGrade = (data) => {
+    return axios.request({
+        url: "/lenovo-alarm/api/alarm/level",
+        method: 'get',
+    })
+}
+
+//视频监控-红外检测-摄像头详情-历史数据-预置位
+export const getRedPreset = (data) => {
+    return axios.request({
+        url: "",
+        method: 'get',
+    })
+}
+
+//视频监控-红外检测-摄像头详情-历史数据echarts
+export const getRedEcharts = (query) => {
+    return axios.request({
+        url: "",
         method: 'get',
         params: {
             ...query

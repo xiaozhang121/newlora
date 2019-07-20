@@ -84,8 +84,9 @@ export default {
       });
     },
     viewReports() {
-      let url = this.url.viewUrl;
-      getAxiosData(url).then(res => {});
+      //   let url = this.url.viewUrl;
+      //   getAxiosData(url).then(res => {});
+      this.$router.push({ name: "report-view" });
     }
   }
 };

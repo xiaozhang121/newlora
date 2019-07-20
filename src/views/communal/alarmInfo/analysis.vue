@@ -52,24 +52,6 @@
             ></el-option>
           </el-select>
         </div>
-        <!-- <div>
-          <duno-btn-top
-            @on-select="onSelectParts"
-            class="dunoBtnTop"
-            :dataList="partsData"
-            :title="titleParts"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div>
-          <duno-btn-top
-            @on-select="onSelectPhase"
-            class="dunoBtnTop"
-            :dataList="phaseData"
-            :title="titlePhase"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>-->
       </div>
     </div>
     <div class="echarts">
@@ -127,6 +109,19 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
+    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
+    <wraning
+      :discriminate="false"
+      :hasSelect="true"
+      :alarmLevel="alarmLevel"
+      :visible="visible"
+      warningID="20190711002"
+      :monitorUrl="popData.alarmFileAddress || ''"
+      :judgeResult="popData.alarmContent || ''"
+      :origin="popData.monitorDeviceId"
+      :handleResult="popData.dealRecord || ''"
+      @handleClose="handleClose"
+    />
   </div>
 </template>
 
@@ -136,6 +131,9 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoCharts } from "_c/duno-charts";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
+import warningSetting from "_c/duno-j/warningSetting";
+import wraning from "_c/duno-j/warning";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import {
   getEchartsData,
   getAmmeter,
@@ -149,71 +147,21 @@ export default {
     Breadcrumb,
     dunoBtnTop,
     DunoCharts,
-    DunoTablesTep
+    DunoTablesTep,
+    warningSetting,
+    wraning
   },
-  data() {
-    return {
-      mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
-      },
-      titleAmmeter: "泄露电流表",
-      titleParts: "主设备名-部件名",
-      titlePhase: "选择相别",
-      titleByDay: "按日",
-      titleDate: "今日",
-      valueParts: [],
-      ammeterData: [],
-      valuePhase: [],
-      partsList: [],
-      phaseList: [],
-      ByDayData: [],
-      dateData: [],
-      echartsData: [],
-      dataBread: ["视频监控", "所有报表", "表计分析"],
-      isChangeFlag: true,
-      isItemEchart: true,
-      //   titleOption: {
-      //     text: "泄露电流表24小时温度分析",
-      //     x: "center",
-      //     y: "20",
-      //     textStyle: {
-      //       color: "#fff",
-      //       fontWeight: "normal"
-      //     }
-      //   },
-      legendOption: {
-        icon: "circle",
-        y: "20",
-        textStyle: {
-          color: "#fff"
-        },
-        data: ["4号主变1000千伏侧压变B相", "4号主变1000千伏侧压变C相"]
-      },
-      gridOption: {
-        top: "80"
-      },
-      xAxisOption: {
-        type: "category",
-        name: "(时)",
-        axisLine: {
-          show: true, //x轴的线
-          lineStyle: {
-            color: ["#999"]
-          }
-        },
-        // 控制网格线是否显示
-        splitLine: {
-          show: false,
-          lineStyle: {
-            color: ["#999"]
-          }
-        },
-        //除去x轴刻度
-        axisTick: {
-          show: false
-        },
-        data: [
+  props: {
+    legendData: {
+      type: Array,
+      default: () => {
+        return ["4号主变1000千伏侧压变B相", "4号主变1000千伏侧压变C相"];
+      }
+    },
+    xAxisData: {
+      type: Array,
+      default: () => {
+        return [
           "1",
           "2",
           "3",
@@ -238,13 +186,134 @@ export default {
           "22",
           "23",
           "24"
-        ]
+        ];
+      }
+    },
+    yMax: {
+      type: Number,
+      default: 100
+    },
+    yMin: {
+      type: Number,
+      default: 0
+    },
+    seriesData: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
+    isChange: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
+    isItemEchart: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
+    title: {
+      type: String,
+      default: () => {
+        return "泄露电流表24小时温度分析";
+      }
+    }
+  },
+  data() {
+    const that = this;
+    return {
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
+      },
+      titleAmmeter: "泄露电流表",
+      titleParts: "主设备名-部件名",
+      titlePhase: "选择相别",
+      titleByDay: "按日",
+      titleDate: "今日",
+      valueParts: [],
+      ammeterData: [],
+      valuePhase: [],
+      partsList: [],
+      phaseList: [],
+      ByDayData: [
+        {
+          describeName: "按日",
+          type: "day"
+        },
+        {
+          describeName: "按周",
+          type: "week"
+        },
+        {
+          describeName: "按月",
+          type: "month"
+        },
+        {
+          describeName: "按年",
+          type: "year"
+        }
+      ],
+      dateData: [],
+      echartsData: [],
+      popData: {},
+      visible: false,
+      visibleSettingOption: false,
+      alarmLevel: "",
+      startTime: "2019-7-20",
+      endTime: "2019-7-20",
+      dataBread: ["视频监控", "所有报表", "表计分析"],
+      //   isChangeFlag: true,
+      //   titleOption: {
+      //     text: "泄露电流表24小时温度分析",
+      //     x: "center",
+      //     y: "20",
+      //     textStyle: {
+      //       color: "#fff",
+      //       fontWeight: "normal"
+      //     }
+      //   },
+      legendOption: {
+        icon: "circle",
+        y: "20",
+        textStyle: {
+          color: "#fff"
+        },
+        data: that.legendData
+      },
+      gridOption: {
+        top: "80"
+      },
+      xAxisOption: {
+        type: "category",
+        name: "(时)",
+        axisLine: {
+          show: true, //x轴的线
+          lineStyle: {
+            color: ["#999"]
+          }
+        },
+        // 控制网格线是否显示
+        splitLine: {
+          show: false,
+          lineStyle: {
+            color: ["#999"]
+          }
+        },
+        //除去x轴刻度
+        axisTick: {
+          show: false
+        },
+        data: that.xAxisData
       },
       yAxisOption: {
         type: "value",
         name: "(温度℃)",
-        max: 100,
-        min: 0,
+        max: that.yMax,
+        min: that.yMin,
         splitNumber: 5,
         // boundaryGap: ["0", "2"],
         axisLine: {
@@ -265,6 +334,7 @@ export default {
           show: false
         }
       },
+      //   seriesOption: that.seriesData
       seriesOption: [
         {
           name: "4号主变1000千伏侧压变B相",
@@ -556,6 +626,35 @@ export default {
       this.dataList[index].alarmLevel = No;
       this.psotAlarmData(row, No);
     },
+    psotAlarmData(row, No) {
+      const that = this;
+      const url = "/lenovo-alarm/api/alarm/level-edit";
+      const query = {
+        id: row.id,
+        alarmLevel: No
+      };
+      putAxiosData(url, query).then(
+        res => {
+          if (res.code !== 200) {
+            this.dataList[index].alarmLevel = row.alarmLevel;
+            this.dataList[index].alarmLevelName = row.alarmLevelName;
+            return that.$message.error(res.msg);
+          }
+          that.$message.success(res.msg);
+        },
+        error => {
+          this.dataList[index].alarmLevel = row.alarmLevel;
+          this.dataList[index].alarmLevelName = row.alarmLevelName;
+        }
+      );
+    },
+    onClose() {
+      this.visibleSettingOption = false;
+    },
+    handleClose() {
+      this.popData = {};
+      this.visible = false;
+    },
     onSelectAmmeter(item) {
       this.titleAmmeter = item["describeName"];
       let query = {
@@ -566,24 +665,52 @@ export default {
     selectParts(item) {
       this.titleParts = item["describeName"];
       let query = {
-        part: item["partsType"]
+        part: this.valueParts.join(",")
       };
-      console.log(item);
-      //   this.getdiffentData(query);
+      this.getdiffentData(query);
     },
     selectPhase(item) {
       this.titlePhase = item["describeName"];
+      this.getEcharts();
     },
     onSelectByDay(item) {
-      this.titlePhase = item["describeName"];
+      this.titleByDay = item["describeName"];
     },
     onSelectDate(item) {
-      this.titlePhase = item["describeName"];
+      this.titleDate = item["describeName"];
     },
     getEcharts() {
       let that = this;
+      const query = {
+        monitorDeviceId: that.valuePhase.join(","),
+        startTime: `${this.startTime} 00:00:00`,
+        endTime: `${this.endTime} 23:59:59`
+      };
       getEchartsData().then(res => {
-        that.echartsData = res.data.deviceList;
+        const dataList = res.data.dataList;
+        const legendData = [];
+        const xAxisData = [];
+        const seriesData = [];
+        for (let i = 0; i < dataList.length; i++) {
+          legendData.push(dataList[i].itemName);
+          const itemDataList = dataList[i].itemDataList;
+          const obj = {
+            name: dataList[i].itemName,
+            type: "line",
+            data: []
+          };
+          for (let item in itemDataList) {
+            if (i == 0) {
+              xAxisData.push(itemDataList[item].time);
+            }
+            obj.data.push(Number(itemDataList[item].data));
+          }
+          seriesData.push(obj);
+        }
+        that.legendData.push(...legendData);
+        that.seriesData.push(...seriesData);
+        that.$forceUpdate();
+        that.isChangeFlag = !that.isChangeFlag;
       });
     },
     handleToMore() {
@@ -607,29 +734,68 @@ export default {
     getEquipment(query) {
       getMainEqui(query).then(res => {
         this.partsList = res.data;
-        // const resData = res.data;
-        // const map = resData.map(item => {
-        //   const obj = {
-        //     describeName: item.label,
-        //     partsType: item.value,
-        //     title: "titleParts"
-        //   };
-        //   return obj;
-        // });
-        // this.partsList = map;
-        // console.log(this.partsList)
       });
     },
     getdiffentData(query) {
-      getDifference(query).then(res => {});
+      getDifference(query).then(res => {
+        this.phaseList = res.data;
+      });
     },
     dataListSelectionChangeHandle() {},
-    pageCurrentChangeHandle() {},
     pageSizeChangeHandle() {}
   },
   mounted() {
     this.getEcharts();
     this.getAmmeterData();
+  },
+  watch: {
+    isChange: {
+      handler(now) {
+        this.isChangeFlag = now;
+      },
+      immediate: true
+    },
+    legendData: {
+      handler(now) {
+        let arr = [];
+        if (now && now.length) {
+          arr = now;
+        }
+        this.legendOption.data = arr;
+      },
+      deep: true
+    },
+    xAxisData: {
+      handler(now) {
+        let arr = [];
+        if (now && now.length) {
+          arr = now;
+        }
+      },
+      deep: true
+    },
+    yName(now) {
+      this.yAxisOption.yName = now;
+    },
+    yMax(now) {
+      this.yAxisOption.yMax = now;
+    },
+    yMin(now) {
+      this.yAxisOption.yMin = now;
+    },
+    ySplitNumber(now) {
+      this.yAxisOption.ySplitNumber = now;
+    },
+    seriesData: {
+      handler(now) {
+        let arr = [];
+        if (now && now.length) {
+          arr = now;
+        }
+        this.seriesOption = arr;
+      },
+      deep: true
+    }
   }
 };
 </script>

@@ -52,7 +52,7 @@
                 class="dunoBtnTop"
                 :isCheck="false"
                 :dataList="allDataLevel"
-                :title="titleTypeC"
+                :title="titleTypeR"
                 :showBtnList="false"
               ></duno-btn-top>
             </div>
@@ -66,6 +66,7 @@
                 range-separator="-"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                @change="onChangeHis"
               ></el-date-picker>
             </div>
             <div>
@@ -126,6 +127,19 @@
         </div>
       </div>
     </div>
+    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
+    <wraning
+      :discriminate="false"
+      :hasSelect="true"
+      :alarmLevel="alarmLevel"
+      :visible="visible"
+      warningID="20190711002"
+      :monitorUrl="popData.alarmFileAddress || ''"
+      :judgeResult="popData.alarmContent || ''"
+      :origin="popData.monitorDeviceId"
+      :handleResult="popData.dealRecord || ''"
+      @handleClose="handleClose"
+    />
   </div>
 </template>
 
@@ -138,6 +152,16 @@ import controBtn from "_c/duno-m/controBtn";
 import mixinViewModule from "@/mixins/view-module";
 import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
+import warningSetting from "_c/duno-j/warningSetting";
+import wraning from "_c/duno-j/warning";
+import moment from "moment";
+import {
+  getVLIght,
+  getVType,
+  getVGrade,
+  getVPreset,
+  getVEcharts
+} from "@/api/configuration/configuration.js";
 export default {
   name: "surveillanceDetail",
   mixins: [mixinViewModule],
@@ -148,13 +172,29 @@ export default {
     controBtn,
     inspection,
     DunoTablesTep,
-    echarts
+    echarts,
+    warningSetting,
+    wraning
   },
   data() {
     return {
+      mixinViewModuleOptions: {
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        exportURL: "/lenovo-alarm/api/alarm/history/export"
+      },
       titleType: "选择预置位",
       titleTypeL: "全部数据类型",
-      titleTypeC: "全部异常类型",
+      titleTypeR: "全部异常类型",
+      dataForm: {},
+      echartForm: {},
+      echartData: [],
+      typeList: [],
+      value: "",
+      alarmLevel: "",
+      visible: false,
+      visibleSettingOption: false,
+      popData: {},
       columns: [
         {
           title: "时间",
@@ -165,39 +205,40 @@ export default {
         },
         {
           title: "报警对象",
+          key: "mainDevice",
+          minWidth: 120,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "部件/相别",
           key: "powerDeviceName",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
-          title: "报警部位",
-          key: "alarmPart",
-          minWidth: 120,
-          align: "center",
-          tooltip: true
-        },
-        {
-          title: "区域",
+          title: "描述",
           key: "areaName",
           minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
-          title: "报警内容",
-          key: "alarmContent",
+          title: "数据",
+          key: "alarmValue",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
-          title: "警告级别",
+          title: "缺陷等级",
           key: "alarmLevelName",
           minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
+            const that = this;
             let newArr = [];
             newArr.push(
               h(
@@ -285,32 +326,6 @@ export default {
           }
         },
         {
-          title: "信息来源",
-          key: "monitorDeviceId",
-          minWidth: 150,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "a",
-                {
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      console.log("摄像头ID：", params.row.monitorDeviceId);
-                    }
-                  }
-                },
-                params.row.monitorDeviceId
-              )
-            ]);
-            return h("div", { class: { member_operate_div: true } }, newArr);
-          }
-        },
-        {
           title: "视频/图片",
           key: "id",
           minWidth: 120,
@@ -339,8 +354,8 @@ export default {
           }
         },
         {
-          title: "处理记录",
-          key: "dealRecord",
+          title: "自动/手动",
+          key: "sourceType",
           width: 120,
           align: "center",
           tooltip: true
@@ -351,25 +366,8 @@ export default {
           width: 220,
           align: "center",
           render: (h, params) => {
+            const that = this;
             let newArr = [];
-            if (params.row.isReturn == "0") {
-              newArr.push([
-                h(
-                  "el-button",
-                  {
-                    class: "table_link",
-                    style: { marginRight: "20px" },
-                    props: { type: "text" },
-                    on: {
-                      click: () => {
-                        that.restoration(params.row);
-                      }
-                    }
-                  },
-                  "复归"
-                )
-              ]);
-            }
             newArr.push([
               h(
                 "el-button",
@@ -380,6 +378,7 @@ export default {
                   on: {
                     click: () => {
                       that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
                       that.visible = true;
                     }
                   }
@@ -398,40 +397,155 @@ export default {
         }
       ],
       presetName: "",
-      allDataKind: [
-        {
-          describeName: "所有区域",
-          monitorDeviceType: "",
-          title: "titleTypeL"
-        },
-        {
-          describeName: "所有区域",
-          monitorDeviceType: "",
-          title: "titleTypeL"
-        }
-      ],
-      allDataLevel: [
-        {
-          describeName: "所有区域",
-          monitorDeviceType: "",
-          title: "titleTypeC"
-        },
-        {
-          describeName: "所有区域",
-          monitorDeviceType: "",
-          title: "titleTypeC"
-        }
-      ],
+      allDataKind: [],
+      allDataLevel: [],
       dataTime: "",
       dataBread: ["视频监控", "1000kv", "摄像头详情"]
     };
   },
   methods: {
+    cutOut(data) {
+      if (data) {
+        const index = data.indexOf("缺陷");
+        if (index > -1) {
+          data = data.substring(0, index);
+        }
+        return data;
+      } else {
+        return "更多";
+      }
+    },
+    onClickDropdown(row, type, No) {
+      const index = row._index;
+      this.dataList[index].alarmLevelName = type;
+      this.dataList[index].alarmLevel = No;
+      const query = {
+        id: row.id,
+        alarmLevel: No
+      };
+      getVLIght(query).then(
+        res => {
+          if (res.code !== 200) {
+            this.dataList[index].alarmLevel = row.alarmLevel;
+            this.dataList[index].alarmLevelName = row.alarmLevelName;
+            return that.$message.error(res.msg);
+          }
+          that.$message.success(res.msg);
+        },
+        error => {
+          this.dataList[index].alarmLevel = row.alarmLevel;
+          this.dataList[index].alarmLevelName = row.alarmLevelName;
+        }
+      );
+    },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
+      if (item.title == "titleTypeL") {
+        this.dataForm.deviceType = item.monitorDeviceType;
+        this.getDataList();
+      } else if (item.title == "titleTypeR") {
+        this.dataForm.alarmLevel = item.monitorDeviceType;
+        this.getDataList();
+      } else if (item.title == "titleType") {
+        this.echartForm.source = item.monitorDeviceType;
+        this.getEchasrts();
+      }
+    },
+    onChangeHis(data) {
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD");
+        endTime = moment(data[1]).format("YYYY-MM-DD");
+      }
+      this.dataForm.startTime = startTime;
+      this.dataForm.endTime = endTime;
+      this.getDataList();
+    },
+    onChangeTime() {
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD");
+        endTime = moment(data[1]).format("YYYY-MM-DD");
+      }
+      this.echartForm.startTime = startTime;
+      this.echartForm.endTime = endTime;
+      this.getEchasrts();
+    },
+    clickExcel() {
+      const that = this;
+      that.exportHandle();
+    },
+    getSelectType() {
+      getVType().then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleTypeL"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "所有数据类型",
+          monitorDeviceType: "",
+          title: "titleTypeL"
+        });
+        this.allDataKind = map;
+      });
+    },
+    getSelcetGrade() {
+      getVGrade().then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleTypeR"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "所有异常等级",
+          monitorDeviceType: "",
+          title: "titleTypeR"
+        });
+        this.allDataLevel = map;
+      });
+    },
+    getSelectPreset() {
+      getVPreset().then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleTypeR"
+          };
+          return obj;
+        });
+        this.typeList = map;
+      });
+    },
+    getEchasrts() {
+      getVEcharts(this.echartForm).then(res => {
+        this.echartData = res.data;
+      });
+    },
+    handleClose() {
+      this.popData = {};
+      this.visible = false;
+    },
+    onClose() {
+      this.visibleSettingOption = false;
     }
   },
   mounted() {
+    this.getSelectType();
+    this.getSelcetGrade();
+    this.getSelectPreset();
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
@@ -443,6 +557,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/style/tableStyle.scss";
 .mainAside {
   /*min-height: 100%;*/
 }
@@ -470,6 +585,54 @@ export default {
   }
   .exportExcel {
     font-size: 16px;
+  }
+  .imgOrMv {
+    width: 50%;
+    height: 35px;
+    position: relative;
+    top: 2px;
+  }
+  .flexPos {
+    .el-button {
+      background: rgba(0, 0, 0, 0);
+      border: none;
+    }
+  }
+  .table_link {
+    font-size: 16px;
+    color: #5fafff !important;
+    text-decoration: underline;
+  }
+  .table_select {
+    cursor: pointer;
+    // color: #1d1f26;
+    color: #fff;
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 30px;
+      border-radius: 20px;
+    }
+    &.serious {
+      span {
+        background: #f4a723;
+        color: #1d1f26;
+      }
+    }
+    &.commonly {
+      span {
+        background: #5eb0fc;
+        color: #1d1f26;
+      }
+    }
+    &.danger {
+      span {
+        background: #d0011b;
+        color: #1d1f26;
+      }
+    }
   }
   .content {
     display: flex;
@@ -536,7 +699,7 @@ export default {
   .middle_table {
     margin-top: 20px;
     width: 100%;
-    height: 300px;
+    min-height: 300px;
     .top {
       color: #ffffff;
       height: 40px;
@@ -703,5 +866,79 @@ export default {
       }
     }
   }
+  //-------------------表格样式
+  .dunoMain {
+    height: inherit;
+  }
+  .ivu-table {
+    font-size: 16px;
+  }
+  .ivu-table th {
+    color: #fff;
+    border: none;
+    height: 60px;
+    background-color: #2d5980 !important;
+    font-size: 18px;
+    font-weight: normal;
+  }
+  .ivu-page {
+    text-align: center;
+    .ivu-page-total {
+      display: none;
+    }
+    .ivu-page-item-jump-next:after,
+    .ivu-page-item-jump-prev:after {
+      color: white;
+    }
+    .ivu-page-next,
+    .ivu-page-prev {
+      background: transparent;
+      display: none;
+      border: none;
+    }
+    .ivu-page-item {
+      background: transparent !important;
+      border: none !important;
+      min-width: 16px;
+      height: 28px;
+      a {
+        color: white;
+      }
+    }
+    .ivu-page-options {
+      display: none;
+    }
+    .ivu-page-item-active {
+      border-bottom: 1px solid #2d8cf0 !important;
+      border-radius: 0;
+      a {
+        color: #2d8cf0;
+      }
+    }
+  }
+  .ivu-table-wrapper {
+    tr {
+      td {
+        height: 48px;
+      }
+    }
+    tr:nth-child(odd) {
+      td {
+        background: rgba(0, 0, 0, 0) !important;
+      }
+    }
+    tr:nth-child(even) {
+      td {
+        background-color: #2a526c;
+      }
+    }
+  }
+  .ivu-select-dropdown {
+    background: white !important;
+  }
+  .ivu-table-small td {
+    background: black;
+  }
+  //------------------
 }
 </style>
