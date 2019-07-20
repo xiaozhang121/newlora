@@ -151,15 +151,20 @@ export default {
     this.getDeviceList();
   },
   mounted() {
+    try{
     document
       .querySelector("#map")
       .setAttribute("style", "height:100% !important");
-    this.routeName = this.$route.name;
+    }catch (e) {
+    }
+   this.routeName = this.$route.name;
   },
   beforeDestroy() {
+    try{
     document
       .querySelector("#map")
       .setAttribute("style", "height:calc( 100vh - 166px) !important");
+    }catch (e) {}
   }
 };
 </script>

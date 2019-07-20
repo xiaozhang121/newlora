@@ -19,7 +19,7 @@
         <i @click="visible = !visible" class="iconfont icon-guanbi" />
       </h3>
       <div class="promptItemBox">
-        <div class="itemData" v-for="(item, index) in itemData" :key="index">
+        <div class="itemData" v-for="(item, index) in itemData" :key="'alarm'+index">
           <div class="title">{{!isFakeData ? item.mainDevice : item.monitorDeviceName}}</div>
           <div class="itemTitle">
             <!--<span v-if="!isFakeData">当前温度：{{item.alarmValue}}℃</span>-->
@@ -49,7 +49,7 @@
                 <i-dropdownMenu slot="list">
                   <i-dropdownItem
                           v-for="(itemL, indexL) in selectList"
-                          :key="index"
+                          :key="'select'+indexL"
                           @click.native="selectItem(item, indexL)"
                   >
                     <div class="alarmLevel">{{ itemL }}</div>

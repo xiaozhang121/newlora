@@ -166,9 +166,6 @@ export default {
               }
           })
       },
-      valueSelect:{
-
-      }
   },
   methods: {
     onClose() {
@@ -197,13 +194,13 @@ export default {
     getCamera() {
       const that = this;
       securityMonitor({configType: this.configType, userId: this.$store.state.user.userId}).then(res => {
-        if (res.data && res.data.length) {
-          let data = res.data
+        if (res.data && res.data.tableData.length) {
+          let data = res.data.tableData
         /*  data.map(item=>{
               item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
           })*/
           that.dataMonitorAll = data;
-          that.selectCount = that.valueSelect.length
+          that.selectCount = res.data.cameraNum
           that.initCount = that.selectCount
           that.dataMonitor = data.slice(0, that.selectCount);
         }
@@ -214,6 +211,7 @@ export default {
       getMonitorSelect({configType: that.configType, userId: this.$store.state.user.userId}).then(res => {
         if(res.data){
           let data = res.data
+          debugger
           data = data.filter(item=>{
               return item['isSelected'] == true || item['isSelected'] == 1
           })
@@ -223,7 +221,9 @@ export default {
                 if(item['monitorDeviceId'] != null)
                   arr.push(item['monitorDeviceId'])
             })
-            that.valueSelect = arr
+            that.$nextTick(()=>{
+                that.valueSelect = arr
+            })
             // that.getCameraInfo(data)
           }else{
             that.valueSelect = []
@@ -255,7 +255,7 @@ export default {
         that.valueSelect.forEach((item, index)=>{
             query['camera0'+(index+1)+'Id'] = item
         })
-        query['selectCount'] = that.selectCount
+        query['cameraNum'] = that.selectCount
         query['userId'] = this.$store.state.user.userId
         query['configType'] = that.configType
         postAxiosData('/lenovo-device/api/camera/config/update', query).then(res=>{
@@ -263,13 +263,15 @@ export default {
         })
     },
     selectData(value) {
+      debugger
       const that = this;
       if(!value.length){
         that.selectCount = this.initCount
       }
+      debugger
       securityMonitor({ monitorDeviceId: value.join(','), configType: that.configType, userId: this.$store.state.user.userId }).then(res => {
         // that.titleValueL = "监控摄像头数量";
-        that.dataMonitor = res.data
+        that.dataMonitor = res.data.tableData
         that.$forceUpdate()
         // that.videoWidth = "calc(50%)";
         // that.active = 1;
@@ -309,7 +311,7 @@ export default {
         console.log("I want to cancel");
         // Cancel the event
         e.preventDefault()
-        that.saveCamera()
+        // that.saveCamera()
         // Chrome requires returnValue to be set
         e.returnValue = "hello";
     }

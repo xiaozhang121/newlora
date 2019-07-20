@@ -258,20 +258,18 @@ export default {
           align: "center",
           render: (h, params) => {
             let newArr = []
-            if (params.row.isReturn == '0') {
-              newArr.push([
-                h("el-button", {
-                    class: "table_link",
-                    style: { marginRight: "20px" },
-                    props: { type: "text" },
-                    on: {
-                      click: () => {
-                        that.restoration(params.row);
-                      }
+            newArr.push([
+              h("el-button", {
+                  class: ['btnClass',{'grey':(params.row.isReturn == '1')}],
+                  props: { disabled: params.row.isReturn == '1' },
+                  style: { marginRight: "20px" },
+                  on: {
+                    click: () => {
+                      that.restoration(params.row, params.row.isReturn);
                     }
-                  },"复归")
-              ]);
-            }
+                  }
+                },params.row.isReturn == '0'?"复归":'已复归')
+            ]);
             newArr.push([
               h("el-button",{
                   class: "table_link",
@@ -380,19 +378,21 @@ export default {
       this.popData = {}
       this.visible = false;
     },
-    restoration (row) {
-      const url = "/lenovo-alarm/api/alarm/deal"
-      const query = {
-        alarmId: row.alarmId,
-        type: '1'
-      }
-      postAxiosData(url, query).then(res => {
-        if (res.code !== 200) {
-          return this.$message.error(res.msg)
+    restoration (row, flag) {
+      if(flag == 0){
+        const url = "/lenovo-alarm/api/alarm/deal"
+        const query = {
+          alarmId: row.alarmId,
+          type: '1'
         }
-        this.dataList[row._index].isReturn = '1'
-        this.$message.success(res.msg)
-      })
+        postAxiosData(url, query).then(res => {
+          if (res.code !== 200) {
+            return this.$message.error(res.msg)
+          }
+          this.dataList[row._index].isReturn = '1'
+          this.$message.success(res.msg)
+        })
+      }
     },
     clickExcel() {
       const that = this
@@ -468,8 +468,38 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
+.el-select-dropdown{
+  background: linear-gradient(210deg, rgba(48, 107, 135, 0.9), rgba(28, 50, 64, 0.7) 60%) !important;
+  border: none !important;
+  margin-top: 1px !important;
+  margin-left: 0px;
+  border-radius: 0;
+  min-width: 153px !important;
+}
+.el-select-dropdown__item,
+.el-select-dropdown__empty,
+.el-select-dropdown__item.selected {
+  color: white;
+}
+.el-select-dropdown__list {
+  position: relative;
+  top: -5px;
+}
+.el-popper[x-placement^="bottom"] .popper__arrow {
+  display: none;
+}
 .abnormalInfo {
   width: 100%;
+  .btnClass{
+    border-radius: 15px;
+    background: #3a81a1;
+    margin: auto;
+    border: none;
+    &.grey{
+      background: #979797;
+      color: #767676;
+    }
+  }
   //-------------------表格样式
   .dunoMain{
     height: inherit;
