@@ -68,15 +68,44 @@
               :showBtnList="false"
             ></duno-btn-top>
           </div>
-          <div>
-            <duno-btn-top
+          <div class="dateStyle">
+            <!-- <duno-btn-top
               @on-select="onSelectDate"
               class="dunoBtnTop"
               :isCheck="false"
               :dataList="dateData"
               :title="titleDate"
               :showBtnList="false"
-            ></duno-btn-top>
+            ></duno-btn-top>-->
+            <el-date-picker
+              v-if="this.changeDate=='1'"
+              v-model="valueDate"
+              type="date"
+              placeholder="选择日期"
+              @change="change"
+            ></el-date-picker>
+            <el-date-picker
+              v-else-if="this.changeDate=='2'"
+              v-model="valueDate"
+              type="week"
+              format="yyyy 第 WW 周"
+              placeholder="选择周"
+              @change="change"
+            ></el-date-picker>
+            <el-date-picker
+              v-else-if="this.changeDate=='3'"
+              v-model="valueDate"
+              type="month"
+              placeholder="选择月"
+              @change="change"
+            ></el-date-picker>
+            <el-date-picker
+              v-else-if="this.changeDate=='4'"
+              v-model="valueDate"
+              type="year"
+              placeholder="选择年"
+              @change="change"
+            ></el-date-picker>
           </div>
         </div>
       </div>
@@ -239,6 +268,11 @@ export default {
       valuePhase: [],
       partsList: [],
       phaseList: [],
+      valueDate: "",
+      //   valueDay: "",
+      //   valueWeek: "",
+      //   valueMonth: "",
+      //   valueYear: "",
       ByDayData: [
         {
           describeName: "按日",
@@ -257,6 +291,7 @@ export default {
           type: "year"
         }
       ],
+      changeDate: "1",
       dateData: [],
       echartsData: [],
       popData: {},
@@ -675,6 +710,22 @@ export default {
     },
     onSelectByDay(item) {
       this.titleByDay = item["describeName"];
+      console.log(item["type"]);
+      switch (item["type"]) {
+        case "day":
+          this.changeDate = "1";
+          break;
+        case "week":
+          this.changeDate = "2";
+          break;
+        case "month":
+          this.changeDate = "3";
+          break;
+        case "year":
+          this.changeDate = "4";
+          break;
+        default:
+      }
     },
     onSelectDate(item) {
       this.titleDate = item["describeName"];
@@ -741,6 +792,7 @@ export default {
         this.phaseList = res.data;
       });
     },
+    change() {},
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}
   },
@@ -884,23 +936,33 @@ export default {
         float: left;
       }
       & > div:first-child {
-        width: 85%;
+        width: 70%;
         // text-align: center;
         padding-left: 43%;
         font-size: 18px;
         color: #fff;
       }
       & > div:nth-child(2) {
-        width: 15%;
+        width: 30%;
         overflow: hidden;
+        & > div:first-child {
+          overflow: hidden;
+          //   padding-left: 50%;
+          width: 30%;
+          & > div {
+            // float: right;
+          }
+        }
+        & > div:nth-child(2) {
+          width: 50%;
+        }
         & > div {
           float: left;
-          width: calc(50% - 5px);
           .dunoBtnTop {
             padding-bottom: 0;
             .btnList {
               background: rgba(0, 0, 0, 0);
-              width: 115px;
+              width: 100px;
               top: 133px;
               .title {
                 margin-top: 0;
@@ -917,6 +979,8 @@ export default {
             }
           }
         }
+      }
+      .dateStyle {
       }
     }
   }
