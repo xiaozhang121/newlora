@@ -100,6 +100,7 @@ export default {
   background-color: #213848;
   opacity: 0.8;
   color: #ffffff;
+  position: relative;
   img {
     width: 100%;
     display: block;
@@ -130,6 +131,9 @@ export default {
   }
   .btn {
     overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     & > div {
       cursor: pointer;
       box-sizing: border-box;

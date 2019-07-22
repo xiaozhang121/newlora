@@ -347,25 +347,26 @@ export default [{
             },
             component: parentView,
             children: [{
-                path: 'list',
-                name: 'abnormalInfoList',
-                meta: {
-                    title: '列表',
-                    hideInMenu: true,
-                    isDetails: true
+                    path: 'home',
+                    name: 'abnormalInfoList',
+                    meta: {
+                        title: '列表',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/home.vue')
                 },
-                component: () => import('@/views/communal/abnormalInfo/index.vue')
-            },
-            {
-                path: 'home',
-                name: 'abnormalInfoList',
-                meta: {
-                    title: '列表',
-                    hideInMenu: true,
-                    isDetails: true
+                {
+                    path: 'list',
+                    name: 'abnormalInfoList',
+                    meta: {
+                        title: '列表',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/index.vue')
                 },
-                component: () => import('@/views/communal/abnormalInfo/home.vue')
-            }]
+            ]
         }]
     },
     {

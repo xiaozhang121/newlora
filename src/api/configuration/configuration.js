@@ -55,10 +55,13 @@ export const alarmType = (data) => {
 }
 
 //设备监测-可见光-最新巡检报告
-export const lightNewReport = (data) => {
+export const lightNewReport = (query) => {
     return axios.request({
         url: "/lenovo-plan/api/plan/visible-report/list",
-        method: 'get'
+        method: 'get',
+        params: {
+            ...query
+        }
     })
 }
 
@@ -247,5 +250,13 @@ export const getRedEcharts = (query) => {
         params: {
             ...query
         }
+    })
+}
+
+//功能卡片-报表
+export const getRecode = (data) => {
+    return axios.request({
+        url: "/lenovo-plan/api/statistics/meter-data/list",
+        method: 'get',
     })
 }
