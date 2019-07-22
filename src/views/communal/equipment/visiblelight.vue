@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div>
-      <KeyErea configType="1"/>
+      <KeyErea configType="1" />
     </div>
     <div class="reportRecode">
       <div class="right">
@@ -13,7 +13,7 @@
           <div>查看更多 ></div>
         </div>
         <div class="inspection">
-          <div v-for="(item,index) in inspecReport.slice(0,6)" :key="index">
+          <div v-for="(item,index) in inspecReport" :key="index">
             <ReportTable :url="url" :reportData="item" />
           </div>
         </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="hours">
           <MonitorWarn
-            v-for="(item,index) in lightInformation"
+            v-for="(item,index) in lightInformation.slice(0,4)"
             :remarkData="lightInformation[index]"
             :time="item.alarmTime"
             :remarks="item.dealList"
@@ -166,11 +166,16 @@ export default {
         .format("YYYY-MM-DD HH:mm:ss");
       this.timeQueryData.startTime = startTime;
       this.timeQueryData.endTime = endTime;
-      lightNewReport(this.timeQueryData).then(res => {
+      let query = {
+        ...this.timeQueryData,
+        pageIndex: 1,
+        pageRows: 6
+      };
+      lightNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
       });
       lightNewInformation().then(res => {
-        this.lightInformation = res.data.tableData;
+        this.lightInformation = res.data;
       });
     }
   },
@@ -300,9 +305,12 @@ export default {
       background-color: #142838;
       min-height: 246px;
       padding: 20px 0 20px 20px;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
       div {
         padding-right: 20px;
-        float: left;
+        // float: left;
         img {
           display: block;
           width: 180px;
@@ -311,6 +319,10 @@ export default {
         p {
           text-align: center;
           color: #ffffff;
+          width: 180px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
       }
     }

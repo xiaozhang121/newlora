@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div>
-      <KeyErea configType="2"/>
+      <KeyErea configType="2" />
     </div>
     <div class="reportRecode">
       <div class="right">
@@ -170,7 +170,7 @@ export default {
         this.inspecReport = res.data.tableData;
       });
       infraNewInformation().then(res => {
-        this.lightInformation = res.data.tableData;
+        this.lightInformation = res.data;
       });
     }
   },
@@ -300,6 +300,9 @@ export default {
       background-color: #142838;
       min-height: 246px;
       padding: 20px 0 20px 20px;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
       div {
         padding-right: 20px;
         float: left;
@@ -311,6 +314,10 @@ export default {
         p {
           text-align: center;
           color: #ffffff;
+          width: 180px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
       }
     }

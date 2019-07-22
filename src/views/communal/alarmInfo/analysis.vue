@@ -362,7 +362,8 @@ export default {
           show: false
         }
       },
-      //   seriesOption: that.seriesData
+      seriesOption: that.seriesData,
+      /*
       seriesOption: [
         {
           name: "4号主变1000千伏侧压变B相",
@@ -421,6 +422,7 @@ export default {
           ]
         }
       ],
+      */
       columns: [
         {
           title: "时间",
@@ -699,7 +701,7 @@ export default {
     },
     selectPhase(item) {
       this.titlePhase = item["describeName"];
-      this.getEcharts();
+      //   this.getEcharts();
     },
     onSelectByDay(item) {
       this.titleByDay = item["describeName"];
@@ -730,8 +732,10 @@ export default {
       let that = this;
       const query = {
         monitorDeviceId: that.valuePhase.join(","),
-        startTime: `${this.startTime} 00:00:00`,
-        endTime: `${this.endTime} 23:59:59`
+        startTime: this.startTime,
+        endTime: this.endTime
+        // startTime: `${this.startTime} 00:00:00`,
+        // endTime: `${this.endTime} 23:59:59`
       };
       getEchartsData().then(res => {
         const dataList = res.data.dataList;
@@ -791,19 +795,36 @@ export default {
     change(data) {
       let startTime = "";
       let endTime = "";
+      console.log(this.changeDate);
       switch (this.changeDate) {
         case "1":
           startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
           endTime = moment(data)
             .add(1, "days")
             .format("YYYY-MM-DD HH:mm:ss");
+          break;
+        case "2":
+          startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
+          endTime = moment(data)
+            .add(1, "weeks")
+            .format("YYYY-MM-DD HH:mm:ss");
+          break;
+        case "3":
+          startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
+          endTime = moment(data)
+            .add(1, "months")
+            .format("YYYY-MM-DD HH:mm:ss");
+          break;
+        case "4":
+          startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
+          endTime = moment(data)
+            .add(1, "years")
+            .format("YYYY-MM-DD HH:mm:ss");
+          break;
       }
-      if (data) {
-        startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
-        // endTime = moment(data[1]).format("YYYY-MM-DD");
-      }
-      console.log(startTime);
-      console.log(endTime);
+      this.startTime = startTime;
+      this.endTime = endTime;
+      this.getEcharts();
     },
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}
