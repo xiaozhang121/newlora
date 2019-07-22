@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
     name: 'controBtn',
     components: {
@@ -36,19 +37,36 @@ export default {
     },
     data() {
     return {
+        sliderValueold: 1,
+        disabled: false,
         sliderValue: 1,
         xjBtn: require('@/assets/camera/xjBtn.png'),
         xjBtnClick: require('@/assets/camera/xjBtnClick.png'),
         squera: require('@/assets/camera/squera.png'),
         squeraClick: require('@/assets/camera/squeraClick.png'),
-        activeNum: ''
+        activeNum: '',
+        operateUrl: {
+            play: '/lenovo-visible/api/visible-equipment/stable/play/{deviceId}',// 视频播放
+            pause: '/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}',// 暂停
+            ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{id}/{cmd}/{step}/{flag}',//
+            stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
+        }
     }
     },
     watch:{
-
+        disabledOption:{
+            handler(now){
+                this.disabled = now
+            },
+            immediate: true
+        }
     },
     props: {
-        disabled: {
+        deviceId:{
+            type: [String, Number],
+            default: ''
+        },
+        disabledOption: {
             type: Boolean,
             default: () => {
                 return false
@@ -62,9 +80,46 @@ export default {
         viewCamera(command, flag){
             if(!flag)
                 this.activeNum = command
+            let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
+                .replace("{step}", 8).replace("{flag}", Number(flag));
+            return new Promise((resolve, reject)=>{
+                putAxiosData(url).then(res => {
+                    resolve(res)
+                },error=>{
+                    reject(res)
+                    this.$message.error(error.message);
+                })
+            })
         },
-        cameraSF() {
-            console.log('dian')
+        cameraSF(now) {
+            const that = this
+            if(now == this.sliderValueold){
+                return
+            }
+            let old = this.sliderValueold
+            let timeSeed = 190
+            if(now == 1 || now == 20){
+                timeSeed = 300
+            }
+            this.disabled = true
+            if(now < old) {
+                this.viewCamera(5, false).then(res=>{
+                    setTimeout(()=>{
+                        this.viewCamera(5, true).then(res=>{
+                            that.disabled = false
+                        })
+                    },Math.abs(now-old)*timeSeed)
+                })
+            }else{
+                this.viewCamera(4, false).then(res=>{
+                    setTimeout(()=>{
+                        this.viewCamera(4, true).then(res=>{
+                            that.disabled = false
+                        })
+                    },Math.abs(now-old)*timeSeed)
+                })
+            }
+            this.sliderValueold = now
         }
     },
     mounted(){

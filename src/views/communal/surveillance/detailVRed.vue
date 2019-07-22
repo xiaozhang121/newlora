@@ -10,31 +10,32 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                  paddingBottom="56%"
-                  class="monitor"
-                  streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1"
-                  :showBtmOption="false"
+                        paddingBottom="56%"
+                        class="monitor"
+                        :autoplay="playerOptions.autoplay"
+                        :streamAddr="playerOptions.streamAddr"
+                        :showBtmOption="false"
                 ></key-monitor>
               </div>
             </div>
             <div class="control">
               <div class="controBtnContain">
-                <contro-btn></contro-btn>
+                <contro-btn :disabledOption="disabled" ref="controBtnRef" deviceId="33" />
               </div>
               <div class="inputGroup">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
-                <el-button class="addPoint" type="success">添加</el-button>
+                <el-button class="addPoint" @click.native="addPoint"  type="success">{{ addOrEdit }}</el-button>
               </div>
             </div>
           </div>
         </div>
         <div class="right nr contain">
-          <inspection></inspection>
+          <inspection @on-edit="onEdit" ref="inspectionRef" deviceId="33"></inspection>
         </div>
       </div>
       <div class="content" style="margin-top: 15px; position: relative">
-        <div class="left nr" style="position: absolute">
-          <div class="item">
+        <div class="left nr" style="position: absolute;">
+          <div class="item" style="background: linear-gradient(to right, transparent 100%, #132838 0%);">
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -48,40 +49,42 @@
           </div>
         </div>
         <div class="right nr contain contain_nr_out">
-          <div class="top">
-            <div>历史数据</div>
-            <div class="btn">
-              <div>
-                <duno-btn-top
-                  @on-select="onSelect"
-                  class="dunoBtnTop"
-                  :isCheck="false"
-                  :dataList="typeList"
-                  :title="titleType"
-                  :showBtnList="false"
-                ></duno-btn-top>
-              </div>
-              <div class="dateChose">
-                <el-date-picker
-                  unlink-panels
-                  v-model="value"
-                  type="daterange"
-                  range-separator="-"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  @change="onChangeTime"
-                ></el-date-picker>
-              </div>
-              <div>
-                <div @click="clickExcel" class="clickBtn">
-                  <i class="iconfont icon-daochu1"></i>
-                  导出Excel
+          <div class="main">
+            <div class="top">
+              <div>历史数据</div>
+              <div class="btn">
+                <div>
+                  <duno-btn-top
+                          @on-select="onSelect"
+                          class="dunoBtnTop"
+                          :isCheck="false"
+                          :dataList="typeList"
+                          :title="titleType"
+                          :showBtnList="false"
+                  ></duno-btn-top>
+                </div>
+                <div class="dateChose">
+                  <el-date-picker
+                          unlink-panels
+                          v-model="value"
+                          type="daterange"
+                          range-separator="-"
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期"
+                          @change="onChangeTime"
+                  ></el-date-picker>
+                </div>
+                <div>
+                  <div @click="clickExcel" class="clickBtn">
+                    <i class="iconfont icon-daochu1"></i>
+                    导出Excel
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="contain_nr">
-            <echarts />
+            <div class="contain_nr">
+              <echarts />
+            </div>
           </div>
         </div>
       </div>
@@ -169,6 +172,7 @@ import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import moment from "moment";
 import {
   getRedLIght,
@@ -193,6 +197,12 @@ export default {
   },
   data() {
     return {
+      addOrEdit: '添加',
+      disabled: false,
+      playerOptions:{
+          streamAddr: '',
+          autoplay: true
+      },
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
@@ -419,6 +429,35 @@ export default {
     };
   },
   methods: {
+    onEdit(name){
+        this.presetName = name
+        this.addOrEdit = '编辑'
+    },
+    addPoint(){
+        this.$refs.inspectionRef.addPosInput = this.presetName
+        this.$refs.inspectionRef.addPosition()
+        this.addOrEdit = '添加'
+        this.presetName = ''
+    },
+    initCamera(){
+          const that = this
+          that.disabled = true
+          const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
+          getAxiosData(url, {}).then(res => {
+              that.playerOptions.streamAddr = res.data;
+              that.$nextTick(()=>{
+                  setTimeout(()=>{
+                      this.$refs.controBtnRef.viewCamera(5, false).then(res=>{
+                          setTimeout(()=>{
+                              this.$refs.controBtnRef.viewCamera(5, true).then(res=>{
+                                  that.disabled = false
+                              })
+                          },5000)
+                      })
+                  },500)
+              })
+          });
+      },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");
@@ -557,6 +596,9 @@ export default {
       this.visibleSettingOption = false;
     }
   },
+  created(){
+      this.initCamera()
+  },
   mounted() {
     this.getSelectType();
     this.getSelcetGrade();
@@ -580,6 +622,9 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
+  .echartsData{
+    background: transparent;
+  }
   .el-input--small .el-input__inner {
     border-radius: 0;
     width: 100%;
@@ -797,16 +842,22 @@ export default {
     padding-bottom: 28.6%;
     width: 48% !important;
     position: relative;
-    .contain_nr {
+    background: linear-gradient(transparent 8%,#132838 0%) !important;
+    .main{
       position: absolute;
-      left: 0;
-      top: 0;
       width: 100%;
-      height: 400px;
-      .chartBox {
+      height: 100%;
+      .contain_nr {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
         height: 400px;
-        .charts {
+        .chartBox {
           height: 400px;
+          .charts {
+            height: 400px;
+          }
         }
       }
     }

@@ -87,32 +87,40 @@ export default {
           return this.$store.state.user.configInfo['displayType']
       },
       streamAddr01(){
-          if(this.cameraList[0]['streamAddr'])
-            return this.cameraList[0]['streamAddr']
-          else{
-            return ''
-          }
+          try {
+              if (this.cameraList[0]['streamAddr'])
+                  return this.cameraList[0]['streamAddr']
+              else {
+                  return ''
+              }
+          }catch (e) {}
       },
       streamAddr02(){
-          if(this.cameraList[1]['streamAddr'])
-              return this.cameraList[1]['streamAddr']
-          else{
-              return ''
-          }
+          try{
+            if(this.cameraList[1]['streamAddr'])
+                return this.cameraList[1]['streamAddr']
+            else{
+                return ''
+            }
+          }catch (e) {}
       },
       streamAddr03(){
-          if(this.cameraList[2]['streamAddr'])
-              return this.cameraList[2]['streamAddr']
-          else{
-              return ''
-          }
+          try{
+            if(this.cameraList[2]['streamAddr'])
+                return this.cameraList[2]['streamAddr']
+            else{
+                return ''
+            }
+          }catch (e) {}
       },
       streamAddr04(){
-          if(this.cameraList[3]['streamAddr'])
-              return this.cameraList[3]['streamAddr']
-          else{
-              return ''
-          }
+          try{
+            if(this.cameraList[3]['streamAddr'])
+                return this.cameraList[3]['streamAddr']
+            else{
+                return ''
+            }
+          }catch (e) {}
       },
       layoutTypeName(){
           return this.dataList[this.$store.state.user.configInfo['displayType']-1]['describeName']

@@ -12,24 +12,25 @@
                 <key-monitor
                   paddingBottom="56%"
                   class="monitor"
-                  streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1"
+                  :autoplay="playerOptions.autoplay"
+                  :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
                 ></key-monitor>
               </div>
             </div>
             <div class="control">
               <div class="controBtnContain">
-                <contro-btn></contro-btn>
+                <contro-btn :disabledOption="disabled" ref="controBtnRef" deviceId="33" />
               </div>
               <div class="inputGroup">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
-                <el-button class="addPoint" type="success">添加</el-button>
+                <el-button class="addPoint" @click.native="addPoint"  type="success">{{ addOrEdit }}</el-button>
               </div>
             </div>
           </div>
         </div>
         <div class="right nr contain">
-          <inspection></inspection>
+          <inspection @on-edit="onEdit" ref="inspectionRef" deviceId="33"></inspection>
         </div>
       </div>
       <div class="middle_table">
@@ -154,6 +155,7 @@ import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import moment from "moment";
 import {
   getVLIght,
@@ -178,6 +180,8 @@ export default {
   },
   data() {
     return {
+      addOrEdit: '添加',
+      disabled: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
@@ -396,6 +400,10 @@ export default {
           }
         }
       ],
+      playerOptions:{
+          streamAddr: '',
+          autoplay: true
+      },
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
@@ -403,7 +411,42 @@ export default {
       dataBread: ["视频监控", "1000kv", "摄像头详情"]
     };
   },
+  props:{
+    deviceId:{
+        type: [String, Number],
+        default: '33'
+    },
+  },
   methods: {
+    onEdit(name){
+       this.presetName = name
+       this.addOrEdit = '编辑'
+    },
+    addPoint(){
+      this.$refs.inspectionRef.addPosInput = this.presetName
+      this.$refs.inspectionRef.addPosition()
+      this.addOrEdit = '添加'
+      this.presetName = ''
+    },
+    initCamera(){
+        const that = this
+        that.disabled = true
+        const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
+        getAxiosData(url, {}).then(res => {
+            that.playerOptions.streamAddr = res.data;
+            that.$nextTick(()=>{
+                setTimeout(()=>{
+                    this.$refs.controBtnRef.viewCamera(5, false).then(res=>{
+                        setTimeout(()=>{
+                            this.$refs.controBtnRef.viewCamera(5, true).then(res=>{
+                                that.disabled = false
+                            })
+                        },5000)
+                    })
+                },500)
+            })
+        });
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");
@@ -541,6 +584,9 @@ export default {
     onClose() {
       this.visibleSettingOption = false;
     }
+  },
+  created(){
+    this.initCamera()
   },
   mounted() {
     this.getSelectType();

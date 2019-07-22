@@ -11,7 +11,7 @@
                                <el-option
                                        v-for="(item, index) in dataList[0]['dataList']"
                                        :key="index"
-                                       :label="item.name"
+                                       :label="item.presetName"
                                        :value="index">
                                </el-option>
                            </el-select>
@@ -134,11 +134,33 @@
                                 temp = this.orangePointG
                             else if(params.row.flag == 'orangePointP')
                                 temp = this.orangePointP
-                            let newArr = null
+                            let newArr = []
                             if(params.row.flag == 'play')
-                                newArr =  [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'}, on: { click: () => { this.checkPostion(params.row.psIndex) } } }) ]
+                                newArr.push(
+                                    h('Tooltip', {
+                                        props: { content: '查看' }
+                                    }, [
+                                    h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'}, on: { click: () => { this.checkPostion(params.row.psIndex) } } })
+                                ])
+                              )
                             else
-                                newArr = [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'} }) ]
+                                newArr.push(h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ temp +')',backgroundSize:'contain'} }) )
+                            newArr.push(h('Tooltip', {
+                                props: { content: '编辑' }
+                            }, [
+                                h('el-button', {
+                                    class:'tableBtnName', style: {backgroundImage:'url('+ this.edit +')'},
+                                    on: { click: () => { this.editTableData(params) } }
+                                })
+                            ]))
+                            newArr.push(h('Tooltip', {
+                                props: {content: '删除'}
+                            }, [
+                                h('el-poptip', {
+                                    props: { confirm: true, placement: 'top-end', title: '您确定删除数据吗?', transfer: true },
+                                    on: { 'on-ok': () => { this.delTableData(params) } }
+                                }, [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ this.del +')'} }) ])
+                            ]))
                             return h('div', newArr)
                         }
                     },
@@ -284,12 +306,6 @@
             }
         },
         computed:{
-            deviceId(){
-                if(this.itemData)
-                    return this.itemData['monitorDeviceId'].toString()
-                else
-                    return -1
-            },
             cameraName(){
                 if(this.itemData)
                     return this.itemData['deviceMessage']['cameraName']
@@ -363,6 +379,10 @@
             }
         },
         props: {
+            deviceId:{
+                type: [String, Number],
+                default: ''
+            },
             itemData:{ },
             panelType: {
                 type: String,
@@ -429,6 +449,7 @@
                 let url = '/lenovo-visible/api/visible-equipment/preset/list-name'
                 getAxiosData(url, {deviceId: that.deviceId}).then(res=>{
                     let data = res.data
+                    debugger
                     data.map(item=>{
                         item['flag'] = 'play'
                     })
@@ -449,6 +470,7 @@
                 that.addPosInput = params.row.presetName
                 that.temparams = params
                 that.isEdit = true
+                that.$emit('on-edit', that.addPosInput)
             },
             delTableData(params){
                 const that = this
@@ -470,6 +492,7 @@
                     })
                     that.addPosInput = ''
                 }else{
+                    debugger
                     // 修改
                     let temp = that.addPosInput
                     this.$forceUpdate()
@@ -478,7 +501,6 @@
                     putAxiosData('/lenovo-visible/api/visible-equipment/preset/edit', { deviceId: that.deviceId.toString(), id: that.temparams.row.id.toString(), presetName:temp }).then(res=>{
                         that.getListData()
                     })
-                    sessionStorage.setItem('dataList',JSON.stringify( that.dataListd[0]['dataList']))
                 }
             },
             startBoat(){
@@ -630,6 +652,8 @@
         },
         created(){
             const that = this
+            that.initCamera()   // 初始化摄像头
+            that.getListData()  // 获取表格数据
         },
         mounted(){
             const that = this
@@ -639,8 +663,6 @@
             })
             this.$nextTick(()=>{
                 that.tableHeight =  document.querySelector('.contain').offsetHeight - 170
-                that.initCamera()   // 初始化摄像头
-                that.getListData()  // 获取表格数据
             })
         }
     }
@@ -657,6 +679,9 @@
         flex-direction: column;
         /*border: 1px solid #04e6e7;*/
         padding: 1px 14px;
+        .tableBtnName{
+            background-size: contain;
+        }
         .el-select .el-input .el-select__caret{
             color: #4b9bc1;
         }
