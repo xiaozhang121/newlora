@@ -359,7 +359,7 @@ export default {
     }
   }
   .imgOrMv {
-    width: 80%;
+    width: 43%;
     height: 45px;
     position: relative;
     top: 2px;

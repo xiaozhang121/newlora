@@ -15,7 +15,7 @@
               </div>-->
               <!--<gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>-->
         <div v-if="isDiagram == 2">
-        <gis-map @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
+        <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
         </div>
         <div :class="['allShowPic']" v-else-if="isDiagram == 1">
             <drappable class="drappable_assembly" width="1900px" height="675px" >
@@ -24,7 +24,7 @@
                 </div>
             </drappable>
         </div>
-        <gis-map @on-drag="drag" :powerPointList="powerPointList" @toDetail="toDevice" mapUrl="http://52.82.107.5:8085" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
+        <gis-map @on-alarm="onAlarmC" @on-drag="drag" :powerPointList="powerPointList" @toDetail="toDevice" mapUrl="http://52.82.107.5:8085" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
       </div>
       <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
            <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -310,7 +310,7 @@
       </div>
     </duno-main>
     <div v-for="(item,index) of modeList" style="position: absolute; top: 0" :key="index" class="model" :id="item['id']" ref="modelRef">
-      <popup-one-info v-if="index==modeList.length-1" @onClose="alarmClose" :visible="visible"></popup-one-info>
+      <popup-one-info  :itemData="$store.state.user.alarmInfo" v-if="index==modeList.length-1" @onClose="alarmClose" :visible="visible"></popup-one-info>
       <!--弹窗必须传index  -->
         <camera-pop-back-u-p   @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisibled']" :itemData="item['itemData']" :visible="item['cameraFlagVisibled']"></camera-pop-back-u-p>
         <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
@@ -361,6 +361,9 @@ export default {
     ...mapState([
         'user'
     ]),
+    alarmInfo(){
+        return this.$store.state.user.alarmInfo
+    },
     kilovoltKind(){
       return this.$store.state.app.kilovolt
     },
@@ -416,6 +419,7 @@ export default {
   data () {
     const that = this
     return {
+      alarmId: '',
       visible: false,
       powerPointList: [],
       isAlarm: false,
@@ -458,6 +462,10 @@ export default {
     }
   },
   watch: {
+      alarmInfo(now){
+          this.visible = false
+          this.onAlarm(now)
+      },
       kilovoltKind(now){
         this.mainlistShow = false
         this.$nextTick(()=>{
@@ -472,13 +480,19 @@ export default {
       }
   },
   methods: {
+      onAlarmC(point){
+
+      },
       alarmClose(){
           this.visible = false
           this.$refs.gisMapObj.clearAlarm()
       },
-      onAlarm(){
-        this.$refs.gisMapObj.isAlarm()
-        this.visible = true
+      onAlarm(now){
+        this.$refs.gisMapObj.isAlarm(now)
+        this.$nextTick(()=>{
+            this.visible = true
+            document.querySelector('.HistoricalDocuments').style.transform="translateX(-328px)"
+        })
       },
       initOtherPoint(){
           const that = this

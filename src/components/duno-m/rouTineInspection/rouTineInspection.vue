@@ -26,7 +26,13 @@
                     <div class="name">工作时长：</div>
                     <div class="info">02:23:21</div>
                 </div>
+                <div>
+                    <button-custom class="stopTask" @click.native="changeTaskStatus" :title="taskName" />
+                </div>
             </div>
+        </div>
+        <div class="rouTineInspection_last">
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -34,14 +40,17 @@
 <script>
     import pattery from '_c/duno-m/pattery'
     import gisMap from '_c/duno-m/gisMap'
+    import buttonCustom from '_c/duno-m/buttonCustom'
     export default {
         name: 'rouTineInspection',
         components: {
             pattery,
-            gisMap
+            gisMap,
+            buttonCustom
         },
         data() {
             return {
+                taskName: '开始任务',
                 cameraFlag: 'first'
             }
         },
@@ -56,6 +65,13 @@
 
         },
         methods:{
+            changeTaskStatus(){
+                if(this.taskName.indexOf('开始')>-1){
+                    this.taskName = '结束任务'
+                }else{
+                    this.taskName = '开始任务'
+                }
+            },
             changeCameraShow(now){
                 this.cameraFlag = now
             },
@@ -94,9 +110,10 @@
             }
         }
         .rouTineInspection_right{
-            width: 50.5%;
+            flex-grow: 1;
             padding: 1%;
             padding-left: 1.5%;
+            position: relative;
             .title{
                 width: 100%;
                 display: flex;
@@ -130,6 +147,14 @@
                 }
             }
             .rouTine_Main{
+                .stopTask{
+                    width: 140px;
+                    font-size: 14px;
+                    line-height: 35px;
+                    height: 40px;
+                    position: absolute;
+                    bottom: 19px;
+                }
                 .explain{
                     display: flex;
                     align-items: baseline;
@@ -158,6 +183,10 @@
                     }
                 }
             }
+        }
+        .rouTineInspection_last{
+            display: inline-flex;
+            align-items: center;
         }
     }
 </style>

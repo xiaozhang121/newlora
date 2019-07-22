@@ -62,6 +62,7 @@
         :total="specialInspectList.totalRows"
       ></el-pagination>
     </div>
+    <select-district />
   </div>
 </template>
 
@@ -71,6 +72,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import Patrol from "_c/duno-c/Patrol";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
+import selectDistrict from '_c/duno-m/selectDistrict'
 import { infrInformation } from "@/api/configuration/configuration.js";
 export default {
   mixins: [mixinViewModule],
@@ -79,7 +81,8 @@ export default {
     Breadcrumb,
     dunoBtnTop,
     DunoTablesTep,
-    Patrol
+    Patrol,
+    selectDistrict
   },
   data() {
     return {

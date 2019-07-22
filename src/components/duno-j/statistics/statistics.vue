@@ -194,6 +194,8 @@ export default {
       margin-top: 40px;
       overflow: hidden;
       max-width: 980px;
+      display: flex;
+      flex-wrap: wrap;
       &>div:first-child{
           margin-left: 0;
       }

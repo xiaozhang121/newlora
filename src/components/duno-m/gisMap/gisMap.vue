@@ -215,20 +215,33 @@ export default {
             })*/
 
         },
-        isAlarm(){
+        findPoint(point){
+            for(let i=0; i<this.powerPointList.length; i++){
+                if(this.powerPointList[i].deviceId == point.powerDeviceId){
+                        return this.powerPointList[i]
+                }
+            }
+        },
+        isAlarm(point){
+            let data = this.findPoint(point)
+            let pointX = ''
+            let pointY = ''
+            pointX = data['xReal']
+            pointY = data['yReal']
             if(!this.timer){
-                this.mapTarget.getView().setCenter(transform([13218514.714, 3768404.705], 'EPSG:3857', 'EPSG:4326'))
+                this.mapTarget.getView().setCenter(transform([pointX, pointY], 'EPSG:3857', 'EPSG:4326'))
                 this.mapTarget.getView().setZoom(20)
             }
-            this.addCircle(13218514.714, 3768404.705)
+            this.addCircle(pointX, pointY)
             if(!this.timer){
                 this.timer = setInterval(()=>{
                     this.clearCircle()
                     this.timerd = setTimeout(()=>{
-                        this.addCircle(13218514.714, 3768404.705)
+                        this.addCircle(pointX, pointY)
                     },500)
                 },1000)
             }
+            this.$emit('on-alarm',data)
         },
         clearAlarm(){
             clearInterval(this.timer)

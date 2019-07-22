@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="title">
-      <span>机器人一</span>
+      <span>{{ robotName }}</span>
       <button-custom class="moreTask" title="更多任务>" />
     </div>
     <div class="content">
@@ -27,7 +27,11 @@
         </div>
       </div>
       <div class="middle">
-        <rou-tine-inspection></rou-tine-inspection>
+        <rou-tine-inspection>
+          <div class="reportData">
+            <report-data></report-data>
+          </div>
+        </rou-tine-inspection>
       </div>
       <div class="bottom">
         <div class="title">最新巡视报告</div>
@@ -50,6 +54,7 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import cameraPanel from '_c/duno-m/cameraPanel'
 import controBtn from '_c/duno-m/controBtn'
 import buttonCustom from '_c/duno-m/buttonCustom'
+import reportData from '_c/duno-m/reportData'
 import ReportTable from '_c/duno-c/ReportTable'
 import rouTineInspection from '_c/duno-m/rouTineInspection'
 import { mapState } from 'vuex'
@@ -63,7 +68,8 @@ export default {
       rouTineInspection,
       KeyMonitor,
       ReportTable,
-      buttonCustom
+      buttonCustom,
+      reportData
   },
   computed:{
     ...mapState([
@@ -81,12 +87,27 @@ export default {
   data () {
     const that = this
     return {
+        robotName:'',
+        routeName: '',
         newsReport: [1,2,3,4,5],
         dataBread: ['操作中台','机器人巡视','机器人一']
     }
   },
   watch: {
-
+      '$route' (to) {
+          debugger
+          this.routeName = to.name
+      },
+      routeName(now){
+         if(now == 'robot-twoList'){
+             this.$set(this.dataBread,2,'机器人二')
+             this.robotName = '机器人二'
+         }else{
+             this.dataBread[2] = '机器人一'
+             this.robotName = '机器人一'
+             this.$set(this.dataBread,2,'机器人一')
+         }
+      }
   },
   methods: {
 
@@ -95,7 +116,7 @@ export default {
 
   },
   mounted () {
-
+    this.routeName = this.$route.name
   }
 }
 </script>
@@ -142,6 +163,11 @@ export default {
     .middle{
       margin-top: 1%;
       background: #142838;
+      .reportData{
+        position: relative;
+        margin-right: 50px;
+        margin-left: 44px;
+      }
     }
     .bottom{
       .title{

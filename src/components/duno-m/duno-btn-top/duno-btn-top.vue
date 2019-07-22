@@ -135,7 +135,7 @@ export default {
           {
             img:require('@/assets/iconCover/ico_Infra-red.png'),
             circleColor:'#4FF2B7',
-            describeName: '红外测光',
+            describeName: '红外测温',
             monitorDeviceType: 2,
             isActive: true
           },
