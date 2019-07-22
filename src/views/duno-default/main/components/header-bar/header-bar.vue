@@ -4,9 +4,9 @@
       <img :src="maxLogo" key="max-logo" />
     </div>
     <div class="header-middle">
-      <el-button @click="activeBtn = '1'" :class="[activeBtn == '1' ? 'activeBtn' : '']" class="title">功能卡片</el-button>
-      <el-button @click="activeBtn = '2'" :class="[activeBtn == '2' ? 'activeBtn' : '']" class="title">操作中台</el-button>
-      <el-button @click="activeBtn = '3'" :class="[activeBtn == '3' ? 'activeBtn' : '']" class="title">视频监控</el-button>
+      <el-button @click="activeChange(1)" :class="[$store.state.app.topNav == '1' ? 'activeBtn' : '']" class="title">功能卡片</el-button>
+      <el-button @click="activeChange(2)" :class="[$store.state.app.topNav == '2' ? 'activeBtn' : '']" class="title">操作中台</el-button>
+      <el-button @click="activeChange(3)" :class="[$store.state.app.topNav == '3' ? 'activeBtn' : '']" class="title">视频监控</el-button>
     </div>
     <div class="custom-content-con">
       <div class="dateTime"><span class="timeDate">练塘站</span>{{ dateTime }}</div>
@@ -56,6 +56,11 @@ export default {
       ])
   },
   methods: {
+    activeChange(flag){
+        debugger
+        this.activeBtn = flag
+        this.$store.state.app.topNav = flag
+    },
     handleCollpasedChange (state) {
       this.$emit('on-coll-change', state)
     },
