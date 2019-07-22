@@ -168,7 +168,8 @@ export default {
           show: false
         }
       },
-      //   seriesOption: that.seriesData
+      seriesOption: that.seriesData
+      /*
       seriesOption: [
         {
           name: "4号主变1000千伏侧压变B相",
@@ -227,6 +228,7 @@ export default {
           ]
         }
       ]
+      */
     };
   },
   watch: {

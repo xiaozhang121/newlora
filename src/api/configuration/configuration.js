@@ -86,7 +86,7 @@ export const infraNewInformation = (data) => {
     })
 }
 
-//设备管理-任务配置-列表
+//配置管理-任务配置-列表
 export const infrInformation = (data) => {
     return axios.request({
         url: "/lenovo-plan/api/plan/all-list",
@@ -94,7 +94,7 @@ export const infrInformation = (data) => {
     })
 }
 
-//设备管理-设备监测管理-列表
+//配置管理-设备监测管理-列表
 export const getDevice = (data) => {
     return axios.request({
         url: "/lenovo-device/api/area/select-list",
@@ -102,7 +102,7 @@ export const getDevice = (data) => {
     })
 }
 
-//设备管理-设备监测管理-状态
+//配置管理-设备监测管理-状态
 export const getStatus = (data) => {
     return axios.request({
         url: "/lenovo-device/api/monitor/status",
@@ -179,7 +179,7 @@ export const getVType = (data) => {
 export const getVGrade = (data) => {
     return axios.request({
         url: "/lenovo-alarm/api/alarm/level",
-        method: 'get',
+        method: 'post',
     })
 }
 
@@ -194,8 +194,8 @@ export const getVPreset = (data) => {
 //视频监控-可见光-摄像头详情-历史数据echarts
 export const getVEcharts = (query) => {
     return axios.request({
-        url: "",
-        method: 'get',
+        url: "/lenovo-plan/api/plan/history/preset",
+        method: 'post',
         params: {
             ...query
         }
@@ -226,7 +226,7 @@ export const getRedType = (data) => {
 export const getRedGrade = (data) => {
     return axios.request({
         url: "/lenovo-alarm/api/alarm/level",
-        method: 'get',
+        method: 'post',
     })
 }
 
@@ -240,9 +240,10 @@ export const getRedPreset = (data) => {
 
 //视频监控-红外检测-摄像头详情-历史数据echarts
 export const getRedEcharts = (query) => {
+    // debugger
     return axios.request({
-        url: "",
-        method: 'get',
+        url: "/lenovo-plan/api/plan/history/preset",
+        method: 'post',
         params: {
             ...query
         }

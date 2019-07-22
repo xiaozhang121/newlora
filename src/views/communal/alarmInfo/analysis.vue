@@ -69,14 +69,6 @@
             ></duno-btn-top>
           </div>
           <div class="dateStyle">
-            <!-- <duno-btn-top
-              @on-select="onSelectDate"
-              class="dunoBtnTop"
-              :isCheck="false"
-              :dataList="dateData"
-              :title="titleDate"
-              :showBtnList="false"
-            ></duno-btn-top>-->
             <el-date-picker
               v-if="this.changeDate=='1'"
               v-model="valueDate"
@@ -162,6 +154,7 @@ import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
+import moment from "moment";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import {
   getEchartsData,
@@ -298,8 +291,8 @@ export default {
       visible: false,
       visibleSettingOption: false,
       alarmLevel: "",
-      startTime: "2019-7-20",
-      endTime: "2019-7-20",
+      startTime: "",
+      endTime: "",
       dataBread: ["视频监控", "所有报表", "表计分析"],
       //   isChangeFlag: true,
       //   titleOption: {
@@ -710,19 +703,22 @@ export default {
     },
     onSelectByDay(item) {
       this.titleByDay = item["describeName"];
-      console.log(item["type"]);
       switch (item["type"]) {
         case "day":
           this.changeDate = "1";
+          this.valueDate = "";
           break;
         case "week":
           this.changeDate = "2";
+          this.valueDate = "";
           break;
         case "month":
           this.changeDate = "3";
+          this.valueDate = "";
           break;
         case "year":
           this.changeDate = "4";
+          this.valueDate = "";
           break;
         default:
       }
@@ -792,7 +788,23 @@ export default {
         this.phaseList = res.data;
       });
     },
-    change() {},
+    change(data) {
+      let startTime = "";
+      let endTime = "";
+      switch (this.changeDate) {
+        case "1":
+          startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
+          endTime = moment(data)
+            .add(1, "days")
+            .format("YYYY-MM-DD HH:mm:ss");
+      }
+      if (data) {
+        startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
+        // endTime = moment(data[1]).format("YYYY-MM-DD");
+      }
+      console.log(startTime);
+      console.log(endTime);
+    },
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}
   },
@@ -981,6 +993,36 @@ export default {
         }
       }
       .dateStyle {
+        .el-input--small .el-input__inner {
+          height: 40px;
+          line-height: 40px;
+        }
+        .el-input__inner {
+          background: rgba(0, 0, 0, 0);
+          border: none;
+          color: #ffffff;
+          font-size: 16px;
+        }
+        .el-date-editor {
+          background-color: #192f41;
+          border: none;
+          .el-range-input {
+            background-color: rgba(81, 89, 112, 0);
+          }
+          .el-range-separator {
+            font-size: 20px;
+            color: #fff;
+          }
+          .el-range-input {
+            color: #fff;
+          }
+        }
+        .el-range-editor--small.el-input__inner {
+          height: 40px;
+        }
+        .el-range-editor--small .el-range-input {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -1139,5 +1181,25 @@ export default {
 }
 .el-popper[x-placement^="bottom"] .popper__arrow {
   display: none;
+}
+.el-picker-panel {
+  background-color: rgba(27, 59, 71, 0.7);
+  color: #fff;
+  border: none;
+  .el-picker-panel__body-wrapper {
+    .el-picker-panel__body {
+      .in-range {
+        div {
+          background-color: rgba(81, 89, 112, 0.7);
+        }
+      }
+    }
+  }
+}
+.el-date-table.is-week-mode .el-date-table__row.current div {
+  background: rgba(81, 89, 112, 0.7);
+}
+.el-date-table.is-week-mode .el-date-table__row:hover div {
+  background: rgba(81, 89, 112, 0.7);
 }
 </style>
