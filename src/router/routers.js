@@ -615,15 +615,27 @@ export default [{
                 },
                 component: parentView,
                 children: [{
-                    path: 'list',
-                    name: 'robot-oneList',
-                    meta: {
-                        title: '列表',
-                        hideInMenu: true,
-                        isDetails: true
+                        path: 'list',
+                        name: 'robot-oneList',
+                        meta: {
+                            title: '列表',
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/robotF/index.vue')
                     },
-                    component: () => import('@/views/communal/robotF/index.vue')
-                }]
+                    {
+                        path: 'detail',
+                        name: 'robot-detail',
+                        active: "robot-oneList",
+                        meta: {
+                            title: '列表',
+                            hideInMenu: true,
+                            isDetails: true
+                        },
+                        component: () => import('@/views/communal/robotF/detail.vue')
+                    }
+                ]
             },
             {
                 path: 'robot-two',

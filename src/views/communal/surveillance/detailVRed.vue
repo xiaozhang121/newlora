@@ -10,11 +10,11 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                        paddingBottom="56%"
-                        class="monitor"
-                        :autoplay="playerOptions.autoplay"
-                        :streamAddr="playerOptions.streamAddr"
-                        :showBtmOption="false"
+                  paddingBottom="56%"
+                  class="monitor"
+                  :autoplay="playerOptions.autoplay"
+                  :streamAddr="playerOptions.streamAddr"
+                  :showBtmOption="false"
                 ></key-monitor>
               </div>
             </div>
@@ -24,7 +24,7 @@
               </div>
               <div class="inputGroup">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
-                <el-button class="addPoint" @click.native="addPoint"  type="success">{{ addOrEdit }}</el-button>
+                <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
               </div>
             </div>
           </div>
@@ -35,7 +35,10 @@
       </div>
       <div class="content" style="margin-top: 15px; position: relative">
         <div class="left nr" style="position: absolute;">
-          <div class="item" style="background: linear-gradient(to right, transparent 100%, #132838 0%);">
+          <div
+            class="item"
+            style="background: linear-gradient(to right, transparent 100%, #132838 0%);"
+          >
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -55,35 +58,29 @@
               <div class="btn">
                 <div>
                   <duno-btn-top
-                          @on-select="onSelect"
-                          class="dunoBtnTop"
-                          :isCheck="false"
-                          :dataList="typeList"
-                          :title="titleType"
-                          :showBtnList="false"
+                    @on-select="onSelect"
+                    class="dunoBtnTop"
+                    :isCheck="false"
+                    :dataList="typeList"
+                    :title="titleType"
+                    :showBtnList="false"
                   ></duno-btn-top>
                 </div>
                 <div class="dateChose">
                   <el-date-picker
-                          unlink-panels
-                          v-model="value"
-                          type="daterange"
-                          range-separator="-"
-                          start-placeholder="开始日期"
-                          end-placeholder="结束日期"
-                          @change="onChangeTime"
+                    unlink-panels
+                    v-model="value"
+                    type="daterange"
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    @change="onChangeTime"
                   ></el-date-picker>
-                </div>
-                <div>
-                  <div @click="clickExcel" class="clickBtn">
-                    <i class="iconfont icon-daochu1"></i>
-                    导出Excel
-                  </div>
                 </div>
               </div>
             </div>
             <div class="contain_nr">
-              <echarts />
+              <echarts :dataAllList="echartData" />
             </div>
           </div>
         </div>
@@ -122,6 +119,7 @@
                 range-separator="-"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                @change="onChangeHis"
               ></el-date-picker>
             </div>
             <div>
@@ -197,11 +195,11 @@ export default {
   },
   data() {
     return {
-      addOrEdit: '添加',
+      addOrEdit: "添加",
       disabled: false,
-      playerOptions:{
-          streamAddr: '',
-          autoplay: true
+      playerOptions: {
+        streamAddr: "",
+        autoplay: true
       },
       mixinViewModuleOptions: {
         activatedIsNeed: true,
@@ -429,35 +427,35 @@ export default {
     };
   },
   methods: {
-    onEdit(name){
-        this.presetName = name
-        this.addOrEdit = '编辑'
+    onEdit(name) {
+      this.presetName = name;
+      this.addOrEdit = "编辑";
     },
-    addPoint(){
-        this.$refs.inspectionRef.addPosInput = this.presetName
-        this.$refs.inspectionRef.addPosition()
-        this.addOrEdit = '添加'
-        this.presetName = ''
+    addPoint() {
+      this.$refs.inspectionRef.addPosInput = this.presetName;
+      this.$refs.inspectionRef.addPosition();
+      this.addOrEdit = "添加";
+      this.presetName = "";
     },
-    initCamera(){
-          const that = this
-          that.disabled = true
-          const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
-          getAxiosData(url, {}).then(res => {
-              that.playerOptions.streamAddr = res.data;
-              that.$nextTick(()=>{
-                  setTimeout(()=>{
-                      this.$refs.controBtnRef.viewCamera(5, false).then(res=>{
-                          setTimeout(()=>{
-                              this.$refs.controBtnRef.viewCamera(5, true).then(res=>{
-                                  that.disabled = false
-                              })
-                          },5000)
-                      })
-                  },500)
-              })
-          });
-      },
+    initCamera() {
+      const that = this;
+      that.disabled = true;
+      const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp";
+      getAxiosData(url, {}).then(res => {
+        that.playerOptions.streamAddr = res.data;
+        that.$nextTick(() => {
+          setTimeout(() => {
+            this.$refs.controBtnRef.viewCamera(5, false).then(res => {
+              setTimeout(() => {
+                this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+                  that.disabled = false;
+                });
+              }, 5000);
+            });
+          }, 500);
+        });
+      });
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");
@@ -516,12 +514,12 @@ export default {
       this.dataForm.endTime = endTime;
       this.getDataList();
     },
-    onChangeTime() {
+    onChangeTime(data) {
       let startTime = "";
       let endTime = "";
       if (data) {
-        startTime = moment(data[0]).format("YYYY-MM-DD");
-        endTime = moment(data[1]).format("YYYY-MM-DD");
+        startTime = moment(data[0]).format("YYYY-MM-DD HH:mm:ss");
+        endTime = moment(data[1]).format("YYYY-MM-DD HH:mm:ss");
       }
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
@@ -584,8 +582,22 @@ export default {
       });
     },
     getEchasrts() {
+      if (this.echartForm == "") {
+        let time = moment()
+          .add(-1, "days")
+          .format("YYYY-MM-DD");
+        this.echartForm.startTime = `${time} 00:00:00`;
+        this.echartForm.endTime = `${time} 23:59:59`;
+      }
+      this.echartForm = {
+        startTime: this.echartForm.startTime,
+        endTime: this.echartForm.endTime,
+        deviceType: "",
+        monitorDeviceId: "",
+        presetIds: ""
+      };
       getRedEcharts(this.echartForm).then(res => {
-        this.echartData = res.data;
+        this.echartData = res.data.itemDataList;
       });
     },
     handleClose() {
@@ -596,8 +608,9 @@ export default {
       this.visibleSettingOption = false;
     }
   },
-  created(){
-      this.initCamera()
+  created() {
+    this.initCamera();
+    this.getEchasrts();
   },
   mounted() {
     this.getSelectType();
@@ -622,7 +635,7 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
-  .echartsData{
+  .echartsData {
     background: transparent;
   }
   .el-input--small .el-input__inner {
@@ -751,6 +764,80 @@ export default {
     .right {
       width: 25%;
       background: #132838;
+      .top {
+        color: #ffffff;
+        height: 40px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        & > div:first-child {
+          font-size: 20px;
+          line-height: 40px;
+        }
+        .btn {
+          display: flex;
+          justify-content: space-between;
+          position: relative;
+          & > div {
+            margin-left: 10px;
+            .dunoBtnTop {
+              width: 145px;
+              display: inline-flex;
+              padding-bottom: 0;
+              .btnList {
+                top: inherit !important;
+                width: 145px;
+                .title {
+                  padding: 8px 20px;
+                }
+              }
+            }
+          }
+          & > div:nth-child(5) {
+            & > div {
+              width: 140px;
+              line-height: 40px;
+              text-align: center;
+              background-color: #192f41;
+              cursor: pointer;
+            }
+          }
+          .clickBtn {
+            line-height: 40px;
+            width: 139px;
+            background-image: url(../../../assets/images/btn/moreBtn.png);
+            text-align: center;
+            font-size: 18px;
+            color: #ffffff;
+          }
+          .dateChose {
+            .el-date-editor {
+              background-color: #192f41;
+              border: none;
+              .el-range-input {
+                background-color: rgba(81, 89, 112, 0);
+              }
+              .el-range-separator {
+                font-size: 20px;
+                color: #fff;
+              }
+              .el-range-input {
+                color: #fff;
+              }
+            }
+            .el-range-editor--small.el-input__inner {
+              height: 40px !important;
+            }
+            .el-range-editor--small .el-range__icon,
+            .el-range-editor--small .el-range__close-icon {
+              line-height: 35px;
+            }
+            .el-range-editor--small .el-range-input {
+              font-size: 16px;
+            }
+          }
+        }
+      }
     }
   }
   .middle_table {
@@ -781,10 +868,8 @@ export default {
             padding-bottom: 0;
             .btnList {
               top: inherit !important;
-              // line-height: 30px;
               width: 160px;
               .title {
-                // font-size: 16px;
                 padding: 8px 20px;
               }
             }
@@ -842,15 +927,16 @@ export default {
     padding-bottom: 28.6%;
     width: 48% !important;
     position: relative;
-    background: linear-gradient(transparent 8%,#132838 0%) !important;
-    .main{
+    background: linear-gradient(transparent 10%, #132838 0%) !important;
+    .main {
       position: absolute;
       width: 100%;
       height: 100%;
       .contain_nr {
+        // background: #132838;
         position: absolute;
         left: 0;
-        top: 0;
+        top: 50px;
         width: 100%;
         height: 400px;
         .chartBox {
@@ -936,5 +1022,8 @@ export default {
     background: black;
   }
   //------------------
+  .el-popper[x-placement^="bottom"] .popper__arrow {
+    display: none;
+  }
 }
 </style>

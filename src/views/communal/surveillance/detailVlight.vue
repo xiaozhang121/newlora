@@ -24,7 +24,7 @@
               </div>
               <div class="inputGroup">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
-                <el-button class="addPoint" @click.native="addPoint"  type="success">{{ addOrEdit }}</el-button>
+                <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@
           </div>
         </div>
         <div class="con-chart">
-          <echarts />
+          <echarts :dataAllList="echartData" />
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ export default {
   },
   data() {
     return {
-      addOrEdit: '添加',
+      addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
@@ -400,9 +400,9 @@ export default {
           }
         }
       ],
-      playerOptions:{
-          streamAddr: '',
-          autoplay: true
+      playerOptions: {
+        streamAddr: "",
+        autoplay: true
       },
       presetName: "",
       allDataKind: [],
@@ -411,41 +411,41 @@ export default {
       dataBread: ["视频监控", "1000kv", "摄像头详情"]
     };
   },
-  props:{
-    deviceId:{
-        type: [String, Number],
-        default: '33'
-    },
+  props: {
+    deviceId: {
+      type: [String, Number],
+      default: "33"
+    }
   },
   methods: {
-    onEdit(name){
-       this.presetName = name
-       this.addOrEdit = '编辑'
+    onEdit(name) {
+      this.presetName = name;
+      this.addOrEdit = "编辑";
     },
-    addPoint(){
-      this.$refs.inspectionRef.addPosInput = this.presetName
-      this.$refs.inspectionRef.addPosition()
-      this.addOrEdit = '添加'
-      this.presetName = ''
+    addPoint() {
+      this.$refs.inspectionRef.addPosInput = this.presetName;
+      this.$refs.inspectionRef.addPosition();
+      this.addOrEdit = "添加";
+      this.presetName = "";
     },
-    initCamera(){
-        const that = this
-        that.disabled = true
-        const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
-        getAxiosData(url, {}).then(res => {
-            that.playerOptions.streamAddr = res.data;
-            that.$nextTick(()=>{
-                setTimeout(()=>{
-                    this.$refs.controBtnRef.viewCamera(5, false).then(res=>{
-                        setTimeout(()=>{
-                            this.$refs.controBtnRef.viewCamera(5, true).then(res=>{
-                                that.disabled = false
-                            })
-                        },5000)
-                    })
-                },500)
-            })
+    initCamera() {
+      const that = this;
+      that.disabled = true;
+      const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp";
+      getAxiosData(url, {}).then(res => {
+        that.playerOptions.streamAddr = res.data;
+        that.$nextTick(() => {
+          setTimeout(() => {
+            this.$refs.controBtnRef.viewCamera(5, false).then(res => {
+              setTimeout(() => {
+                this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+                  that.disabled = false;
+                });
+              }, 5000);
+            });
+          }, 500);
         });
+      });
     },
     cutOut(data) {
       if (data) {
@@ -574,7 +574,7 @@ export default {
     },
     getEchasrts() {
       getVEcharts(this.echartForm).then(res => {
-        this.echartData = res.data;
+        this.echartData = res.data.itemDataList;
       });
     },
     handleClose() {
@@ -585,8 +585,8 @@ export default {
       this.visibleSettingOption = false;
     }
   },
-  created(){
-    this.initCamera()
+  created() {
+    this.initCamera();
   },
   mounted() {
     this.getSelectType();
