@@ -842,7 +842,7 @@ export default {
   }
   .middle_table {
     margin-top: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 96px;
     width: 100%;
     min-height: 300px;
     .top {
