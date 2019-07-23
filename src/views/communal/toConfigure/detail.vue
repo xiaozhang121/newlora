@@ -138,7 +138,7 @@ export default {
         {
           title: " ",
           minWidth: 150,
-          align: "center",
+          align: "right",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];

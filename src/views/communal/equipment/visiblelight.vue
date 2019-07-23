@@ -28,8 +28,9 @@
             v-for="(item,index) in lightInformation.slice(0,4)"
             :remarkData="lightInformation[index]"
             :time="item.alarmTime"
-            :remarks="item.dealList"
+            :remarks="item.dealRecord"
             :key="index"
+            @handleListData="handleData"
           />
         </div>
       </div>
@@ -37,7 +38,7 @@
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div v-for="(item,index) in dataList" :key="index">
+        <div v-for="(item,index) in dataList.slice(0,8)" :key="index">
           <img :src="item.fileAddress" alt />
           <p>{{item.deviceName}}</p>
         </div>
@@ -122,6 +123,9 @@ export default {
     };
   },
   methods: {
+    handleData() {
+      this.getDataList();
+    },
     selectData(value) {
       const that = this;
       securityMonitor({ monitorDeviceId: value }).then(res => {
@@ -158,6 +162,19 @@ export default {
       }
     },
     getlightData() {
+      let query = {
+        ...this.timeQueryData,
+        pageIndex: 1,
+        pageRows: 6
+      };
+      lightNewReport(query).then(res => {
+        this.inspecReport = res.data;
+      });
+      lightNewInformation().then(res => {
+        this.lightInformation = res.data;
+      });
+    },
+    getInit() {
       let startTime = "";
       let endTime = "";
       endTime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -166,21 +183,13 @@ export default {
         .format("YYYY-MM-DD HH:mm:ss");
       this.timeQueryData.startTime = startTime;
       this.timeQueryData.endTime = endTime;
-      let query = {
-        ...this.timeQueryData,
-        pageIndex: 1,
-        pageRows: 6
-      };
-      lightNewReport(query).then(res => {
-        this.inspecReport = res.data.tableData;
-      });
-      lightNewInformation().then(res => {
-        this.lightInformation = res.data;
-      });
     }
   },
   mounted() {
     this.getlightData();
+  },
+  created() {
+    // this.getInit();
   }
 };
 </script>
@@ -274,6 +283,9 @@ export default {
           margin-right: 20px;
           .reportTable {
             height: 367px;
+            img {
+              height: 137px;
+            }
           }
         }
       }
@@ -303,23 +315,20 @@ export default {
     }
     & > div:nth-child(2) {
       background-color: #142838;
-      min-height: 246px;
-      padding: 20px 0 20px 20px;
+      padding: 20px;
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-around;
       flex-wrap: wrap;
       div {
-        padding-right: 20px;
-        // float: left;
+        width: calc(12.5% - 17.5px);
         img {
           display: block;
-          width: 180px;
-          height: 180px;
+          width: 100%;
+          padding-bottom: 100%;
         }
         p {
           text-align: center;
           color: #ffffff;
-          width: 180px;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;

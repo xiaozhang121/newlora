@@ -162,7 +162,8 @@ import {
   getVType,
   getVGrade,
   getVPreset,
-  getVEcharts
+  getVEcharts,
+  getPosition
 } from "@/api/configuration/configuration.js";
 export default {
   name: "surveillanceDetail",
@@ -573,8 +574,18 @@ export default {
       });
     },
     getEchasrts() {
-      getVEcharts(this.echartForm).then(res => {
-        this.echartData = res.data.itemDataList;
+      getPosition().then(res => {
+        let presetId = res.data[0].value;
+        this.echartForm = {
+          startTime: this.echartForm.startTime,
+          endTime: this.echartForm.endTime,
+          deviceType: "2",
+          monitorDeviceId: this.$route.params.monitorDeviceId,
+          presetIds: presetId
+        };
+        getVEcharts(this.echartForm).then(res => {
+          this.echartData = res.data.itemDataList;
+        });
       });
     },
     handleClose() {
@@ -583,12 +594,20 @@ export default {
     },
     onClose() {
       this.visibleSettingOption = false;
+    },
+    getInit() {
+      let time = moment()
+        .add(-1, "days")
+        .format("YYYY-MM-DD");
+      this.echartForm.startTime = `${time} 00:00:00`;
+      this.echartForm.endTime = `${time} 23:59:59`;
     }
   },
   created() {
     this.initCamera();
   },
   mounted() {
+    this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();

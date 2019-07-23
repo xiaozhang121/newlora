@@ -95,7 +95,6 @@ export default {
   },
   watch: {
       '$route' (to) {
-          debugger
           this.routeName = to.name
       },
       routeName(now){

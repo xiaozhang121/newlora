@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top">
-      <div>所有信息</div>
+      <div>全面巡视</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -44,6 +44,7 @@
       :judgeResult="popData.alarmContent || ''"
       :origin="popData.monitorDeviceId"
       :handleResult="popData.dealRecord || ''"
+      :popData="popData"
       @handleClose="handleClose"
     />
   </div>
@@ -78,18 +79,20 @@ export default {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
+        // getDataListURL: "/lenovo-plan/api/statistics/plan/view"
       },
       visibleSettingOption: false,
       visible: false,
       selectInfo: "更多",
       popData: {},
+      dataForm: {},
       serious: false,
       commonly: false,
       danger: false,
       value: "",
       alarmLevel: "",
       titleType: "按设备筛选",
-      dataBread: ["视频监控", "所有报表", "表计分析", "全面巡视"],
+      dataBread: ["视频监控", "所有报表", "巡检任务报表", "全面巡视"],
       columns: [
         {
           title: "序号",
@@ -309,6 +312,7 @@ export default {
     };
   },
   created() {
+    this.dataForm.planId = this.$route.query.planId;
     this.getRegion();
     // this.getStart();
     this.getType();

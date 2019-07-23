@@ -211,7 +211,6 @@ export default {
       getMonitorSelect({configType: that.configType, userId: this.$store.state.user.userId}).then(res => {
         if(res.data){
           let data = res.data
-          debugger
           data = data.filter(item=>{
               return item['isSelected'] == true || item['isSelected'] == 1
           })
@@ -263,12 +262,10 @@ export default {
         })
     },
     selectData(value) {
-      debugger
       const that = this;
       if(!value.length){
         that.selectCount = this.initCount
       }
-      debugger
       securityMonitor({ monitorDeviceId: value.join(','), configType: that.configType, userId: this.$store.state.user.userId }).then(res => {
         // that.titleValueL = "监控摄像头数量";
         that.dataMonitor = res.data.tableData

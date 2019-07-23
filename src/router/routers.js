@@ -296,21 +296,21 @@ export default [{
                 },
                 {
                     path: 'detailLight',
-                    name: 'surveillanceList',
+                    name: 'surveillanceListLight',
                     meta: {
                         title: '可见光详情',
                         hideInMenu: true,
-                        isDetails: true
+                        isDetails: true,
                     },
                     component: () => import('@/views/communal/surveillance/detailVlight.vue')
                 },
                 {
                     path: 'detailRed',
-                    name: 'surveillanceList',
+                    name: 'surveillanceListRed',
                     meta: {
-                        title: '可见光详情',
+                        title: '红外检测',
                         hideInMenu: true,
-                        isDetails: true
+                        isDetails: true,
                     },
                     component: () => import('@/views/communal/surveillance/detailVRed.vue')
                 },
@@ -851,7 +851,7 @@ export default [{
                             title: '全面巡视',
                             hideInMenu: true,
                             isDetails: true,
-                            active: 'meterdataList'
+                            active: 'reportList'
                         },
                         component: () => import('@/views/communal/alarmInfo/viewReportDetail.vue')
                     },

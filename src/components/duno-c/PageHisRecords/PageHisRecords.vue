@@ -77,12 +77,12 @@ export default {
       default: () => {
         return [
           {
-            key: "alarmId",
+            key: "alarmTime",
             title: "拍摄时间",
             align: "center"
           },
           {
-            key: "alarmType",
+            key: "alarmDetailType",
             title: "告警类型",
             align: "center"
           },
@@ -98,7 +98,11 @@ export default {
                   {
                     class: "table_link",
                     props: { type: "text" },
-                    on: { click: () => {} }
+                    on: {
+                      click: () => {
+                        // this.getJump(params.row);
+                      }
+                    }
                   },
                   params.row.monitorDeviceId
                 )
@@ -109,12 +113,18 @@ export default {
           {
             key: "dataType",
             title: "处理记录",
-            align: "center"
+            align: "center",
+            render: (h, params) => {
+              return h("div", params.row.dealList[0].dealType);
+            }
           },
           {
             key: "content",
             title: "处理时间",
-            align: "center"
+            align: "center",
+            render: (h, params) => {
+              return h("div", params.row.dealList[0].dealTime);
+            }
           },
           {
             title: "视频/图片",
@@ -283,6 +293,24 @@ export default {
         else that.$message.error(res.msg);
         this.getDataList();
       });
+    },
+    getJump(row) {
+      debugger;
+      if (row.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      } else if (row.monitorDeviceType == "2") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      }
     },
     dataListSelectionChangeHandle() {}
   },

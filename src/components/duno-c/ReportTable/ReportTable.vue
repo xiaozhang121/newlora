@@ -30,6 +30,7 @@
         <span
           v-for="(item,index) in reportData.monitorDeviceList"
           :key="index"
+          @click="getJump(item)"
         >{{item.monitorDeviceName}},</span>
       </p>
     </div>
@@ -71,7 +72,6 @@ export default {
   methods: {
     clickDownload() {
       let url = this.url.downloadUrl;
-      console.log(url);
       let query = {
         planId: this.reportData.planId,
         t: this.$store.state.user.token
@@ -84,10 +84,34 @@ export default {
       });
     },
     viewReports() {
-      //   let url = this.url.viewUrl;
-      //   getAxiosData(url).then(res => {});
-      this.$router.push({ name: "report-view" });
+      this.$router.push({
+        path: "/report/report-view",
+        query: { planId: this.reportData.planId }
+      });
+    },
+    getJump(item) {
+      if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: item.monitorDeviceId
+          }
+        });
+      } else if (
+        this.$route.name == "visiblelightList" ||
+        item.monitorDeviceType == "2"
+      ) {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: item.monitorDeviceId
+          }
+        });
+      }
     }
+  },
+  mounted() {
+    console.log(this.$route.name);
   }
 };
 </script>
