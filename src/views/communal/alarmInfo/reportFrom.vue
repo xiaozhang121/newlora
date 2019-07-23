@@ -38,7 +38,7 @@
         :current-page="dataList.pageParam.pageIndex"
         layout="prev, pager, next"
         :total="dataList.pageParam.totalRows"
-      ></el-pagination> -->
+      ></el-pagination>-->
     </duno-main>
   </div>
 </template>
@@ -190,11 +190,9 @@ export default {
     & > div {
       width: calc(20% - 20px);
       float: left;
+      height: 405px;
       margin-right: 20px;
     }
-    // & > div:nth-child(5n + 0) {
-    //   margin-right: 0;
-    // }
   }
   //分页--
   .el-pagination {

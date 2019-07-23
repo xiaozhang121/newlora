@@ -6,7 +6,7 @@
     <div class="top">任务配置</div>
     <duno-main class="dunoMain">
       <Patrol :dataList="allInspectList" />
-      <Patrol :dataList="nightInspectList" :title="titleTwo" />
+      <Patrol :dataList="nightInspectList" :titleCon="titleNight" :title="titleTwo" />
       <Patrol
         :columns="columnsData"
         :dataList="specialInspectList"
@@ -23,7 +23,10 @@ import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import Patrol from "_c/duno-c/Patrol";
 import alert from "_c/duno-j/statistics/components/alert";
-import { infrInformation } from "@/api/configuration/configuration.js";
+import {
+  infrInformation,
+  startPatrol
+} from "@/api/configuration/configuration.js";
 export default {
   name: "configDetail",
   components: {
@@ -42,6 +45,8 @@ export default {
       nightInspectList: [],
       specialInspectList: [],
       dataBread: ["操作中台", "配置管理", "任务管理"],
+      titleNight:
+        "（利用红外热像仪查看电力设备本体及部件是否发红，生成巡视报告，异常状态及时告警）",
       dataList: [
         {
           step: "暴风雨巡视",
@@ -180,7 +185,8 @@ export default {
                   props: { type: "text", content: "开始巡视" },
                   on: {
                     click: () => {
-                      console.log(111);
+                      //   console.log(111);
+                      this.getStart(params.row);
                     }
                   }
                 },
@@ -224,6 +230,19 @@ export default {
         that.allInspectList = res.data.allInspectList;
         that.nightInspectList = res.data.nightInspectList;
         that.specialInspectList = res.data.specialInspectList;
+      });
+    },
+    getStart(row) {
+      console.log(row);
+      let query = {
+        planId: row.planId
+      };
+      startPatrol(query).then(res => {
+        this.$message({
+          message: "开始巡视",
+          type: "success"
+        });
+        this.getDataList();
       });
     }
   },

@@ -97,6 +97,17 @@ export const infrInformation = (data) => {
     })
 }
 
+//配置管理-任务配置-开始巡视
+export const startPatrol = (query) => {
+    return axios.request({
+        url: "/lenovo-plan/api/plan/start",
+        method: 'post',
+        params: {
+            ...query
+        }
+    })
+}
+
 //配置管理-设备监测管理-列表
 export const getDevice = (data) => {
     return axios.request({

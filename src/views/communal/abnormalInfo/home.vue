@@ -569,6 +569,7 @@ export default {
       & > div:first-child {
         width: calc(55% - 20px);
         margin-right: 20px;
+        background-size: 100% 100%;
         background-image: url("../../../assets/iconFunction/img_bg_weather.jpg");
       }
       & > div:nth-child(2) {
