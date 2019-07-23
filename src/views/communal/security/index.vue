@@ -7,11 +7,11 @@
       <KeyErea />
     </div>
     <div class="alarmTitle">
-      <div>1天内安防警告记录</div>
+      <div>3天内动态环境异常记录</div>
       <div>
         <div @click="clickToDetail">
           <i class="iconfont icon-gaojingxinxi"></i>
-          所有安防警告
+          所有动态环境异常信息
         </div>
       </div>
     </div>

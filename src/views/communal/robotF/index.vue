@@ -5,7 +5,7 @@
     </div>
     <div class="title">
       <span>{{ robotName }}</span>
-      <button-custom class="moreTask" title="更多任务>" />
+      <button-custom class="moreTask" title="更多任务>" @click.native="$router.push({'name': 'robot-detail'})"/>
     </div>
     <div class="content">
       <div class="top">
@@ -95,7 +95,6 @@ export default {
   },
   watch: {
       '$route' (to) {
-          debugger
           this.routeName = to.name
       },
       routeName(now){

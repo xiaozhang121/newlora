@@ -3,6 +3,7 @@ import { setToken, getToken } from '@/libs/util'
 import avatorImg from '@/assets/images/avatar.jpg'
 export default {
   state: {
+    isAlarm: false,
     alarmInfo: '',
     configInfo: {},
     isCollapsed: false,  // 侧边栏是否收起

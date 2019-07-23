@@ -193,14 +193,16 @@ export default {
     .warnTtype {
       margin-top: 40px;
       overflow: hidden;
-      max-width: 980px;
+      max-width: 96%;
       display: flex;
-      flex-wrap: wrap;
+      padding-bottom: 18px;
+      overflow-x: auto;
+      flex-wrap: nowrap;
       &>div:first-child{
           margin-left: 0;
       }
       & > div {
-        margin-left: 10px;
+        margin-left: 14px;
       }
       .circle {
         float: left;

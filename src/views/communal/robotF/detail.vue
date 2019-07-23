@@ -50,10 +50,12 @@
     </div>
     <div class="table">
       <Patrol
+        :isShowBtn="true"
         :columns="columnsData"
         :dataList="specialInspectList"
         :title="title"
         :titleCon="titleCon"
+        @add-task="addTask"
       />
       <el-pagination
         :page-size="specialInspectList.pageSize"
@@ -62,7 +64,7 @@
         :total="specialInspectList.totalRows"
       ></el-pagination>
     </div>
-    <select-district />
+    <select-district @on-close="onClose" :visible="dialogVisible" />
   </div>
 </template>
 
@@ -86,6 +88,7 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true
         // getDataListURL: "/lenovo-plan/api/statistics/plan/list"
@@ -314,6 +317,12 @@ export default {
     };
   },
   methods: {
+    onClose(){
+      this.dialogVisible = false
+    },
+    addTask(){
+      this.dialogVisible = true
+    },
     onSelect(item) {
       this.titleInspect = item["describeName"];
     },

@@ -146,6 +146,12 @@ export default {
   mounted() {
     this.routeName = this.$route.name;
     this.getAreaData();
+    document.querySelector(".mainAside").style.height = "inherit";
+    document.querySelector(".mainAside").style.minHeight = "100%";
+  },
+  beforeDestroy() {
+      document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
+      document.querySelector(".mainAside").style.minHeight = "inherit";
   }
 };
 </script>
@@ -168,7 +174,8 @@ export default {
     margin-top: 20px;
     .pageHisRecords {
       .tables {
-        height: 486px;
+        /*height: 486px;*/
+        margin-bottom: 73px;
       }
     }
   }

@@ -188,17 +188,7 @@ export default {
       isItemEchart: false,
       isChange: true,
       alarmLevel: "",
-      messageList: [
-        {
-          alarmLevel: "1",
-          alarmLevelName: "危机缺陷",
-          alarmTime: "2019-09-04 12:14:15",
-          mainDevice: "4号主变",
-          powerDeviceName: "1000千伏",
-          alarmDetailType: "表面污垢",
-          alarmValue: "表面污垢"
-        }
-      ],
+      messageList: [],
       columns: [
         {
           title: "时间",

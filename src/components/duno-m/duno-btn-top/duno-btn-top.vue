@@ -327,12 +327,14 @@ export default {
       }
     }
     .btn_main{
+      max-height: 216px;
       position: relative;
       z-index: 8;
       margin-top: 7px;
       padding: 5px 20px;
       display: flex;
       flex-direction: column;
+      overflow-y: auto;
       .btnItem{
         margin: 12px 0;
         img{

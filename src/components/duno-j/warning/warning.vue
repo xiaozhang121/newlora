@@ -3,7 +3,7 @@
     <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">记录{{ warningID }}</div>
-        <div class="extend">动态环境类</div>
+        <div class="extend">{{ alarmType }}</div>
       </div>
       <div class="main">
         <div class="monitor">
@@ -17,7 +17,7 @@
           <div v-if="!discriminate" class="temperature">
             <p class="monitorTitle">温度正常</p>
             <p>
-              16℃
+              {{ popData['alarmValue'] }}℃
               <i-dropdown
                 v-if="hasSelect && !discriminate"
                 trigger="click"
@@ -54,7 +54,7 @@
           <div class="from">
             <span class="origin">
               来源：
-              <a href="javascript:;">{{origin}}</a>
+              <a href="javascript:;">{{popData['monitorDeviceName']}}</a>
             </span>
           </div>
         </div>
@@ -73,9 +73,12 @@
   </div>
 </template>
 <script>
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
   data() {
     return {
+      searchId: '',
+      searchType: '',
       handleList: [
         // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
         // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
@@ -87,10 +90,20 @@ export default {
       selectList: ["一般", "严重", "危急"],
       alarmLevelT: "",
       alarmLevelN: "",
-      newMonitorUrl: require("@/assets/camera2.png")
+      newMonitorUrl: ''
     };
   },
   props: {
+    popData: {
+      type: Object,
+      default: () => {
+          return {}
+      }
+    },
+    alarmType: {
+      type: String,
+      default: ''
+    },
     handleNotes: {
       type: Array,
       default: () => {
@@ -149,7 +162,18 @@ export default {
   },
   computed: {},
   watch: {
+    popData(now){
+      if('alarmId' in now){
+          this.searchId = now['alarmId']
+          this.searchType = 'alarmId'
+      }else{
+          this.searchId = now['resultId']
+          this.searchType = 'resultId'
+      }
+      this.initData()
+    },
     handleNotes(now) {
+      this.handleList = []
       let obj = {};
       now.forEach(el => {
         obj.time = el.dealTime;
@@ -170,6 +194,11 @@ export default {
     }
   },
   methods: {
+    initData(){
+        getAxiosData('/lenovo-plan/api/task-result/view',{[this.searchType]:this.searchId}).then(res=>{
+            debugger
+        })
+    },
     selectItem(item, index) {
       this.alarmLevelT = item;
       this.alarmLevelN = index + 1;

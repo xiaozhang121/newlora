@@ -7,7 +7,8 @@
                 :before-close="handleClose">
             <span slot="title">
                 <div class="title">
-                    机器人ID-自定义任务配置01<i class="iconfont icon-xiugai1"></i>
+                    <input :readonly="!readOnly" :class="{'noBorder': !readOnly}" v-model="taskName" type="text" class="taskName"/>
+                    <i @click="toEdit" class="iconfont icon-xiugai1"></i>
                 </div>
                 <div class="title_o">
                     <span>框选设备</span>
@@ -31,31 +32,48 @@ export default {
     },
     data() {
         return {
-            dialogVisible: true
+            taskName: '机器人ID-自定义任务配置01',
+            readOnly: false,
+            dialogVisible: false
         }
     },
     props: {
-
+        visible: {
+            type: Boolean,
+            default: false
+        }
     },
     watch: {
-
+        visible(now){
+            this.dialogVisible = now
+            if(now){
+                this.$nextTick(()=>{
+                    document.querySelector('#map').setAttribute('style','height:100% !important')
+                })
+            }else{
+                document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
+            }
+        }
     },
     computed: {
 
     },
     methods:{
-
+        toEdit(){
+            this.readOnly = !this.readOnly
+        },
+        handleClose(){
+            this.$emit('on-close')
+        }
     },
     created(){
     },
     updated: function () {
     },
     beforeDestroy(){
-        document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
     },
     mounted() {
         this.$nextTick(()=>{
-            document.querySelector('#map').setAttribute('style','height:100% !important')
             this.move(true)
         })
      /*   for (let i = 0; i < this.lists.length; i++) {
@@ -67,6 +85,13 @@ export default {
 
 <style lang="scss">
     .selectDistrict{
+        .noBorder{
+            cursor: pointer;
+            border: 1px solid transparent !important;
+        }
+        .taskName{
+            border: 1px solid #c7c7c7;
+        }
         .el-dialog{
             width: 47% !important;
         }

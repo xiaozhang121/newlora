@@ -5,7 +5,7 @@
         <span>{{title}}</span>
         <span>{{titleCon}}</span>
       </div>
-      <div v-if="isShowBtn">+创建新的任务配置</div>
+      <div v-if="isShowBtn" @click="createTask()">+创建新的任务配置</div>
     </div>
     <div class="con">
       <duno-tables-tep
@@ -137,6 +137,9 @@ export default {
     };
   },
   methods: {
+    createTask(){
+        this.$emit('add-task')
+    },
     dataListSelectionChangeHandle() {}
   }
 };

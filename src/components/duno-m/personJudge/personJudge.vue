@@ -78,7 +78,9 @@
 
         },
         methods:{
-
+            handleClose(){
+                this.$emit('on-close')
+            }
         },
         mounted() {
 

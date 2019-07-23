@@ -890,7 +890,8 @@ export default [{
                         component: () => import('@/views/communal/alarmInfo/detail.vue'),
                     },
                 ]
-            },
+            }
+           /* ,
             {
                 path: 'alarm-info',
                 name: 'alarmInfo',
@@ -901,7 +902,7 @@ export default [{
                     isAlone: true
                 },
                 component: () => import('@/views/communal/alarmInfo/index.vue')
-            }
+            }*/
         ]
     },
 

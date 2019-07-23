@@ -1,17 +1,21 @@
 <template>
   <div id="app">
     <router-view/>
+    <audio :src="audio" loop="loop" autoplay="autoplay">
+    </audio>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-
 export default {
   name: 'App',
   data () {
     const that = this
     return {
+      audio: null,
+      defectAlarm: require('@/audio/defectAlarm.mp3'),
+      safetyAlarm: require('@/audio/safetyAlarm.mp3'),
       Socket: null,
       SocketTime: null,
       isSocketOk: true,
@@ -42,29 +46,38 @@ export default {
           }
         }
       }
-    }
+    },
+     alarmInfo(now){
+        if(!now){
+          this.audio = null
+        }
+     }
   },
   computed: {
     ...mapState([
       'user'
-    ])
+    ]),
+    alarmInfo(){
+      return this.$store.state.user.isAlarm
+    }
   },
   methods: {
     linkWebSocket () {
       const that = this
-      if (!that.isLoginPage) {
+    /*  if (!that.isLoginPage) {
         that.SocketTime = setInterval(function () {
           that.WebSocket()
         }, 5000)
-      }
+      }*/
     },
     WebSocket () {
       const that = this
       if ('WebSocket' in window) {
         try {
           const index = that.baseUrl.indexOf('//')
-          const url = that.baseUrl.substring(index, that.baseUrl.length)
-          that.Socket = new WebSocket(`ws:${url}/venus/websocket`)
+          let url = that.baseUrl.substring(index, that.baseUrl.length)
+          url = url.replace(':8008',':8200')
+          that.Socket = new WebSocket(`ws:${url}/lenovo-alarm/alarm/websocket`)
           // this.Socket.onopen = function() { // 发送数据 websocket
           // // Web Socket 已连接上，使用 send() 方法发送数据
           // console.log("数据发送中...")
@@ -74,14 +87,16 @@ export default {
             clearInterval(that.SocketTime)
             that.SocketTime = null
             that.isSocketOk = true
-            const account = that.$store.state.user.account
+            that.$store.state.user.alarmInfo = receivedMsg
+            that.$store.state.user.isAlarm  = receivedMsg['soundConfig']
+          /*  const account = that.$store.state.user.account
             let num = 0
             for (let i = 0; i < receivedMsg.length; i++) {
               if (receivedMsg[i].account === account) {
                 num++
               }
             }
-            that.$store.state.user.msgNum = num
+            that.$store.state.user.msgNum = num*/
           }
           that.Socket.onclose = function () { // 关闭 websocket
             that.Socket = null
@@ -101,9 +116,10 @@ export default {
   },
   mounted () {
     const that = this
+    // that.audio = that.safetyAlarm
     console.log('后台访问地址：', that.baseUrl)
-    if (process.env.NODE_ENV !== 'development') {
-      if (that.$route.path !== '/login' && that.$route.path !== '/') { // 当前路径不是登录页
+    if (true) {
+      if (that.$route.path !== '/login') { // 当前路径不是登录页
         that.isLoginPage = false
         that.WebSocket()
       } else {
@@ -124,6 +140,16 @@ export default {
   @import "./assets/defaultIcon/duno-iconfont.css"; // 框架默认图标库
   @import "./assets/icons/iconfont.css";  // 项目引用图标库
   @import "./style/index.scss";
+  /*@import "@/style/noselect.scss";*/
+  .el-popper[x-placement^="top"] .popper__arrow::after{
+    border-top-color: #193543 !important;
+  }
+  .el-popper[x-placement^="top"] .popper__arrow{
+    border-top-color: #193543 !important;
+  }
+  .el-popper[x-placement^="bottom"] .popper__arrow{
+    border-bottom-color: #193543 !important;
+  }
   .squera{
     position:absolute; border:1px solid #e48303; overflow:hidden;
   }

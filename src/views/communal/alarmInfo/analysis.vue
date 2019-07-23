@@ -58,15 +58,8 @@
       <div class="title">
         <div>泄露电流表24小时温度分析</div>
         <div>
-          <div>
-            <duno-btn-top
-              @on-select="onSelectByDay"
-              class="dunoBtnTop"
-              :isCheck="false"
-              :dataList="ByDayData"
-              :title="titleByDay"
-              :showBtnList="false"
-            ></duno-btn-top>
+          <div style="display: inline-flex">
+
           </div>
           <div class="dateStyle">
             <el-date-picker

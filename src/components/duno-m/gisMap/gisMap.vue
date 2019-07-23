@@ -3,14 +3,15 @@
         <div id="map" ref="rootmap" style="height: 100%"></div>
         <div v-for="(item, index) in deviceList" @dragstart="drag($event, item)" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
         <div v-for="(item, index) in powerPointList"  @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
+        <!--<el-button type="primary" style="position: absolute;z-index: 999; top: 0; left: 90px" @click="startDraw('Box')">四边形</el-button>-->
     </div>
 </template>
 <script>
 import "ol/ol.css";
 import { Map, View, Overlay, Feature } from "ol";
 import {boundingExtent,getCenter} from 'ol/extent'
-import  { Draw } from 'ol/interaction'
 import Polygon from 'ol/geom/Polygon.js';
+import  { Draw } from 'ol/interaction'
 import Point from 'ol/geom/Point.js';
 import { XYZ, TileImage } from "ol/source"
 import { transform, getTransform } from "ol/proj"
@@ -26,6 +27,8 @@ export default {
     data() {
         const that = this
         return {
+            drawList: [],
+            draw: null,
             isFirst: true,
             isClick: true,
             clickTarget: null,
@@ -124,6 +127,11 @@ export default {
 
     },
     methods:{
+        startDraw(){
+            this.mapTarget.removeInteraction(this.draw);
+            this.typeSelect = kind
+            this.addInteraction()
+        },
         drag(event, item){
             this.$emit('on-drag',event,item)
         },
@@ -188,7 +196,7 @@ export default {
                     })
                     let text = new Text({
                         scale: 2,
-                        text: item['mainDevice'],
+                        text: item['deviceName'],
                         fill: new Fill({
                             color: 'red'
                         }),
@@ -228,6 +236,7 @@ export default {
             let pointY = ''
             pointX = data['xReal']
             pointY = data['yReal']
+            if(point['alarmConfig'] != 3){
             if(!this.timer){
                 this.mapTarget.getView().setCenter(transform([pointX, pointY], 'EPSG:3857', 'EPSG:4326'))
                 this.mapTarget.getView().setZoom(20)
@@ -242,6 +251,7 @@ export default {
                 },1000)
             }
             this.$emit('on-alarm',data)
+            }
         },
         clearAlarm(){
             clearInterval(this.timer)

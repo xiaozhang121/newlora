@@ -449,7 +449,6 @@
                 let url = '/lenovo-visible/api/visible-equipment/preset/list-name'
                 getAxiosData(url, {deviceId: that.deviceId}).then(res=>{
                     let data = res.data
-                    debugger
                     data.map(item=>{
                         item['flag'] = 'play'
                     })
@@ -492,7 +491,6 @@
                     })
                     that.addPosInput = ''
                 }else{
-                    debugger
                     // 修改
                     let temp = that.addPosInput
                     this.$forceUpdate()

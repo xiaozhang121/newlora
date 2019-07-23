@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     activeChange(flag){
-        debugger
         this.activeBtn = flag
         this.$store.state.app.topNav = flag
     },

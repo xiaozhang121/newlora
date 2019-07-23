@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     restoration (type) {
+      this.$store.state.user.isAlarm = false
       console.log(type == '1'?'复位':'保存')
       const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
       const query = {

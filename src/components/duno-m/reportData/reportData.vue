@@ -2,7 +2,7 @@
     <div class="reportData" >
         <div class="title">
             <span>第{{ stepCount }}步上报数据</span>
-            <span>人工否定</span>
+            <span @click="visible = true">人工否定</span>
         </div>
         <div class="middle">
             <div class="img">
@@ -47,7 +47,7 @@
                 </i-dropdown>
             </div>
         </div>
-        <person-judge :visible="false"></person-judge>
+        <person-judge @on-close="visible = false" :visible="visible"></person-judge>
     </div>
 </template>
 
@@ -61,6 +61,7 @@
         },
         data() {
             return {
+                visible: false,
                 selectList: ["一般", "严重", "危急"]
             }
         },

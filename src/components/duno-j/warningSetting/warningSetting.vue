@@ -179,8 +179,10 @@ export default {
     },
     setData(){
         let query = JSON.parse(JSON.stringify(this.form))
+        query['defectStatus']?query['defectStatus'] = 1:query['defectStatus'] = 0
+        query['securityStatus']?query['securityStatus'] = 1:query['securityStatus'] = 0
         query['userId'] = this.$store.state.user.userId
-        postAxiosData('/lenovo-alarm/api/alarm-tip/set',this.form).then(res=>{
+        postAxiosData('/lenovo-alarm/api/alarm-tip/set',query).then(res=>{
             if(res.data.isSuccess){
                 this.$message.success(res.errorMessage)
             }else{
@@ -192,11 +194,13 @@ export default {
         const that = this
         getAxiosData('/lenovo-alarm/api/alarm-tip/info',{userId:this.$store.state.user.userId}).then(res=>{
             that.form = {
-                danger: res.data.dangerAction,
-                serious: res.data.seriousAction,
-                primary: res.data.normalAction,
-                people: res.data.personAction,
-                environment: res.data.envAction
+                dangerAction: res.data.dangerAction,
+                envAction: res.data.envAction,
+                normalAction: res.data.normalAction,
+                personAction: res.data.personAction,
+                securityStatus: res.data.securityStatus==1?true:false,
+                defectStatus: res.data.defectStatus==1?true:false,
+                seriousAction: res.data.seriousAction
             }
             that.$forceUpdate()
         })

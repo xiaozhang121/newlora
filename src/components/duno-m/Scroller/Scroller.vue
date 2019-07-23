@@ -119,6 +119,9 @@ export default {
     },
     updated: function () {
     },
+    beforeDestroy(){
+        clearInterval(this.timer)
+    },
     mounted() {
         this.$nextTick(()=>{
            this.move(true)

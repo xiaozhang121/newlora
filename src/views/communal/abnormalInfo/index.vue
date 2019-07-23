@@ -69,7 +69,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :discriminate="false"  :hasSelect="true" :alarmLevel="alarmLevel" :visible="visible" warningID="20190711002" :monitorUrl="popData.alarmFileAddress || ''" :judgeResult="popData.alarmContent || ''" :origin="popData.monitorDeviceId" :handleResult="popData.dealRecord || ''" @handleClose="handleClose" />
+    <wraning  :popData="popData"  @handleClose="handleClose" />
   </div>
 </template>
 
@@ -97,6 +97,8 @@ export default {
   data() {
     const that = this;
     return {
+      handleNotes: [],
+      alarmType: '',
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
@@ -209,19 +211,21 @@ export default {
         },
         {
           title: "信息来源",
-          key: "monitorDeviceId",
+          key: "monitorDeviceName",
           minWidth: 150,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            newArr.push([
+            newArr.push((h('Tooltip', {
+                props: { content: params.row.monitorDeviceName }
+            },[
               h("a",{
                   class: "table_link",
                   props: { type: "text" },
                   on: {click: () => {console.log("摄像头ID：", params.row.monitorDeviceId) }}
-                }, params.row.monitorDeviceId)
-            ]);
+                }, params.row.monitorDeviceName)
+            ])));
             return h(
               "div", {class: {member_operate_div: true}},
               newArr
@@ -277,9 +281,13 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      that.handleNotes = []
+                      that.handleNotes.push({dealTime:params.row.dealTime, dealType: params.row.dealRecord})
+                      that.alarmType = params.row.alarmType
                       that.popData = params.row
                       that.alarmLevel = params.row.alarmLevel
                       that.visible = true;
+                      that.$forceUpdate()
                     }
                   }
                 },
@@ -589,6 +597,10 @@ export default {
     top: 2px;
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;
@@ -699,6 +711,16 @@ export default {
   .icon-xiala {
     color: white;
     font-size: 13px;
+  }
+  .dropSelf{
+    .icon-xiala {
+      font-size: 9px;
+      position: absolute;
+      width: 9px !important;
+      height: 13px !important;
+      right: 20px;
+      top: 14px;
+    }
   }
 }
 .setting {
