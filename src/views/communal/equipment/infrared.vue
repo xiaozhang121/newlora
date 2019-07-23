@@ -185,7 +185,7 @@ export default {
     this.getlightData();
   },
   created() {
-    // this.getInit();
+    this.getInit();
   }
 };
 </script>

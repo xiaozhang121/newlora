@@ -202,7 +202,7 @@ export default {
                             },
                             on: {
                               click: () => {
-                                that.onClickDropdown(params.row, "1次/周");
+                                that.onClickDropdown(params.row, "1次/周", "1");
                               }
                             }
                           },
@@ -218,7 +218,7 @@ export default {
                             },
                             on: {
                               click: () => {
-                                that.onClickDropdown(params.row, "1次/周");
+                                that.onClickDropdown(params.row, "1次/周", "2");
                               }
                             }
                           },
@@ -307,17 +307,17 @@ export default {
         }
       });
     },
-    onClickDropdown(row, type) {
+    onClickDropdown(row, type, value) {
       const index = row._index;
       this.dataList[index].inspectCycle = type;
-      this.psotAlarmData(row, type);
+      this.psotAlarmData(row, value);
     },
-    psotAlarmData(row, type) {
+    psotAlarmData(row, value) {
       const that = this;
       const url = "/lenovo-device/api/monitor/edit";
       const query = {
         id: row.id,
-        cycleType: type
+        cycleType: value
       };
       putAxiosData(url, query).then(
         res => {
@@ -326,6 +326,7 @@ export default {
             return that.$message.error(res.msg);
           }
           that.$message.success(res.msg);
+          this.getDataList();
         },
         error => {
           this.dataList[index].cycleType = row.inspectCycle;
