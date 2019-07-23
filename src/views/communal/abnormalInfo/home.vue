@@ -127,10 +127,9 @@
         <div>
           <duno-chart-pie-loop
             :value="[{ value: 335, name: '直接访问' }]"
-            isChange="true"
-            isItemEchart="false"
+            :isChange="isChange"
+            :isItemEchart="isItemEchart"
             :legendOption="legendOption"
-            :seriesLabelOption="seriesLabelOption"
           />
         </div>
       </div>
@@ -159,7 +158,7 @@ import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
-import { DunoChartPieLoop } from "_c/duno-city-ganged";
+import { DunoChartPieLoop } from "_c/duno-charts/index";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { getRecode } from "@/api/configuration/configuration.js";
 export default {
@@ -186,6 +185,8 @@ export default {
       popData: {},
       visibleSettingOption: false,
       visible: false,
+      isItemEchart: false,
+      isChange: true,
       alarmLevel: "",
       messageList: [
         {
@@ -389,36 +390,7 @@ export default {
         x: "right",
         y: "middle",
         data: ["为占用: 25%", "已占用: 75%"]
-      },
-      seriesLabelOption: [
-        {
-          name: "半径模式",
-          type: "pie",
-          radius: [20, 110],
-          center: ["25%", "50%"],
-          roseType: "radius",
-          label: {
-            normal: {
-              show: false
-            },
-            emphasis: {
-              show: true
-            }
-          },
-          lableLine: {
-            normal: {
-              show: false
-            },
-            emphasis: {
-              show: true
-            }
-          },
-          data: [
-            { value: 10, name: "为占用: 25%" },
-            { value: 5, name: "已占用: 75%" }
-          ]
-        }
-      ]
+      }
     };
   },
   created() {
