@@ -192,6 +192,9 @@ export default {
       float: left;
       height: 405px;
       margin-right: 20px;
+      img {
+        height: 173px;
+      }
     }
   }
   //分页--

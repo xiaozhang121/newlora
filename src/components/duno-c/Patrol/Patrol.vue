@@ -35,7 +35,8 @@ export default {
     },
     titleCon: {
       type: String,
-      default: "(集合多种监测设备，定点定时完成任务，生成巡视报告，异常状态及时告警)"
+      default:
+        "(集合多种监测设备，定点定时完成任务，生成巡视报告，异常状态及时告警)"
     },
     isShow: {
       type: Boolean,
@@ -92,9 +93,17 @@ export default {
             render: (h, params) => {
               let newArr = [];
               newArr.push(
-                h('div',{
-                  class: { table_select: true,interval: (params.row.status === '0'),patrol: (params.row.status === '1')}
-                },params.row.statusName)
+                h(
+                  "div",
+                  {
+                    class: {
+                      table_select: true,
+                      interval: params.row.status === "0",
+                      patrol: params.row.status === "1"
+                    }
+                  },
+                  params.row.statusName
+                )
               );
               return h("div", newArr);
             }
@@ -103,7 +112,7 @@ export default {
             title: " ",
             // key: "Presentation",
             minWidth: 150,
-            align: "center",
+            align: "right",
             tooltip: true,
             render: (h, params) => {
               let newArr = [];
@@ -269,11 +278,11 @@ export default {
     border-radius: 16px;
     border: none;
   }
-  .table_select{
-    &.interval{
+  .table_select {
+    &.interval {
       color: #ff9000;
     }
-    &.patrol{
+    &.patrol {
       color: #53fec0;
     }
   }

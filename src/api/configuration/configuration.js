@@ -74,10 +74,13 @@ export const lightNewInformation = (data) => {
 }
 
 //设备监测-红外监测-最新巡检报告
-export const infraNewReport = (data) => {
+export const infraNewReport = (query) => {
     return axios.request({
         url: "/lenovo-plan/api/plan/iir-report/list",
-        method: 'get'
+        method: 'get',
+        params: {
+            ...query
+        }
     })
 }
 
@@ -213,6 +216,14 @@ export const getVEcharts = (query) => {
         params: {
             ...query
         }
+    })
+}
+
+//视频监控-可见光/红外监测-摄像头详情-预置位
+export const getPosition = (data) => {
+    return axios.request({
+        url: "/lenovo-plan/api/preset/list",
+        method: 'post',
     })
 }
 

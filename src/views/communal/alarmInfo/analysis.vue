@@ -58,8 +58,23 @@
       <div class="title">
         <div>泄露电流表24小时温度分析</div>
         <div>
-          <div style="display: inline-flex">
-
+          <div>
+            <duno-btn-top
+              @on-select="onSelectByDay"
+              class="dunoBtnTop"
+              :isCheck="false"
+              :dataList="ByDayData"
+              :title="titleByDay"
+              :showBtnList="false"
+            ></duno-btn-top>
+            <!-- <el-select v-model="titleByDay" @change="onSelectByDay" placeholder="请选择">
+              <el-option
+                v-for="(item,index) in ByDayData"
+                :key="index"
+                :label="item.describeName"
+                :value="item.value"
+              ></el-option>
+            </el-select>-->
           </div>
           <div class="dateStyle">
             <el-date-picker
@@ -131,9 +146,10 @@
       :visible="visible"
       warningID="20190711002"
       :monitorUrl="popData.alarmFileAddress || ''"
-      :judgeResult="popData.alarmContent || ''"
+      :judgeResult="popData.powerDeviceName ||''"
       :origin="popData.monitorDeviceId"
       :handleResult="popData.dealRecord || ''"
+      :popData="popData"
       @handleClose="handleClose"
     />
   </div>
@@ -255,25 +271,25 @@ export default {
       partsList: [],
       phaseList: [],
       valueDate: "",
-      //   valueDay: "",
-      //   valueWeek: "",
-      //   valueMonth: "",
-      //   valueYear: "",
       ByDayData: [
         {
           describeName: "按日",
+          value: "按日",
           type: "day"
         },
         {
           describeName: "按周",
+          value: "按周",
           type: "week"
         },
         {
           describeName: "按月",
+          value: "按月",
           type: "month"
         },
         {
           describeName: "按年",
+          value: "按年",
           type: "year"
         }
       ],
@@ -555,6 +571,7 @@ export default {
                   on: {
                     click: () => {
                       console.log("摄像头ID：", params.row.monitorDeviceId);
+                      this.getJump(params.row);
                     }
                   }
                 },
@@ -697,6 +714,7 @@ export default {
       //   this.getEcharts();
     },
     onSelectByDay(item) {
+      console.log(item);
       this.titleByDay = item["describeName"];
       switch (item["type"]) {
         case "day":
@@ -818,6 +836,23 @@ export default {
       this.startTime = startTime;
       this.endTime = endTime;
       this.getEcharts();
+    },
+    getJump(row) {
+      if (row.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      } else if (row.monitorDeviceType == "2") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      }
     },
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}

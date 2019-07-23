@@ -35,6 +35,7 @@ import KeyErea from "_c/duno-c/KeyErea";
 import AlarmLog from "_c/duno-c/AlarmLog";
 import mixinViewModule from "@/mixins/view-module";
 import { getAxiosData } from "@/api/axiosType";
+import moment from "moment";
 import {
   getMonitorSelect,
   securityMonitor,
@@ -57,6 +58,7 @@ export default {
       isCenter: false,
       time: "",
       remarks: [],
+      dataForm: {},
       valueSelect: "",
       showBtnList: false,
       isSecond: false,
@@ -104,15 +106,22 @@ export default {
     handleData() {
       this.getDataList();
     },
-    clickToDetail(){
-        this.$router.push({name:"security-all"})
+    clickToDetail() {
+      this.$router.push({ name: "security-all" });
+    },
+    getTime() {
+      let endTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      let startTime = moment()
+        .subtract(3, "days")
+        .format("YYYY-MM-DD HH:mm:ss");
+      this.dataForm.startTime = startTime;
+      this.dataForm.endTime = endTime;
     }
   },
   created() {
+    this.getTime();
   },
-  beforeDestroy(){
-
-  }
+  beforeDestroy() {}
 };
 </script>
 

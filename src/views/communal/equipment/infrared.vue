@@ -25,7 +25,7 @@
         </div>
         <div class="hours">
           <MonitorWarn
-            v-for="(item,index) in lightInformation"
+            v-for="(item,index) in lightInformation.slice(0,4)"
             :remarkData="lightInformation[index]"
             :time="item.alarmTime"
             :remarks="item.dealList"
@@ -37,7 +37,7 @@
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div v-for="(item,index) in dataList" :key="index">
+        <div v-for="(item,index) in dataList.slice(0,8)" :key="index">
           <img :src="item.fileAddress" alt />
           <p>{{item.deviceName}}</p>
         </div>
@@ -158,6 +158,19 @@ export default {
       }
     },
     getlightData() {
+      let query = {
+        ...this.timeQueryData,
+        pageIndex: 1,
+        pageRows: 6
+      };
+      infraNewReport(query).then(res => {
+        this.inspecReport = res.data;
+      });
+      infraNewInformation().then(res => {
+        this.lightInformation = res.data;
+      });
+    },
+    getInit() {
       let startTime = "";
       let endTime = "";
       endTime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -166,16 +179,13 @@ export default {
         .format("YYYY-MM-DD HH:mm:ss");
       this.timeQueryData.startTime = startTime;
       this.timeQueryData.endTime = endTime;
-      infraNewReport(this.timeQueryData).then(res => {
-        this.inspecReport = res.data.tableData;
-      });
-      infraNewInformation().then(res => {
-        this.lightInformation = res.data;
-      });
     }
   },
   mounted() {
     this.getlightData();
+  },
+  created() {
+    this.getInit();
   }
 };
 </script>
@@ -263,12 +273,14 @@ export default {
         background-color: #142838;
         overflow: hidden;
         & > div {
-          //   height: 367px;
           float: left;
           width: calc(100% / 3 - 20px);
           margin-right: 20px;
           .reportTable {
             height: 367px;
+            img {
+              height: 137px;
+            }
           }
         }
       }
@@ -277,7 +289,6 @@ export default {
       .hours {
         width: 100%;
         height: 795px;
-        // padding: 20px 20px 20px 0;
         padding: 20px 20px 14px 20px;
         overflow: hidden;
         background-color: #142838;
@@ -298,23 +309,20 @@ export default {
     }
     & > div:nth-child(2) {
       background-color: #142838;
-      min-height: 246px;
-      padding: 20px 0 20px 20px;
+      padding: 20px;
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-around;
       flex-wrap: wrap;
       div {
-        padding-right: 20px;
-        float: left;
+        width: calc(12.5% - 17.5px);
         img {
           display: block;
-          width: 180px;
-          height: 180px;
+          width: 100%;
+          padding-bottom: 100%;
         }
         p {
           text-align: center;
           color: #ffffff;
-          width: 180px;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;

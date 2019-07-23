@@ -4,6 +4,7 @@
       <KeyMonitor
         streamAddr="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
         :imgAdress="remarkData.alarmFileAddress"
+        :monitorInfo="remarkData"
       />
     </div>
     <div class="content">
@@ -25,24 +26,32 @@
         <div>
           <i>记录:</i>
           <p>
-            <span v-for="(item,index) in dealRecord.slice(0,2)" :key="index">{{item}}</span>
+            <span v-for="(item,index) in dealContent.slice(0,2)" :key="index">{{item}}</span>
           </p>
         </div>
       </div>
       <div class="btn">
         <p v-if="isShow">
           拍摄来源:
-          <span>{{remarkData.monitorDeviceId}}</span>
-          <i @click="clickRemarks">备注</i>
-          <i @click="addReturn" :disabled="isDisabled">复归</i>
+          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
+          <i @click="dialogVisible = true">备注</i>
+          <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
+          <i v-else :disabled="isDisabled">已复归</i>
         </p>
         <p v-else>
           拍摄来源:
-          <span>{{remarkData.monitorDeviceId}}</span>
+          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
           <i>查看详情></i>
         </p>
       </div>
     </div>
+    <el-dialog title="提示" :visible.sync="dialogVisible" :modal="false" width="30%">
+      <el-input type="textarea" autosize placeholder="请输入备注内容" v-model="textarea"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="clickRemarks">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,7 +83,9 @@ export default {
     return {
       address: "",
       isDisabled: true,
-      dealRecord: []
+      dialogVisible: false,
+      textarea: "",
+      dealContent: []
     };
   },
   methods: {
@@ -87,36 +98,37 @@ export default {
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
+        this.showReturn = false;
       });
       this.$emit("handleListData");
-      //   if (this.isDisabled) {
-      //     let strTime =
-      //       "复归 (" + moment(new Date()).format("YYYY-MM-DD HH:mm:ss") + ")";
-      //     this.dealRecord.unshift(strTime);
-      //     this.isDisabled = false;
-      //   }
     },
     clickRemarks() {
       const that = this;
+      this.dialogVisible = false;
       let query = {
         alarmId: that.remarkData.alarmId,
         type: "2",
-        content: that.content
+        content: that.textarea
       };
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
+        this.$emit("handleListData");
       });
-      this.$emit("handleListData");
+    },
+    getJump() {
+      this.$router.push({
+        path: "/surveillancePath/detailLight",
+        query: {
+          monitorDeviceId: this.remarkData.monitorDeviceId
+        }
+      });
     }
   },
   mounted() {
-    if (!this.remarkData.dealRecord) {
-      return;
-    }
     this.remarkData.dealRecord.forEach(el => {
-      let str = el.dealRecord + " (" + el.dealTime + ")";
-      this.dealRecord.push(str);
+      let str = el.dealContent + " (" + el.dealTime + ")";
+      this.dealContent.push(str);
     });
   }
 };

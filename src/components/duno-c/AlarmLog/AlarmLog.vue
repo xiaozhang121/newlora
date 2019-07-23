@@ -29,18 +29,25 @@
       <div class="btn">
         <p v-if="isShow">
           拍摄来源:
-          <span>{{remarkData.monitorDeviceId}}</span>
-          <i @click="clickRemarks">备注</i>
+          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
+          <i @click="dialogVisible = true">备注</i>
           <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
           <i v-else :disabled="isDisabled">已复归</i>
         </p>
         <p v-else>
           拍摄来源:
-          <span>{{remarkData.monitorDeviceId}}</span>
+          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
           <i>查看详情></i>
         </p>
       </div>
     </div>
+    <el-dialog title="提示" :visible.sync="dialogVisible" :modal="false" width="30%">
+      <el-input type="textarea" autosize placeholder="请输入备注内容" v-model="textarea"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="clickRemarks">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -72,6 +79,8 @@ export default {
     return {
       address: "",
       isDisabled: true,
+      dialogVisible: false,
+      textarea: "",
       dealList: []
     };
   },
@@ -91,16 +100,34 @@ export default {
     },
     clickRemarks() {
       const that = this;
+      that.dialogVisible = false;
       let query = {
         alarmId: that.remarkData.alarmId,
         type: "2",
-        content: that.content
+        content: that.textarea
       };
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
         this.$emit("handleListData");
       });
+    },
+    getJump() {
+      if (this.remarkData.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: this.remarkData.monitorDeviceId
+          }
+        });
+      } else if (this.remarkData.monitorDeviceType == "2") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: this.remarkData.monitorDeviceId
+          }
+        });
+      }
     }
   },
   mounted() {
