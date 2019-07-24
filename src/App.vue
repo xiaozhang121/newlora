@@ -88,7 +88,16 @@ export default {
             that.SocketTime = null
             that.isSocketOk = true
             that.$store.state.user.alarmInfo = receivedMsg
-            that.$store.state.user.isAlarm  = receivedMsg['soundConfig']
+            that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
+            if(that.$store.state.user.isAlarm){
+              if(receivedMsg['alarmType'] == 1){
+                  that.audio = that.defectAlarm
+              }else{
+                  that.audio = that.safetyAlarm
+              }
+            }else{
+                  that.audio = null
+            }
           /*  const account = that.$store.state.user.account
             let num = 0
             for (let i = 0; i < receivedMsg.length; i++) {
@@ -142,13 +151,16 @@ export default {
   @import "./style/index.scss";
   /*@import "@/style/noselect.scss";*/
   .el-popper[x-placement^="top"] .popper__arrow::after{
-    border-top-color: #193543 !important;
+    /*border-top-color: #193543 !important;*/
+    border-top-color: transparent !important;
   }
   .el-popper[x-placement^="top"] .popper__arrow{
-    border-top-color: #193543 !important;
+    /*border-top-color: #193543 !important;*/
+    border-top-color: transparent !important;
   }
   .el-popper[x-placement^="bottom"] .popper__arrow{
-    border-bottom-color: #193543 !important;
+    /*border-bottom-color: #193543 !important;*/
+    border-bottom-color: transparent !important;
   }
   .squera{
     position:absolute; border:1px solid #e48303; overflow:hidden;

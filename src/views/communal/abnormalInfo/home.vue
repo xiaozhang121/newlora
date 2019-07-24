@@ -126,7 +126,21 @@
         </div>
         <div>
           <duno-chart-pie-loop
-            :value="[{ value: 335, name: '直接访问' }]"
+            :value="[
+                {value:25, name:'25%', itemStyle: {
+                normal: {
+                    color: '#53cbc3'
+                }
+            }},
+                {value:75, name:'75%', itemStyle: {
+                normal: {
+                    color: '#1b6697'
+                }
+            }},
+            ]"
+            radiusOption="80%"
+            paddingBottom="45%"
+            :centerOption="['30%', '50%']"
             :isChange="isChange"
             :isItemEchart="isItemEchart"
             :legendOption="legendOption"
@@ -185,7 +199,7 @@ export default {
       popData: {},
       visibleSettingOption: false,
       visible: false,
-      isItemEchart: false,
+      isItemEchart: true,
       isChange: true,
       alarmLevel: "",
       messageList: [],
@@ -377,9 +391,23 @@ export default {
         }
       ],
       legendOption: {
-        x: "right",
-        y: "middle",
-        data: ["为占用: 25%", "已占用: 75%"]
+          orient: 'vertical',
+          top: '40%',
+          right: '7%',
+          itemGap: 40,
+          textStyle: {
+              color: 'white',
+              fontSize: 15,
+              padding: [0, 0, 0, 4],
+          },
+          formatter: function(name){
+              if(name == '25%'){
+                  return '未占用：'+ name
+              }else{
+                  return '已占用：'+ name
+              }
+          },
+          data: ['25%', '75%']
       }
     };
   },
@@ -613,7 +641,7 @@ export default {
       background-color: rgba(0, 70, 101, 0.8);
       & > div:nth-child(2) {
         width: 100%;
-        height: 100%;
+        height: 88%;
       }
     }
   }

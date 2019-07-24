@@ -281,6 +281,10 @@ export default {
     }
   },
   watch: {
+    radio(now){
+        if(now != null)
+          this.value = ''
+    },
     isChange:{
         handler(now){
           this.isChangeFlag = now
@@ -292,6 +296,10 @@ export default {
         let arr = []
         if (now && now.length) {
           arr = now
+        }
+        if(now.length>4){
+            this.legendOption['type'] = 'scroll'
+            this.legendOption['pageTextStyle'] = {color: '#333'}
         }
         this.legendOption.data = arr
       },

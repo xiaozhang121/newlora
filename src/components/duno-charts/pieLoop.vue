@@ -173,7 +173,8 @@ export default {
                 shadowOffsetX: 0,
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
-            }
+            },
+            roseType: 'radius'
           }
         ]
       }

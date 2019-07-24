@@ -2,7 +2,7 @@
   <div class="popupinfo">
     <historical-documents :showHeader="true" title="4号主变01#枪机" width="500px" :itemId="deviceId" :isClassify="isShowClassify" :tabPaneData="tabPaneData" @clickClassify="clickClassify" @on-show="onShow" :dialogTableVisible="visible" @close="onClose">
       <div>
-        <realtime :itemData="itemData" :classifyData="classifyData" :isClassify="isShowClassify" v-if="activeName == 'first'" />
+        <realtime :monitorDeviceType="monitorDeviceType" :itemData="itemData" :classifyData="classifyData" :isClassify="isShowClassify" v-if="activeName == 'first'" />
         <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'fourth'" />
         <polygonal @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'fifth'" />
       </div>
@@ -48,6 +48,7 @@ export default {
     }
   },
   props: {
+    isDiagram: {},
     itemData:{},
     index: {},
     title: {
@@ -165,7 +166,7 @@ export default {
     this.startTime = moment().format('YYYY-MM-DD')
     this.endTime = moment().format('YYYY-MM-DD')
     console.log('设备类型：', this.itemData.monitorDeviceType == '1'? '可见光': this.itemData.monitorDeviceType == '2'? '红外': '参数没对上')
-    if (this.itemData && this.itemData.monitorDeviceType && this.itemData.monitorDeviceType == '1') {
+    if (this.itemData && this.itemData.monitorDeviceType && this.itemData.monitorDeviceType == '1' && this.isDiagram == 1) {
       this.isShowClassify = true
     }
     this.initData()

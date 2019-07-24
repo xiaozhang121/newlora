@@ -9,13 +9,25 @@
       </el-row>
       <div>
         <div class="imgBox">
-          <img :src="itemData.alarmFileAddress" style="height: 100% !important; width: 100% !important;">
+          <img v-if="itemData['alarmFileType'] == 1" :src="itemData.alarmFileAddress" style="height: 100% !important; width: 100% !important;" />
+          <video-player v-else-if="itemData['alarmFileType'] == 2" class="vjs-custom-skin realtime_video" :options="{
+            width:160,
+            height: 120,
+            sources: [{
+              type: 'rtmp/flv',
+              src: itemData['alarmFileAddress']
+            }],
+            techOrder: ['flash'],
+            autoplay: true,
+            controls: false
+            }">
+          </video-player>
           <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
         </div>
       </div>
       <el-row style="position: relative; top: -12px">
         <!--<el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>-->
-        <el-col :span="16"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复位</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
+        <el-col :span="16"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复归</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
       </el-row>
     </div>
   </historical-documents>
@@ -23,15 +35,19 @@
 <script>
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
 import { getAxiosData, postAxiosData } from '@/api/axiosType'
+import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player'
+import 'videojs-flash'
 export default {
   name: 'popuponeinfo',
-  components: {HistoricalDocuments},
+  components: {HistoricalDocuments, videoPlayer},
   data () {
     return {
       itemData: {}
     }
   },
   props: {
+    itemDataOption:{},
     itemId: {
       type: String | Number
     },
@@ -43,18 +59,29 @@ export default {
     }
   },
   watch: {
+    itemDataOption:{
+        handler(now){
+            this.itemData = now
+            this.$forceUpdate()
+          /*  if(now){
+                this.getData()
+            }*/
+        },
+        deep: true,
+        immediate: true
+    },
     visible (now) {
-      if (now)
-          this.getData()
+    /*  if (now)
+          this.getData()*/
     }
   },
   created () {
-    if (this.visible) this.getData()
+    // if (this.visible) this.getData()
   },
   methods: {
     restoration (type) {
       this.$store.state.user.isAlarm = false
-      console.log(type == '1'?'复位':'保存')
+      console.log(type == '1'?'复归':'保存')
       const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
       const query = {
         alarmId: this.itemData.alarmId
@@ -75,7 +102,7 @@ export default {
         pageIndex: 1,
         pageRows: 1,
         isDeal: '0',
-        powerDeviceId: that.itemId
+        powerDeviceId: that.itemData['powerDeviceId']
       }
       getAxiosData(url, query).then(res => {
         // if (res.code !== 200 || (res.data.tableData && res.data.tableData.length == 0)) {
@@ -146,6 +173,11 @@ export default {
   }
 </style>
 <style lang="scss">
+.popuponeinfoBox{
+  .realtime_video > div{
+    transform: scale(2.2095, 2.8) !important;
+  }
+}
 .popuponeinfoBox .el-dialog__body {
   padding: 0 20px;
 

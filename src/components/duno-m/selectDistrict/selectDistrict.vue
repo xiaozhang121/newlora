@@ -16,9 +16,26 @@
                 </div>
             </span>
             <div class="main">
-                <gis-map :zoom="13" :small="true" :controlBtn="false" ></gis-map>
+                <gis-map ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
             </div>
-
+            <ul class="drawList">
+                <li class="drawItem" v-for="(item, index) in drawList" :key="index">
+                    <div>选区{{ item['number'] }}设备</div>
+                    <div class="select">
+                        <el-select multiple  v-model="value" placeholder="请选择">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div class="del" @click="delDraw(item['number'])">
+                        <i class="iconfont icon-shanchu1"></i>
+                    </div>
+                </li>
+            </ul>
         </el-dialog>
     </div>
 </template>
@@ -32,6 +49,25 @@ export default {
     },
     data() {
         return {
+            options:[
+                {
+                    value: '选项1',
+                    label: '黄金糕'
+                }, {
+                    value: '选项2',
+                    label: '双皮奶'
+                }, {
+                    value: '选项3',
+                    label: '蚵仔煎'
+                }, {
+                    value: '选项4',
+                    label: '龙须面'
+                }, {
+                    value: '选项5',
+                    label: '北京烤鸭'
+                }
+            ],
+            drawList: [],
             taskName: '机器人ID-自定义任务配置01',
             readOnly: false,
             dialogVisible: false
@@ -56,9 +92,15 @@ export default {
         }
     },
     computed: {
-
     },
     methods:{
+        delDraw(target){
+            this.$refs.gisMapRef.removeItem(target)
+        },
+        onDraw(now){
+            this.drawList = now
+            console.log(now)
+        },
         toEdit(){
             this.readOnly = !this.readOnly
         },
@@ -84,7 +126,53 @@ export default {
 </script>
 
 <style lang="scss">
+    .el-select-dropdown {
+        background: linear-gradient(
+                        210deg,
+                        rgba(48, 107, 135, 0.9),
+                        rgba(28, 50, 64, 0.7) 60%
+        ) !important;
+        border: none !important;
+    }
+    .el-select-dropdown__item,
+    .el-select-dropdown__empty,
+    .el-select-dropdown__item.selected {
+        color: white;
+    }
+    .el-select-dropdown__list {
+        position: relative;
+        top: -5px;
+    }
     .selectDistrict{
+        .drawList{
+            margin-top: 25px;
+            .drawItem{
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                .select{
+                    margin-left: 20px;
+                    flex-grow: 1;
+                    .el-select{
+                        width: 100%;
+                    }
+                    .el-input__inner{
+                        border-radius: 0;
+                    }
+                }
+                .del{
+                    cursor: pointer;
+                    i{
+                        font-size: 20px;
+                        color: #e62700;
+                        margin-left: 20px;
+                    }
+                }
+            }
+            .drawItem:last-child{
+                margin-bottom: 0;
+            }
+        }
         .noBorder{
             cursor: pointer;
             border: 1px solid transparent !important;

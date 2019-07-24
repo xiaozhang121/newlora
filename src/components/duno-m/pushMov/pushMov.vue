@@ -1,6 +1,7 @@
 <template>
     <div class="pushMov" >
         <el-dialog
+                style="z-index: 99"
                 v-dialogDrag
                 title="提示"
                 :visible.sync="dialogVisible"
