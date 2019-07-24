@@ -40,6 +40,7 @@
             <div>
               <duno-btn-top
                 @on-select="onSelect"
+                :zIndex="1"
                 class="dunoBtnTo"
                 :isCheck="false"
                 :dataList="allDataKind"
@@ -50,6 +51,7 @@
             <div>
               <duno-btn-top
                 @on-select="onSelect"
+                :zIndex="1"
                 class="dunoBtnTop"
                 :isCheck="false"
                 :dataList="allDataLevel"

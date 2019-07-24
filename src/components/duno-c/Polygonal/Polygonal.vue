@@ -295,6 +295,7 @@ export default {
         }
         if(now.length>4){
           this.legendOption['type'] = 'scroll'
+          this.legendOption['color'] = 'white'
         }
         this.legendOption.data = arr
       },

@@ -295,7 +295,6 @@ export default {
       });
     },
     getJump(row) {
-      debugger;
       if (row.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailLight",

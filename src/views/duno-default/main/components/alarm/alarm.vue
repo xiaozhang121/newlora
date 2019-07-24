@@ -63,7 +63,7 @@
               <el-col :span="15">{{item.alarmTime}}</el-col>
               <el-col :span="9">
                 <div class="buttonAll">
-                  <el-button v-if="item['isReturn']" type="info" round @click="restoration(item, '1', index)">复位</el-button>
+                  <el-button v-if="item['isReturn']" type="info" round @click="restoration(item, '1', index)">复归</el-button>
                   <el-button type="success" round @click="restoration(item, '2', index)">备注</el-button>
                 </div>
               </el-col>

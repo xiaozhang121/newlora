@@ -1,5 +1,5 @@
 <template>
-  <div class="dunoBtnTop">
+  <div class="dunoBtnTop" :style="'z-index:' + zIndex">
     <div class="placeHolder" v-if="showBtnList">
     </div>
     <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" :style="'position: absolute; z-index:' + zIndex">

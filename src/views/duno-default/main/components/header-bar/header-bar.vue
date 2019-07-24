@@ -40,7 +40,7 @@ export default {
           this.$store.state.app.topNav = now
           sessionStorage.setItem('topNav', now)
           if(now == 3){
-              if(this.$route.name != 'surveillanceList')
+              if(this.$route.name.indexOf('surveillanceList')<0)
                 this.$router.push({name:'surveillanceList'})
           }else if(now == 2){
               this.$router.push({name:'_realEnv'})

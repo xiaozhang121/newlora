@@ -104,8 +104,7 @@
                     {
                         type: 'index',
                         title: '序号',
-                        width: 70,
-                        fixed: 'left',
+                        width: 80,
                         isCheck: true,
                         align: 'center'
                     },

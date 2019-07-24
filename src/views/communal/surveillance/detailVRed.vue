@@ -44,7 +44,8 @@
                 <key-monitor
                   paddingBottom="56%"
                   class="monitor"
-                  streamAddr="rtmp://47.103.63.92:1935/rtsp/stream1"
+                  :autoplay="playerOptionsd.autoplay"
+                  :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
                 ></key-monitor>
               </div>
@@ -201,6 +202,10 @@ export default {
       playerOptions: {
         streamAddr: "",
         autoplay: true
+      },
+      playerOptionsd: {
+          streamAddr: "",
+          autoplay: true
       },
       mixinViewModuleOptions: {
         activatedIsNeed: true,
@@ -455,6 +460,11 @@ export default {
             });
           }, 500);
         });
+      });
+      const urld = '/lenovo-iir/device/video/url/rtmp/'+'33';
+      getAxiosData(urld, {}).then(res => {
+          that.playerOptionsd.sources[0].src = res.data;
+          that.$forceUpdate()
       });
     },
     cutOut(data) {

@@ -297,6 +297,10 @@ export default {
         if (now && now.length) {
           arr = now
         }
+        if(now.length>4){
+            this.legendOption['type'] = 'scroll'
+            this.legendOption['pageTextStyle'] = {color: '#333'}
+        }
         this.legendOption.data = arr
       },
       deep: true

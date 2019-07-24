@@ -14,7 +14,7 @@
       </div>
       <el-row>
         <el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>
-        <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复位</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
+        <el-col :span="9"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复归</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
       </el-row>
     </div>
   </historical-documents>
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     restoration (type) {
-      console.log(type == '1'?'复位':'保存')
+      console.log(type == '1'?'复归':'保存')
       const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
       const query = {
         alarmId: this.itemData.alarmId

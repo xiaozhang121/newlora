@@ -196,7 +196,6 @@ export default {
   methods: {
     initData(){
         getAxiosData('/lenovo-plan/api/task-result/view',{[this.searchType]:this.searchId}).then(res=>{
-            debugger
         })
     },
     selectItem(item, index) {

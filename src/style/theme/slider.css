@@ -1409,7 +1409,7 @@
   height: 36px;
   width: 36px;
   position: absolute;
-  z-index: 1001;
+  z-index: 1;
   top: -15px;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
