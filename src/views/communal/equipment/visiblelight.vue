@@ -201,10 +201,6 @@ export default {
     rgba(28, 50, 64, 0.7) 60%
   ) !important;
   border: none !important;
-  margin-top: 1px !important;
-  margin-left: 6px;
-  border-radius: 0;
-  min-width: 179px !important;
 }
 .el-select-dropdown__item,
 .el-select-dropdown__empty,

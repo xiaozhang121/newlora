@@ -2,12 +2,12 @@
   <div class="realtime">
     <h3 class="title">{{title}}</h3>
     <el-row :gutter="20">
-      <el-col :span="12">
+      <el-col :span="monitorDeviceType == 1?24:12" :class="{'lightPanel': monitorDeviceType == 1}">
         <div class="itemImgBox">
             <video-player @mousemove.native="pointerPos($event)" @mouseout.native="clearTimer()"  ref="videoPlayer" class="vjs-custom-skin realtime_video" :options="playerOptiond"></video-player>
         </div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="12" v-if="monitorDeviceType != 1">
         <div class="itemImgBox">
           <video-player @mousemove.native="pointerPos($event)" @mouseout.native="clearTimer()"  ref="videoPlayerd" class="vjs-custom-skin realtime_video" :options="playerOptions"></video-player>
         </div>
@@ -63,6 +63,7 @@ export default {
     }
   },
   props: {
+    monitorDeviceType: {},
     itemData: {},
     title: {
       type: String,
@@ -130,7 +131,6 @@ export default {
         that.playerOptions.sources[0].src = res.data;
         that.$forceUpdate()
       });
-
       const urld = '/lenovo-iir/device/visible/url/rtmp/'+that.deviceId;
       getAxiosData(urld, {}).then(res => {
           that.playerOptiond.sources[0].src = res.data;
@@ -161,8 +161,15 @@ export default {
     color: white;
   }
 </style>
-<style lang="scss" scoped>
+<style lang="scss">
 .realtime {
+  .lightPanel{
+    .realtime_video > div{
+      width: 100%;
+      height: 289px;
+      transform: scale(1);
+    }
+  }
   .title {
     margin-bottom: 20px;
     font-size: 22px;

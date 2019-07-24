@@ -142,13 +142,16 @@ export default {
   @import "./style/index.scss";
   /*@import "@/style/noselect.scss";*/
   .el-popper[x-placement^="top"] .popper__arrow::after{
-    border-top-color: #193543 !important;
+    /*border-top-color: #193543 !important;*/
+    border-top-color: transparent !important;
   }
   .el-popper[x-placement^="top"] .popper__arrow{
-    border-top-color: #193543 !important;
+    /*border-top-color: #193543 !important;*/
+    border-top-color: transparent !important;
   }
   .el-popper[x-placement^="bottom"] .popper__arrow{
-    border-bottom-color: #193543 !important;
+    /*border-bottom-color: #193543 !important;*/
+    border-bottom-color: transparent !important;
   }
   .squera{
     position:absolute; border:1px solid #e48303; overflow:hidden;

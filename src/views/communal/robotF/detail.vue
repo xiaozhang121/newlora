@@ -334,6 +334,9 @@ export default {
   },
   mounted() {
     this.getInfor();
+   /* setTimeout(()=>{
+        this.dialogVisible = true
+    },1000)*/
   }
 };
 </script>

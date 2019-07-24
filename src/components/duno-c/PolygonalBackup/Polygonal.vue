@@ -281,6 +281,10 @@ export default {
     }
   },
   watch: {
+    radio(now){
+        if(now != null)
+          this.value = ''
+    },
     isChange:{
         handler(now){
           this.isChangeFlag = now

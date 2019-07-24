@@ -313,7 +313,7 @@
       <popup-one-info  :itemData="$store.state.user.alarmInfo" v-if="index==modeList.length-1" @onClose="alarmClose" :visible="visible"></popup-one-info>
       <!--弹窗必须传index  -->
         <camera-pop-back-u-p   @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisibled']" :itemData="item['itemData']" :visible="item['cameraFlagVisibled']"></camera-pop-back-u-p>
-        <popupinfo :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
+        <popupinfo :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
         <!--<hotcamera-pop @onClose="onClose" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>-->
         <camera-pop @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
     </div>
@@ -700,8 +700,13 @@ export default {
               }
               else if(item.monitorDeviceType == '2')
                   this.modeList[modelIndex].hotcameraFlagVisible = flag
-          } else {
-              this.modeList[modelIndex].popupinfoVisable = flag
+          } else{
+              if(item.monitorDeviceType == '1'){
+                  this.modeList[modelIndex].popupinfoVisable = flag
+              }else if(item.monitorDeviceType == '2'){
+                  this.modeList[modelIndex].popupinfoVisable = flag
+              }
+              // this.modeList[modelIndex].popupinfoVisable = flag
           }
       },
       toDevice(item, index, targetd, modelIndex = 0, flag){

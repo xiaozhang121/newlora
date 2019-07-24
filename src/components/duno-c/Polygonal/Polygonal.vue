@@ -293,6 +293,9 @@ export default {
         if (now && now.length) {
           arr = now
         }
+        if(now.length>4){
+          this.legendOption['type'] = 'scroll'
+        }
         this.legendOption.data = arr
       },
       deep: true
@@ -331,13 +334,13 @@ export default {
     }
   },
   mounted () {
-      const that = this
-    // if (this.radio) {
-    //   this.onChangeRadio(this.radio)
-    // } else if (!this.radio && this.datePeriod) {
-    //   this.onChangeTime(this.datePeriod)
-    // }
-      that.legendData.push(...['设备01'])
+    const that = this
+    if (this.radio) {
+      this.onChangeRadio(this.radio)
+    } else if (!this.radio && this.datePeriod) {
+      this.onChangeTime(this.datePeriod)
+    }
+     /* that.legendData.push(...['设备01'])
       that.seriesData.push(...[{
           data: [1,1,1,1,1,1,1,1,1,0],
           name: "设备01",
@@ -345,7 +348,7 @@ export default {
       }])
       that.xAxisOption.data = ['02', '03', '04', '05', '09', '10', '11', '13', '14', '15']
       that.$forceUpdate()
-      that.isChangeFlag = !that.isChangeFlag
+      that.isChangeFlag = !that.isChangeFlag*/
   }
 };
 </script>

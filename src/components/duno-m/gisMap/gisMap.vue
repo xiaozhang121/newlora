@@ -3,7 +3,8 @@
         <div id="map" ref="rootmap" style="height: 100%"></div>
         <div v-for="(item, index) in deviceList" @dragstart="drag($event, item)" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" alt="示例锚点"/></div>
         <div v-for="(item, index) in powerPointList"  @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
-        <!--<el-button type="primary" style="position: absolute;z-index: 999; top: 0; left: 90px" @click="startDraw('Box')">四边形</el-button>-->
+        <!--<el-button v-if="boxSelect" type="primary" style="position: absolute;z-index: 999; top: 0; left: 90px" @click="startDraw('Box')">四边形</el-button>-->
+        <a v-if="boxSelect" class="boxSelect" @click="startDraw('Box')">框选区域</a>
     </div>
 </template>
 <script>
@@ -28,7 +29,9 @@ export default {
         const that = this
         return {
             drawList: [],
+            drawListNum: 0,
             draw: null,
+            typeSelect: 'None',
             isFirst: true,
             isClick: true,
             clickTarget: null,
@@ -39,6 +42,8 @@ export default {
             mapTarget: null,
             pointListObj: [],
             vector: null,
+            vectord: null,
+            sourced: null,
             source: null
         }
     },
@@ -76,6 +81,10 @@ export default {
         }
     },
     props: {
+        boxSelect: {
+            type: Boolean,
+            default: false
+        },
         small: {
             type: Boolean,
             default: false
@@ -127,7 +136,130 @@ export default {
 
     },
     methods:{
-        startDraw(){
+        addInteraction(){
+            const that = this
+            let value = this.typeSelect;
+            let geometryFunction = null
+            if (value == 'None') {
+                return;
+            }else if(value == 'Square'){
+                geometryFunction = createRegularPolygon(4);
+            }else if(value === 'Box'){
+                geometryFunction = createBox();
+            }else if(value == 'Star'){
+                geometryFunction = function(coordinates, geometry) {
+                    let center = coordinates[0];
+                    let last = coordinates[1];
+                    let dx = center[0] - last[0];
+                    let dy = center[1] - last[1];
+                    let radius = Math.sqrt(dx * dx + dy * dy);
+                    let rotation = Math.atan2(dy, dx);
+                    let newCoordinates = [];
+                    let numPoints = 12;
+                    for (let i = 0; i < numPoints; ++i) {
+                        let angle = rotation + i * 2 * Math.PI / numPoints;
+                        let fraction = i % 2 === 0 ? 1 : 0.5;
+                        let offsetX = radius * fraction * Math.cos(angle);
+                        let offsetY = radius * fraction * Math.sin(angle);
+                        newCoordinates.push([center[0] + offsetX, center[1] + offsetY]);
+                    }
+                    newCoordinates.push(newCoordinates[0].slice());
+                    if (!geometry) {
+                        geometry = new Polygon([newCoordinates]);
+                    } else {
+                        geometry.setCoordinates([newCoordinates]);
+                    }
+                    return geometry;
+                };
+            }
+            this.draw = new Draw({
+                source: this.sourced,
+                 style: new Style({
+                     fill: new Fill({
+                         color: 'transparent'
+                     }),
+                     stroke: new Stroke({
+                         color: '#ff9000',
+                         width: 2
+                     }),
+                     image:new CircleStyle({
+                         radius: 5,
+                         fill: new Fill({
+                             color: '#ff9000'
+                         })
+                     })
+                 }),
+                type: this.typeSelect,
+                freehand: true,
+                geometryFunction: geometryFunction
+            });
+
+            this.mapTarget.addInteraction(this.draw);
+            this.draw.on('drawend', function (evt) {
+                let id = that.drawList.length + 1
+                if(id > that.drawListNum){
+                    that.drawListNum = id
+                }else{
+                    id = that.drawListNum++
+                }
+                evt.feature.setId(id);
+                that.drawList.push({number: id})
+                let polygon = evt.feature.getGeometry();
+                that.addNumber(polygon.flatCoordinates[6],polygon.flatCoordinates[7], id)
+                // alert(that.insidePolygon(polygon.getCoordinates(), [118.79129270,32.06046262]))
+                // alert(polygon.intersectsExtent([118.79129270,32.06046262]))   // 是否包含该点位
+                setTimeout(function(){              //如果不设置延迟，范围内要素选中后自动取消选中，具体原因不知道
+                    that.startDraw('None')
+                },300)
+                that.$emit('on-draw', that.drawList)
+            })
+        },
+        removeArea(id){
+            const that = this
+            let feature = that.vectord.getSource().getFeatureById(id)
+            that.vectord.getSource().removeFeature(feature)
+        },
+        removeItem(id){
+            this.removeArea(id)
+            this.removeArea('text'+id)
+            let indexd = ''
+            this.drawList.forEach((item, index)=>{
+                if(item['number'] == id){
+                    indexd = index
+                }
+            })
+            this.drawList.splice(indexd, 1)
+        },
+        addNumber(xReal, yReal, id){
+            const that = this
+            let padding = [4,7,4,7]
+            if(id > 9){
+                padding = [4,4,4,4]
+            }
+            let sharp = new Text({
+                rotation: 0,
+                text: id+'',
+                fill: new Fill({
+                    color: 'white'
+                }),
+                padding: padding,
+                backgroundFill: new Fill({
+                    color: '#ff9000'
+                }),
+            })
+            sharp.setOffsetY(10)
+            sharp.setOffsetX(-10)
+            let style = new Style({
+                text: sharp
+            })
+            let anchor = new Feature({
+                geometry: new Point([xReal, yReal]),
+            })
+            anchor.setId('text'+id)
+            anchor.setStyle(style)
+            this.vectord.getSource().addFeature(anchor)
+        },
+        startDraw(kind){
             this.mapTarget.removeInteraction(this.draw);
             this.typeSelect = kind
             this.addInteraction()
@@ -364,6 +496,25 @@ export default {
                 }),
                 renderBuffer: 8000
             });
+            this.sourced = new VectorSource();
+            this.vectord = new VectorLayer({
+                source: this.sourced,
+                  style: new Style({
+                  fill: new Fill({
+                      color: 'transparent'
+                  }),
+                  stroke: new Stroke({
+                      color: '#ff9000',
+                      width: 2
+                  }),
+                  image:new CircleStyle({
+                      radius: 5,
+                      fill: new Fill({
+                          color: '#ff9000'
+                      })
+                  })
+                 })
+            });
             this.mapTarget = new Map({
                 controls: defaultControls({
                     attribution: that.controlBtn,
@@ -385,7 +536,8 @@ export default {
                             projection: 'EPSG:3857'
                         }),
                     }),
-                    that.vector
+                    that.vector,
+                    that.vectord
                 ],
                 view: new View({
                     center: [118.79129270,32.06046262],
@@ -418,6 +570,7 @@ export default {
                 that.isClick = true
                 console.log(that.pointListObj)
             });
+            this.addInteraction()
             setTimeout(()=>{
                 // this.dropOverlay()
             },10000)
@@ -447,6 +600,18 @@ export default {
  .gisMap{
     width: 100%;
     height: 100%;
+    position: relative;
+     .boxSelect{
+         color: #e5e5e5;
+         background: rgba(255, 144, 0, 0.5);
+         width: 80px;
+         height: 32px;
+         position: absolute;
+         text-align: center;
+         line-height: 31px;
+         left: 18px;
+         bottom: 30px;
+     }
      #map{
          height: calc( 100vh - 166px ) !important;
      }

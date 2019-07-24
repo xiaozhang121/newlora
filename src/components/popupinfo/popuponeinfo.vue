@@ -10,6 +10,8 @@
       <div>
         <div class="imgBox">
           <img :src="itemData.alarmFileAddress" style="height: 100% !important; width: 100% !important;">
+          <video-player class="vjs-custom-skin realtime_video"></video-player>
+          <
           <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
         </div>
       </div>
@@ -23,9 +25,12 @@
 <script>
 import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
 import { getAxiosData, postAxiosData } from '@/api/axiosType'
+import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player'
+import 'videojs-flash'
 export default {
   name: 'popuponeinfo',
-  components: {HistoricalDocuments},
+  components: {HistoricalDocuments, videoPlayer},
   data () {
     return {
       itemData: {}
