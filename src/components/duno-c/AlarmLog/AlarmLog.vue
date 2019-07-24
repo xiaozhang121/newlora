@@ -29,14 +29,14 @@
       <div class="btn">
         <p v-if="isShow">
           拍摄来源:
-          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
+          <span @click="getJump">{{remarkData.monitorDeviceName}}</span>
           <i @click="dialogVisible = true">备注</i>
           <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
           <i v-else :disabled="isDisabled">已复归</i>
         </p>
         <p v-else>
           拍摄来源:
-          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
+          <span @click="getJump">{{remarkData.monitorDeviceName}}</span>
           <i>查看详情></i>
         </p>
       </div>

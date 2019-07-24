@@ -31,6 +31,7 @@
           v-for="(item,index) in reportData.monitorDeviceList"
           :key="index"
           @click="getJump(item)"
+          :style="{cursor:'pointer'}"
         >{{item.monitorDeviceName}},</span>
       </p>
     </div>
@@ -53,6 +54,7 @@ import {
   reportDownload,
   getViewreport
 } from "@/api/configuration/configuration.js";
+import { constants } from "crypto";
 export default {
   name: "ReportTable",
   props: {
@@ -84,9 +86,14 @@ export default {
       });
     },
     viewReports() {
+      debugger;
       this.$router.push({
         path: "/report/report-view",
-        query: { planId: this.reportData.planId }
+        query: {
+          planId: this.reportData.planId,
+          //   planId: '603610399709396992',
+          planType: this.reportData.planType
+        }
       });
     },
     getJump(item) {
@@ -109,9 +116,6 @@ export default {
         });
       }
     }
-  },
-  mounted() {
-    console.log(this.$route.name);
   }
 };
 </script>

@@ -16,10 +16,11 @@
             :showBtnList="false"
           ></duno-btn-top>-->
           <duno-btn-top
-            @on-select="onSelectDevice"
+            @on-active="onSelectDevice"
             class="dunoBtnTop"
             :dataList="TestEquipment"
             :title="titleTypeL"
+            :chexked="chexked"
             :showBtnList="false"
           />
         </div>
@@ -70,7 +71,11 @@ import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import mixinViewModule from "@/mixins/view-module";
 import { putAxiosData, getAxiosData } from "@/api/axiosType";
-import { getDevice, getStatus } from "@/api/configuration/configuration.js";
+import {
+  getVoltage,
+  getStatus,
+  getDevice
+} from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
   name: "toConfigure",
@@ -99,6 +104,7 @@ export default {
       TestEquipment: [],
       voltageLevel: [],
       stateSelect: [],
+      chexked: [],
       infoColumns: [
         {
           key: "monitorDeviceId",
@@ -264,12 +270,27 @@ export default {
           const obj = {
             describeName: item.label,
             value: item.value,
+            title: "titleTypeL"
+          };
+          return obj;
+        });
+        this.TestEquipment = map;
+        console.log(this.TestEquipment);
+      });
+    },
+    handleVoltage() {
+      getVoltage().then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            value: item.value,
             title: "titleTypeC"
           };
           return obj;
         });
         map.unshift({
-          describeName: "所有区域",
+          describeName: "所有电压等级",
           value: "",
           title: "titleTypeC"
         });
@@ -277,9 +298,10 @@ export default {
       });
     },
     onSelectDevice(item) {
-      this.dataForm.deviceType = item["describeName"];
-      this.getDataList();
-      this.titleTypeL = item["describeName"];
+      console.log(item);
+      //   this.dataForm.deviceType = item["describeName"];
+      //   this.getDataList();
+      //   this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
       this.dataForm.value = item["value"];
@@ -355,6 +377,7 @@ export default {
   },
   mounted() {
     this.handleDevice();
+    this.handleVoltage();
     this.getSelectStatus();
   }
 };

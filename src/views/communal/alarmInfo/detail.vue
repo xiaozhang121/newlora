@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top">
-      <div>所有信息</div>
+      <div>{{title}}</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -106,14 +106,26 @@ export default {
     warningSetting,
     wraning
   },
+  //   props: {
+  //     viewData: {
+  //       type: Object,
+  //       default: () => {
+  //         return {
+  //           title: "所有信息",
+  //           url: "/lenovo-plan/api/statistics/meter-data/list"
+  //         };
+  //       }
+  //     }
+  //   },
   data() {
     const that = this;
     return {
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
+        // activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
+      title: "所有信息",
       visibleSettingOption: false,
       visible: false,
       totalNum: 500,
@@ -244,7 +256,7 @@ export default {
         },
         {
           title: "拍摄来源",
-          key: "monitorDeviceId",
+          key: "monitorDeviceName",
           minWidth: 150,
           align: "center",
           tooltip: true,
@@ -263,7 +275,7 @@ export default {
                     }
                   }
                 },
-                params.row.monitorDeviceId
+                params.row.monitorDeviceName
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -340,7 +352,12 @@ export default {
       clcikQueryData: {}
     };
   },
+  mounted() {
+    this.getDataList();
+  },
   created() {
+    this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
+    this.title = this.$route.params.title;
     this.getRegion();
     this.getStart();
     this.getType();
@@ -437,7 +454,7 @@ export default {
     },
     getRegion() {
       const that = this;
-      const url = "/lenovo-device/api/area/select-list";
+      const url = "/lenovo-device/api/device/select-list";
       postAxiosData(url).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
@@ -449,7 +466,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有区域",
+          describeName: "所有设备",
           monitorDeviceType: "",
           title: "titleTypeL"
         });
@@ -470,7 +487,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有状态",
+          describeName: "所有报表",
           monitorDeviceType: "",
           title: "titleTypeC"
         });
@@ -492,7 +509,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有来源",
+          describeName: "所有类型",
           monitorDeviceType: "",
           title: "titleTypeR"
         });
@@ -664,12 +681,12 @@ export default {
       & > div {
         margin-left: 10px;
         .dunoBtnTop {
-          width: 120px;
+          width: 160px;
           display: inline-flex;
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            width: 120px;
+            width: 160px;
             .title {
               padding: 8px 20px;
             }

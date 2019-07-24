@@ -21,7 +21,7 @@
       <div class="left">
         <div class="recode">
           <div>最新24小时记录信息</div>
-          <div>查看更多 ></div>
+          <div @click="getMore">查看更多 ></div>
         </div>
         <div class="hours">
           <MonitorWarn
@@ -123,6 +123,15 @@ export default {
     };
   },
   methods: {
+    getMore() {
+      this.$router.push({
+        name: "meterdata-detail",
+        params: {
+          title: "可见光监测记录信息",
+          url: "/lenovo-plan/api/task/visible-result/list"
+        }
+      });
+    },
     handleData() {
       this.getDataList();
     },
@@ -168,7 +177,7 @@ export default {
         pageRows: 6
       };
       lightNewReport(query).then(res => {
-        this.inspecReport = res.data;
+        this.inspecReport = res.data.tableData;
       });
       lightNewInformation().then(res => {
         this.lightInformation = res.data;

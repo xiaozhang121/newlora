@@ -220,15 +220,15 @@ export default {
       color: #ffffff;
       margin-top: 20px;
       margin-bottom: 10px;
-      // margin: 10px 0;
       font-size: 20px;
-      // line-height: 40px;
     }
     & > div:last-child {
       line-height: 40px;
-      width: 146px;
+      padding-left: 10px;
+      padding-right: 10px;
+      cursor: pointer;
+      background-size: 100% 100%;
       background-image: url(../../../assets/images/btn/btnanfang.png);
-      padding-left: 7px;
       font-size: 18px;
     }
   }

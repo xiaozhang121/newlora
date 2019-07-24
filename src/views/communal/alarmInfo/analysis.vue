@@ -171,6 +171,7 @@ import {
   getMainEqui,
   getDifference
 } from "@/api/configuration/configuration.js";
+import itemMixin from "../../duno-default/main/components/side-menu/item-mixin";
 export default {
   name: "analysis",
   mixins: [mixinViewModule],
@@ -556,7 +557,7 @@ export default {
         },
         {
           title: "信息来源",
-          key: "monitorDeviceId",
+          key: "monitorDeviceName",
           minWidth: 150,
           align: "center",
           tooltip: true,
@@ -575,7 +576,7 @@ export default {
                     }
                   }
                 },
-                params.row.monitorDeviceId
+                params.row.monitorDeviceName
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -647,7 +648,6 @@ export default {
       ]
     };
   },
-  watch: {},
   methods: {
     cutOut(data) {
       if (data) {
@@ -710,8 +710,9 @@ export default {
       this.getdiffentData(query);
     },
     selectPhase(item) {
-      this.titlePhase = item["describeName"];
-      //   this.getEcharts();
+      //   this.titlePhase = item["describeName"];
+      let monitorDeviceId = item.join(",");
+      this.getEcharts(monitorDeviceId);
     },
     onSelectByDay(item) {
       console.log(item);
@@ -739,25 +740,23 @@ export default {
     onSelectDate(item) {
       this.titleDate = item["describeName"];
     },
-    getEcharts() {
+    getEcharts(monitorDeviceId) {
       let that = this;
       const query = {
-        monitorDeviceId: that.valuePhase.join(","),
+        monitorDeviceId: monitorDeviceId,
         startTime: this.startTime,
         endTime: this.endTime
-        // startTime: `${this.startTime} 00:00:00`,
-        // endTime: `${this.endTime} 23:59:59`
       };
-      getEchartsData().then(res => {
-        const dataList = res.data.dataList;
+      getEchartsData(query).then(res => {
+        const dataList = res.data.slice(0, 2);
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
         for (let i = 0; i < dataList.length; i++) {
-          legendData.push(dataList[i].itemName);
-          const itemDataList = dataList[i].itemDataList;
+          legendData.push(dataList[i].deviceName);
+          const itemDataList = dataList[i].dataList;
           const obj = {
-            name: dataList[i].itemName,
+            name: dataList[i].deviceName,
             type: "line",
             data: []
           };
@@ -765,14 +764,41 @@ export default {
             if (i == 0) {
               xAxisData.push(itemDataList[item].time);
             }
-            obj.data.push(Number(itemDataList[item].data));
+            obj.data.push(Number(itemDataList[item].value));
           }
           seriesData.push(obj);
         }
         that.legendData.push(...legendData);
         that.seriesData.push(...seriesData);
         that.$forceUpdate();
-        that.isChangeFlag = !that.isChangeFlag;
+        // debugger;
+        console.log(that.legendData);
+        console.log(that.seriesData);
+        // that.isChangeFlag = !that.isChangeFlag;
+        // const dataList = res.data.dataList;
+        // const legendData = [];
+        // const xAxisData = [];
+        // const seriesData = [];
+        // for (let i = 0; i < dataList.length; i++) {
+        //   legendData.push(dataList[i].itemName);
+        //   const itemDataList = dataList[i].itemDataList;
+        //   const obj = {
+        //     name: dataList[i].itemName,
+        //     type: "line",
+        //     data: []
+        //   };
+        //   for (let item in itemDataList) {
+        //     if (i == 0) {
+        //       xAxisData.push(itemDataList[item].time);
+        //     }
+        //     obj.data.push(Number(itemDataList[item].data));
+        //   }
+        //   seriesData.push(obj);
+        // }
+        // that.legendData.push(...legendData);
+        // that.seriesData.push(...seriesData);
+        // that.$forceUpdate();
+        // that.isChangeFlag = !that.isChangeFlag;
       });
     },
     handleToMore() {
@@ -858,7 +884,7 @@ export default {
     pageSizeChangeHandle() {}
   },
   mounted() {
-    this.getEcharts();
+    // this.getEcharts();
     this.getAmmeterData();
   },
   watch: {

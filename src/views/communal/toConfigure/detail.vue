@@ -5,13 +5,19 @@
     </div>
     <div class="top">任务配置</div>
     <duno-main class="dunoMain">
-      <Patrol :dataList="allInspectList" />
-      <Patrol :dataList="nightInspectList" :titleCon="titleNight" :title="titleTwo" />
+      <Patrol :dataList="allInspectList" planType="全面巡视" />
+      <Patrol
+        :dataList="nightInspectList"
+        planType="熄灯巡视"
+        :titleCon="titleNight"
+        :title="titleTwo"
+      />
       <Patrol
         :columns="columnsData"
         :dataList="specialInspectList"
         :title="title"
         :titleCon="titleCon"
+        planType="特殊巡视"
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
@@ -37,7 +43,7 @@ export default {
   },
   data() {
     return {
-      title: "特殊巡视 (2)",
+      title: "",
       titleTwo: "熄灯巡视",
       titleCon: "",
       visible: false,
@@ -206,7 +212,7 @@ export default {
                     }
                   }
                 },
-                "查看报告>"
+                "查看报表>"
               )
             ]);
             return h("div", newArr);
@@ -230,6 +236,7 @@ export default {
         that.allInspectList = res.data.allInspectList;
         that.nightInspectList = res.data.nightInspectList;
         that.specialInspectList = res.data.specialInspectList;
+        that.title = `特殊巡视（${that.specialInspectList.length}）`;
       });
     },
     getStart(row) {

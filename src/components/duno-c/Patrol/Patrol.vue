@@ -10,7 +10,7 @@
     <div class="con">
       <duno-tables-tep
         class="table_abnormalInfo"
-        :columns="columns"
+        :columns="columnsData"
         :data="dataList"
         :isShowPage="false"
         :border="true"
@@ -55,99 +55,121 @@ export default {
     columns: {
       type: Array,
       default: () => {
-        return [
-          {
-            title: "总步骤",
-            key: "stepNum",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
-          },
-          {
-            title: "监测设备",
-            key: "monitorDeviceName",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
-          },
-          {
-            title: "巡视间隔",
-            key: "interval",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
-          },
-          {
-            title: "已巡视次数",
-            key: "inspectNum",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
-          },
-          {
-            title: "状态",
-            key: "statusName",
-            minWidth: 50,
-            align: "center",
-            tooltip: true,
-            render: (h, params) => {
-              let newArr = [];
-              newArr.push(
-                h(
-                  "div",
-                  {
-                    class: {
-                      table_select: true,
-                      interval: params.row.status === "0",
-                      patrol: params.row.status === "1"
-                    }
-                  },
-                  params.row.statusName
-                )
-              );
-              return h("div", newArr);
-            }
-          },
-          {
-            title: " ",
-            // key: "Presentation",
-            minWidth: 150,
-            align: "right",
-            tooltip: true,
-            render: (h, params) => {
-              let newArr = [];
-              newArr.push([
-                h(
-                  "el-button",
-                  {
-                    class: "btn_pre",
-                    style: { background: "#3a81a1" },
-                    props: { type: "text", content: "查看报告>" },
-                    on: {
-                      click: () => {
-                        console.log(111);
-                      }
-                    }
-                  },
-                  "查看报告>"
-                )
-              ]);
-              return h("div", newArr);
-            }
-          }
-        ];
+        return [];
+      }
+    },
+    planType: {
+      type: String,
+      default: () => {
+        return "";
       }
     }
   },
   data() {
+    const that = this;
     return {
       interval: true,
-      patrol: false
+      patrol: false,
+      columnsData: [
+        {
+          title: "总步骤",
+          key: "stepNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "巡视间隔",
+          key: "interval",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "已巡视次数",
+          key: "inspectNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "状态",
+          key: "statusName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push(
+              h(
+                "div",
+                {
+                  class: {
+                    table_select: true,
+                    interval: params.row.status === "0",
+                    patrol: params.row.status === "1"
+                  }
+                },
+                params.row.statusName
+              )
+            );
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          // key: "Presentation",
+          minWidth: 150,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看报告>" },
+                  on: {
+                    click: () => {
+                      this.getJump(params.row);
+                    }
+                  }
+                },
+                "查看报表>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        }
+      ]
     };
   },
+  watch: {
+    columns(now) {
+      this.columnsData = now;
+    }
+  },
   methods: {
-    createTask(){
-        this.$emit('add-task')
+    createTask() {
+      this.$emit("add-task");
+    },
+    getJump(row) {
+      this.$router.push({
+        path: "/report/report-view",
+        query: {
+          planId: row.planId,
+          planType: this.planType
+        }
+      });
     },
     dataListSelectionChangeHandle() {}
   }

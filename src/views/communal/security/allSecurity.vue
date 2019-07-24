@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top">
-      <div>所有动态环境警告</div>
+      <div>所有动态环境异常信息</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -137,7 +137,7 @@ export default {
         },
         {
           title: "拍摄来源",
-          key: "monitorDeviceId",
+          key: "monitorDeviceName",
           minWidth: 150,
           align: "center",
           tooltip: true,
@@ -156,7 +156,7 @@ export default {
                     }
                   }
                 },
-                params.row.monitorDeviceId
+                params.row.monitorDeviceName
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);

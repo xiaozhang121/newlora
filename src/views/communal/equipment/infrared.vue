@@ -21,7 +21,7 @@
       <div class="left">
         <div class="recode">
           <div>最新24小时记录信息</div>
-          <div>查看更多 ></div>
+          <div @click="getMore">查看更多 ></div>
         </div>
         <div class="hours">
           <MonitorWarn
@@ -122,6 +122,15 @@ export default {
     };
   },
   methods: {
+    getMore() {
+      this.$router.push({
+        name: "meterdata-detail",
+        params: {
+          title: "红外监测记录信息",
+          url: "/lenovo-plan/api/task/iir-result/list"
+        }
+      });
+    },
     selectData(value) {
       const that = this;
       securityMonitor({ monitorDeviceId: value }).then(res => {

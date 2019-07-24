@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top">
-      <div>全面巡视</div>
+      <div>{{planType}}&nbsp;{{dataForm.planId}}</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -78,8 +78,8 @@ export default {
     return {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
-        // getDataListURL: "/lenovo-plan/api/statistics/plan/view"
+        // getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
+        getDataListURL: "/lenovo-plan/api/statistics/plan/view"
       },
       visibleSettingOption: false,
       visible: false,
@@ -89,10 +89,11 @@ export default {
       serious: false,
       commonly: false,
       danger: false,
+      planType: "",
       value: "",
       alarmLevel: "",
       titleType: "按设备筛选",
-      dataBread: ["视频监控", "所有报表", "巡检任务报表", "全面巡视"],
+      dataBread: ["操作中台", "所有报表", "巡检任务报表", "全面巡视"],
       columns: [
         {
           title: "序号",
@@ -216,7 +217,7 @@ export default {
         },
         {
           title: "拍摄来源",
-          key: "monitorDeviceId",
+          key: "monitorDeviceName",
           minWidth: 150,
           align: "center",
           tooltip: true,
@@ -230,11 +231,11 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      console.log("摄像头ID：", params.row.monitorDeviceId);
+                      this.getJump(params.row);
                     }
                   }
                 },
-                params.row.monitorDeviceId
+                params.row.monitorDeviceName
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -313,9 +314,10 @@ export default {
   },
   created() {
     this.dataForm.planId = this.$route.query.planId;
+    this.planType = this.$route.query.planType;
     this.getRegion();
     // this.getStart();
-    this.getType();
+    // this.getType();
   },
   methods: {
     cutOut(data) {
@@ -409,7 +411,7 @@ export default {
     },
     getRegion() {
       const that = this;
-      const url = "/lenovo-device/api/area/select-list";
+      const url = "lenovo-device/api/device/select-list";
       postAxiosData(url).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
@@ -470,6 +472,23 @@ export default {
         });
         this.typeList = map;
       });
+    },
+    getJump(row) {
+      if (row.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      } else if (row.monitorDeviceType == "2") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      }
     }
   }
 };
@@ -619,12 +638,12 @@ export default {
       & > div {
         margin-left: 10px;
         .dunoBtnTop {
-          width: 140px;
+          width: 220px;
           display: inline-flex;
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            width: 140px;
+            width: 220px;
             .title {
               padding: 8px 20px;
             }

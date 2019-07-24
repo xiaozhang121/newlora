@@ -111,8 +111,16 @@ export const startPatrol = (query) => {
     })
 }
 
-//配置管理-设备监测管理-列表
+//配置管理-设备监测管理-监测设备
 export const getDevice = (data) => {
+    return axios.request({
+        url: "/lenovo-plan/api/list/monitor-device-type",
+        method: 'post'
+    })
+}
+
+//配置管理-设备监测管理-电压等级
+export const getVoltage = (data) => {
     return axios.request({
         url: "/lenovo-device/api/area/select-list",
         method: 'post'
@@ -136,10 +144,13 @@ export const getPlayType = (data) => {
 }
 
 //所有报表-表计分析-echarts
-export const getEchartsData = (data) => {
+export const getEchartsData = (query) => {
     return axios.request({
         url: "/lenovo-plan/api/statistics/meter-data/chart",
-        method: 'get'
+        method: 'get',
+        params: {
+            ...query
+        }
     })
 }
 
