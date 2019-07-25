@@ -266,7 +266,7 @@ export default {
     color: #ffffff;
     margin: 10px 0;
     line-height: 40px;
-    font-size: 24px;
+    font-size: 20px;
   }
   .table_link {
     color: #5fafff !important;

@@ -6,7 +6,7 @@
     <div class="middle">
       <div class="abnormalInfo">
         <duno-main class="contain">
-          <div class="iconTop">
+          <div class="iconTop pointer" @click="getIn">
             <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
             异常信息
           </div>
@@ -32,8 +32,7 @@
           报表
         </div>
         <div class="re-middle">
-          <ReportTable />
-          <ReportTable />
+          <ReportTable v-for="(item,index) in mockData" :key="index" :reportData="item" />
         </div>
         <div class="re-table">
           <duno-tables-tep
@@ -203,6 +202,44 @@ export default {
       isChange: true,
       alarmLevel: "",
       messageList: [],
+      mockData: [
+        {
+          alarmNum: 0,
+          date: "2019-07-24 00:00:00",
+          id: 110,
+          monitorDeviceList: [
+            {
+              monitorDeviceId: 4,
+              monitorDeviceName: "测试3",
+              monitorDeviceType: "1"
+            }
+          ],
+          pic:
+            "https://xukly-sgcc.oss-cn-shanghai.aliyuncs.com/%E6%9E%B6%E6%9E%844%E5%8F%AF%E8%A7%81%E4%BA%91.jpg",
+          planId: 2574200,
+          planType: "特殊巡视",
+          realEndTime: "2019-07-24 23:59:59",
+          timeLong: "23:59:59"
+        },
+        {
+          alarmNum: 0,
+          date: "2019-07-24 00:00:00",
+          id: 110,
+          monitorDeviceList: [
+            {
+              monitorDeviceId: 4,
+              monitorDeviceName: "测试3",
+              monitorDeviceType: "1"
+            }
+          ],
+          pic:
+            "https://xukly-sgcc.oss-cn-shanghai.aliyuncs.com/%E6%9E%B6%E6%9E%844%E5%8F%AF%E8%A7%81%E4%BA%91.jpg",
+          planId: 2574200,
+          planType: "特殊巡视",
+          realEndTime: "2019-07-24 23:59:59",
+          timeLong: "23:59:59"
+        }
+      ],
       columns: [
         {
           title: "时间",
@@ -363,14 +400,14 @@ export default {
       RecodeColumns: [
         {
           title: "时间",
-          key: "date",
+          key: "alarmTime",
           minWidth: 100,
           align: "center",
           tooltip: true
         },
         {
           title: "对象",
-          key: "powerDeviceName",
+          key: "monitorDeviceName",
           minWidth: 100,
           align: "center",
           tooltip: true
@@ -391,27 +428,28 @@ export default {
         }
       ],
       legendOption: {
-          orient: 'vertical',
-          top: '40%',
-          right: '7%',
-          itemGap: 40,
-          textStyle: {
-              color: 'white',
-              fontSize: 15,
-              padding: [0, 0, 0, 4],
-          },
-          formatter: function(name){
-              if(name == '25%'){
-                  return '未占用：'+ name
-              }else{
-                  return '已占用：'+ name
-              }
-          },
-          data: ['25%', '75%']
+        orient: "vertical",
+        top: "40%",
+        right: "7%",
+        itemGap: 40,
+        textStyle: {
+          color: "white",
+          fontSize: 15,
+          padding: [0, 0, 0, 4]
+        },
+        formatter: function(name) {
+          if (name == "25%") {
+            return "未占用：" + name;
+          } else {
+            return "已占用：" + name;
+          }
+        },
+        data: ["25%", "75%"]
       }
     };
   },
   created() {
+    this.getRecodeList();
     this.getData();
   },
   methods: {
@@ -480,7 +518,12 @@ export default {
     },
     getRecodeList() {
       getRecode().then(res => {
-        this.RecodeList = res.data;
+        this.RecodeList = res.data.tableData;
+      });
+    },
+    getIn() {
+      this.$router.push({
+        path: "/abnormalInfoPath/list"
       });
     }
   }
@@ -509,6 +552,9 @@ export default {
       .contain {
         width: 100%;
         height: 100%;
+        .pointer {
+          cursor: pointer;
+        }
         .table_abnormalInfo {
           margin-top: 20px;
         }
@@ -531,6 +577,7 @@ export default {
       background-color: rgba(32, 62, 82, 0.8);
       .re-middle {
         overflow: hidden;
+        margin-top: 20px;
         & > div:first-child {
           margin-right: 10px;
         }
@@ -538,6 +585,21 @@ export default {
           float: left;
           height: 270px;
           width: calc(50% - 5px);
+          .content {
+            padding: 10px;
+            h3 {
+              margin-bottom: 5px;
+              font-size: 14px;
+            }
+            p {
+              font-size: 12px;
+            }
+          }
+          .btn {
+            div {
+              font-size: 12px;
+            }
+          }
         }
       }
       .re-table {

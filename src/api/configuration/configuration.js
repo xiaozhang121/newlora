@@ -293,3 +293,14 @@ export const getRecode = (data) => {
         method: 'get',
     })
 }
+
+//表格弹窗-详情
+export const getviewDetail = (query) => {
+    return axios.request({
+        url: "/lenovo-plan/api/statistics/plan/view",
+        method: 'get',
+        params: {
+            ...query
+        }
+    })
+}

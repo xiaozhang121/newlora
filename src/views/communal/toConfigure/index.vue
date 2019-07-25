@@ -457,7 +457,7 @@ export default {
     & > div:first-child {
       padding-top: 20px;
       padding-bottom: 20px;
-      font-size: 18px;
+      font-size: 20px;
     }
     .btn {
       display: flex;

@@ -41,23 +41,38 @@
         </p>
       </div>
     </div>
-    <el-dialog title="提示" :visible.sync="dialogVisible" :modal="false" width="30%">
-      <el-input type="textarea" autosize placeholder="请输入备注内容" v-model="textarea"></el-input>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="clickRemarks">确 定</el-button>
-      </span>
-    </el-dialog>
+    <div class="remarks">
+      <el-dialog
+        title="备注"
+        :center="true"
+        top="20vh"
+        :visible.sync="dialogVisible"
+        :modal="false"
+        width="20%"
+      >
+        <el-input
+          type="textarea"
+          placeholder="请输入备注内容"
+          :autosize="{ minRows: 3}"
+          v-model="textarea"
+        ></el-input>
+        <span slot="footer" class="dialog-footer">
+          <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+          <button-custom class="button" @click="clickRemarks" title="确定" />
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor },
+  components: { KeyMonitor, buttonCustom },
   props: {
     isShow: {
       type: Boolean,
@@ -229,6 +244,21 @@ export default {
         }
         i:last-child {
           background-color: #305e83;
+        }
+      }
+    }
+  }
+  .remarks {
+    .dialog-footer {
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      .button {
+        height: 37px;
+        line-height: 31px;
+        font-size: 14px;
+        &:first-child {
+          margin-right: 30px;
         }
       }
     }

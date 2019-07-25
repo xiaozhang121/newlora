@@ -54,7 +54,7 @@
           <div class="from">
             <span class="origin">
               来源：
-              <a href="javascript:;">{{popData['monitorDeviceName']}}</a>
+              <a href="javascript:;" @click="getJump">{{popData['monitorDeviceName']}}</a>
             </span>
           </div>
         </div>

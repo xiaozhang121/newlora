@@ -41,7 +41,7 @@
       <div v-if="isSecond" class="explain iconList detailIcon">
         <div class="text">
           <span>{{kilovolt}}</span>
-          <span>{{patrol}}</span>
+          <span @click="getJump">{{patrol}}</span>
           <i class="iconfont icon-jiantou"></i>
         </div>
         <span @click="fullScreen()">
@@ -49,7 +49,13 @@
         </span>
       </div>
     </div>
-    <push-mov  ref="pushMov" :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />
+    <push-mov
+      ref="pushMov"
+      :pic="cameraPic"
+      @on-push="onPushReal"
+      @on-close="onClose"
+      :visible="pushMovVisable"
+    />
   </div>
 </template>
 
@@ -59,9 +65,7 @@ import pushMov from "_c/duno-m/pushMov";
 import { mapState } from "vuex";
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
-import {
-    editConfig
-} from "@/api/currency/currency.js";
+import { editConfig } from "@/api/currency/currency.js";
 import { setTimeout } from "timers";
 export default {
   name: "KeyMonitor",
@@ -70,7 +74,7 @@ export default {
     pushMov
   },
   props: {
-    autoplay:{
+    autoplay: {
       type: Boolean,
       default: () => {
         return false;
@@ -79,7 +83,7 @@ export default {
     imgAdress: {
       type: String,
       default() {
-        return '';
+        return "";
       }
     },
     monitorInfo: {
@@ -139,18 +143,18 @@ export default {
       },
       immediate: true
     },
-    imgAdress:{
-      handler(now){
-          if(now){
-             this.playerOptions.poster = now
-          }
+    imgAdress: {
+      handler(now) {
+        if (now) {
+          this.playerOptions.poster = now;
+        }
       },
       immediate: true
     }
   },
   data() {
     return {
-      cameraPic: '',
+      cameraPic: "",
       pushMovVisable: false,
       showView: false,
       value2: 15,
@@ -160,7 +164,7 @@ export default {
         sources: [
           {
             type: "rtmp/flv",
-           /* type: "video/ogg",
+            /* type: "video/ogg",
             type: "video/webm",
             type: "video/mp4",*/
             // src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
@@ -171,8 +175,8 @@ export default {
         techOrder: ["flash"],
         autoplay: false,
         controls: true,
-        notSupportedMessage: "此视频暂无法播放，请稍后再试",
-      /*  poster:
+        notSupportedMessage: "此视频暂无法播放，请稍后再试"
+        /*  poster:
           "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"*/
       }
     };
@@ -185,34 +189,33 @@ export default {
   },
   methods: {
     onPlayerPlay(player) {
-
-    //   alert("play");
+      //   alert("play");
     },
     onPlayerPause(player) {
-    //   alert("pause");
+      //   alert("pause");
     },
     onPushReal(index) {
-        const that = this;
-        let query = {
-            ["cameraPos0" + index]: this.monitorInfo["monitorDeviceId"],
-            id: this.$store.state.user.configInfo.id
-        };
-        editConfig(query).then(res => {
-            if (res.data.isSuccess) that.$message.success(res.msg);
-            else that.$message.error(res.msg);
-        });
+      const that = this;
+      let query = {
+        ["cameraPos0" + index]: this.monitorInfo["monitorDeviceId"],
+        id: this.$store.state.user.configInfo.id
+      };
+      editConfig(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+      });
     },
     onClose() {
-        this.pushMovVisable = false;
+      this.pushMovVisable = false;
     },
     pushMov() {
-      this.$refs.pushMov.initData()
+      this.$refs.pushMov.initData();
       // this.$emit("on-push", this.monitorInfo);
       this.pushMovVisable = true;
       if (this.monitorInfo) {
-          this.cameraPic =  this.monitorInfo["pic"]
+        this.cameraPic = this.monitorInfo["pic"];
       } else {
-          this.cameraPic =  ""
+        this.cameraPic = "";
       }
     },
     fullScreen() {
@@ -225,10 +228,19 @@ export default {
     },
     leave() {
       this.showBtm = false;
+    },
+    getJump() {
+      debugger;
+      this.$router.push({
+        // path: "/surveillancePath/detailLight",
+        query: {
+          monitorDeviceId: this.monitorInfo["monitorDeviceId"]
+        }
+      });
     }
   },
   created() {
-    this.playerOptions.autoplay = this.autoplay
+    this.playerOptions.autoplay = this.autoplay;
     /* if(this.optionWidth && this.optionHeight){
           this.playerOptions.width = this.optionWidth
           this.playerOptions.height = this.optionHeight
@@ -243,7 +255,7 @@ export default {
   .video-player.vjs-custom-skin {
     width: 100%;
   }
-  .video-js .vjs-big-play-button{
+  .video-js .vjs-big-play-button {
     /*
      播放按钮换成圆形
     */

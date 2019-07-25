@@ -86,7 +86,6 @@ export default {
       });
     },
     viewReports() {
-      debugger;
       this.$router.push({
         path: "/report/report-view",
         query: {

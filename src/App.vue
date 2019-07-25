@@ -77,7 +77,8 @@ export default {
           const index = that.baseUrl.indexOf('//')
           let url = that.baseUrl.substring(index, that.baseUrl.length)
           url = url.replace(':8008',':8200')
-          that.Socket = new WebSocket(`ws:${url}/lenovo-alarm/alarm/websocket`)
+        //   that.Socket = new WebSocket(`ws:${url}/lenovo-alarm/alarm/websocket`)
+          that.Socket = new WebSocket(`ws:http://10.0.0.164:8081/lenovo-alarm/alarm/websocket`)
           // this.Socket.onopen = function() { // 发送数据 websocket
           // // Web Socket 已连接上，使用 send() 方法发送数据
           // console.log("数据发送中...")

@@ -169,7 +169,8 @@ import {
   getEchartsData,
   getAmmeter,
   getMainEqui,
-  getDifference
+  getDifference,
+  getviewDetail
 } from "@/api/configuration/configuration.js";
 import itemMixin from "../../duno-default/main/components/side-menu/item-mixin";
 export default {
@@ -628,8 +629,8 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      that.popData = params.row;
-                      that.visible = true;
+                      //   that.popData = params.row;
+                      that.getviewData(params.row);
                     }
                   }
                 },
@@ -880,6 +881,16 @@ export default {
         });
       }
     },
+    getviewData(row) {
+      let that = this;
+      that.visible = true;
+      let query = {
+        planId: row.planId
+      };
+      getviewDetail(query).then(res => {
+        this.popData = res.data;
+      });
+    },
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}
   },
@@ -979,7 +990,7 @@ export default {
     & > div:first-child {
       margin-top: 20px;
       margin-bottom: 20px;
-      font-size: 18px;
+      font-size: 20px;
       color: #ffffff;
     }
     .selectBtn {

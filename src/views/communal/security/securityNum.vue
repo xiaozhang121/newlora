@@ -159,7 +159,7 @@ export default {
 <style lang="scss">
 .securityNum {
   & > div:nth-child(2) {
-    font-size: 22px;
+    font-size: 20px;
     line-height: 60px;
     color: #ffffff;
   }

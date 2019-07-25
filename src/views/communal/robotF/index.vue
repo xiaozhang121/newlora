@@ -129,7 +129,7 @@ export default {
   }
   .title{
     display: flex;
-    font-size: 18px;
+    font-size: 20px;
     margin-bottom: 15px;
     justify-content: space-between;
     align-items: center;
