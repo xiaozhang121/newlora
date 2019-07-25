@@ -398,7 +398,7 @@ export default {
       RecodeColumns: [
         {
           title: "时间",
-          key: "alarmTime",
+          key: "date",
           minWidth: 100,
           align: "center",
           tooltip: true

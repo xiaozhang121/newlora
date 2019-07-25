@@ -42,7 +42,10 @@ export const getAreaList = (data) => {
 export const circleMonth = (data) => {
     return axios.request({
         url: "/lenovo-alarm/api/security/statistics",
-        method: "get"
+        method: "get",
+        params: {
+            ...data
+        }
     })
 }
 

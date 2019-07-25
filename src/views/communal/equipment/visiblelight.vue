@@ -342,7 +342,7 @@ export default {
         img {
           display: block;
           width: 100%;
-          padding-bottom: 100%;
+          height: 100px;
         }
         p {
           text-align: center;
