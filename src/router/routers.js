@@ -626,13 +626,25 @@ export default [{
                         component: () => import('@/views/communal/robotF/index.vue')
                     },
                     {
+                        path: 'report',
+                        name: 'robot-report',
+                        meta: {
+                            title: '列表',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: "robot-oneList"
+                        },
+                        component: () => import('@/views/communal/robotF/viewReportDetail.vue')
+                    },
+                    {
                         path: 'detail',
                         name: 'robot-detail',
                         active: "robot-oneList",
                         meta: {
                             title: '列表',
                             hideInMenu: true,
-                            isDetails: true
+                            isDetails: true,
+                            active: "robot-oneList"
                         },
                         component: () => import('@/views/communal/robotF/detail.vue')
                     }

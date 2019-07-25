@@ -330,9 +330,16 @@ export default {
                 if(that.mapTarget.getView().getZoom()>15) {
                     let item = JSON.parse(event.target.values_.dataInfo)
                     that.clickTarget = item
-                    let anchor = new Feature({
-                        geometry: new Point(transform([item['xReal'], item['yReal']], 'EPSG:3857', 'EPSG:4326'))
-                    })
+                    let anchor = null
+                    if(that.isDiagram == 1){
+                        anchor = new Feature({
+                            geometry: new Point(transform([item['xLoc'],item['yLoc']], 'EPSG:3857' ,'EPSG:4326'))
+                        })
+                    }else{
+                        anchor = new Feature({
+                            geometry: new Point(transform([item['xReal'], item['yReal']], 'EPSG:3857', 'EPSG:4326'))
+                        })
+                    }
                     let text = new Text({
                         scale: 2,
                         text: item['deviceName'],

@@ -11,22 +11,22 @@
             <div class="title">
                 <div class="circle"></div>
                 <div class="name">任务模式</div>
-                <pattery class="pattery"></pattery>
+                <pattery :rate="robotStatus['battery']" class="pattery"></pattery>
             </div>
             <div class="rouTine_Main">
                 <div class="explain">
-                    <span class="name">例行巡视</span>
-                    <span class="taskId">任务ID：29106666</span>
+                    <span class="name">{{ taskStatus['inspectionName']?taskStatus['inspectionName']:'暂无名称' }}</span>
+                    <span class="taskId">任务ID：{{ taskStatus['taskId'] }}</span>
                 </div>
                 <div class="item">
                     <div class="name">已执行/总步骤：</div>
-                    <div class="info"><span class="lastCount">7</span>/32</div>
+                    <div class="info"><span class="lastCount">{{ taskStatus['doneStepsCnt'] }}</span>/{{ taskStatus['totalStepsCnt'] }}</div>
                 </div>
                 <div class="item">
                     <div class="name">工作时长：</div>
-                    <div class="info">02:23:21</div>
+                    <div class="info">{{  taskStatus['startInspectionTime']  }}</div>
                 </div>
-                <div>
+                <div v-if="taskStatus['taskType'] == '1504'">
                     <button-custom class="stopTask" @click.native="changeTaskStatus" :title="taskName" />
                 </div>
             </div>
@@ -55,6 +55,8 @@
             }
         },
         props: {
+            robotStatus: {},
+            taskStatus: {},
             index:{},
             visible:{
                 type: Boolean,

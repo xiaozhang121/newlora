@@ -18,15 +18,15 @@
           <div>
             <p>
               监控设备总数:
-              <span>20</span>
+              <span>1</span>
             </p>
             <p>
-              监控步骤总数:
-              <span>20</span>
+              巡视步骤总数:
+              <span>{{ taskNormalData['linkCount'] }}</span>
             </p>
             <p>
               任务计划时长:
-              <span>1h20min</span>
+              <span>{{ taskNormalData['taskPlanCostTime'] }}</span>
             </p>
             <p>
               任务间隔:
@@ -45,7 +45,9 @@
             :height="280"
           />
         </div>
-        <div class="right"></div>
+        <div class="right">
+          <img :src="taskNormalData['roadImgPath']" />
+        </div>
       </div>
     </div>
     <div class="table">
@@ -74,6 +76,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import Patrol from "_c/duno-c/Patrol";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
+import { postAxiosData } from '@/api/axiosType'
 import selectDistrict from '_c/duno-m/selectDistrict'
 import { infrInformation } from "@/api/configuration/configuration.js";
 export default {
@@ -87,7 +90,9 @@ export default {
     selectDistrict
   },
   data() {
+    const that = this
     return {
+      taskNormalData: '',
       dialogVisible: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true
@@ -145,13 +150,13 @@ export default {
           align: "center"
         },
         {
-          key: "step",
+          key: "stepContent",
           title: "步骤内容",
           minWidth: 100,
           align: "center"
         },
         {
-          key: "record",
+          key: "dataType",
           title: "记录内容",
           minWidth: 100,
           align: "center"
@@ -313,10 +318,21 @@ export default {
             return h("div", newArr);
           }
         }
-      ]
+      ],
+      baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
     };
   },
   methods: {
+    initData(){
+        const that = this
+        postAxiosData('/robot/rest/taskNormalDetail',{'taskId':'14'}).then(res=>{
+          let data = res.data
+          data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
+          that.dataList = data['details']
+          that.taskNormalData =  data
+          that.$forceUpdate()
+        })
+    },
     onClose(){
       this.dialogVisible = false
     },
@@ -331,6 +347,9 @@ export default {
         this.InspectData = res.data.specialInspectList;
       });
     }
+  },
+  created(){
+      this.initData()
   },
   mounted() {
     this.getInfor();
@@ -427,6 +446,11 @@ export default {
         width: calc(40% - 20px);
         margin-left: 20px;
         height: 100%;
+        position: relative;
+        img{
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
