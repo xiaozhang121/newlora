@@ -9,20 +9,20 @@
           <div class="item">
             <div class="camera_surveillanceDetail">
               <div class="contain">
-                <!-- <key-monitor
+                 <key-monitor
                   paddingBottom="56%"
                   class="monitor"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
-                ></key-monitor>-->
-                <KeyMonitorDetail
+                ></key-monitor>
+               <!-- <KeyMonitorDetail
                   paddingBottom="56%"
                   class="monitor"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
-                />
+                />-->
               </div>
             </div>
             <div class="control">
