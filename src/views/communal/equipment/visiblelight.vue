@@ -10,7 +10,7 @@
       <div class="right">
         <div class="report">
           <div>最新生成的巡检报告</div>
-          <div>查看更多 ></div>
+          <div @click="getMoreReport">查看更多 ></div>
         </div>
         <div class="inspection">
           <div v-for="(item,index) in inspecReport" :key="index">
@@ -25,7 +25,7 @@
         </div>
         <div class="hours">
           <MonitorWarn
-            v-for="(item,index) in lightInformation.slice(0,4)"
+            v-for="(item,index) in lightInformation"
             :remarkData="lightInformation[index]"
             :time="item.alarmTime"
             :remarks="item.dealRecord"
@@ -82,7 +82,7 @@ export default {
       dataMonitor: [],
       url: {
         downloadUrl: "/lenovo-plan/api/plan/visible-report/download",
-        viewUrl: "/lenovo-plan/api/plan/visible-report/view"
+        viewUrl: "/lenovo-plan/api/statistics/plan/view"
       },
       timeQueryData: {},
       inspecReport: [],
@@ -132,6 +132,15 @@ export default {
         }
       });
     },
+    getMoreReport() {
+      this.$router.push({
+        name: "reportList"
+        // params: {
+        //   title: "可见光监测记录信息",
+        //   url: "/lenovo-plan/api/task/visible-result/list"
+        // }
+      });
+    },
     handleData() {
       this.getDataList();
     },
@@ -179,8 +188,12 @@ export default {
       lightNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
       });
-      lightNewInformation().then(res => {
-        this.lightInformation = res.data;
+      let data = {
+        pageIndex: 1,
+        pageRows: 4
+      };
+      lightNewInformation(data).then(res => {
+        this.lightInformation = res.data.tableData;
       });
     },
     getInit() {
@@ -287,7 +300,7 @@ export default {
           width: calc(100% / 3 - 20px);
           margin-right: 20px;
           .reportTable {
-            height: 367px;
+            height: 380px;
             img {
               height: 137px;
             }

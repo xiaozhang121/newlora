@@ -26,42 +26,57 @@
         <div>
           <i>记录:</i>
           <p>
-            <span v-for="(item,index) in dealContent.slice(0,2)" :key="index">{{item}}</span>
+            <span v-for="(item,index) in dealContent.slice(0,1)" :key="index">{{item}}</span>
           </p>
         </div>
       </div>
       <div class="btn">
         <p v-if="isShow">
           拍摄来源:
-          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
+          <span @click="getJump">{{remarkData.monitorDeviceName}}</span>
           <i @click="dialogVisible = true">备注</i>
           <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
           <i v-else :disabled="isDisabled">已复归</i>
         </p>
         <p v-else>
           拍摄来源:
-          <span @click="getJump">{{remarkData.monitorDeviceId}}</span>
+          <span @click="getJump">{{remarkData.monitorDeviceName}}</span>
           <i>查看详情></i>
         </p>
       </div>
     </div>
-    <el-dialog title="提示" :visible.sync="dialogVisible" :modal="false" width="30%">
-      <el-input type="textarea" autosize placeholder="请输入备注内容" v-model="textarea"></el-input>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="clickRemarks">确 定</el-button>
-      </span>
-    </el-dialog>
+    <div class="remarks">
+      <el-dialog
+        title="备注"
+        :center="true"
+        top="20vh"
+        :visible.sync="dialogVisible"
+        :modal="false"
+        width="20%"
+      >
+        <el-input
+          type="textarea"
+          placeholder="请输入备注内容"
+          :autosize="{ minRows: 3}"
+          v-model="textarea"
+        ></el-input>
+        <span slot="footer" class="dialog-footer">
+          <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+          <button-custom class="button" @click.native="clickRemarks" title="确定" />
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor },
+  components: { KeyMonitor, buttonCustom },
   props: {
     isShow: {
       type: Boolean,
@@ -187,7 +202,7 @@ export default {
       }
     }
     .btn {
-      margin-top: 15px;
+      padding-top: 10px;
       line-height: 32px;
       p {
         font-size: 14px;
@@ -211,6 +226,21 @@ export default {
         }
         i:last-child {
           background-color: #305e83;
+        }
+      }
+    }
+  }
+  .remarks {
+    .dialog-footer {
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      .button {
+        height: 37px;
+        line-height: 31px;
+        font-size: 14px;
+        &:first-child {
+          margin-right: 30px;
         }
       }
     }

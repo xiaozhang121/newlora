@@ -34,19 +34,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning
-      :discriminate="false"
-      :hasSelect="true"
-      :alarmLevel="alarmLevel"
-      :visible="visible"
-      warningID="20190711002"
-      :monitorUrl="popData.alarmFileAddress || ''"
-      :judgeResult="popData.alarmContent || ''"
-      :origin="popData.monitorDeviceId"
-      :handleResult="popData.dealRecord || ''"
-      :popData="popData"
-      @handleClose="handleClose"
-    />
+    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -84,6 +72,8 @@ export default {
       visibleSettingOption: false,
       visible: false,
       selectInfo: "更多",
+      handleNotes: [],
+      alarmType: "",
       popData: {},
       dataForm: {},
       serious: false,
@@ -117,7 +107,7 @@ export default {
         },
         {
           title: "描述",
-          key: "description",
+          key: "content",
           minWidth: 90,
           align: "center",
           tooltip: true
@@ -217,7 +207,7 @@ export default {
         },
         {
           title: "拍摄来源",
-          key: "monitorDeviceName",
+          key: "source",
           minWidth: 150,
           align: "center",
           tooltip: true,
@@ -267,7 +257,7 @@ export default {
         },
         {
           title: "记录时间",
-          key: "date",
+          key: "executeTime",
           minWidth: 100,
           align: "center",
           tooltip: true
@@ -287,8 +277,16 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
                       that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
                       that.visible = true;
+                      that.$forceUpdate();
                     }
                   }
                 },
@@ -313,8 +311,9 @@ export default {
     };
   },
   created() {
-    this.dataForm.planId = this.$route.query.planId;
-    this.planType = this.$route.query.planType;
+    this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
+    this.dataForm.planId = this.$route.params.planId;
+    this.planType = this.$route.params.planType;
     this.getRegion();
     // this.getStart();
     // this.getType();

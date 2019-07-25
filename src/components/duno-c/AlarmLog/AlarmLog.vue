@@ -58,21 +58,23 @@
         ></el-input>
         <span slot="footer" class="dialog-footer">
           <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
-          <button-custom class="button" @click="clickRemarks" title="确定" />
+          <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
     </div>
+    <!-- <Remarks :isShow="isShowRemarks" /> -->
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import Remarks from "_c/duno-c/Remarks";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor, buttonCustom },
+  components: { KeyMonitor, buttonCustom, Remarks },
   props: {
     isShow: {
       type: Boolean,
@@ -95,6 +97,7 @@ export default {
       address: "",
       isDisabled: true,
       dialogVisible: false,
+      isShowRemarks: false,
       textarea: "",
       dealList: []
     };

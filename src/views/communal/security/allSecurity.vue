@@ -71,6 +71,27 @@
       :handleNotes="popData.dealList"
       @handleClose="handleClose"
     />
+    <div class="remarks">
+      <el-dialog
+        title="备注"
+        :center="true"
+        top="20vh"
+        :visible.sync="dialogVisible"
+        :modal="false"
+        width="20%"
+      >
+        <el-input
+          type="textarea"
+          placeholder="请输入备注内容"
+          :autosize="{ minRows: 3}"
+          v-model="textarea"
+        ></el-input>
+        <span slot="footer" class="dialog-footer">
+          <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+          <button-custom class="button" @click="clickRemarks" title="确定" />
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -79,6 +100,7 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
@@ -100,7 +122,8 @@ export default {
     dunoMain,
     DunoTablesTep,
     warningSetting,
-    wraning
+    wraning,
+    buttonCustom
   },
   data() {
     const that = this;
@@ -116,6 +139,7 @@ export default {
       serious: false,
       commonly: false,
       danger: false,
+      dialogVisible: false,
       value: "",
       titleTypeL: "全部电压等级",
       titleTypeR: "全部类型",
@@ -262,6 +286,7 @@ export default {
                   on: {
                     click: () => {
                       console.log(111);
+                      this.dialogVisible = true;
                     }
                   }
                 },
@@ -419,6 +444,20 @@ export default {
           }
         });
       }
+    },
+    clickRemarks() {
+      const that = this;
+      that.isShowRemarks = false;
+      let query = {
+        alarmId: that.remarkData.alarmId,
+        type: "2",
+        content: that.textarea
+      };
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.$emit("handleListData");
+      });
     }
   }
 };
@@ -652,6 +691,21 @@ export default {
       .in-range {
         div {
           background-color: rgba(81, 89, 112, 0.7);
+        }
+      }
+    }
+  }
+  .remarks {
+    .dialog-footer {
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      .button {
+        height: 37px;
+        line-height: 31px;
+        font-size: 14px;
+        &:first-child {
+          margin-right: 30px;
         }
       }
     }

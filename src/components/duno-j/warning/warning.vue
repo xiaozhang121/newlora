@@ -49,7 +49,7 @@
             <div class="nr">人员徘徊</div>
           </div>
           <div>
-            <a href="javascript:;">结果修订</a>
+            <a href="javascript:;" @click="clickJudge">结果修订</a>
           </div>
           <div class="from">
             <span class="origin">
@@ -70,15 +70,19 @@
       </div>
       <div style="clear: both"></div>
     </el-dialog>
+    <personJudge :visible="visibleJudge" />
   </div>
 </template>
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import personJudge from "_c/duno-m/personJudge";
 export default {
+  components: { personJudge },
   data() {
     return {
-      searchId: '',
-      searchType: '',
+      searchId: "",
+      searchType: "",
+      visibleJudge: false,
       handleList: [
         // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
         // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
@@ -90,19 +94,19 @@ export default {
       selectList: ["一般", "严重", "危急"],
       alarmLevelT: "",
       alarmLevelN: "",
-      newMonitorUrl: ''
+      newMonitorUrl: ""
     };
   },
   props: {
     popData: {
       type: Object,
       default: () => {
-          return {}
+        return {};
       }
     },
     alarmType: {
       type: String,
-      default: ''
+      default: ""
     },
     handleNotes: {
       type: Array,
@@ -162,18 +166,18 @@ export default {
   },
   computed: {},
   watch: {
-    popData(now){
-      if('alarmId' in now){
-          this.searchId = now['alarmId']
-          this.searchType = 'alarmId'
-      }else{
-          this.searchId = now['resultId']
-          this.searchType = 'resultId'
+    popData(now) {
+      if ("alarmId" in now) {
+        this.searchId = now["alarmId"];
+        this.searchType = "alarmId";
+      } else {
+        this.searchId = now["resultId"];
+        this.searchType = "resultId";
       }
-      this.initData()
+      this.initData();
     },
     handleNotes(now) {
-      this.handleList = []
+      this.handleList = [];
       let obj = {};
       now.forEach(el => {
         obj.time = el.dealTime;
@@ -194,9 +198,11 @@ export default {
     }
   },
   methods: {
-    initData(){
-        getAxiosData('/lenovo-plan/api/task-result/view',{[this.searchType]:this.searchId}).then(res=>{
-        })
+    initData() {
+      // debugger
+      getAxiosData("/lenovo-plan/api/task-result/view", {
+        [this.searchType]: this.searchId
+      }).then(res => {});
     },
     selectItem(item, index) {
       this.alarmLevelT = item;
@@ -206,6 +212,27 @@ export default {
       this.newVisible = false;
       // this.$emit('change-level', item, index+1)
       this.$emit("handleClose");
+    },
+    getJump() {
+      if (this.popData.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: this.popData.monitorDeviceId
+          }
+        });
+      } else if (this.popData.monitorDeviceType == "2") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: this.popData.monitorDeviceId
+          }
+        });
+      }
+    },
+    clickJudge() {
+    //   debugger;
+      this.visibleJudge = true;
     }
   },
   mounted() {

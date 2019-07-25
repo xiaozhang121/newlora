@@ -139,19 +139,7 @@
       />
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning
-      :discriminate="false"
-      :hasSelect="true"
-      :alarmLevel="alarmLevel"
-      :visible="visible"
-      warningID="20190711002"
-      :monitorUrl="popData.alarmFileAddress || ''"
-      :judgeResult="popData.powerDeviceName ||''"
-      :origin="popData.monitorDeviceId"
-      :handleResult="popData.dealRecord || ''"
-      :popData="popData"
-      @handleClose="handleClose"
-    />
+    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -273,6 +261,8 @@ export default {
       partsList: [],
       phaseList: [],
       valueDate: "",
+      handleNotes: [],
+      alarmType: "",
       ByDayData: [
         {
           describeName: "按日",
@@ -629,8 +619,17 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      //   that.popData = params.row;
-                      that.getviewData(params.row);
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
+                      that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
+                      that.visible = true;
+                      that.$forceUpdate();
+                      //   that.getviewData(params.row);
                     }
                   }
                 },
@@ -691,6 +690,9 @@ export default {
     },
     onClose() {
       this.visibleSettingOption = false;
+    },
+    showSetting() {
+      this.visibleSettingOption = true;
     },
     handleClose() {
       this.popData = {};
@@ -803,7 +805,12 @@ export default {
       });
     },
     handleToMore() {
-      this.$router.push({ name: "meterdata-detail" });
+      this.$router.push({
+        name: "meterdata-detail",
+        params: {
+          url: "/lenovo-plan/api/statistics/meter-data/list"
+        }
+      });
     },
     getAmmeterData() {
       let that = this;
@@ -881,16 +888,17 @@ export default {
         });
       }
     },
-    getviewData(row) {
-      let that = this;
-      that.visible = true;
-      let query = {
-        planId: row.planId
-      };
-      getviewDetail(query).then(res => {
-        this.popData = res.data;
-      });
-    },
+    // getviewData(row) {
+    //   console.log(row);
+    //   let that = this;
+    //   that.visible = true;
+    //   let query = {
+    //     planId: row.planId
+    //   };
+    //   getviewDetail(query).then(res => {
+    //     this.popData = res.data;
+    //   });
+    // },
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}
   },
