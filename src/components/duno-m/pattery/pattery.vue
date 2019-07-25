@@ -1,6 +1,6 @@
 <template>
     <div class="rouTineInspection" >
-        <div class="border">
+        <div class="border" :class="[{'normal': rate >= 80},{'alarm': rate >= 50 && rate < 80},{'danger': rate <= 20}]">
             <div class="item">
             </div>
             <div class="item">
@@ -11,9 +11,9 @@
             </div>
             <div class="item">
             </div>
-            <div class="realProcess" :style="{width: rate+'%'}"></div>
+            <div class="realProcess" :style="{width: rate+'%'}" :class="[{'normal': rate >= 80},{'alarm': rate >= 50 && rate < 80},{'danger': rate <= 20}]"></div>
         </div>
-        <div class="last"></div>
+        <div class="last" :class="[{'normal': rate >= 80},{'alarm': rate >= 50 && rate < 80},{'danger': rate <= 20}]"></div>
         <div class="data">{{ rate }}%</div>
     </div>
 </template>
@@ -70,6 +70,15 @@
             width: 24px;
             height: 14px;
             display: flex;
+            &.normal{
+                border: 1px solid #52f9bd;
+            }
+            &.alarm{
+                border: 1px solid #ff9000;
+            }
+            &.danger{
+                border: 1px solid #ee183b;
+            }
             .item{
                 position: relative;
                 width: 4px;
@@ -87,12 +96,30 @@
                 background: #52f9bd;
                 position: absolute;
                 top: 1px;
+                &.normal{
+                    background: #52f9bd;
+                }
+                &.alarm{
+                    background: #ff9000;
+                }
+                &.danger{
+                    background: #ee183b;
+                }
             }
         }
         .last{
             width: 3px;
             background: #52f9bd;
             height: 7px;
+            &.normal{
+                background: #52f9bd;
+            }
+            &.alarm{
+                background: #ff9000;
+            }
+            &.danger{
+                background:  #ee183b;
+            }
         }
         .data{
             font-size: 11px;

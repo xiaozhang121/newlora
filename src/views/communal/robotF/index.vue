@@ -27,9 +27,9 @@
         </div>
       </div>
       <div class="middle">
-        <rou-tine-inspection>
+        <rou-tine-inspection :taskStatus="taskStatus" :robotStatus="robotStatus">
           <div class="reportData">
-            <report-data></report-data>
+            <report-data :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
           </div>
         </rou-tine-inspection>
       </div>
@@ -38,7 +38,7 @@
         <div class="main">
           <template v-for="(item, index) in newsReportLength">
             <div class="item" :key="index">
-              <report-table v-if="newsReport[index]">{{ newsReport[index] }}</report-table>
+              <report-table path="report" :url="{downloadUrl: '/robot/rest/reportDownload'}" kind="robot" :reportData="newsReport[index]" v-if="newsReport[index]"></report-table>
             </div>
           </template>
         </div>
@@ -57,6 +57,7 @@ import buttonCustom from '_c/duno-m/buttonCustom'
 import reportData from '_c/duno-m/reportData'
 import ReportTable from '_c/duno-c/ReportTable'
 import rouTineInspection from '_c/duno-m/rouTineInspection'
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinViewModule],
@@ -87,10 +88,16 @@ export default {
   data () {
     const that = this
     return {
+        taskId: '',
+        taskCurreny: '',
+        robotStatus: '',
+        taskStatus: '',
+        reportsList: [],
         robotName:'',
         routeName: '',
-        newsReport: [1,2,3,4,5],
-        dataBread: ['操作中台','机器人巡视','机器人一']
+        newsReport: [],
+        dataBread: ['操作中台','机器人巡视','机器人一'],
+        baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
     }
   },
   watch: {
@@ -109,10 +116,45 @@ export default {
       }
   },
   methods: {
-
+      initData(){
+          const that = this
+          postAxiosData('/robot/rest/taskStatus',{substationId: '1', robotId: '9'}).then(res=>{
+              that.taskStatus = res.data
+          })
+          postAxiosData('/robot/rest/robotStatus',{substationId: '1', robotId: '9'}).then(res=>{
+              that.robotStatus = res.data
+          })
+          postAxiosData('/robot/rest/reports',{substationId: '1', robotId: '9',length: 10}).then(res=>{
+              that.reportsList = res.data
+              let data = res.data
+              data = data.reportList
+              data.map(item=>{
+                  item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
+                  item['planId'] = item['TaskID']
+                  if(item['TaskName'] == '1501')
+                    item['name'] = '全面巡视'
+                  else if(item['TaskName'] == '1502')
+                    item['name'] = '例行巡视'
+                  else if(item['TaskName'] == '1503')
+                      item['name'] = '专项巡视'
+                  else if(item['TaskName'] == '1504')
+                      item['name'] = '特殊巡视'
+                  else
+                      item['name'] = '暂无数据'
+                  item['date'] = item['PlanStartTime']
+                  item['alarmNum'] = item['AlarmCount']
+                  item['timeLong'] = item['AlarmCount']
+              })
+              debugger
+              that.newsReport = data
+          })
+          postAxiosData('/robot/rest/taskCurLink',{substationId: '1', robotId: '9',taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+              that.taskCurreny = res.data
+          })
+      }
   },
   created(){
-
+      this.initData()
   },
   mounted () {
     this.routeName = this.$route.name

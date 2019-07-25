@@ -2,7 +2,7 @@
     <div class="reportData" >
         <div class="title">
             <span>第{{ stepCount }}步上报数据</span>
-            <span @click="visible = true">人工否定</span>
+            <!--<span @click="visible = true">人工否定</span>-->
         </div>
         <div class="middle">
             <div class="img">
@@ -21,7 +21,7 @@
             <div class="item result">
                 <div class="name">分析结果：</div>
                 <div class="nr">{{ analysisResult }}</div>
-                <i-dropdown
+                <!--<i-dropdown
                         class="dropAlarmDown"
                         trigger="click"
                         placement="bottom-start"
@@ -44,7 +44,7 @@
                             <div class="alarmLevel">{{ itemL }}</div>
                         </i-dropdownItem>
                     </i-dropdownMenu>
-                </i-dropdown>
+                </i-dropdown>-->
             </div>
         </div>
         <person-judge @on-close="visible = false" :visible="visible"></person-judge>
@@ -66,6 +66,7 @@
             }
         },
         props: {
+            taskCurreny: {},
             imgUr:{
                 type: String,
                 default: ''

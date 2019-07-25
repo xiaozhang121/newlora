@@ -4,11 +4,15 @@
       <img :src="reportData.pic" />
     </div>
     <div class="content">
-      <h3>
+      <h3 v-if="kind != 'robot'">
         任务ID:
         <span>{{reportData.planId}}</span>
       </h3>
-      <p>
+      <h3 v-if="kind == 'robot'">
+        {{ reportData.name }}
+        <span style="font-size:13px;font-weight:normal">任务ID:{{reportData.planId}}</span>
+      </h3>
+      <p v-if="kind != 'robot'">
         类型:
         <span>{{reportData.planType}}</span>
       </p>
@@ -50,6 +54,7 @@
 
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import qs from 'qs'
 import {
   reportDownload,
   getViewreport
@@ -57,7 +62,18 @@ import {
 import { constants } from "crypto";
 export default {
   name: "ReportTable",
+  data () {
+    const that = this
+    return {
+        baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
+    }
+  },
   props: {
+    path:{
+        type: String,
+        default: ''
+    },
+    kind:{},
     reportData: {
       type: Object,
       default: () => {
@@ -74,18 +90,32 @@ export default {
   methods: {
     clickDownload() {
       let url = this.url.downloadUrl;
-      let query = {
-        planId: this.reportData.planId,
-        t: this.$store.state.user.token
-      };
-      getAxiosData(url, query).then(res => {
+      let params = qs.stringify({
+          planId: this.reportData.planId,
+          t: this.$store.state.user.token
+      })
+      window.location.href = `${this.baseUrl}${url}?${params}`
+     /* getAxiosData(url, query).then(res => {
         this.$message({
           message: "开始下载",
           type: "success"
         });
-      });
+      });*/
     },
     viewReports() {
+      if(this.path){
+          debugger
+          this.$router.push({
+              path: this.path,
+              query: {
+                  planId: this.reportData.planId,
+                  taskRunHisId: this.reportData.ID,
+                  //   planId: '603610399709396992',
+                  planType: this.reportData.planType
+              }
+          });
+          return
+      }
       this.$router.push({
         path: "/report/report-view",
         query: {
