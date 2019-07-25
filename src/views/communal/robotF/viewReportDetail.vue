@@ -309,13 +309,29 @@ export default {
       regionList: [],
       statusList: [],
       popData: {},
-      clcikQueryData: {}
+      clcikQueryData: {},
+      routeName: ''
     };
+  },
+  watch: {
+      '$route' (to) {
+          this.routeName = to.name
+      },
+      routeName(now){
+          debugger
+          if(now == 'robot-twoList'){
+              this.$set(this.dataBread,1,'机器人二')
+          }else{
+              this.dataBread[2] = '机器人一'
+              this.$set(this.dataBread,1,'机器人一')
+          }
+      }
   },
   created() {
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId;
     this.planType = this.$route.query.planType;
     this.getRegion();
+    this.routeName = this.$route.name
     // this.getStart();
     // this.getType();
   },
@@ -490,7 +506,8 @@ export default {
         });
       }
     }
-  }
+  },
+
 };
 </script>
 

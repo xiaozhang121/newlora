@@ -5,7 +5,7 @@
     </div>
     <div class="title">
       <span>{{ robotName }}</span>
-      <button-custom class="moreTask" title="更多任务>" @click.native="$router.push({'name': 'robot-detail'})"/>
+      <button-custom class="moreTask" title="更多任务>" @click.native="$router.push({'path': 'detail'})"/>
     </div>
     <div class="content">
       <div class="top">
@@ -88,6 +88,8 @@ export default {
   data () {
     const that = this
     return {
+        substationId: '',
+        robotId: '',
         taskId: '',
         taskCurreny: '',
         robotStatus: '',
@@ -108,23 +110,29 @@ export default {
          if(now == 'robot-twoList'){
              this.$set(this.dataBread,2,'机器人二')
              this.robotName = '机器人二'
+             this.substationId =  '1'
+             this.robotId =  '1'
          }else{
              this.dataBread[2] = '机器人一'
              this.robotName = '机器人一'
              this.$set(this.dataBread,2,'机器人一')
+             this.substationId =  '1'
+             this.robotId =  '9'
          }
+          this.initData()
+
       }
   },
   methods: {
       initData(){
           const that = this
-          postAxiosData('/robot/rest/taskStatus',{substationId: '1', robotId: '9'}).then(res=>{
+          postAxiosData('/robot/rest/taskStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
               that.taskStatus = res.data
           })
-          postAxiosData('/robot/rest/robotStatus',{substationId: '1', robotId: '9'}).then(res=>{
+          postAxiosData('/robot/rest/robotStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
               that.robotStatus = res.data
           })
-          postAxiosData('/robot/rest/reports',{substationId: '1', robotId: '9',length: 10}).then(res=>{
+          postAxiosData('/robot/rest/reports',{substationId: that.substationId, robotId: that.robotId,length: 10}).then(res=>{
               that.reportsList = res.data
               let data = res.data
               data = data.reportList
@@ -154,7 +162,6 @@ export default {
       }
   },
   created(){
-      this.initData()
   },
   mounted () {
     this.routeName = this.$route.name

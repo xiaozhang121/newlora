@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="configure">
-      <div>任务配置管理（机器人一）</div>
+      <div>任务配置管理（{{ dataBread[2] }}）</div>
       <div class="main">
         <div class="left">
           <duno-btn-top
@@ -92,6 +92,7 @@ export default {
   data() {
     const that = this
     return {
+      routeName: '',
       taskNormalData: '',
       dialogVisible: false,
       mixinViewModuleOptions: {
@@ -322,6 +323,19 @@ export default {
       baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
     };
   },
+  watch: {
+        '$route' (to) {
+            this.routeName = to.name
+        },
+        routeName(now){
+            if(now == 'robot-twoList'){
+                this.$set(this.dataBread,2,'机器人二')
+            }else{
+                this.dataBread[2] = '机器人一'
+                this.$set(this.dataBread,2,'机器人一')
+            }
+        }
+    },
   methods: {
     initData(){
         const that = this
@@ -353,6 +367,7 @@ export default {
   },
   mounted() {
     this.getInfor();
+    this.routeName = this.$route.name
    /* setTimeout(()=>{
         this.dialogVisible = true
     },1000)*/
@@ -362,6 +377,12 @@ export default {
 
 <style lang="scss">
 .robotDetail {
+  .dunoBtnTop .icon-xiala{
+    width: 12px !important;
+    height: 15px !important;
+    right: 20px !important;
+    top: 12px !important;
+  }
   .configure {
     color: #ffffff;
     & > div {

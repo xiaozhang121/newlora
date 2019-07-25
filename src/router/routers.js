@@ -627,7 +627,7 @@ export default [{
                     },
                     {
                         path: 'report',
-                        name: 'robot-report',
+                        name: 'robot-oneList',
                         meta: {
                             title: '列表',
                             hideInMenu: true,
@@ -638,7 +638,7 @@ export default [{
                     },
                     {
                         path: 'detail',
-                        name: 'robot-detail',
+                        name: 'robot-oneList',
                         active: "robot-oneList",
                         meta: {
                             title: '列表',
@@ -669,7 +669,30 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/robotF/index.vue')
-                }]
+                },
+                  {
+                        path: 'report',
+                        name: 'robot-twoList',
+                        meta: {
+                            title: '列表',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: "robot-twoList"
+                        },
+                        component: () => import('@/views/communal/robotF/viewReportDetail.vue')
+                    },
+                    {
+                        path: 'detail',
+                        name: 'robot-twoList',
+                        active: "robot-oneList",
+                        meta: {
+                            title: '列表',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: "robot-twoList"
+                        },
+                        component: () => import('@/views/communal/robotF/detail.vue')
+                    }]
             }
         ]
     },
