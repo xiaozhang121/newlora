@@ -9,13 +9,20 @@
           <div class="item">
             <div class="camera_surveillanceDetail">
               <div class="contain">
-                <key-monitor
+                <!-- <key-monitor
                   paddingBottom="56%"
                   class="monitor"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
-                ></key-monitor>
+                ></key-monitor>-->
+                <KeyMonitorDetail
+                  paddingBottom="56%"
+                  class="monitor"
+                  :autoplay="playerOptions.autoplay"
+                  :streamAddr="playerOptions.streamAddr"
+                  :showBtmOption="false"
+                />
               </div>
             </div>
             <div class="control">
@@ -149,6 +156,7 @@
 <script>
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import KeyMonitorDetail from "_c/duno-c/KeyMonitorDetail";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
@@ -179,7 +187,8 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning
+    wraning,
+    KeyMonitorDetail
   },
   data() {
     return {

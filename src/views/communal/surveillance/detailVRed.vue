@@ -9,13 +9,20 @@
           <div class="item">
             <div class="camera_surveillanceDetail">
               <div class="contain">
-                <key-monitor
+                <!-- <key-monitor
                   paddingBottom="56%"
                   class="monitor"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
-                ></key-monitor>
+                ></key-monitor>-->
+                <KeyMonitorDetail
+                  paddingBottom="56%"
+                  class="monitor"
+                  :autoplay="playerOptions.autoplay"
+                  :streamAddr="playerOptions.streamAddr"
+                  :showBtmOption="false"
+                />
               </div>
             </div>
             <div class="control">
@@ -163,6 +170,7 @@
 <script>
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import KeyMonitorDetail from "_c/duno-c/KeyMonitorDetail";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
@@ -193,7 +201,8 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning
+    wraning,
+    KeyMonitorDetail
   },
   data() {
     return {
@@ -204,8 +213,8 @@ export default {
         autoplay: true
       },
       playerOptionsd: {
-          streamAddr: "",
-          autoplay: true
+        streamAddr: "",
+        autoplay: true
       },
       mixinViewModuleOptions: {
         activatedIsNeed: true,
@@ -461,10 +470,10 @@ export default {
           }, 500);
         });
       });
-      const urld = '/lenovo-iir/device/video/url/rtmp/'+'33';
+      const urld = "/lenovo-iir/device/video/url/rtmp/" + "33";
       getAxiosData(urld, {}).then(res => {
-          that.playerOptionsd.sources[0].src = res.data;
-          that.$forceUpdate()
+        that.playerOptionsd.sources[0].src = res.data;
+        that.$forceUpdate();
       });
     },
     cutOut(data) {

@@ -18,7 +18,15 @@
         ></video-player>
       </div>
       <transition name="el-zoom-in-bottom">
-        <div v-show="showBtm" class="explain iconList">
+        <!-- <div v-show="showBtm" v-if="isChange" @click="changeBaggne" class="explain iconList">
+          <div class="block">
+            <p>
+              点击按钮，完成标定初始化设置
+              <span>初始化</span>
+            </p>
+          </div>
+        </div>-->
+        <div v-show="showBtm" v-if="!isChange" class="explain iconList">
           <div class="block">
             <!-- <span class="demonstration">-15s</span>
             <el-slider v-model="value2"></el-slider>
@@ -159,7 +167,7 @@ export default {
       showView: false,
       value2: 15,
       showBtm: false,
-      //   isChange: true,
+      isChange: true,
       isSecond: false,
       playerOptions: {
         sources: [
@@ -238,10 +246,10 @@ export default {
           monitorDeviceId: this.monitorInfo["monitorDeviceId"]
         }
       });
+    },
+    changeBaggne() {
+      this.isChange = false;
     }
-    // changeBaggen() {
-    //   this.isChange = false;
-    // }
   },
   created() {
     this.playerOptions.autoplay = this.autoplay;
