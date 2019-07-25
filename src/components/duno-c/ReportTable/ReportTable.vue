@@ -87,11 +87,11 @@ export default {
     },
     viewReports() {
       this.$router.push({
-        path: "/report/report-view",
-        query: {
+        name: "report-view",
+        params: {
           planId: this.reportData.planId,
-          //   planId: '603610399709396992',
-          planType: this.reportData.planType
+          planType: this.reportData.planType,
+          url: this.url.viewUrl
         }
       });
     },

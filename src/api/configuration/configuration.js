@@ -69,7 +69,10 @@ export const lightNewReport = (query) => {
 export const lightNewInformation = (data) => {
     return axios.request({
         url: "/lenovo-plan/api/task/visible-result/list",
-        method: 'get'
+        method: 'get',
+        params: {
+            ...data
+        }
     })
 }
 
@@ -88,7 +91,10 @@ export const infraNewReport = (query) => {
 export const infraNewInformation = (data) => {
     return axios.request({
         url: "/lenovo-plan/api/task/iir-result/list",
-        method: 'get'
+        method: 'get',
+        params: {
+            ...data
+        }
     })
 }
 
@@ -238,7 +244,7 @@ export const getPosition = (data) => {
     })
 }
 
-//视频监控-红外检测-摄像头详情-历史信息记录
+//视频监控-红外监测-摄像头详情-历史信息记录
 export const getRedLIght = (query) => {
     return axios.request({
         url: "/lenovo-alarm/api/alarm/level-edit",
@@ -249,7 +255,7 @@ export const getRedLIght = (query) => {
     })
 }
 
-//视频监控-红外检测-摄像头详情-历史信息记录-全部数据类型
+//视频监控-红外监测-摄像头详情-历史信息记录-全部数据类型
 export const getRedType = (data) => {
     // debugger
     return axios.request({
@@ -258,7 +264,7 @@ export const getRedType = (data) => {
     })
 }
 
-//视频监控-红外检测-摄像头详情-历史信息记录-全部异常等级
+//视频监控-红外监测-摄像头详情-历史信息记录-全部异常等级
 export const getRedGrade = (data) => {
     return axios.request({
         url: "/lenovo-alarm/api/alarm/level",
@@ -266,7 +272,7 @@ export const getRedGrade = (data) => {
     })
 }
 
-//视频监控-红外检测-摄像头详情-历史数据-预置位
+//视频监控-红外监测-摄像头详情-历史数据-预置位
 export const getRedPreset = (data) => {
     return axios.request({
         url: "",
@@ -274,7 +280,7 @@ export const getRedPreset = (data) => {
     })
 }
 
-//视频监控-红外检测-摄像头详情-历史数据echarts
+//视频监控-红外监测-摄像头详情-历史数据echarts
 export const getRedEcharts = (query) => {
     // debugger
     return axios.request({
@@ -297,7 +303,7 @@ export const getRecode = (data) => {
 //表格弹窗-详情
 export const getviewDetail = (query) => {
     return axios.request({
-        url: "/lenovo-plan/api/statistics/plan/view",
+        url: "/lenovo-plan/api/task-result/view",
         method: 'get',
         params: {
             ...query

@@ -208,7 +208,15 @@ export default {
                   props: { type: "text", content: "查看报告>" },
                   on: {
                     click: () => {
-                      console.log(111);
+                      //   console.log(111);
+                      this.$router.push({
+                        name: "report-view",
+                        params: {
+                          planId: params.row.planId,
+                          planType: params.row.planType,
+                          url: this.url.viewUrl
+                        }
+                      });
                     }
                   }
                 },

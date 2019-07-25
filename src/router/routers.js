@@ -308,7 +308,7 @@ export default [{
                     path: 'detailRed',
                     name: 'surveillanceListRed',
                     meta: {
-                        title: '红外检测',
+                        title: '红外监测',
                         hideInMenu: true,
                         isDetails: true,
                     },
