@@ -18,11 +18,12 @@
         <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
         </div>
         <div :class="['allShowPic']" v-else-if="isDiagram == 1">
-            <drappable class="drappable_assembly" width="1900px" height="675px" >
+            <!--<drappable class="drappable_assembly" width="1900px" height="675px" >
                 <div class="realView">
                   <img :src="kilovoltAllAround" />
                 </div>
-            </drappable>
+            </drappable>-->
+          <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
         </div>
         <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice" mapUrl="http://52.82.107.5:8085" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
       </div>
@@ -340,6 +341,7 @@ import { popupinfo, popupOneInfo } from '_c/popupinfo'
 import { deviceLocation, deviceList, lastDeviceList } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
 import gisMap from '_c/duno-m/gisMap'
+import {getAxiosData} from "../../../api/axiosType";
 export default {
   mixins: [mixinViewModule],
   name: 'RoleIndex',
@@ -419,6 +421,7 @@ export default {
   data () {
     const that = this
     return {
+      disgramList: [],
       alarmId: '',
       visible: false,
       powerPointList: [],
@@ -471,6 +474,7 @@ export default {
         this.$nextTick(()=>{
             this.mainlistShow = true
             this.initOtherPoint()
+            this.initDisgram()
         })
         this.onClose(false ,'all')
         this.$refs.btnTopRef.handleCheckAllChange(true)
@@ -480,6 +484,39 @@ export default {
       }
   },
   methods: {
+      initDisgram(){
+          const that = this
+          getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
+              let data = res.data
+              debugger
+              if(that.kilovoltKind == 10){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '6'
+                  })
+              }else if(that.kilovoltKind == 35){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '5'
+                  })
+              }else if(that.kilovoltKind == 110){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '4'
+                  })
+              }else if(that.kilovoltKind == 220){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '3'
+                  })
+              }else if(that.kilovoltKind == 500){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '2'
+                  })
+              }else if(that.kilovoltKind == 1000){
+                  data = data.filter(item=>{
+                      return item['areaId'] == '1'
+                  })
+              }
+              that.disgramList = data
+          })
+      },
       onAlarmC(point){
 
       },
@@ -634,6 +671,7 @@ export default {
       },
       changDiagram(now){
           this.initOtherPoint()
+          this.initDisgram()
           this.isDiagram = now
       },
       getPower(){
@@ -736,6 +774,7 @@ export default {
   created(){
       this.getDeviceList()
       this.$nextTick(()=>{
+          this.initDisgram()
           this.initOtherPoint()
       })
       this.$store.state.app.kilovolt = this.$route.meta.kind

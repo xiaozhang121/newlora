@@ -27,7 +27,7 @@
       </div>
       <el-row style="position: relative; top: -12px">
         <!--<el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>-->
-        <el-col :span="16"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复归</el-button><el-button type="success" round @click="restoration('0')">保存</el-button></div></el-col>
+        <el-col :span="16"><div class="buttonAll"><el-button type="info" round @click="restoration('1')">复归</el-button><el-button type="success" round @click="restoration('0')">备注</el-button></div></el-col>
       </el-row>
     </div>
   </historical-documents>
@@ -81,10 +81,12 @@ export default {
   methods: {
     restoration (type) {
       this.$store.state.user.isAlarm = false
-      console.log(type == '1'?'复归':'保存')
-      const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
+      console.log(type == '1'?'复归':'备注')
+      // const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
+      const url = "/lenovo-alarm/api/alarm/deal"
       const query = {
-        alarmId: this.itemData.alarmId
+        alarmId: this.itemData.alarmId,
+        type: type
       }
       postAxiosData(url, query).then(res => {
         if (res.code !== 200) {
