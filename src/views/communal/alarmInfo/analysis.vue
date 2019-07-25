@@ -10,6 +10,7 @@
           <duno-btn-top
             @on-select="onSelectAmmeter"
             class="dunoBtnTop"
+            zIndex="30"
             :isCheck="false"
             :dataList="ammeterData"
             :title="titleAmmeter"
@@ -63,6 +64,7 @@
               @on-select="onSelectByDay"
               class="dunoBtnTop"
               :isCheck="false"
+              zIndex="20"
               :dataList="ByDayData"
               :title="titleByDay"
               :showBtnList="false"
@@ -778,7 +780,7 @@ export default {
         // debugger;
         console.log(that.legendData);
         console.log(that.seriesData);
-        // that.isChangeFlag = !that.isChangeFlag;
+        that.isChangeFlag = !that.isChangeFlag;
         // const dataList = res.data.dataList;
         // const legendData = [];
         // const xAxisData = [];
@@ -1068,21 +1070,25 @@ export default {
           .dunoBtnTop {
             padding-bottom: 0;
             .btnList {
-              background: rgba(0, 0, 0, 0);
+              /*background: rgba(0, 0, 0, 0);*/
               width: 100px;
               top: 133px;
+              .btnItem{
+                color: white;
+              }
               .title {
                 margin-top: 0;
-                background: rgba(0, 0, 0, 0);
+                /*background: rgba(0, 0, 0, 0);*/
                 & > div {
-                  font-size: 16px;
+                  font-size: 12px;
                 }
               }
             }
             .icon-xiala {
-              height: 22px;
-              right: 3px;
-              top: 8px;
+              height: 15px;
+              right: 11px;
+              top: 12px;
+              width: 12px;
             }
           }
         }
