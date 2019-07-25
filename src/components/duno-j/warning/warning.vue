@@ -2,8 +2,8 @@
   <div class="warningDialog">
     <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
-        <div class="title_top">记录{{ warningID }}</div>
-        <div class="extend">{{ alarmType }}</div>
+        <div class="title_top">{{ dataList.title }}</div>
+        <div class="extend">{{ dataList.alarmTypeValue }}</div>
       </div>
       <div class="main">
         <div class="monitor">
@@ -12,7 +12,7 @@
         <div class="info">
           <div class="info_top">
             <p class="monitorTitle">判定结果:</p>
-            <p>{{judgeResult}}</p>
+            <p>{{dataList.alarmType}}</p>
           </div>
           <div v-if="!discriminate" class="temperature">
             <p class="monitorTitle">温度正常</p>
@@ -46,7 +46,7 @@
           </div>
           <div v-else class="discriminate">
             <div class="title">识别</div>
-            <div class="nr">人员徘徊</div>
+            <div class="nr">{{ dataList.result }}</div>
           </div>
           <div>
             <a href="javascript:;" @click="clickJudge">结果修订</a>
@@ -83,18 +83,14 @@ export default {
       searchId: "",
       searchType: "",
       visibleJudge: false,
-      handleList: [
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" }
-      ],
+      handleList: [],
       newVisible: false,
       selectList: ["一般", "严重", "危急"],
       alarmLevelT: "",
       alarmLevelN: "",
-      newMonitorUrl: ""
+      newMonitorUrl: "",
+      dataList: [],
+      discriminate: false
     };
   },
   props: {
@@ -126,12 +122,12 @@ export default {
         return false;
       }
     },
-    discriminate: {
-      type: Boolean,
-      default: () => {
-        return false;
-      }
-    },
+    // discriminate: {
+    //   type: Boolean,
+    //   default: () => {
+    //     return false;
+    //   }
+    // },
     alarmLevel: {
       type: [String, Number],
       default: "1"
@@ -176,15 +172,15 @@ export default {
       }
       this.initData();
     },
-    handleNotes(now) {
-      this.handleList = [];
-      let obj = {};
-      now.forEach(el => {
-        obj.time = el.dealTime;
-        obj.info = el.dealType;
-        this.handleList.push(obj);
-      });
-    },
+    // handleNotes(now) {
+    //   this.handleList = [];
+    //   let obj = {};
+    //   now.forEach(el => {
+    //     obj.time = el.dealTime;
+    //     obj.info = el.dealType;
+    //     this.handleList.push(obj);
+    //   });
+    // },
     alarmLevel: {
       handler(now) {
         this.alarmLevelN = now;
@@ -199,10 +195,22 @@ export default {
   },
   methods: {
     initData() {
-      // debugger
+      //   debugger;
       getAxiosData("/lenovo-plan/api/task-result/view", {
         [this.searchType]: this.searchId
-      }).then(res => {});
+      }).then(res => {
+        this.dataList = res.data;
+        let obj = {};
+        res.data.dealList.forEach(el => {
+          obj.time = el.dealTime;
+          obj.info = el.dealType;
+          this.handleList.push(obj);
+        });
+
+        if (this.dataList.alarmTypeValue == "动态环境类") {
+          this.discriminate = true;
+        }
+      });
     },
     selectItem(item, index) {
       this.alarmLevelT = item;
@@ -231,7 +239,7 @@ export default {
       }
     },
     clickJudge() {
-    //   debugger;
+      //   debugger;
       this.visibleJudge = true;
     }
   },

@@ -69,7 +69,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning  :popData="popData"  @handleClose="handleClose" />
+    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -82,7 +82,7 @@ import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
-import { getAxiosData, postAxiosData, putAxiosData } from '@/api/axiosType'
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
   name: "abnormalInfo",
   mixins: [mixinViewModule],
@@ -98,7 +98,7 @@ export default {
     const that = this;
     return {
       handleNotes: [],
-      alarmType: '',
+      alarmType: "",
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
@@ -162,47 +162,83 @@ export default {
             let newArr = [];
             newArr.push(
               h(
-                "i-dropdown", {
+                "i-dropdown",
+                {
                   props: { trigger: "click", placement: "bottom-start" },
-                  style: {marginLeft: "5px"},
-                  on: {"on-click": value => { console.log(value)}}
-                },[
-                  h( "div", {class: { member_operate_div: true }},
-                    [h("div",{
-                          class: { table_select: true,serious: params.row.alarmLevel === '2',commonly: (params.row.alarmLevel === '1'),danger: params.row.alarmLevel === '3'}
+                  style: { marginLeft: "5px" },
+                  on: {
+                    "on-click": value => {
+                      console.log(value);
+                    }
+                  }
+                },
+                [
+                  h("div", { class: { member_operate_div: true } }, [
+                    h(
+                      "div",
+                      {
+                        class: {
+                          table_select: true,
+                          serious: params.row.alarmLevel === "2",
+                          commonly: params.row.alarmLevel === "1",
+                          danger: params.row.alarmLevel === "3"
+                        }
+                      },
+                      [
+                        h("span", this.cutOut(params.row.alarmLevelName), {
+                          class: { member_operate_div: true }
+                        }),
+                        h("i", {
+                          style: { marginLeft: "5px" },
+                          class: { "iconfont icon-xiala": true }
+                        })
+                      ]
+                    )
+                  ]),
+                  h("i-dropdownMenu", { slot: "list" }, [
+                    h("i-dropdownItem", {}, [
+                      h(
+                        "div",
+                        {
+                          class: { alarmLevel: true },
+                          on: {
+                            click: () => {
+                              that.onClickDropdown(params.row, "一般", "1");
+                            }
+                          }
                         },
-                        [h("span", this.cutOut(params.row.alarmLevelName), {
-                            class: {member_operate_div: true}
-                          }),
-                          h("i", {
-                            style: {marginLeft: "5px"},
-                            class: {"iconfont icon-xiala": true}
-                          })
-                        ]
+                        "一般"
                       )
-                    ]
-                  ),
-                  h( "i-dropdownMenu", {slot: "list"},
-                    [h("i-dropdownItem", {}, [
-                        h("div",{
-                            class: {alarmLevel: true},
-                            on: {click: () => {that.onClickDropdown(params.row, '一般', '1')}}
-                          }, "一般")
-                      ]),
-                      h("i-dropdownItem", {}, [
-                        h("div",{
-                            class: {alarmLevel: true},
-                            on: {click: () => {that.onClickDropdown(params.row, '严重', '2')}}
-                          },"严重")
-                      ]),
-                      h("i-dropdownItem", {}, [
-                        h("div",{
-                            class: {alarmLevel: true},
-                            on: {click: () => {that.onClickDropdown(params.row, '危急', '3')}}
-                          },"危急")
-                      ])
-                    ]
-                  )
+                    ]),
+                    h("i-dropdownItem", {}, [
+                      h(
+                        "div",
+                        {
+                          class: { alarmLevel: true },
+                          on: {
+                            click: () => {
+                              that.onClickDropdown(params.row, "严重", "2");
+                            }
+                          }
+                        },
+                        "严重"
+                      )
+                    ]),
+                    h("i-dropdownItem", {}, [
+                      h(
+                        "div",
+                        {
+                          class: { alarmLevel: true },
+                          on: {
+                            click: () => {
+                              that.onClickDropdown(params.row, "危急", "3");
+                            }
+                          }
+                        },
+                        "危急"
+                      )
+                    ])
+                  ])
                 ]
               )
             );
@@ -217,19 +253,30 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            newArr.push((h('Tooltip', {
-                props: { content: params.row.monitorDeviceName }
-            },[
-              h("a",{
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {click: () => {console.log("摄像头ID：", params.row.monitorDeviceId) }}
-                }, params.row.monitorDeviceName)
-            ])));
-            return h(
-              "div", {class: {member_operate_div: true}},
-              newArr
+            newArr.push(
+              h(
+                "Tooltip",
+                {
+                  props: { content: params.row.monitorDeviceName }
+                },
+                [
+                  h(
+                    "a",
+                    {
+                      class: "table_link",
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          console.log("摄像头ID：", params.row.monitorDeviceId);
+                        }
+                      }
+                    },
+                    params.row.monitorDeviceName
+                  )
+                ]
+              )
             );
+            return h("div", { class: { member_operate_div: true } }, newArr);
           }
         },
         {
@@ -240,10 +287,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            if (params.row.fileType == '1') {
-              newArr.push([h("img", { class: "imgOrMv", attrs: {src: params.row.alarmFileAddress}, draggable: false })]);
-            } else if (params.row.fileType == '2') {
-              newArr.push([h("video", { class: "imgOrMv", attrs: {src: params.row.alarmFileAddress}, draggable: false })]);
+            if (params.row.fileType == "1") {
+              newArr.push([
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
+            } else if (params.row.fileType == "2") {
+              newArr.push([
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
             }
             return h("div", newArr);
           }
@@ -261,33 +320,42 @@ export default {
           width: 220,
           align: "center",
           render: (h, params) => {
-            let newArr = []
+            let newArr = [];
             newArr.push([
-              h("el-button", {
-                  class: ['btnClass',{'grey':(params.row.isReturn == '1')}],
-                  props: { disabled: params.row.isReturn == '1' },
+              h(
+                "el-button",
+                {
+                  class: ["btnClass", { grey: params.row.isReturn == "1" }],
+                  props: { disabled: params.row.isReturn == "1" },
                   style: { marginRight: "20px" },
                   on: {
                     click: () => {
                       that.restoration(params.row, params.row.isReturn);
                     }
                   }
-                },params.row.isReturn == '0'?"复归":'已复归')
+                },
+                params.row.isReturn == "0" ? "复归" : "已复归"
+              )
             ]);
             newArr.push([
-              h("el-button",{
+              h(
+                "el-button",
+                {
                   class: "table_link",
                   style: { marginRight: "20px" },
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      that.handleNotes = []
-                      that.handleNotes.push({dealTime:params.row.dealTime, dealType: params.row.dealRecord})
-                      that.alarmType = params.row.alarmType
-                      that.popData = params.row
-                      that.alarmLevel = params.row.alarmLevel
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
+                      that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
                       that.visible = true;
-                      that.$forceUpdate()
+                      that.$forceUpdate();
                     }
                   }
                 },
@@ -309,50 +377,53 @@ export default {
       statusList: [],
       popData: {},
       clcikQueryData: {},
-      alarmLevel: ''
+      alarmLevel: ""
     };
   },
   created() {
-    this.getRegion()
-    this.getStart()
-    this.getType()
+    this.getRegion();
+    this.getStart();
+    this.getType();
   },
   methods: {
-    cutOut (data) {
+    cutOut(data) {
       if (data) {
-        const index = data.indexOf('缺陷')
+        const index = data.indexOf("缺陷");
         if (index > -1) {
-          data = data.substring(0, index)
+          data = data.substring(0, index);
         }
-        return data
+        return data;
       } else {
-        return '更多'
+        return "更多";
       }
     },
     onClickDropdown(row, type, No) {
-      const index = row._index
-      this.dataList[index].alarmLevelName = type
-      this.dataList[index].alarmLevel = No
-      this.psotAlarmData(row, No)
+      const index = row._index;
+      this.dataList[index].alarmLevelName = type;
+      this.dataList[index].alarmLevel = No;
+      this.psotAlarmData(row, No);
     },
     psotAlarmData(row, No) {
-      const that = this
-      const url = '/lenovo-alarm/api/alarm/level-edit'
+      const that = this;
+      const url = "/lenovo-alarm/api/alarm/level-edit";
       const query = {
         id: row.id,
         alarmLevel: No
-      }
-      putAxiosData(url, query).then(res => {
-        if (res.code !== 200) {
-          this.dataList[index].alarmLevel = row.alarmLevel
-          this.dataList[index].alarmLevelName = row.alarmLevelName
-          return that.$message.error(res.msg)
+      };
+      putAxiosData(url, query).then(
+        res => {
+          if (res.code !== 200) {
+            this.dataList[index].alarmLevel = row.alarmLevel;
+            this.dataList[index].alarmLevelName = row.alarmLevelName;
+            return that.$message.error(res.msg);
+          }
+          that.$message.success(res.msg);
+        },
+        error => {
+          this.dataList[index].alarmLevel = row.alarmLevel;
+          this.dataList[index].alarmLevelName = row.alarmLevelName;
         }
-        that.$message.success(res.msg)
-      }, error => {
-        this.dataList[index].alarmLevel = row.alarmLevel
-        this.dataList[index].alarmLevelName = row.alarmLevelName
-      })
+      );
     },
     onClose() {
       this.visibleSettingOption = false;
@@ -361,15 +432,15 @@ export default {
       this.visibleSettingOption = true;
     },
     onSelect(item, index) {
-      this[item.title] = item["describeName"]
-      if (item.title == 'titleTypeL') {
-        this.clcikQueryData.areaId = item.monitorDeviceType
-      } else if (item.title == 'titleTypeC') {
-        this.clcikQueryData.status = item.monitorDeviceType
-      } else if (item.title == 'titleTypeR') {
-        this.clcikQueryData.source = item.monitorDeviceType
+      this[item.title] = item["describeName"];
+      if (item.title == "titleTypeL") {
+        this.clcikQueryData.areaId = item.monitorDeviceType;
+      } else if (item.title == "titleTypeC") {
+        this.clcikQueryData.status = item.monitorDeviceType;
+      } else if (item.title == "titleTypeR") {
+        this.clcikQueryData.source = item.monitorDeviceType;
       }
-      this.clickQuery(this.clcikQueryData)
+      this.clickQuery(this.clcikQueryData);
     },
     onChangeTime(data) {
       let startTime = "";
@@ -378,97 +449,97 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
-      this.clcikQueryData.startTime = startTime
-      this.clcikQueryData.endTime = endTime
-      this.clickQuery(this.clcikQueryData)
+      this.clcikQueryData.startTime = startTime;
+      this.clcikQueryData.endTime = endTime;
+      this.clickQuery(this.clcikQueryData);
     },
     handleClose() {
-      this.popData = {}
+      this.popData = {};
       this.visible = false;
     },
-    restoration (row, flag) {
-      if(flag == 0){
-        const url = "/lenovo-alarm/api/alarm/deal"
+    restoration(row, flag) {
+      if (flag == 0) {
+        const url = "/lenovo-alarm/api/alarm/deal";
         const query = {
           alarmId: row.alarmId,
-          type: '1'
-        }
+          type: "1"
+        };
         postAxiosData(url, query).then(res => {
           if (res.code !== 200) {
-            return this.$message.error(res.msg)
+            return this.$message.error(res.msg);
           }
-          this.dataList[row._index].isReturn = '1'
-          this.$message.success(res.msg)
-        })
+          this.dataList[row._index].isReturn = "1";
+          this.$message.success(res.msg);
+        });
       }
     },
     clickExcel() {
-      const that = this
-      that.exportHandle()
+      const that = this;
+      that.exportHandle();
     },
     getRegion() {
-      const that = this
-      const url = '/lenovo-device/api/area/select-list'
+      const that = this;
+      const url = "/lenovo-device/api/area/select-list";
       postAxiosData(url).then(res => {
-        const resData = res.data
+        const resData = res.data;
         const map = resData.map(item => {
           const obj = {
             describeName: item.label,
             monitorDeviceType: item.value,
-            title: 'titleTypeL'
-          }
-          return obj
-        })
+            title: "titleTypeL"
+          };
+          return obj;
+        });
         map.unshift({
-          describeName: '所有区域',
-          monitorDeviceType: '',
-          title: 'titleTypeL'
-        })
-        this.regionList = map
-      })
+          describeName: "所有区域",
+          monitorDeviceType: "",
+          title: "titleTypeL"
+        });
+        this.regionList = map;
+      });
     },
     getStart() {
-      const that = this
-      const url = "/lenovo-device/api/monitor/status"
+      const that = this;
+      const url = "/lenovo-device/api/monitor/status";
       postAxiosData(url).then(res => {
-        const resData = res.data
+        const resData = res.data;
         const map = resData.map(item => {
           const obj = {
             describeName: item.label,
             monitorDeviceType: item.value,
-            title: 'titleTypeC'
-          }
-          return obj
-        })
+            title: "titleTypeC"
+          };
+          return obj;
+        });
         map.unshift({
-          describeName: '所有状态',
-          monitorDeviceType: '',
-          title: 'titleTypeC'
-        })
-        this.statusList = map
-      })
+          describeName: "所有状态",
+          monitorDeviceType: "",
+          title: "titleTypeC"
+        });
+        this.statusList = map;
+      });
     },
     getType() {
-      const that = this
-      const url = "/lenovo-plan/api/list/monitor-device-type"
+      const that = this;
+      const url = "/lenovo-plan/api/list/monitor-device-type";
       postAxiosData(url).then(res => {
-        const resData = res.data
-        let mapList = resData.filter(item => item.label != '请选择')
+        const resData = res.data;
+        let mapList = resData.filter(item => item.label != "请选择");
         const map = mapList.map(item => {
           const obj = {
             describeName: item.label,
             monitorDeviceType: item.value,
-            title: 'titleTypeR'
-          }
-          return obj
-        })
+            title: "titleTypeR"
+          };
+          return obj;
+        });
         map.unshift({
-          describeName: '所有来源',
-          monitorDeviceType: '',
-          title: 'titleTypeR'
-        })
-        this.typeList = map
-      })
+          describeName: "所有来源",
+          monitorDeviceType: "",
+          title: "titleTypeR"
+        });
+        this.typeList = map;
+      });
     }
   }
 };
@@ -476,8 +547,12 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.el-select-dropdown{
-  background: linear-gradient(210deg, rgba(48, 107, 135, 0.9), rgba(28, 50, 64, 0.7) 60%) !important;
+.el-select-dropdown {
+  background: linear-gradient(
+    210deg,
+    rgba(48, 107, 135, 0.9),
+    rgba(28, 50, 64, 0.7) 60%
+  ) !important;
   border: none !important;
   margin-top: 1px !important;
   margin-left: 0px;
@@ -498,21 +573,21 @@ export default {
 }
 .abnormalInfo {
   width: 100%;
-  .btnClass{
+  .btnClass {
     border-radius: 15px;
     background: #3a81a1;
     margin: auto;
     border: none;
-    &.grey{
+    &.grey {
       background: #979797;
       color: #767676;
     }
   }
   //-------------------表格样式
-  .dunoMain{
+  .dunoMain {
     height: inherit;
   }
-  .ivu-table{
+  .ivu-table {
     font-size: 16px;
   }
   .ivu-table th {
@@ -566,7 +641,7 @@ export default {
     }
     tr:nth-child(odd) {
       td {
-        background: rgba(0, 0, 0, 0)!important;
+        background: rgba(0, 0, 0, 0) !important;
       }
     }
     tr:nth-child(even) {
@@ -712,7 +787,7 @@ export default {
     color: white;
     font-size: 13px;
   }
-  .dropSelf{
+  .dropSelf {
     .icon-xiala {
       font-size: 9px;
       position: absolute;

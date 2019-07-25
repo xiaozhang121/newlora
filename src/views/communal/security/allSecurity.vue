@@ -61,16 +61,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning
-      :visible="visible"
-      warningID="20190711002"
-      :monitorUrl="popData.alarmFileAddress || ''"
-      :judgeResult="popData.alarmContent || ''"
-      :origin="popData.monitorDeviceId"
-      :handleResult="popData.dealRecord || ''"
-      :handleNotes="popData.dealList"
-      @handleClose="handleClose"
-    />
+    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
     <div class="remarks">
       <el-dialog
         title="备注"
@@ -133,6 +124,8 @@ export default {
         getDataListURL: "/lenovo-alarm/api/security/list",
         exportURL: "/lenovo-alarm/api/security/history/export"
       },
+      handleNotes: [],
+      alarmType: "",
       visibleSettingOption: false,
       visible: false,
       selectInfo: "更多",
@@ -311,8 +304,16 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
                       that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
                       that.visible = true;
+                      that.$forceUpdate();
                     }
                   }
                 },

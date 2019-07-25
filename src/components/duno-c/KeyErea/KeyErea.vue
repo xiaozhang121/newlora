@@ -78,7 +78,7 @@ export default {
       initCount: 0,
       isFirst: true,
       selectCount: 0,
-      cameraPic: '',
+      cameraPic: "",
       isSecond: false,
       isCenter: false,
       pushMovVisable: false,
@@ -89,33 +89,12 @@ export default {
       valueSelect: [],
       dataMonitor: [],
       active: 4,
-      optionsList: [
-       /* {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }*/
-      ],
+      optionsList: [],
       numberCameras: [
         {
           circleColor: "#00B4FF",
           describeName: "两个摄像头",
-          style: 'calc(50% - 10px)',
+          style: "calc(50% - 10px)",
           widthType: 2,
           count: 2,
           isActive: true
@@ -123,7 +102,7 @@ export default {
         {
           circleColor: "#FF5EB9",
           describeName: "四个摄像头",
-          style: 'calc(50% - 10px)',
+          style: "calc(50% - 10px)",
           widthType: 2,
           count: 4,
           isActive: true
@@ -131,7 +110,7 @@ export default {
         {
           circleColor: "#4FF2B7",
           describeName: "六个摄像头",
-          style: 'calc(100%/3 - 14px)',
+          style: "calc(100%/3 - 14px)",
           count: 6,
           widthType: 3,
           isActive: true
@@ -139,7 +118,7 @@ export default {
         {
           circleColor: "#FF9000",
           describeName: "八个摄像头",
-          style: 'calc(25% - 15px)',
+          style: "calc(25% - 15px)",
           count: 8,
           widthType: 4,
           isActive: true
@@ -147,25 +126,25 @@ export default {
       ]
     };
   },
-  props:{
-      configType:{
-          type: String,
-          default: '3'
-      }
+  props: {
+    configType: {
+      type: String,
+      default: "3"
+    }
   },
   computed: {
-    ...mapState(["app"]),
+    ...mapState(["app"])
   },
-  watch:{
-      selectCount(now){
-          this.numberCameras.forEach(item=>{
-              if(item['count'] == now){
-                  this.active = item['widthType']
-                  this.titleValueL = item['describeName']
-                  this.videoWidth = item['style']
-              }
-          })
-      },
+  watch: {
+    selectCount(now) {
+      this.numberCameras.forEach(item => {
+        if (item["count"] == now) {
+          this.active = item["widthType"];
+          this.titleValueL = item["describeName"];
+          this.videoWidth = item["style"];
+        }
+      });
+    }
   },
   methods: {
     onClose() {
@@ -186,56 +165,62 @@ export default {
       this.pushMovVisable = true;
       this.cameraInfo = item;
       if (this.cameraInfo) {
-          this.cameraPic =  this.cameraInfo["pic"]
+        this.cameraPic = this.cameraInfo["pic"];
       } else {
-          this.cameraPic =  ""
+        this.cameraPic = "";
       }
     },
     getCamera() {
       const that = this;
-      securityMonitor({configType: this.configType, userId: this.$store.state.user.userId}).then(res => {
+      securityMonitor({
+        configType: this.configType,
+        userId: this.$store.state.user.userId
+      }).then(res => {
         if (res.data && res.data.tableData.length) {
-          let data = res.data.tableData
-        /*  data.map(item=>{
+          let data = res.data.tableData;
+          /*  data.map(item=>{
               item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
           })*/
           that.dataMonitorAll = data;
-          that.selectCount = res.data.cameraNum
-          that.initCount = that.selectCount
+          that.selectCount = res.data.cameraNum;
+          that.initCount = that.selectCount;
           that.dataMonitor = data.slice(0, that.selectCount);
         }
       });
     },
     initData() {
       const that = this;
-      getMonitorSelect({configType: that.configType, userId: this.$store.state.user.userId}).then(res => {
-        if(res.data){
-          let data = res.data
-          data = data.filter(item=>{
-              return item['isSelected'] == true || item['isSelected'] == 1
-          })
-          if(data.length){
-            let arr = []
-            data.forEach(item=>{
-                if(item['monitorDeviceId'] != null)
-                  arr.push(item['monitorDeviceId'])
-            })
-            that.$nextTick(()=>{
-                that.valueSelect = arr
-            })
+      getMonitorSelect({
+        configType: that.configType,
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        if (res.data) {
+          let data = res.data;
+          data = data.filter(item => {
+            return item["isSelected"] == true || item["isSelected"] == 1;
+          });
+          if (data.length) {
+            let arr = [];
+            data.forEach(item => {
+              if (item["monitorDeviceId"] != null)
+                arr.push(item["monitorDeviceId"]);
+            });
+            that.$nextTick(() => {
+              that.valueSelect = arr;
+            });
             // that.getCameraInfo(data)
-          }else{
-            that.valueSelect = []
+          } else {
+            that.valueSelect = [];
           }
           that.optionsList = res.data;
         }
       });
     },
-    getCameraInfo(arr){
-        const that = this
-        // 现在正在播放，但是没有被选择的项
-        let addArr = []
-       /* that.dataMonitor.forEach((item, index)=>{
+    getCameraInfo(arr) {
+      const that = this;
+      // 现在正在播放，但是没有被选择的项
+      let addArr = [];
+      /* that.dataMonitor.forEach((item, index)=>{
             if(arr.indexOf(item['monitorDeviceId'])< 0){
                 addArr.push(item['monitorDeviceId'])
             }
@@ -248,38 +233,42 @@ export default {
             that.dataMonitor = res.data
         })*/
     },
-    saveCamera(){
-        const that = this
-        let query = {}
-        that.valueSelect.forEach((item, index)=>{
-            query['camera0'+(index+1)+'Id'] = item
-        })
-        query['cameraNum'] = that.selectCount
-        query['userId'] = this.$store.state.user.userId
-        query['configType'] = that.configType
-        postAxiosData('/lenovo-device/api/camera/config/update', query).then(res=>{
-
-        })
+    saveCamera() {
+      const that = this;
+      let query = {};
+      that.valueSelect.forEach((item, index) => {
+        query["camera0" + (index + 1) + "Id"] = item;
+      });
+      query["cameraNum"] = that.selectCount;
+      query["userId"] = this.$store.state.user.userId;
+      query["configType"] = that.configType;
+      postAxiosData("/lenovo-device/api/camera/config/update", query).then(
+        res => {}
+      );
     },
     selectData(value) {
       const that = this;
-      if(!value.length){
-        that.selectCount = this.initCount
+      if (!value.length) {
+        that.selectCount = this.initCount;
       }
-      securityMonitor({ monitorDeviceId: value.join(','), configType: that.configType, userId: this.$store.state.user.userId }).then(res => {
+      securityMonitor({
+        monitorDeviceId: value.join(","),
+        configType: that.configType,
+        userId: this.$store.state.user.userId
+      }).then(res => {
         // that.titleValueL = "监控摄像头数量";
-        that.dataMonitor = res.data.tableData
-        that.$forceUpdate()
+        that.dataMonitor = res.data.tableData;
+        that.$forceUpdate();
         // that.videoWidth = "calc(50%)";
         // that.active = 1;
         // that.isCenter = true;
       });
     },
     onSelect(item) {
-      this.selectCount = item['count']
+      this.selectCount = item["count"];
       this.titleValueL = item["describeName"];
       console.log(item.widthType);
-      this.dataMonitor = this.dataMonitor.slice(0,item["count"]);
+      this.dataMonitor = this.dataMonitor.slice(0, item["count"]);
       this.valueSelect = this.valueSelect.slice(0, item["count"]);
       switch (item.widthType) {
         case 2:
@@ -302,41 +291,38 @@ export default {
           this.isCenter = false;
       }
     },
-    beforeunload(e){
-        const that = this
-        console.log('保存相关操作')
-        console.log("I want to cancel");
-        // Cancel the event
-        e.preventDefault()
-        // that.saveCamera()
-        // Chrome requires returnValue to be set
-        e.returnValue = "hello";
+    beforeunload(e) {
+      const that = this;
+      console.log("保存相关操作");
+      console.log("I want to cancel");
+      // Cancel the event
+      e.preventDefault();
+      // that.saveCamera()
+      // Chrome requires returnValue to be set
+      e.returnValue = "hello";
     }
   },
-  beforeDestroy(){
-      const that = this
-      console.log('destory')
-      that.saveCamera()
-      window.removeEventListener('beforeunload', this.beforeunload)
+  beforeDestroy() {
+    const that = this;
+    console.log("destory");
+    that.saveCamera();
+    window.removeEventListener("beforeunload", this.beforeunload);
   },
   created() {
     this.initData();
     this.getCamera();
   },
-  mounted(){
-      this.$nextTick(()=>{
-          window.addEventListener("beforeunload", this.beforeunload);
-      })
-  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("beforeunload", this.beforeunload);
+    });
+  }
 };
 </script>
 
 <style lang="scss">
-
-
-
 .keyErea {
-  .el-select .el-tag:first-child{
+  .el-select .el-tag:first-child {
     margin-left: 14px;
   }
   .dunoDrap {

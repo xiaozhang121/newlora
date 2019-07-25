@@ -27,19 +27,16 @@
             <!--<span v-if="isFakeData">当前状态：{{item.status}}</span>-->
             <span>{{item.powerDeviceName}}</span>
           </div>
-      <!--    <div class="itemTitle">
+          <!--    <div class="itemTitle">
             <p>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></p>
           </div>-->
           <div class="itemTitle">
-            <p>内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}
-              <i-dropdown
-                      class="dropAlarmDown"
-                      trigger="click"
-                      placement="bottom-start"
-              >
+            <p>
+              内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}
+              <i-dropdown class="dropAlarmDown" trigger="click" placement="bottom-start">
                 <div
-                        class="table_select"
-                        :class="[{'serious': item.alarmLevel == '2'},{'commonly': item.alarmLevel == '1'},{'danger': item.alarmLevel == '3'}]"
+                  class="table_select"
+                  :class="[{'serious': item.alarmLevel == '2'},{'commonly': item.alarmLevel == '1'},{'danger': item.alarmLevel == '3'}]"
                 >
                   <span class="member_operate_div">
                     <span>{{ alarmLevelName(item.alarmLevelName) }}</span>
@@ -48,9 +45,9 @@
                 </div>
                 <i-dropdownMenu slot="list">
                   <i-dropdownItem
-                          v-for="(itemL, indexL) in selectList"
-                          :key="'select'+indexL"
-                          @click.native="selectItem(item, indexL)"
+                    v-for="(itemL, indexL) in selectList"
+                    :key="'select'+indexL"
+                    @click.native="selectItem(item, indexL)"
                   >
                     <div class="alarmLevel">{{ itemL }}</div>
                   </i-dropdownItem>
@@ -63,13 +60,39 @@
               <el-col :span="15">{{item.alarmTime}}</el-col>
               <el-col :span="9">
                 <div class="buttonAll">
-                  <el-button v-if="item['isReturn']" type="info" round @click="restoration(item, '1', index)">复归</el-button>
+                  <el-button
+                    v-if="item['isReturn']"
+                    type="info"
+                    round
+                    @click="restoration(item, '1', index)"
+                  >复归</el-button>
                   <el-button type="success" round @click="restoration(item, '2', index)">备注</el-button>
                 </div>
               </el-col>
             </el-row>
           </div>
         </div>
+      </div>
+      <div class="remarks">
+        <el-dialog
+          title="备注"
+          :center="true"
+          top="20vh"
+          :visible.sync="dialogVisible"
+          :modal="false"
+          width="20%"
+        >
+          <el-input
+            type="textarea"
+            placeholder="请输入备注内容"
+            :autosize="{ minRows: 3}"
+            v-model="textarea"
+          ></el-input>
+          <span slot="footer" class="dialog-footer">
+            <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+            <button-custom class="button" @click.native="clickRemarks" title="确定" />
+          </span>
+        </el-dialog>
       </div>
     </div>
   </el-popover>
@@ -78,9 +101,13 @@
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType.js";
 import { dealRemarks } from "@/api/configuration/configuration.js";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import { mapState } from "vuex";
 export default {
   name: "alarmTip",
+  components: {
+    buttonCustom
+  },
   data() {
     return {
       selectList: ["一般", "严重", "危急"],
@@ -88,7 +115,10 @@ export default {
       visible: false,
       itemData: [],
       isFakeData: false, // 假数据
-    }
+      dialogVisible: false,
+      textarea: "",
+      queryData: null
+    };
   },
   computed: {
     ...mapState(["user"]),
@@ -109,44 +139,52 @@ export default {
     }
   },
   methods: {
-      psotAlarmData(row, No) {
-          const that = this
-          const url = '/lenovo-alarm/api/alarm/level-edit'
-          const query = {
-              id: row,
-              alarmLevel: No
-          }
-          putAxiosData(url, query).then(res => {
-              that.getData()
-          }, error => {
-
-          })
-      },
-      alarmLevelName(name){
-          return name.substring(0,2)
-      },
-      selectItem(item, index) {
-        this.psotAlarmData(item.id, index+1)
+    psotAlarmData(row, No) {
+      const that = this;
+      const url = "/lenovo-alarm/api/alarm/level-edit";
+      const query = {
+        id: row,
+        alarmLevel: No
+      };
+      putAxiosData(url, query).then(
+        res => {
+          that.getData();
+        },
+        error => {}
+      );
+    },
+    alarmLevelName(name) {
+      return name.substring(0, 2);
+    },
+    selectItem(item, index) {
+      this.psotAlarmData(item.id, index + 1);
     },
     restoration(item, type, index) {
       console.log(type == "1" ? "复归" : "备注");
-      const url =
-          "/lenovo-alarm/api/alarm/deal"
+      const url = "/lenovo-alarm/api/alarm/deal";
       const query = {
         alarmId: item.alarmId,
         type: type
       };
-      postAxiosData(url, query).then(res => {
-        if (res.code !== 200) {
-          return this.$message.error(res.msg);
-        }
-        this.itemData.splice(index, 1);
-        this.$message.success(res.msg);
-      });
+      if (type == "1") {
+        postAxiosData(url, query).then(res => {
+          debugger;
+          if (res.code !== 200) {
+            return this.$message.error(res.msg);
+          }
+          this.itemData.splice(index, 1);
+          this.$message.success(res.msg);
+        });
+      } else if (type == "2") {
+        this.dialogVisible = true;
+        this.queryData = query;
+      }
     },
-    getData () {
-      const that = this
-      const url = that.isFakeData ? '/lenovo-alarm/api/alarm/unhandel-list' : '/lenovo-alarm/api/alarm/list'
+    getData() {
+      const that = this;
+      const url = that.isFakeData
+        ? "/lenovo-alarm/api/alarm/unhandel-list"
+        : "/lenovo-alarm/api/alarm/list";
       const query = {
         pageIndex: 1,
         pageRows: 44321,
@@ -159,11 +197,20 @@ export default {
           return false;
         }
         if (that.isFakeData) {
-          that.itemData = res.data
+          that.itemData = res.data;
         } else {
-          that.itemData = res.data.tableData
+          that.itemData = res.data.tableData;
         }
-      })
+      });
+    },
+    clickRemarks() {
+      const that = this;
+      that.dialogVisible = false;
+      dealRemarks(this.queryData).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.$emit("handleListData");
+      });
     }
   },
   mounted() {
@@ -172,7 +219,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.dropAlarmDown{
+.dropAlarmDown {
   margin-left: 5px;
   .serious {
     span {
@@ -326,6 +373,22 @@ body .prompt {
         padding-top: 20px;
         color: #999;
         font-size: 16px;
+      }
+    }
+  }
+}
+.remarks {
+  .dialog-footer {
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .button {
+      width: 30%;
+      height: 37px;
+      line-height: 31px;
+      font-size: 14px;
+      &:first-child {
+        margin-right: 30px;
       }
     }
   }

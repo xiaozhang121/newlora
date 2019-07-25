@@ -220,7 +220,7 @@ export default {
           tooltip: true
         },
         {
-          title: "报警对象",
+          title: "对象",
           key: "mainDevice",
           minWidth: 120,
           align: "center",
@@ -237,13 +237,6 @@ export default {
           title: "描述",
           key: "areaName",
           minWidth: 90,
-          align: "center",
-          tooltip: true
-        },
-        {
-          title: "数据",
-          key: "alarmValue",
-          minWidth: 120,
           align: "center",
           tooltip: true
         },
@@ -340,6 +333,13 @@ export default {
             );
             return h("div", newArr);
           }
+        },
+        {
+          title: "数据",
+          key: "alarmValue",
+          minWidth: 120,
+          align: "center",
+          tooltip: true
         },
         {
           title: "视频/图片",
@@ -615,13 +615,13 @@ export default {
     }
   },
   created() {
-    this.initCamera();
+    // this.initCamera();
   },
   mounted() {
-    this.getInit();
-    this.getSelectType();
-    this.getSelcetGrade();
-    this.getSelectPreset();
+    // this.getInit();
+    // this.getSelectType();
+    // this.getSelcetGrade();
+    // this.getSelectPreset();
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
