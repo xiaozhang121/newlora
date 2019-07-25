@@ -1015,6 +1015,10 @@ export default {
         display: inline-flex;
         padding-bottom: 0;
         height: 40px;
+        .icon-xiala{
+          width: 13px !important;
+          height: 14px !important;
+        }
         .btnList {
           top: inherit !important;
           width: 185px;

@@ -6,7 +6,7 @@
         </div>
         <div class="middle">
             <div class="img">
-                <img src="" />
+                <img :src="imgData" />
             </div>
         </div>
         <div class="last">
@@ -66,6 +66,7 @@
             }
         },
         props: {
+            imgData:{},
             taskCurreny: {},
             imgUr:{
                 type: String,

@@ -154,8 +154,12 @@ export default {
     };
   },
   watch: {
-    columns(now) {
-      this.columnsData = now;
+    columns:{
+        handler(now){
+            this.columnsData = now;
+        },
+        immediate: true,
+        deep: true
     }
   },
   methods: {

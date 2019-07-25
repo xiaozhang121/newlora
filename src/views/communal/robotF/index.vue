@@ -29,7 +29,7 @@
       <div class="middle">
         <rou-tine-inspection :taskStatus="taskStatus" :robotStatus="robotStatus">
           <div class="reportData">
-            <report-data :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
+            <report-data :imgData="taskCurreny['filePath']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
           </div>
         </rou-tine-inspection>
       </div>
@@ -128,6 +128,9 @@ export default {
           const that = this
           postAxiosData('/robot/rest/taskStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
               that.taskStatus = res.data
+              postAxiosData('/robot/rest/taskCurLink',{substationId: that.substationId, robotId: that.robotId,taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+                  that.taskCurreny = res.data
+              })
           })
           postAxiosData('/robot/rest/robotStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
               that.robotStatus = res.data
@@ -137,15 +140,16 @@ export default {
               let data = res.data
               data = data.reportList
               data.map(item=>{
-                  item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
+                  // item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
+                  item['pic'] = item['taskImg']
                   item['planId'] = item['TaskID']
-                  if(item['TaskName'] == '1501')
+                  if(item['taskType'] == '1501')
                     item['name'] = '全面巡视'
-                  else if(item['TaskName'] == '1502')
+                  else if(item['taskType'] == '1502')
                     item['name'] = '例行巡视'
-                  else if(item['TaskName'] == '1503')
+                  else if(item['taskType'] == '1503')
                       item['name'] = '专项巡视'
-                  else if(item['TaskName'] == '1504')
+                  else if(item['taskType'] == '1504')
                       item['name'] = '特殊巡视'
                   else
                       item['name'] = '暂无数据'
@@ -155,9 +159,6 @@ export default {
               })
               debugger
               that.newsReport = data
-          })
-          postAxiosData('/robot/rest/taskCurLink',{substationId: '1', robotId: '9',taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
-              that.taskCurreny = res.data
           })
       }
   },

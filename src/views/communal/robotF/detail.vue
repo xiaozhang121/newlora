@@ -157,7 +157,7 @@ export default {
           align: "center"
         },
         {
-          key: "dataType",
+          key: "recordContent",
           title: "记录内容",
           minWidth: 100,
           align: "center"
@@ -165,22 +165,22 @@ export default {
       ],
       columnsData: [
         {
+          title: "创建时间",
+          key: "createTime",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
           title: "巡视名称",
-          key: "inspectName",
+          key: "taskName",
           minWidth: 50,
           align: "center",
           tooltip: true
         },
         {
           title: "巡视步骤",
-          key: "stepNum",
-          minWidth: 50,
-          align: "center",
-          tooltip: true
-        },
-        {
-          title: "巡视间隔",
-          key: "interval",
+          key: "linkCount",
           minWidth: 50,
           align: "center",
           tooltip: true,
@@ -198,7 +198,7 @@ export default {
                     }
                   }
                 },
-                params.row.interval
+                params.row.linkCount
               )
             ]);
             return h(
@@ -214,14 +214,14 @@ export default {
         },
         {
           title: "已巡视次数",
-          key: "inspectNum",
+          key: "doneTimes",
           minWidth: 50,
           align: "center",
           tooltip: true
         },
         {
           title: "状态",
-          key: "statusName",
+          key: "taskStatus",
           minWidth: 50,
           align: "center",
           tooltip: true,
@@ -237,7 +237,7 @@ export default {
                     patrol: params.row.status === "1"
                   }
                 },
-                params.row.statusName
+                params.row.taskStatus
               )
             );
             return h("div", newArr);
@@ -309,7 +309,7 @@ export default {
                   props: { type: "text", content: "查看报告>" },
                   on: {
                     click: () => {
-                      console.log(111);
+                      this.$router.push({'path':'report'})
                     }
                   }
                 },
@@ -341,7 +341,8 @@ export default {
         const that = this
         postAxiosData('/robot/rest/taskNormalDetail',{'taskId':'14'}).then(res=>{
           let data = res.data
-          data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
+          // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
+          data['roadImgPath'] =  data['roadImgPath']
           that.dataList = data['details']
           that.taskNormalData =  data
           that.$forceUpdate()
@@ -357,9 +358,12 @@ export default {
       this.titleInspect = item["describeName"];
     },
     getInfor() {
-      infrInformation().then(res => {
-        this.InspectData = res.data.specialInspectList;
-      });
+      postAxiosData('/robot/rest/specialTasks',{start: 1, length: 20}).then(res=>{
+          debugger
+          this.specialInspectList = res.data.specialTasks;
+      })
+     /* infrInformation().then(res => {
+      });*/
     }
   },
   created(){

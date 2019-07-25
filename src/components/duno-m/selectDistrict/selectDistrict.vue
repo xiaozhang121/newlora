@@ -50,7 +50,7 @@ export default {
     data() {
         return {
             options:[
-                
+
             ],
             drawList: [],
             taskName: '机器人ID-自定义任务配置01',
