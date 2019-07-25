@@ -38,7 +38,7 @@
         <div class="main">
           <template v-for="(item, index) in newsReportLength">
             <div class="item" :key="index">
-              <report-table path="report" :url="{downloadUrl: '/robot/rest/reportDownload'}" kind="robot" :reportData="newsReport[index]" v-if="newsReport[index]"></report-table>
+              <report-table path="report" :url="{downloadUrl: '/lenovo-robot/rest/reportDownload'}" kind="robot" :reportData="newsReport[index]" v-if="newsReport[index]"></report-table>
             </div>
           </template>
         </div>
@@ -126,16 +126,16 @@ export default {
   methods: {
       initData(){
           const that = this
-          postAxiosData('/robot/rest/taskStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
+          postAxiosData('/lenovo-robot/rest/taskStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
               that.taskStatus = res.data
-              postAxiosData('/robot/rest/taskCurLink',{substationId: that.substationId, robotId: that.robotId,taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+              postAxiosData('/lenovo-robot/rest/taskCurLink',{substationId: that.substationId, robotId: that.robotId,taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
                   that.taskCurreny = res.data
               })
           })
-          postAxiosData('/robot/rest/robotStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
+          postAxiosData('/lenovo-robot/rest/robotStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
               that.robotStatus = res.data
           })
-          postAxiosData('/robot/rest/reports',{substationId: that.substationId, robotId: that.robotId,length: 10}).then(res=>{
+          postAxiosData('/lenovo-robot/rest/reports',{substationId: that.substationId, robotId: that.robotId,length: 10}).then(res=>{
               that.reportsList = res.data
               let data = res.data
               data = data.reportList

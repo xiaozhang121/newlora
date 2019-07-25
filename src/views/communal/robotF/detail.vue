@@ -339,7 +339,7 @@ export default {
   methods: {
     initData(){
         const that = this
-        postAxiosData('/robot/rest/taskNormalDetail',{'taskId':'14'}).then(res=>{
+        postAxiosData('/lenovo-robot/rest/taskNormalDetail',{'taskId':'14'}).then(res=>{
           let data = res.data
           // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
           data['roadImgPath'] =  data['roadImgPath']
@@ -358,7 +358,7 @@ export default {
       this.titleInspect = item["describeName"];
     },
     getInfor() {
-      postAxiosData('/robot/rest/specialTasks',{start: 1, length: 20}).then(res=>{
+      postAxiosData('/lenovo-robot/rest/specialTasks',{start: 1, length: 20}).then(res=>{
           debugger
           this.specialInspectList = res.data.specialTasks;
       })

@@ -79,7 +79,7 @@ export default {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         // getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
-        getDataListURL: "/robot/rest/reportDetail"
+        getDataListURL: "/lenovo-robot/rest/reportDetail"
       },
       visibleSettingOption: false,
       visible: false,
