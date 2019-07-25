@@ -31,7 +31,7 @@
     </div>
     <duno-main class="dunoMain">
       <div class="task">
-        <ReportTable v-for="(item,index) in dataList" :key="index" :reportData="item" :url="url" />
+        <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
       </div>
       <!-- <el-pagination
         :page-size="dataList.pageParam.pageSize"

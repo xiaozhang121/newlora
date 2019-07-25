@@ -148,18 +148,7 @@
       </div>
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning
-      :discriminate="false"
-      :hasSelect="true"
-      :alarmLevel="alarmLevel"
-      :visible="visible"
-      warningID="20190711002"
-      :monitorUrl="popData.alarmFileAddress || ''"
-      :judgeResult="popData.alarmContent || ''"
-      :origin="popData.monitorDeviceId"
-      :handleResult="popData.dealRecord || ''"
-      @handleClose="handleClose"
-    />
+    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -202,6 +191,8 @@ export default {
       isChange: true,
       alarmLevel: "",
       messageList: [],
+      handleNotes: [],
+      alarmType: "",
       mockData: [
         {
           alarmNum: 0,
@@ -378,9 +369,16 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
                       that.visible = true;
+                      that.$forceUpdate();
                     }
                   }
                 },
@@ -518,7 +516,7 @@ export default {
     },
     getRecodeList() {
       getRecode().then(res => {
-        this.RecodeList = res.data.tableData;
+        this.RecodeList = res.data.tableData.slice(0, 3);
       });
     },
     getIn() {
@@ -534,7 +532,7 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   .topNav {
-    background-color: rgba(32, 62, 82, 0.8);
+    background-color: rgba(20, 40, 56, 0.8);
     height: 80px;
   }
   .middle {
@@ -574,7 +572,7 @@ export default {
       margin-right: 20px;
       height: 557px;
       padding: 20px;
-      background-color: rgba(32, 62, 82, 0.8);
+      background-color: rgba(20, 40, 56, 0.8);
       .re-middle {
         overflow: hidden;
         margin-top: 20px;

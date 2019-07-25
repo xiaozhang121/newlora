@@ -35,7 +35,7 @@
     <div class="tables">
       <duno-tables-tep
         class="table_abnormalInfo"
-        :columns="infoColumns"
+        :columns="columns"
         :data="dataList"
         :totalNum="totalNum"
         :pageSize="pageRows"
@@ -47,6 +47,27 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
+    <div class="remarks">
+      <el-dialog
+        title="备注"
+        :center="true"
+        top="20vh"
+        :visible.sync="dialogVisible"
+        :modal="false"
+        width="20%"
+      >
+        <el-input
+          type="textarea"
+          placeholder="请输入备注内容"
+          :autosize="{ minRows: 3}"
+          v-model="textarea"
+        ></el-input>
+        <span slot="footer" class="dialog-footer">
+          <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+          <button-custom class="button" @click.native="clickRemarks" title="确定" />
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -54,14 +75,17 @@
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import moment from "moment";
 import { alarmType, addReturn } from "@/api/configuration/configuration.js";
+import { truncate } from "fs";
 export default {
   name: "PageHisRecords",
   mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
-    DunoTablesTep
+    DunoTablesTep,
+    buttonCustom
   },
   props: {
     areaId: {
@@ -75,147 +99,7 @@ export default {
     infoColumns: {
       type: Array,
       default: () => {
-        return [
-          {
-            key: "alarmTime",
-            title: "拍摄时间",
-            align: "center"
-          },
-          {
-            key: "alarmDetailType",
-            title: "告警类型",
-            align: "center"
-          },
-          {
-            key: "monitorDeviceId",
-            title: "拍摄来源",
-            align: "center",
-            render: (h, params) => {
-              let newArr = [];
-              newArr.push([
-                h(
-                  "a",
-                  {
-                    class: "table_link",
-                    props: { type: "text" },
-                    on: {
-                      click: () => {
-                        // this.getJump(params.row);
-                      }
-                    }
-                  },
-                  params.row.monitorDeviceId
-                )
-              ]);
-              return h("div", { class: { member_operate_div: true } }, newArr);
-            }
-          },
-          {
-            key: "dataType",
-            title: "处理记录",
-            align: "center",
-            render: (h, params) => {
-              return h("div", params.row.dealList[0].dealType);
-            }
-          },
-          {
-            key: "content",
-            title: "处理时间",
-            align: "center",
-            render: (h, params) => {
-              return h("div", params.row.dealList[0].dealTime);
-            }
-          },
-          {
-            title: "视频/图片",
-            key: "id",
-            minWidth: 120,
-            align: "center",
-            tooltip: true,
-            render: (h, params) => {
-              let newArr = [];
-              if (params.row.fileType == "1") {
-                newArr.push([
-                  h("img", {
-                    class: "imgOrMv",
-                    attrs: { src: params.row.alarmFileAddress },
-                    draggable: false
-                  })
-                ]);
-              } else if (params.row.fileType == "2") {
-                newArr.push([
-                  h("video", {
-                    class: "imgOrMv",
-                    attrs: { src: params.row.alarmFileAddress },
-                    draggable: false
-                  })
-                ]);
-              }
-              return h("div", newArr);
-            }
-          },
-          {
-            title: " ",
-            width: 220,
-            align: "center",
-            render: (h, params) => {
-              let newArr = [];
-              if (params.row.isReturn == "0") {
-                newArr.push(
-                  h(
-                    "el-button",
-                    {
-                      class: "btn_pre",
-                      style: { background: "#305e83!important" },
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          that.addReturn(params.row);
-                        }
-                      }
-                    },
-                    "复归"
-                  )
-                );
-              }
-              if (params.row.isReturn == "1") {
-                newArr.push(
-                  h(
-                    "el-button",
-                    {
-                      class: "btn_pre",
-                      style: { background: "#305e83!important" },
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          console.log(111);
-                        }
-                      }
-                    },
-                    "已复归"
-                  )
-                );
-              }
-              newArr.push(
-                h(
-                  "el-button",
-                  {
-                    class: "btn_pre",
-                    style: { background: "#3a81a1!important" },
-                    props: { type: "text" },
-                    on: {
-                      click: () => {
-                        console.log(111);
-                      }
-                    }
-                  },
-                  "备注"
-                )
-              );
-              return h("div", newArr);
-            }
-          }
-        ];
+        return [];
       }
     }
   },
@@ -229,7 +113,151 @@ export default {
       value: "",
       titleType: "全部类型",
       dataForm: {},
-      typeSelect: []
+      typeSelect: [],
+      dialogVisible: false,
+      textarea: "",
+      columns: [
+        {
+          key: "alarmTime",
+          title: "拍摄时间",
+          align: "center"
+        },
+        {
+          key: "alarmDetailType",
+          title: "告警类型",
+          align: "center"
+        },
+        {
+          key: "monitorDeviceName",
+          title: "拍摄来源",
+          align: "center",
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "a",
+                {
+                  class: "table_link",
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      this.getJump(params.row);
+                    }
+                  }
+                },
+                params.row.monitorDeviceName
+              )
+            ]);
+            return h("div", { class: { member_operate_div: true } }, newArr);
+          }
+        },
+        {
+          key: "dataType",
+          title: "处理记录",
+          align: "center",
+          render: (h, params) => {
+            return h("div", params.row.dealList[0].dealType);
+          }
+        },
+        {
+          key: "content",
+          title: "处理时间",
+          align: "center",
+          render: (h, params) => {
+            return h("div", params.row.dealList[0].dealTime);
+          }
+        },
+        {
+          title: "视频/图片",
+          key: "id",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            if (params.row.fileType == "1") {
+              newArr.push([
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
+            } else if (params.row.fileType == "2") {
+              newArr.push([
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
+            }
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          width: 220,
+          align: "center",
+          render: (h, params) => {
+            let newArr = [];
+            if (params.row.isReturn == "0") {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83!important" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.addReturn(params.row);
+                      }
+                    }
+                  },
+                  "复归"
+                )
+              );
+            }
+            if (params.row.isReturn == "1") {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83!important" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        console.log(111);
+                      }
+                    }
+                  },
+                  "已复归"
+                )
+              );
+            }
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1!important" },
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      //   console.log(111);
+                      this.dialogVisible = true;
+                    }
+                  }
+                },
+                "备注"
+              )
+            );
+            return h("div", newArr);
+          }
+        }
+      ]
     };
   },
   watch: {
@@ -240,6 +268,9 @@ export default {
     titleCode(now) {
       this.value = now.value;
       this.titleType = now.titleType;
+    },
+    infoColumns(now) {
+      this.columns = now;
     }
   },
   methods: {
@@ -310,6 +341,20 @@ export default {
           }
         });
       }
+    },
+    clickRemarks() {
+      const that = this;
+      that.dialogVisible = false;
+      let query = {
+        alarmId: that.remarkData.alarmId,
+        type: "2",
+        content: that.textarea
+      };
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.$emit("handleListData");
+      });
     },
     dataListSelectionChangeHandle() {}
   },
@@ -527,6 +572,21 @@ export default {
       .in-range {
         div {
           background-color: rgba(81, 89, 112, 0.7);
+        }
+      }
+    }
+  }
+  .remarks {
+    .dialog-footer {
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      .button {
+        height: 37px;
+        line-height: 31px;
+        font-size: 14px;
+        &:first-child {
+          margin-right: 30px;
         }
       }
     }
