@@ -576,18 +576,18 @@ export default {
       }
     }
   }
-  .remarks {
-    .dialog-footer {
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      .button {
-        height: 37px;
-        line-height: 31px;
-        font-size: 14px;
-        &:first-child {
-          margin-right: 30px;
-        }
+}
+.remarks {
+  .dialog-footer {
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .button {
+      height: 37px;
+      line-height: 31px;
+      font-size: 14px;
+      &:first-child {
+        margin-right: 30px;
       }
     }
   }

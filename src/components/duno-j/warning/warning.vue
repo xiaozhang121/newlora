@@ -83,13 +83,7 @@ export default {
       searchId: "",
       searchType: "",
       visibleJudge: false,
-      handleList: [
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-        // { time: "2019-06-31 12:22:32", info: "自定义文字描述" }
-      ],
+      handleList: [],
       newVisible: false,
       selectList: ["一般", "严重", "危急"],
       alarmLevelT: "",
