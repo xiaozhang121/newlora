@@ -184,11 +184,12 @@ export default {
     amendPassword () {
       const that = this
       const query = {
+        userId: this.$store.state.user.userId,
         oldPassword: that.formData.oldPassword,
         newPassword: that.formData.newPassword
       }
       that.dataListLoading = true
-      let url = '/venus/user/password/change'
+      let url = '/lenovo-user/api/user/reset-password'
       postAxiosData(url, query).then(res => {
         that.dataListLoading = false
         if (res.code !== 200) {

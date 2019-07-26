@@ -30,6 +30,7 @@ export default {
     },
     setUserId (state, id) {
       state.userId = id
+      sessionStorage.setItem('userId', id)
     },
     setUserName (state, name) {
       state.userName = name
