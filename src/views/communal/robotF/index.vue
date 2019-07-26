@@ -60,7 +60,7 @@ import rouTineInspection from '_c/duno-m/rouTineInspection'
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { mapState } from 'vuex'
 export default {
-  mixins: [mixinViewModule],
+  mixins: [mixinViewModule ],
   name: 'RoleIndex',
   components: {
       Breadcrumb,
@@ -88,6 +88,7 @@ export default {
   data () {
     const that = this
     return {
+        socketUrl: '10.0.0.1',
         substationId: '',
         robotId: '',
         taskId: '',

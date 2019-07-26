@@ -9,6 +9,7 @@
 </template>
 <script>
 import "ol/ol.css";
+import { LineString } from "ol/geom";
 import { Map, View, Overlay, Feature } from "ol";
 import {boundingExtent,getCenter} from 'ol/extent'
 import Polygon from 'ol/geom/Polygon.js';
@@ -28,6 +29,7 @@ export default {
     data() {
         const that = this
         return {
+            coverList:[{vectorLayer: null},{vectorLayer: null}],                   // 机器人线路
             drawList: [],
             drawListNum: 0,
             draw: null,
@@ -81,6 +83,10 @@ export default {
         }
     },
     props: {
+        lineDash: {
+            type: Array,
+            default: () => []
+        },
         boxSelect: {
             type: Boolean,
             default: false
@@ -136,6 +142,74 @@ export default {
 
     },
     methods:{
+        // 设置线条
+        setLine(arr) {
+            if (!arr || !arr.length) {
+                return;
+            }
+            let that = this;
+            //线要素
+            let lineFeature = new Feature(new LineString(arr));
+            //实例化一个矢量图层Vector作为绘制层
+            let source = new VectorSource({
+                features: [lineFeature]
+            });
+            // 用于设置线串所在的矢量图层样式的函数
+            let styleFunction = function(feature) {
+                let geometry = feature.getGeometry();
+                let styles = [
+                    new Style({
+                        // 线串的样式
+                        stroke: new Stroke({
+                            lineDash:that.lineDash,
+                            color: "#78cbff",
+                            width: 4
+                        })
+                    })
+                ];
+                return styles;
+            };
+            let vectorLayer = new VectorLayer({
+                source: source,
+                style: styleFunction,
+                renderBuffer: 8000
+            });
+            return vectorLayer;
+        },
+        // 绘制线条
+        drawLine(vectorLayer) {
+            if (!vectorLayer || !this.mapTarget) {
+                return;
+            }
+            //将绘制层添加到地图容器中
+            this.mapTarget.addLayer(vectorLayer);
+        },
+        // 删除线条
+        removeLine(vectorLayer) {
+            if (!vectorLayer || !this.mapTarget) {
+                return;
+            }
+            this.mapTarget.removeLayer(vectorLayer);
+        },
+        // 线条设置以及绘制操作
+        setDrawLine(vectorLayer, index) {
+            vectorLayer.map((item, index)=>{
+                vectorLayer[index] = transform(item, 'EPSG:3857', 'EPSG:4326')
+            })
+            debugger
+            // 设置线条
+            vectorLayer = this.setLine(vectorLayer);
+            // 绘制线条
+            this.drawLine(vectorLayer);
+            // 保存线条对象
+            this.coverList[index].vectorLayer = vectorLayer;
+        },
+        removeLineList(arr) {
+            let that = this;
+            arr.forEach((item, index) => {
+                if (item.vectorLayer) that.removeLine(item.vectorLayer);
+            });
+        },
         addInteraction(){
             const that = this
             let value = this.typeSelect;

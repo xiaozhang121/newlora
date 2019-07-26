@@ -3,7 +3,7 @@
         <div class="rouTineInspection_left">
             <div class="nr">
                 <div class="main">
-                    <gis-map ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
+                    <gis-map :lineDash="[10,10]" ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
                 </div>
             </div>
         </div>
@@ -38,10 +38,13 @@
 </template>
 
 <script>
+    import mixinWebSocket from '@/mixins/webSocket'
     import pattery from '_c/duno-m/pattery'
     import gisMap from '_c/duno-m/gisMap'
     import buttonCustom from '_c/duno-m/buttonCustom'
+    import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     export default {
+        mixins: [mixinWebSocket],
         name: 'rouTineInspection',
         components: {
             pattery,
@@ -63,11 +66,36 @@
                 default: false
             }
         },
+        watch:{
+            taskStatus:{
+                handler(now){
+                    if(now)
+                        this.initData()
+                },
+                deep: true,
+                immediate: true
+            }
+        },
         computed: {
 
         },
         methods:{
+            initData(){
+                const that = this
+                getAxiosData('/lenovo-robot/rest/taskMap',{taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+                    let arr = []
+                    let data = res.data.details
+                    for(let i=0; i<data.length; i++){
+                        if(data[i] && 'cadX' in data[i])
+                            arr.push([data[i]['cadX'],data[i]['cadY']])
+                    }
+                    that.$nextTick(()=>{
+                        that.$refs.gisMapObj.setDrawLine(arr, 0)
+                    })
+                })
+            },
             changeTaskStatus(){
+
                 if(this.taskName.indexOf('开始')>-1){
                     this.taskName = '结束任务'
                 }else{
