@@ -2,7 +2,7 @@
   <div class="popupinfo">
     <historical-documents
       :showHeader="true"
-      title="4号主变01#枪机"
+      :title="mainTitle"
       width="500px"
       :itemId="deviceId"
       :isClassify="isShowClassify"
@@ -49,6 +49,7 @@ export default {
   components: { HistoricalDocuments, realtime, historicalwarning, Polygonal },
   data() {
     return {
+      mainTitle: '',
       alarmHistoryData: [],
       activeName: "first",
       tabPaneData: [
@@ -202,6 +203,11 @@ export default {
         ? "红外"
         : "参数没对上"
     );
+    if(this.itemData.monitorDeviceType == "1"){
+        this.mainTitle = this.itemData.deviceMessage.cameraName
+    }else if(this.itemData.monitorDeviceType == "2"){
+        this.mainTitle = this.itemData.deviceMessage.name
+    }
     if (
       this.itemData &&
       this.itemData.monitorDeviceType &&

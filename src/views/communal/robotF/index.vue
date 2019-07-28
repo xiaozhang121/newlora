@@ -5,7 +5,7 @@
     </div>
     <div class="title">
       <span>{{ robotName }}</span>
-      <button-custom class="moreTask" title="更多任务>" @click.native="$router.push({'path': 'detail'})"/>
+      <button-custom class="moreTask" title="更多任务>" @click.native="$router.push({'path': 'detail',query: {substationId: substationId, robotId:robotId}})"/>
     </div>
     <div class="content">
       <div class="top">
@@ -13,7 +13,7 @@
           <div class="nr">
             <KeyMonitor
               class="keyMonitor"
-              streamAddr="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+              :streamAddr="cameraPath['rtspCDD']"
             />
           </div>
         </div>
@@ -21,15 +21,15 @@
           <div class="nr">
             <KeyMonitor
                 class="keyMonitor"
-                streamAddr="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+                :streamAddr="cameraPath['rtspINF']"
             />
           </div>
         </div>
       </div>
       <div class="middle">
-        <rou-tine-inspection :taskStatus="taskStatus" :robotStatus="robotStatus">
+        <rou-tine-inspection :isChange="ischange" :robotId="robotId" :substationId="substationId" ref="rouTineInspection" :taskStatus="taskStatus" :robotStatus="robotStatus">
           <div class="reportData">
-            <report-data :imgData="taskCurreny['filePath']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
+            <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['filePath']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
           </div>
         </rou-tine-inspection>
       </div>
@@ -59,8 +59,9 @@ import ReportTable from '_c/duno-c/ReportTable'
 import rouTineInspection from '_c/duno-m/rouTineInspection'
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { mapState } from 'vuex'
+
 export default {
-  mixins: [mixinViewModule ],
+  mixins: [mixinViewModule],
   name: 'RoleIndex',
   components: {
       Breadcrumb,
@@ -88,6 +89,8 @@ export default {
   data () {
     const that = this
     return {
+        ischange: false,
+        timer: null,
         socketUrl: '10.0.0.1',
         substationId: '',
         robotId: '',
@@ -99,29 +102,47 @@ export default {
         robotName:'',
         routeName: '',
         newsReport: [],
+        cameraPath:[],
         dataBread: ['操作中台','机器人巡视','机器人一'],
         baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
     }
   },
   watch: {
       '$route' (to) {
+          clearInterval(this.timer)
           this.routeName = to.name
       },
       routeName(now){
+         try{
+             this.$refs.rouTineInspection.$refs.gisMapObj.pointListObj = []
+             this.$refs.rouTineInspection.deviceList = []
+             this.$refs.rouTineInspection.$refs.gisMapObj.$forceUpdate()
+         }catch (e) {}
+
          if(now == 'robot-twoList'){
              this.$set(this.dataBread,2,'机器人二')
              this.robotName = '机器人二'
              this.substationId =  '1'
-             this.robotId =  '1'
+             this.robotId =  '9'
          }else{
              this.dataBread[2] = '机器人一'
              this.robotName = '机器人一'
              this.$set(this.dataBread,2,'机器人一')
              this.substationId =  '1'
-             this.robotId =  '9'
+             this.robotId =  '1'
          }
+          try{
+              this.$refs.rouTineInspection.$refs.gisMapObj.rmCover(this.$refs.rouTineInspection.$refs.gisMapObj.pointListObj[0]['anchor'])
+          }catch (e) {}
+          try{
+              this.$refs.rouTineInspection.$refs.gisMapObj.removeLineList(this.$refs.rouTineInspection.$refs.gisMapObj.coverList)
+          }catch (e) {}
+          this.initReport()
           this.initData()
-
+          this.ischange = !this.ischange
+          this.timer = setInterval(()=>{
+              this.initData()
+          },3000)
       }
   },
   methods: {
@@ -136,6 +157,9 @@ export default {
           postAxiosData('/lenovo-robot/rest/robotStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
               that.robotStatus = res.data
           })
+      },
+      initReport(){
+          const that = this
           postAxiosData('/lenovo-robot/rest/reports',{substationId: that.substationId, robotId: that.robotId,length: 10}).then(res=>{
               that.reportsList = res.data
               let data = res.data
@@ -145,9 +169,9 @@ export default {
                   item['pic'] = item['taskImg']
                   item['planId'] = item['TaskID']
                   if(item['taskType'] == '1501')
-                    item['name'] = '全面巡视'
+                      item['name'] = '全面巡视'
                   else if(item['taskType'] == '1502')
-                    item['name'] = '例行巡视'
+                      item['name'] = '例行巡视'
                   else if(item['taskType'] == '1503')
                       item['name'] = '专项巡视'
                   else if(item['taskType'] == '1504')
@@ -158,8 +182,10 @@ export default {
                   item['alarmNum'] = item['AlarmCount']
                   item['timeLong'] = item['AlarmCount']
               })
-              debugger
               that.newsReport = data
+          })
+          postAxiosData('/lenovo-robot/getRobotVedioPath',{stationID: that.substationId, robotID: that.robotId}).then(res=>{
+                that.cameraPath = res.data
           })
       }
   },

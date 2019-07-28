@@ -92,14 +92,14 @@ export default {
       }
       getAxiosData(url, query).then(res => {
         that.dataListLoading = false
-        if (res.code !== 200 && res.data.code != 200) {
+        if (res.code !== 200 && res.data.code != 200 && !('details' in res.data)) {
           that.dataList = []
           that.totalNum = 0
           return that.$message.error(res.msg)
         }
-        that.dataList = res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
+        that.dataList = res.data.details || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
         if (that.mixinViewModuleOptions.isShowPage) {
-          that.totalNum = res.data.pageParam.totalRows
+            that.totalNum = res.data.total || res.data.pageParam.totalRows
         }
       }, error => {
         that.dataListLoading = false

@@ -71,7 +71,6 @@ export default [{
         component: Main,
         meta: {
             notCache: true,
-            access: ['200000'],
             title: '实景展示'
         },
         children: [{
@@ -79,7 +78,6 @@ export default [{
                 name: 'realEnvIndex',
                 meta: {
                     title: '全图展示',
-                    access: ['200001'],
                     notCache: true,
                     toListName: 'realEnvList',
                     btnArr: [{
@@ -92,7 +90,6 @@ export default [{
                     path: 'list',
                     name: 'realEnvList',
                     meta: {
-                        access: ['11001010'],
                         title: '列表',
                         kind: 'all',
                         hideInMenu: true,
@@ -106,7 +103,6 @@ export default [{
                 name: 'kilovolt1000Index',
                 meta: {
                     title: '1000千伏',
-                    access: ['200001'],
                     notCache: true,
                     toListName: 'kilovolt1000List',
                     btnArr: [{
@@ -119,7 +115,6 @@ export default [{
                     path: 'list',
                     name: 'kilovolt1000List',
                     meta: {
-                        access: ['11001010'],
                         title: '列表',
                         kind: 1000,
                         hideInMenu: true,
@@ -133,7 +128,6 @@ export default [{
                 name: 'kilovolt500Index',
                 meta: {
                     title: '500千伏',
-                    access: ['200001'],
                     notCache: true,
                     toListName: 'kilovolt500List',
                     btnArr: [{
@@ -146,7 +140,6 @@ export default [{
                     path: 'list',
                     name: 'kilovolt500List',
                     meta: {
-                        access: ['11001010'],
                         title: '列表',
                         kind: 500,
                         hideInMenu: true,
@@ -160,7 +153,6 @@ export default [{
                 name: 'kilovolt220Index',
                 meta: {
                     title: '220千伏',
-                    access: ['200001'],
                     notCache: true,
                     toListName: 'kilovolt220List',
                     btnArr: [{
@@ -173,7 +165,6 @@ export default [{
                     path: 'list',
                     name: 'kilovolt220List',
                     meta: {
-                        access: ['11001010'],
                         title: '列表',
                         kind: 220,
                         hideInMenu: true,
@@ -187,7 +178,6 @@ export default [{
                 name: 'kilovolt110Index',
                 meta: {
                     title: '110千伏',
-                    access: ['200001'],
                     notCache: true,
                     toListName: 'kilovolt110List',
                     btnArr: [{
@@ -200,7 +190,6 @@ export default [{
                     path: 'list',
                     name: 'kilovolt110List',
                     meta: {
-                        access: ['11001010'],
                         title: '列表',
                         kind: 110,
                         hideInMenu: true,
@@ -214,7 +203,6 @@ export default [{
                 name: 'kilovolt35Index',
                 meta: {
                     title: '35千伏',
-                    access: ['200001'],
                     notCache: true,
                     toListName: 'kilovolt35List',
                     btnArr: [{
@@ -227,7 +215,6 @@ export default [{
                     path: 'list',
                     name: 'kilovolt35List',
                     meta: {
-                        access: ['11001010'],
                         title: '列表',
                         kind: 35,
                         hideInMenu: true,
@@ -241,7 +228,6 @@ export default [{
                 name: 'kilovolt10Index',
                 meta: {
                     title: '10千伏',
-                    access: ['200001'],
                     notCache: true,
                     toListName: 'kilovolt10List',
                     btnArr: [{
@@ -254,7 +240,6 @@ export default [{
                     path: 'list',
                     name: 'kilovolt10List',
                     meta: {
-                        access: ['11001010'],
                         title: '列表',
                         kind: 10,
                         hideInMenu: true,
@@ -710,7 +695,7 @@ export default [{
                 path: 'ticket',
                 name: 'ticket',
                 meta: {
-                    title: '两票制作',
+                    title: '工作任务',
                     notCache: true,
                     toListName: 'ticketList',
                     btnArr: []
@@ -731,7 +716,7 @@ export default [{
                 path: 'inspection',
                 name: 'inspection',
                 meta: {
-                    title: '巡视记录',
+                    title: '巡视报告',
                     notCache: true,
                     toListName: 'inspectionList',
                     btnArr: []

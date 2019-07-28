@@ -83,6 +83,10 @@ export default {
         }
     },
     props: {
+        rebot:{
+            type: Boolean,
+            default: false
+        },
         lineDash: {
             type: Array,
             default: () => []
@@ -142,8 +146,18 @@ export default {
 
     },
     methods:{
+        setOverlayPos({cadX, cadY}){
+            this.mapTarget.getOverlays().array_[0].setPosition(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
+        },
+        // 清除覆盖物
+        rmCover(coverItem) {
+            if (!this.mapTarget) {
+                return;
+            }
+            this.mapTarget.removeOverlay(coverItem);
+        },
         // 设置线条
-        setLine(arr) {
+        setLine(arr, type) {
             if (!arr || !arr.length) {
                 return;
             }
@@ -161,7 +175,7 @@ export default {
                     new Style({
                         // 线串的样式
                         stroke: new Stroke({
-                            lineDash:that.lineDash,
+                            lineDash: type,
                             color: "#78cbff",
                             width: 4
                         })
@@ -184,6 +198,10 @@ export default {
             //将绘制层添加到地图容器中
             this.mapTarget.addLayer(vectorLayer);
         },
+        // 去除指定router
+        removeChosenLine(index){
+            this.removeLine(this.coverList[index].vectorLayer)
+        },
         // 删除线条
         removeLine(vectorLayer) {
             if (!vectorLayer || !this.mapTarget) {
@@ -192,13 +210,12 @@ export default {
             this.mapTarget.removeLayer(vectorLayer);
         },
         // 线条设置以及绘制操作
-        setDrawLine(vectorLayer, index) {
+        setDrawLine(vectorLayer, index, type) {
             vectorLayer.map((item, index)=>{
                 vectorLayer[index] = transform(item, 'EPSG:3857', 'EPSG:4326')
             })
-            debugger
             // 设置线条
-            vectorLayer = this.setLine(vectorLayer);
+            vectorLayer = this.setLine(vectorLayer, type);
             // 绘制线条
             this.drawLine(vectorLayer);
             // 保存线条对象
@@ -270,23 +287,39 @@ export default {
 
             this.mapTarget.addInteraction(this.draw);
             this.draw.on('drawend', function (evt) {
-                let id = that.drawList.length + 1
-                if(id > that.drawListNum){
+                let id = that.drawList.length
+                if(id-1 > that.drawListNum){
                     that.drawListNum = id
                 }else{
-                    id = that.drawListNum++
+                    id = ++that.drawListNum
                 }
                 evt.feature.setId(id);
-                that.drawList.push({number: id})
+                console.log(id)
+                that.drawList.push({number: id, value:[], options: []})
                 let polygon = evt.feature.getGeometry();
                 that.addNumber(polygon.flatCoordinates[6],polygon.flatCoordinates[7], id)
                 // alert(that.insidePolygon(polygon.getCoordinates(), [118.79129270,32.06046262]))
+                that.containPoint(polygon, that.drawList.length-1)
                 // alert(polygon.intersectsExtent([118.79129270,32.06046262]))   // 是否包含该点位
                 setTimeout(function(){              //如果不设置延迟，范围内要素选中后自动取消选中，具体原因不知道
                     that.startDraw('None')
                 },300)
                 that.$emit('on-draw', that.drawList)
             })
+        },
+        containPoint(polygon, index){
+            let arr = []
+            this.deviceList.forEach(item=>{
+                if(polygon.intersectsExtent(transform([item['cadX'],item['cadY']], 'EPSG:3857', 'EPSG:4326'))){
+                    arr.push(item)
+                }
+            })
+            let value = []
+            arr.forEach((item)=>{
+                value.push(item['id'])
+            })
+            this.drawList[index]['value'] = value
+            this.drawList[index]['options'] = arr
         },
         removeArea(id){
             const that = this
@@ -450,6 +483,9 @@ export default {
                 }
             }
         },
+        setCenter({cadX, cadY}){
+            this.mapTarget.getView().setCenter(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
+        },
         isAlarm(point){
             let data = this.findPoint(point)
             let pointX = ''
@@ -506,10 +542,18 @@ export default {
         addPointList(arr){
             const that = this
             arr.forEach((item, index)=>{
+                debugger
                 if(index == 14){
                 }
+                let offset = []
+                if(that.rebot){
+                    offset = [-20, -20]
+                }else{
+                    offset = [0, 0]
+                }
                 let anchor = new Overlay({
-                    element: document.getElementById('anchor'+index)
+                    element: document.getElementById('anchor'+index),
+                    offset: offset
                 });
                 if(that.isDiagram == 1){
 
