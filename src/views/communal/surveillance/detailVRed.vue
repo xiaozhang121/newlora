@@ -3,6 +3,22 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
+    <div class="controlTitle">
+      <div>摄像机ID</div>
+      <div v-if="isControl =='1'" class="control">
+        云台控制中
+        <span @click="getControl">获取控制权</span>
+      </div>
+      <div v-if="isControl =='2'" class="control">
+        已获取云台控制
+        <span @click="getControl">结束控制</span>
+      </div>
+      <div v-if="isControl =='3'" class="control">
+        结束控制倒计时
+        <i>{{ currentTime }} s</i>
+        <span @click="getControl">结束控制</span>
+      </div>
+    </div>
     <div class="Main_contain">
       <div class="content">
         <div class="left nr">
@@ -182,6 +198,7 @@ import {
   getRedEcharts,
   getPosition
 } from "@/api/configuration/configuration.js";
+import { setInterval } from "timers";
 export default {
   name: "detailVRed",
   mixins: [mixinViewModule],
@@ -200,6 +217,9 @@ export default {
     return {
       addOrEdit: "添加",
       disabled: false,
+      isControl: "1",
+      currentTime: 10,
+      timeOut: null,
       playerOptions: {
         streamAddr: "",
         autoplay: true
@@ -621,6 +641,32 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
+    },
+    getControl() {
+      if (this.isControl == "1") {
+        this.isControl = "2";
+        this.endControl();
+      } else if (this.isControl == "2" || this.isControl == "3") {
+        this.isControl = "1";
+      }
+    },
+    endControl() {
+      if (this.isControl == "2") {
+        let that = this;
+        let num = 10;
+        clearInterval(that.timeOut);
+        that.timeOut = setInterval(function() {
+          that.isControl = "3";
+          let countDown = setInterval(function() {
+            that.currentTime--;
+            num--;
+            if (num == 0) {
+              clearInterval(countDown);
+              that.isControl = "1";
+            }
+          }, 1000);
+        }, 1000 * 60 * 5);
+      }
     }
   },
   created() {
@@ -633,6 +679,7 @@ export default {
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();
+    window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
@@ -1041,6 +1088,36 @@ export default {
   //------------------
   .el-popper[x-placement^="bottom"] .popper__arrow {
     display: none;
+  }
+  .controlTitle {
+    overflow: hidden;
+    color: #fff;
+    margin-bottom: 10px;
+    & > div {
+      float: left;
+    }
+    & > div:first-child {
+      font-size: 20px;
+    }
+    .control {
+      font-size: 18px;
+      margin-left: 51%;
+      span {
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+        width: 90px;
+        line-height: 32px;
+        background: #305e83;
+        border-radius: 16px;
+        margin-left: 10px;
+      }
+      i {
+        color: #ffcc30;
+        font-style: normal;
+      }
+    }
   }
 }
 </style>

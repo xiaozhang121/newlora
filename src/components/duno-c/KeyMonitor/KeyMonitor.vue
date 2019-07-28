@@ -395,6 +395,7 @@ export default {
       span {
         display: inline-block;
         line-height: 24px;
+        box-sizing: border-box;
         text-align: center;
         margin-left: 10px;
         cursor: pointer;
