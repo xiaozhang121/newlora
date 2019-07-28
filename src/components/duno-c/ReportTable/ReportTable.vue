@@ -111,7 +111,7 @@ export default {
                   planId: this.reportData.planId,
                   taskRunHisId: this.reportData.ID,
                   //   planId: '603610399709396992',
-                  planType: this.reportData.planType
+                  planType: this.reportData.taskType
               }
           });
           return

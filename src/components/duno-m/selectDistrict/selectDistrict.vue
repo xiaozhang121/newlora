@@ -7,27 +7,27 @@
                 :before-close="handleClose">
             <span slot="title">
                 <div class="title">
-                    <input :readonly="!readOnly" :class="{'noBorder': !readOnly}" v-model="taskName" type="text" class="taskName"/>
+                    <input :readonly="!readOnly" :class="[{'noBorder': !readOnly}]" v-model="taskName" type="text" class="taskName noMove"/>
                     <i @click="toEdit" class="iconfont icon-xiugai1"></i>
                 </div>
                 <div class="title_o">
                     <span>框选设备</span>
-                    <span><el-button class="button" type="primary">确认</el-button></span>
+                    <span><el-button class="button" type="primary" @click="saveTask">确认</el-button></span>
                 </div>
             </span>
             <div class="main">
-                <gis-map ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
+                <gis-map :isDiagram="2" :deviceList="deviceList" ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
             </div>
             <ul class="drawList">
                 <li class="drawItem" v-for="(item, index) in drawList" :key="index">
                     <div>选区{{ item['number'] }}设备</div>
                     <div class="select">
-                        <el-select multiple  v-model="value" placeholder="请选择">
+                        <el-select multiple  v-model="item['value']" placeholder="请选择">
                             <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    v-for="item in item['options']"
+                                    :key="item.id"
+                                    :label="item.deviceMessage.cameraName"
+                                    :value="item.id">
                             </el-option>
                         </el-select>
                     </div>
@@ -42,13 +42,20 @@
 
 <script>
 import gisMap from '_c/duno-m/gisMap'
+import mixinViewModule from '@/mixins/view-module'
+import { postAxiosData } from '@/api/axiosType'
+import { deviceLocation } from '@/api/currency/currency.js'
 export default {
+    mixins: [mixinViewModule],
     name: 'selectDistrict',
     components: {
         gisMap
     },
     data() {
         return {
+            deviceList: [],
+            dataList: [],
+            value: '',
             options:[
 
             ],
@@ -69,7 +76,8 @@ export default {
             this.dialogVisible = now
             if(now){
                 this.$nextTick(()=>{
-                    document.querySelector('#map').setAttribute('style','height:100% !important')
+                    this.getDeviceList()
+                        document.querySelector('#map').setAttribute('style','height:100% !important')
                 })
             }else{
                 document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
@@ -79,6 +87,49 @@ export default {
     computed: {
     },
     methods:{
+        saveTask(){
+            const that = this
+            let arr = []
+            this.drawList.forEach(item=>{
+                arr = [...arr,...item['value']]
+            })
+            postAxiosData('/lenovo-robot/rest/deviceTask',{lenovoDeviceIds: arr.join(','),taskName: this.taskName}).then(res=>{
+                if(res.data.resConf){
+                    that.$message.success('新增成功')
+                    that.drawList = []
+                    that.$refs.gisMapRef.drawList = []
+                    that.$refs.gisMapRef.drawListNum = 0
+                    that.dialogVisible = false
+                }else{
+                    that.$message.fail('新增失败')
+                }
+            })
+        },
+        getDeviceList(){
+            const that = this
+            deviceLocation().then(res=>{
+                let data = res.data
+                data.map((item, index)=>{
+                    if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
+                        if (item.deviceMessage.supportPreset) {
+                            item['src'] = that.light
+                        }else{
+                            item['src'] = that.lightNoCamera
+                        }
+                    }else if(item['monitorDeviceType'] == 2){
+                        item['src'] = that.redLight
+                    }
+                    item['show'] = true
+                    item['isShow'] = true
+                })
+                that.deviceList = data
+            })
+        },
+        initData(){
+            postAxiosData('/lenovo-robot/rest/devices').then(res=>{
+                this.options = res.data.devices
+            })
+        },
         delDraw(target){
             this.$refs.gisMapRef.removeItem(target)
         },
@@ -94,6 +145,8 @@ export default {
         }
     },
     created(){
+        this.initData()
+
     },
     updated: function () {
     },
@@ -129,6 +182,9 @@ export default {
         top: -5px;
     }
     .selectDistrict{
+        .setWidth{
+            width: 71%;
+        }
         .drawList{
             margin-top: 25px;
             .drawItem{

@@ -3,7 +3,7 @@
         <div class="rouTineInspection_left">
             <div class="nr">
                 <div class="main">
-                    <gis-map :lineDash="[10,10]" ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
+                    <gis-map :rebot="true" :deviceList="deviceList" :zoom="16"  ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
                 </div>
             </div>
         </div>
@@ -53,11 +53,19 @@
         },
         data() {
             return {
+                state: 1,
+                stateF: 1,
+                timer: null,
+                deviceList: [],
+                robot: require('@/assets/buttonPng/robot.png'),
                 taskName: '开始任务',
-                cameraFlag: 'first'
+                cameraFlag: 'first',
             }
         },
         props: {
+            isChange:{},
+            robotId: {},
+            substationId: {},
             robotStatus: {},
             taskStatus: {},
             index:{},
@@ -67,10 +75,27 @@
             }
         },
         watch:{
+            isChange(now){
+               setTimeout(()=>{
+                   try{
+                       this.$refs.gisMapObj.rmCover(this.$refs.gisMapObj.pointListObj[0]['anchor'])
+                   }catch (e) {}
+                   try{
+                       this.$refs.gisMapObj.removeLineList(this.$refs.gisMapObj.coverList)
+                   }catch (e) {}
+               },700)
+            },
             taskStatus:{
                 handler(now){
-                    if(now)
-                        this.initData()
+                    if(now){
+                        this.$nextTick(()=>{
+                            clearInterval(this.timer)
+                            this.initData()
+                            this.timer = setInterval(()=>{
+                                this.initData()
+                            },3000)
+                        })
+                    }
                 },
                 deep: true,
                 immediate: true
@@ -80,27 +105,59 @@
 
         },
         methods:{
+            arrHandle(data){
+                let arr = []
+                for(let i=0; i<data.length; i++){
+                    if(data[i] && 'cadX' in data[i])
+                        arr.push([data[i]['cadX'],data[i]['cadY']])
+                }
+                return arr
+            },
             initData(){
                 const that = this
-                getAxiosData('/lenovo-robot/rest/taskMap',{taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
-                    let arr = []
+                postAxiosData('/lenovo-robot/rest/taskMap',{taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
                     let data = res.data.details
-                    for(let i=0; i<data.length; i++){
-                        if(data[i] && 'cadX' in data[i])
-                            arr.push([data[i]['cadX'],data[i]['cadY']])
-                    }
+                    let arr = that.arrHandle(data)
+                    let arrT = that.arrHandle(that.robotStatus['hisLocation'])
                     that.$nextTick(()=>{
-                        that.$refs.gisMapObj.setDrawLine(arr, 0)
+                        that.clearLine()
+                        that.$refs.gisMapObj.setDrawLine(arr, 0, [10, 10])
+                        that.$refs.gisMapObj.setDrawLine(arrT, 1, [0, 0])
+                        that.robotStatus['curLocation']['src'] = that.robot
+                        that.robotStatus['curLocation']['show'] = true
+                        if(that.$refs.gisMapObj.pointListObj.length)
+                            that.$refs.gisMapObj.setOverlayPos(that.robotStatus['curLocation'])
+                        else{
+                            that.deviceList.push(that.robotStatus['curLocation'])
+                            that.$refs.gisMapObj.setCenter(that.robotStatus['curLocation'])
+                        }
                     })
                 })
             },
+            clearLine(){
+                const that = this
+                let arr = that.$refs.gisMapObj.coverList
+                that.$refs.gisMapObj.removeLineList(arr)
+            },
             changeTaskStatus(){
-
+                if(this.stateF == 1){
+                    this.stateF = 2
+                    this.state = '2'
+                }else if(this.stateF == 2){
+                    this.stateF = 3
+                    this.state = '3'
+                }else if(this.stateF == 3){
+                    this.stateF = 2
+                    this.state = '4'
+                }
                 if(this.taskName.indexOf('开始')>-1){
                     this.taskName = '结束任务'
                 }else{
                     this.taskName = '开始任务'
                 }
+                postAxiosData('/lenovo-robot/taskControl', {substationID: this.substationId, robotID: this.robotId, state: this.state}).then(res=>{
+                    this.$message.success('操作成功')
+                })
             },
             changeCameraShow(now){
                 this.cameraFlag = now
@@ -110,6 +167,7 @@
             }
         },
         mounted() {
+
             document.querySelector('#map').setAttribute('style','height:100% !important')
         },
         beforeDestroy(){

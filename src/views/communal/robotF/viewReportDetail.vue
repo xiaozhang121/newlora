@@ -4,17 +4,17 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top">
-      <div>{{planType}}&nbsp;{{dataForm.planId}}</div>
+      <div>{{planType=='1504'?'特殊巡视':'例行巡视'}}&nbsp;{{dataForm.taskRunHisId}}</div>
       <div class="btn">
         <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTo"
-            :isCheck="false"
-            :dataList="regionList"
-            :title="titleType"
-            :showBtnList="false"
-          ></duno-btn-top>
+         <!-- <duno-btn-top
+                  @on-select="onSelect"
+                  class="dunoBtnTop"
+                  :isCheck="false"
+                  :dataList="typeList"
+                  :title="titleType"
+                  :showBtnList="false"
+          ></duno-btn-top>-->
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@ import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
-import wraning from "_c/duno-j/warning";
+import wraning from "_c/duno-j/warningB";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
@@ -93,7 +93,7 @@ export default {
       value: "",
       alarmLevel: "",
       titleType: "按设备筛选",
-      dataBread: ["机器人巡检", "机器人一", "报告"],
+      dataBread: ["机器人巡检","报告"],
       columns: [
         {
           title: "序号",
@@ -106,14 +106,20 @@ export default {
           key: "powerDeviceName",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+              return h("div", params.row.linkArea + params.row.linkName1);
+          }
         },
         {
           title: "部件/相别",
           key: "part",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+              return h("div", params.row.linkName2 + params.row.linkName3);
+          }
         },
         {
           title: "描述",
@@ -242,32 +248,25 @@ export default {
           }
         },
         {
-          title: "视频/图片",
+          title: "图片",
           key: "fileType",
           minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            if (params.row.fileType == "1") {
-              newArr.push([
-                h("i", {
-                  class: "iconfont icon-tupian"
-                })
-              ]);
-            } else if (params.row.fileType == "2") {
-              newArr.push([
-                h("i", {
-                  class: "iconfont icon-bofang"
-                })
-              ]);
-            }
+            newArr.push([
+              h("img", {
+                attrs: { src: params.row.taskDeviceImg },
+                class: "imgShow"
+              })
+            ]);
             return h("div", newArr);
           }
         },
         {
           title: "记录时间",
-          key: "date",
+          key: "time",
           minWidth: 100,
           align: "center",
           tooltip: true
@@ -321,7 +320,6 @@ export default {
           if(now == 'robot-twoList'){
               this.$set(this.dataBread,1,'机器人二')
           }else{
-              this.dataBread[2] = '机器人一'
               this.$set(this.dataBread,1,'机器人一')
           }
       }
@@ -468,25 +466,14 @@ export default {
     },
     getType() {
       const that = this;
-      const url = "/lenovo-plan/api/list/monitor-device-type";
-      postAxiosData(url).then(res => {
+      const url = "/lenovo-robot/rest/reportDetailDevices";
+     /* getAxiosData(url, {taskRunHisId: this.dataForm.taskRunHisId}).then(res => {
+          debugger
         const resData = res.data;
-        let mapList = resData.filter(item => item.label != "请选择");
-        const map = mapList.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有来源",
-          monitorDeviceType: "",
-          title: "titleTypeR"
-        });
+
+
         this.typeList = map;
-      });
+      });*/
     },
     getJump(row) {
       if (row.monitorDeviceType == "1") {
@@ -514,6 +501,16 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail {
   width: 100%;
+  .icon-xiala{
+    width: 13px;
+    height: 16px;
+    right: 20px;
+  }
+  .imgShow{
+    width: 100%;
+    padding: 10px 10px;
+    height: 62px;
+  }
   //-------------------表格样式
   .dunoMain {
     height: inherit;

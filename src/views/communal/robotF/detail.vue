@@ -30,7 +30,7 @@
             </p>
             <p>
               任务间隔:
-              <span>1日</span>
+              <span>{{ taskNormalData['taskInterval'] }}</span>
             </p>
           </div>
         </div>
@@ -54,15 +54,16 @@
       <Patrol
         :isShowBtn="true"
         :columns="columnsData"
-        :dataList="specialInspectList"
+        :dataList="specialInspectList['data']"
         :title="title"
         :titleCon="titleCon"
         @add-task="addTask"
       />
       <el-pagination
-        :page-size="specialInspectList.pageSize"
+        :page-size="specialInspectList.pageRows"
         :current-page="specialInspectList.pageIndex"
         layout="prev, pager, next"
+        @current-change="changePage"
         :total="specialInspectList.totalRows"
       ></el-pagination>
     </div>
@@ -76,7 +77,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import Patrol from "_c/duno-c/Patrol";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
-import { postAxiosData } from '@/api/axiosType'
+import { postAxiosData, getAxiosData } from '@/api/axiosType'
 import selectDistrict from '_c/duno-m/selectDistrict'
 import { infrInformation } from "@/api/configuration/configuration.js";
 export default {
@@ -92,6 +93,7 @@ export default {
   data() {
     const that = this
     return {
+      taskId: '',
       routeName: '',
       taskNormalData: '',
       dialogVisible: false,
@@ -100,7 +102,12 @@ export default {
         // getDataListURL: "/lenovo-plan/api/statistics/plan/list"
       },
       InspectData: [],
-      specialInspectList: [],
+      specialInspectList: {
+          data:[],
+          pageRows: 10,
+          pageIndex: 1,
+          totalRows: ''
+      },
       title: "特殊巡视 (2)",
       titleCon: "",
       dataList: [
@@ -188,9 +195,8 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                "a",
+                "span",
                 {
-                  class: "table_link",
                   props: { type: "text" },
                   on: {
                     click: () => {
@@ -293,11 +299,11 @@ export default {
                   props: { type: "text", content: "开始巡视" },
                   on: {
                     click: () => {
-                      console.log(111);
+                      this.startBoot(params)
                     }
                   }
                 },
-                "开始巡视"
+                  (params.row.start == 1 || params.row.start == 3)?'开始任务':'结束任务'
               )
             );
             newArr.push([
@@ -309,7 +315,9 @@ export default {
                   props: { type: "text", content: "查看报告>" },
                   on: {
                     click: () => {
-                      this.$router.push({'path':'report'})
+                       console.log(params)
+                        debugger
+                      this.$router.push({'path':'report',query: {taskId: params.row.taskId, taskRunHisId:params.row.latestTaskRunHisId, planType:params.row.taskType  }})
                     }
                   }
                 },
@@ -337,15 +345,51 @@ export default {
         }
     },
   methods: {
+    changePage(cur){
+        this.specialInspectList.pageIndex = cur
+        this.getInfor()
+    },
+    startBoot(params){
+        let index = params.index
+        let substationId = this.$route.query.substationId
+        let robotId = this.$route.query.robotId
+        let state = ''
+        if('start' in params.row && params.row['start'] == 1){
+            this.specialInspectList['data'][index]['start'] = 2
+            state = '2'
+        }else if('start' in params.row && params.row['start'] == 2){
+            this.specialInspectList['data'][index]['start'] = 3
+            state = '3'
+        }else if('start' in params.row && params.row['start'] == 3){
+            this.specialInspectList['data'][index]['start'] = 2
+            state = '4'
+        }
+        this.$forceUpdate()
+        postAxiosData('/lenovo-robot/taskControl', {substationID: substationId, robotID: robotId, state: state}).then(res=>{
+            this.$message.info(res.data.resInfo)
+        })
+    },
+    getTableData(){
+        const that = this
+        postAxiosData('/lenovo-robot/rest/taskNormalDetail',{'taskId':that.taskId}).then(res=>{
+            let data = res.data
+            // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
+            data['roadImgPath'] =  data['roadImgPath']
+            that.dataList = data['details']
+            that.taskNormalData =  data
+            that.$forceUpdate()
+        })
+    },
     initData(){
         const that = this
-        postAxiosData('/lenovo-robot/rest/taskNormalDetail',{'taskId':'14'}).then(res=>{
-          let data = res.data
-          // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
-          data['roadImgPath'] =  data['roadImgPath']
-          that.dataList = data['details']
-          that.taskNormalData =  data
-          that.$forceUpdate()
+        let substationId = this.$route.query.substationId
+        let robotId = this.$route.query.robotId
+        postAxiosData('/lenovo-robot/rest/tasks',{substationId: substationId, robotId: robotId}).then(res=>{
+            let data = res.data.taskList
+            data.map(item=>{
+                item['describeName'] = item['Name']
+            })
+            that.InspectData = data
         })
     },
     onClose(){
@@ -355,11 +399,20 @@ export default {
       this.dialogVisible = true
     },
     onSelect(item) {
-      this.titleInspect = item["describeName"];
+      this.taskId = item['ID']
+      this.titleInspect = item["Name"];
+      this.getTableData()
     },
     getInfor() {
-      postAxiosData('/lenovo-robot/rest/specialTasks',{start: 1, length: 20}).then(res=>{
-          this.specialInspectList = res.data.specialTasks;
+      let substationId = this.$route.query.substationId
+      let robotId = this.$route.query.robotId
+      getAxiosData('/lenovo-robot/rest/specialTasks',{substationId:substationId, robotId:robotId, pageIndex:this.specialInspectList['pageIndex'], pageRows:this.specialInspectList['pageRows']}).then(res=>{
+          let data = res.data['specialTasks']
+          data.map(item=>{
+              item['start'] = 1
+          })
+          this.specialInspectList['totalRows'] = res.data['total']
+          this.specialInspectList['data'] = data;
       })
      /* infrInformation().then(res => {
       });*/
