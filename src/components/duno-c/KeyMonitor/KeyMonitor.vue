@@ -17,7 +17,13 @@
           @pause="onPlayerPause($event)"
         ></video-player>
       </div>
-      <transition name="el-zoom-in-bottom">
+      <div v-if="isIniializa" class="Initialization">
+        <p>
+          点击按钮，完成标定初始化设置
+          <span @click="changeinit">初始化</span>
+        </p>
+      </div>
+      <transition v-if="!isIniializa" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
           <div class="block">
             <!-- <span class="demonstration">-15s</span>
@@ -74,6 +80,12 @@ export default {
     pushMov
   },
   props: {
+    Initialization: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
+    },
     autoplay: {
       type: Boolean,
       default: () => {
@@ -158,6 +170,7 @@ export default {
       pushMovVisable: false,
       showView: false,
       value2: 15,
+      isIniializa: false,
       showBtm: false,
       //   isChange: true,
       isSecond: false,
@@ -237,10 +250,20 @@ export default {
           monitorDeviceId: this.monitorInfo["monitorDeviceId"]
         }
       });
+    },
+    changeinit() {
+      this.$message({
+        message: "初始化成功",
+        type: "success"
+      });
+      this.isIniializa = false;
     }
     // changeBaggen() {
     //   this.isChange = false;
     // }
+  },
+  mounted() {
+    this.isIniializa = this.Initialization;
   },
   created() {
     this.playerOptions.autoplay = this.autoplay;
@@ -355,6 +378,28 @@ export default {
       .iconList {
         bottom: -1px !important;
         z-index: 2;
+      }
+    }
+  }
+  .Initialization {
+    position: absolute;
+    bottom: 0;
+    line-height: 32px;
+    width: 100%;
+    background-color: rgba(43, 51, 63, 0.7);
+    text-align: right;
+    color: #fff;
+    p {
+      font-size: 14px;
+      padding-right: 10px;
+      span {
+        display: inline-block;
+        line-height: 24px;
+        text-align: center;
+        margin-left: 10px;
+        cursor: pointer;
+        width: 60px;
+        border: 1px solid #fff;
       }
     }
   }
