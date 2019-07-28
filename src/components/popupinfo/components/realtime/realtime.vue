@@ -156,16 +156,31 @@ export default {
     },
     initCamera() {
       const that = this;
-      const url = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
-      getAxiosData(url, {}).then(res => {
-        that.playerOptions.sources[0].src = res.data.data;
-        that.$forceUpdate();
-      });
-      const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
-      getAxiosData(urld, {}).then(res => {
-        that.playerOptiond.sources[0].src = res.data.data;
-        that.$forceUpdate();
-      });
+      if (this.monitorDeviceType == 1) {
+        const url =
+          "/lenovo-visible​/api​/visible-equipment​/sdk​/rtmp​/" +
+          that.deviceId;
+        getAxiosData(url, {}).then(res => {
+          that.playerOptions.sources[0].src = res.data.data;
+          that.$forceUpdate();
+        });
+        // const urld = "/lenovo-visible/device/visible/url/rtmp/" + that.deviceId;
+        // getAxiosData(urld, {}).then(res => {
+        //   that.playerOptiond.sources[0].src = res.data.data;
+        //   that.$forceUpdate();
+        // });
+      } else if (this.monitorDeviceType == 2) {
+        const url = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
+        getAxiosData(url, {}).then(res => {
+          that.playerOptions.sources[0].src = res.data.data;
+          that.$forceUpdate();
+        });
+        const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
+        getAxiosData(urld, {}).then(res => {
+          that.playerOptiond.sources[0].src = res.data.data;
+          that.$forceUpdate();
+        });
+      }
     }
   },
   created() {
