@@ -24,7 +24,7 @@
                 </div>
                 <div class="item">
                     <div class="name">工作时长：</div>
-                    <div class="info">{{  taskStatus['startInspectionTime']  }}</div>
+                    <div class="info">{{  workTime  }}</div>
                 </div>
                 <div v-if="taskStatus['taskType'] == '1504'">
                     <button-custom class="stopTask" @click.native="changeTaskStatus" :title="taskName" />
@@ -53,6 +53,7 @@
         },
         data() {
             return {
+                workTime: '',
                 state: 1,
                 stateF: 1,
                 timer: null,
@@ -88,12 +89,21 @@
             taskStatus:{
                 handler(now){
                     if(now){
+                        let times = new Date().getTime() - now['startInspectionTime']
+                        this.workTime = this.formatDuring(times)
+                        this.stateF = now['taskState']
+                        if(now['taskState'] == 2){
+                          this.taskName = '结束任务'
+                        }else{
+                          this.taskName = '开始任务'
+                        }
                         this.$nextTick(()=>{
                             clearInterval(this.timer)
                             this.initData()
                             this.timer = setInterval(()=>{
                                 this.initData()
                             },3000)
+                            this.$emit('on-fresh')
                         })
                     }
                 },
@@ -105,6 +115,14 @@
 
         },
         methods:{
+            formatDuring(mss) {
+                let days = parseInt(mss / (1000 * 60 * 60 * 24));
+                let hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+                minutes = minutes<10?'0'+minutes:minutes
+                let seconds = (mss % (1000 * 60)) / 1000;
+                return hours + ":" + minutes + ":" + parseInt(seconds);
+            },
             arrHandle(data){
                 let arr = []
                 for(let i=0; i<data.length; i++){
@@ -115,11 +133,12 @@
             },
             initData(){
                 const that = this
-                postAxiosData('/lenovo-robot/rest/taskMap',{taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+                postAxiosData('/lenovo-robot/rest/taskMap',{taskId:this.taskStatus['taskId'],taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
                     let data = res.data.details
                     let arr = that.arrHandle(data)
                     let arrT = that.arrHandle(that.robotStatus['hisLocation'])
                     that.$nextTick(()=>{
+                        try{
                         that.clearLine()
                         that.$refs.gisMapObj.setDrawLine(arr, 0, [10, 10])
                         that.$refs.gisMapObj.setDrawLine(arrT, 1, [0, 0])
@@ -131,31 +150,35 @@
                             that.deviceList.push(that.robotStatus['curLocation'])
                             that.$refs.gisMapObj.setCenter(that.robotStatus['curLocation'])
                         }
+                        }catch (e) {
+                            
+                        }
                     })
                 })
             },
             clearLine(){
+                try{
                 const that = this
                 let arr = that.$refs.gisMapObj.coverList
                 that.$refs.gisMapObj.removeLineList(arr)
+                }catch (e) {
+                    
+                }
             },
             changeTaskStatus(){
                 if(this.stateF == 1){
                     this.stateF = 2
                     this.state = '2'
                 }else if(this.stateF == 2){
-                    this.stateF = 3
-                    this.state = '3'
-                }else if(this.stateF == 3){
-                    this.stateF = 2
-                    this.state = '4'
+                    this.stateF = 1
+                    this.state = '1'
                 }
                 if(this.taskName.indexOf('开始')>-1){
                     this.taskName = '结束任务'
                 }else{
                     this.taskName = '开始任务'
                 }
-                postAxiosData('/lenovo-robot/taskControl', {substationID: this.substationId, robotID: this.robotId, state: this.state}).then(res=>{
+                postAxiosData('/lenovo-robot/rest/taskControl', {substationID: this.substationId, robotID: this.robotId, state: this.state}).then(res=>{
                     this.$message.success('操作成功')
                 })
             },
@@ -167,11 +190,18 @@
             }
         },
         mounted() {
-
+            try{
             document.querySelector('#map').setAttribute('style','height:100% !important')
+            }catch (e) {
+                
+            }
         },
         beforeDestroy(){
-            document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
+            try {
+                document.querySelector('#map').setAttribute('style', 'height:calc( 100vh - 166px) !important')
+            }catch (e) {
+                
+            }
         }
     }
 </script>

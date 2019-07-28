@@ -16,7 +16,7 @@
                 </div>
             </span>
             <div class="main">
-                <gis-map :isDiagram="2" :deviceList="deviceList" ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
+                <gis-map :isDiagram="2" :powerPointList="disgramList"  ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
             </div>
             <ul class="drawList">
                 <li class="drawItem" v-for="(item, index) in drawList" :key="index">
@@ -26,7 +26,7 @@
                             <el-option
                                     v-for="item in item['options']"
                                     :key="item.id"
-                                    :label="item.deviceMessage.cameraName"
+                                    :label="item.deviceName"
                                     :value="item.id">
                             </el-option>
                         </el-select>
@@ -43,7 +43,7 @@
 <script>
 import gisMap from '_c/duno-m/gisMap'
 import mixinViewModule from '@/mixins/view-module'
-import { postAxiosData } from '@/api/axiosType'
+import { postAxiosData, getAxiosData } from '@/api/axiosType'
 import { deviceLocation } from '@/api/currency/currency.js'
 export default {
     mixins: [mixinViewModule],
@@ -53,6 +53,7 @@ export default {
     },
     data() {
         return {
+            disgramList: [],
             deviceList: [],
             dataList: [],
             value: '',
@@ -77,6 +78,7 @@ export default {
             if(now){
                 this.$nextTick(()=>{
                     this.getDeviceList()
+                    this.initDisgram()
                         document.querySelector('#map').setAttribute('style','height:100% !important')
                 })
             }else{
@@ -87,19 +89,31 @@ export default {
     computed: {
     },
     methods:{
+        initDisgram(){
+            const that = this
+            getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
+                let data = res.data
+                that.disgramList = data
+            })
+        },
         saveTask(){
             const that = this
+
             let arr = []
             this.drawList.forEach(item=>{
                 arr = [...arr,...item['value']]
             })
-            postAxiosData('/lenovo-robot/rest/deviceTask',{lenovoDeviceIds: arr.join(','),taskName: this.taskName}).then(res=>{
+            postAxiosData('/lenovo-robot/rest/deviceTask',{lenovoDeviceIds: ["598855983447638016",
+                    "598855983892234240",
+                    "598855983527329792",
+                    "598855985284743168"],taskName: this.taskName}).then(res=>{
                 if(res.data.resConf){
                     that.$message.success('新增成功')
                     that.drawList = []
                     that.$refs.gisMapRef.drawList = []
                     that.$refs.gisMapRef.drawListNum = 0
-                    that.dialogVisible = false
+                    that.$emit('on-success')
+                    // that.dialogVisible = false
                 }else{
                     that.$message.fail('新增失败')
                 }
@@ -153,8 +167,13 @@ export default {
     beforeDestroy(){
     },
     mounted() {
+        const that = this
         this.$nextTick(()=>{
-            this.move(true)
+            try{
+                that.move(true)
+            }catch (e) {
+
+            }
         })
      /*   for (let i = 0; i < this.lists.length; i++) {
             this.text += ' ' + this.lists[i]

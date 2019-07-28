@@ -67,7 +67,7 @@
         :total="specialInspectList.totalRows"
       ></el-pagination>
     </div>
-    <select-district @on-close="onClose" :visible="dialogVisible" />
+    <select-district @on-success="success" @on-close="onClose" :visible="dialogVisible" />
   </div>
 </template>
 
@@ -243,7 +243,7 @@ export default {
                     patrol: params.row.status === "1"
                   }
                 },
-                params.row.taskStatus
+                params.row.taskStatus == 1?'空闲中':'运行中'
               )
             );
             return h("div", newArr);
@@ -303,7 +303,7 @@ export default {
                     }
                   }
                 },
-                  (params.row.start == 1 || params.row.start == 3)?'开始任务':'结束任务'
+                  (params.row.taskStatus == 1)?'开始任务':'结束任务'
               )
             );
             newArr.push([
@@ -345,6 +345,11 @@ export default {
         }
     },
   methods: {
+    success(){
+        setTimeout(()=>{
+            this.getInfor()
+        },2000)
+    },
     changePage(cur){
         this.specialInspectList.pageIndex = cur
         this.getInfor()
@@ -354,19 +359,20 @@ export default {
         let substationId = this.$route.query.substationId
         let robotId = this.$route.query.robotId
         let state = ''
-        if('start' in params.row && params.row['start'] == 1){
-            this.specialInspectList['data'][index]['start'] = 2
+        if('taskStatus' in params.row && params.row['taskStatus'] == 1){
+            this.specialInspectList['data'][index]['taskStatus'] = 2
             state = '2'
-        }else if('start' in params.row && params.row['start'] == 2){
-            this.specialInspectList['data'][index]['start'] = 3
-            state = '3'
-        }else if('start' in params.row && params.row['start'] == 3){
-            this.specialInspectList['data'][index]['start'] = 2
-            state = '4'
+        }else if('taskStatus' in params.row && params.row['taskStatus'] == 2){
+            this.specialInspectList['data'][index]['taskStatus'] = 1
+            state = '1'
         }
         this.$forceUpdate()
-        postAxiosData('/lenovo-robot/taskControl', {substationID: substationId, robotID: robotId, state: state}).then(res=>{
-            this.$message.info(res.data.resInfo)
+        postAxiosData('/lenovo-robot/rest/taskControl', {taskID: params.row.taskId, substationID: substationId, robotID: robotId, state: state}).then(res=>{
+            if(res.data.resConf)
+              this.$message.info('更新中，请稍等....')
+            else
+              this.$message.info(res.data.resInfo)
+            setTimeout(()=>{this.getInfor()},4000)
         })
     },
     getTableData(){
@@ -374,7 +380,7 @@ export default {
         postAxiosData('/lenovo-robot/rest/taskNormalDetail',{'taskId':that.taskId}).then(res=>{
             let data = res.data
             // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
-            data['roadImgPath'] =  data['roadImgPath']
+            data['roadImgPath'] =  data['roadImg']
             that.dataList = data['details']
             that.taskNormalData =  data
             that.$forceUpdate()
@@ -390,6 +396,7 @@ export default {
                 item['describeName'] = item['Name']
             })
             that.InspectData = data
+            that.onSelect(data[0])
         })
     },
     onClose(){
