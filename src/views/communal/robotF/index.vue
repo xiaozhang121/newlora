@@ -11,25 +11,29 @@
       <div class="top">
         <div class="item">
           <div class="nr">
+            <!--:streamAddr="cameraPath['rtspCDD']"-->
             <KeyMonitor
               class="keyMonitor"
-              :streamAddr="cameraPath['rtspCDD']"
+              :autoplay="true"
+              streamAddr="rtmp://10.0.10.39/rtsp/stream100"
             />
           </div>
         </div>
         <div class="item">
           <div class="nr">
+            <!--:streamAddr="cameraPath['rtspINF']"-->
             <KeyMonitor
                 class="keyMonitor"
-                :streamAddr="cameraPath['rtspINF']"
+                :autoplay="true"
+                streamAddr="rtmp://10.0.10.39/rtsp/stream101"
             />
           </div>
         </div>
       </div>
       <div class="middle">
-        <rou-tine-inspection :isChange="ischange" :robotId="robotId" :substationId="substationId" ref="rouTineInspection" :taskStatus="taskStatus" :robotStatus="robotStatus">
+        <rou-tine-inspection @on-fresh="onFresh" :isChange="ischange" :robotId="robotId" :substationId="substationId" ref="rouTineInspection" :taskStatus="taskStatus" :robotStatus="robotStatus">
           <div class="reportData">
-            <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['filePath']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
+            <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['taskCurLinkImg']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
           </div>
         </rou-tine-inspection>
       </div>
@@ -146,6 +150,9 @@ export default {
       }
   },
   methods: {
+      onFresh(){
+          this.initReport()
+      },
       initData(){
           const that = this
           postAxiosData('/lenovo-robot/rest/taskStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{

@@ -309,14 +309,14 @@ export default {
         },
         containPoint(polygon, index){
             let arr = []
-            this.deviceList.forEach(item=>{
-                if(polygon.intersectsExtent(transform([item['cadX'],item['cadY']], 'EPSG:3857', 'EPSG:4326'))){
+            this.powerPointList.forEach(item=>{
+                if(polygon.intersectsExtent(transform([item['xReal'],item['yReal']], 'EPSG:3857', 'EPSG:4326'))){
                     arr.push(item)
                 }
             })
             let value = []
             arr.forEach((item)=>{
-                value.push(item['id'])
+                value.push(item['deviceId'])
             })
             this.drawList[index]['value'] = value
             this.drawList[index]['options'] = arr
