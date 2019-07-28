@@ -168,7 +168,6 @@ export default {
       };
       if (type == "1") {
         postAxiosData(url, query).then(res => {
-          debugger;
           if (res.code !== 200) {
             return this.$message.error(res.msg);
           }

@@ -504,7 +504,6 @@ export default {
           const that = this
           getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
               let data = res.data
-              debugger
               if(that.kilovoltKind == 10){
                   data = data.filter(item=>{
                       return item['areaId'] == '6'

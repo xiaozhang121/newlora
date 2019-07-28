@@ -3,26 +3,36 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
+    <div class="controlTitle">
+      <div>摄像机ID</div>
+      <div v-if="isControl =='1'" class="control">
+        云台控制中
+        <span @click="getControl">获取控制权</span>
+      </div>
+      <div v-if="isControl =='2'" class="control">
+        已获取云台控制
+        <span @click="getControl">结束控制</span>
+      </div>
+      <div v-if="isControl =='3'" class="control">
+        结束控制倒计时
+        <i>{{ currentTime }} s</i>
+        <span @click="getControl">结束控制</span>
+      </div>
+    </div>
     <div class="Main_contain">
       <div class="content">
         <div class="left nr">
           <div class="item">
             <div class="camera_surveillanceDetail">
               <div class="contain">
-                <!-- <key-monitor
+                <key-monitor
                   paddingBottom="56%"
                   class="monitor"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
-                ></key-monitor>-->
-                <KeyMonitorDetail
-                  paddingBottom="56%"
-                  class="monitor"
-                  :autoplay="playerOptions.autoplay"
-                  :streamAddr="playerOptions.streamAddr"
-                  :showBtmOption="false"
-                />
+                  :Initialization="true"
+                ></key-monitor>
               </div>
             </div>
             <div class="control">
@@ -156,7 +166,6 @@
 <script>
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
-import KeyMonitorDetail from "_c/duno-c/KeyMonitorDetail";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
@@ -187,8 +196,7 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning,
-    KeyMonitorDetail
+    wraning
   },
   data() {
     return {
@@ -202,6 +210,9 @@ export default {
       titleType: "选择预置位",
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
+      isControl: "1",
+      currentTime: 10,
+      timeOut: null,
       dataForm: {},
       echartForm: {},
       echartData: [],
@@ -612,16 +623,45 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
+    },
+    getControl() {
+      if (this.isControl == "1") {
+        this.isControl = "2";
+        this.endControl();
+      } else if (this.isControl == "2" || this.isControl == "3") {
+        this.isControl = "1";
+      }
+    },
+    endControl() {
+      if (this.isControl == "2") {
+        let that = this;
+        let num = 10;
+        clearInterval(that.timeOut);
+        that.timeOut = setInterval(function() {
+          that.isControl = "3";
+          let countDown = setInterval(function() {
+            that.currentTime--;
+            num--;
+            if (num == 0) {
+              clearInterval(countDown);
+              that.isControl = "1";
+            }
+          }, 1000);
+        }, 1000 * 60 * 5);
+      }
     }
   },
   created() {
-    // this.initCamera();
+    this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.initCamera();
+    this.getEchasrts();
   },
   mounted() {
-    // this.getInit();
-    // this.getSelectType();
-    // this.getSelcetGrade();
-    // this.getSelectPreset();
+    this.getInit();
+    this.getSelectType();
+    this.getSelcetGrade();
+    this.getSelectPreset();
+    window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
@@ -1016,5 +1056,35 @@ export default {
     background: black;
   }
   //------------------
+  .controlTitle {
+    overflow: hidden;
+    color: #fff;
+    margin-bottom: 10px;
+    & > div {
+      float: left;
+    }
+    & > div:first-child {
+      font-size: 20px;
+    }
+    .control {
+      font-size: 18px;
+      margin-left: 51%;
+      span {
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+        width: 90px;
+        line-height: 32px;
+        background: #305e83;
+        border-radius: 16px;
+        margin-left: 10px;
+      }
+      i {
+        color: #ffcc30;
+        font-style: normal;
+      }
+    }
+  }
 }
 </style>
