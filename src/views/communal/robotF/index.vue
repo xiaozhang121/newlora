@@ -158,7 +158,6 @@ export default {
                   item['alarmNum'] = item['AlarmCount']
                   item['timeLong'] = item['AlarmCount']
               })
-              debugger
               that.newsReport = data
           })
       }

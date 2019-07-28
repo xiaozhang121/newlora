@@ -231,7 +231,6 @@ export default {
       this.showBtm = false;
     },
     getJump() {
-      debugger;
       this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {

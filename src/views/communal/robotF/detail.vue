@@ -359,7 +359,6 @@ export default {
     },
     getInfor() {
       postAxiosData('/lenovo-robot/rest/specialTasks',{start: 1, length: 20}).then(res=>{
-          debugger
           this.specialInspectList = res.data.specialTasks;
       })
      /* infrInformation().then(res => {

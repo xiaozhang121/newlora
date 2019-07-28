@@ -318,7 +318,6 @@ export default {
           this.routeName = to.name
       },
       routeName(now){
-          debugger
           if(now == 'robot-twoList'){
               this.$set(this.dataBread,1,'机器人二')
           }else{

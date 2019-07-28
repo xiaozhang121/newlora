@@ -1,5 +1,7 @@
 import Main from '@/views/duno-default/main'
 import parentView from '@/components/parent-view'
+import parentAlarm from '@/components/duno-c/parent-alarm'
+// import parentVideo from '@/components/duno-c/parent-video'
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
  * meta: {
@@ -69,6 +71,10 @@ export default [{
         name: '_realEnv',
         redirect: 'realEnv/list',
         component: Main,
+        // components:{
+        //     default:Main,
+        //     alarm:parentAlarm
+        // },
         meta: {
             notCache: true,
             access: ['200000'],
@@ -268,7 +274,7 @@ export default [{
     {
         path: '/',
         name: '_surveillance',
-        component: Main,
+        component: Main, 
         meta: {
             hide: true,
             hideInMenu: true,

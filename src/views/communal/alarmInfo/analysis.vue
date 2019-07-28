@@ -752,7 +752,6 @@ export default {
         startTime: this.startTime,
         endTime: this.endTime
       };
-      debugger;
       getEchartsData(query).then(res => {
         const dataList = res.data.slice(0, 2);
         const legendData = [];
