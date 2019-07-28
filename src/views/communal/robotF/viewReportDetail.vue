@@ -468,7 +468,6 @@ export default {
       const that = this;
       const url = "/lenovo-robot/rest/reportDetailDevices";
      /* getAxiosData(url, {taskRunHisId: this.dataForm.taskRunHisId}).then(res => {
-          debugger
         const resData = res.data;
 
 

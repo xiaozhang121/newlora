@@ -163,7 +163,7 @@ export default {
 
       const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
       getAxiosData(urld, {}).then(res => {
-        that.playerOptiond.sources[0].src = res.data.data;
+        that.playerOptiond.sources[0].src = res.data;
         that.$forceUpdate();
       });
     }

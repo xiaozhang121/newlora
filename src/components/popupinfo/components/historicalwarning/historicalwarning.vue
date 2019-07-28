@@ -145,6 +145,7 @@ export default {
         isDeal: "0",
         deviceName: ""
       };
+      debugger;
       getAxiosData(url, query).then(res => {
         if (res.code !== 200) {
           that.itemData = [];

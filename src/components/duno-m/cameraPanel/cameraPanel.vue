@@ -225,6 +225,7 @@
     import 'video.js/dist/video-js.css'
     import { videoPlayer } from 'vue-video-player'
     import 'videojs-flash'
+import { debug } from 'util';
     export default {
         name: 'cameraPanele',
         components: { dunoTable,DunoCharts, videoPlayer },
@@ -735,7 +736,7 @@
             initCamera(){
                 const that = this
                 that.disabled = true
-                const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
+                const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp/'+that.deviceId;
                 getAxiosData(url, {}).then(res => {
                      that.playerOptions.sources[0].src = res.data;
                      setTimeout(()=>{

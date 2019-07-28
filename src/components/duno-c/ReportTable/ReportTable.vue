@@ -104,7 +104,6 @@ export default {
     },
     viewReports() {
       if(this.path){
-          debugger
           this.$router.push({
               path: this.path,
               query: {

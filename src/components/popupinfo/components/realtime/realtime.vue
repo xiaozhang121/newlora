@@ -158,12 +158,11 @@ export default {
       const that = this;
       const url = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
       getAxiosData(url, {}).then(res => {
-        that.playerOptions.sources[0].src = res.data;
+        that.playerOptions.sources[0].src = res.data.data;
         that.$forceUpdate();
       });
       const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
       getAxiosData(urld, {}).then(res => {
-        // debugger;
         that.playerOptiond.sources[0].src = res.data.data;
         that.$forceUpdate();
       });
@@ -176,11 +175,21 @@ export default {
     if (this.classifyData && this.isClassify) {
       console.log("初始化加载：", this.classifyData, "相");
     }
-    putAxiosData("/lenovo-iir/device/video/play/" + this.deviceId);
-  },
-  destroyed() {
-    putAxiosData("/lenovo-iir/device/video/stop/" + this.deviceId);
+    getAxiosData("/lenovo-iir/device/video/isplaying/" + this.deviceId).then(
+      res => {
+        let isPlay = res.data.data;
+        if (isPlay) {
+          return;
+        } else {
+          putAxiosData("/lenovo-iir/device/video/play/" + this.deviceId);
+        }
+      }
+    );
   }
+  //关闭视频接口
+  // destroyed() {
+  //   putAxiosData("/lenovo-iir/device/video/stop/" + this.deviceId);
+  // }
 };
 </script>
 <style lang="scss">

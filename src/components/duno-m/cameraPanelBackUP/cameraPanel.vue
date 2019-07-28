@@ -728,7 +728,7 @@
             initCamera(){
                 const that = this
                 that.disabled = true
-                const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp';
+                const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp/'+that.deviceId;
                 getAxiosData(url, {}).then(res => {
                      that.playerOptions.sources[0].src = res.data;
                      setTimeout(()=>{
