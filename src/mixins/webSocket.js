@@ -38,7 +38,6 @@ export default {
                     url = url.replace(':8008',':8200')*/
                     //   that.Socket = new WebSocket(`ws:${url}/lenovo-alarm/alarm/websocket`)
                     // that.Socket = new WebSocket(`ws://10.0.0.164:8081/lenovo-alarm/alarm/websocket`)
-                    debugger
                     that.Socket = new WebSocket(`ws://${that.socketUrl}/lenovo-alarm/alarm/websocket`)
                     that.Socket.onmessage = function (evt) { // 接收数据 websocket
                         let receivedMsg = JSON.parse(evt.data)

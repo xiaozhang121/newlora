@@ -316,7 +316,6 @@ export default {
                   on: {
                     click: () => {
                        console.log(params)
-                        debugger
                       this.$router.push({'path':'report',query: {taskId: params.row.taskId, taskRunHisId:params.row.latestTaskRunHisId, planType:params.row.taskType  }})
                     }
                   }
