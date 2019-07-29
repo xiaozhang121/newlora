@@ -1,7 +1,7 @@
 <template>
     <div class="hotCameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
-            <div style="padding-bottom: 20px">
+            <div>
                 <div class="cameraMain">
                     <div class="camera" v-if="showCamera">
                         <div class="main">
@@ -10,45 +10,45 @@
                         <div class="explain iconList" style="margin-top: 4px">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
                             <span><i class="iconfont icon-jietu"></i>截图</span>
-                            <span><i class="iconfont icon-quanping"></i>全屏</span>
+                            <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                     <div class="camera" v-if="showCamera" style="position: relative">
                         <div class="main">
-                            <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                            <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
                         </div>
                         <div class="explain iconList" style="bottom: 10px; position: absolute;">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
                             <span><i class="iconfont icon-jietu"></i>截图</span>
-                            <span><i class="iconfont icon-quanping"></i>全屏</span>
+                            <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                 </div>
-                <div class="cameraMain" style="padding-top: 10px">
+                <div class="cameraMain" style="position: relative; top: 16px">
                     <div class="btnList" style="padding-bottom: 0; ">
                         <div class="description">
                             调整镜头
                         </div>
                         <div class="row">
-                            <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                            <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 6}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"  @mouseup="viewCamera(3, true)"></div>
+                            <div class="btn"  :class="{'active':activeNum == 5}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(5, false)"   @mouseup="viewCamera(5, true)"></div>
                         </div>
                         <div class="row">
                             <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
                             <div class="btn" style="visibility: hidden"></div>
-                            <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                            <div class="btn"  :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
                         </div>
                         <div class="row">
-                            <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                            <div class="btn"  :class="{'active':activeNum == 8}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 4}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 7}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
                         </div>
-                        <div class="control_slider" style="padding-bottom: 20px">
+                     <!--   <div class="control_slider" style="padding-bottom: 20px">
                             <i class="iconfont icon-suoxiao1"></i>
                             <el-slider class="elSlider" v-model="sliderValue"></el-slider>
                             <i class="iconfont icon-fangda1"></i>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -62,17 +62,17 @@
                     <div class="explain iconList" style="margin-bottom: 10px">
                         <span><i class="iconfont icon-luxiang"></i>录像</span>
                         <span><i class="iconfont icon-jietu"></i>截图</span>
-                        <span><i class="iconfont icon-quanping"></i>全屏</span>
+                        <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
                 <div class="camera" v-if="showCamera" style="position: relative">
                     <div class="main">
-                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                        <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
                     </div>
                     <div class="explain iconList" style="bottom: 17px; position: absolute">
                         <span><i class="iconfont icon-luxiang"></i>录像</span>
                         <span><i class="iconfont icon-jietu"></i>截图</span>
-                        <span><i class="iconfont icon-quanping"></i>全屏</span>
+                        <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
             </div>
@@ -121,17 +121,17 @@
                         <div class="explain iconList" style="margin-bottom: 10px">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
                             <span><i class="iconfont icon-jietu"></i>截图</span>
-                            <span><i class="iconfont icon-quanping"></i>全屏</span>
+                            <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                     <div class="camera" v-if="showCamera" style="position: relative">
                         <div class="main">
-                            <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                            <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
                         </div>
                         <div class="explain iconList" style="bottom: 17px; position: absolute">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
                             <span><i class="iconfont icon-jietu"></i>截图</span>
-                            <span><i class="iconfont icon-quanping"></i>全屏</span>
+                            <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
                 </div>
@@ -141,25 +141,25 @@
                             调整镜头
                         </div>
                         <div class="row">
-                            <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                            <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 6}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"  @mouseup="viewCamera(3, true)"></div>
+                            <div class="btn"  :class="{'active':activeNum == 5}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(5, false)"   @mouseup="viewCamera(5, true)"></div>
                         </div>
                         <div class="row">
                             <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
                             <div class="btn" style="visibility: hidden"></div>
-                            <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                            <div class="btn"  :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
                         </div>
                         <div class="row">
-                            <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                            <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                            <div class="btn"  :class="{'active':activeNum == 8}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
+                            <div class="btn" :class="{'actived':activeNum == 4}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
+                            <div class="btn" :class="{'active':activeNum == 7}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
                         </div>
-                        <div class="control_slider" style="bottom: -12px;">
+                       <!-- <div class="control_slider" style="bottom: -12px;">
                             <i class="iconfont icon-suoxiao1"></i>
                             <el-slider class="elSlider" v-model="sliderValue"></el-slider>
                             <i class="iconfont icon-fangda1"></i>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="camera" v-if="showCamera" style="height: inherit;flex: 1; padding-left: 30px; padding-right: 10px">
                         <div class="addPosition" style="">
@@ -253,6 +253,7 @@
     import { mapState } from 'vuex'
     import { DunoCharts } from '_c/duno-charts'
     import { videoPlayer } from 'vue-video-player'
+    import { getAxiosData, putAxiosData } from '@/api/axiosType'
     import 'videojs-flash'
     export default {
         name: 'cameraPanel',
@@ -260,10 +261,22 @@
         data() {
             return {
                 playerOptions:{
-                    width:300,
+                    width:296,
+                    height:170,
                     sources: [{
                         type: "rtmp/flv",
-                        src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks2'
+                        src: ''
+                    }],
+                    techOrder: ['flash'],
+                    autoplay: true,
+                    controls: true
+                },
+                playerOptiond:{
+                    width:296,
+                    height:170,
+                    sources: [{
+                        type: "rtmp/flv",
+                        src: ''
                     }],
                     techOrder: ['flash'],
                     autoplay: true,
@@ -454,6 +467,15 @@
             }
         },
         watch: {
+            deviceId:{
+                handler(now){
+                    if(now) {
+                        this.getCameraFuild()
+                    }
+                },
+                deep: true,
+                immediate: true
+            },
             overFlag(now){
               if(!now){
                   clearInterval(this.timerObj)
@@ -502,6 +524,8 @@
             }
         },
         props: {
+            deviceId:{},
+            itemData:{},
             panelType: {
                 type: String,
                 default: 'first'
@@ -528,6 +552,11 @@
             },
         },
         methods:{
+            fullScreen(target) {
+                let ele = this.$refs[target].$el
+                    .getElementsByClassName("vjs-fullscreen-control")[0]
+                    .click();
+            },
             mouseMove(event) {
                 const that = this
                 let div = document.getElementById("videoMain");
@@ -676,17 +705,36 @@
             },
             viewCamera(command, flag){
                 this.activeNum = command
-                controlCamera({command: command, flag:flag}).then(res=>{
+                let cmd = Number(command)
+                let value = 20
+                if(flag) {
+                    cmd = 0
+                    value = 0
+                }
+
+                let url = "lenovo-iir/device/operate/set/ptz/"+this.deviceId
+                putAxiosData(url,{cmd: cmd, value: value}).then(res=>{
+
                 })
+              /*  controlCamera({command: command, flag:flag}).then(res=>{
+                })*/
             },
-            initCamera(){
-                return new Promise((resolve, reject)=>{
+            initCamera() {
+                return new Promise((resolve, reject) => {
                     if (Wfs.isSupported()) {
                         let video1 = document.getElementById("video1"),
                             wfs = new Wfs();
                         wfs.attachMedia(video1, 'ch1');
                         resolve(200)
                     }
+                })
+            },
+            getCameraFuild(){
+                getAxiosData('/lenovo-iir/device/video/url/rtmp/'+this.deviceId).then(res=>{
+                    this.playerOptiond.sources[0].src = res.data.data;
+                })
+                getAxiosData('/lenovo-iir/device/visible/url/rtmp/'+this.deviceId).then(res=>{
+                    this.playerOptions.sources[0].src = res.data.data;
                 })
             }
         },
@@ -714,6 +762,9 @@
         display: flex;
         flex-direction: column;
         width: 750px;
+        .video-js .vjs-control-bar{
+            display: none;
+        }
         .vjs-custom-skin{
             transform: scale(1.2,1.46);
             transform-origin: left top;
@@ -845,7 +896,7 @@
                     position: absolute;
                     color: #a2a2a5;
                     width: 29px;
-                    height: 48px;
+                    height: 66px;
                     left: 0;
                     top: 0;
                     right: 0;

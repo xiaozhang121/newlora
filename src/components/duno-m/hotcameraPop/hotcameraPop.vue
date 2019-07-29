@@ -1,7 +1,7 @@
 <template>
     <div class="hotcameraPop" >
         <historical-documents :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
-            <hot-camera :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
+            <hot-camera :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
             <polygonal-backup  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth-backup  :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
@@ -10,9 +10,16 @@
 </template>
 
 <script>
+    import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+    import historyfile from "_c/historyfile"
+    import historyfourth from "_c/historyfourth"
+    import historyfourthBackup from "_c/historyfourthBackup"
+    import PolygonalBackup from '_c/duno-c/PolygonalBackup'
+    import cameraPanelBackUP from '_c/duno-m/cameraPanelBackUP'
     import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
     import Polygonal from '_c/duno-c/Polygonal'
     import hotCamera from '_c/duno-m/hotCamera'
+    import moment from 'moment'
     import cameraPanel from '_c/duno-m/cameraPanel'
     export default {
         name: 'cameraPop',
@@ -20,7 +27,12 @@
             HistoricalDocuments,
             Polygonal,
             cameraPanel,
-            hotCamera
+            hotCamera,
+            historyfile,
+            historyfourth,
+            historyfourthBackup,
+            PolygonalBackup,
+            cameraPanelBackUP
         },
         data() {
             return {
@@ -82,7 +94,7 @@
             disposeData(data) {
                 if (data && JSON.stringify(data) !== '{}') {
                     this.monitorDeviceType = data.monitorDeviceType
-                    this.itemId = data.areaId
+                    this.itemId = data.monitorDeviceId
                 } else {
                     this.title = ''
                     this.itemId = null
