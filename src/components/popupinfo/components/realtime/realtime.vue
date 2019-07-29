@@ -173,11 +173,6 @@ export default {
           that.playerOptiond.sources[0].src = res.data;
           that.$forceUpdate();
         });
-        // const urld = "/lenovo-visible/device/visible/url/rtmp/" + that.deviceId;
-        // getAxiosData(urld, {}).then(res => {
-        //   that.playerOptiond.sources[0].src = res.data.data;
-        //   that.$forceUpdate();
-        // });
       } else if (this.monitorDeviceType == 2) {
         const urld = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
         getAxiosData(urld, {}).then(res => {
