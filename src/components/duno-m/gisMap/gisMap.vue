@@ -542,7 +542,6 @@ export default {
         addPointList(arr){
             const that = this
             arr.forEach((item, index)=>{
-                debugger
                 if(index == 14){
                 }
                 let offset = []

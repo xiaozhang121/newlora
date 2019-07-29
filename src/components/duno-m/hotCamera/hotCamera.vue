@@ -2,11 +2,10 @@
     <div class="hotCameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
             <div style="padding-bottom: 20px">
-                <div class="title">红外测光云台-JKITS</div>
                 <div class="cameraMain">
                     <div class="camera" v-if="showCamera">
                         <div class="main">
-                            <video id="video1" width="350" height="250" controls></video>
+                            <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                         </div>
                         <div class="explain iconList" style="margin-top: 4px">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
@@ -15,9 +14,8 @@
                         </div>
                     </div>
                     <div class="camera" v-if="showCamera" style="position: relative">
-                        <div class="main" id="videoMain"  @mouseover="overFlag = true"  @mouseout="overFlag = false" style="position: relative; width: 160px; height: 100px; transform: scale(2.2, 2.47); transform-origin: top left">
-                            <img style="width: 100%; height: 100%" :src="base64Data"/>
-                            <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
+                        <div class="main">
+                            <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                         </div>
                         <div class="explain iconList" style="bottom: 10px; position: absolute;">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
@@ -46,7 +44,7 @@
                             <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
                             <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                         </div>
-                        <div class="control_slider">
+                        <div class="control_slider" style="padding-bottom: 20px">
                             <i class="iconfont icon-suoxiao1"></i>
                             <el-slider class="elSlider" v-model="sliderValue"></el-slider>
                             <i class="iconfont icon-fangda1"></i>
@@ -56,11 +54,10 @@
             </div>
         </template>
         <template  v-if="panelType == 'second'">
-            <div class="title">红外测光云台-JKITS</div>
             <div class="cameraMain">
                 <div class="camera" v-if="showCamera">
                     <div class="main">
-                        <video id="video1" width="350" height="250" controls></video>
+                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                     </div>
                     <div class="explain iconList" style="margin-bottom: 10px">
                         <span><i class="iconfont icon-luxiang"></i>录像</span>
@@ -69,9 +66,8 @@
                     </div>
                 </div>
                 <div class="camera" v-if="showCamera" style="position: relative">
-                    <div class="main" id="videoMain"  @mouseover="overFlag = true"  @mouseout="overFlag = false" style="position: relative; width: 160px; height: 100px; transform: scale(2.2, 2.47); transform-origin: top left">
-                        <img style="width: 100%; height: 100%" :src="base64Data"/>
-                        <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
+                    <div class="main">
+                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                     </div>
                     <div class="explain iconList" style="bottom: 17px; position: absolute">
                         <span><i class="iconfont icon-luxiang"></i>录像</span>
@@ -117,11 +113,10 @@
         </template>
         <template  v-if="panelType == 'third'">
             <div style="padding-bottom: 15px">
-                <div class="title">红外测光云台-JKITS</div>
                 <div class="cameraMain">
                     <div class="camera" v-if="showCamera">
                         <div class="main">
-                            <video id="video1" width="350" height="250" controls></video>
+                            <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                         </div>
                         <div class="explain iconList" style="margin-bottom: 10px">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
@@ -161,7 +156,7 @@
                             <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
                             <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                         </div>
-                        <div class="control_slider">
+                        <div class="control_slider" style="bottom: -12px;">
                             <i class="iconfont icon-suoxiao1"></i>
                             <el-slider class="elSlider" v-model="sliderValue"></el-slider>
                             <i class="iconfont icon-fangda1"></i>
@@ -258,11 +253,23 @@
     import clock from '@/assets/camera/clock.png'
     import { mapState } from 'vuex'
     import { DunoCharts } from '_c/duno-charts'
+    import { videoPlayer } from 'vue-video-player'
+    import 'videojs-flash'
     export default {
         name: 'cameraPanel',
-        components: { dunoTable, DunoCharts },
+        components: { dunoTable, DunoCharts, videoPlayer },
         data() {
             return {
+                playerOptions:{
+                    width:300,
+                    sources: [{
+                        type: "rtmp/flv",
+                        src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks2'
+                    }],
+                    techOrder: ['flash'],
+                    autoplay: true,
+                    controls: true
+                },
                 clock,
                 overFlag: false,
                 isEdit: false,
@@ -708,6 +715,10 @@
         display: flex;
         flex-direction: column;
         width: 750px;
+        .vjs-custom-skin{
+            transform: scale(1.2,1.46);
+            transform-origin: left top;
+        }
         .iconList{
             display: flex;
             justify-content: flex-start;
@@ -727,7 +738,7 @@
         .control_slider{
             display: flex;
             position: absolute;
-            bottom: -40px;
+            bottom: -36px;
             width: 100%;
             justify-content: center;
             align-items: center;
@@ -807,6 +818,7 @@
             .camera{
                 width: 400px;
                 margin-right: 7px;
+                height: 284px;
                 .main{
                     width: 100%;
                     height: 83%;
@@ -828,7 +840,7 @@
                 display: flex;
                 flex-direction: column;
                 width: 256px;
-                height: 256px;
+                height: 278px;
                 position: relative;
                 .description{
                     position: absolute;
