@@ -123,7 +123,7 @@ export default {
   data() {
     return {
       activeName: "first",
-      classifyActive: "A",
+      classifyActive: 'A',
       isOpen: false
     };
   },
@@ -339,6 +339,7 @@ export default {
         border: none;
       }
       .classifyActive {
+        color: #00e5ff;
         background: rgba(32, 54, 68, 0.7);
       }
     }

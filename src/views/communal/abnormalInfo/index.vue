@@ -791,8 +791,8 @@ export default {
     .icon-xiala {
       font-size: 9px;
       position: absolute;
-      width: 9px !important;
-      height: 13px !important;
+      width: 12px !important;
+      height: 15px !important;
       right: 20px;
       top: 14px;
     }

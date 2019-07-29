@@ -17249,7 +17249,7 @@
       color: #606266; }
   .el-date-table th {
     padding: 5px;
-    color: #606266;
+    color: white;
     font-weight: 400;
     border-bottom: solid 1px #EBEEF5; }
 
@@ -18747,6 +18747,7 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box; }
   .el-date-picker__header {
+      color: white;
     margin: 12px;
     text-align: center; }
     .el-date-picker__header--bordered {
@@ -18762,11 +18763,11 @@
     line-height: 22px;
     text-align: center;
     cursor: pointer;
-    color: #606266; }
+    color: white !important; }
     .el-date-picker__header-label:hover {
-      color: #515970; }
+      color: white !important; }
     .el-date-picker__header-label.active {
-      color: #515970; }
+      color: white !important; }
   .el-date-picker__prev-btn {
     float: left; }
   .el-date-picker__next-btn {

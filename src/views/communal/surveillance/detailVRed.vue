@@ -174,7 +174,7 @@
       :handleResult="popData.dealRecord || ''"
       @handleClose="handleClose"
     />
-    <screenshot />
+    <!--<screenshot />-->
   </div>
 </template>
 
@@ -453,7 +453,7 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["视频监控", "1000kv", "摄像头详情"]
+      dataBread: ["视频监控", "摄像头详情"]
     };
   },
   methods: {
@@ -470,9 +470,9 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp";
+      const url = "/lenovo-iir/device/visible/url/rtmp/"+this.dataForm.monitorDeviceId
       getAxiosData(url, {}).then(res => {
-        that.playerOptions.streamAddr = res.data;
+        that.playerOptions.streamAddr = res.data.data;
         that.$nextTick(() => {
           setTimeout(() => {
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
@@ -485,9 +485,9 @@ export default {
           }, 500);
         });
       });
-      const urld = "/lenovo-iir/device/video/url/rtmp/" + "33";
+      const urld = "/lenovo-iir/device/video/url/rtmp/" +this.dataForm.monitorDeviceId;
       getAxiosData(urld, {}).then(res => {
-        that.playerOptionsd.sources[0].src = res.data;
+        that.playerOptionsd.sources[0].src = res.data.data;
         that.$forceUpdate();
       });
     },
@@ -702,6 +702,10 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
+  .icon-xiala{
+    width: 12px;
+    height: 15px;
+  }
   .echartsData {
     background: transparent;
   }

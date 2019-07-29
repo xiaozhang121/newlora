@@ -8,6 +8,7 @@
     >
       <div class="main" id="videoPlayer">
         <video-player
+          :class="{'infraredList':routeName == 'infraredList'}"
           v-if="showView"
           ref="videoPlayer"
           class="vjs-custom-skin"
@@ -80,6 +81,7 @@ export default {
     pushMov
   },
   props: {
+    routeName:{},
     Initialization: {
       type: Boolean,
       default: () => {
@@ -244,6 +246,7 @@ export default {
       this.showBtm = false;
     },
     getJump() {
+
       this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {
@@ -278,6 +281,10 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  .infraredList{
+    transform: scale(1,0.75);
+    transform-origin: left top;
+  }
   .video-player.vjs-custom-skin {
     width: 100%;
   }

@@ -39,8 +39,9 @@
     "babel-plugin-import": "^1.11.0",
     "chai": "^4.1.2",
     "element-theme-chalk": "^2.6.1",
+    "jquery": "^3.4.1",
     "mockjs": "^1.0.1-beta3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21",
     "vue-video-player": "^5.0.2"

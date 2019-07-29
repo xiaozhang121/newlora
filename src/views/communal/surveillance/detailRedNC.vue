@@ -1,23 +1,7 @@
 <template>
-  <div class="surveillanceDetail">
+  <div class="detailRedN">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
-    </div>
-    <div class="controlTitle">
-      <div>摄像机ID</div>
-      <div v-if="isControl =='1'" class="control">
-        云台控制中
-        <span @click="getControl">获取控制权</span>
-      </div>
-      <div v-if="isControl =='2'" class="control">
-        已获取云台控制
-        <span @click="getControl">结束控制</span>
-      </div>
-      <div v-if="isControl =='3'" class="control">
-        结束控制倒计时
-        <i>{{ currentTime }} s</i>
-        <span @click="getControl">结束控制</span>
-      </div>
     </div>
     <div class="Main_contain">
       <div class="content">
@@ -25,29 +9,26 @@
           <div class="item">
             <div class="camera_surveillanceDetail">
               <div class="contain">
-                <key-monitor
-                  paddingBottom="56%"
-                  class="monitor"
-                  :autoplay="playerOptions.autoplay"
-                  :streamAddr="playerOptions.streamAddr"
-                  :showBtmOption="false"
-                  :Initialization="true"
-                ></key-monitor>
-              </div>
-            </div>
-            <div class="control">
-              <div class="controBtnContain">
-                <contro-btn :disabledOption="disabled" ref="controBtnRef" :deviceId="dataForm.monitorDeviceId" />
-              </div>
-              <div class="inputGroup">
-                <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
-                <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
+                <img class="contain_img" src="" />
               </div>
             </div>
           </div>
         </div>
-        <div class="right nr contain">
-          <inspection @on-edit="onEdit" ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
+        <div class="left nr">
+          <div class="item">
+            <div class="camera_surveillanceDetail">
+              <div class="contain">
+                <key-monitor
+                        paddingBottom="56%"
+                        class="monitor"
+                        :autoplay="playerOptions.autoplay"
+                        :streamAddr="playerOptions.streamAddr"
+                        :showBtmOption="false"
+                        :Initialization="true"
+                ></key-monitor>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="middle_table">
@@ -185,7 +166,7 @@ import {
   getPosition
 } from "@/api/configuration/configuration.js";
 export default {
-  name: "surveillanceDetail",
+  name: "detailRedN",
   mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
@@ -454,21 +435,10 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp/"+ this.dataForm.monitorDeviceId;
-      getAxiosData(url, {}).then(res => {
-        that.playerOptions.streamAddr = res.data;
-        that.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.controBtnRef.viewCamera(5, false).then(res => {
-              setTimeout(() => {
-                this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                  that.disabled = false;
-                });
-              }, 5000);
-            });
-          }, 500);
+        const url = "/lenovo-iir/device/visible/url/rtmp/"+ this.dataForm.monitorDeviceId;
+        getAxiosData(url, {}).then(res => {
+            that.playerOptions.streamAddr = res.data.data
         });
-      });
     },
     cutOut(data) {
       if (data) {
@@ -677,15 +647,15 @@ export default {
 .mainAside {
   /*min-height: 100%;*/
 }
-.surveillanceDetail {
+.detailRedN {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
-  /*overflow-y: hidden;*/
   .icon-xiala{
     width: 12px;
-    height: 15px;
+    height: 14px;
   }
+  /*overflow-y: hidden;*/
   .el-input--small .el-input__inner {
     border-radius: 0;
     width: 100%;
@@ -757,7 +727,13 @@ export default {
   .content {
     display: flex;
     .left {
-      width: 75%;
+      width: 50%;
+      &:first-child{
+        margin-right: 10px;
+      }
+      &:last-child{
+        margin-left: 10px;
+      }
       &.nr {
         display: flex;
         flex-direction: column;
@@ -769,12 +745,17 @@ export default {
             /*margin-bottom: 15px;*/
           }
           .camera_surveillanceDetail {
-            width: 68%;
+            width: 100%;
             .contain {
               position: relative;
               width: 100%;
               padding-bottom: 56%;
               background: grey;
+              .contain_img{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+              }
               .monitor {
                 position: absolute;
                 width: 100% !important;
@@ -809,11 +790,6 @@ export default {
           }
         }
       }
-    }
-    .right {
-      width: 25%;
-      margin-left: 20px;
-      background: #132838;
     }
   }
   .middle_table {

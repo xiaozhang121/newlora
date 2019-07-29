@@ -38,6 +38,7 @@
     <div class="monitorArea" :class="{'center': isCenter}">
       <!--@on-push="onPush"-->
       <KeyMonitor
+        :routeName="routeNamed"
         v-for="(item,index) in dataMonitor"
         :autoplay="true"
         :class="{'noMargin': (index+1) % active == 0}"
@@ -75,6 +76,8 @@ export default {
   },
   data() {
     return {
+      routeName: '',
+      routeNamed: '',
       initCount: 0,
       isFirst: true,
       selectCount: 0,
@@ -136,6 +139,25 @@ export default {
     ...mapState(["app"])
   },
   watch: {
+    '$route' (to) {
+        this.routeName = to.name
+    },
+    routeName(now){
+           setTimeout(()=>{
+               this.routeNamed = now
+           },1300)
+           if(now == 'infraredList'){
+               this.$nextTick(()=> {
+                   document.querySelector('.video-player.vjs-custom-skin').style.transform = "scale(1,0.75)"
+                   document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "left top"
+               })
+           }else{
+               this.$nextTick(()=> {
+                   document.querySelector('.video-player.vjs-custom-skin').style.transform = "inherit"
+                   document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "inherit"
+               })
+           }
+    },
     selectCount(now) {
       this.numberCameras.forEach(item => {
         if (item["count"] == now) {
@@ -176,6 +198,7 @@ export default {
         configType: this.configType,
         userId: this.$store.state.user.userId
       }).then(res => {
+          debugger
         if (res.data && res.data.tableData.length) {
           let data = res.data.tableData;
           /*  data.map(item=>{
@@ -297,7 +320,7 @@ export default {
       console.log("I want to cancel");
       // Cancel the event
       e.preventDefault();
-      // that.saveCamera()
+      that.saveCamera()
       // Chrome requires returnValue to be set
       e.returnValue = "hello";
     }
@@ -313,6 +336,7 @@ export default {
     this.getCamera();
   },
   mounted() {
+    this.routeName = this.$route.name
     this.$nextTick(() => {
       window.addEventListener("beforeunload", this.beforeunload);
     });
@@ -324,6 +348,12 @@ export default {
 .keyErea {
   .el-select .el-tag:first-child {
     margin-left: 14px;
+  }
+  .el-select{
+    max-height: 53px;
+  }
+  .el-select__tags{
+    max-width: none !important;
   }
   .dunoDrap {
     display: flex;
