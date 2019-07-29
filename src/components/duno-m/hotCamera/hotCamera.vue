@@ -125,9 +125,8 @@
                         </div>
                     </div>
                     <div class="camera" v-if="showCamera" style="position: relative">
-                        <div class="main" id="videoMain"  @mouseover="overFlag = true"  @mouseout="overFlag = false" style="position: relative; width: 160px; height: 100px; transform: scale(2.2, 2.47); transform-origin: top left">
-                            <img style="width: 100%; height: 100%" :src="base64Data"/>
-                            <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ xxxx }}</span>
+                        <div class="main">
+                            <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                         </div>
                         <div class="explain iconList" style="bottom: 17px; position: absolute">
                             <span><i class="iconfont icon-luxiang"></i>录像</span>
