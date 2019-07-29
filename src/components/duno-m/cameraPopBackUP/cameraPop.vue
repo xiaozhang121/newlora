@@ -94,7 +94,7 @@
                         this.title = ''
                     }
                     this.monitorDeviceType = data.monitorDeviceType
-                    this.itemId = data.areaId
+                    this.itemId = data.monitorDeviceId
                 } else {
                     this.title = ''
                     this.itemId = null

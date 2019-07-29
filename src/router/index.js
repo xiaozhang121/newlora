@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
                 } else if (to.name == 'inspectionList') {
                     window.location.href = 'http://10.0.10.35:8080/ar/taskManage'
                 } else if (to.name == 'inspectionList') {
-                    window.location.href = 'http://10.0.10.35:8080/video/list'
+                    window.location.href = 'http://10.0.10.35:8080/ar/videoRecord'
                 } else {
                     next() // 有权限，可访问
                 }
@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
                         } else if (to.name == 'inspectionList') {
                             window.location.href = 'http://10.0.10.35:8080/ar/taskManage'
                         } else if (to.name == 'inspectionList') {
-                            window.location.href = 'http://10.0.10.35:8080/video/list'
+                            window.location.href = 'http://10.0.10.35:8080/ar/videoRecord'
                         } else {
                             next() // 有权限，可访问
                         }
