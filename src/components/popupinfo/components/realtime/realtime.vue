@@ -3,7 +3,7 @@
     <h3 class="title">{{title}}</h3>
     <el-row :gutter="20">
       <el-col :span="monitorDeviceType == 1?24:12" :class="{'lightPanel': monitorDeviceType == 1}">
-        <div class="itemImgBox">
+        <div class="itemImgBox" v-if="monitorDeviceType == 1">
           <video-player
             @mousemove.native="pointerPos($event)"
             @mouseout.native="clearTimer()"
@@ -11,6 +11,9 @@
             class="vjs-custom-skin realtime_video"
             :options="playerOptiond"
           ></video-player>
+        </div>
+        <div class="itemImgBox" v-else>
+          <img style="width: 100%; height: 100%" :src="demoImage">
         </div>
       </el-col>
       <el-col :span="12" v-if="monitorDeviceType != 1">
@@ -52,13 +55,14 @@ export default {
   components: { videoPlayer },
   data() {
     return {
+      demoImage: require('@/assets/images/clock.png'),
       tepmNum: 0,
       timer: null,
       offsetX: null,
       offsetY: null,
       playerOptions: {
-        width: 160,
-        height: 120,
+        width: 228,
+        height: 150,
         sources: [
           {
             type: "rtmp/flv",
@@ -70,8 +74,8 @@ export default {
         controls: false
       },
       playerOptiond: {
-        width: 160,
-        height: 120,
+        width: 228,
+        height: 150,
         sources: [
           {
             type: "rtmp/flv",
@@ -134,18 +138,22 @@ export default {
     },
     pointerPos(event) {
       const that = this;
-      that.offsetX = event.offsetX;
-      that.offsetY = event.offsetY;
-      if (!this.timer) {
-        this.timer = setInterval(() => {
-          getAxiosData(
-            "/lenovo-iir/device/temperature/get/probe/" + this.deviceId,
-            { x: that.offsetX, y: 118 - that.offsetY, r: 1 }
-          ).then(res => {
-            // console.log('data:'+res.data)
-            that.tepmNum = res.data / 1000;
-          });
-        }, 200);
+      if(this.monitorDeviceType == 2){
+      // console.log('x:'+event.offsetX)
+      // console.log('y:'+event.offsetY)
+        that.offsetX = event.offsetX;
+        that.offsetY = event.offsetY;
+        if (!this.timer) {
+          this.timer = setInterval(() => {
+            getAxiosData(
+              "/lenovo-iir/device/temperature/get/probe/" + this.deviceId,
+              { x: that.offsetX, y: 118 - that.offsetY, r: 1 }
+            ).then(res => {
+              // console.log('data:'+res.data)
+              that.tepmNum = res.data / 1000;
+            });
+          }, 200);
+        }
       }
     },
     format(percentage) {
@@ -156,20 +164,15 @@ export default {
       const that = this;
       if (this.monitorDeviceType == 1) {
         const url =
-          "/lenovo-visible/api/visible-equipment/sdk/rtmp" + that.deviceId;
+          '/lenovo-visible/api/visible-equipment/sdk/rtmp/' + that.deviceId;
         getAxiosData(url, {}).then(res => {
-          that.playerOptions.sources[0].src = res.data.data;
+          that.playerOptiond.sources[0].src = res.data;
           that.$forceUpdate();
         });
       } else if (this.monitorDeviceType == 2) {
-        const url = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
-        getAxiosData(url, {}).then(res => {
-          that.playerOptions.sources[0].src = res.data.data;
-          that.$forceUpdate();
-        });
-        const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
+        const urld = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
         getAxiosData(urld, {}).then(res => {
-          that.playerOptiond.sources[0].src = res.data.data;
+          that.playerOptions.sources[0].src = res.data;
           that.$forceUpdate();
         });
       }
@@ -201,8 +204,8 @@ export default {
 </script>
 <style lang="scss">
 .realtime_video > div {
-  transform: scale(1.355, 1.2);
-  transform-origin: left top;
+  /*transform: scale(1.355, 1.2);*/
+  /*transform-origin: left top;*/
 }
 .el-progress__text {
   color: white;
@@ -225,7 +228,7 @@ export default {
   .itemImgBox {
     width: 100%;
     height: 0;
-    padding-bottom: 60%;
+    padding-bottom: 69%;
     margin-bottom: 15px;
     position: relative;
     img {

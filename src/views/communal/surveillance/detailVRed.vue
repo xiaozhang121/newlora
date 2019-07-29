@@ -1101,10 +1101,10 @@ export default {
     }
     & > div:first-child {
       font-size: 20px;
+      width: 52%;
     }
     .control {
       font-size: 18px;
-      margin-left: 51%;
       span {
         font-size: 14px;
         text-align: center;
