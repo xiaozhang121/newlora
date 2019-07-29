@@ -79,7 +79,7 @@
           <div class="weater">
             <div>
               <p>7月20日 周六</p>
-              <p>多月 32℃/21℃</p>
+              <p>多云 32℃/21℃</p>
             </div>
             <div>
               <span>32℃</span>

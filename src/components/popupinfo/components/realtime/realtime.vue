@@ -134,8 +134,6 @@ export default {
     },
     pointerPos(event) {
       const that = this;
-      // console.log('x:'+event.offsetX)
-      // console.log('y:'+event.offsetY)
       that.offsetX = event.offsetX;
       that.offsetY = event.offsetY;
       if (!this.timer) {
@@ -158,17 +156,11 @@ export default {
       const that = this;
       if (this.monitorDeviceType == 1) {
         const url =
-          "/lenovo-visible​/api​/visible-equipment​/sdk​/rtmp​/" +
-          that.deviceId;
+          "/lenovo-visible/api/visible-equipment/sdk/rtmp" + that.deviceId;
         getAxiosData(url, {}).then(res => {
           that.playerOptions.sources[0].src = res.data.data;
           that.$forceUpdate();
         });
-        // const urld = "/lenovo-visible/device/visible/url/rtmp/" + that.deviceId;
-        // getAxiosData(urld, {}).then(res => {
-        //   that.playerOptiond.sources[0].src = res.data.data;
-        //   that.$forceUpdate();
-        // });
       } else if (this.monitorDeviceType == 2) {
         const url = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
         getAxiosData(url, {}).then(res => {

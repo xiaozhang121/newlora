@@ -12,7 +12,7 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <div>
+        <!-- <div>
           <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTop"
@@ -21,7 +21,7 @@
             :title="titleTypeC"
             :showBtnList="false"
           ></duno-btn-top>
-        </div>
+        </div>-->
         <div>
           <duno-btn-top
             @on-select="onSelect"
@@ -46,7 +46,10 @@
           ></el-date-picker>
         </div>
         <div>
-          <div @click="clickExcel">导出Excel</div>
+          <div @click="clickExcel">
+            <i class="iconfont icon-tuisong"></i>
+            导出Excel
+          </div>
         </div>
         <div class="setting" @click="showSetting">
           <i class="iconfont icon-shezhi"></i>
@@ -136,7 +139,18 @@ export default {
           key: "alarmPart",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            // debugger;
+            newArr.push([
+              h(
+                "div",
+                params.row.alarmPart == null ? "/" : params.row.alarmPart
+              )
+            ]);
+            return h("div", newArr);
+          }
         },
         {
           title: "区域",

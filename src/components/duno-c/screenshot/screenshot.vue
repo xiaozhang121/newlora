@@ -2,18 +2,25 @@
   <div class="screenshot">
     <el-dialog :show-close="false" :visible.sync="dialogVisible" width="30%" :center="true">
       <div class="dialog-content">
-        <div class="shotImg">
-          <img src alt />
-          <div v-if="isCalibrat" class="calibrat">手动标定</div>
-          <div v-if="!isCalibrat" class="clearCalibrat">清除</div>
+        <div
+          class="shotImg"
+          @click="cricle"
+          @mousedown="getFirstCode"
+          @mouseup="getEndCode"
+          @mousemove="getCircle"
+        >
+          <img :src="this.imgsrc" alt />
+          <div ref="box" id="box"></div>
+          <div v-if="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
+          <div v-if="!isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
         </div>
         <div v-if="isCalibrat" class="shotInput">
           <div>
             <el-cascader
               placeholder="自动关联（对应样本库2-4级目录）"
-              v-model="cascadeValue"
-              :options="options"
-              @change="handleChange"
+              :options="twoptionsData"
+              @active-item-change="handleItemChange"
+              :props="props"
             ></el-cascader>
           </div>
           <div>
@@ -76,19 +83,151 @@ export default {
   },
   data() {
     return {
+      props: {
+        lazy: true,
+        lazyLoad: lazyLoadData()
+      },
       dialogVisible: true,
       value: "",
+      optionsFirst: [],
       options: [],
+      twoptionsData: [],
       cascadeValue: "",
       selectValue: "",
       textarea: "",
-      isCalibrat: true
+      isCalibrat: true,
+      startPointX: 0,
+      endPointX: 0,
+      startPointY: 0,
+      endPointY: 0,
+      clickFlage: 0,
+      imgInfo: {},
+      picFilePath: "",
+      imgsrc: ""
     };
   },
   methods: {
     handleChange(value) {
       console.log(value);
+    },
+    getCircle(e) {
+      if (this.clickFlage == 1) {
+        let width = Math.abs(e.offsetX - this.startPointX);
+        let height = Math.abs(e.offsetY - this.startPointY);
+        if (e.offsetY - this.startPointY <= 0) {
+          this.$refs.box.style.top = e.offsetY + "px";
+        } else {
+          this.$refs.box.style.top = this.startPointY + "px";
+        }
+        if (e.offsetX - this.startPointX <= 0) {
+          this.$refs.box.style.left = e.offsetX + "px";
+        } else {
+          this.$refs.box.style.left = this.startPointX + "px";
+        }
+
+        this.$refs.box.style.width = width - 10 + "px";
+        this.$refs.box.style.height = height - 10 + "px";
+      }
+    },
+    getFirstCode(e) {
+      if (this.clickFlage == 0) {
+        this.$refs.box.style.width = 0;
+        this.$refs.box.style.height = 0;
+
+        this.startPointX = e.offsetX;
+        this.startPointY = e.offsetY;
+        this.$refs.box.style.left = this.startPointX + "px";
+        this.$refs.box.style.top = this.startPointY + "px";
+        this.clickFlage = 1;
+      }
+    },
+    getEndCode(e) {
+      if (this.clickFlage == 1) {
+        this.endPointY = e.offsetY;
+        this.endPointX = e.offsetX;
+        this.clickFlage = 0;
+      }
+    },
+    //手动标定
+    addTag() {
+      let query = {
+        x1: this.startPointX,
+        y1: this.startPointY,
+        x2: this.endPointX,
+        y2: this.endPointY
+      };
+      var url = "/lenovo-sample/api/mark/edit";
+      putAxiosData(url, query).then(res => {
+        this.$message({
+          type: "sucess",
+          message: "标定成功"
+        });
+      });
+    },
+    //清楚标定
+    delTag() {
+      let query = {};
+      let url = "";
+    },
+    //框选图片
+    getImgInfo() {
+      var query = {
+        picFilePath: this.picFilePath
+      };
+      var url = "/lenovo-sample/api/mark/pic-flow";
+      getAxiosData(url, query).then(res => {
+        console.log(res);
+        this.imgsrc = res.data;
+      });
+    },
+    getSelect() {
+      let url = "/lenovo-sample/api/sample/getConfInfo";
+      // let urlFirst = "/lenovo-sample/api/sample/getConfInfo";
+      // let urlSecond = "/lenovo-sample/api/sample/getPart";
+      // let urlthree = "/lenovo-sample/api/sample/getPartSub";
+      getAxiosData(url).then(res => {
+        this.twoptionsData = res.data;
+      });
+    },
+    //自动关联（五级目录）
+    getFiveSelect() {
+      let url = "";
+      let query = {};
+      getAxiosData(url, query).then(res => {
+        this.options = res.data;
+      });
+    },
+    handleSubmit() {
+      this.dialogVisible = false;
+      let url = "";
+      let query = {};
+      postAxiosData(url, query).then(res => {
+        this.$message({
+          type: "success",
+          message: "保存成功"
+        });
+      });
+    },
+    lazyLoadData(node, resolve) {
+      const { level } = node;
+      setTimeout(() => {
+        const nodes = Array.from({ length: level + 1 }).map(item => ({
+          value: item.value,
+          label: item.label,
+          leaf: level >= 2
+        }));
+        // 通过调用resolve将子节点数据返回，通知组件数据加载完成
+        getAxiosData("/lenovo-sample/api/sample/getConfInfo").then(res => {
+          debugger;
+          node = res.data;
+        });
+        resolve(nodes);
+      }, 1000);
     }
+  },
+  mounted() {
+    this.getImgInfo();
+    this.getSelect();
   }
 };
 </script>
@@ -105,7 +244,8 @@ export default {
     }
     .dialog-content {
       .shotImg {
-        widows: 400px;
+        // width: 400px;
+        width: 100%;
         height: 225px;
         background: #fff;
         position: relative;
@@ -114,13 +254,11 @@ export default {
         }
         div {
           position: absolute;
-          bottom: 20px;
-          right: 20px;
-
+          bottom: 10px;
+          right: 10px;
           text-align: center;
           color: #fff;
           line-height: 32px;
-
           opacity: 0.5;
         }
         .calibrat {
@@ -154,6 +292,11 @@ export default {
       }
     }
   }
+}
+#box {
+  position: absolute;
+  background: none;
+  border: 1px solid red;
 }
 </style>
 

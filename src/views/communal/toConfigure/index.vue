@@ -253,6 +253,11 @@ export default {
                   width: "90px",
                   lineHeight: "30px",
                   margin: "auto"
+                },
+                on: {
+                  click: () => {
+                    this.getJump(params.row);
+                  }
                 }
               },
               "手动配置"
@@ -373,6 +378,23 @@ export default {
         });
         this.stateSelect = map;
       });
+    },
+    getJump(row) {
+      if (row.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      } else if (row.monitorDeviceType == "2") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      }
     }
   },
   mounted() {
