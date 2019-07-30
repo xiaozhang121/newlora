@@ -810,7 +810,8 @@ export default {
       this.$router.push({
         name: "meterdata-detail",
         params: {
-          url: "/lenovo-plan/api/statistics/meter-data/list"
+          url: "/lenovo-plan/api/statistics/meter-data/list",
+          dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"]
         }
       });
     },
@@ -964,6 +965,9 @@ export default {
 @import "@/style/tableStyle.scss";
 
 .analysis {
+  .selectSearch {
+    overflow: hidden;
+  }
   //下拉多选框
   .popper__arrow {
     display: none !important;
@@ -1306,4 +1310,8 @@ export default {
 .el-date-table.is-week-mode .el-date-table__row:hover div {
   background: rgba(81, 89, 112, 0.7);
 }
+
+.el-select .el-tag:first-child {
+  margin-left: 9px;
+} 
 </style>

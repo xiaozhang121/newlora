@@ -16,7 +16,7 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <div>
+        <!-- <div>
           <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTop"
@@ -35,7 +35,7 @@
             :title="titleTypeR"
             :showBtnList="false"
           ></duno-btn-top>
-        </div>
+        </div>-->
         <div class="dateChose">
           <el-date-picker
             unlink-panels
@@ -684,12 +684,12 @@ export default {
       & > div {
         margin-left: 10px;
         .dunoBtnTop {
-          width: 160px;
+          width: 250px;
           display: inline-flex;
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            width: 160px;
+            width: 250px;
             .title {
               padding: 8px 20px;
             }

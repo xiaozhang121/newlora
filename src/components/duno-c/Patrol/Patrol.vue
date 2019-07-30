@@ -5,7 +5,7 @@
         <span>{{title}}</span>
         <span>{{titleCon}}</span>
       </div>
-      <div v-if="isShowBtn" @click="createTask()">+创建新的任务配置</div>
+      <div v-if="isShowBtn" @click="createTask()">+新建特殊巡视</div>
     </div>
     <div class="con">
       <duno-tables-tep
@@ -154,12 +154,12 @@ export default {
     };
   },
   watch: {
-    columns:{
-        handler(now){
-            this.columnsData = now;
-        },
-        immediate: true,
-        deep: true
+    columns: {
+      handler(now) {
+        this.columnsData = now;
+      },
+      immediate: true,
+      deep: true
     }
   },
   methods: {

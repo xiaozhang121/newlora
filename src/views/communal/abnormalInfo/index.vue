@@ -1,7 +1,11 @@
 <template>
   <div class="abnormalInfo">
+    <div class="breadcrumb">
+      <Breadcrumb :dataList="dataBread" />
+    </div>
     <div class="top">
-      <div>
+      <div>异常信息</div>
+      <div class="btn">
         <div>
           <duno-btn-top
             @on-select="onSelect"
@@ -12,16 +16,6 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <!-- <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="statusList"
-            :title="titleTypeC"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>-->
         <div>
           <duno-btn-top
             @on-select="onSelect"
@@ -32,8 +26,6 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-      </div>
-      <div class="btn">
         <div class="dateChose">
           <el-date-picker
             unlink-panels
@@ -86,6 +78,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import Breadcrumb from "_c/duno-c/Breadcrumb";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
@@ -100,7 +93,8 @@ export default {
     dunoMain,
     DunoTablesTep,
     warningSetting,
-    wraning
+    wraning,
+    Breadcrumb
   },
   data() {
     const that = this;
@@ -112,6 +106,7 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
+      dataBread: ["卡片功能", "异常信息"],
       isFileType: false,
       visibleSettingOption: false,
       visible: false,
@@ -148,7 +143,6 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            // debugger;
             newArr.push([
               h(
                 "div",
@@ -591,6 +585,10 @@ export default {
 .el-popper[x-placement^="bottom"] .popper__arrow {
   display: none;
 }
+.main .content-wrapper {
+  padding-top: 0;
+}
+
 .abnormalInfo {
   width: 100%;
   .btnClass {
@@ -733,14 +731,20 @@ export default {
   .top {
     color: #ffffff;
     height: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
     & > div:first-child {
+      color: #fff;
+      font-size: 20px;
+      line-height: 40px;
+    }
+    .btn {
       display: flex;
       justify-content: space-between;
       & > div {
-        margin-right: 10px;
+        margin-left: 10px;
         .dunoBtnTop {
           width: 120px;
           display: inline-flex;
@@ -756,14 +760,7 @@ export default {
           }
         }
       }
-    }
-    .btn {
-      display: flex;
-      justify-content: space-between;
-      & > div {
-        margin-left: 10px;
-      }
-      & > div:nth-child(2) {
+      & > div:nth-child(4) {
         & > div {
           width: 140px;
           line-height: 40px;

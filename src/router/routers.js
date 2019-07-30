@@ -857,7 +857,19 @@ export default [{
                 isDetails: true
             },
             component: () => import('@/views/communal/toConfigure/detail.vue')
-        }]
+        },
+        {
+            path: 'configure-report',
+            name: 'configure-report',
+            meta: {
+                title: '任务配置',
+                hideInMenu: true,
+                isDetails: true,
+                active: 'configurationList'
+            },
+            component: () => import('@/views/communal/toConfigure/reportDetail.vue')
+        },
+        ]
     },
     {
         path: 'detection',
@@ -878,7 +890,19 @@ export default [{
                 isDetails: true
             },
             component: () => import('@/views/communal/toConfigure/index.vue')
-        }]
+        },
+        {
+            path: 'detection-report',
+            name: 'detection-report',
+            meta: {
+                title: '任务配置',
+                hideInMenu: true,
+                isDetails: true,
+                active: 'detectionList'
+            },
+            component: () => import('@/views/communal/toConfigure/viewDetail.vue')
+        },
+        ]
     }
         /*    {
               path: 'detection-status',

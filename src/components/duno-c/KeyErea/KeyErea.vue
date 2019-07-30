@@ -90,7 +90,7 @@ export default {
       pushMovVisable: false,
       showBtnList: false,
       titleValueR: "监控摄像头选择",
-      titleValueL: "个摄像头",
+      titleValueL: "监控摄像头数量",
       videoWidth: "calc(50% - 10px)",
       valueSelect: [],
       dataMonitor: [],

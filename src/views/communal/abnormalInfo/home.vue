@@ -251,7 +251,17 @@ export default {
           key: "alarmPart",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "div",
+                params.row.alarmPart == null ? "/" : params.row.alarmPart
+              )
+            ]);
+            return h("div", newArr);
+          }
         },
         {
           title: "描述",
