@@ -33,7 +33,7 @@
       <div class="middle">
         <rou-tine-inspection @on-fresh="onFresh" :isChange="ischange" :robotId="robotId" :substationId="substationId" ref="rouTineInspection" :taskStatus="taskStatus" :robotStatus="robotStatus">
           <div class="reportData">
-            <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['taskCurLinkImg']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
+            <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['taskCurLinkImg']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['recognType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
           </div>
         </rou-tine-inspection>
       </div>

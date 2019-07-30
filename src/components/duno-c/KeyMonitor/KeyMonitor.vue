@@ -70,6 +70,7 @@
 import "video.js/dist/video-js.css";
 import pushMov from "_c/duno-m/pushMov";
 import { mapState } from "vuex";
+import { postAxiosData, getAxiosData } from '@/api/axiosType'
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { editConfig } from "@/api/currency/currency.js";
@@ -142,10 +143,19 @@ export default {
     }
   },
   watch: {
+    monitorInfo:{
+        handler(now){
+            debugger
+            this.monitorInfoR = now
+        },
+        deep: true,
+        immediate: true
+    },
     streamAddr: {
       handler(now) {
         if (now) {
           this.playerOptions["sources"][0]["src"] = now;
+          this.monitorSrc = now
           this.showView = true;
         }
       },
@@ -168,6 +178,8 @@ export default {
   },
   data() {
     return {
+      monitorSrc: '',
+      monitorInfoR: '',
       cameraPic: "",
       pushMovVisable: false,
       showView: false,
@@ -213,7 +225,7 @@ export default {
     onPushReal(index) {
       const that = this;
       let query = {
-        ["cameraPos0" + index]: this.monitorInfo["monitorDeviceId"],
+        ["cameraPos0" + index]: this.monitorInfoR["monitorDeviceId"],
         id: this.$store.state.user.configInfo.id
       };
       editConfig(query).then(res => {
@@ -226,10 +238,16 @@ export default {
     },
     pushMov() {
       this.$refs.pushMov.initData();
-      // this.$emit("on-push", this.monitorInfo);
+      // this.$emit("on-push", this.monitorInfoR);
       this.pushMovVisable = true;
-      if (this.monitorInfo) {
-        this.cameraPic = this.monitorInfo["pic"];
+      if (this.monitorInfoR) {
+        if('pic' in this.monitorInfoR)
+          this.cameraPic = this.monitorInfoR["pic"];
+        else{
+          getAxiosData('/lenovo-device/api/pic/url',{rtmpUrl:this.monitorSrc}).then(res=>{
+              this.cameraPic = res.data.pic
+          })
+        }
       } else {
         this.cameraPic = "";
       }
@@ -250,7 +268,7 @@ export default {
       this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {
-          monitorDeviceId: this.monitorInfo["monitorDeviceId"]
+          monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
         }
       });
     },

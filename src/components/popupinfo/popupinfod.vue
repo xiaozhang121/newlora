@@ -14,6 +14,7 @@
     >
       <div>
         <realtime
+          :deviceOptionId="deviceId"
           :monitorDeviceType="monitorDeviceType"
           :itemData="itemData"
           :isShowClassify="showClassify"

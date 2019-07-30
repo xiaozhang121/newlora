@@ -29,6 +29,7 @@ export default {
     data() {
         const that = this
         return {
+            rebotTimer: null,
             coverList:[{vectorLayer: null},{vectorLayer: null}],                   // 机器人线路
             drawList: [],
             drawListNum: 0,
@@ -511,8 +512,11 @@ export default {
                 }
             }
         },
-        setCenter({cadX, cadY}){
-            this.mapTarget.getView().setCenter(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
+        setCenter({cadX, cadY, flag}){
+            if(flag){
+                this.mapTarget.getView().setCenter([cadX, cadY])
+            }else
+                this.mapTarget.getView().setCenter(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
         },
         isAlarm(point){
             let data = this.findPoint(point)
@@ -587,6 +591,15 @@ export default {
                     element: document.getElementById('anchor'+index),
                     offset: offset
                 });
+                if(that.rebot){
+                   /* that.rebotTimer = setInterval(()=>{
+                        if(document.getElementById('anchor'+index).style.display == 'none'){
+                            document.getElementById('anchor'+index).style.display == 'block'
+                        }else{
+                            document.getElementById('anchor'+index).style.display == 'none'
+                        }
+                    },500)*/
+                }
                 if(that.isDiagram == 1){
 
                 }else if(that.isDiagram == 3){

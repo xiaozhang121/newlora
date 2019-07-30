@@ -1,6 +1,6 @@
 <template>
     <div class="rouTineInspection" >
-        <div class="border" :class="[{'normal': rate >= 80},{'alarm': rate >= 50 && rate < 80},{'danger': rate <= 20}]">
+        <div class="border" :class="[{'normal': rate >= 80},{'alarm': rate > 20 && rate < 80},{'danger': rate <= 20}]">
             <div class="item">
             </div>
             <div class="item">
@@ -11,9 +11,9 @@
             </div>
             <div class="item">
             </div>
-            <div class="realProcess" :style="{width: rate+'%'}" :class="[{'normal': rate >= 80},{'alarm': rate >= 50 && rate < 80},{'danger': rate <= 20}]"></div>
+            <div class="realProcess" :style="{width: rate+'%'}" :class="[{'normal': rate >= 80},{'alarm': rate > 20 && rate < 80},{'danger': rate <= 20}]"></div>
         </div>
-        <div class="last" :class="[{'normal': rate >= 80},{'alarm': rate >= 50 && rate < 80},{'danger': rate <= 20}]"></div>
+        <div class="last" :class="[{'normal': rate >= 80},{'alarm': rate > 20 && rate < 80},{'danger': rate <= 20}]"></div>
         <div class="data">{{ rate }}%</div>
     </div>
 </template>

@@ -121,14 +121,14 @@ export default {
               return h("div", params.row.linkName2 + params.row.linkName3);
           }
         },
-        {
+       /* {
           title: "描述",
           key: "description",
           minWidth: 90,
           align: "center",
           tooltip: true
-        },
-        {
+        },*/
+      /*  {
           title: "缺陷等级",
           key: "alarmLevel",
           minWidth: 120,
@@ -220,8 +220,8 @@ export default {
             );
             return h("div", newArr);
           }
-        },
-        {
+        },*/
+     /*   {
           title: "拍摄来源",
           key: "monitorDeviceName",
           minWidth: 150,
@@ -246,7 +246,7 @@ export default {
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
           }
-        },
+        },*/
         {
           title: "图片",
           key: "fileType",

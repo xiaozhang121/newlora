@@ -76,6 +76,11 @@
             }
         },
         watch:{
+            taskName(now){
+                if(now.indexOf('开始任务')>-1){
+
+                }
+            },
             isChange(now){
                setTimeout(()=>{
                    try{
@@ -89,8 +94,13 @@
             taskStatus:{
                 handler(now){
                     if(now){
+                        this.initData()
+                        if(now['startInspectionTime'] == 0){
+                            this.workTime = "0:00:00"
+                        }else{
                         let times = new Date().getTime() - now['startInspectionTime']
                         this.workTime = this.formatDuring(times)
+                        }
                         this.stateF = now['taskState']
                         if(now['taskState'] == 2){
                           this.taskName = '结束任务'
@@ -120,8 +130,8 @@
                 let hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 let minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
                 minutes = minutes<10?'0'+minutes:minutes
-                let seconds = (mss % (1000 * 60)) / 1000;
-                return hours + ":" + minutes + ":" + parseInt(seconds);
+                let seconds = parseInt((mss % (1000 * 60)) / 1000);
+                return hours + ":" + minutes + ":" + (Number(seconds)<10?'0'+seconds:seconds);
             },
             arrHandle(data){
                 let arr = []
@@ -136,23 +146,27 @@
                 postAxiosData('/lenovo-robot/rest/taskMap',{taskId:this.taskStatus['taskId'],taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
                     let data = res.data.details
                     let arr = that.arrHandle(data)
-                    let arrT = that.arrHandle(that.robotStatus['hisLocation'])
+                    let arrT = []
+                    try{
+                       arrT = that.arrHandle(that.robotStatus['hisLocation'])
+                    }catch (e) {}
                     that.$nextTick(()=>{
                         try{
                         that.clearLine()
                         that.$refs.gisMapObj.setDrawLine(arr, 0, [10, 10])
+                        if(arr.length && !that.robotStatus['curLocation']){
+                            that.$refs.gisMapObj.setCenter({cadX:arr[0][0], cadY: arr[0][1], flag: true})
+                        }
                         that.$refs.gisMapObj.setDrawLine(arrT, 1, [0, 0])
                         that.robotStatus['curLocation']['src'] = that.robot
                         that.robotStatus['curLocation']['show'] = true
-                        if(that.$refs.gisMapObj.pointListObj.length)
+                        if(that.$refs.gisMapObj.pointListObj.length) {
                             that.$refs.gisMapObj.setOverlayPos(that.robotStatus['curLocation'])
-                        else{
+                        }else{
                             that.deviceList.push(that.robotStatus['curLocation'])
                             that.$refs.gisMapObj.setCenter(that.robotStatus['curLocation'])
                         }
-                        }catch (e) {
-                            
-                        }
+                        }catch (e) {}
                     })
                 })
             },
@@ -178,7 +192,7 @@
                 }else{
                     this.taskName = '开始任务'
                 }
-                postAxiosData('/lenovo-robot/rest/taskControl', {substationID: this.substationId, robotID: this.robotId, state: this.state}).then(res=>{
+                postAxiosData('/lenovo-robot/rest/taskControl', {substationID: this.substationId, robotID: this.robotId, state: this.state, taskID: this.taskStatus['taskId']}).then(res=>{
                     this.$message.success('操作成功')
                 })
             },

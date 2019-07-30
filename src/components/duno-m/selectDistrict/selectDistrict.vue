@@ -104,9 +104,9 @@ export default {
                 arr = [...arr,...item['value']]
             })
             postAxiosData('/lenovo-robot/rest/deviceTask',{lenovoDeviceIds: ["598855983447638016",
-                    "598855983892234240",
-                    "598855983527329792",
-                    "598855985284743168"],taskName: this.taskName}).then(res=>{
+                    "598855984965976064",
+                    "598855984345219072",
+                   ],taskName: this.taskName}).then(res=>{
                 if(res.data.resConf){
                     that.$message.success('新增成功')
                     that.drawList = []

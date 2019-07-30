@@ -9,38 +9,38 @@
     <div class="main" :class="{widthA : displayType == '2'}">
       <div class="left_main" :class="{widthA : displayType == '2'}">
         <div class="left"  style="padding-bottom: 32%"  v-if="displayType == '2'">
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo01"   kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo01" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="right_main" v-if="displayType != '2'" :class="{hidden : displayType == '2'}">
         <div class="right">
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo02" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo03" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo04" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
     <div class="oltagevMain second" v-if="displayType == '2'">
       <div class="item_main">
         <div class="item">
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02"  :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo02" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02"  :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo03" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo04" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -85,6 +85,42 @@ export default {
       ]),
       displayType(){
           return this.$store.state.user.configInfo['displayType']
+      },
+      monitorInfo01(){
+          try {
+              if (this.cameraList[0]['monitorDeviceId'])
+                  return {monitorDeviceId:this.cameraList[0]['monitorDeviceId']}
+              else {
+                  return {}
+              }
+          }catch (e) {}
+      },
+      monitorInfo02(){
+          try {
+              if (this.cameraList[1]['monitorDeviceId'])
+                  return {monitorDeviceId:this.cameraList[1]['monitorDeviceId']}
+              else {
+                  return {}
+              }
+          }catch (e) {}
+      },
+      monitorInfo03(){
+          try {
+              if (this.cameraList[2]['monitorDeviceId'])
+                  return {monitorDeviceId:this.cameraList[2]['monitorDeviceId']}
+              else {
+                  return {}
+              }
+          }catch (e) {}
+      },
+      monitorInfo04(){
+          try {
+              if (this.cameraList[3]['monitorDeviceId'])
+                  return {monitorDeviceId:this.cameraList[3]['monitorDeviceId']}
+              else {
+                  return {}
+              }
+          }catch (e) {}
       },
       streamAddr01(){
           try {
