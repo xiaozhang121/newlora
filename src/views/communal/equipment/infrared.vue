@@ -25,7 +25,7 @@
         </div>
         <div class="hours">
           <MonitorWarn
-            v-for="(item,index) in lightInformation.slice(0,4)"
+            v-for="(item,index) in lightInformation"
             :remarkData="lightInformation[index]"
             :time="item.alarmTime"
             :remarks="item.dealList"
@@ -181,7 +181,7 @@ export default {
         pageRows: 4
       };
       infraNewInformation(data).then(res => {
-        this.lightInformation = res.data.tableData;
+        this.lightInformation = res.data;
       });
     },
     getInit() {

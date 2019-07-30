@@ -74,10 +74,10 @@ export default {
     };
   },
   props: {
-    taskCurreny:{},
-    path:{
-        type: String,
-        default: ''
+    taskCurreny: {},
+    path: {
+      type: String,
+      default: ""
     },
     kind: {},
     reportData: {
@@ -110,18 +110,18 @@ export default {
       });*/
     },
     viewReports() {
-      if(this.path) {
-          this.$router.push({
-              path: this.path,
-              query: {
-                  taskDeviceId: this.taskCurreny.taskDeviceId,
-                  planId: this.reportData.planId,
-                  taskRunHisId: this.reportData.ID,
-                  //   planId: '603610399709396992',
-                  planType: this.reportData.taskType
-              }
-          });
-          return
+      if (this.path) {
+        this.$router.push({
+          path: this.path,
+          query: {
+            taskDeviceId: this.taskCurreny.taskDeviceId,
+            planId: this.reportData.planId,
+            taskRunHisId: this.reportData.ID,
+            //   planId: '603610399709396992',
+            planType: this.reportData.taskType
+          }
+        });
+        return;
       }
       if (this.$route.name == "infraredList") {
         this.$router.push({
@@ -129,7 +129,8 @@ export default {
           params: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "设备监测", "可见光", "查看报告"]
           }
         });
       } else if (this.$route.name == "visiblelightList") {
@@ -138,7 +139,8 @@ export default {
           params: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "设备检测", "红外监测", "查看报告"]
           }
         });
       } else if (this.$route.name == "reportList") {
@@ -147,7 +149,8 @@ export default {
           params: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "所有报表", "巡检任务报表", "查看报告"]
           }
         });
       }
