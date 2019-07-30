@@ -506,6 +506,17 @@ export default {
         },
         findPoint(point){
             let deviceId =  'deviceIdStr' in  point?point['deviceIdStr']:point.powerDeviceId
+            if(this.isDiagram == 1){
+                for(let i=0; i<this.powerPointList.length; i++){
+                    if(this.powerPointList[i].deviceId == deviceId){
+                        return this.powerPointList[i]
+                    }
+                    for(let j=0; j<this.powerPointList[i].childDevice.length; j++){
+                        if(this.powerPointList[i].childDevice[j] == deviceId)
+                            return this.powerPointList[i]
+                    }
+                }
+            }
             for(let i=0; i<this.powerPointList.length; i++){
                 if(this.powerPointList[i].deviceId == deviceId){
                         return this.powerPointList[i]
