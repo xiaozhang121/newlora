@@ -17,10 +17,12 @@
         </div>
       </el-col>
       <el-col :span="12" v-if="monitorDeviceType != 1 && monitorDeviceType != 3 && !isShowClassify">
-        <div class="itemImgBox">
+        <div class="itemImgBox"
+             style="width: 228px; height: 150px"
+             @mousemove="pointerPos($event)"
+             @mouseout="clearTimer()"
+        >
           <video-player
-                  @mousemove.native="pointerPos($event)"
-                  @mouseout.native="clearTimer()"
                   ref="videoPlayerd"
                   class="vjs-custom-skin realtime_video"
                   :options="playerOptions"
@@ -155,7 +157,7 @@
                     this.timer = setInterval(() => {
                         getAxiosData(
                             "/lenovo-iir/device/temperature/get/probe/" + this.deviceId,
-                            { x: that.offsetX, y: 118 - that.offsetY, r: 1 }
+                            { x: that.offsetX, y: 150 - that.offsetY, r: 1 }
                         ).then(res => {
                             // console.log('data:'+res.data)
                             that.tepmNum = res.data / 1000;
