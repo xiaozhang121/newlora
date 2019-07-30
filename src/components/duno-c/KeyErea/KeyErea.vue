@@ -46,6 +46,9 @@
         :streamAddr="item['streamAddress']"
         :monitorInfo="item"
         :width="videoWidth"
+        :showBtmOption="true"
+        :kilovolt="item['monitorDeviceName']"
+        :patrol="item['monitorDeviceId']"
       />
     </div>
     <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->

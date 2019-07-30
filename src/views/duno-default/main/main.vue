@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
-    <el-container style="height: 100%" class="main">
-      <el-header class="main-header" style="height: 80px;">
+    <el-container v-if="!isBigScreen" style="height: 100%" class="main">
+      <el-header v-if="isShowHeader" class="main-header" style="height: 80px;">
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
           <alarm-tip />
           <!-- 告警消息 -->
@@ -42,7 +42,6 @@
         </el-main>
       </el-container>
     </el-container>
-    <!--
     <el-container v-if="isBigScreen" style="height: 100%" class="main">
       <el-row>
         <el-col :span="24">
@@ -51,9 +50,10 @@
       </el-row>
       <el-container :style="{height: '100%',padding:'0 20px'}">
         <el-row style="height:100%" :gutter="20">
-          <el-col :span="8">
+          <el-col style="height:100%" :span="8">
             <div class="lineTitle">功能卡片</div>
-            <parentAlarm />
+            <!-- <parentAlarm /> -->
+            <iframe :src="alarmSrc" frameborder="0" class="iframe" ref="iframe"></iframe>
           </el-col>
           <el-col style="height:100%" :span="8">
             <div class="lineTitle">操作中台</div>
@@ -88,14 +88,14 @@
               </el-main>
             </el-container>
           </el-col>
-          <el-col :span="8">
+          <el-col style="height:100%" :span="8">
             <div class="lineTitle">视频监控</div>
-            <parentVideo />
+            <!-- <parentVideo /> -->
+            <iframe :src="videoSrc" frameborder="0" class="iframe" ref="iframe"></iframe>
           </el-col>
         </el-row>
       </el-container>
     </el-container>
-    -->
   </div>
 </template>
 <script>
@@ -130,7 +130,10 @@ export default {
       isFullscreen: false,
       bodyWidth: null,
       screenWidth: null,
-      isBigScreen: false
+      isBigScreen: false,
+      isShowHeader: false,
+      alarmSrc: "../abnormalInfoPath/home",
+      videoSrc: "../surveillancePath/list"
     };
   },
   computed: {
@@ -248,6 +251,11 @@ export default {
     window.addEventListener("resize", function() {
       that.getWidth();
     });
+    if (!this.isBigScreen) {
+      this.isShowHeader = true;
+    } else if (this.isBigScreen) {
+      this.isShowHeader = false;
+    }
   }
 };
 </script>
@@ -301,5 +309,9 @@ body .el-menu {
   padding-bottom: 5px;
   margin-top: 14px;
   margin-bottom: 10px;
+}
+.iframe {
+  width: 100%;
+  height: 100%;
 }
 </style>

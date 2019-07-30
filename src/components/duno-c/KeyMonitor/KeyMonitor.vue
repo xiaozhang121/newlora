@@ -46,7 +46,7 @@
       </transition>
       <div v-if="isSecond" class="explain iconList detailIcon">
         <div class="text">
-          <span>{{kilovolt}}</span>
+          <span @click="getJump">{{kilovolt}}</span>
           <span @click="getJump">{{patrol}}</span>
           <i class="iconfont icon-jiantou"></i>
         </div>
