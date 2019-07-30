@@ -1,5 +1,6 @@
 const path = require('path')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const webpack = require('webpack');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const resolve = dir => {
   return path.join(__dirname, dir)
@@ -35,5 +36,14 @@ module.exports = {
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的publicPath要写为 '' ，即空字符串
   devServer: {
     port: '9090'
-  }
+  },
+  configureWebpack: {//引入jquery
+      plugins: [
+          new webpack.ProvidePlugin({
+              $:"jquery",
+              jQuery:"jquery",
+              "windows.jQuery":"jquery"
+          })
+      ]
+  },
 }

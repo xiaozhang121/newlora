@@ -438,7 +438,7 @@ export default {
                 anchor.set('dataId', index)
                 this.vector.getSource().addFeature(anchor)
                 anchor.on('mousein',function (event) {
-                if(that.mapTarget.getView().getZoom()>15) {
+                if(that.mapTarget.getView().getZoom()>15 || that.isDiagram == 1) {
                     let item = JSON.parse(event.target.values_.dataInfo)
                     that.clickTarget = item
                     let anchor = null
@@ -481,8 +481,9 @@ export default {
 
         },
         findPoint(point){
+            let deviceId =  'deviceIdStr' in  point?point['deviceIdStr']:point.powerDeviceId
             for(let i=0; i<this.powerPointList.length; i++){
-                if(this.powerPointList[i].deviceId == point.powerDeviceId){
+                if(this.powerPointList[i].deviceId == deviceId){
                         return this.powerPointList[i]
                 }
             }
@@ -494,8 +495,13 @@ export default {
             let data = this.findPoint(point)
             let pointX = ''
             let pointY = ''
-            pointX = data['xReal']
-            pointY = data['yReal']
+            if(this.isDiagram == 1) {
+                pointX = data['xLoc']
+                pointY = data['yLoc']
+            }else{
+                pointX = data['xReal']
+                pointY = data['yReal']
+            }
             if(point['alarmConfig'] != 3){
             if(!this.timer){
                 this.mapTarget.getView().setCenter(transform([pointX, pointY], 'EPSG:3857', 'EPSG:4326'))
@@ -613,7 +619,8 @@ export default {
         bindEvent(){
             const that = this
             this.$refs.rootmap.addEventListener('click',function () {
-                if(that.clickTarget){
+                if(that.clickTarget && that.isDiagram == 1){
+                    that.$emit('toDetail', that.clickTarget,1,null,1)
                     console.log(that.clickTarget)
                 }
             })
@@ -703,7 +710,7 @@ export default {
             });
             this.mapTarget.on('moveend', function (evt) {
                 that.isClick = true
-                console.log(that.pointListObj)
+                // console.log(that.pointListObj)
             });
             this.addInteraction()
             setTimeout(()=>{

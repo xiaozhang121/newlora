@@ -130,7 +130,10 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-
+  .icon-xiala{
+    width: 12px;
+    height: 14px;
+  }
   .popper__arrow {
     display: none !important;
   }

@@ -306,6 +306,26 @@ export default [{
                     component: () => import('@/views/communal/surveillance/detailVRed.vue')
                 },
                 {
+                    path: 'detailRedN',
+                    name: 'surveillanceListLightN',
+                    meta: {
+                        title: '红外监测',
+                        hideInMenu: true,
+                        isDetails: true,
+                    },
+                    component: () => import('@/views/communal/surveillance/detailRedNC.vue')
+                },
+                {
+                    path: 'detailLightN',
+                    name: 'surveillanceListRedN',
+                    meta: {
+                        title: '可见光详情',
+                        hideInMenu: true,
+                        isDetails: true,
+                    },
+                    component: () => import('@/views/communal/surveillance/detailLightNC.vue')
+                },
+                {
                     path: 'areaVideo',
                     name: 'surveillanceList',
                     meta: {

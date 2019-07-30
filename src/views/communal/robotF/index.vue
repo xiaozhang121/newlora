@@ -198,6 +198,9 @@ export default {
   },
   created(){
   },
+  beforeDestroy(){
+      clearInterval(this.timer)
+  },
   mounted () {
     this.routeName = this.$route.name
   }

@@ -220,6 +220,10 @@ export default {
 
 <style lang="scss">
 .surveillance {
+  .icon-xiala{
+    width: 12px;
+    height: 15px;
+  }
   .noMarginRight{
     margin-right: 0 !important;
   }

@@ -224,7 +224,7 @@ export default {
                 h(
                   "el-button",
                   {
-                    class: "btn_pre",
+                    class: "btn_pre grey",
                     style: { background: "#305e83!important" },
                     props: { type: "text" },
                     on: {
@@ -487,6 +487,10 @@ export default {
     background-color: #3a81a1;
     border-radius: 16px;
     border: none;
+    .grey {
+      background: #979797;
+      color: #767676;
+    }
   }
   //-------------------表格样式
   .ivu-table th {

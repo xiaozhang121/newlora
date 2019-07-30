@@ -234,6 +234,10 @@ export default {
   top: -5px;
 }
 .visiblelight {
+  .icon-xiala{
+    width: 12px;
+    height: 15px;
+  }
   .selectSearch {
     .el-input--small .el-input__inner {
       background: #1a2f42;
