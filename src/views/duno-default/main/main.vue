@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
     <el-container v-if="!isBigScreen" style="height: 100%" class="main">
-      <el-header  class="main-header" style="height: 80px;">
+      <el-header class="main-header" style="height: 80px;">
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
           <alarm-tip />
           <!-- 告警消息 -->
@@ -251,11 +251,6 @@ export default {
     window.addEventListener("resize", function() {
       that.getWidth();
     });
-    if (!this.isBigScreen) {
-      this.isShowHeader = true;
-    } else if (this.isBigScreen) {
-      this.isShowHeader = false;
-    }
   }
 };
 </script>

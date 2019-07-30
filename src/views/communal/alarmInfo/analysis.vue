@@ -296,7 +296,7 @@ export default {
       alarmLevel: "",
       startTime: "",
       endTime: "",
-      dataBread: ["视频监控", "所有报表", "表计分析"],
+      dataBread: ["操作中台", "所有报表", "表计分析"],
       //   isChangeFlag: true,
       //   titleOption: {
       //     text: "泄露电流表24小时温度分析",
@@ -1014,7 +1014,7 @@ export default {
         display: inline-flex;
         padding-bottom: 0;
         height: 40px;
-        .icon-xiala{
+        .icon-xiala {
           width: 13px !important;
           height: 14px !important;
         }
@@ -1076,7 +1076,7 @@ export default {
               /*background: rgba(0, 0, 0, 0);*/
               width: 100px;
               top: 133px;
-              .btnItem{
+              .btnItem {
                 color: white;
               }
               .title {

@@ -39,7 +39,7 @@
             class="table_analysis"
             :columns="RecodeColumns"
             :data="RecodeList"
-            :isShowpage="false"
+            :isShowPage="false"
             @on-select="dataListSelectionChangeHandle"
             @clickPage="pageCurrentChangeHandle"
             @on-page-size-change="pageSizeChangeHandle"
@@ -60,7 +60,7 @@
         <div class="iconcen">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_ar.png" alt />
-            辅助操作
+            AR辅助操作
           </div>
           <div class="icondev">
             <img src="../../../assets/iconFunction/img_developing.png" alt />

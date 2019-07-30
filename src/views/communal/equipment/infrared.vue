@@ -88,7 +88,7 @@ export default {
       lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      dataBread: ["操作中台", "设备管理", "红外监测"],
+      dataBread: ["操作中台", "设备监测", "红外测温"],
       numberCameras: [
         {
           circleColor: "#00B4FF",
@@ -124,10 +124,11 @@ export default {
   methods: {
     getMore() {
       this.$router.push({
-        name: "meterdata-detail",
+        name: "infrared-report",
         params: {
           title: "红外监测记录信息",
-          url: "/lenovo-plan/api/task/iir-result/list"
+          url: "/lenovo-plan/api/task/iir-result/list",
+          dataBread: ["操作中台", "设备监测", "红外监测", "最新24小时记录信息"]
         }
       });
     },
@@ -195,11 +196,12 @@ export default {
     },
     getMoreReport() {
       this.$router.push({
-        name: "reportList"
-        // params: {
-        //   title: "可见光监测记录信息",
-        //   url: "/lenovo-plan/api/task/visible-result/list"
-        // }
+        name: "infrared-report",
+        params: {
+          title: "红外监测记录信息",
+          url: "/lenovo-plan/api/task/visible-result/list",
+          dataBread: ["操作中台", "设备监测", "红外监测", "最新巡检报表"]
+        }
       });
     }
   },

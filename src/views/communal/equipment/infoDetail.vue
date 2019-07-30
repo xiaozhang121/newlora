@@ -1,14 +1,14 @@
 <template>
   <div>
-    <patrolDetail />
+    <analysisDetail />
   </div>
 </template>
 
 <script>
-import patrolDetail from "_c/duno-c/patrolDetail";
+import analysisDetail from "_c/duno-c/analysisDetail";
 export default {
   components: {
-    patrolDetail
+    analysisDetail
   }
 };
 </script>
