@@ -10,7 +10,9 @@
       </h3>
       <h3 v-if="kind == 'robot'">
         {{ reportData.name }}
-        <span style="font-size:13px;font-weight:normal">任务ID:{{reportData.planId}}</span>
+        <span
+          style="font-size:13px;font-weight:normal"
+        >任务ID:{{reportData.planId}}</span>
       </h3>
       <p v-if="kind != 'robot'">
         类型:
@@ -54,7 +56,7 @@
 
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
-import qs from 'qs'
+import qs from "qs";
 import {
   reportDownload,
   getViewreport
@@ -62,11 +64,14 @@ import {
 import { constants } from "crypto";
 export default {
   name: "ReportTable",
-  data () {
-    const that = this
+  data() {
+    const that = this;
     return {
-        baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
-    }
+      baseUrl:
+        process.env.NODE_ENV === "development"
+          ? that.$config.baseUrl.dev
+          : that.$config.baseUrl.pro
+    };
   },
   props: {
     taskCurreny:{},
@@ -74,7 +79,7 @@ export default {
         type: String,
         default: ''
     },
-    kind:{},
+    kind: {},
     reportData: {
       type: Object,
       default: () => {
@@ -92,12 +97,12 @@ export default {
     clickDownload() {
       let url = this.url.downloadUrl;
       let params = qs.stringify({
-          taskRunHisId: this.reportData.taskRunHisId,
-          planId: this.reportData.planId,
-          t: this.$store.state.user.token
-      })
-      window.location.href = `${this.baseUrl}${url}?${params}`
-     /* getAxiosData(url, query).then(res => {
+        taskRunHisId: this.reportData.taskRunHisId,
+        planId: this.reportData.planId,
+        t: this.$store.state.user.token
+      });
+      window.location.href = `${this.baseUrl}${url}?${params}`;
+      /* getAxiosData(url, query).then(res => {
         this.$message({
           message: "开始下载",
           type: "success"
@@ -105,7 +110,7 @@ export default {
       });*/
     },
     viewReports() {
-      if(this.path){
+      if(this.path) {
           this.$router.push({
               path: this.path,
               query: {
@@ -118,14 +123,28 @@ export default {
           });
           return
       }
-      this.$router.push({
-        name: "report-view",
-        params: {
-          planId: this.reportData.planId,
-          planType: this.reportData.planType,
-          url: this.url.viewUrl
-        }
-      });
+      if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
+        this.$router.push({
+          name: "light-report",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl
+          }
+        });
+      } else if (
+        this.$route.name == "visiblelightList" ||
+        item.monitorDeviceType == "2"
+      ) {
+        this.$router.push({
+          name: "infrared-report",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl
+          }
+        });
+      }
     },
     getJump(item) {
       if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {

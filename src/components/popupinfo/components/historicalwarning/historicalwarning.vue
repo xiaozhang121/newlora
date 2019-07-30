@@ -20,11 +20,11 @@
               <div>{{item.alarmTime}}</div>
               <div>
                 <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;
-                <span>{{item.alarmValue}}℃</span>
+                <span>{{item.alarmContent}}</span>
                 <!-- <span class="threshold">超出阈值：{{item.threshold}}</span> -->
               </div>
               <div class="itemTitle">
-                <p>内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}</p>
+                <p>内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}℃</p>
               </div>
             </div>
             <div>

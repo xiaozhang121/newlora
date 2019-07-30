@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="configure">
-      <div>任务配置管理（{{ dataBread[2] }}）</div>
+      <div>任务配置列表（{{ dataBread[2] }}）</div>
       <div class="main">
         <div class="left">
           <duno-btn-top
@@ -114,7 +114,7 @@ export default {
 
       ],
       titleInspect: "例行巡视编号",
-      dataBread: ["操作中台", "机器人巡视", "机器人一", "任务配置管理"],
+      dataBread: ["操作中台", "机器人巡视", "机器人一", "任务配置列表"],
       newColumns: [
         {
           type: "index",

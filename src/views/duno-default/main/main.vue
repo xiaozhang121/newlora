@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
     <el-container v-if="!isBigScreen" style="height: 100%" class="main">
-      <el-header  class="main-header" style="height: 80px;">
+      <el-header v-if="isShowHeader" class="main-header" style="height: 80px;">
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
           <alarm-tip />
           <!-- 告警消息 -->
@@ -131,7 +131,8 @@ export default {
       bodyWidth: null,
       screenWidth: null,
       isBigScreen: false,
-      isShowHeader: false,
+      isShowHeader: true,
+      isnum: 1,
       alarmSrc: "../abnormalInfoPath/home",
       videoSrc: "../surveillancePath/list"
     };
@@ -212,6 +213,7 @@ export default {
         that.bodyWidth = window.screenWidth;
         if (that.bodyWidth > 3000) {
           that.isBigScreen = true;
+          this.isnum = 2;
         }
       } catch (e) {}
     }
@@ -251,11 +253,13 @@ export default {
     window.addEventListener("resize", function() {
       that.getWidth();
     });
-    if (!this.isBigScreen) {
-      this.isShowHeader = true;
-    } else if (this.isBigScreen) {
-      this.isShowHeader = false;
-    }
+    this.$nextTick(() => {
+      if (that.isnum == 1) {
+        that.isShowHeader = true;
+      } else if (that.isnum == 2) {
+        that.isShowHeader = false;
+      }
+    });
   }
 };
 </script>
