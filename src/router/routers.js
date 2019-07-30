@@ -869,6 +869,17 @@ export default [{
             },
             component: () => import('@/views/communal/toConfigure/reportDetail.vue')
         },
+        {
+            path: 'configure-view',
+            name: 'configure-view',
+            meta: {
+                title: '任务配置',
+                hideInMenu: true,
+                isDetails: true,
+                active: 'configurationList'
+            },
+            component: () => import('@/views/communal/toConfigure/viewDetail.vue')
+        },
         ]
     },
     {
@@ -969,7 +980,7 @@ export default [{
                 isDetails: true,
                 active: 'reportList'
             },
-            component: () => import('@/views/communal/alarmInfo/viewReportDetail.vue')
+            component: () => import('@/views/communal/alarmInfo/detail.vue'),
         },
         ]
     },

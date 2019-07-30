@@ -109,6 +109,7 @@ export default {
       });*/
     },
     viewReports() {
+      debugger;
       if (this.path) {
         this.$router.push({
           path: this.path,
@@ -121,7 +122,7 @@ export default {
         });
         return;
       }
-      if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
+      if (this.$route.name == "infraredList") {
         this.$router.push({
           name: "light-report",
           params: {
@@ -130,12 +131,18 @@ export default {
             url: this.url.viewUrl
           }
         });
-      } else if (
-        this.$route.name == "visiblelightList" ||
-        item.monitorDeviceType == "2"
-      ) {
+      } else if (this.$route.name == "visiblelightList") {
         this.$router.push({
           name: "infrared-report",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl
+          }
+        });
+      } else if (this.$route.name == "reportList") {
+        this.$router.push({
+          name: "report-view",
           params: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
@@ -184,11 +191,9 @@ export default {
   .content {
     padding: 20px 20px 10px 20px;
     h3 {
-      font-size: 16px;
+      font-size: 14px;
       margin-bottom: 10px;
-      span {
-        padding-left: 10px;
-      }
+      font-weight: normal;
     }
     p {
       font-size: 14px;

@@ -241,14 +241,14 @@ export default {
         },
         {
           title: "报警对象",
-          key: "powerDeviceName",
+          key: "mainDevice",
           minWidth: 150,
           align: "center",
           tooltip: true
         },
         {
           title: "报警部位",
-          key: "alarmPart",
+          key: "powerDeviceName",
           minWidth: 120,
           align: "center",
           tooltip: true,
@@ -257,7 +257,9 @@ export default {
             newArr.push([
               h(
                 "div",
-                params.row.alarmPart == null ? "/" : params.row.alarmPart
+                params.row.powerDeviceName == null
+                  ? "/"
+                  : params.row.powerDeviceName
               )
             ]);
             return h("div", newArr);
@@ -459,8 +461,19 @@ export default {
   created() {
     this.getRecodeList();
     this.getData();
+    this.getMockData();
   },
   methods: {
+    getMockData() {
+      let url = "/lenovo-plan/api/statistics/plan/list";
+      let query = {
+        pageIndex: 1,
+        pageRows: 2
+      };
+      getAxiosData(url, query).then(res => {
+        this.mockData = res.data.tableData;
+      });
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");

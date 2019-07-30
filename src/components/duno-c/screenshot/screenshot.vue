@@ -10,7 +10,7 @@
           @mousemove="getCircle"
         >
           <img :src="this.imgsrc" alt />
-          <div ref="box" id="box"></div>
+          <div ref="box" id="box1"></div>
           <div v-if="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
           <div v-if="!isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
         </div>
@@ -292,7 +292,7 @@ export default {
     }
   }
 }
-#box {
+#box1 {
   position: absolute;
   background: none;
   border: 1px solid red;
