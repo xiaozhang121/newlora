@@ -74,9 +74,10 @@ export default {
     };
   },
   props: {
-    path: {
-      type: String,
-      default: ""
+    taskCurreny:{},
+    path:{
+        type: String,
+        default: ''
     },
     kind: {},
     reportData: {
@@ -109,18 +110,18 @@ export default {
       });*/
     },
     viewReports() {
-      debugger;
-      if (this.path) {
-        this.$router.push({
-          path: this.path,
-          query: {
-            planId: this.reportData.planId,
-            taskRunHisId: this.reportData.ID,
-            //   planId: '603610399709396992',
-            planType: this.reportData.taskType
-          }
-        });
-        return;
+      if(this.path) {
+          this.$router.push({
+              path: this.path,
+              query: {
+                  taskDeviceId: this.taskCurreny.taskDeviceId,
+                  planId: this.reportData.planId,
+                  taskRunHisId: this.reportData.ID,
+                  //   planId: '603610399709396992',
+                  planType: this.reportData.taskType
+              }
+          });
+          return
       }
       if (this.$route.name == "infraredList") {
         this.$router.push({

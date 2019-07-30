@@ -61,6 +61,7 @@ export default {
       handRed: require('@/assets/buttonPng/handRed.png'),
       intelLock: require('@/assets/buttonPng/intelLock.png'),
       redLight: require('@/assets/buttonPng/redLight.png'),
+      redLightCamera: require('@/assets/buttonPng/redLightNCamera.png'),
       robot: require('@/assets/buttonPng/robot.png'),
       light: require('@/assets/buttonPng/lightCamera.svg'),
       lightNoCamera: require('@/assets/buttonPng/light.svg'),
@@ -92,12 +93,17 @@ export default {
       }
       getAxiosData(url, query).then(res => {
         that.dataListLoading = false
+          debugger
         if (res.code !== 200 && res.data.code != 200 && !('details' in res.data)) {
           that.dataList = []
           that.totalNum = 0
           return that.$message.error(res.msg)
         }
         that.dataList = res.data.details || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
+        if('details' in res.data && res.data['details'] == null){
+            that.dataList = []
+            that.$forceUpdate()
+        }
         if (that.mixinViewModuleOptions.isShowPage) {
             that.totalNum = res.data.total || res.data.pageParam.totalRows
         }

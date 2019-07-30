@@ -774,7 +774,7 @@ export default {
               position: relative;
               width: 100%;
               padding-bottom: 56%;
-              background: grey;
+              background: black;
               .monitor {
                 position: absolute;
                 width: 100% !important;

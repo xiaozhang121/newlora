@@ -35,6 +35,9 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning
+      @on-fresh="initDataD"
+      :warnData="warnData"
+      :dataBread="dataBread"
       :discriminate="false"
       :hasSelect="true"
       :alarmLevel="alarmLevel"
@@ -76,6 +79,7 @@ export default {
   data() {
     const that = this;
     return {
+      warnData: [],
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         // getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
@@ -121,14 +125,14 @@ export default {
               return h("div", params.row.linkName2 + params.row.linkName3);
           }
         },
-        {
+       /* {
           title: "描述",
           key: "description",
           minWidth: 90,
           align: "center",
           tooltip: true
-        },
-        {
+        },*/
+      /*  {
           title: "缺陷等级",
           key: "alarmLevel",
           minWidth: 120,
@@ -220,8 +224,8 @@ export default {
             );
             return h("div", newArr);
           }
-        },
-        {
+        },*/
+     /*   {
           title: "拍摄来源",
           key: "monitorDeviceName",
           minWidth: 150,
@@ -246,7 +250,7 @@ export default {
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
           }
-        },
+        },*/
         {
           title: "图片",
           key: "fileType",
@@ -328,11 +332,17 @@ export default {
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId;
     this.planType = this.$route.query.planType;
     this.getRegion();
+    this.initDataD()
     this.routeName = this.$route.name
     // this.getStart();
     // this.getType();
   },
   methods: {
+    initDataD(){
+        postAxiosData('/lenovo-robot/rest/taskCurLink',{taskDeviceId: this.$route.query.taskDeviceId}).then(res=>{
+            this.warnData = res.data
+        })
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");
@@ -506,7 +516,7 @@ export default {
     right: 20px;
   }
   .imgShow{
-    width: 100%;
+    width: 189px;
     padding: 10px 10px;
     height: 62px;
   }

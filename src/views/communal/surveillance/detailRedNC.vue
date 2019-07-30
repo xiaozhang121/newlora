@@ -750,7 +750,7 @@ export default {
               position: relative;
               width: 100%;
               padding-bottom: 56%;
-              background: grey;
+              background: black;
               .contain_img{
                 position: absolute;
                 width: 100%;

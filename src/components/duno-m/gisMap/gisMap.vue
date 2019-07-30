@@ -29,6 +29,7 @@ export default {
     data() {
         const that = this
         return {
+            rebotTimer: null,
             coverList:[{vectorLayer: null},{vectorLayer: null}],                   // 机器人线路
             drawList: [],
             drawListNum: 0,
@@ -505,14 +506,28 @@ export default {
         },
         findPoint(point){
             let deviceId =  'deviceIdStr' in  point?point['deviceIdStr']:point.powerDeviceId
+            if(this.isDiagram == 1){
+                for(let i=0; i<this.powerPointList.length; i++){
+                    if(this.powerPointList[i].deviceId == deviceId){
+                        return this.powerPointList[i]
+                    }
+                    for(let j=0; j<this.powerPointList[i].childDevice.length; j++){
+                        if(this.powerPointList[i].childDevice[j] == deviceId)
+                            return this.powerPointList[i]
+                    }
+                }
+            }
             for(let i=0; i<this.powerPointList.length; i++){
                 if(this.powerPointList[i].deviceId == deviceId){
                         return this.powerPointList[i]
                 }
             }
         },
-        setCenter({cadX, cadY}){
-            this.mapTarget.getView().setCenter(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
+        setCenter({cadX, cadY, flag}){
+            if(flag){
+                this.mapTarget.getView().setCenter([cadX, cadY])
+            }else
+                this.mapTarget.getView().setCenter(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
         },
         isAlarm(point){
             let data = this.findPoint(point)
@@ -587,6 +602,15 @@ export default {
                     element: document.getElementById('anchor'+index),
                     offset: offset
                 });
+                if(that.rebot){
+                   /* that.rebotTimer = setInterval(()=>{
+                        if(document.getElementById('anchor'+index).style.display == 'none'){
+                            document.getElementById('anchor'+index).style.display == 'block'
+                        }else{
+                            document.getElementById('anchor'+index).style.display == 'none'
+                        }
+                    },500)*/
+                }
                 if(that.isDiagram == 1){
 
                 }else if(that.isDiagram == 3){

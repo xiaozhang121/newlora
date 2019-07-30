@@ -98,7 +98,7 @@ export default {
   },
   props: {
     zIndex: {
-        type: String,
+        type: [String, Number],
         default: '10'
     },
     isCheck:{
