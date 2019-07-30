@@ -69,6 +69,7 @@ export default {
     }
   },
   props: {
+    taskCurreny:{},
     path:{
         type: String,
         default: ''
@@ -108,6 +109,7 @@ export default {
           this.$router.push({
               path: this.path,
               query: {
+                  taskDeviceId: this.taskCurreny.taskDeviceId,
                   planId: this.reportData.planId,
                   taskRunHisId: this.reportData.ID,
                   //   planId: '603610399709396992',

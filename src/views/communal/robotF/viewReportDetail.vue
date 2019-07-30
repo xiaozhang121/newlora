@@ -76,6 +76,7 @@ export default {
   data() {
     const that = this;
     return {
+      warnData: [],
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         // getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
@@ -328,11 +329,17 @@ export default {
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId;
     this.planType = this.$route.query.planType;
     this.getRegion();
+    this.initDataD()
     this.routeName = this.$route.name
     // this.getStart();
     // this.getType();
   },
   methods: {
+    initDataD(){
+        postAxiosData('/lenovo-robot/rest/taskCurLink',{taskDeviceId: this.$route.query.taskDeviceId}).then(res=>{
+            this.warnData = res.data
+        })
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");
@@ -506,7 +513,7 @@ export default {
     right: 20px;
   }
   .imgShow{
-    width: 100%;
+    width: 189px;
     padding: 10px 10px;
     height: 62px;
   }

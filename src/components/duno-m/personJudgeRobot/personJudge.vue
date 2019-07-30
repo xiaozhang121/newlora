@@ -6,8 +6,8 @@
                 :visible.sync="dialogVisible"
                 width="30%"
                 :before-close="handleClose">
-            <el-input class="itemInput" v-model="dataType" placeholder="数据类型"></el-input>
-            <el-input class="itemInput" v-model="analysisResult" placeholder="分析结果"></el-input>
+            <el-input class="itemInput" v-model="dataTyped" placeholder="数据类型"></el-input>
+            <el-input class="itemInput" v-model="analysisResultd" placeholder="分析结果"></el-input>
             <span slot="footer" class="dialog-footer">
                 <button-custom class="button" @click.native="dialogVisible = false"  title="取消" />
                 <button-custom @click.native="submit" class="button"  title="确定" />
@@ -26,6 +26,8 @@
         },
         data() {
             return {
+                dataTyped: '',
+                analysisResultd: '',
                 value: '',
                 formData:{
                     input: '',
@@ -63,6 +65,22 @@
             }
         },
         watch:{
+            dataType:{
+                handler(now, old){
+                    if(!old){
+                        this.dataTyped = now
+                    }
+                },
+                immediate: true
+            },
+            analysisResult:{
+                handler(now, old){
+                    if(!old){
+                        this.analysisResultd = now
+                    }
+                },
+                immediate: true
+            },
             visible:{
                 handler(now){
                     this.dialogVisible = now
@@ -75,8 +93,11 @@
         },
         methods:{
             submit(){
-                postAxiosData('/lenovo-robot/rest/manualJudge',{'manualRecognType':this.dataType, 'manualValueShow':this.analysisResult, 'taskDeviceId':this.taskCurreny['taskDeviceId']}).then(res=>{
-                    this.$message.info(res.data.resInfo)
+                postAxiosData('/lenovo-robot/rest/manualJudge',{'manualRecognType':this.dataTyped, 'manualValueShow':this.analysisResultd, 'taskDeviceId':this.taskCurreny['taskDeviceId']}).then(res=>{
+                    if(!res.data.resInfo)
+                        this.$message.info('修改成功')
+                    else
+                        this.$message.info(res.data.resInfo)
                     this.dialogVisible = false
                     this.$emit('on-close')
                 })
