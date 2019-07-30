@@ -162,7 +162,7 @@
         methods:{
             initData(){
                 const that = this
-                initConfigure({userId:this.$store.state.user.userId, type: '1'}).then(res=>{
+                initConfigure({userId:this.$store.state.user.userId, type: '2'}).then(res=>{
                     that.$store.state.user.configInfo = res.data
                 })
             },

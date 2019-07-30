@@ -18,7 +18,7 @@ router.beforeEach((to, from, next) => {
   }
   if(to.name.indexOf('abnormalInfoList')>-1){
       store.state.app.topNav = 1
-  }else if(to.name.indexOf('realEnv')>-1){
+  }else if(to.name.indexOf('realEnv')>-1 || to.name.indexOf('detectionList')>-1){
       store.state.app.topNav = 2
   }else if(to.name.indexOf('surveillanceList')>-1){
       store.state.app.topNav = 3
