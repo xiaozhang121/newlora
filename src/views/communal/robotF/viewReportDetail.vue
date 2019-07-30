@@ -35,6 +35,9 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning
+      @on-fresh="initDataD"
+      :warnData="warnData"
+      :dataBread="dataBread"
       :discriminate="false"
       :hasSelect="true"
       :alarmLevel="alarmLevel"

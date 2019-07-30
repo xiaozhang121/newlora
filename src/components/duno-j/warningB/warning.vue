@@ -2,12 +2,12 @@
   <div class="warningDialog">
     <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
-        <div class="title_top">{{ dataList.title }}</div>
-        <div class="extend">{{ dataList.alarmTypeValue }}</div>
+        <div class="title_top">{{ warnData.deviceName+'-'+ warnData.recognType}}</div>
+        <!--<div class="extend">{{ dataList.alarmTypeValue }}</div>-->
       </div>
       <div class="main">
         <div class="monitor">
-          <img :src="monitorUrl || newMonitorUrl" alt />
+          <img :src="warnData['taskCurLinkImg']" alt />
         </div>
         <div class="info">
           <div class="info_top">
@@ -15,33 +15,33 @@
             <p>{{dataList.alarmType}}</p>
           </div>
           <div v-if="!discriminate" class="temperature">
-            <p class="monitorTitle">温度正常</p>
+            <!--<p class="monitorTitle">温度正常</p>-->
             <p>
-              {{ popData['alarmValue'] }}℃
-              <i-dropdown
-                v-if="hasSelect && !discriminate"
-                trigger="click"
-                placement="bottom-start"
-              >
-                <div
-                  class="table_select"
-                  :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
-                >
-                  <span class="member_operate_div">
-                    <span>{{ alarmLevelT }}</span>
-                  </span>
-                  <i class="iconfont icon-xiala"></i>
-                </div>
-                <i-dropdownMenu slot="list">
-                  <i-dropdownItem
-                    v-for="(item, index) in selectList"
-                    :key="index"
-                    @click.native="selectItem(item, index)"
-                  >
-                    <div class="alarmLevel">{{ item }}</div>
-                  </i-dropdownItem>
-                </i-dropdownMenu>
-              </i-dropdown>
+              {{ warnData['valueShow'] }}
+              <!--<i-dropdown-->
+                <!--v-if="hasSelect && !discriminate"-->
+                <!--trigger="click"-->
+                <!--placement="bottom-start"-->
+              <!--&gt;-->
+                <!--<div-->
+                  <!--class="table_select"-->
+                  <!--:class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"-->
+                <!--&gt;-->
+                  <!--<span class="member_operate_div">-->
+                    <!--<span>{{ alarmLevelT }}</span>-->
+                  <!--</span>-->
+                  <!--<i class="iconfont icon-xiala"></i>-->
+                <!--</div>-->
+                <!--<i-dropdownMenu slot="list">-->
+                  <!--<i-dropdownItem-->
+                    <!--v-for="(item, index) in selectList"-->
+                    <!--:key="index"-->
+                    <!--@click.native="selectItem(item, index)"-->
+                  <!--&gt;-->
+                    <!--<div class="alarmLevel">{{ item }}</div>-->
+                  <!--</i-dropdownItem>-->
+                <!--</i-dropdownMenu>-->
+              <!--</i-dropdown>-->
             </p>
           </div>
           <div v-else class="discriminate">
@@ -54,7 +54,7 @@
           <div class="from">
             <span class="origin">
               来源：
-              <a href="javascript:;" @click="getJump">{{popData['monitorDeviceName']}}</a>
+              <a href="javascript:;" @click="getJump">{{ dataBread[1] }}</a>
             </span>
           </div>
         </div>
@@ -62,20 +62,22 @@
       <div class="handleInfo">
         <div>
           <p class="monitorTitle">处理记录</p>
-          <p v-for="(item, index) in handleList" :key="index" class="item">
-            <span class="title">{{ item['time'] }}</span>
-            <span class="info">{{ item['info'] }}</span>
+          <div class="monitorMain">
+          <p v-for="(item, index) in warnData['manualJudgeLog']" :key="index" class="item">
+            <span class="title">{{ item['createTime'] }}</span>
+            <span class="info">{{ item['manualRecognType']+'  '+item['manualValueShow'] }}</span>
           </p>
+          </div>
         </div>
       </div>
       <div style="clear: both"></div>
     </el-dialog>
-    <personJudge :visible="visibleJudge" />
+    <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="{taskDeviceId: $route.query.taskDeviceId}" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
   </div>
 </template>
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
-import personJudge from "_c/duno-m/personJudge";
+import personJudge  from '_c/duno-m/personJudgeRobot'
 export default {
   components: { personJudge },
   data() {
@@ -94,6 +96,8 @@ export default {
     };
   },
   props: {
+    dataBread:{},
+    warnData:{},
     popData: {
       type: Object,
       default: () => {
@@ -194,6 +198,10 @@ export default {
     }
   },
   methods: {
+    onClose(){
+        this.visibleJudge = false
+        this.$emit('on-fresh')
+    },
     initData() {
       //   debugger;
       getAxiosData("/lenovo-plan/api/task-result/view", {
@@ -373,6 +381,10 @@ export default {
   }
   .handleInfo {
     color: #333333;
+    .monitorMain{
+      max-height: 300px;
+      overflow-y: auto;
+    }
     .monitorTitle {
       margin: 14px 0;
     }
