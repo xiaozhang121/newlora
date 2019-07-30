@@ -458,7 +458,7 @@ export default {
   },
   created() {
     this.getRecodeList();
-    this.getData();
+    // this.getData();
   },
   methods: {
     cutOut(data) {
