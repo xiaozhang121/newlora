@@ -38,7 +38,9 @@
     <div class="monitorArea" :class="{'center': isCenter}">
       <!--@on-push="onPush"-->
       <KeyMonitor
+        style="margin-bottom: 47px"
         :routeName="routeNamed"
+        :configType="configType"
         v-for="(item,index) in dataMonitor"
         :autoplay="true"
         :class="{'noMargin': (index+1) % active == 0}"
@@ -149,12 +151,14 @@ export default {
            setTimeout(()=>{
                this.routeNamed = now
            },1300)
+            debugger
            if(now == 'infraredList'){
                this.$nextTick(()=> {
                    try{
+                       debugger
                      document.querySelector('.video-player.vjs-custom-skin').style.transform = "scale(1,0.75)"
                      document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "left top"
-                     document.querySelector('.camera.main').style.background = "black"
+                     document.querySelector('.keyMonitor.camera').style.background = "black"
                      document.querySelector('.vjs-big-play-button').style.top = "-32%"
                    }catch (e) {}
                })

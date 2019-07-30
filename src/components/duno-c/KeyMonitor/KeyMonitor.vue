@@ -6,7 +6,7 @@
       @mouseenter="enter()"
       @mouseleave="leave()"
     >
-      <div class="main" id="videoPlayer">
+      <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}">
         <video-player
           :class="{'infraredList':routeName == 'infraredList'}"
           v-if="showView"
@@ -82,6 +82,7 @@ export default {
     pushMov
   },
   props: {
+    configType:{},
     routeName:{},
     Initialization: {
       type: Boolean,
@@ -298,6 +299,22 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  .topStyle{
+    background: black;
+    .vjs-big-play-button{
+      display: none;
+      height: 2.2em !important;
+      width: 2em;
+      line-height: 2em;
+      border-radius: 1em;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: -26% !important;
+      left: 0;
+      margin: auto;
+    }
+  }
   .infraredList{
     transform: scale(1,0.75);
     transform-origin: left top;
