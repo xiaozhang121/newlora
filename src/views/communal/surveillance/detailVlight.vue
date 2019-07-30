@@ -942,7 +942,7 @@ export default {
         .clickBtn {
           line-height: 40px;
           width: 139px;
-          // background-image: url(../../../assets/images/btn/moreBtn.png);
+          background-image: url(../../../assets/images/btn/moreBtn.png);
           text-align: center;
           font-size: 18px;
           color: #ffffff;

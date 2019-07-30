@@ -121,7 +121,7 @@ export default {
   },
   watch: {
     isShowClassify(now){
-        debugger
+        // debugger
     },
     isClassify(now) {
       if (now && this.classifyData) {

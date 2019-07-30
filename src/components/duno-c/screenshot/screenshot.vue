@@ -218,7 +218,6 @@ export default {
         }));
         // 通过调用resolve将子节点数据返回，通知组件数据加载完成
         getAxiosData("/lenovo-sample/api/sample/getConfInfo").then(res => {
-          debugger;
           node = res.data;
         });
         resolve(nodes);

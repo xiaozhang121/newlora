@@ -47,6 +47,9 @@
         :streamAddr="item['streamAddress']"
         :monitorInfo="item"
         :width="videoWidth"
+        :showBtmOption="true"
+        :kilovolt="item['monitorDeviceName']"
+        :patrol="item['monitorDeviceId']"
       />
     </div>
     <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->
@@ -148,13 +151,21 @@ export default {
            },1300)
            if(now == 'infraredList'){
                this.$nextTick(()=> {
-                   document.querySelector('.video-player.vjs-custom-skin').style.transform = "scale(1,0.75)"
-                   document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "left top"
+                   try{
+                     document.querySelector('.video-player.vjs-custom-skin').style.transform = "scale(1,0.75)"
+                     document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "left top"
+                     document.querySelector('.camera.main').style.background = "black"
+                     document.querySelector('.vjs-big-play-button').style.top = "-32%"
+                   }catch (e) {}
                })
            }else{
                this.$nextTick(()=> {
-                   document.querySelector('.video-player.vjs-custom-skin').style.transform = "inherit"
-                   document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "inherit"
+                   try {
+                       document.querySelector('.video-player.vjs-custom-skin').style.transform = "inherit"
+                       document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "inherit"
+                       document.querySelector('.camera.main').style.background = "black"
+                       document.querySelector('.vjs-big-play-button').style.top = "0"
+                   }catch (e) {}
                })
            }
     },
@@ -198,7 +209,6 @@ export default {
         configType: this.configType,
         userId: this.$store.state.user.userId
       }).then(res => {
-          debugger
         if (res.data && res.data.tableData.length) {
           let data = res.data.tableData;
           /*  data.map(item=>{

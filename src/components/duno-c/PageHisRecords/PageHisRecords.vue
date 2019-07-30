@@ -26,7 +26,7 @@
         </div>
         <div>
           <div @click="clickExcel">
-            <i class="iconfont icon-tuisong"></i>
+            <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
         </div>
@@ -388,7 +388,8 @@ export default {
           width: 140px;
           line-height: 40px;
           text-align: center;
-          background-color: #192f41;
+          // background-color: #192f41;
+          background-image: url(../../../assets/images/btn/moreBtn.png);
           cursor: pointer;
         }
       }

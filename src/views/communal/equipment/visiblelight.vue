@@ -89,7 +89,7 @@ export default {
       lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      dataBread: ["操作中台", "设备管理", "可见光监测"],
+      dataBread: ["操作中台", "设备监测", "可见光监测"],
       numberCameras: [
         {
           circleColor: "#00B4FF",

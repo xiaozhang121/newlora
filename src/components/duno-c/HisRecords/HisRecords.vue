@@ -36,7 +36,7 @@
         </div>
         <div>
           <div>
-            <i class="iconfont icon-tuisong"></i>
+            <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
         </div>
@@ -201,13 +201,10 @@ export default {
           key: "imgVideo",
           title: "图片/视频",
           align: "center",
-          render:(h,params)=>{
-            return h(
-              'i',
-              {
-                class:'iconfont icon-bofang'
-              }
-            )
+          render: (h, params) => {
+            return h("i", {
+              class: "iconfont icon-bofang"
+            });
           }
         },
         {
@@ -252,7 +249,7 @@ export default {
           width: 140px;
           line-height: 32px;
           text-align: center;
-          background-color: #192f41;
+          background-image: url(../../../assets/images/btn/moreBtn.png);
           cursor: pointer;
           // border-radius:
         }

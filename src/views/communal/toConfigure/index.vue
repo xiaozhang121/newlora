@@ -100,7 +100,7 @@ export default {
       titleTypeL: "所有监测设备",
       titleTypeC: "所有电压等级",
       titleTypeR: "所有状态",
-      dataBread: ["操作中台", "配置管理", "检测设备管理"],
+      dataBread: ["操作中台", "配置管理", "监测设备管理"],
       TestEquipment: [],
       voltageLevel: [],
       stateSelect: [],
@@ -409,6 +409,10 @@ export default {
 @import "@/style/tableStyle.scss";
 .toConfigure {
   width: 100%;
+  .icon-xiala{
+    width: 13px;
+    height: 16px;
+  }
   .circleStatus {
     width: 13px;
     height: 13px;

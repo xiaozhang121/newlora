@@ -77,13 +77,13 @@ export default [{
         // },
         meta: {
             notCache: true,
-            title: '实景展示'
+            title: '全站总览'
         },
         children: [{
                 path: 'realEnv',
                 name: 'realEnvIndex',
                 meta: {
-                    title: '全图展示',
+                    title: '全部电压',
                     notCache: true,
                     toListName: 'realEnvList',
                     btnArr: [{
@@ -613,7 +613,7 @@ export default [{
         meta: {
             hide: true,
             isAlone: true,
-            title: '机器人巡检',
+            title: '机器人巡视',
             notCache: true
         },
         children: [{
@@ -763,7 +763,7 @@ export default [{
                 path: 'video',
                 name: 'video',
                 meta: {
-                    title: '视频记录',
+                    title: '视频视频',
                     notCache: true,
                     toListName: 'videoList',
                     btnArr: []
