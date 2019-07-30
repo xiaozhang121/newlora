@@ -112,6 +112,11 @@ export default {
           align: "center"
         },
         {
+          key: "monitorDeviceType",
+          title: "设备类型",
+          align: "center"
+        },
+        {
           key: "areaName",
           title: "所在区域",
           align: "center"
@@ -409,7 +414,7 @@ export default {
 @import "@/style/tableStyle.scss";
 .toConfigure {
   width: 100%;
-  .icon-xiala{
+  .icon-xiala {
     width: 13px;
     height: 16px;
   }
