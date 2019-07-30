@@ -409,6 +409,10 @@ export default {
 @import "@/style/tableStyle.scss";
 .toConfigure {
   width: 100%;
+  .icon-xiala{
+    width: 13px;
+    height: 16px;
+  }
   .circleStatus {
     width: 13px;
     height: 13px;
