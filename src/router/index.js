@@ -41,11 +41,11 @@ router.beforeEach((to, from, next) => {
       if (store.state.user.userId) {
           if (canTurnTo(to.name, store.state.user.access, routes)) {
               if (to.name == 'ticketList') {
-                  window.location.href = 'http://52.82.107.5:8080/ar/cardManage'
+                  window.location.href = 'http://10.0.10.45:8080/ar/cardManage'
               } else if (to.name == 'inspectionList') {
-                  window.location.href = 'http://52.82.107.5:8080/ar/taskManage'
+                  window.location.href = 'http://10.0.10.45:8080/ar/taskManage'
               } else if (to.name == 'inspectionList') {
-                  window.location.href = 'http://52.82.107.5:8080/ar/videoRecord'
+                  window.location.href = 'http://10.0.10.45:8080/ar/videoRecord'
               } else {
                   next() // 有权限，可访问
               }
