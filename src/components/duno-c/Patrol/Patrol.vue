@@ -156,6 +156,9 @@ export default {
   watch: {
     columns: {
       handler(now) {
+        if (this.now.length == 0) {
+          return;
+        }
         this.columnsData = now;
       },
       immediate: true,
@@ -167,15 +170,30 @@ export default {
       this.$emit("add-task");
     },
     getJump(row) {
-      this.$router.push({
-        path: "/report/report-view",
-        query: {
-          planId: row.planId,
-          planType: this.planType
-        }
-      });
+      if (this.$route.name == "reportList") {
+        this.$router.push({
+          name: "report-view",
+          params: {
+            planId: row.planId,
+            planType: this.planType,
+            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
+          }
+        });
+      } else if (this.$route.name == "configurationList") {
+        this.$router.push({
+          name: "configure-view",
+          params: {
+            planId: row.planId,
+            planType: this.planType,
+            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
+          }
+        });
+      }
     },
     dataListSelectionChangeHandle() {}
+  },
+  mounted() {
+    console.log(this.$route.name);
   }
 };
 </script>

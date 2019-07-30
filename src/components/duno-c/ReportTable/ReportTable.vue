@@ -74,10 +74,10 @@ export default {
     };
   },
   props: {
-    taskCurreny:{},
-    path:{
-        type: String,
-        default: ''
+    taskCurreny: {},
+    path: {
+      type: String,
+      default: ""
     },
     kind: {},
     reportData: {
@@ -110,38 +110,47 @@ export default {
       });*/
     },
     viewReports() {
-      if(this.path) {
-          this.$router.push({
-              path: this.path,
-              query: {
-                  taskDeviceId: this.taskCurreny.taskDeviceId,
-                  planId: this.reportData.planId,
-                  taskRunHisId: this.reportData.ID,
-                  //   planId: '603610399709396992',
-                  planType: this.reportData.taskType
-              }
-          });
-          return
+      if (this.path) {
+        this.$router.push({
+          path: this.path,
+          query: {
+            taskDeviceId: this.taskCurreny.taskDeviceId,
+            planId: this.reportData.planId,
+            taskRunHisId: this.reportData.ID,
+            //   planId: '603610399709396992',
+            planType: this.reportData.taskType
+          }
+        });
+        return;
       }
-      if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
+      if (this.$route.name == "infraredList") {
         this.$router.push({
           name: "light-report",
           params: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "设备监测", "可见光", "查看报告"]
           }
         });
-      } else if (
-        this.$route.name == "visiblelightList" ||
-        item.monitorDeviceType == "2"
-      ) {
+      } else if (this.$route.name == "visiblelightList") {
         this.$router.push({
           name: "infrared-report",
           params: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "设备检测", "红外监测", "查看报告"]
+          }
+        });
+      } else if (this.$route.name == "reportList") {
+        this.$router.push({
+          name: "report-view",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "所有报表", "巡检任务报表", "查看报告"]
           }
         });
       }
@@ -186,11 +195,9 @@ export default {
   .content {
     padding: 20px 20px 10px 20px;
     h3 {
-      font-size: 16px;
+      font-size: 14px;
       margin-bottom: 10px;
-      span {
-        padding-left: 10px;
-      }
+      font-weight: normal;
     }
     p {
       font-size: 14px;
