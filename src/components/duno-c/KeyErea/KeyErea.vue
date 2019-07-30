@@ -201,7 +201,6 @@ export default {
         configType: this.configType,
         userId: this.$store.state.user.userId
       }).then(res => {
-          debugger
         if (res.data && res.data.tableData.length) {
           let data = res.data.tableData;
           /*  data.map(item=>{

@@ -530,7 +530,7 @@ export default {
           const that = this
           getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
               let data = res.data
-              debugger
+              // debugger
               if(that.kilovoltKind == 10){
                   data = data.filter(item=>{
                       return item['areaId'] == '6'
@@ -787,7 +787,7 @@ export default {
                   this.modeList[modelIndex].hotcameraFlagVisible = flag
           } else{
               if(!('monitorDeviceType' in item) && this.isDiagram == 1){
-                  debugger
+                  // debugger
                   this.modeList[modelIndex].isShowClassifyVisble = flag
               }
               if(item.monitorDeviceType == '1'){

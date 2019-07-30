@@ -141,7 +141,10 @@
               ></el-date-picker>
             </div>
             <div>
-              <div class="exportExcel">导出Excel</div>
+              <div class="exportExcel">
+                <i class="iconfont icon-daochu1"></i>
+                导出Excel
+              </div>
             </div>
           </div>
         </div>
@@ -470,7 +473,8 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url = "/lenovo-iir/device/visible/url/rtmp/"+this.dataForm.monitorDeviceId
+      const url =
+        "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data.data;
         that.$nextTick(() => {
@@ -485,7 +489,8 @@ export default {
           }, 500);
         });
       });
-      const urld = "/lenovo-iir/device/video/url/rtmp/" +this.dataForm.monitorDeviceId;
+      const urld =
+        "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(urld, {}).then(res => {
         that.playerOptionsd.sources[0].src = res.data.data;
         that.$forceUpdate();
@@ -702,7 +707,7 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
-  .icon-xiala{
+  .icon-xiala {
     width: 12px;
     height: 15px;
   }

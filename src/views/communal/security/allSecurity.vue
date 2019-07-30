@@ -468,7 +468,7 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail {
   width: 100%;
-  .icon-xiala{
+  .icon-xiala {
     width: 13px;
     height: 16px;
   }
@@ -618,12 +618,12 @@ export default {
       & > div {
         margin-left: 10px;
         .dunoBtnTop {
-          width: 145px;
+          width: 180px;
           display: inline-flex;
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            width: 145px;
+            width: 180px;
             .title {
               padding: 8px 20px;
             }

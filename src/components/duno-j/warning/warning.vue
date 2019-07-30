@@ -195,11 +195,9 @@ export default {
   },
   methods: {
     initData() {
-      //   debugger;
       getAxiosData("/lenovo-plan/api/task-result/view", {
         [this.searchType]: this.searchId
       }).then(res => {
-        debugger
         this.dataList = res.data;
         let obj = {};
         res.data.dealList.forEach(el => {
