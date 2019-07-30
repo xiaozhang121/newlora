@@ -2,8 +2,8 @@
   <div class="realtime">
     <h3 class="title">{{title}}</h3>
     <el-row :gutter="20">
-      <el-col :span="monitorDeviceType == 1?24:12" :class="{'lightPanel': monitorDeviceType == 1}">
-        <div class="itemImgBox" v-if="monitorDeviceType == 1">
+      <el-col :span="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)?24:12" :class="{'lightPanel': (isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)}">
+        <div class="itemImgBox" v-if="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)">
           <video-player
             @mousemove.native="pointerPos($event)"
             @mouseout.native="clearTimer()"
@@ -16,7 +16,7 @@
           <img style="width: 100%; height: 100%" :src="demoImage">
         </div>
       </el-col>
-      <el-col :span="12" v-if="monitorDeviceType != 1">
+      <el-col :span="12" v-if="monitorDeviceType != 1 && monitorDeviceType != 3 && !isShowClassify">
         <div class="itemImgBox">
           <video-player
             @mousemove.native="pointerPos($event)"
@@ -94,6 +94,7 @@ export default {
     }
   },
   props: {
+    isShowClassify:{},
     monitorDeviceType: {},
     itemData: {},
     title: {
@@ -119,6 +120,9 @@ export default {
     }
   },
   watch: {
+    isShowClassify(now){
+        debugger
+    },
     isClassify(now) {
       if (now && this.classifyData) {
         console.log("显示：", now, "相");
@@ -162,7 +166,7 @@ export default {
     },
     initCamera() {
       const that = this;
-      if (this.monitorDeviceType == 1) {
+      if (this.monitorDeviceType == 1 || this.monitorDeviceType == 3) {
         const url =
           '/lenovo-visible/api/visible-equipment/sdk/rtmp/' + that.deviceId;
         getAxiosData(url, {}).then(res => {

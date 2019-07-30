@@ -16,6 +16,7 @@
         <realtime
           :monitorDeviceType="monitorDeviceType"
           :itemData="itemData"
+          :isShowClassify="showClassify"
           :classifyData="classifyData"
           :isClassify="isShowClassify"
           v-if="activeName == 'first'"
@@ -42,6 +43,7 @@ import moment from "moment";
 import HistoricalDocuments from "_c/duno-c/HistoricalDocuments";
 import realtime from "./components/realtime";
 import Polygonal from "_c/duno-c/Polygonal";
+import { postAxiosData, getAxiosData } from '@/api/axiosType'
 import { getAlarmHistory, getPlanHistory } from "@/api/currency/currency.js";
 import historicalwarning from "./components/historicalwarning";
 export default {
@@ -49,6 +51,8 @@ export default {
   components: { HistoricalDocuments, realtime, historicalwarning, Polygonal },
   data() {
     return {
+      monitorDeviceType: '',
+      pointList:[],
       mainTitle: '',
       alarmHistoryData: [],
       activeName: "first",
@@ -69,7 +73,7 @@ export default {
       startTime: "",
       endTime: "",
       isChange: true,
-      isShowClassify: false,
+      isShowClassify: true,
       legendData: [],
       xAxisData: [],
       seriesData: [],
@@ -93,14 +97,6 @@ export default {
         return false;
       }
     },
-    deviceId: {
-      type: [Number, String],
-      default: 1
-    },
-    monitorDeviceType: {
-      type: [Number, String],
-      default: "1"
-    },
     typeProp: {
       // 两种类型monitor(监控)  power(电网)
       type: String,
@@ -108,9 +104,29 @@ export default {
     }
   },
   watch:{
+      classifyData(now){
+          if(now == 'A'){
+              this.getOPoint(0)
+          }else if(now == 'B'){
+              this.getOPoint(1)
+          }else if(now == 'C'){
+              this.getOPoint(2)
+          }
+      },
       showClassify:{
           handler(now){
               this.isShowClassify = now
+          },
+          deep: true,
+          immediate: true
+      },
+      itemData:{
+          handler(now){
+              if(now){
+                  this.mainTitle = now['deviceName']
+                  now['monitorDeviceId'] = now['deviceIdStr']
+                  this.getPointList(now['deviceIdStr'])
+              }
           },
           deep: true,
           immediate: true
@@ -127,6 +143,19 @@ export default {
     }
   },
   methods: {
+    getPointList(deviceId){
+        getAxiosData('/lenovo-device/api/device/phase',{powerDeviceId: deviceId}).then(res=>{
+            this.pointList = res.data
+            this.getOPoint(0)
+        })
+    },
+    getOPoint(index){
+        this.deviceId = this.pointList[index]['deviceIdStr']
+        getAxiosData('lenovo-device/api/device/rtmp',{powerDeviceId: this.pointList[index]['deviceIdStr']}).then(res=>{
+            this.monitorDeviceType = res.data['monitorDeviceType']
+            this.initData()
+        })
+    },
     clickClassify(data, flag) {
       console.log("当前为：", data, "相");
       this.classifyData = data;
@@ -205,28 +234,7 @@ export default {
   created() {
     this.startTime = moment().format("YYYY-MM-DD");
     this.endTime = moment().format("YYYY-MM-DD");
-    console.log(
-      "设备类型：",
-      this.itemData.monitorDeviceType == "1"
-        ? "可见光"
-        : this.itemData.monitorDeviceType == "2"
-        ? "红外"
-        : "参数没对上"
-    );
-    if(this.itemData.monitorDeviceType == "1"){
-        this.mainTitle = this.itemData.deviceMessage.cameraName
-    }else if(this.itemData.monitorDeviceType == "2"){
-        this.mainTitle = this.itemData.deviceMessage.name
-    }
-    if (
-      this.itemData &&
-      this.itemData.monitorDeviceType &&
-      this.itemData.monitorDeviceType == "1" &&
-      this.isDiagram == 1
-    ) {
-      this.isShowClassify = true;
-    }
-    this.initData();
+    // this.initData();
   }
 };
 </script>

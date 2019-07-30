@@ -91,6 +91,7 @@ export default {
     clickDownload() {
       let url = this.url.downloadUrl;
       let params = qs.stringify({
+          taskRunHisId: this.reportData.taskRunHisId,
           planId: this.reportData.planId,
           t: this.$store.state.user.token
       })

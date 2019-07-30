@@ -353,6 +353,7 @@
       <!--弹窗必须传index  -->
         <camera-pop-back-u-p   @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisibled']" :itemData="item['itemData']" :visible="item['cameraFlagVisibled']"></camera-pop-back-u-p>
         <popupinfo :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose" :index="index" :monitorDeviceType="item['monitorDeviceType']" :deviceId="item['deviceId']" v-if="item['popupinfoVisable']" :visible="item['popupinfoVisable']"></popupinfo>
+        <popupinfod   :showClassify="true"  :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose"  :index="index" :monitorDeviceType="item['isShowClassifyVisble']"  v-if="item['isShowClassifyVisble']" :visible="item['isShowClassifyVisble']"></popupinfod>
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
     </div>
@@ -375,7 +376,7 @@ import cameraPop from '_c/duno-m/cameraPop'
 import cameraPopBackUP from '_c/duno-m/cameraPopBackUP'
 import hotcameraPop from '_c/duno-m/hotcameraPop'                 // 可见光
 import hotCamera from '_c/duno-m/hotCamera'                       // 红外
-import { popupinfo, popupOneInfo } from '_c/popupinfo'
+import { popupinfo, popupOneInfo, popupinfod } from '_c/popupinfo'
 import { deviceLocation, deviceList, lastDeviceList } from '@/api/currency/currency.js'
 import { mapState } from 'vuex'
 import gisMap from '_c/duno-m/gisMap'
@@ -391,6 +392,7 @@ export default {
       cameraPanel,
       Polygonal,
       popupinfo,
+      popupinfod,
       popupOneInfo,
       cameraPop,
       hotcameraPop,
@@ -481,6 +483,7 @@ export default {
             popupinfoVisable: false,       //控制显示
             cameraFlagVisible: false,
             cameraFlagVisibled: false,
+            isShowClassifyVisble: false,
             hotcameraFlagVisible: false,
             itemData: {}
         },
@@ -491,6 +494,7 @@ export default {
             popupinfoVisable: false,      ////控制显示
             cameraFlagVisible: false,
             cameraFlagVisibled: false,
+            isShowClassifyVisble: false,
             hotcameraFlagVisible: false,
             itemData: {}
         }
@@ -526,6 +530,7 @@ export default {
           const that = this
           getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
               let data = res.data
+              debugger
               if(that.kilovoltKind == 10){
                   data = data.filter(item=>{
                       return item['areaId'] == '6'
@@ -645,6 +650,7 @@ export default {
                   item['popupinfoVisable'] = false
                   item['cameraFlagVisible'] = false
                   item['cameraFlagVisibled'] = false
+                  item['isShowClassifyVisble'] = false
                   item['hotcameraFlagVisible'] = false
               })
               this.$forceUpdate()
@@ -690,6 +696,9 @@ export default {
                   that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
               }
               if(item['cameraFlagVisibled']){
+                  that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+              }
+              if(item['isShowClassifyVisble']){
                   that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
               }
               if(item['hotcameraFlagVisible']){
@@ -768,7 +777,7 @@ export default {
           },500)
       },
       visableHandle(item, flag, modelIndex){
-          if (item.deviceMessage.supportPreset) {
+          if ('deviceMessage' in item && item.deviceMessage.supportPreset) {
               if(item.monitorDeviceType == '1')       // 可见光
                   this.modeList[modelIndex].cameraFlagVisible = flag
               else if(item.monitorDeviceType == '99'){
@@ -777,6 +786,10 @@ export default {
               else if(item.monitorDeviceType == '2')
                   this.modeList[modelIndex].hotcameraFlagVisible = flag
           } else{
+              if(!('monitorDeviceType' in item) && this.isDiagram == 1){
+                  debugger
+                  this.modeList[modelIndex].isShowClassifyVisble = flag
+              }
               if(item.monitorDeviceType == '1'){
                   this.modeList[modelIndex].popupinfoVisable = flag
               }else if(item.monitorDeviceType == '2'){
@@ -850,6 +863,10 @@ export default {
 </script>
 <style lang="scss">
 .realEnv{
+    .icon-xiala{
+      width: 12px;
+      height: 15px;
+    }
     .ol-zoom{
       z-index: 4;
     }
