@@ -61,6 +61,7 @@ export default {
       handRed: require('@/assets/buttonPng/handRed.png'),
       intelLock: require('@/assets/buttonPng/intelLock.png'),
       redLight: require('@/assets/buttonPng/redLight.png'),
+      redLightCamera: require('@/assets/buttonPng/redLightNCamera.png'),
       robot: require('@/assets/buttonPng/robot.png'),
       light: require('@/assets/buttonPng/lightCamera.svg'),
       lightNoCamera: require('@/assets/buttonPng/light.svg'),

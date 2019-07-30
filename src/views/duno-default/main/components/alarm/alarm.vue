@@ -148,7 +148,7 @@ export default {
       };
       putAxiosData(url, query).then(
         res => {
-          that.getData();
+          // that.getData();
         },
         error => {}
       );
@@ -213,7 +213,7 @@ export default {
     }
   },
   mounted() {
-    this.getData();
+    // this.getData();
   }
 };
 </script>

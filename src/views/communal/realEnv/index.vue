@@ -737,7 +737,11 @@ export default {
                             item['src'] = that.lightNoCamera
                          }
                     }else if(item['monitorDeviceType'] == 2){
-                        item['src'] = that.redLight
+                        if(item.deviceMessage.supportPreset){
+                            item['src'] = that.redLightCamera
+                        }else{
+                            item['src'] = that.redLight
+                        }
                     }
                     item['show'] = true
                     item['isShow'] = true
