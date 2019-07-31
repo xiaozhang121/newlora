@@ -73,7 +73,7 @@ export default {
       let query = {
           monitorDeviceId: this.itemId,
           pageIndex: 1,
-          pageRows: 44321
+          pageRows: 10
       }
       if (that.itemData.monitorDeviceType) {
         query.deviceType = that.itemData.monitorDeviceType
