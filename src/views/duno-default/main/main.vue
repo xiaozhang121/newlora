@@ -42,14 +42,14 @@
         </el-main>
       </el-container>
     </el-container>
-    <el-container v-if="isBigScreen" style="height: 100%" class="main">
+    <el-container v-if="isBigScreen" style="height: 100%;width: 100%" class="main">
       <el-row>
         <el-col :span="24">
           <headerBig />
         </el-col>
       </el-row>
-      <el-container :style="{height: '100%',padding:'0 20px'}">
-        <el-row style="height:100%" :gutter="20">
+      <el-container :style="{height: '100%',width:'100%',padding:'0 20px'}">
+        <el-row style="height:100%; width: 100%" :gutter="20">
           <el-col style="height:100%" :span="8">
             <div class="lineTitle">功能卡片</div>
             <!-- <parentAlarm /> -->

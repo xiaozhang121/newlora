@@ -84,6 +84,7 @@ export default [{
         name: 'realEnvIndex',
         meta: {
             title: '全部电压',
+            topNav: '2',
             notCache: true,
             toListName: 'realEnvList',
             btnArr: [{
@@ -97,6 +98,7 @@ export default [{
             name: 'realEnvList',
             meta: {
                 title: '列表',
+                topNav: '2',
                 kind: 'all',
                 hideInMenu: true,
                 isDetails: true
@@ -109,6 +111,7 @@ export default [{
         name: 'kilovolt1000Index',
         meta: {
             title: '1000千伏',
+            topNav: '2',
             notCache: true,
             toListName: 'kilovolt1000List',
             btnArr: [{
@@ -123,6 +126,7 @@ export default [{
             meta: {
                 title: '列表',
                 kind: 1000,
+                topNav: '2',
                 hideInMenu: true,
                 isDetails: true
             },
@@ -134,6 +138,7 @@ export default [{
         name: 'kilovolt500Index',
         meta: {
             title: '500千伏',
+            topNav: '2',
             notCache: true,
             toListName: 'kilovolt500List',
             btnArr: [{
@@ -146,6 +151,7 @@ export default [{
             path: 'list',
             name: 'kilovolt500List',
             meta: {
+                topNav: '2',
                 title: '列表',
                 kind: 500,
                 hideInMenu: true,
@@ -158,6 +164,7 @@ export default [{
         path: 'kilovolt220',
         name: 'kilovolt220Index',
         meta: {
+            topNav: '2',
             title: '220千伏',
             notCache: true,
             toListName: 'kilovolt220List',
@@ -171,6 +178,7 @@ export default [{
             path: 'list',
             name: 'kilovolt220List',
             meta: {
+                topNav: '2',
                 title: '列表',
                 kind: 220,
                 hideInMenu: true,
@@ -183,6 +191,7 @@ export default [{
         path: 'kilovolt110',
         name: 'kilovolt110Index',
         meta: {
+            topNav: '2',
             title: '110千伏',
             notCache: true,
             toListName: 'kilovolt110List',
@@ -196,6 +205,7 @@ export default [{
             path: 'list',
             name: 'kilovolt110List',
             meta: {
+                topNav: '2',
                 title: '列表',
                 kind: 110,
                 hideInMenu: true,
@@ -208,6 +218,7 @@ export default [{
         path: 'kilovolt35',
         name: 'kilovolt35Index',
         meta: {
+            topNav: '2',
             title: '35千伏',
             notCache: true,
             toListName: 'kilovolt35List',
@@ -221,6 +232,7 @@ export default [{
             path: 'list',
             name: 'kilovolt35List',
             meta: {
+                topNav: '2',
                 title: '列表',
                 kind: 35,
                 hideInMenu: true,
@@ -233,6 +245,7 @@ export default [{
         path: 'kilovolt10',
         name: 'kilovolt10Index',
         meta: {
+            topNav: '2',
             title: '10千伏',
             notCache: true,
             toListName: 'kilovolt10List',
@@ -243,6 +256,7 @@ export default [{
         },
         component: parentView,
         children: [{
+            topNav: '2',
             path: 'list',
             name: 'kilovolt10List',
             meta: {
@@ -270,6 +284,7 @@ export default [{
         path: 'surveillancePath',
         name: 'surveillanceName',
         meta: {
+            topNav: '3',
             title: '视频监控',
             notCache: true,
             toListName: 'surveillanceList',
@@ -279,6 +294,7 @@ export default [{
             path: 'list',
             name: 'surveillanceList',
             meta: {
+                topNav: '3',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -289,6 +305,7 @@ export default [{
             path: 'detailLight',
             name: 'surveillanceListLight',
             meta: {
+                topNav: '3',
                 title: '可见光详情',
                 hideInMenu: true,
                 isDetails: true,
@@ -299,6 +316,7 @@ export default [{
             path: 'detailRed',
             name: 'surveillanceListRed',
             meta: {
+                topNav: '3',
                 title: '红外监测',
                 hideInMenu: true,
                 isDetails: true,
@@ -309,6 +327,7 @@ export default [{
             path: 'detailRedN',
             name: 'surveillanceListLightN',
             meta: {
+                topNav: '3',
                 title: '红外监测',
                 hideInMenu: true,
                 isDetails: true,
@@ -319,6 +338,7 @@ export default [{
             path: 'detailLightN',
             name: 'surveillanceListRedN',
             meta: {
+                topNav: '3',
                 title: '可见光详情',
                 hideInMenu: true,
                 isDetails: true,
@@ -329,6 +349,7 @@ export default [{
             path: 'areaVideo',
             name: 'surveillanceList',
             meta: {
+                topNav: '3',
                 title: '分区域视频流',
                 hideInMenu: true,
                 isDetails: true
@@ -352,6 +373,7 @@ export default [{
         path: 'abnormalInfoPath',
         name: 'abnormalInfoName',
         meta: {
+            topNav: '1',
             title: '功能卡片',
             notCache: true,
             toListName: 'abnormalInfoList',
@@ -361,6 +383,7 @@ export default [{
             path: 'home',
             name: 'abnormalInfoList',
             meta: {
+                topNav: '1',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -371,6 +394,7 @@ export default [{
             path: 'list',
             name: 'abnormalInfoList',
             meta: {
+                topNav: '1',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -394,6 +418,7 @@ export default [{
         path: 'environmental',
         name: 'environmental',
         meta: {
+            topNav: '2',
             title: '动态环境总览',
             notCache: true,
             toListName: 'environmentalList',
@@ -404,6 +429,7 @@ export default [{
             path: 'list',
             name: 'environmentalList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -414,6 +440,7 @@ export default [{
             path: 'security-all',
             name: 'security-all',
             meta: {
+                topNav: '2',
                 title: '所有动态环境警告',
                 icon: "icon-shouye",
                 hideInMenu: true,
@@ -428,6 +455,7 @@ export default [{
         path: 'environmental1000',
         name: 'environmental1000KV',
         meta: {
+            topNav: '2',
             title: '1000千伏',
             notCache: true,
             toListName: 'environmental1000KVList',
@@ -438,6 +466,7 @@ export default [{
             path: 'list',
             name: 'environmental1000KVList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -449,6 +478,7 @@ export default [{
         path: 'environmental500',
         name: 'environmental500KV',
         meta: {
+            topNav: '2',
             title: '500千伏',
             notCache: true,
             toListName: 'environmental500KVList',
@@ -459,6 +489,7 @@ export default [{
             path: 'list',
             name: 'environmental500KVList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -470,6 +501,7 @@ export default [{
         path: 'environmental220',
         name: 'environmental220KV',
         meta: {
+            topNav: '2',
             title: '220千伏',
             notCache: true,
             toListName: 'environmental220KVList',
@@ -480,6 +512,7 @@ export default [{
             path: 'list',
             name: 'environmental220KVList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -501,6 +534,7 @@ export default [{
             path: 'list',
             name: 'environmental110KVList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -512,6 +546,7 @@ export default [{
         path: 'environmental35',
         name: 'environmental35KV',
         meta: {
+            topNav: '2',
             title: '35千伏',
             notCache: true,
             toListName: 'environmental35KVList',
@@ -522,6 +557,7 @@ export default [{
             path: 'list',
             name: 'environmental35KVList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -533,6 +569,7 @@ export default [{
         path: 'environmental10',
         name: 'environmental10KV',
         meta: {
+            topNav: '2',
             title: '10千伏',
             notCache: true,
             toListName: 'environmental10KVList',
@@ -543,6 +580,7 @@ export default [{
             path: 'list',
             name: 'environmental10KVList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -566,6 +604,7 @@ export default [{
         path: 'visiblelight',
         name: 'visiblelight',
         meta: {
+            topNav: '2',
             title: '可见光',
             notCache: true,
             toListName: 'visiblelightList',
@@ -576,6 +615,7 @@ export default [{
             path: 'list',
             name: 'visiblelightList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -586,6 +626,7 @@ export default [{
             path: 'light-report',
             name: 'light-report',
             meta: {
+                topNav: '2',
                 title: '可见光',
                 hideInMenu: true,
                 isDetails: true,
@@ -597,6 +638,7 @@ export default [{
             path: 'light-info',
             name: 'light-info',
             meta: {
+                topNav: '2',
                 title: '可见光',
                 hideInMenu: true,
                 isDetails: true,
@@ -610,6 +652,7 @@ export default [{
         path: 'infrared',
         name: 'infrared',
         meta: {
+            topNav: '2',
             title: '红外测温',
             notCache: true,
             toListName: 'infraredList',
@@ -620,6 +663,7 @@ export default [{
             path: 'list',
             name: 'infraredList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -630,6 +674,7 @@ export default [{
             path: 'infrared-report',
             name: 'infrared-report',
             meta: {
+                topNav: '2',
                 title: '红外监测',
                 hideInMenu: true,
                 isDetails: true,
@@ -641,6 +686,7 @@ export default [{
             path: 'infrared-info',
             name: 'infrared-info',
             meta: {
+                topNav: '2',
                 title: '红外监测',
                 hideInMenu: true,
                 isDetails: true,
@@ -657,6 +703,7 @@ export default [{
     name: '_robot-inspection',
     component: Main,
     meta: {
+        topNav: '2',
         hide: true,
         isAlone: true,
         title: '机器人巡视',
@@ -666,6 +713,7 @@ export default [{
         path: 'robot-one',
         name: 'robot-one',
         meta: {
+            topNav: '2',
             title: '机器人一',
             notCache: true,
             toListName: 'robot-oneList',
@@ -676,6 +724,7 @@ export default [{
             path: 'list',
             name: 'robot-oneList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -686,6 +735,7 @@ export default [{
             path: 'report',
             name: 'robot-oneList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true,
@@ -698,6 +748,7 @@ export default [{
             name: 'robot-oneList',
             active: "robot-oneList",
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true,
@@ -711,6 +762,7 @@ export default [{
         path: 'robot-two',
         name: 'robot-two',
         meta: {
+            topNav: '2',
             title: '机器人二',
             notCache: true,
             toListName: 'robot-twoList',
@@ -721,6 +773,7 @@ export default [{
             path: 'list',
             name: 'robot-twoList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -731,6 +784,7 @@ export default [{
             path: 'report',
             name: 'robot-twoList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true,
@@ -743,6 +797,7 @@ export default [{
             name: 'robot-twoList',
             active: "robot-oneList",
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true,
@@ -767,6 +822,7 @@ export default [{
         path: 'ticket',
         name: 'ticket',
         meta: {
+            topNav: '2',
             title: '工作任务',
             notCache: true,
             toListName: 'ticketList',
@@ -777,6 +833,7 @@ export default [{
             path: 'list',
             name: 'ticketList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -788,6 +845,7 @@ export default [{
         path: 'inspection',
         name: 'inspection',
         meta: {
+            topNav: '2',
             title: '巡视报告',
             notCache: true,
             toListName: 'inspectionList',
@@ -798,6 +856,7 @@ export default [{
             path: 'list',
             name: 'inspectionList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -809,6 +868,7 @@ export default [{
         path: 'video',
         name: 'video',
         meta: {
+            topNav: '2',
             title: '视频视频',
             notCache: true,
             toListName: 'videoList',
@@ -819,6 +879,7 @@ export default [{
             path: 'list',
             name: 'videoList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -833,6 +894,7 @@ export default [{
     name: '_configuration',
     component: Main,
     meta: {
+        topNav: '2',
         hide: true,
         isAlone: true,
         title: '配置管理',
@@ -842,6 +904,7 @@ export default [{
         path: 'configuration',
         name: 'configuration',
         meta: {
+            topNav: '2',
             title: '任务配置',
             notCache: true,
             toListName: 'configurationList',
@@ -852,6 +915,7 @@ export default [{
             path: 'list',
             name: 'configurationList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -862,6 +926,7 @@ export default [{
             path: 'configure-report',
             name: 'configure-report',
             meta: {
+                topNav: '2',
                 title: '任务配置',
                 hideInMenu: true,
                 isDetails: true,
@@ -873,6 +938,7 @@ export default [{
             path: 'configure-view',
             name: 'configure-view',
             meta: {
+                topNav: '2',
                 title: '任务配置',
                 hideInMenu: true,
                 isDetails: true,
@@ -886,6 +952,7 @@ export default [{
         path: 'detection',
         name: 'detection',
         meta: {
+            topNav: '2',
             title: '监测设备管理',
             notCache: true,
             toListName: 'detectionList',
@@ -896,6 +963,7 @@ export default [{
             path: 'list',
             name: 'detectionList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -906,6 +974,7 @@ export default [{
             path: 'detection-report',
             name: 'detection-report',
             meta: {
+                topNav: '2',
                 title: '任务配置',
                 hideInMenu: true,
                 isDetails: true,
@@ -948,12 +1017,14 @@ export default [{
         hide: true,
         isAlone: true,
         title: '所有报表',
-        notCache: true
+        notCache: true,
+        topNav: '2'
     },
     children: [{
         path: 'report',
         name: 'report',
         meta: {
+            topNav: '2',
             title: '巡检任务报表',
             icon: "icon-shouye",
             notCache: true,
@@ -965,6 +1036,7 @@ export default [{
             path: 'list',
             name: 'reportList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -975,6 +1047,7 @@ export default [{
             path: 'report-view',
             name: 'report-view',
             meta: {
+                topNav: '2',
                 title: '全面巡视',
                 hideInMenu: true,
                 isDetails: true,
@@ -988,6 +1061,7 @@ export default [{
         path: 'meterdata',
         name: 'meterdata',
         meta: {
+            topNav: '2',
             title: '表计分析',
             icon: "icon-shouye",
             notCache: true,
@@ -999,6 +1073,7 @@ export default [{
             path: 'list',
             name: 'meterdataList',
             meta: {
+                topNav: '2',
                 title: '列表',
                 hideInMenu: true,
                 isDetails: true
@@ -1009,6 +1084,7 @@ export default [{
             path: 'meterdata-detail',
             name: 'meterdata-detail',
             meta: {
+                topNav: '2',
                 title: '所有表计分析',
                 hideInMenu: true,
                 isDetails: true,

@@ -60,7 +60,7 @@ export default {
         const that = this
         let deviceType = obj.value
         let index = obj.index
-        getAlarmHistory({pageIndex:1, pageRows:44321, areaId: that.areaList[index]['areaId'], deviceType: deviceType}).then(res=>{
+        getAlarmHistory({pageIndex:1, pageRows:10, areaId: that.areaList[index]['areaId'], deviceType: deviceType}).then(res=>{
             that.dataList[index]['dataList'] = res.data.tableData
             that.$forceUpdate()
         })
@@ -85,7 +85,7 @@ export default {
         for(let i=0; i<that.areaList.length; i++){
             methodList.push(
                 function () {
-                    return getAlarmHistory({pageIndex:1, pageRows:44321, areaId: that.areaList[i]['areaId']})
+                    return getAlarmHistory({pageIndex:1, pageRows:10, areaId: that.areaList[i]['areaId']})
                 }
             )
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="abnormalInfo">
+  <div class="abnormalInfod">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
@@ -608,242 +608,6 @@ export default {
 .main .content-wrapper {
   padding-top: 0;
 }
-
-.abnormalInfo {
-  width: 100%;
-  .btnClass {
-    border-radius: 15px;
-    background: #3a81a1;
-    margin: auto;
-    border: none;
-    &.grey {
-      background: #979797;
-      color: #767676;
-    }
-  }
-  //-------------------表格样式
-  .dunoMain {
-    height: inherit;
-  }
-  .ivu-table {
-    font-size: 16px;
-  }
-  .ivu-table th {
-    color: #fff;
-    border: none;
-    height: 60px;
-    background-color: #2d5980 !important;
-    font-size: 18px;
-    font-weight: normal;
-  }
-  .ivu-page {
-    text-align: center;
-    .ivu-page-total {
-      display: none;
-    }
-    .ivu-page-item-jump-next:after,
-    .ivu-page-item-jump-prev:after {
-      color: white;
-    }
-    .ivu-page-next,
-    .ivu-page-prev {
-      background: transparent;
-      display: none;
-      border: none;
-    }
-    .ivu-page-item {
-      background: transparent !important;
-      border: none !important;
-      min-width: 16px;
-      height: 28px;
-      a {
-        color: white;
-      }
-    }
-    .ivu-page-options {
-      display: none;
-    }
-    .ivu-page-item-active {
-      border-bottom: 1px solid #2d8cf0 !important;
-      border-radius: 0;
-      a {
-        color: #2d8cf0;
-      }
-    }
-  }
-  .ivu-table-wrapper {
-    tr {
-      td {
-        height: 60px;
-      }
-    }
-    tr:nth-child(odd) {
-      td {
-        background: rgba(0, 0, 0, 0) !important;
-      }
-    }
-    tr:nth-child(even) {
-      td {
-        background-color: #2a526c;
-      }
-    }
-  }
-  .ivu-select-dropdown {
-    background: white !important;
-  }
-  .ivu-table-small td {
-    background: black;
-  }
-  //------------------
-  .el-button--text {
-    border-color: transparent !important;
-    background: transparent !important;
-  }
-  .flexPos {
-    display: flex;
-    align-items: center;
-  }
-  .imgOrMv {
-    width: 80%;
-    height: 45px;
-    position: relative;
-    top: 2px;
-  }
-  .table_link {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: block;
-    font-size: 16px;
-    color: #5fafff !important;
-    text-decoration: underline;
-  }
-  .table_abnormalInfo {
-    padding: 36px 18px;
-  }
-  .table_select {
-    cursor: pointer;
-    color: #1d1f26;
-    span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 30px;
-      border-radius: 20px;
-    }
-    &.serious {
-      span {
-        background: #f4a723;
-      }
-    }
-    &.commonly {
-      span {
-        background: #5eb0fc;
-      }
-    }
-    &.danger {
-      span {
-        background: #d0011b;
-      }
-    }
-  }
-  .top {
-    color: #ffffff;
-    height: 40px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    & > div:first-child {
-      color: #fff;
-      font-size: 20px;
-      line-height: 40px;
-    }
-    .btn {
-      display: flex;
-      justify-content: space-between;
-      & > div {
-        margin-left: 10px;
-        .dunoBtnTop {
-          width: 120px;
-          display: inline-flex;
-          padding-bottom: 0;
-          .btnList {
-            top: inherit !important;
-            // line-height: 30px;
-            width: 120px;
-            .title {
-              // font-size: 16px;
-              padding: 8px 20px;
-            }
-          }
-        }
-      }
-      & > div:nth-child(4) {
-        & > div {
-          width: 140px;
-          line-height: 40px;
-          text-align: center;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          cursor: pointer;
-        }
-      }
-      & > div:last-child {
-        font-size: 22px;
-      }
-      .dateChose {
-        .el-date-editor {
-          background-color: #192f41;
-          border: none;
-          .el-range-input {
-            background-color: rgba(81, 89, 112, 0);
-          }
-          .el-range-separator {
-            font-size: 20px;
-            color: #fff;
-          }
-          .el-range-input {
-            color: #fff;
-          }
-        }
-        .el-range-editor--small.el-input__inner {
-          height: 40px !important;
-        }
-        .el-range-editor--small .el-range__icon,
-        .el-range-editor--small .el-range__close-icon {
-          line-height: 35px;
-        }
-        .el-range-editor--small .el-range-input {
-          font-size: 16px;
-        }
-      }
-    }
-  }
-  .icon-xiala {
-    color: white;
-    font-size: 13px;
-  }
-  .dropSelf {
-    .icon-xiala {
-      font-size: 9px;
-      position: absolute;
-      width: 12px !important;
-      height: 15px !important;
-      right: 20px;
-      top: 14px;
-    }
-  }
-}
-.setting {
-  cursor: pointer;
-  i {
-    font-size: 25px;
-    position: relative;
-    top: 3px;
-    padding-right: 5px;
-  }
-}
 .el-picker-panel {
   background-color: rgba(27, 59, 71, 0.7);
   color: #fff;
@@ -858,4 +622,241 @@ export default {
     }
   }
 }
+</style>
+<style lang="scss">
+  .abnormalInfod {
+    width: 100%;
+    .btnClass {
+      border-radius: 15px;
+      background: #3a81a1;
+      margin: auto;
+      border: none;
+      &.grey {
+        background: #979797;
+        color: #767676;
+      }
+    }
+    //-------------------表格样式
+    .dunoMain {
+      height: inherit;
+    }
+    .ivu-table {
+      font-size: 16px;
+    }
+    .ivu-table th {
+      color: #fff;
+      border: none;
+      height: 60px;
+      background-color: #2d5980 !important;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    .ivu-page {
+      text-align: center;
+      .ivu-page-total {
+        display: none;
+      }
+      .ivu-page-item-jump-next:after,
+      .ivu-page-item-jump-prev:after {
+        color: white;
+      }
+      .ivu-page-next,
+      .ivu-page-prev {
+        background: transparent;
+        display: none;
+        border: none;
+      }
+      .ivu-page-item {
+        background: transparent !important;
+        border: none !important;
+        min-width: 16px;
+        height: 28px;
+        a {
+          color: white;
+        }
+      }
+      .ivu-page-options {
+        display: none;
+      }
+      .ivu-page-item-active {
+        border-bottom: 1px solid #2d8cf0 !important;
+        border-radius: 0;
+        a {
+          color: #2d8cf0;
+        }
+      }
+    }
+    .ivu-table-wrapper {
+      tr {
+        td {
+          height: 60px;
+        }
+      }
+      tr:nth-child(odd) {
+        td {
+          background: rgba(0, 0, 0, 0) !important;
+        }
+      }
+      tr:nth-child(even) {
+        td {
+          background-color: #2a526c;
+        }
+      }
+    }
+    .ivu-select-dropdown {
+      background: white !important;
+    }
+    .ivu-table-small td {
+      background: black;
+    }
+    //------------------
+    .el-button--text {
+      border-color: transparent !important;
+      background: transparent !important;
+    }
+    .flexPos {
+      display: flex;
+      align-items: center;
+    }
+    .imgOrMv {
+      width: 80%;
+      height: 45px;
+      position: relative;
+      top: 2px;
+    }
+    .table_link {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: block;
+      font-size: 16px;
+      color: #5fafff !important;
+      text-decoration: underline;
+    }
+    .table_abnormalInfo {
+      padding: 36px 18px;
+    }
+    .table_select {
+      cursor: pointer;
+      color: #1d1f26;
+      span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 30px;
+        border-radius: 20px;
+      }
+      &.serious {
+        span {
+          background: #f4a723;
+        }
+      }
+      &.commonly {
+        span {
+          background: #5eb0fc;
+        }
+      }
+      &.danger {
+        span {
+          background: #d0011b;
+        }
+      }
+    }
+    .top {
+      color: #ffffff;
+      height: 40px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      & > div:first-child {
+        color: #fff;
+        font-size: 20px;
+        line-height: 40px;
+      }
+      .btn {
+        display: flex;
+        justify-content: space-between;
+        & > div {
+          margin-left: 10px;
+          .dunoBtnTop {
+            width: 120px;
+            display: inline-flex;
+            padding-bottom: 0;
+            .btnList {
+              top: inherit !important;
+              // line-height: 30px;
+              width: 120px;
+              .title {
+                // font-size: 16px;
+                padding: 8px 20px;
+              }
+            }
+          }
+        }
+        & > div:nth-child(4) {
+          & > div {
+            width: 140px;
+            line-height: 40px;
+            text-align: center;
+            background-image: url(../../../assets/images/btn/moreBtn.png);
+            cursor: pointer;
+          }
+        }
+        & > div:last-child {
+          font-size: 22px;
+        }
+        .dateChose {
+          .el-date-editor {
+            background-color: #192f41;
+            border: none;
+            .el-range-input {
+              background-color: rgba(81, 89, 112, 0);
+            }
+            .el-range-separator {
+              font-size: 20px;
+              color: #fff;
+            }
+            .el-range-input {
+              color: #fff;
+            }
+          }
+          .el-range-editor--small.el-input__inner {
+            height: 40px !important;
+          }
+          .el-range-editor--small .el-range__icon,
+          .el-range-editor--small .el-range__close-icon {
+            line-height: 35px;
+          }
+          .el-range-editor--small .el-range-input {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    .icon-xiala {
+      color: white;
+      font-size: 13px;
+    }
+    .dropSelf {
+      .icon-xiala {
+        font-size: 9px;
+        position: absolute;
+        width: 12px !important;
+        height: 15px !important;
+        right: 20px;
+        top: 14px;
+      }
+    }
+  }
+  .setting {
+    cursor: pointer;
+    i {
+      font-size: 25px;
+      position: relative;
+      top: 3px;
+      padding-right: 5px;
+    }
+  }
 </style>

@@ -12,15 +12,20 @@
                   :options="playerOptiond"
           ></video-player>
         </div>
-        <div class="itemImgBox" v-else>
-          <img style="width: 100%; height: 100%" :src="demoImage">
+        <div class="itemImgBox"   style="width: 228px; height: 150px" v-else>
+          <video-player
+                  @mousemove.native="pointerPos($event)"
+                  @mouseout.native="clearTimer()"
+                  ref="videoPlayer"
+                  class="vjs-custom-skin realtime_video"
+                  :options="playerOptionf"
+          ></video-player>
+          <!--<img style="width: 100%; height: 100%" :src="demoImage">-->
         </div>
       </el-col>
       <el-col :span="12" v-if="monitorDeviceType != 1 && monitorDeviceType != 3 && !isShowClassify">
         <div class="itemImgBox"
              style="width: 228px; height: 150px"
-             @mousemove="pointerPos($event)"
-             @mouseout="clearTimer()"
         >
           <video-player
                   ref="videoPlayerd"
@@ -49,6 +54,7 @@
       postAxiosData,
       putAxiosData
   } from "@/api/axiosType";
+  import videojs from 'video.js'
   import "video.js/dist/video-js.css";
   import { videoPlayer } from "vue-video-player";
   import "videojs-flash";
@@ -76,6 +82,19 @@
                 controls: false
             },
             playerOptiond: {
+                width: 228,
+                height: 150,
+                sources: [
+                    {
+                        type: "rtmp/flv",
+                        src: ""
+                    }
+                ],
+                techOrder: ["flash"],
+                autoplay: true,
+                controls: false
+            },
+            playerOptionf: {
                 width: 228,
                 height: 150,
                 sources: [
@@ -187,11 +206,32 @@
                     that.$forceUpdate();
                 });
             } else if (this.monitorDeviceType == 2) {
-                const urld = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
+               /* const urld = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urld, {}).then(res => {
                     that.playerOptions.sources[0].src = res.data;
                     that.$forceUpdate();
+                });*/
+                getAxiosData("/lenovo-iir/device/video/isplaying/" + that.deviceId).then(
+                    res => {
+                        let isPlay = res.data.data;
+                        if (isPlay) {
+                            return;
+                        } else {
+                            putAxiosData("/lenovo-iir/device/video/play/" + that.deviceId);
+                        }
+                    }
+                );
+                const urldd = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
+                getAxiosData(urldd, {}).then(res => {
+                    that.playerOptionf.sources[0].src = res.data.data;
+                    that.$forceUpdate();
                 });
+                const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
+                getAxiosData(urld, {}).then(res => {
+                    that.playerOptions.sources[0].src = res.data.data;
+                    that.$forceUpdate();
+                });
+
             }
         }
     },
@@ -202,16 +242,6 @@
         if (this.classifyData && this.isClassify) {
             console.log("初始化加载：", this.classifyData, "相");
         }
-        getAxiosData("/lenovo-iir/device/video/isplaying/" + this.deviceId).then(
-            res => {
-                let isPlay = res.data.data;
-                if (isPlay) {
-                    return;
-                } else {
-                    putAxiosData("/lenovo-iir/device/video/play/" + this.deviceId);
-                }
-            }
-        );
     }
     //关闭视频接口
     // destroyed() {
