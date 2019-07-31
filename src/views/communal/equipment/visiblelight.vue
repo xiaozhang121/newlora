@@ -169,7 +169,7 @@ export default {
     },
     getMoreReport() {
       this.$router.push({
-        name: "light-report",
+        name: "light-info",
         params: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/plan/visible-report/list",

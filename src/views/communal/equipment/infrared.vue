@@ -233,7 +233,7 @@ export default {
     },
     getMoreReport() {
       this.$router.push({
-        name: "infrared-report",
+        name: "infrared-info",
         params: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/plan/iir-report/list",
