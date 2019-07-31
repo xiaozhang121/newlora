@@ -30,6 +30,7 @@
             :time="item.alarmTime"
             :remarks="item.dealList"
             :key="index"
+            @handleListData="handleListData"
           />
         </div>
       </div>
@@ -72,10 +73,44 @@ export default {
   name: "visiblelightTep",
   data() {
     return {
-      mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-device/api/main-device/list"
-      },
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/lenovo-device/api/main-device/list"
+      // },
+      dataList: [
+        {
+          fileAddress: require("../../../assets/demo/001.png"),
+          deviceName: "4号主变"
+        },
+        {
+          fileAddress: require("../../../assets/demo/002.png"),
+          deviceName: "4号主变5093开关"
+        },
+        {
+          fileAddress: require("../../../assets/demo/003.png"),
+          deviceName: "4号主变71号电容器"
+        },
+        {
+          fileAddress: require("../../../assets/demo/004.png"),
+          deviceName: "4号主变72号电容器"
+        },
+        {
+          fileAddress: require("../../../assets/demo/005.png"),
+          deviceName: "4号主变73号低抗"
+        },
+        {
+          fileAddress: require("../../../assets/demo/006.png"),
+          deviceName: "4号主变T043开关"
+        },
+        {
+          fileAddress: require("../../../assets/demo/007.png"),
+          deviceName: "安塘线/4号主变T042开关"
+        },
+        {
+          fileAddress: require("../../../assets/demo/008.png"),
+          deviceName: "练亭线/4号主变5092开关"
+        }
+      ],
       isCenter: false,
       valueSelect: "",
       dataMonitor: [],
@@ -176,6 +211,8 @@ export default {
       infraNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
       });
+    },
+    getlightInfo() {
       let data = {
         pageIndex: 1,
         pageRows: 4
@@ -199,14 +236,18 @@ export default {
         name: "infrared-report",
         params: {
           title: "红外监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list",
+          url: "/lenovo-plan/api/plan/iir-report/list",
           dataBread: ["操作中台", "设备监测", "红外监测", "最新巡检报表"]
         }
       });
+    },
+    handleListData() {
+      this.getlightInfo();
     }
   },
   mounted() {
     this.getlightData();
+    this.getlightInfo();
   },
   created() {
     this.getInit();
@@ -338,7 +379,6 @@ export default {
         img {
           display: block;
           width: 100%;
-          padding-bottom: 100%;
         }
         p {
           text-align: center;

@@ -107,7 +107,7 @@ export default {
     addReturn() {
       const that = this;
       let query = {
-        alarmId: that.remarkData.alarmId,
+        alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
         type: "1"
       };
       dealRemarks(query).then(res => {
@@ -121,7 +121,7 @@ export default {
       const that = this;
       this.dialogVisible = false;
       let query = {
-        alarmId: that.remarkData.alarmId,
+        alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
         type: "2",
         content: that.textarea
       };

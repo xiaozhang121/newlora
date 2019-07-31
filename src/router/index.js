@@ -16,7 +16,6 @@ router.beforeEach((to, from, next) => {
   if('kind' in to.meta){
       store.state.app.kilovolt = to.meta.kind
   }
-  debugger
   if(to.name.indexOf('abnormalInfoList')>-1){
       store.state.app.topNav = 1
   }else if(to.name.indexOf('realEnv')>-1 || to.name.indexOf('detectionList')>-1 || to.name.indexOf('reportList')>-1){
