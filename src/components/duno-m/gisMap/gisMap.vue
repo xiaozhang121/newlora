@@ -126,7 +126,7 @@ export default {
         },
         mapUrl:{
             type: String,
-            default: 'http://10.0.10.45:8090'
+            default: 'http://10.0.10.200:31088'
         },
         kind:{
             type: [String, Number],
