@@ -93,7 +93,6 @@ export default {
       }
       getAxiosData(url, query).then(res => {
         that.dataListLoading = false
-          debugger
         if (res.code !== 200 && res.data.code != 200 && !('details' in res.data)) {
           that.dataList = []
           that.totalNum = 0
