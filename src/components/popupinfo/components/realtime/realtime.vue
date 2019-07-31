@@ -237,6 +237,7 @@
     },
     created() {
         this.initCamera();
+        // videojs.options.flash.swf = this.videoTarget
     },
     mounted() {
         if (this.classifyData && this.isClassify) {

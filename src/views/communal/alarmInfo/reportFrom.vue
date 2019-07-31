@@ -124,6 +124,10 @@ export default {
 .duno-reportFrom {
   width: 100%;
   height: 100%;
+  .icon-xiala{
+    width: 12px ;
+    height: 16px;
+  }
   .dunoDrap {
     display: flex;
     justify-content: space-between;

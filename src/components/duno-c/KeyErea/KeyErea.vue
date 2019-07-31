@@ -341,7 +341,6 @@ export default {
     const that = this;
     console.log("destory");
     that.saveCamera();
-    window.removeEventListener("beforeunload", this.beforeunload);
   },
   created() {
     this.initData();

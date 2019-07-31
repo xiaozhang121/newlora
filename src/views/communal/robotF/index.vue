@@ -15,17 +15,17 @@
             <KeyMonitor
               class="keyMonitor"
               :autoplay="true"
-              streamAddr="rtmp://10.0.10.39/rtsp/stream100"
+              streamAddr="rtmp://10.0.10.39/rtsp59/stream"
             />
           </div>
         </div>
         <div class="item">
-          <div class="nr">
+          <div class="nr redCamera">
             <!--:streamAddr="cameraPath['rtspINF']"-->
             <KeyMonitor
                 class="keyMonitor"
                 :autoplay="true"
-                streamAddr="rtmp://10.0.10.39/rtsp/stream101"
+                streamAddr="rtmp://10.0.10.39/rtsp60/stream"
             />
           </div>
         </div>
@@ -211,6 +211,12 @@ export default {
   color: white;
   width: 100%;
   height: 100%;
+  .redCamera{
+    .video-player.vjs-custom-skin{
+      transform: scale(1,1.38);
+      transform-origin: left top;
+    }
+  }
   .breadcrumb{
     margin-bottom: 15px;
   }

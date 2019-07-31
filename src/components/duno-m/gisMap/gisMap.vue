@@ -317,7 +317,7 @@ export default {
             })
             let value = []
             arr.forEach((item)=>{
-                value.push(item['deviceId'])
+                value.push(item['deviceIdStr'])
             })
             this.drawList[index]['value'] = value
             this.drawList[index]['options'] = arr
@@ -447,6 +447,7 @@ export default {
             })
             arr.forEach((item,index)=>{
                 let anchor = null
+                debugger
                 if(that.isDiagram == 1){
                     anchor = new Feature({
                         geometry: new Point(transform([item['xLoc'],item['yLoc']], 'EPSG:3857' ,'EPSG:4326'))
@@ -459,6 +460,7 @@ export default {
                 anchor.setStyle( style )
                 anchor.setId(index)
                 anchor.set('dataInfo', JSON.stringify(item))
+                anchor.set('dataFlag', '1')
                 anchor.set('dataId', index)
                 this.vector.getSource().addFeature(anchor)
                 anchor.on('mousein',function (event) {

@@ -53,6 +53,7 @@
         },
         data() {
             return {
+                isFirst: true,
                 workTime: '',
                 state: 1,
                 stateF: 1,
@@ -154,7 +155,8 @@
                         try{
                         that.clearLine()
                         that.$refs.gisMapObj.setDrawLine(arr, 0, [10, 10])
-                        if(arr.length && !that.robotStatus['curLocation']){
+                        if(arr.length && !that.robotStatus['curLocation'] && that.isFirst){
+                            that.isFirst = false
                             that.$refs.gisMapObj.setCenter({cadX:arr[0][0], cadY: arr[0][1], flag: true})
                         }
                         that.$refs.gisMapObj.setDrawLine(arrT, 1, [0, 0])
