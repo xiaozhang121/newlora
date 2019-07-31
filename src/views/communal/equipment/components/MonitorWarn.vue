@@ -1,11 +1,7 @@
 <template>
   <div class="alarmLog">
     <div class="img">
-      <KeyMonitor
-        streamAddr="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-        :imgAdress="remarkData.alarmFileAddress"
-        :monitorInfo="remarkData"
-      />
+      <img :src="remarkData.pic" alt />
     </div>
     <div class="content">
       <div class="top">
@@ -164,8 +160,10 @@ export default {
   .img {
     width: 40%;
     height: 100%;
-    .keyMonitor {
-      width: 100% !important;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   }
   .content {

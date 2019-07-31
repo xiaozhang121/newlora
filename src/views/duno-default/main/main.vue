@@ -253,7 +253,6 @@ export default {
     window.addEventListener("resize", function() {
       that.getWidth();
     });
-    debugger 
     if (this.user.isHeader == 1) {
       that.isShowHeader = true;
     } else if (this.user.isHeader == 2) {

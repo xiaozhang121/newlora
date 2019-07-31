@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="dunoDrap">
-      <div>巡检任务报表</div>
+      <div></div>
       <div class="selectBtn">
         <div>
           <duno-btn-top
@@ -116,6 +116,11 @@ export default {
   },
   mounted() {
     this.getPlayTypeData();
+    this.getDataList();
+  },
+  created() {
+    this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
+    this.dataBread = this.$route.params.dataBread;
   }
 };
 </script>
