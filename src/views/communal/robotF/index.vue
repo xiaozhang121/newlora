@@ -48,6 +48,7 @@
         </div>
       </div>
     </div>
+    <popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="visible" @onClose="alarmClose" :visible="visible"></popup-one-info>
   </div>
 </template>
 
@@ -63,7 +64,7 @@ import ReportTable from '_c/duno-c/ReportTable'
 import rouTineInspection from '_c/duno-m/rouTineInspection'
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { mapState } from 'vuex'
-
+import { popupinfo, popupOneInfo, popupinfod } from '_c/popupinfo'
 export default {
   mixins: [mixinViewModule],
   name: 'RoleIndex',
@@ -75,12 +76,16 @@ export default {
       KeyMonitor,
       ReportTable,
       buttonCustom,
-      reportData
+      reportData,
+      popupOneInfo
   },
   computed:{
     ...mapState([
         'user'
     ]),
+    isAlarm(){
+        return this.$store.state.user.isAlarm
+    },
     newsReportLength(){
         if(this.newsReport.length % 5 !=0){
             let base = parseInt(this.newsReport.length / 5)
@@ -93,6 +98,7 @@ export default {
   data () {
     const that = this
     return {
+        visible: false,
         ischange: false,
         timer: null,
         socketUrl: '10.0.0.1',
@@ -112,6 +118,13 @@ export default {
     }
   },
   watch: {
+      isAlarm:{
+          handler(now){
+              this.visible = now
+          },
+          deep: true,
+          immediate: true
+      },
       '$route' (to) {
           clearInterval(this.timer)
           this.routeName = to.name
@@ -150,6 +163,10 @@ export default {
       }
   },
   methods: {
+      alarmClose(){
+          this.visible = false
+          this.$store.state.user.isAlarm = false
+      },
       onFresh(){
           this.initReport()
       },

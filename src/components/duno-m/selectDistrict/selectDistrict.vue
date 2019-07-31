@@ -16,7 +16,7 @@
                 </div>
             </span>
             <div class="main">
-                <gis-map v-if="dialogVisible" :isDiagram="2" :powerPointList="disgramList"  ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
+                <gis-map v-if="dialogVisible" :noZoomLimit="true" :isDiagram="2" :powerPointList="disgramList"  ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
             </div>
             <ul class="drawList">
                 <li class="drawItem" v-for="(item, index) in drawList" :key="index">
@@ -159,6 +159,7 @@ export default {
             this.readOnly = !this.readOnly
         },
         handleClose(){
+            this.drawList = []
             this.$emit('on-close')
         }
     },

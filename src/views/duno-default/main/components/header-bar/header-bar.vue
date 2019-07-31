@@ -36,16 +36,14 @@ export default {
     collapsed: Boolean
   },
   watch:{
-      activeBtn(now){
+      activeBtn(now, old){
           this.$store.state.app.topNav = now
           sessionStorage.setItem('topNav', now)
           if(now == 3){
-              if(this.$route.name.indexOf('surveillanceList')<0)
                 this.$router.push({name:'surveillanceList'})
           }else if(now == 2){
               this.$router.push({name:'_realEnv'})
           }else if(now == 1){
-              if(this.$route.name != 'abnormalInfoList')
                 this.$router.push({name:'abnormalInfoList'})
           }
       }
@@ -57,6 +55,7 @@ export default {
   },
   methods: {
     activeChange(flag){
+        debugger
         this.activeBtn = flag
         this.$store.state.app.topNav = flag
     },
@@ -71,6 +70,7 @@ export default {
     }
   },
   created(){
+      debugger
       this.activeBtn = this.$store.state.app.topNav
   },
   mounted (){

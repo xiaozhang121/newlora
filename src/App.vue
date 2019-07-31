@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
-    <audio :src="audio" loop="loop" autoplay="autoplay">
+    <audio v-if="$store.state.user.isAlarm" :src="audio" loop="loop" autoplay="autoplay">
     </audio>
   </div>
 </template>
@@ -85,6 +85,7 @@ export default {
           // }
           that.Socket.onmessage = function (evt) { // 接收数据 websocket
             let receivedMsg = JSON.parse(evt.data)
+              debugger
             clearInterval(that.SocketTime)
             that.SocketTime = null
             that.isSocketOk = true
@@ -99,6 +100,7 @@ export default {
             }else{
                   that.audio = null
             }
+
           /*  const account = that.$store.state.user.account
             let num = 0
             for (let i = 0; i < receivedMsg.length; i++) {

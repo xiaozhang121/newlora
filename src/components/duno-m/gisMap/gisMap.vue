@@ -84,6 +84,10 @@ export default {
         }
     },
     props: {
+        noZoomLimit:{
+            type: Boolean,
+            default: false
+        },
         rebot:{
             type: Boolean,
             default: false
@@ -447,7 +451,6 @@ export default {
             })
             arr.forEach((item,index)=>{
                 let anchor = null
-                debugger
                 if(that.isDiagram == 1){
                     anchor = new Feature({
                         geometry: new Point(transform([item['xLoc'],item['yLoc']], 'EPSG:3857' ,'EPSG:4326'))
@@ -464,7 +467,7 @@ export default {
                 anchor.set('dataId', index)
                 this.vector.getSource().addFeature(anchor)
                 anchor.on('mousein',function (event) {
-                if(that.mapTarget.getView().getZoom()>15 || that.isDiagram == 1) {
+                if(event.target.values_.dataFlag == 1 && (that.mapTarget.getView().getZoom()>15 || that.isDiagram == 1 || that.noZoomLimit)) {
                     let item = JSON.parse(event.target.values_.dataInfo)
                     that.clickTarget = item
                     let anchor = null
@@ -492,6 +495,10 @@ export default {
                     that.vector.getSource().addFeature(anchor)
                     /*   let feature = that.vector.getSource().getFeatureById(event.target.values_.dataId)
                 that.vector.getSource().removeFeature(feature)*/
+                }else{
+                    let feature = that.vector.getSource().getFeatureById('pointName')
+                    that.vector.getSource().removeFeature(feature)
+                    that.clickTarget = null
                 }
                 })
             })

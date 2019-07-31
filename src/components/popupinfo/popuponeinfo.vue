@@ -96,11 +96,14 @@
 <script>
 import HistoricalDocuments from "_c/duno-c/HistoricalDocuments";
 import buttonCustom from "_c/duno-m/buttonCustom";
+import videojs from 'video.js'
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import "video.js/dist/video-js.css";
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { truncate } from "fs";
+import SWF_URL from 'videojs-swf/dist/video-js.swf'
+videojs.options.flash.swf = SWF_URL
 export default {
   name: "popuponeinfo",
   components: { HistoricalDocuments, videoPlayer, buttonCustom },

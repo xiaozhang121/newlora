@@ -93,6 +93,7 @@ export default {
   data() {
     const that = this
     return {
+      timer: null,
       taskId: '',
       routeName: '',
       taskNormalData: '',
@@ -388,7 +389,6 @@ export default {
       let substationId = this.$route.query.substationId
       let robotId = this.$route.query.robotId
       getAxiosData('/lenovo-robot/rest/specialTasks',{substationId:substationId, robotId:robotId, pageIndex:this.specialInspectList['pageIndex'], pageRows:this.specialInspectList['pageRows']}).then(res=>{
-          debugger
           let data = res.data['specialTasks']
           data.map(item=>{
               item['start'] = 1
@@ -403,6 +403,12 @@ export default {
   },
   created(){
       this.initData()
+      this.timer = setInterval(()=>{
+          this.getInfor()
+      },1000)
+  },
+  beforeDestroy(){
+      clearInterval(this.timer)
   },
   mounted() {
     this.getInfor();

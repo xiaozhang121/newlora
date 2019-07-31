@@ -1,6 +1,6 @@
 <template>
   <div class="surveillance">
-     <div class="title">
+     <div class="title" style="margin-bottom: 15px">
        <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
        <i class="iconfont icon-shangxiabuju" v-else></i>
        <span class="nr">{{ layoutTypeName }}</span>

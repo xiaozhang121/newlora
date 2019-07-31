@@ -2,7 +2,7 @@
   <div class="warningDialog">
     <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
-        <div class="title_top">{{ warnData.deviceName+'-'+ warnData.recognType}}</div>
+        <div class="title_top">{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</div>
         <!--<div class="extend">{{ dataList.alarmTypeValue }}</div>-->
       </div>
       <div class="main">

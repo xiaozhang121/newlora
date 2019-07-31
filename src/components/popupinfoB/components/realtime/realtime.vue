@@ -45,8 +45,11 @@ import {
   putAxiosData
 } from "@/api/axiosType";
 import "video.js/dist/video-js.css";
+import videojs from 'video.js'
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
+import SWF_URL from 'videojs-swf/dist/video-js.swf'
+videojs.options.flash.swf = SWF_URL
 export default {
   name: "realtimeTem",
   components: { videoPlayer },
