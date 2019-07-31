@@ -16,9 +16,9 @@ router.beforeEach((to, from, next) => {
   if('kind' in to.meta){
       store.state.app.kilovolt = to.meta.kind
   }
-  if(to.name.indexOf('abnormalInfoList')>-1){
+  if(to.meta.topNav == '1' || to.name.indexOf('abnormalInfoList')>-1){
       store.state.app.topNav = 1
-  }else if(to.name.indexOf('realEnv')>-1 || to.name.indexOf('detectionList')>-1 || to.name.indexOf('reportList')>-1){
+  }else if(to.meta.topNav == '2' || to.name.indexOf('realEnv')>-1 || to.name.indexOf('detectionList')>-1 || to.name.indexOf('reportList')>-1){
       store.state.app.topNav = 2
   }else if(to.name.indexOf('surveillanceList')>-1){
       store.state.app.topNav = 3
