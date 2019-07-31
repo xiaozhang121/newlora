@@ -213,12 +213,12 @@
                 });*/
                 const urldd = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urldd, {}).then(res => {
-                    that.playerOptionf.sources[0].src = res.data;
+                    that.playerOptionf.sources[0].src = res.data.data;
                     that.$forceUpdate();
                 });
                 const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
                 getAxiosData(urld, {}).then(res => {
-                    that.playerOptions.sources[0].src = res.data;
+                    that.playerOptions.sources[0].src = res.data.data;
                     that.$forceUpdate();
                 });
 
