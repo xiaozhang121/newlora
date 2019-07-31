@@ -211,6 +211,16 @@
                     that.playerOptions.sources[0].src = res.data;
                     that.$forceUpdate();
                 });*/
+                getAxiosData("/lenovo-iir/device/video/isplaying/" + that.deviceId).then(
+                    res => {
+                        let isPlay = res.data.data;
+                        if (isPlay) {
+                            return;
+                        } else {
+                            putAxiosData("/lenovo-iir/device/video/play/" + that.deviceId);
+                        }
+                    }
+                );
                 const urldd = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urldd, {}).then(res => {
                     that.playerOptionf.sources[0].src = res.data.data;
@@ -232,16 +242,6 @@
         if (this.classifyData && this.isClassify) {
             console.log("初始化加载：", this.classifyData, "相");
         }
-        /*getAxiosData("/lenovo-iir/device/video/isplaying/" + this.deviceId).then(
-            res => {
-                let isPlay = res.data.data;
-                if (isPlay) {
-                    return;
-                } else {
-                    putAxiosData("/lenovo-iir/device/video/play/" + this.deviceId);
-                }
-            }
-        );*/
     }
     //关闭视频接口
     // destroyed() {
