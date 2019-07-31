@@ -16,7 +16,7 @@
                 </div>
             </span>
             <div class="main">
-                <gis-map :isDiagram="2" :powerPointList="disgramList"  ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
+                <gis-map v-if="dialogVisible" :isDiagram="2" :powerPointList="disgramList"  ref="gisMapRef" @on-draw="onDraw" :zoom="13" :boxSelect="true" :small="true" :controlBtn="false"></gis-map>
             </div>
             <ul class="drawList">
                 <li class="drawItem" v-for="(item, index) in drawList" :key="index">
@@ -25,9 +25,9 @@
                         <el-select multiple  v-model="item['value']" placeholder="请选择">
                             <el-option
                                     v-for="item in item['options']"
-                                    :key="item.id"
+                                    :key="item.deviceIdStr"
                                     :label="item.deviceName"
-                                    :value="item.id">
+                                    :value="item.deviceIdStr">
                             </el-option>
                         </el-select>
                     </div>
@@ -61,7 +61,7 @@ export default {
 
             ],
             drawList: [],
-            taskName: '机器人ID-自定义任务配置01',
+            taskName: '自定义任务配置01',
             readOnly: false,
             dialogVisible: false
         }
@@ -73,6 +73,11 @@ export default {
         }
     },
     watch: {
+        dialogVisible(now){
+            if(now){
+
+            }
+        },
         visible(now){
             this.dialogVisible = now
             if(now){
@@ -91,7 +96,7 @@ export default {
     methods:{
         initDisgram(){
             const that = this
-            getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
+            getAxiosData('/lenovo-device/api/device/list').then(res=>{
                 let data = res.data
                 that.disgramList = data
             })
@@ -103,10 +108,7 @@ export default {
             this.drawList.forEach(item=>{
                 arr = [...arr,...item['value']]
             })
-            postAxiosData('/lenovo-robot/rest/deviceTask',{lenovoDeviceIds: ["598855983447638016",
-                    "598855984965976064",
-                    "598855984345219072",
-                   ],taskName: this.taskName}).then(res=>{
+            postAxiosData('/lenovo-robot/rest/deviceTask',{lenovoDeviceIds: arr,taskName: this.taskName}).then(res=>{
                 if(res.data.resConf){
                     that.$message.success('新增成功')
                     that.drawList = []
@@ -117,6 +119,8 @@ export default {
                 }else{
                     that.$message.fail('新增失败')
                 }
+                that.dialogVisible = false
+                that.$emit('on-close')
             })
         },
         getDeviceList(){

@@ -156,10 +156,11 @@ export default {
   watch: {
     columns: {
       handler(now) {
-        if (this.now.length == 0) {
+       /* if (this.now.length == 0) {
           return;
-        }
-        this.columnsData = now;
+        }*/
+        if(now.length)
+          this.columnsData = now;
       },
       immediate: true,
       deep: true

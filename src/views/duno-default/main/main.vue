@@ -213,7 +213,7 @@ export default {
         that.bodyWidth = window.screenWidth;
         if (that.bodyWidth > 3000) {
           that.isBigScreen = true;
-          this.isnum = 2;
+          this.user.isHeader = 2;
         }
       } catch (e) {}
     }
@@ -253,13 +253,11 @@ export default {
     window.addEventListener("resize", function() {
       that.getWidth();
     });
-    this.$nextTick(() => {
-      if (that.isnum == 1) {
-        that.isShowHeader = true;
-      } else if (that.isnum == 2) {
-        that.isShowHeader = false;
-      }
-    });
+    if (this.user.isHeader == 1) {
+      that.isShowHeader = true;
+    } else if (this.user.isHeader == 2) {
+      that.isShowHeader = false;
+    }
   }
 };
 </script>

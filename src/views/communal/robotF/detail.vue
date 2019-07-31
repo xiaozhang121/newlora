@@ -271,7 +271,7 @@ export default {
                   (params.row.taskStatus == 1)?'开始任务':'结束任务'
               )
             );
-            newArr.push([
+            newArr.push(
               h(
                 "el-button",
                 {
@@ -287,7 +287,7 @@ export default {
                 },
                 "查看报告>"
               )
-            ]);
+            );
             return h("div", newArr);
           }
         }
@@ -388,12 +388,14 @@ export default {
       let substationId = this.$route.query.substationId
       let robotId = this.$route.query.robotId
       getAxiosData('/lenovo-robot/rest/specialTasks',{substationId:substationId, robotId:robotId, pageIndex:this.specialInspectList['pageIndex'], pageRows:this.specialInspectList['pageRows']}).then(res=>{
+          debugger
           let data = res.data['specialTasks']
           data.map(item=>{
               item['start'] = 1
           })
           this.specialInspectList['totalRows'] = res.data['total']
           this.specialInspectList['data'] = data;
+          this.$forceUpdate()
       })
      /* infrInformation().then(res => {
       });*/

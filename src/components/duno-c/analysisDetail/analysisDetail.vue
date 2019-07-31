@@ -117,6 +117,7 @@ export default {
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
+      dataForm:{},
       title: "所有信息",
       handleNotes: [],
       alarmType: "",
@@ -150,7 +151,7 @@ export default {
         },
         {
           title: "描述",
-          key: "description",
+          key: "content",
           minWidth: 90,
           align: "center",
           tooltip: true
@@ -358,6 +359,8 @@ export default {
     this.getDataList();
   },
   created() {
+    this.dataForm.planId=this.$route.params.planId;
+    this.dataForm.planType=this.$route.params.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
     this.title = this.$route.params.title;
     this.dataBread = this.$route.params.dataBread;
@@ -522,7 +525,7 @@ export default {
     getJump(row) {
       if (row.monitorDeviceType == "1") {
         this.$router.push({
-          path: "detailLight",
+          path: "/surveillancePath/detailLight",
           query: {
             monitorDeviceId: row.monitorDeviceId
           }
