@@ -146,7 +146,6 @@ export default {
   watch: {
     monitorInfo:{
         handler(now){
-            debugger
             this.monitorInfoR = now
         },
         deep: true,

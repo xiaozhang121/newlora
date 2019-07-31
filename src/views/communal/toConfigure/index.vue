@@ -385,14 +385,14 @@ export default {
       });
     },
     getJump(row) {
-      if (row.monitorDeviceType == "1") {
+      if (row.monitorDeviceType == "可见光") {
         this.$router.push({
           path: "/surveillancePath/detailLight",
           query: {
             monitorDeviceId: row.monitorDeviceId
           }
         });
-      } else if (row.monitorDeviceType == "2") {
+      } else if (row.monitorDeviceType == "红外") {
         this.$router.push({
           path: "/surveillancePath/detailRed",
           query: {

@@ -151,11 +151,9 @@ export default {
            setTimeout(()=>{
                this.routeNamed = now
            },1300)
-            debugger
            if(now == 'infraredList'){
                this.$nextTick(()=> {
                    try{
-                       debugger
                      document.querySelector('.video-player.vjs-custom-skin').style.transform = "scale(1,0.75)"
                      document.querySelector('.video-player.vjs-custom-skin').style.transformOrigin = "left top"
                      document.querySelector('.keyMonitor.camera').style.background = "black"

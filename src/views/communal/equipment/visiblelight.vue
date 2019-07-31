@@ -73,10 +73,44 @@ export default {
   name: "visiblelightTep",
   data() {
     return {
-      mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-device/api/main-device/list"
-      },
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/lenovo-device/api/main-device/list"
+      // },
+      dataList: [
+        {
+          fileAddress: require("../../../assets/demo/001.png"),
+          deviceName: "4号主变"
+        },
+        {
+          fileAddress: require("../../../assets/demo/002.png"),
+          deviceName: "4号主变5093开关"
+        },
+        {
+          fileAddress: require("../../../assets/demo/003.png"),
+          deviceName: "4号主变71号电容器"
+        },
+        {
+          fileAddress: require("../../../assets/demo/004.png"),
+          deviceName: "4号主变72号电容器"
+        },
+        {
+          fileAddress: require("../../../assets/demo/005.png"),
+          deviceName: "4号主变73号低抗"
+        },
+        {
+          fileAddress: require("../../../assets/demo/006.png"),
+          deviceName: "4号主变T043开关"
+        },
+        {
+          fileAddress: require("../../../assets/demo/007.png"),
+          deviceName: "安塘线/4号主变T042开关"
+        },
+        {
+          fileAddress: require("../../../assets/demo/008.png"),
+          deviceName: "练亭线/4号主变5092开关"
+        }
+      ],
       isCenter: false,
       valueSelect: "",
       dataMonitor: [],
@@ -138,7 +172,7 @@ export default {
         name: "light-report",
         params: {
           title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list",
+          url: "/lenovo-plan/api/plan/visible-report/list",
           dataBread: ["操作中台", "设备监测", "可见光", "最新巡检报表"]
         }
       });
@@ -348,7 +382,7 @@ export default {
         img {
           display: block;
           width: 100%;
-          height: 100px;
+          // height: 100px;
         }
         p {
           text-align: center;
