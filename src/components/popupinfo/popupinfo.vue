@@ -151,7 +151,7 @@ export default {
       let query = {
         [this["deviceType"]]: this.deviceId,
         pageIndex: 1,
-        pageRows: 44321
+        pageRows: 10
       };
       getAlarmHistory(query).then(res => {
         res.data.tableData.map(item => {

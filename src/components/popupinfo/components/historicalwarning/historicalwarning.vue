@@ -141,7 +141,7 @@ export default {
         : "/lenovo-alarm/api/alarm/list";
       const query = {
         pageIndex: 1,
-        pageRows: 44321,
+        pageRows: 10,
         isDeal: "0",
         deviceName: ""
       };
