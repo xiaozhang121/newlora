@@ -146,7 +146,9 @@ export default {
             newArr.push([
               h(
                 "div",
-                params.row.powerDeviceName == null ? "/" : params.row.powerDeviceName
+                params.row.powerDeviceName == null
+                  ? "/"
+                  : params.row.powerDeviceName
               )
             ]);
             return h("div", newArr);
@@ -282,6 +284,7 @@ export default {
                       on: {
                         click: () => {
                           console.log("摄像头ID：", params.row.monitorDeviceId);
+                          this.getJump(params.row);
                         }
                       }
                     },
@@ -554,6 +557,23 @@ export default {
         });
         this.typeList = map;
       });
+    },
+    getJump(row) {
+      if (row.monitorDeviceType == "1") {
+        this.$router.push({
+          path: "/surveillancePath/detailLight",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      } else if (row.monitorDeviceType == "2") {
+        this.$router.push({
+          path: "/surveillancePath/detailRed",
+          query: {
+            monitorDeviceId: row.monitorDeviceId
+          }
+        });
+      }
     }
   }
 };

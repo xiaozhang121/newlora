@@ -16,7 +16,8 @@ export default {
     token: getToken(),
     access: [],
     msgNum: 0, // webSocket 中监听当前账号未读消息数
-    isFormWidthTop: false // from表单中的label是否切换至top
+    isFormWidthTop: false, // from表单中的label是否切换至top
+    isHeader:1
   },
   mutations: {
     setconfigInfo(state, configinfo){
