@@ -81,6 +81,7 @@
 
 <script>
     import  { controlCamera } from '@/api/camera'
+    import videojs from 'video.js'
     import dunoTable from '_c/duno-m/table/Table'
     import { getImage, stopImage, getPointData } from '@/api/user'
     import clock from '@/assets/camera/clock.png'
@@ -89,6 +90,8 @@
     import { videoPlayer } from 'vue-video-player'
     import { getAxiosData, putAxiosData } from '@/api/axiosType'
     import 'videojs-flash'
+    import SWF_URL from 'videojs-swf/dist/video-js.swf'
+    videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
         components: { dunoTable, DunoCharts, videoPlayer },

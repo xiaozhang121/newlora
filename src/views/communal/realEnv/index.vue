@@ -507,9 +507,13 @@ export default {
     }
   },
   watch: {
-      alarmInfo(now){
-          this.visible = false
-          this.onAlarm(now)
+      alarmInfo:{
+        handler(now){
+            this.visible = false
+            this.onAlarm(now)
+        },
+        deep: true,
+        immediate: true
       },
       kilovoltKind(now){
         this.mainlistShow = false

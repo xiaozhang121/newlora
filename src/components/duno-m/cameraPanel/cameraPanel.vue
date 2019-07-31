@@ -220,12 +220,15 @@
 <script>
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
     import dunoTable from '_c/duno-m/table/Table'
+    import videojs from 'video.js'
     import clock from '@/assets/camera/clock.png'
     import { DunoCharts } from '_c/duno-charts'
     import 'video.js/dist/video-js.css'
     import { videoPlayer } from 'vue-video-player'
     import 'videojs-flash'
 import { debug } from 'util';
+    import SWF_URL from 'videojs-swf/dist/video-js.swf'
+    videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanele',
         components: { dunoTable,DunoCharts, videoPlayer },

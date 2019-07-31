@@ -124,9 +124,19 @@ export default {
     ...mapState(["user"]),
     isDot() {
       return this.value > 0;
+    },
+    isAlarm(){
+        return this.$store.state.user.isAlarm
     }
   },
   watch: {
+    isAlarm:{
+      handler(now){
+          this.getData()
+      },
+      deep: true,
+      immediate: true
+    },
     itemData: {
       handler(now) {
         if (now && now.length) {
@@ -148,7 +158,7 @@ export default {
       };
       putAxiosData(url, query).then(
         res => {
-          // that.getData();
+          that.getData();
         },
         error => {}
       );
@@ -161,6 +171,7 @@ export default {
     },
     restoration(item, type, index) {
       console.log(type == "1" ? "复归" : "备注");
+      this.$store.state.user.isAlarm = false
       const url = "/lenovo-alarm/api/alarm/deal";
       const query = {
         alarmId: item.alarmId,
@@ -213,7 +224,7 @@ export default {
     }
   },
   mounted() {
-    // this.getData();
+    this.getData();
   }
 };
 </script>

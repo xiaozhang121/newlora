@@ -68,6 +68,7 @@
 
 <script>
 import "video.js/dist/video-js.css";
+import videojs from 'video.js'
 import pushMov from "_c/duno-m/pushMov";
 import { mapState } from "vuex";
 import { postAxiosData, getAxiosData } from '@/api/axiosType'
@@ -75,6 +76,8 @@ import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { editConfig } from "@/api/currency/currency.js";
 import { setTimeout } from "timers";
+import SWF_URL from 'videojs-swf/dist/video-js.swf'
+videojs.options.flash.swf = SWF_URL
 export default {
   name: "KeyMonitor",
   components: {

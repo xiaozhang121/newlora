@@ -12,7 +12,7 @@
                   :options="playerOptiond"
           ></video-player>
         </div>
-        <div class="itemImgBox"   style="width: 228px; height: 150px" v-else>
+        <div class="itemImgBox"   style="width: 200px; height: 150px; transform: scale(1.13,1); transform-origin: left top;" v-else>
           <video-player
                   @mousemove.native="pointerPos($event)"
                   @mouseout.native="clearTimer()"
@@ -58,6 +58,8 @@
   import "video.js/dist/video-js.css";
   import { videoPlayer } from "vue-video-player";
   import "videojs-flash";
+  import SWF_URL from 'videojs-swf/dist/video-js.swf'
+  videojs.options.flash.swf = SWF_URL
   export default {
     name: "realtimeTem",
     components: { videoPlayer },
@@ -95,7 +97,7 @@
                 controls: false
             },
             playerOptionf: {
-                width: 228,
+                width: 200,
                 height: 150,
                 sources: [
                     {
@@ -175,11 +177,11 @@
                 if (!this.timer) {
                     this.timer = setInterval(() => {
                         getAxiosData(
-                            "/lenovo-iir/device/temperature/get/probe/" + this.deviceId,
-                            { x: that.offsetX, y: 150 - that.offsetY, r: 1 }
+                            "/lenovo-iir/device/temperature/get/location/" + this.deviceId,
+                            { x: that.offsetX, y: 150 - that.offsetY, r: 1, pannelWidth: '200', pannelHeight:'150' }
                         ).then(res => {
                             // console.log('data:'+res.data)
-                            that.tepmNum = res.data / 1000;
+                            that.tepmNum = res.data.data;
                         });
                     }, 200);
                 }

@@ -35,6 +35,17 @@ module.exports = {
     port: '9090'
   },
   configureWebpack: {//引入jquery
+      module: {
+          rules: [
+              {
+                  test: /\.swf$/,
+                  loader: 'url-loader',
+                  options:{
+                      limit: 10000
+                  }
+              }
+          ]
+      },
       plugins: [
           new webpack.ProvidePlugin({
               $:"jquery",

@@ -251,10 +251,13 @@
     import { getImage, stopImage, getPointData } from '@/api/user'
     import clock from '@/assets/camera/clock.png'
     import { mapState } from 'vuex'
+    import videojs from 'video.js'
     import { DunoCharts } from '_c/duno-charts'
     import { videoPlayer } from 'vue-video-player'
     import { getAxiosData, putAxiosData } from '@/api/axiosType'
     import 'videojs-flash'
+    import SWF_URL from 'videojs-swf/dist/video-js.swf'
+    videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
         components: { dunoTable, DunoCharts, videoPlayer },
