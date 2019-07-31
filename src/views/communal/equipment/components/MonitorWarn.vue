@@ -14,7 +14,7 @@
           <span>{{remarkData.powerDeviceName}}</span>
         </p>
       </div>
-      <div class="main">
+      <div class="milldle">
         <div>
           部位:
           <span>{{remarkData.part}}</span>
@@ -173,17 +173,17 @@ export default {
     padding: 10px 20px;
     .top {
       p {
-        font-size: 18px;
+        font-size: 16px;
         color: #ffffff;
         span {
           padding-left: 5px;
         }
       }
     }
-    .main {
+    .milldle {
       margin-top: 5px;
       div {
-        font-size: 14px;
+        font-size: 13px;
         color: #ffffff;
         display: flex;
         justify-content: flex-start;

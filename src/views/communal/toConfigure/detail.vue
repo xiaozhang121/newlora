@@ -208,9 +208,8 @@ export default {
                   props: { type: "text", content: "查看报告>" },
                   on: {
                     click: () => {
-                      //   console.log(111);
                       this.$router.push({
-                        name: "report-view",
+                        name: "configure-report",
                         params: {
                           planId: params.row.planId,
                           planType: params.row.planType,

@@ -39,7 +39,7 @@
             class="table_analysis"
             :columns="RecodeColumns"
             :data="RecodeList"
-            :isShowpage="false"
+            :isShowPage="false"
             @on-select="dataListSelectionChangeHandle"
             @clickPage="pageCurrentChangeHandle"
             @on-page-size-change="pageSizeChangeHandle"
@@ -60,7 +60,7 @@
         <div class="iconcen">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_ar.png" alt />
-            辅助操作
+            AR辅助操作
           </div>
           <div class="icondev">
             <img src="../../../assets/iconFunction/img_developing.png" alt />
@@ -241,17 +241,29 @@ export default {
         },
         {
           title: "报警对象",
-          key: "powerDeviceName",
+          key: "mainDevice",
           minWidth: 150,
           align: "center",
           tooltip: true
         },
         {
           title: "报警部位",
-          key: "alarmPart",
+          key: "powerDeviceName",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "div",
+                params.row.powerDeviceName == null
+                  ? "/"
+                  : params.row.powerDeviceName
+              )
+            ]);
+            return h("div", newArr);
+          }
         },
         {
           title: "描述",
@@ -449,8 +461,19 @@ export default {
   created() {
     this.getRecodeList();
     this.getData();
+    this.getMockData();
   },
   methods: {
+    getMockData() {
+      let url = "/lenovo-plan/api/statistics/plan/list";
+      let query = {
+        pageIndex: 1,
+        pageRows: 2
+      };
+      getAxiosData(url, query).then(res => {
+        this.mockData = res.data.tableData;
+      });
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");

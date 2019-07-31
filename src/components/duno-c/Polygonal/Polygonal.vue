@@ -207,7 +207,7 @@ export default {
             that.$forceUpdate()
             that.isChangeFlag = !that.isChangeFlag
         }else
-          this.getHistoryData(data['areaId'], data['monitorDeviceType'])
+          this.getHistoryData(data['monitorDeviceId'], data['monitorDeviceType'])
     },
     getHistoryData (monitorDeviceId, monitorDeviceType) {
         this.isGetData = false

@@ -190,7 +190,7 @@ export default {
     & > div {
       width: calc(20% - 20px);
       float: left;
-      height: 405px;
+      height: 450px;
       margin-right: 20px;
       img {
         height: 173px;

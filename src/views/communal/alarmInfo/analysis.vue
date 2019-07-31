@@ -296,7 +296,7 @@ export default {
       alarmLevel: "",
       startTime: "",
       endTime: "",
-      dataBread: ["视频监控", "所有报表", "表计分析"],
+      dataBread: ["操作中台", "所有报表", "表计分析"],
       //   isChangeFlag: true,
       //   titleOption: {
       //     text: "泄露电流表24小时温度分析",
@@ -810,7 +810,8 @@ export default {
       this.$router.push({
         name: "meterdata-detail",
         params: {
-          url: "/lenovo-plan/api/statistics/meter-data/list"
+          url: "/lenovo-plan/api/statistics/meter-data/list",
+          dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"]
         }
       });
     },
@@ -964,6 +965,9 @@ export default {
 @import "@/style/tableStyle.scss";
 
 .analysis {
+  .selectSearch {
+    overflow: hidden;
+  }
   //下拉多选框
   .popper__arrow {
     display: none !important;
@@ -1014,7 +1018,7 @@ export default {
         display: inline-flex;
         padding-bottom: 0;
         height: 40px;
-        .icon-xiala{
+        .icon-xiala {
           width: 13px !important;
           height: 14px !important;
         }
@@ -1076,7 +1080,7 @@ export default {
               /*background: rgba(0, 0, 0, 0);*/
               width: 100px;
               top: 133px;
-              .btnItem{
+              .btnItem {
                 color: white;
               }
               .title {
@@ -1306,4 +1310,8 @@ export default {
 .el-date-table.is-week-mode .el-date-table__row:hover div {
   background: rgba(81, 89, 112, 0.7);
 }
+
+.el-select .el-tag:first-child {
+  margin-left: 9px;
+} 
 </style>

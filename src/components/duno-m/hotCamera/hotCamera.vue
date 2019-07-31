@@ -24,33 +24,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="cameraMain" style="position: relative; top: 16px">
-                    <div class="btnList" style="padding-bottom: 0; ">
-                        <div class="description">
-                            调整镜头
-                        </div>
-                        <div class="row">
-                            <div class="btn" :class="{'active':activeNum == 6}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"  @mouseup="viewCamera(3, true)"></div>
-                            <div class="btn"  :class="{'active':activeNum == 5}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(5, false)"   @mouseup="viewCamera(5, true)"></div>
-                        </div>
-                        <div class="row">
-                            <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
-                            <div class="btn" style="visibility: hidden"></div>
-                            <div class="btn"  :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        </div>
-                        <div class="row">
-                            <div class="btn"  :class="{'active':activeNum == 8}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 4}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
-                            <div class="btn" :class="{'active':activeNum == 7}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
-                        </div>
-                     <!--   <div class="control_slider" style="padding-bottom: 20px">
-                            <i class="iconfont icon-suoxiao1"></i>
-                            <el-slider class="elSlider" v-model="sliderValue"></el-slider>
-                            <i class="iconfont icon-fangda1"></i>
-                        </div>-->
-                    </div>
-                </div>
             </div>
         </template>
         <template  v-if="panelType == 'second'">
@@ -73,40 +46,6 @@
                         <span><i class="iconfont icon-luxiang"></i>录像</span>
                         <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
-                    </div>
-                </div>
-            </div>
-            <div class="cameraMain">
-                <div class="btnList" style="flex-basis: 440px; margin-top: 15px">
-                    <duno-table height="200"  v-for="(item, index) in dataList"  :key="index"  :columns="columns" :dataList="item.dataList"></duno-table>
-                    <div style="width: 100%; text-align: right; padding-right: 20px; margin-top: 15px">
-                        <span  style="color: white">预置位切换：<span style="color: #ffd70a">{{ secondLastShow }}s</span></span>
-                    </div>
-                </div>
-                <div class="camera" v-if="showCamera">
-                    <div class="explain" style="display: block">
-                        <div>
-                            <span style="width: 200px">巡航间隔：</span>
-                            <span style="position: relative; top: -2px;  display: inline-block; text-align: right;    width: calc( 100% - 80px );">
-                                 <el-select v-model="selectValue" placeholder="请选择" style="width: calc( 100% )">
-                                    <el-option
-                                            v-for="item in timeOptions"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </span>
-                        </div>
-                        <div style="margin-top: 20px; margin-right: 15px">
-                            <div  style="display: flex;justify-content: flex-end;">
-                                 <el-radio v-model="radioValue" label="1">单次</el-radio>
-                                 <el-radio v-model="radioValue" label="2">循环</el-radio>
-                            </div>
-                        </div>
-                        <div style="text-align: right;margin-top: 20px;margin-right: 15px">
-                            <el-button @click="startBoat" style="width: 90px;" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -135,111 +74,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="cameraMain" style="display: flex; margin-top: 10px">
-                    <div class="btnList" style="padding-bottom: 0;">
-                        <div class="description">
-                            调整镜头
-                        </div>
-                        <div class="row">
-                            <div class="btn" :class="{'active':activeNum == 6}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"  @mouseup="viewCamera(3, true)"></div>
-                            <div class="btn"  :class="{'active':activeNum == 5}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(5, false)"   @mouseup="viewCamera(5, true)"></div>
-                        </div>
-                        <div class="row">
-                            <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
-                            <div class="btn" style="visibility: hidden"></div>
-                            <div class="btn"  :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        </div>
-                        <div class="row">
-                            <div class="btn"  :class="{'active':activeNum == 8}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
-                            <div class="btn" :class="{'actived':activeNum == 4}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
-                            <div class="btn" :class="{'active':activeNum == 7}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
-                        </div>
-                       <!-- <div class="control_slider" style="bottom: -12px;">
-                            <i class="iconfont icon-suoxiao1"></i>
-                            <el-slider class="elSlider" v-model="sliderValue"></el-slider>
-                            <i class="iconfont icon-fangda1"></i>
-                        </div>-->
-                    </div>
-                    <div class="camera" v-if="showCamera" style="height: inherit;flex: 1; padding-left: 30px; padding-right: 10px">
-                        <div class="addPosition" style="">
-                            <div class="right">
-                                <div class="left" style="width: 97%;position: relative;">
-                                    <div class="title" style="font-size: 16px">请使用右上角图标调整预设位：</div>
-                                    <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
-                                </div>
-                                <div class="table" style="padding-top: 10px">
-                                    <duno-table height="150"  v-for="(item, index) in dataListd"  :key="index"  :columns="columnsd" :dataList="item.dataList"></duno-table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </template>
-        <div v-if="topBtnListFlag == 1" class="historyAlarm" style="width: 346px">
-            <div class="item">
-                <div class="img">
-                    <img  width="108" height="94" :src="clock"/>
-                </div>
-                <div class="explain">
-                    <div class="title">2019-05-28 <span style="margin-left: 10px">13:22:40</span></div>
-                    <div class="info">温度：60℃  超出阈值：15%</div>
-                    <div class="info">安全等级：一般</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="img">
-                    <img  width="108" height="94" :src="clock"/>
-                </div>
-                <div class="explain">
-                    <div class="title">2019-05-28 <span style="margin-left: 10px">13:29:40</span></div>
-                    <div class="info">温度：60℃  超出阈值：15%</div>
-                    <div class="info">安全等级：一般</div>
-                </div>
-            </div>
-        </div>
-        <template v-if="topBtnListFlag == 2">
-            <div style="position: relative; width: 100%; padding-bottom: 20px">
-                <span style="float: right; cursor: pointer" @click="onClose"></span>
-                <el-date-picker
-                        style="width: 70%"
-                        v-model="timeRange"
-                        type="daterange"
-                        range-separator="-"
-                        size="mini"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                </el-date-picker>
-                <el-button type="text" style="position: absolute; right: 47px;color: #00b5be">搜索</el-button>
-                <duno-charts
-                        :isItemEchart="true"
-                        width="360px"
-                        :isChange="isChange"
-                        height="210px"
-                        :gridOption="{
-                              top:40,
-                          }"
-                        :xAxisOption="{
-                            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                            axisLabel: {
-                                show: true,
-                                textStyle: {
-                                    color: '#fff'
-                                }
-                            }
-                        }"
-                        :yAxisOption=" {
-                                type: 'value',
-                                axisLabel: {
-                                    show: true,
-                                    textStyle: {
-                                        color: '#fff'
-                                    }
-                               }
-                            }"
-                        :seriesOption="dataCharts"
-                />
             </div>
         </template>
     </div>

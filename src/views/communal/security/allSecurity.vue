@@ -136,7 +136,12 @@ export default {
       value: "",
       titleTypeL: "全部电压等级",
       titleTypeR: "全部类型",
-      dataBread: ["视频监控", "所有报表", "表计分析", "所有动态环境警告"],
+      dataBread: [
+        "操作中台",
+        "动态环境监测",
+        "动态环境总览",
+        "所有动态环境警告"
+      ],
       columns: [
         {
           title: "拍摄时间",

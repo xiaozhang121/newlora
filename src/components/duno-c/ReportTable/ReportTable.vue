@@ -10,7 +10,9 @@
       </h3>
       <h3 v-if="kind == 'robot'">
         {{ reportData.name }}
-        <span style="font-size:13px;font-weight:normal">任务ID:{{reportData.planId}}</span>
+        <span
+          style="font-size:13px;font-weight:normal"
+        >任务ID:{{reportData.planId}}</span>
       </h3>
       <p v-if="kind != 'robot'">
         类型:
@@ -54,7 +56,7 @@
 
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
-import qs from 'qs'
+import qs from "qs";
 import {
   reportDownload,
   getViewreport
@@ -62,18 +64,22 @@ import {
 import { constants } from "crypto";
 export default {
   name: "ReportTable",
-  data () {
-    const that = this
+  data() {
+    const that = this;
     return {
-        baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
-    }
+      baseUrl:
+        process.env.NODE_ENV === "development"
+          ? that.$config.baseUrl.dev
+          : that.$config.baseUrl.pro
+    };
   },
   props: {
-    path:{
-        type: String,
-        default: ''
+    taskCurreny: {},
+    path: {
+      type: String,
+      default: ""
     },
-    kind:{},
+    kind: {},
     reportData: {
       type: Object,
       default: () => {
@@ -91,12 +97,12 @@ export default {
     clickDownload() {
       let url = this.url.downloadUrl;
       let params = qs.stringify({
-          taskRunHisId: this.reportData.taskRunHisId,
-          planId: this.reportData.planId,
-          t: this.$store.state.user.token
-      })
-      window.location.href = `${this.baseUrl}${url}?${params}`
-     /* getAxiosData(url, query).then(res => {
+        taskRunHisId: this.reportData.taskRunHisId,
+        planId: this.reportData.planId,
+        t: this.$store.state.user.token
+      });
+      window.location.href = `${this.baseUrl}${url}?${params}`;
+      /* getAxiosData(url, query).then(res => {
         this.$message({
           message: "开始下载",
           type: "success"
@@ -104,26 +110,50 @@ export default {
       });*/
     },
     viewReports() {
-      if(this.path){
-          this.$router.push({
-              path: this.path,
-              query: {
-                  planId: this.reportData.planId,
-                  taskRunHisId: this.reportData.ID,
-                  //   planId: '603610399709396992',
-                  planType: this.reportData.taskType
-              }
-          });
-          return
+      if (this.path) {
+        this.$router.push({
+          path: this.path,
+          query: {
+            taskDeviceId: this.taskCurreny.taskDeviceId,
+            planId: this.reportData.planId,
+            taskRunHisId: this.reportData.ID,
+            //   planId: '603610399709396992',
+            planType: this.reportData.taskType
+          }
+        });
+        return;
       }
-      this.$router.push({
-        name: "report-view",
-        params: {
-          planId: this.reportData.planId,
-          planType: this.reportData.planType,
-          url: this.url.viewUrl
-        }
-      });
+      if (this.$route.name == "infraredList") {
+        this.$router.push({
+          name: "light-report",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "设备监测", "可见光", "查看报告"]
+          }
+        });
+      } else if (this.$route.name == "visiblelightList") {
+        this.$router.push({
+          name: "infrared-report",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "设备检测", "红外监测", "查看报告"]
+          }
+        });
+      } else if (this.$route.name == "reportList") {
+        this.$router.push({
+          name: "report-view",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "所有报表", "巡检任务报表", "查看报告"]
+          }
+        });
+      }
     },
     getJump(item) {
       if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
@@ -165,11 +195,9 @@ export default {
   .content {
     padding: 20px 20px 10px 20px;
     h3 {
-      font-size: 16px;
+      font-size: 14px;
       margin-bottom: 10px;
-      span {
-        padding-left: 10px;
-      }
+      font-weight: normal;
     }
     p {
       font-size: 14px;

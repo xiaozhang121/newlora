@@ -1,6 +1,6 @@
 <template>
     <div class="hotcameraPop" >
-        <historical-documents :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
             <hot-camera :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
             <polygonal-backup  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
@@ -36,6 +36,24 @@
         },
         data() {
             return {
+                tabPaneData:[
+                    {
+                        label: "实时监控",
+                        name: "first"
+                    },
+                    {
+                        label: "历史告警",
+                        name: "fourth"
+                    },
+                    {
+                        label: "历史数据",
+                        name: "fifth"
+                    },
+                    {
+                        label: "历史文件",
+                        name: "sixth"
+                    }
+                ],
                 cameraFlag: 'first',
                 title: '',
                 monitorDeviceType: '',

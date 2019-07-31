@@ -6,7 +6,7 @@
       @mouseenter="enter()"
       @mouseleave="leave()"
     >
-      <div class="main" id="videoPlayer">
+      <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}">
         <video-player
           :class="{'infraredList':routeName == 'infraredList'}"
           v-if="showView"
@@ -70,6 +70,7 @@
 import "video.js/dist/video-js.css";
 import pushMov from "_c/duno-m/pushMov";
 import { mapState } from "vuex";
+import { postAxiosData, getAxiosData } from '@/api/axiosType'
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { editConfig } from "@/api/currency/currency.js";
@@ -81,6 +82,7 @@ export default {
     pushMov
   },
   props: {
+    configType:{},
     routeName:{},
     Initialization: {
       type: Boolean,
@@ -142,10 +144,19 @@ export default {
     }
   },
   watch: {
+    monitorInfo:{
+        handler(now){
+            debugger
+            this.monitorInfoR = now
+        },
+        deep: true,
+        immediate: true
+    },
     streamAddr: {
       handler(now) {
         if (now) {
           this.playerOptions["sources"][0]["src"] = now;
+          this.monitorSrc = now
           this.showView = true;
         }
       },
@@ -168,6 +179,8 @@ export default {
   },
   data() {
     return {
+      monitorSrc: '',
+      monitorInfoR: '',
       cameraPic: "",
       pushMovVisable: false,
       showView: false,
@@ -213,7 +226,7 @@ export default {
     onPushReal(index) {
       const that = this;
       let query = {
-        ["cameraPos0" + index]: this.monitorInfo["monitorDeviceId"],
+        ["cameraPos0" + index]: this.monitorInfoR["monitorDeviceId"],
         id: this.$store.state.user.configInfo.id
       };
       editConfig(query).then(res => {
@@ -226,10 +239,16 @@ export default {
     },
     pushMov() {
       this.$refs.pushMov.initData();
-      // this.$emit("on-push", this.monitorInfo);
+      // this.$emit("on-push", this.monitorInfoR);
       this.pushMovVisable = true;
-      if (this.monitorInfo) {
-        this.cameraPic = this.monitorInfo["pic"];
+      if (this.monitorInfoR) {
+        if('pic' in this.monitorInfoR)
+          this.cameraPic = this.monitorInfoR["pic"];
+        else{
+          getAxiosData('/lenovo-device/api/pic/url',{rtmpUrl:this.monitorSrc}).then(res=>{
+              this.cameraPic = res.data.pic
+          })
+        }
       } else {
         this.cameraPic = "";
       }
@@ -246,11 +265,10 @@ export default {
       this.showBtm = false;
     },
     getJump() {
-
       this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {
-          monitorDeviceId: this.monitorInfo["monitorDeviceId"]
+          monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
         }
       });
     },
@@ -281,6 +299,22 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  .topStyle{
+    background: black;
+    .vjs-big-play-button{
+      display: none;
+      height: 2.2em !important;
+      width: 2em;
+      line-height: 2em;
+      border-radius: 1em;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: -26% !important;
+      left: 0;
+      margin: auto;
+    }
+  }
   .infraredList{
     transform: scale(1,0.75);
     transform-origin: left top;

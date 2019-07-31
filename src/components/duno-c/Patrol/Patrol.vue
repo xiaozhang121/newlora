@@ -5,7 +5,7 @@
         <span>{{title}}</span>
         <span>{{titleCon}}</span>
       </div>
-      <div v-if="isShowBtn" @click="createTask()">+创建新的任务配置</div>
+      <div v-if="isShowBtn" @click="createTask()">+新建特殊巡视</div>
     </div>
     <div class="con">
       <duno-tables-tep
@@ -154,12 +154,15 @@ export default {
     };
   },
   watch: {
-    columns:{
-        handler(now){
-            this.columnsData = now;
-        },
-        immediate: true,
-        deep: true
+    columns: {
+      handler(now) {
+        if (this.now.length == 0) {
+          return;
+        }
+        this.columnsData = now;
+      },
+      immediate: true,
+      deep: true
     }
   },
   methods: {
@@ -167,15 +170,30 @@ export default {
       this.$emit("add-task");
     },
     getJump(row) {
-      this.$router.push({
-        path: "/report/report-view",
-        query: {
-          planId: row.planId,
-          planType: this.planType
-        }
-      });
+      if (this.$route.name == "reportList") {
+        this.$router.push({
+          name: "report-view",
+          params: {
+            planId: row.planId,
+            planType: this.planType,
+            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
+          }
+        });
+      } else if (this.$route.name == "configurationList") {
+        this.$router.push({
+          name: "configure-view",
+          params: {
+            planId: row.planId,
+            planType: this.planType,
+            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
+          }
+        });
+      }
     },
     dataListSelectionChangeHandle() {}
+  },
+  mounted() {
+    console.log(this.$route.name);
   }
 };
 </script>

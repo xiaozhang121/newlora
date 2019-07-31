@@ -89,7 +89,7 @@ export default {
       lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      dataBread: ["操作中台", "设备监测", "可见光监测"],
+      dataBread: ["操作中台", "设备监测", "可见光"],
       numberCameras: [
         {
           circleColor: "#00B4FF",
@@ -125,20 +125,22 @@ export default {
   methods: {
     getMore() {
       this.$router.push({
-        name: "meterdata-detail",
+        name: "light-report",
         params: {
           title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list"
+          url: "/lenovo-plan/api/task/visible-result/list",
+          dataBread: ["操作中台", "设备监测", "可见光", "最新24小时信息记录"]
         }
       });
     },
     getMoreReport() {
       this.$router.push({
-        name: "reportList"
-        // params: {
-        //   title: "可见光监测记录信息",
-        //   url: "/lenovo-plan/api/task/visible-result/list"
-        // }
+        name: "light-report",
+        params: {
+          title: "可见光监测记录信息",
+          url: "/lenovo-plan/api/task/visible-result/list",
+          dataBread: ["操作中台", "设备监测", "可见光", "最新巡检报表"]
+        }
       });
     },
     handleData() {
@@ -234,7 +236,7 @@ export default {
   top: -5px;
 }
 .visiblelight {
-  .icon-xiala{
+  .icon-xiala {
     width: 12px;
     height: 15px;
   }

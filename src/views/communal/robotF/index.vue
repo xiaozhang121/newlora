@@ -33,7 +33,7 @@
       <div class="middle">
         <rou-tine-inspection @on-fresh="onFresh" :isChange="ischange" :robotId="robotId" :substationId="substationId" ref="rouTineInspection" :taskStatus="taskStatus" :robotStatus="robotStatus">
           <div class="reportData">
-            <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['taskCurLinkImg']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueState']" :dataType="taskCurreny['dataType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
+            <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['taskCurLinkImg']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueShow']" :dataType="taskCurreny['recognType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
           </div>
         </rou-tine-inspection>
       </div>
@@ -42,7 +42,7 @@
         <div class="main">
           <template v-for="(item, index) in newsReportLength">
             <div class="item" :key="index">
-              <report-table path="report" :url="{downloadUrl: '/lenovo-robot/rest/reportDownload'}" kind="robot" :reportData="newsReport[index]" v-if="newsReport[index]"></report-table>
+              <report-table :taskCurreny="taskCurreny" path="report" :url="{downloadUrl: '/lenovo-robot/rest/reportDownload'}" kind="robot" :reportData="newsReport[index]" v-if="newsReport[index]"></report-table>
             </div>
           </template>
         </div>

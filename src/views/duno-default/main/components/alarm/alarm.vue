@@ -148,7 +148,7 @@ export default {
       };
       putAxiosData(url, query).then(
         res => {
-          that.getData();
+          // that.getData();
         },
         error => {}
       );
@@ -186,7 +186,7 @@ export default {
         : "/lenovo-alarm/api/alarm/list";
       const query = {
         pageIndex: 1,
-        pageRows: 44321,
+        pageRows: 20,
         isDeal: "0",
         deviceName: ""
       };
@@ -213,7 +213,7 @@ export default {
     }
   },
   mounted() {
-    this.getData();
+    // this.getData();
   }
 };
 </script>

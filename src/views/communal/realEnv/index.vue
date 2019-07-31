@@ -34,7 +34,7 @@
       <div :class="['item_ctx']"  ref="firstElE"  v-if="isDiagram==1">
         <div>
           <div  class="toward">
-            <img style="position: relative; left: 40px"  :src="toward"/>
+            <img :src="towardAround" style="position: relative; left: 40px"/>
           </div>
           <!-- <drappable class="drappable_assembly" width="1900px" height="675px">
              <div class="allShowPic">
@@ -83,7 +83,7 @@
       <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
         <div>
           <div class="toward">
-            <img style="position: relative; left: 40px"  :src="toward"/>
+            <img :src="towardAround" style="position: relative; left: 40px"/>
           </div>
           <!--  <drappable  class="drappable_assembly" width="1900px" height="675px">
               <div class="allShowPic">
@@ -132,7 +132,7 @@
       <div :class="['item_ctx']"  ref="firstElE"  v-if="isDiagram==1">
         <div>
           <div class="toward">
-            <img style="position: relative; left: 40px"  :src="toward"/>
+            <img :src="towardAround" style="position: relative; left: 40px"/>
           </div>
           <!--  <drappable class="drappable_assembly" width="1900px" height="675px">
               <div class="allShowPic">
@@ -181,7 +181,7 @@
       <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
         <div>
           <div class="toward">
-            <img style="position: relative; left: 40px"  :src="toward"/>
+            <img :src="towardAround" style="position: relative; left: 40px"/>
           </div>
           <!-- <drappable class="drappable_assembly" width="1900px" height="675px">
              <div class="allShowPic">
@@ -230,7 +230,7 @@
         <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
           <div>
             <div class="toward">
-              <img style="position: relative; left: 40px"  :src="toward"/>
+              <img :src="towardAround" style="position: relative; left: 40px"/>
             </div>
             <!-- <drappable class="drappable_assembly" width="1900px" height="675px">
                <div class="allShowPic">
@@ -287,7 +287,7 @@
       <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
         <div>
           <div class="toward">
-            <img style="position: relative; left: 40px"  :src="toward"/>
+            <img :src="towardAround" style="position: relative; left: 40px"/>
           </div>
           <gis-map mapUrl="http://10.0.10.200:31088/" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
         </div>
@@ -737,7 +737,11 @@ export default {
                             item['src'] = that.lightNoCamera
                          }
                     }else if(item['monitorDeviceType'] == 2){
-                        item['src'] = that.redLight
+                        if(item.deviceMessage.supportPreset){
+                            item['src'] = that.redLightCamera
+                        }else{
+                            item['src'] = that.redLight
+                        }
                     }
                     item['show'] = true
                     item['isShow'] = true

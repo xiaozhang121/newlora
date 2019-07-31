@@ -7,7 +7,8 @@
       </div>
       <div class="main">
         <div class="monitor">
-          <img :src="monitorUrl || newMonitorUrl" alt />
+          <img v-if="isImgVideo" :src="monitorUrl || newMonitorUrl" alt />
+          <KeyMonitor v-else width="100%" :streamAddr="monitorUrl || newMonitorUrl" />
         </div>
         <div class="info">
           <div class="info_top">
@@ -70,14 +71,20 @@
       </div>
       <div style="clear: both"></div>
     </el-dialog>
-    <personJudge :visible="visibleJudge" />
+    <personJudge
+      :formData="formData"
+      :isTemperture="isTemperture"
+      @on-close="onClose"
+      :visible="visibleJudge"
+    />
   </div>
 </template>
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import personJudge from "_c/duno-m/personJudge";
+import KeyMonitor from "_c/duno-c/KeyMonitor";
 export default {
-  components: { personJudge },
+  components: { personJudge, KeyMonitor },
   data() {
     return {
       searchId: "",
@@ -90,10 +97,19 @@ export default {
       alarmLevelN: "",
       newMonitorUrl: "",
       dataList: [],
-      discriminate: false
+      discriminate: false,
+      isImgVideo: true,
+      isTemperture: true,
+      formData: {}
     };
   },
   props: {
+    fileType: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     popData: {
       type: Object,
       default: () => {
@@ -164,7 +180,8 @@ export default {
   watch: {
     popData(now) {
       if ("alarmId" in now) {
-        this.searchId = now["alarmId"];
+        // this.searchId = now["alarmId"];
+        this.searchId = now["taskId"] + "," + now["batchId"];
         this.searchType = "alarmId";
       } else {
         this.searchId = now["resultId"];
@@ -238,8 +255,18 @@ export default {
       }
     },
     clickJudge() {
-      //   debugger;
+      if ((this.dataList.alarmValue = "")) {
+        this.isTemperture = false;
+      }
+      this.formData = {
+        input: this.dataList.result,
+        inputT: this.dataList.alarmValue,
+        select: this.dataList.alarmType
+      };
       this.visibleJudge = true;
+    },
+    onClose() {
+      this.visibleJudge = false;
     }
   },
   mounted() {
@@ -403,6 +430,9 @@ export default {
   .extend {
     font-size: 14px;
     margin-top: 3px;
+  }
+  .keyMonitor {
+    width: 100%;
   }
 }
 </style>

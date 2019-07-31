@@ -2,7 +2,7 @@
     <div class="reportData" >
         <div class="title">
             <span>第{{ stepCount }}步上报数据</span>
-            <!--<span @click="visible = true">人工否定</span>-->
+            <span @click="visible = true">人工否定</span>
         </div>
         <div class="middle">
             <div class="img">
@@ -21,17 +21,18 @@
             <div class="item result">
                 <div class="name">分析结果：</div>
                 <div class="nr">{{ analysisResult }}</div>
-                <!--<i-dropdown
+               <!-- <i-dropdown
+                        v-if="taskCurreny['alarmLevel']"
                         class="dropAlarmDown"
                         trigger="click"
                         placement="bottom-start"
                 >
                     <div
                             class="table_select"
-                            :class="[{'serious': alarmLevel == '2'},{'commonly': alarmLevel == '1'},{'danger': alarmLevel == '3'}]"
+                            :class="[{'serious': taskCurreny['alarmLevel'] == '2104'},{'commonly': taskCurreny['alarmLevel'] == '2101' || taskCurreny['alarmLevel'] == '2102' || taskCurreny['alarmLevel'] == '2103'},{'danger': taskCurreny['alarmLevel'] == '2105'}]"
                     >
                   <span class="member_operate_div">
-                    <span>正常</span>
+                    <span>{{ taskName }}</span>
                   </span>
                         <i class="iconfont icon-xiala"></i>
                     </div>
@@ -47,13 +48,13 @@
                 </i-dropdown>-->
             </div>
         </div>
-        <person-judge @on-close="visible = false" :visible="visible"></person-judge>
+        <person-judge :taskCurreny="taskCurreny" :dataType="dataType" :analysisResult="analysisResult" @on-close="visible = false" :visible="visible"></person-judge>
     </div>
 </template>
 
 <script>
     import { mapState } from 'vuex'
-    import personJudge  from '_c/duno-m/personJudge'
+    import personJudge  from '_c/duno-m/personJudgeRobot'
     export default {
         name: 'reportData',
         components: {
@@ -62,7 +63,7 @@
         data() {
             return {
                 visible: false,
-                selectList: ["一般", "严重", "危急"]
+                selectList: ["正常", "预警", "一般","严重","危急"]
             }
         },
         props: {
@@ -90,14 +91,26 @@
             },
             analysisResult:{
                 type: String,
-                default: '正常'
+                default: '未识别'
             }
         },
         watch: {
 
         },
         computed: {
-
+            taskName(){
+                if(this.taskCurreny['alarmLevel'] == '2101'){
+                    return '正常'
+                }else if(this.taskCurreny['alarmLevel'] == '2102'){
+                    return '预警'
+                }else if(this.taskCurreny['alarmLevel'] == '2103'){
+                    return '一般'
+                }else if(this.taskCurreny['alarmLevel'] == '2104'){
+                    return '严重'
+                }else if(this.taskCurreny['alarmLevel'] == '2105'){
+                    return '危急'
+                }
+            }
         },
         methods:{
             selectItem(index) {
@@ -139,7 +152,6 @@
             }
             & span:last-child{
                 position: relative;
-                left: -18px;
                 text-decoration: underline;
                 cursor: pointer;
             }

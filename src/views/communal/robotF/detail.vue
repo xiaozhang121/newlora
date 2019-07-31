@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="configure">
-      <div>任务配置管理（{{ dataBread[2] }}）</div>
+      <div>任务配置列表（{{ dataBread[2] }}）</div>
       <div class="main">
         <div class="left">
           <duno-btn-top
@@ -108,48 +108,13 @@ export default {
           pageIndex: 1,
           totalRows: ''
       },
-      title: "特殊巡视 (2)",
+      title: "特殊巡视",
       titleCon: "",
       dataList: [
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        },
-        {
-          step: "4号主变",
-          record: "数值/状态"
-        }
+
       ],
       titleInspect: "例行巡视编号",
-      dataBread: ["操作中台", "机器人巡视", "机器人一", "任务配置管理"],
+      dataBread: ["操作中台", "机器人巡视", "机器人一", "任务配置列表"],
       newColumns: [
         {
           type: "index",
@@ -371,7 +336,7 @@ export default {
               this.$message.info('更新中，请稍等....')
             else
               this.$message.info(res.data.resInfo)
-            setTimeout(()=>{this.getInfor()},4000)
+            setTimeout(()=>{this.getInfor()},10000)
         })
     },
     getTableData(){
@@ -381,6 +346,9 @@ export default {
             // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
             data['roadImgPath'] =  data['roadImg']
             that.dataList = data['details']
+            if(data['details'] == null){
+                that.dataList = []
+            }
             that.taskNormalData =  data
             that.$forceUpdate()
         })
@@ -395,7 +363,14 @@ export default {
                 item['describeName'] = item['Name']
             })
             that.InspectData = data
-            that.onSelect(data[0])
+            let index = 0
+            for(let i=0; i<data.length; i++){
+                if(data[i].length >0){
+                    index = i
+                    break;
+                }
+            }
+            that.onSelect(data[3])
         })
     },
     onClose(){
