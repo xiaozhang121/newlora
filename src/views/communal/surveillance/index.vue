@@ -12,18 +12,18 @@
           <key-monitor :monitorInfo="monitorInfo01"   kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor :monitorInfo="monitorInfo01" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo01" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" class="monitorM first"></key-monitor>
         </div>
       </div>
       <div class="right_main" v-if="displayType != '2'" :class="{hidden : displayType == '2'}">
         <div class="right">
-          <key-monitor :monitorInfo="monitorInfo02" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo02" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :monitorInfo="monitorInfo03" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo03" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :monitorInfo="monitorInfo04" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo04" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
       </div>
     </div>
@@ -216,6 +216,7 @@ export default {
     initData(){
         const that = this
         getAxiosData('/lenovo-device/api/monitor/layout-list',{userId:this.$store.state.user.userId}).then(res=>{
+          debugger
           that.cameraList = res.data
           that.$forceUpdate()
         })
@@ -368,9 +369,24 @@ export default {
     .item_main:nth-last-child(3n-1) {
     }
   }
+  .monitorM.child {
+    .vjs-fluid {
+      padding-top: 56%;
+    }
+  }
+  .monitorM.first {
+    .vjs-fluid {
+      padding-top: 56%;
+    }
+  }
   .monitorM.second {
     .vjs-fluid {
       padding-top: 32%;
+    }
+  }
+  .oltagevMain.second{
+    .vjs-fluid {
+      padding-top: 56%;
     }
   }
 }
