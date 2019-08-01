@@ -163,7 +163,7 @@ export default {
         params: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list",
-          dataBread: ["操作中台", "设备监测", "可见光", "最新24小时信息记录"]
+          dataBread: ["操作中台", "设备监测", "可见光", "可见光监测记录信息"]
         }
       });
     },
@@ -173,7 +173,7 @@ export default {
         params: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/plan/visible-report/list",
-          dataBread: ["操作中台", "设备监测", "可见光", "最新巡检报表"]
+          dataBread: ["操作中台", "设备监测", "可见光", "红外监测记录信息"]
         }
       });
     },

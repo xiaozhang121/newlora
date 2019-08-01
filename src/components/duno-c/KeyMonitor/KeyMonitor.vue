@@ -24,7 +24,7 @@
           <span @click="changeinit">初始化</span>
         </p>
       </div>
-      <transition v-if="!isIniializa" name="el-zoom-in-bottom">
+      <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
           <div class="block">
             <!-- <span class="demonstration">-15s</span>
@@ -46,9 +46,9 @@
         </div>
       </transition>
       <div v-if="isSecond" class="explain iconList detailIcon">
-        <div class="text">
-          <span @click="getJump">{{kilovolt}}</span>
-          <span @click="getJump">{{patrol}}</span>
+        <div class="text" @click="getJump">
+          <span>{{kilovolt}}</span>
+          <span>{{patrol}}</span>
           <i class="iconfont icon-jiantou"></i>
         </div>
         <span @click="fullScreen()">
@@ -68,16 +68,16 @@
 
 <script>
 import "video.js/dist/video-js.css";
-import videojs from 'video.js'
+import videojs from "video.js";
 import pushMov from "_c/duno-m/pushMov";
 import { mapState } from "vuex";
-import { postAxiosData, getAxiosData } from '@/api/axiosType'
+import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { editConfig } from "@/api/currency/currency.js";
 import { setTimeout } from "timers";
-import SWF_URL from 'videojs-swf/dist/video-js.swf'
-videojs.options.flash.swf = SWF_URL
+import SWF_URL from "videojs-swf/dist/video-js.swf";
+videojs.options.flash.swf = SWF_URL;
 export default {
   name: "KeyMonitor",
   components: {
@@ -85,8 +85,8 @@ export default {
     pushMov
   },
   props: {
-    configType:{},
-    routeName:{},
+    configType: {},
+    routeName: {},
     Initialization: {
       type: Boolean,
       default: () => {
@@ -144,21 +144,30 @@ export default {
     patrol: {
       type: String,
       default: "正在巡视中"
+    },
+    isNav: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
     }
   },
   watch: {
-    monitorInfo:{
-        handler(now){
-            this.monitorInfoR = now
-        },
-        deep: true,
-        immediate: true
+    isNav(now) {
+      this.isNavbar = now;
+    },
+    monitorInfo: {
+      handler(now) {
+        this.monitorInfoR = now;
+      },
+      deep: true,
+      immediate: true
     },
     streamAddr: {
       handler(now) {
         if (now) {
           this.playerOptions["sources"][0]["src"] = now;
-          this.monitorSrc = now
+          this.monitorSrc = now;
           this.showView = true;
         }
       },
@@ -181,13 +190,14 @@ export default {
   },
   data() {
     return {
-      monitorSrc: '',
-      monitorInfoR: '',
+      monitorSrc: "",
+      monitorInfoR: "",
       cameraPic: "",
       pushMovVisable: false,
       showView: false,
       value2: 15,
       isIniializa: false,
+      isNavbar: true,
       showBtm: false,
       //   isChange: true,
       isSecond: false,
@@ -244,12 +254,14 @@ export default {
       // this.$emit("on-push", this.monitorInfoR);
       this.pushMovVisable = true;
       if (this.monitorInfoR) {
-        if('pic' in this.monitorInfoR)
+        if ("pic" in this.monitorInfoR)
           this.cameraPic = this.monitorInfoR["pic"];
-        else{
-          getAxiosData('/lenovo-device/api/pic/url',{rtmpUrl:this.monitorSrc}).then(res=>{
-              this.cameraPic = res.data.pic
-          })
+        else {
+          getAxiosData("/lenovo-device/api/pic/url", {
+            rtmpUrl: this.monitorSrc
+          }).then(res => {
+            this.cameraPic = res.data.pic;
+          });
         }
       } else {
         this.cameraPic = "";
@@ -280,13 +292,12 @@ export default {
         type: "success"
       });
       this.isIniializa = false;
+      this.isNavbar = true;
     }
-    // changeBaggen() {
-    //   this.isChange = false;
-    // }
   },
   mounted() {
     this.isIniializa = this.Initialization;
+    this.isNavbar = !this.isIniializa;
   },
   created() {
     this.playerOptions.autoplay = this.autoplay;
@@ -301,9 +312,9 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
-  .topStyle{
+  .topStyle {
     background: black;
-    .vjs-big-play-button{
+    .vjs-big-play-button {
       display: none;
       height: 2.2em !important;
       width: 2em;
@@ -317,8 +328,8 @@ export default {
       margin: auto;
     }
   }
-  .infraredList{
-    transform: scale(1,0.75);
+  .infraredList {
+    transform: scale(1, 0.75);
     transform-origin: left top;
   }
   .video-player.vjs-custom-skin {
