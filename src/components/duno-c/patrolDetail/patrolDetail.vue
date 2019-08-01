@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
+        // activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/plan/list"
       },
       url: {

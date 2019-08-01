@@ -44,22 +44,23 @@
         </div>
       </div>
     </div>
-    <div class="title">
-      <!-- <span class="nr">{{ oltagevLevel }}</span> -->
-      <!-- 隐藏功能 -->
-      <!-- <duno-btn-top
+    <div class="title" style="margin: 15px 0">
+       <span>{{ oltagevLevel }}</span>
+      <!-- 隐藏功  能 -->
+       <duno-btn-top
         @on-select="onSelectVol"
         class="dunoBtnTop"
         :isCheck="false"
+        style="margin-left: 10px"
         :dataList="oltagevLevelList"
         :title="titleValue"
         :showBtnList="false"
-      ></duno-btn-top> -->
+      ></duno-btn-top>
     </div>
     <div class="oltagevMain">
       <div class="item_main" v-for="(item, index) in areaCameraList" :key="'camera'+index" :class="{noMarginRight:(index+1)%3 == 0}">
         <div class="item">
-          <key-monitor :imgAdress="item['pic']" patrol="" :kilovolt="item['areaName']" :streamAddr="item['streamAddr']" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :imgAdress="item['pic']" patrol="" :kilovolt="item['areaName']" :streamAddr="item['streamAddr']" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
       </div>
     </div>

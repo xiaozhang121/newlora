@@ -5,6 +5,7 @@
         :streamAddr="remarkData.alarmFileAddress"
         :imgAdress="remarkData.pic"
         :monitorInfo="remarkData"
+        :isNav="false"
       />
     </div>
     <div class="content">

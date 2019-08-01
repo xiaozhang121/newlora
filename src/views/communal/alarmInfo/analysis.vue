@@ -660,7 +660,6 @@ export default {
       this.getEcharts(monitorDeviceId);
     },
     onSelectByDay(item) {
-      console.log(item);
       this.titleByDay = item["describeName"];
       switch (item["type"]) {
         case "day":
