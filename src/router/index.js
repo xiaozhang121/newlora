@@ -46,7 +46,7 @@ router.beforeEach((to, from, next) => {
           window.location.href = 'http://52.82.107.5:8080/ar/cardManage'
         } else if (to.name == 'inspectionList') {
           window.location.href = 'http://52.82.107.5:8080/ar/taskManage'
-        } else if (to.name == 'inspectionList') {
+        } else if (to.name == 'videoList') {
           window.location.href = 'http://52.82.107.5:8080/ar/videoRecord'
         } else {
           next() // 有权限，可访问
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
                 window.location.href = 'http://52.82.107.5:8080/ar/cardManage'
               } else if (to.name == 'inspectionList') {
                 window.location.href = 'http://52.82.107.5:8080/ar/taskManage'
-              } else if (to.name == 'inspectionList') {
+              } else if (to.name == 'videoList') {
                 window.location.href = 'http://52.82.107.5:8080/ar/videoRecord'
               } else {
                 next() // 有权限，可访问
