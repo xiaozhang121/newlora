@@ -366,66 +366,6 @@ export default {
         }
       },
       seriesOption: that.seriesData,
-      /*
-      seriesOption: [
-        {
-          name: "4号主变1000千伏侧压变B相",
-          type: "line",
-          data: [
-            30,
-            42,
-            75,
-            25,
-            45,
-            86,
-            35,
-            56,
-            56,
-            23,
-            48,
-            12,
-            45,
-            89,
-            25,
-            35,
-            46,
-            48,
-            56,
-            45,
-            78,
-            12
-          ]
-        },
-        {
-          name: "4号主变1000千伏侧压变C相",
-          type: "line",
-          data: [
-            56,
-            35,
-            35,
-            42,
-            36,
-            56,
-            76,
-            45,
-            25,
-            86,
-            48,
-            68,
-            45,
-            75,
-            25,
-            55,
-            44,
-            33,
-            56,
-            45,
-            25,
-            12
-          ]
-        }
-      ],
-      */
       columns: [
         {
           title: "时间",
@@ -753,11 +693,13 @@ export default {
         endTime: this.endTime
       };
       getEchartsData(query).then(res => {
-        const dataList = res.data.slice(0, 2);
+        const dataList = res.data[0];
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
+        debugger;
         for (let i = 0; i < dataList.length; i++) {
+          console.log(i, dataList[i]);
           legendData.push(dataList[i].deviceName);
           const itemDataList = dataList[i].dataList;
           const obj = {
@@ -776,34 +718,9 @@ export default {
         that.legendData.push(...legendData);
         that.seriesData.push(...seriesData);
         that.$forceUpdate();
-        // debugger;
         console.log(that.legendData);
         console.log(that.seriesData);
         that.isChangeFlag = !that.isChangeFlag;
-        // const dataList = res.data.dataList;
-        // const legendData = [];
-        // const xAxisData = [];
-        // const seriesData = [];
-        // for (let i = 0; i < dataList.length; i++) {
-        //   legendData.push(dataList[i].itemName);
-        //   const itemDataList = dataList[i].itemDataList;
-        //   const obj = {
-        //     name: dataList[i].itemName,
-        //     type: "line",
-        //     data: []
-        //   };
-        //   for (let item in itemDataList) {
-        //     if (i == 0) {
-        //       xAxisData.push(itemDataList[item].time);
-        //     }
-        //     obj.data.push(Number(itemDataList[item].data));
-        //   }
-        //   seriesData.push(obj);
-        // }
-        // that.legendData.push(...legendData);
-        // that.seriesData.push(...seriesData);
-        // that.$forceUpdate();
-        // that.isChangeFlag = !that.isChangeFlag;
       });
     },
     handleToMore() {
@@ -1313,5 +1230,5 @@ export default {
 
 .el-select .el-tag:first-child {
   margin-left: 9px;
-} 
+}
 </style>
