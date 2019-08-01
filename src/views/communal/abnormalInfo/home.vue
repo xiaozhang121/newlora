@@ -46,7 +46,7 @@
           />
         </div>
       </div>
-      <div class="ARRange">
+      <!-- <div class="ARRange">
         <div class="iconcen">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_remote.png" alt />
@@ -67,9 +67,9 @@
             <p>功能开发中</p>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
-    <div class="bottom">
+    <!-- <div class="bottom">
       <div class="left">
         <div class="iconcen">
           <div class="iconTop">
@@ -146,7 +146,7 @@
           />
         </div>
       </div>
-    </div>
+    </div> -->
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
@@ -565,7 +565,7 @@ export default {
       float: left;
     }
     .abnormalInfo {
-      width: calc(50% - 20px);
+      width: calc(50% - 10px);
       margin-right: 20px;
       position: relative;
       //   padding-bottom: 28%;
@@ -591,8 +591,8 @@ export default {
       }
     }
     .reportForm {
-      width: calc(25% - 10px);
-      margin-right: 20px;
+      width: calc(50% - 10px);
+      // margin-right: 20px;
       height: 557px;
       padding: 20px;
       background-color: rgba(20, 40, 56, 0.8);
