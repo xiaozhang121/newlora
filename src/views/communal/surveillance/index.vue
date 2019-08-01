@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="title">
-      <span class="nr">{{ oltagevLevel }}</span>
+      <!-- <span class="nr">{{ oltagevLevel }}</span> -->
       <!-- 隐藏功能 -->
       <!-- <duno-btn-top
         @on-select="onSelectVol"

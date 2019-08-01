@@ -123,7 +123,7 @@ export default {
         });
         return;
       }
-      if (this.$route.name == "infraredList") {
+      if (this.$route.name == "visiblelightList") {
         this.$router.push({
           name: "light-report",
           params: {
@@ -133,7 +133,7 @@ export default {
             dataBread: ["操作中台", "设备监测", "可见光", "查看报告"]
           }
         });
-      } else if (this.$route.name == "visiblelightList") {
+      } else if (this.$route.name == "infraredList") {
         this.$router.push({
           name: "infrared-report",
           params: {
