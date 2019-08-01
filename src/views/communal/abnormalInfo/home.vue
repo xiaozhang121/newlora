@@ -460,7 +460,7 @@ export default {
   },
   created() {
     this.getRecodeList();
-    // this.getData();
+    this.getData();
     this.getMockData();
   },
   methods: {
