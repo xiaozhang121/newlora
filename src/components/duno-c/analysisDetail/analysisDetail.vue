@@ -117,7 +117,7 @@ export default {
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      dataForm:{},
+      dataForm: {},
       title: "所有信息",
       handleNotes: [],
       alarmType: "",
@@ -164,88 +164,97 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            newArr.push(
-              h(
-                "i-dropdown",
-                {
-                  props: { trigger: "click", placement: "bottom-start" },
-                  style: { marginLeft: "5px" },
-                  on: {
-                    "on-click": value => {
-                      console.log(value);
+            // debugger;
+            if (
+              params.row.alarmLevel == "1" ||
+              params.row.alarmLevel == "2" ||
+              params.row.alarmLevel == "3"
+            ) {
+              newArr.push(
+                h(
+                  "i-dropdown",
+                  {
+                    props: { trigger: "click", placement: "bottom-start" },
+                    style: { marginLeft: "5px" },
+                    on: {
+                      "on-click": value => {
+                        console.log(value);
+                      }
                     }
-                  }
-                },
-                [
-                  h("div", { class: { member_operate_div: true } }, [
-                    h(
-                      "div",
-                      {
-                        class: {
-                          table_select: true,
-                          serious: params.row.alarmLevel === "2",
-                          commonly: params.row.alarmLevel === "1",
-                          danger: params.row.alarmLevel === "3"
-                        }
-                      },
-                      [
-                        h("span", this.cutOut(params.row.alarmLevelName), {
-                          class: { member_operate_div: true }
-                        }),
-                        h("i", {
-                          style: { marginLeft: "5px" },
-                          class: { "iconfont icon-xiala": true }
-                        })
-                      ]
-                    )
-                  ]),
-                  h("i-dropdownMenu", { slot: "list" }, [
-                    h("i-dropdownItem", {}, [
+                  },
+                  [
+                    h("div", { class: { member_operate_div: true } }, [
                       h(
                         "div",
                         {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "一般", "1");
-                            }
+                          class: {
+                            table_select: true,
+                            serious: params.row.alarmLevel === "2",
+                            commonly: params.row.alarmLevel === "1",
+                            danger: params.row.alarmLevel === "3"
                           }
                         },
-                        "一般"
+                        [
+                          // h("span", this.cutOut(params.row.alarmLevelName), {
+                          //   class: { member_operate_div: true }
+                          // }),
+                          h("i", {
+                            style: { marginLeft: "5px" },
+                            class: { "iconfont icon-xiala": true }
+                          })
+                        ]
                       )
                     ]),
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "严重", "2");
+                    h("i-dropdownMenu", { slot: "list" }, [
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "一般", "1");
+                              }
                             }
-                          }
-                        },
-                        "严重"
-                      )
-                    ]),
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "危急", "3");
+                          },
+                          "一般"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "严重", "2");
+                              }
                             }
-                          }
-                        },
-                        "危急"
-                      )
+                          },
+                          "严重"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "危急", "3");
+                              }
+                            }
+                          },
+                          "危急"
+                        )
+                      ])
                     ])
-                  ])
-                ]
-              )
-            );
+                  ]
+                )
+              );
+            } else {
+              newArr.push(h("div", "/"));
+            }
             return h("div", newArr);
           }
         },
@@ -359,8 +368,8 @@ export default {
     this.getDataList();
   },
   created() {
-    this.dataForm.planId=this.$route.params.planId;
-    this.dataForm.planType=this.$route.params.planType;
+    this.dataForm.planId = this.$route.params.planId;
+    this.dataForm.planType = this.$route.params.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
     this.title = this.$route.params.title;
     this.dataBread = this.$route.params.dataBread;
@@ -369,17 +378,17 @@ export default {
     this.getType();
   },
   methods: {
-    cutOut(data) {
-      if (data) {
-        const index = data.indexOf("缺陷");
-        if (index > -1) {
-          data = data.substring(0, index);
-        }
-        return data;
-      } else {
-        return "更多";
-      }
-    },
+    // cutOut(data) {
+    //   if (data) {
+    //     const index = data.indexOf("缺陷");
+    //     if (index > -1) {
+    //       data = data.substring(0, index);
+    //     }
+    //     return data;
+    //   } else {
+    //     return "/";
+    //   }
+    // },
     onClickDropdown(row, type, No) {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;
