@@ -130,7 +130,7 @@ export default {
         },
         mapUrl:{
             type: String,
-            default: 'http://52.82.107.5:8090'
+            default: 'http://52.82.107.5:8201'
         },
         kind:{
             type: [String, Number],
