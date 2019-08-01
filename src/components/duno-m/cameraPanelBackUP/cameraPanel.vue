@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="btnList">
-                    <div style="display: flex; margin-bottom: 30px; position: relative; top: 5px;">
+                    <div style="display: flex; margin-bottom: 39px; position: relative; top: 5px;">
                         <div style="margin-top: 5px">巡航间隔：</div>
                         <div style="flex: 1">
                             <el-select v-model="selectValue" placeholder="请选择">
@@ -73,7 +73,7 @@
                     <div style="width: 100%; text-align: right;  margin-top: 5px">
                         <span  style="color: white">预置位切换：<span style="color: #ffd70a">{{ secondLastShow }}s</span></span>
                     </div>
-                    <div style="display:flex;width: 100%; text-align: right; margin-top: 8px; justify-content: space-between; align-items: baseline">
+                    <div style="display:flex;width: 100%; text-align: right; margin-top: 13px; justify-content: space-between; align-items: baseline">
                         <div>
                             <div  style="display: flex;">
                                 <el-radio v-model="radioValue" label="1">单次</el-radio>

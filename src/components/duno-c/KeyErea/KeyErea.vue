@@ -294,6 +294,7 @@ export default {
         // that.titleValueL = "监控摄像头数量";
         that.dataMonitor = res.data.tableData;
         that.$forceUpdate();
+        that.saveCamera();
         // that.videoWidth = "calc(50%)";
         // that.active = 1;
         // that.isCenter = true;
@@ -332,7 +333,7 @@ export default {
       console.log("I want to cancel");
       // Cancel the event
       e.preventDefault();
-      that.saveCamera()
+      // that.saveCamera()
       // Chrome requires returnValue to be set
       e.returnValue = "hello";
     }
@@ -340,7 +341,6 @@ export default {
   beforeDestroy() {
     const that = this;
     console.log("destory");
-    that.saveCamera();
   },
   created() {
     this.initData();

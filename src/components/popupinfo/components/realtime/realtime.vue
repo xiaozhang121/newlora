@@ -35,15 +35,29 @@
         </div>
       </el-col>
     </el-row>
-    <div class="progress">
-      <el-progress
-              type="circle"
-              :percentage="tepmNum"
-              :width="80"
-              color="#87CEEB"
-              :format="format"
-      />
-      <p>温度℃</p>
+    <div v-if="monitorDeviceType == 2">
+      <div class="progress">
+        <el-progress
+                type="circle"
+                :percentage="tepmNum"
+                :width="80"
+                color="#87CEEB"
+                :format="format"
+        />
+        <p>温度℃</p>
+      </div>
+    </div>
+    <div v-else style="display: flex">
+      <div class="progress" v-for="(item, index) in templateList" :key="index">
+        <el-progress
+                type="circle"
+                :percentage="item['realValue']"
+                :width="80"
+                color="#87CEEB"
+                :format="format"
+        />
+        <p>温度℃</p>
+      </div>
     </div>
   </div>
 </template>
@@ -65,6 +79,7 @@
     components: { videoPlayer },
     data() {
         return {
+            templateList: [],
             demoImage: require('@/assets/images/clock.png'),
             tepmNum: 0,
             timer: null,
@@ -207,6 +222,11 @@
                     that.playerOptiond.sources[0].src = res.data;
                     that.$forceUpdate();
                 });
+                getAxiosData('/lenovo-device/api/multi/value',{'monitorDeviceId': that.deviceId}).then(res=>{
+                    this.templateList = res.data
+                    debugger
+                    this.$forceUpdate()
+                })
             } else if (this.monitorDeviceType == 2) {
                /* const urld = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urld, {}).then(res => {
