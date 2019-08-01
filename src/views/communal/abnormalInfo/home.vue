@@ -5,7 +5,7 @@
     </div>
     <div class="middle">
       <div class="abnormalInfo">
-        <duno-main class="contain">
+        <div class="contain">
           <div class="iconTop pointer" @click="getIn">
             <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
             异常信息
@@ -24,7 +24,7 @@
               @on-page-size-change="pageSizeChangeHandle"
             />
           </div>
-        </duno-main>
+        </div>
       </div>
       <div class="reportForm">
         <div class="iconTop">
@@ -67,7 +67,7 @@
             <p>功能开发中</p>
           </div>
         </div>
-      </div> -->
+      </div>-->
     </div>
     <!-- <div class="bottom">
       <div class="left">
@@ -146,7 +146,7 @@
           />
         </div>
       </div>
-    </div> -->
+    </div>-->
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
@@ -193,49 +193,12 @@ export default {
       messageList: [],
       handleNotes: [],
       alarmType: "",
-      mockData: [
-        {
-          alarmNum: 0,
-          date: "2019-07-24 00:00:00",
-          id: 110,
-          monitorDeviceList: [
-            {
-              monitorDeviceId: 4,
-              monitorDeviceName: "测试3",
-              monitorDeviceType: "1"
-            }
-          ],
-          pic:
-            "https://xukly-sgcc.oss-cn-shanghai.aliyuncs.com/%E6%9E%B6%E6%9E%844%E5%8F%AF%E8%A7%81%E4%BA%91.jpg",
-          planId: 2574200,
-          planType: "特殊巡视",
-          realEndTime: "2019-07-24 23:59:59",
-          timeLong: "23:59:59"
-        },
-        {
-          alarmNum: 0,
-          date: "2019-07-24 00:00:00",
-          id: 110,
-          monitorDeviceList: [
-            {
-              monitorDeviceId: 4,
-              monitorDeviceName: "测试3",
-              monitorDeviceType: "1"
-            }
-          ],
-          pic:
-            "https://xukly-sgcc.oss-cn-shanghai.aliyuncs.com/%E6%9E%B6%E6%9E%844%E5%8F%AF%E8%A7%81%E4%BA%91.jpg",
-          planId: 2574200,
-          planType: "特殊巡视",
-          realEndTime: "2019-07-24 23:59:59",
-          timeLong: "23:59:59"
-        }
-      ],
+      mockData: [],
       columns: [
         {
           title: "时间",
           key: "alarmTime",
-          minWidth: 200,
+          minWidth: 150,
           align: "center",
           tooltip: true
         },
@@ -245,25 +208,6 @@ export default {
           minWidth: 150,
           align: "center",
           tooltip: true
-        },
-        {
-          title: "报警部位",
-          key: "powerDeviceName",
-          minWidth: 120,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "div",
-                params.row.powerDeviceName == null
-                  ? "/"
-                  : params.row.powerDeviceName
-              )
-            ]);
-            return h("div", newArr);
-          }
         },
         {
           title: "描述",
@@ -554,6 +498,7 @@ export default {
 <style lang="scss">
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
+  height: 100%;
   .topNav {
     background-color: rgba(20, 40, 56, 0.8);
     height: 80px;
@@ -561,18 +506,25 @@ export default {
   .middle {
     margin-top: 20px;
     overflow: hidden;
+    height: 100%;
     & > div {
       float: left;
     }
     .abnormalInfo {
-      width: calc(50% - 10px);
+      width: calc(60% - 10px);
       margin-right: 20px;
       position: relative;
-      //   padding-bottom: 28%;
-      height: 557px;
+      // height: 557px;
+      height: 100%;
+      .ivu-table-cell {
+        padding-left: 0;
+        padding-right: 0;
+      }
       .contain {
+        padding: 20px;
         width: 100%;
         height: 100%;
+        background-color: rgba(20, 40, 56, 0.8);
         .pointer {
           cursor: pointer;
         }
@@ -591,21 +543,24 @@ export default {
       }
     }
     .reportForm {
-      width: calc(50% - 10px);
+      width: calc(40% - 10px);
       // margin-right: 20px;
-      height: 557px;
+      height: 100%;
       padding: 20px;
       background-color: rgba(20, 40, 56, 0.8);
       .re-middle {
         overflow: hidden;
         margin-top: 20px;
-        & > div:first-child {
-          margin-right: 10px;
+        height: 380px;
+        & > div:last-child {
+          margin-right: 0;
         }
         .reportTable {
           float: left;
-          height: 270px;
-          width: calc(50% - 5px);
+          // height: 270px;
+          height: 100%;
+          margin-right: 20px;
+          width: calc(50% - 10px);
           .content {
             padding: 10px;
             h3 {
@@ -624,6 +579,7 @@ export default {
         }
       }
       .re-table {
+        margin-top: 20px;
         .ivu-table {
           font-size: 12px;
         }

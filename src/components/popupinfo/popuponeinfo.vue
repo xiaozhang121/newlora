@@ -2,19 +2,19 @@
   <historical-documents
     class="popuponeinfoBox"
     width="400px"
-    :title="itemData.monitorDeviceName"
+    :title="itemData.powerDeviceName"
     :isShowTab="false"
     :dialogTableVisible="visible"
     @close="onClose"
   >
     <div class="popuponeinfo">
       <el-row>
-        <el-col :span="24">
+        <!-- <el-col :span="24">
           <p class="itemTitle">
             设备名称：
             <span>{{itemData.powerDeviceName}}</span>
           </p>
-        </el-col>
+        </el-col> -->
         <el-col :span="24">
           <p class="itemTitle">
             当前状态：

@@ -7,8 +7,8 @@
       </div>
       <div class="main">
         <div class="monitor">
-          <img v-if="isImgVideo" :src="monitorUrl || newMonitorUrl" alt />
-          <KeyMonitor v-else width="100%" :streamAddr="monitorUrl || newMonitorUrl" />
+          <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
+          <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
         </div>
         <div class="info">
           <div class="info_top">
@@ -16,7 +16,7 @@
             <p>{{dataList.alarmType}}</p>
           </div>
           <div v-if="!discriminate" class="temperature">
-            <p class="monitorTitle">温度正常</p>
+            <p class="monitorTitle">{{dataList.result}}</p>
             <p>
               {{ popData['alarmValue'] }}℃
               <i-dropdown
@@ -72,7 +72,7 @@
       <div style="clear: both"></div>
     </el-dialog>
     <personJudge
-      :formData="formData"
+      :data="formData"
       :isTemperture="isTemperture"
       @on-close="onClose"
       :visible="visibleJudge"
@@ -226,6 +226,11 @@ export default {
         if (this.dataList.alarmTypeValue == "动态环境类") {
           this.discriminate = true;
         }
+        this.formData = {
+          input: this.dataList.result,
+          inputT: this.dataList.alarmValue,
+          select: this.dataList.alarmType
+        };
       });
     },
     selectItem(item, index) {
@@ -255,14 +260,9 @@ export default {
       }
     },
     clickJudge() {
-      if ((this.dataList.alarmValue = "")) {
+      if (this.dataList.alarmValue == "") {
         this.isTemperture = false;
       }
-      this.formData = {
-        input: this.dataList.result,
-        inputT: this.dataList.alarmValue,
-        select: this.dataList.alarmType
-      };
       this.visibleJudge = true;
     },
     onClose() {

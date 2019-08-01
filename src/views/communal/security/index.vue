@@ -9,9 +9,7 @@
     <div class="alarmTitle">
       <div>3天内动态环境异常记录</div>
       <div>
-        <div @click="clickToDetail">
-          所有动态环境异常信息
-        </div>
+        <div @click="clickToDetail">所有动态环境异常信息</div>
       </div>
     </div>
     <div class="alarmLogIn">
@@ -106,7 +104,9 @@ export default {
       this.getDataList();
     },
     clickToDetail() {
-      this.$router.push({ name: "security-all" });
+      this.$router.push({
+        name: "security-all"
+      });
     },
     getTime() {
       let endTime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -130,7 +130,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  .icon-xiala{
+  .icon-xiala {
     width: 12px;
     height: 14px;
   }

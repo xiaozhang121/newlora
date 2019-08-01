@@ -26,6 +26,7 @@
         v-model="formData.select"
         placeholder="请选择"
         @change="handleSelect"
+        @click="clickhandle"
       >
         <el-option
           v-for="item in options"
@@ -44,7 +45,7 @@
 
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
-import { getAxiosData } from "../../../api/axiosType";
+import { getAxiosData, postAxiosData } from "../../../api/axiosType";
 export default {
   name: "personJudge",
   components: {
@@ -53,6 +54,7 @@ export default {
   data() {
     return {
       value: "",
+      fourValue: "",
       formData: {
         input: "",
         inputT: "",
@@ -74,6 +76,12 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
   watch: {
@@ -97,20 +105,26 @@ export default {
       this.dialogVisible = false;
       this.$emit("on-close");
     },
-    handleSelect() {
-      getAxiosData("/select/list/fourth").then(res => {
+    handlerSelectFour(item) {
+      postAxiosData("/lenovo-device/api/select/list/fourth").then(res => {
         this.optionsData = res.data;
       });
+      this.fourValue = item.value;
+      this.handlerSelectFour(this.fourValue);
     },
-    handlerSelectFour() {
-      getAxiosData("/select/list/fifth").then(res => {
+    handleSelect(query) {
+      postAxiosData("/lenovo-device/api/select/list/fifth", query).then(res => {
         this.options = res.data;
       });
+    },
+    clickhandle() {
+      this.handleSelect();
     }
   },
   mounted() {
+    this.formData = this.data;
     this.handleSelect();
-    this.handlerSelectFour();
+    // this.handlerSelectFour();
   }
 };
 </script>

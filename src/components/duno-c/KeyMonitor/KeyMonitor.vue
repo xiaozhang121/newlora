@@ -45,8 +45,8 @@
           </span>
         </div>
       </transition>
-      <div v-if="isSecond" class="explain iconList detailIcon">
-        <div class="text" @click="getJump">
+      <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
+        <div class="text">
           <span>{{kilovolt}}</span>
           <span>{{patrol}}</span>
           <i class="iconfont icon-jiantou"></i>
@@ -425,6 +425,7 @@ export default {
     }
     .detailIcon {
       bottom: -33px;
+      cursor: pointer;
     }
   }
   .camera:hover {

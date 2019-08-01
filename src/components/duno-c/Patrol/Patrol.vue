@@ -156,11 +156,10 @@ export default {
   watch: {
     columns: {
       handler(now) {
-       /* if (this.now.length == 0) {
+        /* if (this.now.length == 0) {
           return;
         }*/
-        if(now.length)
-          this.columnsData = now;
+        if (now.length) this.columnsData = now;
       },
       immediate: true,
       deep: true
@@ -182,7 +181,7 @@ export default {
         });
       } else if (this.$route.name == "configurationList") {
         this.$router.push({
-          name: "configure-view",
+          name: "configure-report",
           params: {
             planId: row.planId,
             planType: this.planType,
