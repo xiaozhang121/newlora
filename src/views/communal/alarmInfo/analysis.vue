@@ -696,7 +696,6 @@ export default {
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
-        debugger;
         for (let i = 0; i < dataList.length; i++) {
           console.log(i, dataList[i]);
           legendData.push(dataList[i].deviceName);

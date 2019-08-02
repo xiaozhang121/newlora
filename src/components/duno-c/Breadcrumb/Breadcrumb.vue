@@ -19,7 +19,7 @@ export default {
       //面包屑
       type: Array,
       default: () => {
-        return ['操作中台','动态环境监测','动态环境总览']
+        return ["操作中台", "动态环境监测", "动态环境总览"];
       }
     },
     separator: {
@@ -49,6 +49,9 @@ export default {
 }
 .duno-breadcrumb {
   padding-top: 10px;
+  @media screen and (min-width: 3500px) {
+    font-size: 12px;
+  }
   .el-breadcrumb {
     .el-breadcrumb__item {
       .el-breadcrumb__inner {
