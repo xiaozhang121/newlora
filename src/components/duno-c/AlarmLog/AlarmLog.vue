@@ -5,7 +5,7 @@
         :streamAddr="remarkData.alarmFileAddress"
         :imgAdress="remarkData.pic"
         :monitorInfo="remarkData"
-        :isNav="false"
+        isNav="false"
       />
     </div>
     <div class="content">
@@ -15,7 +15,7 @@
           <span>{{remarkData.machineJudge}}</span>
         </p>
       </div>
-      <div class="main">
+      <div class="mainMain">
         <div>
           拍摄时间:
           <span>{{remarkData.alarmTime}}</span>
@@ -28,16 +28,16 @@
         </div>
       </div>
       <div class="btn">
-        <p v-if="isShow">
+        <p>
           拍摄来源:
           <span @click="getJump">{{remarkData.monitorDeviceName}}</span>
+        </p>
+        <p v-if="isShow">
           <i @click="dialogVisible = true">备注</i>
           <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
           <i v-else :disabled="isDisabled">已复归</i>
         </p>
         <p v-else>
-          拍摄来源:
-          <span @click="getJump">{{remarkData.monitorDeviceName}}</span>
           <i>查看详情></i>
         </p>
       </div>
@@ -192,42 +192,41 @@ export default {
   }
   .content {
     width: 60%;
-    padding: 20px;
+    padding: 20px 10px;
     .top {
       p {
-        font-size: 18px;
+        font-size: 16px;
         color: #ffffff;
         span {
           padding-left: 5px;
         }
       }
     }
-    .main {
-      margin-top: 10px;
+    .mainMain {
+      margin-top: 5px;
       div {
-        font-size: 14px;
+        font-size: 12px;
         color: #ffffff;
         display: flex;
         justify-content: flex-start;
-        & > span {
-          padding-left: 10px;
-        }
         i {
           font-style: normal;
         }
         p {
-          padding-left: 10px;
           span {
             display: block;
           }
         }
       }
+      & > div:nth-child(2) {
+        height: 36px;
+      }
     }
     .btn {
-      margin-top: 10px;
+      margin-top: 5px;
       line-height: 32px;
       p {
-        font-size: 14px;
+        font-size: 13px;
         color: #ffffff;
         span {
           cursor: pointer;
@@ -239,8 +238,7 @@ export default {
           float: right;
           font-style: normal;
           display: block;
-          //   width: 68px;
-          padding: 0 20px;
+          padding: 0 15px;
           background-color: #3a81a1;
           border-radius: 16px;
           margin-left: 10px;

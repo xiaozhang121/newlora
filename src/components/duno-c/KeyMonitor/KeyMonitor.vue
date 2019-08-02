@@ -153,9 +153,9 @@ export default {
     }
   },
   watch: {
-    isNav(now) {
-      this.isNavbar = now;
-    },
+    // isNav(now) {
+    //   this.isNavbar = now;
+    // },
     monitorInfo: {
       handler(now) {
         this.monitorInfoR = now;
@@ -332,7 +332,7 @@ export default {
   },
   mounted() {
     this.isIniializa = this.Initialization;
-    this.isNavbar = !this.isIniializa;
+    this.isNavbar = this.isNav;
   },
   created() {
     this.playerOptions.autoplay = this.autoplay;

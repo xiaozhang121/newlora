@@ -217,7 +217,6 @@ export default {
     initData(){
         const that = this
         getAxiosData('/lenovo-device/api/monitor/layout-list',{userId:this.$store.state.user.userId}).then(res=>{
-          debugger
           that.cameraList = res.data
           that.$forceUpdate()
         })

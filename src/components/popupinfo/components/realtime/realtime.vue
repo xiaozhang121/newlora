@@ -223,11 +223,11 @@
                     that.playerOptiond.sources[0].src = res.data;
                     that.$forceUpdate();
                 });
-                getAxiosData('/lenovo-device/api/multi/value',{'monitorDeviceId': that.deviceId}).then(res=>{
-                    this.templateList = res.data
-                    debugger
-                    this.$forceUpdate()
-                })
+                //先隐藏  勿删
+                // getAxiosData('/lenovo-device/api/multi/value',{'monitorDeviceId': that.deviceId}).then(res=>{
+                //     this.templateList = res.data
+                //     this.$forceUpdate()
+                // })
             } else if (this.monitorDeviceType == 2) {
                /* const urld = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urld, {}).then(res => {
