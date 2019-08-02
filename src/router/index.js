@@ -43,11 +43,11 @@ router.beforeEach((to, from, next) => {
       if (store.state.user.userId) {
           if (canTurnTo(to.name, store.state.user.access, routes)) {
               if (to.name == 'ticketList') {
-                  window.location.href = 'http://10.0.10.200:31088/ar/cardManage'
+                  window.location.href = 'http://10.0.10.45/ar/cardManage'
               } else if (to.name == 'inspectionList') {
-                  window.location.href = 'http://10.0.10.200:31088/ar/taskManage'
+                  window.location.href = 'http://10.0.10.45/ar/taskManage'
               } else if (to.name == 'videoList') {
-                  window.location.href = 'http://10.0.10.200:31088/ar/videoRecord'
+                  window.location.href = 'http://10.0.10.45/ar/videoRecord'
               } else {
                   next() // 有权限，可访问
               }
@@ -56,11 +56,11 @@ router.beforeEach((to, from, next) => {
           if (store.state.user.userId) {
               if (canTurnTo(to.name, store.state.user.access, routes)) {
                   if (to.name == 'ticketList') {
-                      window.location.href = 'http://10.0.10.200:31088/ar/cardManage'
+                      window.location.href = 'http://10.0.10.45/ar/cardManage'
                   } else if (to.name == 'inspectionList') {
-                      window.location.href = 'http://10.0.10.200:31088/ar/taskManage'
+                      window.location.href = 'http://10.0.10.45/ar/taskManage'
                   } else if (to.name == 'videoList') {
-                      window.location.href = 'http://10.0.10.200:31088/ar/videoRecord'
+                      window.location.href = 'http://10.0.10.45/ar/videoRecord'
                   } else {
                       next() // 有权限，可访问
                   }
@@ -71,11 +71,11 @@ router.beforeEach((to, from, next) => {
                       // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
                       if (canTurnTo(to.name, user.access, routes)) {
                           if (to.name == 'ticketList') {
-                              window.location.href = 'http://10.0.10.200:31088/ar/cardManage'
+                              window.location.href = 'http://10.0.10.45/ar/cardManage'
                           } else if (to.name == 'inspectionList') {
-                              window.location.href = 'http://10.0.10.200:31088/ar/taskManage'
+                              window.location.href = 'http://10.0.10.45/ar/taskManage'
                           } else if (to.name == 'videoList') {
-                              window.location.href = 'http://10.0.10.200:31088/ar/videoRecord'
+                              window.location.href = 'http://10.0.10.45/ar/videoRecord'
                           } else {
                               next() // 有权限，可访问
                           }
