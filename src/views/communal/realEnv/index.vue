@@ -567,6 +567,7 @@ export default {
 
       },
       alarmClose(){
+
           this.visible = false
           this.$store.state.user.isAlarm = false
           this.$refs.gisMapObj.clearAlarm()
