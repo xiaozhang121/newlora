@@ -1026,7 +1026,6 @@ export default [{
         meta: {
             topNav: '2',
             title: '巡检任务报表',
-            icon: "icon-shouye",
             notCache: true,
             toListName: 'reportList',
             btnArr: []
@@ -1063,7 +1062,6 @@ export default [{
         meta: {
             topNav: '2',
             title: '表计分析',
-            icon: "icon-shouye",
             notCache: true,
             toListName: 'meterdataList',
             btnArr: []

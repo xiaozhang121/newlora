@@ -6,7 +6,7 @@
       top="20vh"
       :visible.sync="dialogVisible"
       :modal="false"
-      width="20%"
+      width="30%"
     >
       <el-input type="textarea" placeholder="请输入备注内容" :autosize="{ minRows: 3}" v-model="textarea"></el-input>
       <span slot="footer" class="dialog-footer">
