@@ -31,9 +31,9 @@
             <el-slider v-model="value2"></el-slider>
             <span>当前</span>-->
           </div>
-          <span>
+         <!-- <span>
             <i class="iconfont icon-luxiang"></i>录像
-          </span>
+          </span>-->
           <span>
             <i class="iconfont icon-jietu"></i>截图
           </span>

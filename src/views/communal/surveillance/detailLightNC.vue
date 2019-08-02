@@ -97,7 +97,7 @@
                 @change="onChangeHis"
               ></el-date-picker>
             </div>
-            <div>
+            <div style="visibility: hidden">
               <div class="exportExcel">
                 <i class="iconfont icon-daochu1"></i>
                 导出Excel
@@ -338,7 +338,7 @@ export default {
           align: "center",
           tooltip: true
         },
-        {
+   /*     {
           title: "视频/图片",
           key: "id",
           minWidth: 120,
@@ -365,7 +365,7 @@ export default {
             }
             return h("div", newArr);
           }
-        },
+        },*/
         {
           title: "自动/手动",
           key: "sourceType",

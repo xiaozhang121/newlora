@@ -453,7 +453,6 @@ export default [{
             meta: {
                 topNav: '2',
                 title: '所有动态环境警告',
-                icon: "icon-shouye",
                 hideInMenu: true,
                 isDetails: true,
                 active: 'environmentalList'

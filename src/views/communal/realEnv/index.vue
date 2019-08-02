@@ -650,7 +650,7 @@ export default {
       },
     // 使用接口地址：     /lenovo-device/api/device/location
       onClose(now, index = 0, target){
-          this.changPoint(-1)
+          // this.changPoint(-1)
           if(index == 'all'){
               this.modeList.map(item=>{
                   item['popupinfoVisable'] = false

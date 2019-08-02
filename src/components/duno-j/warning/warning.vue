@@ -49,7 +49,7 @@
             <div class="title">识别</div>
             <div class="nr">{{ dataList.result }}</div>
           </div>
-          <div>
+          <div style="visibility: hidden">
             <a href="javascript:;" @click="clickJudge">结果修订</a>
           </div>
           <div class="from">
@@ -60,7 +60,7 @@
           </div>
         </div>
       </div>
-      <div class="handleInfo">
+     <!-- <div class="handleInfo">
         <div>
           <p class="monitorTitle">处理记录</p>
           <p v-for="(item, index) in handleList" :key="index" class="item">
@@ -68,7 +68,7 @@
             <span class="info">{{ item['info'] }}</span>
           </p>
         </div>
-      </div>
+      </div>-->
       <div style="clear: both"></div>
     </el-dialog>
     <personJudge
@@ -261,10 +261,10 @@ export default {
       }
     },
     clickJudge() {
-      if (this.dataList.alarmValue == "") {
+    /*  if (this.dataList.alarmValue == "") {
         this.isTemperture = false;
       }
-      this.visibleJudge = true;
+      this.visibleJudge = true;*/
     },
     onClose() {
       this.visibleJudge = false;
