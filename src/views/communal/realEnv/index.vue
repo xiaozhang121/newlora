@@ -405,6 +405,7 @@ export default {
     ]),
     alarmInfo(){
         return this.$store.state.user.alarmInfo
+
     },
     kilovoltKind(){
       return this.$store.state.app.kilovolt
