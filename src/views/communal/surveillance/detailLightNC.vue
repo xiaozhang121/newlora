@@ -3,6 +3,9 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
+    <div class="controlTitle">
+      <div>{{ dataForm.monitorDeviceId }}</div>
+    </div>
     <div class="Main_contain">
       <div class="content" style="margin-top: 15px; position: relative">
         <div class="left nr" style="position: absolute;">
