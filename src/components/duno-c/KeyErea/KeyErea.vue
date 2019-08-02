@@ -326,6 +326,7 @@ export default {
           this.active = 4;
           this.isCenter = false;
       }
+        that.saveCamera();
     },
     beforeunload(e) {
       const that = this;
