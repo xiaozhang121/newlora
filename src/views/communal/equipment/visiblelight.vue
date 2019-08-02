@@ -157,7 +157,8 @@ export default {
     };
   },
   methods: {
-    handleClick() { //错的 暂时这样写
+    handleClick() {
+      //错的 暂时这样写
       this.$router.push({
         name: "light-report",
         params: {
@@ -347,7 +348,7 @@ export default {
         & > div {
           //   height: 367px;
           float: left;
-          width: calc(100% / 3 - 20px);
+          width: calc(50% - 10px);
           margin-right: 20px;
           .reportTable {
             height: 380px;
@@ -355,6 +356,9 @@ export default {
               height: 137px;
             }
           }
+        }
+        & > div:nth-child(2n) {
+          margin-right: 0;
         }
       }
     }
