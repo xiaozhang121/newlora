@@ -37,7 +37,7 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div>
+        <div style="visibility: hidden">
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
             导出表格
