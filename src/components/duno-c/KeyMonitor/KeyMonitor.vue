@@ -19,10 +19,10 @@
         ></video-player>
       </div>
       <div v-if="isIniializa" class="Initialization">
-        <p>
+        <!--<p>
           点击按钮，完成标定初始化设置
           <span @click="changeinit">初始化</span>
-        </p>
+        </p>-->
       </div>
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
@@ -282,7 +282,7 @@ export default {
       getAxiosData('/lenovo-device/api/preset/type',{monitorDeviceId: this.monitorInfoR["monitorDeviceId"]}).then(res=>{
         let supportPreset = res.data['supportPreset']
         let monitorDeviceType = res.data['monitorDeviceType']
-        if(monitorDeviceType == 1 || monitorDeviceType == 3){
+        if(monitorDeviceType == 1){
             if(supportPreset){
                 this.$router.push({
                     path: "/surveillancePath/detailLight",
@@ -299,13 +299,19 @@ export default {
                 })
             }
         }else if(monitorDeviceType == 2){
-
                 this.$router.push({
                     path: "/surveillancePath/detailRedN",
                     query: {
                         monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
                     }
                 })
+        }else if(monitorDeviceType == 3){
+              this.$router.push({
+                  path: "/surveillancePath/detailEnv",
+                  query: {
+                      monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+                  }
+              })
         }
       })
      /* this.$router.push({

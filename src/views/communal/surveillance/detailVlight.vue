@@ -5,7 +5,7 @@
     </div>
     <div class="controlTitle">
       <div>{{ dataForm.monitorDeviceId }}</div>
-      <div v-if="isControl =='1'" class="control">
+   <!--   <div v-if="isControl =='1'" class="control">
         云台控制中
         <span @click="getControl">获取控制权</span>
       </div>
@@ -17,7 +17,7 @@
         结束控制倒计时
         <i>{{ currentTime }} s</i>
         <span @click="getControl">结束控制</span>
-      </div>
+      </div>-->
     </div>
     <div class="Main_contain">
       <div class="content">

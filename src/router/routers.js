@@ -335,6 +335,17 @@ export default [{
             component: () => import('@/views/communal/surveillance/detailRedNC.vue')
         },
         {
+            path: 'detailEnv',
+            name: 'surveillanceListImportant',
+            meta: {
+                topNav: '3',
+                title: '重点监测区域',
+                hideInMenu: true,
+                isDetails: true,
+            },
+            component: () => import('@/views/communal/surveillance/detailEnv.vue')
+        },
+        {
             path: 'detailLightN',
             name: 'surveillanceListRedN',
             meta: {

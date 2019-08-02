@@ -3,6 +3,22 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
+    <div class="controlTitle">
+      <div>{{ dataForm.monitorDeviceId }}</div>
+      <!--   <div v-if="isControl =='1'" class="control">
+           云台控制中
+           <span @click="getControl">获取控制权</span>
+         </div>
+         <div v-if="isControl =='2'" class="control">
+           已获取云台控制
+           <span @click="getControl">结束控制</span>
+         </div>
+         <div v-if="isControl =='3'" class="control">
+           结束控制倒计时
+           <i>{{ currentTime }} s</i>
+           <span @click="getControl">结束控制</span>
+         </div>-->
+    </div>
     <div class="Main_contain">
       <div class="content">
         <div class="left nr">
