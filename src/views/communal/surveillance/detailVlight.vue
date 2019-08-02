@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="controlTitle">
-      <div>摄像机ID</div>
+      <div>{{ dataForm.monitorDeviceId }}</div>
       <div v-if="isControl =='1'" class="control">
         云台控制中
         <span @click="getControl">获取控制权</span>
