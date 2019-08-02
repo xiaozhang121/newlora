@@ -157,7 +157,8 @@ export default {
     };
   },
   methods: {
-    handleClick() {//错误跳转 以后改
+    handleClick() {
+      //错误跳转 以后改
       this.$router.push({
         name: "infrared-report",
         params: {
@@ -349,7 +350,7 @@ export default {
         overflow: hidden;
         & > div {
           float: left;
-          width: calc(100% / 3 - 20px);
+          width: calc(50% - 10px);
           margin-right: 20px;
           .reportTable {
             height: 380px;
@@ -357,6 +358,9 @@ export default {
               height: 137px;
             }
           }
+        }
+        & > div:nth-child(2n) {
+          margin-right: 0;
         }
       }
     }

@@ -29,11 +29,10 @@ export default {
       }
     }
   },
-  methods:{
-      toBack(index){
-          if(this.dataList.length-1 == index)
-          this.$router.go(-1)
-      }
+  methods: {
+    toBack(index) {
+      if (this.dataList.length - 1 == index) this.$router.go(-1);
+    }
   },
   mounted() {
     console.log();
@@ -42,17 +41,17 @@ export default {
 </script>
 
 <style lang="scss">
-.pointer{
-  .el-breadcrumb__inner{
+.pointer {
+  .el-breadcrumb__inner {
     cursor: pointer !important;
   }
 }
 .duno-breadcrumb {
   padding-top: 10px;
-  @media screen and (min-width: 3500px) {
-    font-size: 12px;
-  }
   .el-breadcrumb {
+    @media screen and (min-width: 3500px) {
+      font-size: 12px;
+    }
     .el-breadcrumb__item {
       .el-breadcrumb__inner {
         color: #fff;

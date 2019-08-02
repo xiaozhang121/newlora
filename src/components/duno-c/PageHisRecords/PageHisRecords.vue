@@ -126,7 +126,12 @@ export default {
         {
           key: "alarmTime",
           title: "拍摄时间",
-          align: "center"
+          minWidth: 120,
+          align: "center",
+          render: (h, params) => {
+            let timeDay = params.row.alarmTime.slice(5);
+            return h("div", timeDay);
+          }
         },
         {
           key: "alarmDetailType",
@@ -170,13 +175,13 @@ export default {
           title: "处理时间",
           align: "center",
           render: (h, params) => {
-            return h("div", params.row.dealList[0].dealTime);
+            let timeDay = params.row.dealList[0].dealTime.slice(5);
+            return h("div", timeDay);
           }
         },
         {
           title: "视频/图片",
           key: "id",
-          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -203,7 +208,7 @@ export default {
         },
         {
           title: " ",
-          width: 220,
+          width: 180,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -392,9 +397,17 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    @media screen and (min-width: 3500px) {
+      height: 35px;
+    }
     & > div:first-child {
       padding-top: 10px;
       font-size: 18px;
+      @media screen and (min-width: 3500px) {
+        padding-top: 0;
+        font-size: 16px;
+        line-height: 35px;
+      }
     }
     .btn {
       display: flex;
@@ -410,6 +423,12 @@ export default {
           // background-color: #192f41;
           background-image: url(../../../assets/images/btn/moreBtn.png);
           cursor: pointer;
+          @media screen and (min-width: 3500px) {
+            background-size: 100% 100%;
+            font-size: 14px;
+            line-height: 34px;
+            width: 120px;
+          }
         }
       }
       .dunoBtnTop {
@@ -424,6 +443,16 @@ export default {
             padding: 8px 20px;
           }
         }
+        @media screen and (min-width: 3500px) {
+          width: 140px;
+          .btnList {
+            width: 140px;
+            .title {
+              font-size: 14px;
+              height: 35px;
+            }
+          }
+        }
       }
       .dateChose {
         height: 40px;
@@ -436,6 +465,9 @@ export default {
           .el-range-separator {
             font-size: 20px;
             color: #fff;
+            @media screen and (min-width: 3500px) {
+              font-size: 14px;
+            }
           }
           .el-range-input {
             color: #fff;
@@ -443,9 +475,16 @@ export default {
         }
         .el-range-editor--small.el-input__inner {
           height: 40px;
+          @media screen and (min-width: 3500px) {
+            height: 35px !important;
+            width: 250px;
+          }
         }
         .el-range-editor--small .el-range-input {
           font-size: 16px;
+          @media screen and (min-width: 3500px) {
+            font-size: 14px;
+          }
         }
       }
     }
@@ -501,6 +540,9 @@ export default {
   .table_link {
     color: #5fafff !important;
     text-decoration: underline;
+    @media screen and (min-width: 3500px) {
+      font-size: 13px;
+    }
   }
   .btn_pre {
     padding: 10px 15px;
@@ -520,6 +562,16 @@ export default {
     font-size: 18px;
     font-weight: normal;
     background-color: #2d5980 !important;
+    @media screen and (min-width: 3500px) {
+      font-size: 15px;
+      height: 50px;
+    }
+  }
+  .ivu-table-cell {
+    @media screen and (min-width: 3500px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
   .ivu-table-border td {
     font-size: 16px;
@@ -566,6 +618,10 @@ export default {
       border-bottom: 1px solid #2b5272;
       td {
         height: 52px;
+        @media screen and (min-width: 3500px) {
+          height: 50px;
+          font-size: 13px;
+        }
       }
     }
     tr:nth-child(odd) {
