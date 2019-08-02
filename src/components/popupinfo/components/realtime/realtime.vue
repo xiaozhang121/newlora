@@ -224,7 +224,6 @@
                 });
                 getAxiosData('/lenovo-device/api/multi/value',{'monitorDeviceId': that.deviceId}).then(res=>{
                     this.templateList = res.data
-                    debugger
                     this.$forceUpdate()
                 })
             } else if (this.monitorDeviceType == 2) {

@@ -43,10 +43,10 @@
       </p>
     </div>
     <div class="btn">
-      <div @click="clickDownload">
+      <!-- <div @click="clickDownload">
         <i class="iconfont icon-xiazai"></i>
         <span>下载报告</span>
-      </div>
+      </div>-->
       <div @click="viewReports">
         <i class="iconfont icon-chakan"></i>
         <span>查看报告</span>
@@ -236,7 +236,7 @@ export default {
       cursor: pointer;
       box-sizing: border-box;
       float: left;
-      width: 50%;
+      width: 100%;
       line-height: 40px;
       text-align: center;
       font-size: 16px;
@@ -245,9 +245,9 @@ export default {
         padding-left: 5px;
       }
     }
-    & > div:first-child {
-      border-right: 1px solid #ffffff;
-    }
+    // & > div:first-child {
+    //   border-right: 1px solid #ffffff;
+    // }
   }
 }
 </style>
