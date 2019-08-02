@@ -42,6 +42,6 @@ export default {
      */
     baseUrl: {
         dev: baseUrl,
-        pro: 'http://10.0.0.164:8088'
+        pro: ''
     }
 }
