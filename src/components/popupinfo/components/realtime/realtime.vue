@@ -12,10 +12,8 @@
                   :options="playerOptiond"
           ></video-player>
         </div>
-        <div class="itemImgBox"   style="width: 200px; height: 150px; transform: scale(1.13,1); transform-origin: left top;" v-else>
+        <div class="itemImgBox"   style="width: 226px; height: 150px;transform-origin: left top;" v-else>
           <video-player
-                  @mousemove.native="pointerPos($event)"
-                  @mouseout.native="clearTimer()"
                   ref="videoPlayer"
                   class="vjs-custom-skin realtime_video"
                   :options="playerOptionf"
@@ -28,6 +26,8 @@
              style="width: 228px; height: 150px"
         >
           <video-player
+                  @mousemove.native="pointerPos($event)"
+                  @mouseout.native="clearTimer()"
                   ref="videoPlayerd"
                   class="vjs-custom-skin realtime_video"
                   :options="playerOptions"
@@ -86,8 +86,8 @@
             offsetX: null,
             offsetY: null,
             playerOptions: {
-                width: 228,
-                height: 150,
+                fluid: true,
+                aspectRatio: '16:9',
                 sources: [
                     {
                         type: "rtmp/flv",
@@ -99,8 +99,8 @@
                 controls: false
             },
             playerOptiond: {
-                width: 228,
-                height: 150,
+                fluid: true,
+                aspectRatio: '16:9',
                 sources: [
                     {
                         type: "rtmp/flv",
@@ -112,8 +112,8 @@
                 controls: false
             },
             playerOptionf: {
-                width: 200,
-                height: 150,
+                fluid: true,
+                aspectRatio: '16:9',
                 sources: [
                     {
                         type: "rtmp/flv",
@@ -191,9 +191,10 @@
                 that.offsetY = event.offsetY;
                 if (!this.timer) {
                     this.timer = setInterval(() => {
+                        let x = that.offsetX-27<0?0:that.offsetX-27
                         getAxiosData(
                             "/lenovo-iir/device/temperature/get/location/" + this.deviceId,
-                            { x: that.offsetX, y: 150 - that.offsetY, r: 1, pannelWidth: '200', pannelHeight:'150' }
+                            { x: x, y: that.offsetY, r: 1, pannelWidth: '172', pannelHeight:'128' }
                         ).then(res => {
                             // console.log('data:'+res.data)
                             that.tepmNum = res.data.data;
@@ -245,12 +246,12 @@
                 );
                 const urldd = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urldd, {}).then(res => {
-                    that.playerOptionf.sources[0].src = res.data.data;
+                    that.playerOptions.sources[0].src = res.data.data;
                     that.$forceUpdate();
                 });
                 const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
                 getAxiosData(urld, {}).then(res => {
-                    that.playerOptions.sources[0].src = res.data.data;
+                    that.playerOptionf.sources[0].src = res.data.data;
                     that.$forceUpdate();
                 });
 

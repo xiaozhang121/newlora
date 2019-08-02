@@ -431,7 +431,7 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["视频监控", "摄像头详情"]
+      dataBread: ["摄像头详情", "返回"]
     };
   },
   props: {

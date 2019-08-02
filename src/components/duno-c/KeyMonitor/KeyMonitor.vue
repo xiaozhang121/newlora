@@ -279,12 +279,41 @@ export default {
       this.showBtm = false;
     },
     getJump() {
-      this.$router.push({
+      getAxiosData('/lenovo-device/api/preset/type',{monitorDeviceId: this.monitorInfoR["monitorDeviceId"]}).then(res=>{
+        let supportPreset = res.data['supportPreset']
+        let monitorDeviceType = res.data['monitorDeviceType']
+        if(monitorDeviceType == 1 || monitorDeviceType == 3){
+            if(supportPreset){
+                this.$router.push({
+                    path: "/surveillancePath/detailLight",
+                    query: {
+                        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+                    }
+                })
+            }else{
+                this.$router.push({
+                    path: "/surveillancePath/detailLightN",
+                    query: {
+                        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+                    }
+                })
+            }
+        }else if(monitorDeviceType == 2){
+
+                this.$router.push({
+                    path: "/surveillancePath/detailRedN",
+                    query: {
+                        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+                    }
+                })
+        }
+      })
+     /* this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
         }
-      });
+      });*/
     },
     changeinit() {
       this.$message({

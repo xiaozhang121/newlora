@@ -7,145 +7,145 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-export default {
-  name: 'App',
-  data () {
-    const that = this
-    return {
-      audio: null,
-      defectAlarm: require('@/audio/defectAlarm.mp3'),
-      safetyAlarm: require('@/audio/safetyAlarm.mp3'),
-      Socket: null,
-      SocketTime: null,
-      isSocketOk: true,
-      isLoginPage: false,
-      baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
-    }
-  },
-  watch: {
-    '$route' (to) {
-      const that = this
-      try{
-          for(let i=0; i<document.getElementsByClassName('addImage').length;i++){
-              document.getElementsByClassName('addImage')[i].remove()
-          }
-          document.getElementsByClassName('addImage')[0].remove()
-      }catch (e) { }
-      if (to.path === '/login' || to.path === '/') {
-        that.isLoginPage = true
-        if (that.Socket) {
-          that.Socket.close()
-          that.Socket = null
-        }
-      } else {
-        that.isLoginPage = false
-        if (!that.Socket) {
-          if (process.env.NODE_ENV !== 'development') {
-            that.WebSocket()
-          }
-        }
-      }
-    },
-     alarmInfo(now){
-        if(!now){
-          this.audio = null
-        }
-     }
-  },
-  computed: {
-    ...mapState([
-      'user'
-    ]),
-    alarmInfo(){
-      return this.$store.state.user.isAlarm
-    }
-  },
-  methods: {
-    linkWebSocket () {
-      const that = this
-    /*  if (!that.isLoginPage) {
-        that.SocketTime = setInterval(function () {
-          that.WebSocket()
-        }, 5000)
-      }*/
-    },
-    WebSocket () {
-      const that = this
-      if ('WebSocket' in window) {
-        try {
-          const index = that.baseUrl.indexOf('//')
-          let url = that.baseUrl.substring(index, that.baseUrl.length)
-          url = url.replace(':8008',':8200')
-        //   that.Socket = new WebSocket(`ws:${url}/lenovo-alarm/alarm/websocket`)
-          that.Socket = new WebSocket(`ws://10.0.0.164:8081/lenovo-alarm/alarm/websocket`)
-          // this.Socket.onopen = function() { // 发送数据 websocket
-          // // Web Socket 已连接上，使用 send() 方法发送数据
-          // console.log("数据发送中...")
-          // }
-          that.Socket.onmessage = function (evt) { // 接收数据 websocket
-            let receivedMsg = JSON.parse(evt.data)
-              debugger
-            clearInterval(that.SocketTime)
-            that.SocketTime = null
-            that.isSocketOk = true
-            that.$store.state.user.alarmInfo = receivedMsg
-            that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
-            if(that.$store.state.user.isAlarm){
-              if(receivedMsg['alarmType'] == 1){
-                  that.audio = that.defectAlarm
-              }else{
-                  that.audio = that.safetyAlarm
-              }
-            }else{
-                  that.audio = null
+    import { mapState } from 'vuex'
+    export default {
+        name: 'App',
+        data () {
+            const that = this
+            return {
+                audio: null,
+                defectAlarm: require('@/audio/defectAlarm.mp3'),
+                safetyAlarm: require('@/audio/safetyAlarm.mp3'),
+                Socket: null,
+                SocketTime: null,
+                isSocketOk: true,
+                isLoginPage: false,
+                baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
             }
+        },
+        watch: {
+            '$route' (to) {
+                const that = this
+                try{
+                    for(let i=0; i<document.getElementsByClassName('addImage').length;i++){
+                        document.getElementsByClassName('addImage')[i].remove()
+                    }
+                    document.getElementsByClassName('addImage')[0].remove()
+                }catch (e) { }
+                if (to.path === '/login' || to.path === '/') {
+                    that.isLoginPage = true
+                    if (that.Socket) {
+                        that.Socket.close()
+                        that.Socket = null
+                    }
+                } else {
+                    that.isLoginPage = false
+                    if (!that.Socket) {
+                        if (process.env.NODE_ENV !== 'development') {
+                            that.WebSocket()
+                        }
+                    }
+                }
+            },
+            alarmInfo(now){
+                if(!now){
+                    this.audio = null
+                }
+            }
+        },
+        computed: {
+            ...mapState([
+                'user'
+            ]),
+            alarmInfo(){
+                return this.$store.state.user.isAlarm
+            }
+        },
+        methods: {
+            linkWebSocket () {
+                const that = this
+                /*  if (!that.isLoginPage) {
+                    that.SocketTime = setInterval(function () {
+                      that.WebSocket()
+                    }, 5000)
+                  }*/
+            },
+            WebSocket () {
+                const that = this
+                if ('WebSocket' in window) {
+                    try {
+                        const index = that.baseUrl.indexOf('//')
+                        let url = that.baseUrl.substring(index, that.baseUrl.length)
+                        url = url.replace(':8008',':8200')
+                        //   that.Socket = new WebSocket(`ws:${url}/lenovo-alarm/alarm/websocket`)
+                        that.Socket = new WebSocket(`ws://192.168.9.112:8081/lenovo-alarm/alarm/websocket`)
+                        // this.Socket.onopen = function() { // 发送数据 websocket
+                        // // Web Socket 已连接上，使用 send() 方法发送数据
+                        // console.log("数据发送中...")
+                        // }
+                        that.Socket.onmessage = function (evt) { // 接收数据 websocket
+                            let receivedMsg = JSON.parse(evt.data)
+                            debugger
+                            clearInterval(that.SocketTime)
+                            that.SocketTime = null
+                            that.isSocketOk = true
+                            that.$store.state.user.alarmInfo = receivedMsg
+                            that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
+                            if(that.$store.state.user.isAlarm){
+                                if(receivedMsg['alarmType'] == 1){
+                                    that.audio = that.defectAlarm
+                                }else{
+                                    that.audio = that.safetyAlarm
+                                }
+                            }else{
+                                that.audio = null
+                            }
 
-          /*  const account = that.$store.state.user.account
-            let num = 0
-            for (let i = 0; i < receivedMsg.length; i++) {
-              if (receivedMsg[i].account === account) {
-                num++
-              }
+                            /*  const account = that.$store.state.user.account
+                              let num = 0
+                              for (let i = 0; i < receivedMsg.length; i++) {
+                                if (receivedMsg[i].account === account) {
+                                  num++
+                                }
+                              }
+                              that.$store.state.user.msgNum = num*/
+                        }
+                        that.Socket.onclose = function () { // 关闭 websocket
+                            that.Socket = null
+                            if (that.isSocketOk) {
+                                that.isSocketOk = false
+                                that.linkWebSocket()
+                            }
+                        }
+                        that.Socket.onerror = function () { // 错误 websocket
+                            that.Socket = null
+                        }
+                    } catch (e) {
+                        that.Socket = null
+                    }
+                }
             }
-            that.$store.state.user.msgNum = num*/
-          }
-          that.Socket.onclose = function () { // 关闭 websocket
-            that.Socket = null
-            if (that.isSocketOk) {
-              that.isSocketOk = false
-              that.linkWebSocket()
+        },
+        mounted () {
+            const that = this
+            // that.audio = that.safetyAlarm
+            console.log('后台访问地址：', that.baseUrl)
+            if (true) {
+                if (that.$route.path !== '/login') { // 当前路径不是登录页
+                    that.isLoginPage = false
+                    that.WebSocket()
+                } else {
+                    that.isLoginPage = true
+                }
             }
-          }
-          that.Socket.onerror = function () { // 错误 websocket
-            that.Socket = null
-          }
-        } catch (e) {
-          that.Socket = null
+            window.onbeforeunload = function () { // 浏览器关闭
+                if (that.Socket) {
+                    that.Socket.close()
+                    that.Socket = null
+                }
+            }
         }
-      }
     }
-  },
-  mounted () {
-    const that = this
-    // that.audio = that.safetyAlarm
-    console.log('后台访问地址：', that.baseUrl)
-    if (true) {
-      if (that.$route.path !== '/login') { // 当前路径不是登录页
-        that.isLoginPage = false
-        that.WebSocket()
-      } else {
-        that.isLoginPage = true
-      }
-    }
-    window.onbeforeunload = function () { // 浏览器关闭
-      if (that.Socket) {
-        that.Socket.close()
-        that.Socket = null
-      }
-    }
-  }
-}
 </script>
 
 <style lang="scss">

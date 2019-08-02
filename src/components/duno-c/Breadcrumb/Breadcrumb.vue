@@ -2,8 +2,10 @@
   <div class="duno-breadcrumb">
     <el-breadcrumb :separator="separator">
       <el-breadcrumb-item
+        :class="{'pointer': index == (dataList.length-1)}"
         v-for="(item,index) in dataList"
         :key="index"
+        @click.native="toBack(index)"
       >{{ item }}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
@@ -27,6 +29,12 @@ export default {
       }
     }
   },
+  methods:{
+      toBack(index){
+          if(this.dataList.length-1 == index)
+          this.$router.go(-1)
+      }
+  },
   mounted() {
     console.log();
   }
@@ -34,6 +42,11 @@ export default {
 </script>
 
 <style lang="scss">
+.pointer{
+  .el-breadcrumb__inner{
+    cursor: pointer !important;
+  }
+}
 .duno-breadcrumb {
   padding-top: 10px;
   .el-breadcrumb {
