@@ -100,6 +100,17 @@ export default {
     handleSubmit() {
       this.dialogVisible = false;
       this.$emit("on-close");
+      let url = "/lenovo-alarm/alarm/add/humanJudge";
+      let query = {
+        alarmId: this.formData.alarmId,
+        alarmDetailType: this.formData.input
+      };
+      getAxiosData(url, query).then(res => {
+        this.$message({
+          type: "succsee",
+          message: "修改成功"
+        });
+      });
     },
     handlecancle() {
       this.dialogVisible = false;

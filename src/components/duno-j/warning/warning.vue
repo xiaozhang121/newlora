@@ -227,6 +227,7 @@ export default {
           this.discriminate = true;
         }
         this.formData = {
+          alarmId: this.searchId,
           input: this.dataList.result,
           inputT: this.dataList.alarmValue,
           select: this.dataList.alarmType
