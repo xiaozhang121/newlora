@@ -38,7 +38,7 @@
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div v-for="(item,index) in dataList.slice(0,8)" :key="index">
+        <div @click="handleClick" v-for="(item,index) in dataList.slice(0,8)" :key="index">
           <img :src="item.fileAddress" alt />
           <p>{{item.deviceName}}</p>
         </div>
@@ -157,6 +157,16 @@ export default {
     };
   },
   methods: {
+    handleClick() { //错的 暂时这样写
+      this.$router.push({
+        name: "light-report",
+        params: {
+          title: "可见光监测记录信息",
+          url: "/lenovo-plan/api/task/visible-result/list",
+          dataBread: ["操作中台", "设备监测", "可见光", "所有记录"]
+        }
+      });
+    },
     getMore() {
       this.$router.push({
         name: "light-report",

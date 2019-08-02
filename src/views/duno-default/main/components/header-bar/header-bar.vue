@@ -27,6 +27,7 @@ export default {
   },
   data () {
     return {
+      isClick: false,
       activeBtn: '2',
       maxLogo,
       dateTime: ''
@@ -36,16 +37,23 @@ export default {
     collapsed: Boolean
   },
   watch:{
-      activeBtn(now, old){
-          this.$store.state.app.topNav = now
-          sessionStorage.setItem('topNav', now)
-          if(now == 3){
-                this.$router.push({name:'surveillanceList'})
-          }else if(now == 2){
-              this.$router.push({name:'_realEnv'})
-          }else if(now == 1){
-                this.$router.push({name:'abnormalInfoList'})
-          }
+      activeBtn:{
+         handler(now){
+           sessionStorage.setItem('topNav', now)
+           if(this.isClick){
+               this.$store.state.app.topNav = now
+               if(now == 3){
+                   this.$router.push({name:'surveillanceList'})
+               }else if(now == 2){
+                   this.$router.push({name:'_realEnv'})
+               }else if(now == 1){
+                   this.$router.push({name:'abnormalInfoList'})
+               }
+           }
+           this.isClick = false
+         },
+         deep: true,
+         immediate: true
       }
   },
   computed: {
@@ -55,7 +63,7 @@ export default {
   },
   methods: {
     activeChange(flag){
-        debugger
+        this.isClick = true
         this.activeBtn = flag
         this.$store.state.app.topNav = flag
     },

@@ -371,7 +371,7 @@ export default {
                     break;
                 }
             }
-            that.onSelect(data[3])
+            that.onSelect(data[0])
         })
     },
     onClose(){
@@ -393,6 +393,7 @@ export default {
           data.map(item=>{
               item['start'] = 1
           })
+          this.title = '特殊巡视'+ '('+ res.data['total'] +')'
           this.specialInspectList['totalRows'] = res.data['total']
           this.specialInspectList['data'] = data;
           this.$forceUpdate()

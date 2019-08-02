@@ -38,7 +38,7 @@
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div v-for="(item,index) in dataList.slice(0,8)" :key="index">
+        <div @click="handleClick" v-for="(item,index) in dataList.slice(0,8)" :key="index">
           <img :src="item.fileAddress" alt />
           <p>{{item.deviceName}}</p>
         </div>
@@ -157,6 +157,16 @@ export default {
     };
   },
   methods: {
+    handleClick() {//错误跳转 以后改
+      this.$router.push({
+        name: "infrared-report",
+        params: {
+          title: "红外监测记录信息",
+          url: "/lenovo-plan/api/task/iir-result/list",
+          dataBread: ["操作中台", "设备监测", "红外监测", "所有记录"]
+        }
+      });
+    },
     getMore() {
       this.$router.push({
         name: "infrared-report",
@@ -273,7 +283,7 @@ export default {
   top: -5px;
 }
 .visiblelight {
-  .icon-xiala{
+  .icon-xiala {
     width: 12px;
     height: 15px;
   }
@@ -379,6 +389,7 @@ export default {
       justify-content: space-around;
       flex-wrap: wrap;
       div {
+        cursor: pointer;
         width: calc(12.5% - 17.5px);
         img {
           display: block;

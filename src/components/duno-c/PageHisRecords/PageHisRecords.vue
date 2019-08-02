@@ -54,7 +54,7 @@
         top="20vh"
         :visible.sync="dialogVisible"
         :modal="false"
-        width="20%"
+        width="30%"
       >
         <el-input
           type="textarea"
@@ -77,7 +77,11 @@ import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import moment from "moment";
-import { alarmType, addReturn } from "@/api/configuration/configuration.js";
+import {
+  alarmType,
+  addReturn,
+  dealRemarks
+} from "@/api/configuration/configuration.js";
 import { truncate } from "fs";
 export default {
   name: "PageHisRecords",
@@ -104,6 +108,7 @@ export default {
     }
   },
   data() {
+    const that = this;
     return {
       mixinViewModuleOptions: {
         activatedIsNeed: false,
@@ -116,6 +121,7 @@ export default {
       typeSelect: [],
       dialogVisible: false,
       textarea: "",
+      alarmId: "",
       columns: [
         {
           key: "alarmTime",
@@ -248,6 +254,7 @@ export default {
                     click: () => {
                       //   console.log(111);
                       this.dialogVisible = true;
+                      this.alarmId = params.row.alarmId;
                     }
                   }
                 },
@@ -274,6 +281,19 @@ export default {
     }
   },
   methods: {
+    addReturn(item) {
+      const that = this;
+      const query = {
+        alarmId: item.alarmId,
+        type: "1"
+      };
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.showReturn = false;
+      });
+      that.getDataList();
+    },
     onSelect(item) {
       this.titleType = item["describeName"];
       this.dataForm.alarmType = item["monitorDeviceType"];
@@ -346,14 +366,13 @@ export default {
       const that = this;
       that.dialogVisible = false;
       let query = {
-        alarmId: that.remarkData.alarmId,
+        alarmId: that.alarmId,
         type: "2",
         content: that.textarea
       };
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-        this.$emit("handleListData");
       });
     },
     dataListSelectionChangeHandle() {}

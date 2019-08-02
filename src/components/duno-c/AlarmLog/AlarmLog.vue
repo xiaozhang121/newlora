@@ -49,7 +49,7 @@
         top="20vh"
         :visible.sync="dialogVisible"
         :modal="false"
-        width="20%"
+        width="30%"
       >
         <el-input
           type="textarea"

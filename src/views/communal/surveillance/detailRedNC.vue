@@ -9,7 +9,14 @@
           <div class="item">
             <div class="camera_surveillanceDetail">
               <div class="contain">
-                <img class="contain_img" src="" />
+                <key-monitor
+                        paddingBottom="56%"
+                        class="monitor child"
+                        :autoplay="playerOptionsd.autoplay"
+                        :streamAddr="playerOptionsd.streamAddr"
+                        :showBtmOption="false"
+                        :Initialization="true"
+                ></key-monitor>
               </div>
             </div>
           </div>
@@ -408,11 +415,15 @@ export default {
         streamAddr: "",
         autoplay: true
       },
+      playerOptionsd: {
+          streamAddr: "",
+          autoplay: true
+      },
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["视频监控", "摄像头详情"]
+      dataBread: ["摄像头详情", "返回"]
     };
   },
   props: {
@@ -438,6 +449,10 @@ export default {
         const url = "/lenovo-iir/device/visible/url/rtmp/"+ this.dataForm.monitorDeviceId;
         getAxiosData(url, {}).then(res => {
             that.playerOptions.streamAddr = res.data.data
+        });
+        const urld = "/lenovo-iir/device/video/url/rtmp/"+ this.dataForm.monitorDeviceId;
+        getAxiosData(urld, {}).then(res => {
+            that.playerOptionsd.streamAddr = res.data.data
         });
     },
     cutOut(data) {
@@ -651,6 +666,11 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .monitor.child {
+    .vjs-fluid {
+      padding-top: 56%;
+    }
+  }
   .icon-xiala{
     width: 12px;
     height: 14px;

@@ -14,7 +14,7 @@
             设备名称：
             <span>{{itemData.powerDeviceName}}</span>
           </p>
-        </el-col> -->
+        </el-col>-->
         <el-col :span="24">
           <p class="itemTitle">
             当前状态：
@@ -40,7 +40,7 @@
           <img
             v-if="itemData['alarmFileType'] == 1"
             :src="itemData.alarmFileAddress"
-            style="height: 100% !important; width: 100% !important;"
+            style="width: 100% !important;"
           />
           <video-player
             v-else-if="itemData['alarmFileType'] == 2"
@@ -76,7 +76,7 @@
           top="20vh"
           :visible.sync="dialogVisible"
           :modal="false"
-          width="20%"
+          width="30%"
         >
           <el-input
             type="textarea"
@@ -96,14 +96,14 @@
 <script>
 import HistoricalDocuments from "_c/duno-c/HistoricalDocuments";
 import buttonCustom from "_c/duno-m/buttonCustom";
-import videojs from 'video.js'
+import videojs from "video.js";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import "video.js/dist/video-js.css";
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { truncate } from "fs";
-import SWF_URL from 'videojs-swf/dist/video-js.swf'
-videojs.options.flash.swf = SWF_URL
+import SWF_URL from "videojs-swf/dist/video-js.swf";
+videojs.options.flash.swf = SWF_URL;
 export default {
   name: "popuponeinfo",
   components: { HistoricalDocuments, videoPlayer, buttonCustom },
@@ -250,7 +250,8 @@ export default {
     position: relative;
     img {
       width: 100%;
-      height: 100%;
+      left: 0;
+      bottom: 0px;
       position: absolute;
     }
   }
@@ -269,6 +270,7 @@ export default {
   padding: 0 20px;
 }
 .remarks {
+  background-color: #333;
   .dialog-footer {
     color: #ffffff;
     display: flex;

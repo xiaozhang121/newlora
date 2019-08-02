@@ -4,16 +4,17 @@
       <img :src="reportData.pic" />
     </div>
     <div class="content">
-      <h3 v-if="kind != 'robot'">
-        任务ID:
-        <span>{{reportData.planId}}</span>
-      </h3>
-      <h3 v-if="kind == 'robot'">
-        {{ reportData.name }}
-        <span
-          style="font-size:13px;font-weight:normal"
-        >任务ID:{{reportData.planId}}</span>
-      </h3>
+      <el-tooltip class="item" effect="dark" :content="reportData.planId" placement="top">
+        <h3 v-if="kind != 'robot'">
+          <span class="taskid">任务ID:{{reportData.planId}}</span>
+        </h3>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" :content="reportData.planId" placement="top">
+        <h3 v-if="kind == 'robot'">
+          {{ reportData.name }}
+          <span class="taskid">任务ID:{{reportData.planId}}</span>
+        </h3>
+      </el-tooltip>
       <p v-if="kind != 'robot'">
         类型:
         <span>{{reportData.planType}}</span>
@@ -212,6 +213,18 @@ export default {
         color: #3baddf;
         padding-left: 0;
       }
+    }
+    .taskid {
+      font-size: 13px;
+      font-weight: normal;
+      width: 100%;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .item {
+      cursor: pointer;
     }
   }
   .btn {

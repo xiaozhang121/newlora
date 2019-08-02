@@ -37,7 +37,7 @@
             </div>
             <div class="control">
               <div class="controBtnContain">
-                <contro-btn :disabledOption="disabled" ref="controBtnRef" deviceId="33" />
+                <contro-btn :disabledOption="disabled" ref="controBtnRef" :deviceId="dataForm.monitorDeviceId" />
               </div>
               <div class="inputGroup">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="right nr contain">
-          <inspection @on-edit="onEdit" ref="inspectionRef" deviceId="33"></inspection>
+          <inspection @on-edit="onEdit" ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
         </div>
       </div>
       <div class="content" style="margin-top: 15px; position: relative">
@@ -456,7 +456,7 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["视频监控", "摄像头详情"]
+      dataBread: ["摄像头详情", "返回"]
     };
   },
   methods: {
