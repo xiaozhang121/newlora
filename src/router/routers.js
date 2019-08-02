@@ -869,7 +869,7 @@ export default [{
         name: 'video',
         meta: {
             topNav: '2',
-            title: '视频视频',
+            title: '巡视视频',
             notCache: true,
             toListName: 'videoList',
             btnArr: []

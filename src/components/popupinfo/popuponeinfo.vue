@@ -40,7 +40,7 @@
           <img
             v-if="itemData['alarmFileType'] == 1"
             :src="itemData.alarmFileAddress"
-            style="height: 100% !important; width: 100% !important;"
+            style="width: 100% !important;"
           />
           <video-player
             v-else-if="itemData['alarmFileType'] == 2"
@@ -250,7 +250,8 @@ export default {
     position: relative;
     img {
       width: 100%;
-      height: 100%;
+      left: 0;
+      bottom: 0px;
       position: absolute;
     }
   }

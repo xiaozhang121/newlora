@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="controlTitle">
-      <div>摄像机ID</div>
+      <div>{{ dataForm.monitorDeviceId }}</div>
       <div v-if="isControl =='1'" class="control">
         云台控制中
         <span @click="getControl">获取控制权</span>
@@ -431,7 +431,7 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["视频监控", "摄像头详情"]
+      dataBread: ["摄像头详情", "返回"]
     };
   },
   props: {

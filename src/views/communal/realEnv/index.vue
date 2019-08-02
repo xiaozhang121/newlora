@@ -405,6 +405,7 @@ export default {
     ]),
     alarmInfo(){
         return this.$store.state.user.alarmInfo
+
     },
     kilovoltKind(){
       return this.$store.state.app.kilovolt
@@ -567,6 +568,7 @@ export default {
 
       },
       alarmClose(){
+
           this.visible = false
           this.$store.state.user.isAlarm = false
           this.$refs.gisMapObj.clearAlarm()
