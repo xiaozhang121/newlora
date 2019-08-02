@@ -119,7 +119,10 @@ export default {
     this.getDataList();
   },
   created() {
-    this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
+    if (this.$route.params.url) {
+      this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
+    }
+    this.dataForm = { planId: this.$route.params.planId };
     this.dataBread = this.$route.params.dataBread;
   }
 };

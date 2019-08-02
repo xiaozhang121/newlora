@@ -299,27 +299,27 @@ export default {
           };
           return obj;
         });
-        map.unshift({
-          describeName: "所有电压等级",
-          value: "",
-          title: "titleTypeC"
-        });
+        // map.unshift({
+        //   describeName: "所有电压等级",
+        //   value: "",
+        //   title: "titleTypeC"
+        // });
         this.voltageLevel = map;
       });
     },
     onSelectDevice(item) {
-      console.log(item);
-      //   this.dataForm.deviceType = item["describeName"];
-      //   this.getDataList();
-      //   this.titleTypeL = item["describeName"];
+      // console.log(item);
+      this.dataForm.deviceType = item["value"];
+      this.getDataList();
+      this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
-      this.dataForm.value = item["value"];
+      this.dataForm.areaId = item["value"];
       this.getDataList();
       this.titleTypeC = item["describeName"];
     },
     onSelectState(item) {
-      this.dataForm.value = item["value"];
+      this.dataForm.status = item["value"];
       this.getDataList();
       this.titleTypeR = item["describeName"];
     },
@@ -376,11 +376,11 @@ export default {
           };
           return obj;
         });
-        map.unshift({
-          describeName: "所有状态",
-          value: "",
-          title: "titleTypeR"
-        });
+        // map.unshift({
+        //   describeName: "所有状态",
+        //   value: "",
+        //   title: "titleTypeR"
+        // });
         this.stateSelect = map;
       });
     },
