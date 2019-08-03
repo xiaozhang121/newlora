@@ -111,7 +111,7 @@ export default {
       visibleSettingOption: false,
       visible: false,
       totalNum: 500,
-      pageRows: 10,
+      pageRows: 20,
       selectInfo: "更多",
       serious: false,
       commonly: false,
