@@ -200,9 +200,9 @@ export default {
       }
     }
     .btn {
-      padding-top: 10px;
-      line-height: 32px;
+      // line-height: 32px;
       p {
+        padding-top: 5px;
         font-size: 14px;
         color: #ffffff;
         span {
@@ -225,6 +225,9 @@ export default {
         i:last-child {
           background-color: #305e83;
         }
+      }
+      & > p:nth-child(2) {
+        line-height: 30px;
       }
     }
   }

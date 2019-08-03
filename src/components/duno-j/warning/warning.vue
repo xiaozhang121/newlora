@@ -13,7 +13,7 @@
         <div class="info">
           <div class="info_top">
             <p class="monitorTitle">判定结果:</p>
-            <p>{{dataList.alarmType}}</p>
+            <p>{{dataList.powerDeviceName}}</p>
           </div>
           <div v-if="!discriminate" class="temperature">
             <p class="monitorTitle">{{dataList.result}}</p>

@@ -47,7 +47,7 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div style="visibility: hidden">
+        <div style="display: none">
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
             导出Excel
@@ -285,30 +285,30 @@ export default {
             return h("div", { class: { member_operate_div: true } }, newArr);
           }
         },
-        {
-          title: "视频/图片",
-          key: "fileType",
-          minWidth: 120,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            if (params.row.fileType == "1") {
-              newArr.push([
-                h("i", {
-                  class: "iconfont icon-tupian"
-                })
-              ]);
-            } else if (params.row.fileType == "2") {
-              newArr.push([
-                h("i", {
-                  class: "iconfont icon-bofang"
-                })
-              ]);
-            }
-            return h("div", newArr);
-          }
-        },
+        // {
+        //   title: "视频/图片",
+        //   key: "fileType",
+        //   minWidth: 120,
+        //   align: "center",
+        //   tooltip: true,
+        //   render: (h, params) => {
+        //     let newArr = [];
+        //     if (params.row.fileType == "1") {
+        //       newArr.push([
+        //         h("i", {
+        //           class: "iconfont icon-tupian"
+        //         })
+        //       ]);
+        //     } else if (params.row.fileType == "2") {
+        //       newArr.push([
+        //         h("i", {
+        //           class: "iconfont icon-bofang"
+        //         })
+        //       ]);
+        //     }
+        //     return h("div", newArr);
+        //   }
+        // },
         {
           title: "记录时间",
           key: "date",
@@ -318,7 +318,7 @@ export default {
         },
         {
           title: " ",
-          width: 220,
+          width: 90,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -570,6 +570,16 @@ export default {
     background-color: #2d5980 !important;
     font-size: 18px;
     font-weight: normal;
+    @media screen and (min-width: 3500px) {
+      font-size: 15px;
+      height: 50px;
+    }
+  }
+  .ivu-table-cell {
+    @media screen and (min-width: 3500px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
   .ivu-page {
     text-align: center;
@@ -610,6 +620,10 @@ export default {
     tr {
       td {
         height: 60px;
+        @media screen and (min-width: 3500px) {
+          height: 50px;
+          font-size: 13px;
+        }
       }
     }
     tr:nth-child(odd) {
@@ -686,9 +700,16 @@ export default {
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
+    @media screen and (min-width: 3500px) {
+      height: 35px;
+    }
     & > div:first-child {
       font-size: 20px;
       line-height: 40px;
+      @media screen and (min-width: 3500px) {
+        font-size: 16px;
+        line-height: 35px;
+      }
     }
     .btn {
       display: flex;
@@ -704,19 +725,22 @@ export default {
             width: 250px;
             .title {
               padding: 8px 20px;
+              @media screen and (min-width: 3500px) {
+                height: 35px;
+              }
             }
           }
         }
       }
-      & > div:nth-child(5) {
-        & > div {
-          width: 140px;
-          line-height: 40px;
-          text-align: center;
-          background-color: #192f41;
-          cursor: pointer;
-        }
-      }
+      // & > div:nth-child(5) {
+      //   & > div {
+      //     width: 140px;
+      //     line-height: 40px;
+      //     text-align: center;
+      //     background-color: #192f41;
+      //     cursor: pointer;
+      //   }
+      // }
       .clickBtn {
         line-height: 40px;
         width: 139px;
@@ -724,6 +748,12 @@ export default {
         text-align: center;
         font-size: 18px;
         color: #ffffff;
+        @media screen and (min-width: 3500px) {
+          background-size: 100% 100%;
+          font-size: 14px;
+          line-height: 34px;
+          width: 120px;
+        }
       }
       .dateChose {
         .el-date-editor {
@@ -735,6 +765,9 @@ export default {
           .el-range-separator {
             font-size: 20px;
             color: #fff;
+            @media screen and (min-width: 3500px) {
+              font-size: 14px;
+            }
           }
           .el-range-input {
             color: #fff;
@@ -742,6 +775,10 @@ export default {
         }
         .el-range-editor--small.el-input__inner {
           height: 40px !important;
+          @media screen and (min-width: 3500px) {
+            height: 35px !important;
+            width: 250px;
+          }
         }
         .el-range-editor--small .el-range__icon,
         .el-range-editor--small .el-range__close-icon {
@@ -749,6 +786,9 @@ export default {
         }
         .el-range-editor--small .el-range-input {
           font-size: 16px;
+          @media screen and (min-width: 3500px) {
+            font-size: 14px;
+          }
         }
       }
     }

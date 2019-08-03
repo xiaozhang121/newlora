@@ -197,7 +197,7 @@ export default {
     padding: 20px 20px 10px 20px;
     h3 {
       font-size: 14px;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       font-weight: normal;
     }
     p {
@@ -208,7 +208,7 @@ export default {
     }
     & > p:last-child {
       word-wrap: break-word;
-      margin-top: 15px;
+      margin-top: 10px;
       span {
         color: #3baddf;
         padding-left: 0;
