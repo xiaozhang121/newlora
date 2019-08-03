@@ -60,7 +60,7 @@
           </div>
         </div>
       </div>
-     <!-- <div class="handleInfo">
+      <!-- <div class="handleInfo">
         <div>
           <p class="monitorTitle">处理记录</p>
           <p v-for="(item, index) in handleList" :key="index" class="item">
@@ -183,6 +183,9 @@ export default {
         // this.searchId = now["alarmId"];
         this.searchId = now["taskId"] + "," + now["batchId"];
         this.searchType = "alarmId";
+      } else if ("taskId" in now) {
+        this.searchId = now["taskId"] + "," + now["batchId"];
+        this.searchType = "alarmId";
       } else {
         this.searchId = now["resultId"];
         this.searchType = "resultId";
@@ -261,7 +264,7 @@ export default {
       }
     },
     clickJudge() {
-    /*  if (this.dataList.alarmValue == "") {
+      /*  if (this.dataList.alarmValue == "") {
         this.isTemperture = false;
       }
       this.visibleJudge = true;*/

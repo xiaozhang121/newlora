@@ -412,6 +412,17 @@ export default [{
             },
             component: () => import('@/views/communal/abnormalInfo/index.vue')
         },
+        {
+            path: 'list/report',
+            name: 'abnormalInfoList-report',
+            meta: {
+                topNav: '1',
+                title: '列表',
+                hideInMenu: true,
+                isDetails: true
+            },
+            component: () => import('@/views/communal/abnormalInfo/reportDetail.vue')
+        },
         ]
     }]
 },
@@ -768,54 +779,54 @@ export default [{
         }
         ]
     },
-    // {
-    //     path: 'robot-two',
-    //     name: 'robot-two',
-    //     meta: {
-    //         topNav: '2',
-    //         title: '机器人二',
-    //         notCache: true,
-    //         toListName: 'robot-twoList',
-    //         btnArr: []
-    //     },
-    //     component: parentView,
-    //     children: [{
-    //         path: 'list',
-    //         name: 'robot-twoList',
-    //         meta: {
-    //             topNav: '2',
-    //             title: '列表',
-    //             hideInMenu: true,
-    //             isDetails: true
-    //         },
-    //         component: () => import('@/views/communal/robotF/index.vue')
-    //     },
-    //     {
-    //         path: 'report',
-    //         name: 'robot-twoList',
-    //         meta: {
-    //             topNav: '2',
-    //             title: '列表',
-    //             hideInMenu: true,
-    //             isDetails: true,
-    //             active: "robot-twoList"
-    //         },
-    //         component: () => import('@/views/communal/robotF/viewReportDetail.vue')
-    //     },
-    //     {
-    //         path: 'detail',
-    //         name: 'robot-twoList',
-    //         active: "robot-oneList",
-    //         meta: {
-    //             topNav: '2',
-    //             title: '列表',
-    //             hideInMenu: true,
-    //             isDetails: true,
-    //             active: "robot-twoList"
-    //         },
-    //         component: () => import('@/views/communal/robotF/detail.vue')
-    //     }]
-    // }
+        // {
+        //     path: 'robot-two',
+        //     name: 'robot-two',
+        //     meta: {
+        //         topNav: '2',
+        //         title: '机器人二',
+        //         notCache: true,
+        //         toListName: 'robot-twoList',
+        //         btnArr: []
+        //     },
+        //     component: parentView,
+        //     children: [{
+        //         path: 'list',
+        //         name: 'robot-twoList',
+        //         meta: {
+        //             topNav: '2',
+        //             title: '列表',
+        //             hideInMenu: true,
+        //             isDetails: true
+        //         },
+        //         component: () => import('@/views/communal/robotF/index.vue')
+        //     },
+        //     {
+        //         path: 'report',
+        //         name: 'robot-twoList',
+        //         meta: {
+        //             topNav: '2',
+        //             title: '列表',
+        //             hideInMenu: true,
+        //             isDetails: true,
+        //             active: "robot-twoList"
+        //         },
+        //         component: () => import('@/views/communal/robotF/viewReportDetail.vue')
+        //     },
+        //     {
+        //         path: 'detail',
+        //         name: 'robot-twoList',
+        //         active: "robot-oneList",
+        //         meta: {
+        //             topNav: '2',
+        //             title: '列表',
+        //             hideInMenu: true,
+        //             isDetails: true,
+        //             active: "robot-twoList"
+        //         },
+        //         component: () => import('@/views/communal/robotF/detail.vue')
+        //     }]
+        // }
     ]
 },
 {

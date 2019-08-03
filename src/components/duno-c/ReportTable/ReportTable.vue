@@ -124,7 +124,10 @@ export default {
         });
         return;
       }
-      if (this.$route.name == "visiblelightList") {
+      if (
+        this.$route.name == "visiblelightList" ||
+        this.$route.name == "light-info"
+      ) {
         this.$router.push({
           name: "light-report",
           params: {
@@ -134,7 +137,10 @@ export default {
             dataBread: ["操作中台", "设备监测", "可见光", "查看报告"]
           }
         });
-      } else if (this.$route.name == "infraredList") {
+      } else if (
+        this.$route.name == "infraredList" ||
+        this.$route.name == "infrared-info"
+      ) {
         this.$router.push({
           name: "infrared-report",
           params: {
@@ -152,6 +158,26 @@ export default {
             planType: this.reportData.planType,
             url: this.url.viewUrl,
             dataBread: ["操作中台", "所有报表", "巡检任务报表", "查看报告"]
+          }
+        });
+      } else if (this.$route.name == "configure-report") {
+        this.$router.push({
+          name: "configure-view",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl,
+            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
+          }
+        });
+      } else if (this.$route.name == "abnormalInfoList") {
+        this.$router.push({
+          name: "abnormalInfoList-report",
+          params: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: this.url.viewUrl,
+            dataBread: ["功能卡片", "查看报告"]
           }
         });
       }
@@ -176,6 +202,9 @@ export default {
         });
       }
     }
+  },
+  mounted() {
+    console.log(this.$route.name);
   }
 };
 </script>

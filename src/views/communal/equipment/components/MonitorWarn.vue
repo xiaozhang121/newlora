@@ -200,9 +200,8 @@ export default {
       }
     }
     .btn {
-      // line-height: 32px;
       p {
-        padding-top: 5px;
+        // padding-top: 5px;
         font-size: 14px;
         color: #ffffff;
         span {
