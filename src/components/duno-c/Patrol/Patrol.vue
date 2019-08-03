@@ -250,11 +250,18 @@ export default {
     font-size: 18px;
     font-weight: normal;
     background-color: #2d5980 !important;
+    @media screen and (min-width: 3500px) {
+      height: 50px;
+      font-size: 16px;
+    }
   }
   .ivu-table-border td {
     font-size: 16px;
     color: #fff;
     border: none;
+    @media screen and (min-width: 3500px) {
+      font-size: 14px;
+    }
   }
   .ivu-page {
     text-align: center;

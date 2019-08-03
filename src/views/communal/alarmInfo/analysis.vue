@@ -370,9 +370,13 @@ export default {
         {
           title: "时间",
           key: "date",
-          minWidth: 100,
+          minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let timeDay = params.row.date.slice(5);
+            return h("div", timeDay);
+          }
         },
         {
           title: "对象",
@@ -384,7 +388,7 @@ export default {
         {
           title: "部件/相别",
           key: "part",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
@@ -491,7 +495,7 @@ export default {
         {
           title: "信息来源",
           key: "monitorDeviceName",
-          minWidth: 150,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -522,33 +526,33 @@ export default {
           align: "center",
           tooltip: true
         },
-        {
-          title: "视频/图片",
-          key: "fileType",
-          minWidth: 120,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            if (params.row.fileType == "1") {
-              newArr.push([
-                h("i", {
-                  class: "iconfont icon-tupian"
-                })
-              ]);
-            } else if (params.row.fileType == "2") {
-              newArr.push([
-                h("i", {
-                  class: "iconfont icon-bofang"
-                })
-              ]);
-            }
-            return h("div", newArr);
-          }
-        },
+        // {
+        //   title: "视频/图片",
+        //   key: "fileType",
+        //   minWidth: 120,
+        //   align: "center",
+        //   tooltip: true,
+        //   render: (h, params) => {
+        //     let newArr = [];
+        //     if (params.row.fileType == "1") {
+        //       newArr.push([
+        //         h("i", {
+        //           class: "iconfont icon-tupian"
+        //         })
+        //       ]);
+        //     } else if (params.row.fileType == "2") {
+        //       newArr.push([
+        //         h("i", {
+        //           class: "iconfont icon-bofang"
+        //         })
+        //       ]);
+        //     }
+        //     return h("div", newArr);
+        //   }
+        // },
         {
           title: " ",
-          width: 220,
+          width: 90,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -1112,6 +1116,9 @@ export default {
   //-------------------表格样式
   .ivu-table {
     font-size: 16px;
+    @media screen and (min-width: 3500px) {
+      font-size: 14px;
+    }
   }
   .ivu-table th {
     color: #fff;
@@ -1120,6 +1127,16 @@ export default {
     background-color: #2d5980 !important;
     font-size: 18px;
     font-weight: normal;
+    @media screen and (min-width: 3500px) {
+      font-size: 15px;
+      height: 50px;
+    }
+  }
+  .ivu-table-cell {
+    @media screen and (min-width: 3500px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
   .ivu-page {
     text-align: center;
