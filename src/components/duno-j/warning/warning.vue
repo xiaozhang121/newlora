@@ -181,7 +181,7 @@ export default {
     popData(now) {
       if ("alarmId" in now) {
         // this.searchId = now["alarmId"];
-        this.searchId = now["taskId"] + "," + now["batchId"];
+        this.searchId = now["alarmId"];
         this.searchType = "alarmId";
       } else if ("taskId" in now) {
         this.searchId = now["taskId"] + "," + now["batchId"];

@@ -32,7 +32,7 @@
           报表
         </div>
         <div class="re-middle">
-          <ReportTable v-for="(item,index) in mockData" :key="index" :reportData="item" />
+          <ReportTable v-for="(item,index) in mockData" :key="index" :url="url" :reportData="item" />
         </div>
         <div class="re-table">
           <duno-tables-tep
@@ -182,6 +182,10 @@ export default {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
+      },
+      url: {
+        downloadUrl: "/lenovo-plan/api/statistics/plan/download",
+        viewUrl: "/lenovo-plan/api/statistics/plan/view"
       },
       RecodeList: [],
       popData: {},
