@@ -153,9 +153,9 @@ export default {
     }
   },
   watch: {
-    // isNav(now) {
-    //   this.isNavbar = now;
-    // },
+    isNav(now) {
+      this.isNavbar = now;
+    },
     monitorInfo: {
       handler(now) {
         this.monitorInfoR = now;
