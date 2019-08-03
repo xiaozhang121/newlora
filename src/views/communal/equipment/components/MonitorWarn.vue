@@ -226,7 +226,7 @@ export default {
         }
       }
       & > p:nth-child(2) {
-        line-height: 30px;
+        line-height: 20px;
       }
     }
   }

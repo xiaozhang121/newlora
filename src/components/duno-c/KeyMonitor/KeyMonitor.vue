@@ -31,12 +31,12 @@
             <el-slider v-model="value2"></el-slider>
             <span>当前</span>-->
           </div>
-         <!-- <span>
+          <!-- <span>
             <i class="iconfont icon-luxiang"></i>录像
           </span>-->
-          <span>
+          <!-- <span>
             <i class="iconfont icon-jietu"></i>截图
-          </span>
+          </span> -->
           <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
@@ -45,8 +45,8 @@
           </span>
         </div>
       </transition>
-      <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
-        <div class="text">
+      <div v-if="isSecond" class="explain iconList detailIcon">
+        <div @click="getJump" class="text">
           <span>{{kilovolt}}</span>
           <span>{{patrol}}</span>
           <i class="iconfont icon-jiantou"></i>
@@ -279,42 +279,44 @@ export default {
       this.showBtm = false;
     },
     getJump() {
-      getAxiosData('/lenovo-device/api/preset/type',{monitorDeviceId: this.monitorInfoR["monitorDeviceId"]}).then(res=>{
-        let supportPreset = res.data['supportPreset']
-        let monitorDeviceType = res.data['monitorDeviceType']
-        if(monitorDeviceType == 1){
-            if(supportPreset){
-                this.$router.push({
-                    path: "/surveillancePath/detailLight",
-                    query: {
-                        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
-                    }
-                })
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailLightN",
-                    query: {
-                        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
-                    }
-                })
+      getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+      }).then(res => {
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+              }
+            });
+          }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
             }
-        }else if(monitorDeviceType == 2){
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
-                    }
-                })
-        }else if(monitorDeviceType == 3){
-              this.$router.push({
-                  path: "/surveillancePath/detailEnv",
-                  query: {
-                      monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
-                  }
-              })
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+            }
+          });
         }
-      })
-     /* this.$router.push({
+      });
+      /* this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"]

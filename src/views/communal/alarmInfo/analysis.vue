@@ -1198,6 +1198,9 @@ export default {
   }
   //------------------
 }
+.el-select .el-tag:first-child{
+  margin-top: 33px;
+}
 .el-select-dropdown {
   background: linear-gradient(
     210deg,
