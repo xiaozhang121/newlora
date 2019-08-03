@@ -24,7 +24,7 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div style="visibility: hidden">
+        <div style="display: none">
           <div @click="clickExcel">
             <i class="iconfont icon-daochu1"></i>
             导出表格

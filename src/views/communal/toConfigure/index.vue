@@ -308,7 +308,7 @@ export default {
       });
     },
     onSelectDevice(item) {
-      // console.log(item);
+      console.log(item);
       this.dataForm.deviceType = item["value"];
       this.getDataList();
       this.titleTypeL = item["describeName"];
