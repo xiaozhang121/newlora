@@ -498,7 +498,7 @@ export default {
 <style lang="scss">
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
-  height: 100%;
+  height: 80%;
   .topNav {
     background-color: rgba(20, 40, 56, 0.8);
     height: 80px;

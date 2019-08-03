@@ -115,6 +115,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$route.name);
     this.getPlayTypeData();
     this.getDataList();
   },

@@ -5,7 +5,7 @@
     </div>
     <div class="controlTitle">
       <div>{{ dataForm.monitorDeviceId }}</div>
-   <!--   <div v-if="isControl =='1'" class="control">
+      <!--   <div v-if="isControl =='1'" class="control">
         云台控制中
         <span @click="getControl">获取控制权</span>
       </div>
@@ -37,7 +37,11 @@
             </div>
             <div class="control">
               <div class="controBtnContain">
-                <contro-btn :disabledOption="disabled" ref="controBtnRef" :deviceId="dataForm.monitorDeviceId" />
+                <contro-btn
+                  :disabledOption="disabled"
+                  ref="controBtnRef"
+                  :deviceId="dataForm.monitorDeviceId"
+                />
               </div>
               <div class="inputGroup">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
@@ -137,7 +141,7 @@
             <div style="visibility: hidden">
               <div @click="clickExcel" class="clickBtn">
                 <i class="iconfont icon-daochu1"></i>
-                导出Excel
+                导出表格
               </div>
             </div>
           </div>
@@ -148,18 +152,7 @@
       </div>
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning
-      :discriminate="false"
-      :hasSelect="true"
-      :alarmLevel="alarmLevel"
-      :visible="visible"
-      warningID="20190711002"
-      :monitorUrl="popData.alarmFileAddress || ''"
-      :judgeResult="popData.alarmContent || ''"
-      :origin="popData.monitorDeviceId"
-      :handleResult="popData.dealRecord || ''"
-      @handleClose="handleClose"
-    />
+    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -228,7 +221,11 @@ export default {
           key: "alarmTime",
           minWidth: 100,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let timeDay = params.row.alarmTime.slice(5);
+            return h("div", timeDay);
+          }
         },
         {
           title: "对象",
@@ -352,7 +349,7 @@ export default {
           align: "center",
           tooltip: true
         },
-    /*    {
+        /*    {
           title: "视频/图片",
           key: "id",
           minWidth: 120,
@@ -380,17 +377,17 @@ export default {
             return h("div", newArr);
           }
         },*/
-        {
-          title: "自动/手动",
-          key: "sourceType",
-          width: 120,
-          align: "center",
-          tooltip: true
-        },
+        // {
+        //   title: "自动/手动",
+        //   key: "sourceType",
+        //   width: 120,
+        //   align: "center",
+        //   tooltip: true
+        // },
         {
           title: " ",
           key: "id",
-          width: 220,
+          width: 90,
           align: "center",
           render: (h, params) => {
             const that = this;
@@ -404,9 +401,16 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
                       that.visible = true;
+                      that.$forceUpdate();
                     }
                   }
                 },
@@ -454,7 +458,9 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp/"+ this.dataForm.monitorDeviceId;
+      const url =
+        "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+        this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data;
         that.$nextTick(() => {
@@ -682,7 +688,7 @@ export default {
   min-height: 100%;
   padding-bottom: 100px;
   /*overflow-y: hidden;*/
-  .icon-xiala{
+  .icon-xiala {
     width: 12px;
     height: 15px;
   }

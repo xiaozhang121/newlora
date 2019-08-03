@@ -837,5 +837,12 @@
                 }
             }
         }
+        
+        .ivu-table th{
+            @media screen and(min-width:3500px) {
+                font-size: 14px!important;
+                height: 50px;
+            }
+        }
     }
 </style>

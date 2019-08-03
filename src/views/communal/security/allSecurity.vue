@@ -239,7 +239,7 @@ export default {
         // },
         {
           title: " ",
-          width: 180,
+          width: 200,
           align: "center",
           render: (h, params) => {
             let newArr = [];
