@@ -10,8 +10,8 @@
                         <img style="width: 410px; height: 247px" :src="normal"/>
                     </div>
                     <div class="explain iconList">
-                        <!-- <span @click="alarmNow()" ref="alarmDemo"><i class="iconfont icon-luxiang" ></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                        <span @click="alarmNow()" ref="alarmDemo"><i class="iconfont icon-luxiang" ></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -51,8 +51,8 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -95,8 +95,8 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>

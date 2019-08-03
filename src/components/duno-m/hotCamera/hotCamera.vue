@@ -8,8 +8,8 @@
                             <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                         </div>
                         <div class="explain iconList" style="margin-top: 4px">
-                            <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                            <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
                             <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
@@ -18,8 +18,8 @@
                             <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
                         </div>
                         <div class="explain iconList" style="bottom: 10px; position: absolute;">
-                            <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                            <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
                             <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
@@ -33,8 +33,8 @@
                         <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                     </div>
                     <div class="explain iconList" style="margin-bottom: 10px">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -43,8 +43,8 @@
                         <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
                     </div>
                     <div class="explain iconList" style="bottom: 17px; position: absolute">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                        <span><i class="iconfont icon-luxiang"></i>录像</span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -58,8 +58,8 @@
                             <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
                         </div>
                         <div class="explain iconList" style="margin-bottom: 10px">
-                            <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                            <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
                             <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
@@ -68,8 +68,8 @@
                             <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
                         </div>
                         <div class="explain iconList" style="bottom: 17px; position: absolute">
-                            <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                            <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                            <span><i class="iconfont icon-luxiang"></i>录像</span>
+                            <span><i class="iconfont icon-jietu"></i>截图</span>
                             <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
                         </div>
                     </div>
