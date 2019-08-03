@@ -5,7 +5,7 @@
         :streamAddr="remarkData.alarmFileAddress"
         :imgAdress="remarkData.pic"
         :monitorInfo="remarkData"
-        isNav="false"
+        :isNav="false"
       />
     </div>
     <div class="content">
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { postAxiosData, getAxiosData } from '@/api/axiosType'
+import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Remarks from "_c/duno-c/Remarks";
@@ -133,15 +133,17 @@ export default {
       });
     },
     getJump() {
-        getAxiosData('/lenovo-device/api/preset/type',{monitorDeviceId: this.remarkData["monitorDeviceId"]}).then(res=>{
-            this.$router.push({
-                path: "/surveillancePath/detailEnv",
-                query: {
-                    monitorDeviceId: this.remarkData.monitorDeviceId
-                }
-            });
-        })
-     /* if (this.remarkData.monitorDeviceType == "1") {
+      getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: this.remarkData["monitorDeviceId"]
+      }).then(res => {
+        this.$router.push({
+          path: "/surveillancePath/detailEnv",
+          query: {
+            monitorDeviceId: this.remarkData.monitorDeviceId
+          }
+        });
+      });
+      /* if (this.remarkData.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailLight",
           query: {
