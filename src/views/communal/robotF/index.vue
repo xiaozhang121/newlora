@@ -291,6 +291,9 @@ export default {
              margin-right: 0;
            }
          }
+         h3 {
+          width: 100% !important;
+         }
       }
     }
   }
