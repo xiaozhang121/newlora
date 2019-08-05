@@ -18,7 +18,7 @@
           <div v-if="!discriminate" class="temperature">
             <p class="monitorTitle">{{dataList.result}}</p>
             <p>
-              {{ popData['alarmValue'] }}℃
+              {{ popData['alarmValue']?popData['alarmValue']+'℃':'' }}
               <i-dropdown
                 v-if="hasSelect && !discriminate"
                 trigger="click"
