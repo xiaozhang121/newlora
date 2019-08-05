@@ -226,6 +226,7 @@ export default {
               this.chosenActive()
           }
           this.checkedCities = val ? this.dataListName : [];
+          console.log(this.checkedCities.join(','))
           this.isIndeterminate = false;
           this.$emit('on-active',this.dataList)
       },
