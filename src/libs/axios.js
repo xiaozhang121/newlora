@@ -30,8 +30,11 @@ class HttpRequest {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
       // 加载停止
-      if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1) && !(url.indexOf('device/temperature')>-1) && !(url.indexOf('/lenovo-robot/rest/taskStatus')>-1) && !(url.indexOf('/lenovo-robot/rest/taskCurLink')>-1) && !(url.indexOf('/lenovo-robot/rest/robotStatus')>-1) && !(url.indexOf('/lenovo-robot/rest/specialTasks')>-1)){
-            loadingInstance.close()
+      if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1) && !(url.indexOf('device/temperature')>-1)){
+          try{
+              loadingInstance.close()
+          } catch (e) {}
+
       }
     }
   }

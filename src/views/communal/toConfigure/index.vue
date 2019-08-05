@@ -16,6 +16,7 @@
             :showBtnList="false"
           ></duno-btn-top>-->
           <duno-btn-top
+            ref="btnTopRef"
             @on-active="onSelectDevice"
             class="dunoBtnTop"
             :dataList="TestEquipment"
@@ -286,13 +287,16 @@ export default {
           return obj;
         });
         this.TestEquipment = map;
+        this.$forceUpdate()
+        this.$refs.btnTopRef.handleCheckAllChange(true)
+        this.$refs.btnTopRef.checkAll = true
         console.log(this.TestEquipment);
       });
     },
     handleVoltage() {
       getVoltage().then(res => {
         const resData = res.data;
-        const map = resData.map(item => {
+        let map = resData.map(item => {
           const obj = {
             describeName: item.label,
             value: item.value,
@@ -300,11 +304,11 @@ export default {
           };
           return obj;
         });
-        // map.unshift({
-        //   describeName: "所有电压等级",
-        //   value: "",
-        //   title: "titleTypeC"
-        // });
+        map.unshift({
+          describeName: "所有电压等级",
+          value: "",
+          title: "titleTypeC"
+        });
         this.voltageLevel = map;
       });
     },
@@ -375,7 +379,7 @@ export default {
     getSelectStatus() {
       getStatus().then(res => {
         const resData = res.data;
-        const map = resData.map(item => {
+        let map = resData.map(item => {
           const obj = {
             describeName: item.label,
             value: item.value,
@@ -422,8 +426,8 @@ export default {
 .toConfigure {
   width: 100%;
   .icon-xiala {
-    width: 13px;
-    height: 16px;
+    width: 9px;
+    height: 12px;
   }
   .circleStatus {
     width: 13px;
