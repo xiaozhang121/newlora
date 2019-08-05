@@ -316,14 +316,17 @@ export default {
     onSelectDevice(item) {
       console.log(item);
       let arr = []
+      let value = []
       item.forEach(nr=>{
           if(nr['isActive']){
               arr.push(nr['value'])
+              if('describeName' in nr)
+                value.push(nr['describeName'])
           }
       })
       this.dataForm.deviceType = arr.join(',');
       this.getDataList();
-      return arr
+      return value
       // this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
