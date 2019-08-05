@@ -440,7 +440,45 @@ export default {
       });
     },
     getJump(row) {
-      if (row.monitorDeviceType == "1") {
+    let monitorDeviceId = ('monitorDeviceId' in row && row.monitorDeviceId)?row.monitorDeviceId:row.monitorDevice[0]['monitorDeviceId']
+    getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: monitorDeviceId
+    }).then(res => {
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+            if (supportPreset) {
+                this.$router.push({
+                    path: "/surveillancePath/detailLight",
+                    query: {
+                        monitorDeviceId: monitorDeviceId
+                    }
+                });
+            } else {
+                this.$router.push({
+                    path: "/surveillancePath/detailLightN",
+                    query: {
+                        monitorDeviceId: monitorDeviceId
+                    }
+                });
+            }
+        } else if (monitorDeviceType == 2) {
+            this.$router.push({
+                path: "/surveillancePath/detailRedN",
+                query: {
+                    monitorDeviceId: monitorDeviceId
+                }
+            });
+        } else if (monitorDeviceType == 3) {
+            this.$router.push({
+                path: "/surveillancePath/detailEnv",
+                query: {
+                    monitorDeviceId: monitorDeviceId
+                }
+            });
+        }
+    });
+     /* if (row.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailLight",
           query: {
@@ -454,7 +492,7 @@ export default {
             monitorDeviceId: row.monitorDeviceId
           }
         });
-      }
+      }*/
     },
     clickRemarks() {
       const that = this;

@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { postAxiosData, getAxiosData } from '@/api/axiosType'
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import buttonCustom from "_c/duno-m/buttonCustom";
@@ -128,12 +129,49 @@ export default {
       });
     },
     getJump() {
-      this.$router.push({
+      getAxiosData("/lenovo-device/api/preset/type", {
+          monitorDeviceId: this.remarkData.monitorDeviceId
+      }).then(res => {
+          let supportPreset = res.data["supportPreset"];
+          let monitorDeviceType = res.data["monitorDeviceType"];
+          if (monitorDeviceType == 1) {
+              if (supportPreset) {
+                  this.$router.push({
+                      path: "/surveillancePath/detailLight",
+                      query: {
+                          monitorDeviceId: this.remarkData.monitorDeviceId
+                      }
+                  });
+              } else {
+                  this.$router.push({
+                      path: "/surveillancePath/detailLightN",
+                      query: {
+                          monitorDeviceId: this.remarkData.monitorDeviceId
+                      }
+                  });
+              }
+          } else if (monitorDeviceType == 2) {
+              this.$router.push({
+                  path: "/surveillancePath/detailRedN",
+                  query: {
+                      monitorDeviceId: this.remarkData.monitorDeviceId
+                  }
+              });
+          } else if (monitorDeviceType == 3) {
+              this.$router.push({
+                  path: "/surveillancePath/detailEnv",
+                  query: {
+                      monitorDeviceId: this.remarkData.monitorDeviceId
+                  }
+              });
+          }
+      });
+    /*  this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {
           monitorDeviceId: this.remarkData.monitorDeviceId
         }
-      });
+      });*/
     }
   },
   mounted() {

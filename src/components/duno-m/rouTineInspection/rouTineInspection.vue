@@ -110,6 +110,7 @@
                         }
                         this.$nextTick(()=>{
                             clearInterval(this.timer)
+                            this.timer = null
                             this.initData()
                             this.timer = setInterval(()=>{
                                 this.initData()

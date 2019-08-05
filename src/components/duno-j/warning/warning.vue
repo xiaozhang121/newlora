@@ -179,11 +179,11 @@ export default {
   computed: {},
   watch: {
     popData(now) {
-      if ("alarmId" in now) {
+      if ("alarmId" in now && now['alarmId']) {
         // this.searchId = now["alarmId"];
         this.searchId = now["alarmId"];
         this.searchType = "alarmId";
-      } else if ("taskId" in now) {
+      } else if ("taskId" in now && now['taskId']) {
         this.searchId = now["taskId"] + "," + now["batchId"];
         this.searchType = "alarmId";
       } else {
@@ -247,7 +247,44 @@ export default {
       this.$emit("handleClose");
     },
     getJump() {
-      if (this.popData.monitorDeviceType == "1") {
+      getAxiosData("/lenovo-device/api/preset/type", {
+          monitorDeviceId: this.popData.monitorDeviceId
+      }).then(res => {
+          let supportPreset = res.data["supportPreset"];
+          let monitorDeviceType = res.data["monitorDeviceType"];
+          if (monitorDeviceType == 1) {
+              if (supportPreset) {
+                  this.$router.push({
+                      path: "/surveillancePath/detailLight",
+                      query: {
+                          monitorDeviceId: this.popData.monitorDeviceId
+                      }
+                  });
+              } else {
+                  this.$router.push({
+                      path: "/surveillancePath/detailLightN",
+                      query: {
+                          monitorDeviceId: this.popData.monitorDeviceId
+                      }
+                  });
+              }
+          } else if (monitorDeviceType == 2) {
+              this.$router.push({
+                  path: "/surveillancePath/detailRedN",
+                  query: {
+                      monitorDeviceId: this.popData.monitorDeviceId
+                  }
+              });
+          } else if (monitorDeviceType == 3) {
+              this.$router.push({
+                  path: "/surveillancePath/detailEnv",
+                  query: {
+                      monitorDeviceId: this.popData.monitorDeviceId
+                  }
+              });
+          }
+      });
+/*      if (this.popData.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailLight",
           query: {
@@ -261,7 +298,7 @@ export default {
             monitorDeviceId: this.popData.monitorDeviceId
           }
         });
-      }
+      }*/
     },
     clickJudge() {
       /*  if (this.dataList.alarmValue == "") {
