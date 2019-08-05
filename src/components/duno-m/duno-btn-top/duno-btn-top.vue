@@ -28,7 +28,7 @@
           </div>
       </div>
     </div>
-    <div class="middleBtn"  v-if="showBtnList">
+    <div class="middleBtn" :class="{'bigLeft': $store.state.user.isHeader == 2}"  v-if="showBtnList">
       <div v-for="(item, index) in topBtnList" :key="index" class="btn" @click="topBtnHandle(index, item)" :class="{'active': item['active']}">
         <i v-if="!item['active']" class="iconfont icon-biyan"></i>
         <i v-else class="iconfont icon-zhengyan"></i>
@@ -354,11 +354,14 @@ export default {
   }
   .middleBtn{
     position: relative;
-    left: 15%;
+    left: -2.8%;
     width: 486px;
     justify-content: space-between;
     display: flex;
     color: #949594;
+    &.bigLeft{
+      left: 15% !important;
+    }
     .btn{
       cursor: pointer;
       display: flex;
