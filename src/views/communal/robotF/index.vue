@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="middle">
-        <rou-tine-inspection @on-fresh="onFresh" :isChange="ischange" :robotId="robotId" :substationId="substationId" ref="rouTineInspection" :taskStatus="taskStatus" :robotStatus="robotStatus">
+        <rou-tine-inspection  @on-fresh="onFresh" :isChange="ischange" :robotId="robotId" :substationId="substationId" ref="rouTineInspection" :taskStatus="taskStatus" :robotStatus="robotStatus">
           <div class="reportData">
             <report-data v-if="taskCurreny['doneStepsCnt']" :imgData="taskCurreny['taskCurLinkImg']" :taskCurreny="taskCurreny" :analysisResult="taskCurreny['valueShow']" :dataType="taskCurreny['recognType']" :deviceName="taskCurreny['deviceName']" :stepCount="taskCurreny['doneStepsCnt']"></report-data>
           </div>
@@ -216,6 +216,7 @@ export default {
   created(){
   },
   beforeDestroy(){
+      clearInterval(this.$refs.rouTineInspection.timer)
       clearInterval(this.timer)
   },
   mounted () {

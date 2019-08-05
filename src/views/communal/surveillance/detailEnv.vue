@@ -433,9 +433,9 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-        const url = "/lenovo-iir/device/visible/url/rtmp/"+ this.dataForm.monitorDeviceId;
+        const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp/"+ this.dataForm.monitorDeviceId;
         getAxiosData(url, {}).then(res => {
-            that.playerOptions.streamAddr = res.data.data
+            that.playerOptions.streamAddr = res.data
         });
     },
     cutOut(data) {

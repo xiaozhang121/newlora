@@ -16,12 +16,14 @@ router.beforeEach((to, from, next) => {
   if('kind' in to.meta){
       store.state.app.kilovolt = to.meta.kind
   }
-  if(to.meta.topNav == '1'){
-      store.state.app.topNav = 1
-  }else if(to.meta.topNav == '2'){
-      store.state.app.topNav = 2
-  }else if(to.meta.topNav == '3'){
-      store.state.app.topNav = 3
+  if(from.name){
+    if(to.meta.topNav == '1'){
+        store.state.app.topNav = 1
+    }else if(to.meta.topNav == '2'){
+        store.state.app.topNav = 2
+    }else if(to.meta.topNav == '3'){
+        store.state.app.topNav = 3
+    }
   }
   let token = getToken()
   if (!token && to.name !== LOGIN_PAGE_NAME && !to.meta.isLogin) {

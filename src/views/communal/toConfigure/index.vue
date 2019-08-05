@@ -280,7 +280,8 @@ export default {
           const obj = {
             describeName: item.label,
             value: item.value,
-            title: "titleTypeL"
+            title: "titleTypeL",
+            isActive: true
           };
           return obj;
         });
@@ -309,9 +310,15 @@ export default {
     },
     onSelectDevice(item) {
       console.log(item);
-      this.dataForm.deviceType = item["value"];
+      let arr = []
+      item.forEach(nr=>{
+          if(nr['isActive']){
+              arr.push(nr['value'])
+          }
+      })
+      this.dataForm.deviceType = arr.join(',');
       this.getDataList();
-      this.titleTypeL = item["describeName"];
+      // this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
       this.dataForm.areaId = item["value"];
@@ -376,11 +383,11 @@ export default {
           };
           return obj;
         });
-        // map.unshift({
-        //   describeName: "所有状态",
-        //   value: "",
-        //   title: "titleTypeR"
-        // });
+        map.unshift({
+          describeName: "所有状态",
+          value: "",
+          title: "titleTypeR"
+        });
         this.stateSelect = map;
       });
     },
