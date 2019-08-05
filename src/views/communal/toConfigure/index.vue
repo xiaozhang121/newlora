@@ -290,6 +290,7 @@ export default {
         this.$forceUpdate()
         this.$refs.btnTopRef.handleCheckAllChange(true)
         this.$refs.btnTopRef.checkAll = true
+        this.$refs.btnTopRef.checkedCities = this.onSelectDevice(map)
         console.log(this.TestEquipment);
       });
     },
@@ -325,7 +326,13 @@ export default {
       // this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
-      this.dataForm.areaId = item["value"];
+      if(item["value"])
+        this.dataForm.areaId = item["value"];
+      else{
+         if('areaId' in this.dataForm){
+             delete this.dataForm['areaId']
+         }
+      }
       this.getDataList();
       this.titleTypeC = item["describeName"];
     },
