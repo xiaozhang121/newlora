@@ -323,6 +323,7 @@ export default {
       })
       this.dataForm.deviceType = arr.join(',');
       this.getDataList();
+      return arr
       // this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
