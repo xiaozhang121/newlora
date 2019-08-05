@@ -63,7 +63,7 @@ export default {
       redLight: require('@/assets/buttonPng/redLight.png'),
       redLightCamera: require('@/assets/buttonPng/redLightNCamera.png'),
       robot: require('@/assets/buttonPng/robot.png'),
-      light: require('@/assets/buttonPng/lightCamera.svg'),
+      light: require('@/assets/buttonPng/lightCamera.png'),
       lightNoCamera: require('@/assets/buttonPng/light.svg'),
       weatherCheck: require('@/assets/SVG/weatherCheck.svg')
     }
