@@ -301,7 +301,8 @@ export default {
           const obj = {
             describeName: item.label,
             value: item.value,
-            title: "titleTypeC"
+            title: "titleTypeC",
+            isActive: true
           };
           return obj;
         });
