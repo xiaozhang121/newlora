@@ -4,7 +4,10 @@
             <camera-panel-back-u-p  :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel-back-u-p>
             <polygonal-backup  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
-            <historyfourth-backup  :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
+            <historyfourth-backup   v-loading="loadingOption"
+                                    element-loading-background="rgba(0, 0, 0, 0.8)"
+                                    element-loading-text="加载中"
+            :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
         </historical-documents>
     </div>
 </template>
@@ -34,6 +37,8 @@
         },
         data() {
             return {
+                timer: null,
+                loadingOption: false,
                 cameraFlag: 'first',
                 title: '',
                 monitorDeviceType: '',
@@ -108,7 +113,11 @@
                 this.isGetData = true
             },
             getHistoryData () {
+                this.loadingOption = true
                 this.isGetData = false
+                this.timer = setTimeout(()=>{
+                    this.loadingOption = false
+                },7000)
                 const that = this
                 const url = '/lenovo-plan/api/plan/history'
                 const query = {
@@ -138,6 +147,8 @@
                         }
                         seriesData.push(obj)
                     }
+                    clearTimeout(this.timer)
+                    that.loadingOption = false
                     that.legendData = legendData
                     that.xAxisData = xAxisData
                     that.seriesData = seriesData
@@ -152,6 +163,9 @@
 </script>
 <style lang="scss">
     .cameraPop{
+        .el-loading-text{
+            color: #969696   !important;
+        }
         .HistoricalDocuments{
             .titleBtn{
                 margin-right: 48px;

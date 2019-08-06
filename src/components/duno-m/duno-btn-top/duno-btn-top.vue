@@ -355,7 +355,7 @@ export default {
   }
   .middleBtn{
     position: relative;
-    left: -2.8%;
+    left: -1.4%;
     width: 486px;
     justify-content: space-between;
     display: flex;

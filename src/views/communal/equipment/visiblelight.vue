@@ -12,7 +12,10 @@
           <div>最新生成的巡检报告</div>
           <div @click="getMoreReport">查看更多 ></div>
         </div>
-        <div class="inspection">
+        <div class="inspection"
+             v-loading="loadingOptionF"
+             element-loading-background="rgba(0, 0, 0, 0.8)"
+             element-loading-text="加载中">
           <div v-for="(item,index) in inspecReport" :key="index">
             <ReportTable :url="url" :reportData="item" />
           </div>
@@ -23,7 +26,10 @@
           <div>最新24小时记录信息</div>
           <div @click="getMore">查看更多 ></div>
         </div>
-        <div class="hours">
+        <div class="hours"
+             v-loading="loadingOptionS"
+             element-loading-background="rgba(0, 0, 0, 0.8)"
+             element-loading-text="加载中">
           <MonitorWarn
             v-for="(item,index) in lightInformation"
             :remarkData="lightInformation[index]"
@@ -70,9 +76,12 @@ export default {
     KeyErea,
     MonitorWarn
   },
-  name: "visiblelightTep",
   data() {
     return {
+      loadingOptionF: false,
+      timerF: null,
+      loadingOptionS: false,
+      timerS: null,
       // mixinViewModuleOptions: {
       //   activatedIsNeed: true,
       //   getDataListURL: "/lenovo-device/api/main-device/list"
@@ -228,6 +237,14 @@ export default {
       }
     },
     getlightData() {
+      this.loadingOptionF = true
+      this.loadingOptionS = true
+      this.timerF = setTimeout(()=>{
+          this.loadingOptionF = false
+      },7000)
+      this.timerS = setTimeout(()=>{
+          this.loadingOptionS = false
+      },7000)
       let query = {
         ...this.timeQueryData,
         pageIndex: 1,
@@ -235,6 +252,8 @@ export default {
       };
       lightNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
+          clearTimeout(this.timerS)
+          this.loadingOptionS = false
       });
       let data = {
         pageIndex: 1,
@@ -242,6 +261,8 @@ export default {
       };
       lightNewInformation(data).then(res => {
         this.lightInformation = res.data.tableData;
+        clearTimeout(this.timerF)
+        this.loadingOptionF = false
       });
     },
     getInit() {
@@ -283,6 +304,12 @@ export default {
   top: -5px;
 }
 .visiblelight {
+  .el-loading-mask{
+    width: 100% !important;
+  }
+  .el-loading-text{
+    color: #969696   !important;
+  }
   .icon-xiala {
     /* width: 12px;
     height: 15px;*/
@@ -343,6 +370,7 @@ export default {
     }
     .right {
       .inspection {
+        position: relative;
         height: 795px;
         padding: 20px 0 0 20px;
         background-color: #142838;
