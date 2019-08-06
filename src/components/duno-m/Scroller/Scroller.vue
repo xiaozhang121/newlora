@@ -107,7 +107,7 @@ export default {
           that.distance = document.body.clientWidth;
         }
         box.style.transform = "translateX(" + that.distance + "px)";
-      }, 40);
+      }, 100);
     },
     move(flag) {
       const that = this;
