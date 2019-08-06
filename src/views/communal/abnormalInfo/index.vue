@@ -623,42 +623,44 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.el-select-dropdown {
-  background: linear-gradient(
-    210deg,
-    rgba(48, 107, 135, 0.9),
-    rgba(28, 50, 64, 0.7) 60%
-  ) !important;
-  border: none !important;
-  margin-top: 1px !important;
-  margin-left: 0px;
-  border-radius: 0;
-  min-width: 153px !important;
-}
-.el-select-dropdown__item,
-.el-select-dropdown__empty,
-.el-select-dropdown__item.selected {
-  color: white;
-}
-.el-select-dropdown__list {
-  position: relative;
-  top: -5px;
-}
-.el-popper[x-placement^="bottom"] .popper__arrow {
-  display: none;
-}
-.main .content-wrapper {
-  padding-top: 0;
-}
-.el-picker-panel {
-  background-color: rgba(27, 59, 71, 0.7);
-  color: #fff;
-  border: none;
-  .el-picker-panel__body-wrapper {
-    .el-picker-panel__body {
-      .in-range {
-        div {
-          background-color: rgba(81, 89, 112, 0.7);
+.abnormalInfod{
+  .el-select-dropdown {
+    background: linear-gradient(
+                    210deg,
+                    rgba(48, 107, 135, 0.9),
+                    rgba(28, 50, 64, 0.7) 60%
+    ) !important;
+    border: none !important;
+    margin-top: 1px !important;
+    margin-left: 0px;
+    border-radius: 0;
+    min-width: 153px !important;
+  }
+  .el-select-dropdown__item,
+  .el-select-dropdown__empty,
+  .el-select-dropdown__item.selected {
+    color: white;
+  }
+  .el-select-dropdown__list {
+    position: relative;
+    top: -5px;
+  }
+  .el-popper[x-placement^="bottom"] .popper__arrow {
+    display: none;
+  }
+  .main .content-wrapper {
+    padding-top: 0;
+  }
+  .el-picker-panel {
+    background-color: rgba(27, 59, 71, 0.7);
+    color: #fff;
+    border: none;
+    .el-picker-panel__body-wrapper {
+      .el-picker-panel__body {
+        .in-range {
+          div {
+            background-color: rgba(81, 89, 112, 0.7);
+          }
         }
       }
     }
