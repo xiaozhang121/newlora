@@ -292,6 +292,7 @@ export default {
                     click: () => {
                       that.popData = params.row;
                       that.visible = true;
+                      that.initDataD(params.row.id)
                     }
                   }
                 },
@@ -332,14 +333,14 @@ export default {
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId;
     this.planType = this.$route.query.planType;
     this.getRegion();
-    this.initDataD()
+    // this.initDataD()
     this.routeName = this.$route.name
     // this.getStart();
     // this.getType();
   },
   methods: {
-    initDataD(){
-        postAxiosData('/lenovo-robot/rest/taskCurLink',{taskDeviceId: this.$route.query.taskDeviceId}).then(res=>{
+    initDataD(taskDeviceId){
+        postAxiosData('/lenovo-robot/rest/taskCurLink',{taskDeviceId: taskDeviceId}).then(res=>{
             this.warnData = res.data
         })
     },
