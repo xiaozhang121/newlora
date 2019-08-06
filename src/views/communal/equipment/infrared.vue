@@ -248,6 +248,7 @@ export default {
         query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/plan/iir-report/list",
+          planType: "2",
           dataBread: ["操作中台", "设备监测", "红外监测", "最新巡检报表"]
         }
       });
