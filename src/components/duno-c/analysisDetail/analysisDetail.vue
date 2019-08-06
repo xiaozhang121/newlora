@@ -311,7 +311,7 @@ export default {
         // },
         {
           title: "记录时间",
-          key: "alarmTime",
+          key: "executeTime",
           minWidth: 100,
           align: "center",
           tooltip: true
