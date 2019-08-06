@@ -364,6 +364,9 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  .el-loading-text{
+    color: #969696   !important;
+  }
   .topStyle {
     background: black;
     .vjs-big-play-button {
@@ -388,6 +391,7 @@ export default {
     width: 100%;
   }
   .video-js .vjs-big-play-button {
+    display: none;
     /*
      播放按钮换成圆形
     */
