@@ -381,8 +381,8 @@
       }
     }
     .infraredList {
-      transform: scale(1, 0.75);
-      transform-origin: left top;
+      /*transform: scale(1, 0.75);
+      transform-origin: left top;*/
     }
     .video-player.vjs-custom-skin {
       width: 100%;
