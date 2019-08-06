@@ -219,10 +219,8 @@ export default {
   color: #ffffff;
   position: relative;
   & > div:first-child {
-    /*height: 225px;*/
+    height: 225px;
     width: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
     background-image: url("../../../assets/images/placeholder.png");
     img {
       width: 100%;
