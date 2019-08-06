@@ -218,9 +218,14 @@ export default {
   opacity: 0.8;
   color: #ffffff;
   position: relative;
-  img {
+  & > div:first-child {
+    height: 225px;
     width: 100%;
-    display: block;
+    background-image: url("../../../assets/images/placeholder.png");
+    img {
+      width: 100%;
+      display: block;
+    }
   }
   .content {
     padding: 20px 20px 10px 20px;

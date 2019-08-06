@@ -204,7 +204,7 @@ export default {
                       item['name'] = '暂无数据'
                   item['date'] = item['PlanStartTime']
                   item['alarmNum'] = item['AlarmCount']
-                  item['timeLong'] = item['AlarmCount']
+                  item['timeLong'] = item['timeLong']
               })
               that.newsReport = data
           })
