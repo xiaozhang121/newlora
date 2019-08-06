@@ -286,8 +286,8 @@ export default {
           };
           return obj;
         });
-          console.log('------->'+map)
-          console.log('------->'+map.join(','))
+        console.log('------->'+map)
+        console.log('------->'+map.join(','))
         this.TestEquipment = map;
         this.$forceUpdate()
         this.$refs.btnTopRef.handleCheckAllChange(true)

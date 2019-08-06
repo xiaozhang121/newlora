@@ -1,5 +1,8 @@
 <template>
-  <div class="historyfourth">
+  <div class="historyfourth"
+       v-loading="loadingOption"
+       element-loading-background="rgba(0, 0, 0, 0.8)"
+       element-loading-text="加载中">
     <h4 class="title">{{title}}</h4>
     <div class="historyfourthBox">
       <div :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']" @mouseenter.stop="mouseNum = index" @mouseleave.stop="mouseNum = -1" v-for="(item, index) in alarmHistoryData" :key="index">
@@ -17,6 +20,8 @@ export default {
   components: {},
   data () {
     return {
+      timer: null,
+      loadingOption: false,
       alarmHistoryData: [],
       mouseNum: -1
     }
@@ -50,6 +55,10 @@ export default {
   },
   methods: {
     getData () {
+      this.loadingOption = true
+      this.timer = setTimeout(()=>{
+          this.loadingOption = false
+      },7000)
       const that = this
       const url = '/lenovo-alarm/api/alarm/history'
       let query = {
@@ -62,6 +71,8 @@ export default {
       }
       getAxiosData(url, query).then(res=>{
           console.log(res.data.tableData)
+          clearTimeout(this.timer)
+          this.loadingOption = false
           if (res.code == 200) {
             that.alarmHistoryData = res.data.tableData
           } else {

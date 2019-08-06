@@ -19,11 +19,11 @@
             />
           </div>
         </div>
-        <div class="item">
+        <div class="item" style="overflow: hidden">
           <div class="nr redCamera">
             <!--:streamAddr="cameraPath['rtspINF']"-->
             <KeyMonitor
-                class="keyMonitor"
+                class="keyMonitor noLoading"
                 :autoplay="true"
                 streamAddr="rtmp://10.0.10.39/rtsp60/stream"
             />
@@ -191,8 +191,8 @@ export default {
               data = data.reportList
               data.map(item=>{
                   // item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
-                  if('taskImg' in item && item['taskImg'])
-                      item['pic'] = item['taskImg']
+              if('taskImg' in item && item['taskImg'])
+                item['pic'] = item['taskImg']
                   item['planId'] = item['TaskID']
                   if(item['taskType'] == '1501')
                       item['name'] = '全面巡视'
@@ -231,10 +231,18 @@ export default {
   color: white;
   width: 100%;
   height: 100%;
+  .noLoading{
+    .vjs-fluid {
+      padding-top: 56%;
+    }
+    .el-loading-mask{
+      display: none;
+    }
+  }
   .redCamera{
     .video-player.vjs-custom-skin{
-      transform: scale(1,1.38);
-      transform-origin: left top;
+      /*transform: scale(1,1.38);*/
+      /*transform-origin: left top;*/
     }
   }
   .breadcrumb{

@@ -12,7 +12,11 @@
         <div @click="clickToDetail">所有动态环境异常信息</div>
       </div>
     </div>
-    <div class="alarmLogIn">
+    <div class="alarmLogIn"
+         v-loading="loading"
+         element-loading-background="rgba(0, 0, 0, 0.8)"
+         element-loading-text="加载中"
+    >
       <AlarmLog
         v-for="(item,index) in dataList"
         :remarkData="dataList[index]"
@@ -48,6 +52,8 @@ export default {
   },
   data() {
     return {
+      timer: null,
+      loading: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/security/list"
@@ -99,6 +105,18 @@ export default {
       active: 4
     };
   },
+  watch:{
+      dataList:{
+          handler(now){
+              if(now.length){
+                  this.loading = false
+                  clearTimeout(this.timer)
+              }
+          },
+          deep: true,
+          immediate: true
+      }
+  },
   methods: {
     handleData() {
       this.getDataList();
@@ -119,6 +137,10 @@ export default {
   },
   created() {
     this.getTime();
+    this.loading = true
+    this.timer = setTimeout(()=>{
+        this.loading = false
+    },7000)
   },
   beforeDestroy() {}
 };
@@ -130,6 +152,9 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .el-loading-text{
+    color: #969696   !important;
+  }
   .icon-xiala {
   /*  width: 12px;
     height: 14px;*/

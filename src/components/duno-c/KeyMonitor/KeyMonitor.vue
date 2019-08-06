@@ -8,6 +8,9 @@
     >
       <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}">
         <video-player
+          v-loading="loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          element-loading-text="加载中"
           :class="{'infraredList':routeName == 'infraredList'}"
           v-if="showView"
           ref="videoPlayer"
@@ -169,6 +172,8 @@ export default {
           this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
           this.showView = true;
+          this.loading = false
+          clearTimeout(this.timer)
         }
       },
       immediate: true
@@ -190,6 +195,8 @@ export default {
   },
   data() {
     return {
+      timer: null,
+      loading: false,
       monitorSrc: "",
       monitorInfoR: "",
       cameraPic: "",
@@ -337,6 +344,10 @@ export default {
     }
   },
   mounted() {
+    this.loading = true
+    this.timer = setTimeout(()=>{
+        this.loading = false
+    }, 7000)
     this.isIniializa = this.Initialization;
     this.isNavbar = this.isNav;
   },
@@ -370,8 +381,8 @@ export default {
     }
   }
   .infraredList {
-    transform: scale(1, 0.75);
-    transform-origin: left top;
+  /*  transform: scale(1, 0.75);
+    transform-origin: left top;*/
   }
   .video-player.vjs-custom-skin {
     width: 100%;

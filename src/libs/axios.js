@@ -30,12 +30,11 @@ class HttpRequest {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
       // 加载停止
-      if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1) && !(url.indexOf('device/temperature')>-1)){
+      // if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1) && !(url.indexOf('device/temperature')>-1)){
           try{
               loadingInstance.close()
           } catch (e) {}
-
-      }
+      // }
     }
   }
   interceptors (instance, url) {
@@ -45,14 +44,16 @@ class HttpRequest {
       // 添加全局的loading...
       if (!Object.keys(that.queue).length) {
         // 加载开始
-        if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1) && !(url.indexOf('device/temperature')>-1) && !(url.indexOf('/lenovo-robot/rest/taskStatus')>-1) && !(url.indexOf('/lenovo-robot/rest/taskCurLink')>-1) && !(url.indexOf('/lenovo-robot/rest/robotStatus')>-1) && !(url.indexOf('/lenovo-robot/rest/specialTasks')>-1)){
-            loadingInstance = Loading.service({
-                lock: true,
-                text: '加载中...',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0)'
-            })
-        }
+        // if(!(url.indexOf('/lenovo-visible/api/visible-equipment/ptz/direction-adjust')>-1) && !(url.indexOf('device/temperature')>-1) && !(url.indexOf('/lenovo-robot/rest/taskStatus')>-1) && !(url.indexOf('/lenovo-robot/rest/taskCurLink')>-1) && !(url.indexOf('/lenovo-robot/rest/robotStatus')>-1) && !(url.indexOf('/lenovo-robot/rest/specialTasks')>-1)){
+          if(url.indexOf('lenovo-device/api/device/diagram/list')>-1 || url.indexOf('lenovo-device/api/device/list')>-1){
+              loadingInstance = Loading.service({
+                  lock: true,
+                  text: '加载中...',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0)'
+              })
+           }
+        // }
       }
       that.queue[url] = true
       return config
