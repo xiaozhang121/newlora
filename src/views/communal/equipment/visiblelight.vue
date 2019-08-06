@@ -183,6 +183,7 @@ export default {
         name: "light-info",
         query: {
           title: "可见光监测记录信息",
+          planType: "1",
           url: "/lenovo-plan/api/plan/visible-report/list",
           dataBread: ["操作中台", "设备监测", "可见光", "红外监测记录信息"]
         }
@@ -252,6 +253,7 @@ export default {
         .format("YYYY-MM-DD HH:mm:ss");
       this.timeQueryData.startTime = startTime;
       this.timeQueryData.endTime = endTime;
+      this.timeQueryData.playtype = "1";
     }
   },
   mounted() {
@@ -282,7 +284,7 @@ export default {
 }
 .visiblelight {
   .icon-xiala {
-   /* width: 12px;
+    /* width: 12px;
     height: 15px;*/
   }
   .selectSearch {

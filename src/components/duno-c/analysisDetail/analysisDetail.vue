@@ -113,7 +113,6 @@ export default {
     const that = this;
     return {
       mixinViewModuleOptions: {
-        // activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
