@@ -130,7 +130,7 @@ export default {
       ) {
         this.$router.push({
           name: "light-report",
-          params: {
+          query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             url: this.url.viewUrl,
@@ -143,7 +143,7 @@ export default {
       ) {
         this.$router.push({
           name: "infrared-report",
-          params: {
+          query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             url: this.url.viewUrl,
@@ -153,7 +153,7 @@ export default {
       } else if (this.$route.name == "reportList") {
         this.$router.push({
           name: "report-view",
-          params: {
+          query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             url: this.url.viewUrl,
@@ -163,7 +163,7 @@ export default {
       } else if (this.$route.name == "configure-report") {
         this.$router.push({
           name: "configure-view",
-          params: {
+          query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             url: this.url.viewUrl,
@@ -173,7 +173,7 @@ export default {
       } else if (this.$route.name == "abnormalInfoList") {
         this.$router.push({
           name: "abnormalInfoList-report",
-          params: {
+          query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             url: this.url.viewUrl,

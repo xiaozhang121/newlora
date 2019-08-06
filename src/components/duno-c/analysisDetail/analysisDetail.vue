@@ -368,11 +368,11 @@ export default {
     this.getDataList();
   },
   created() {
-    this.dataForm.planId = this.$route.params.planId;
-    this.dataForm.planType = this.$route.params.planType;
-    this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
-    this.title = this.$route.params.title;
-    this.dataBread = this.$route.params.dataBread;
+    this.dataForm.planId = this.$route.query.planId;
+    this.dataForm.planType = this.$route.query.planType;
+    this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
+    this.title = this.$route.query.title;
+    this.dataBread = this.$route.query.dataBread;
     this.getRegion();
     this.getStart();
     this.getType();
