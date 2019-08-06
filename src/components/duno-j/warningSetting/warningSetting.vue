@@ -242,10 +242,14 @@ export default {
     text-align: center;
   }
   .warningBtn {
-    background-color: #00688B;
+    background-image: linear-gradient(0deg, #1b303a 0%, #287982 100%);
     color: #fff;
     .el-form-item__label{
       text-align: right !important;
+    }
+    span{
+        padding-left: 10px;
+        padding-right: 10px;
     }
   }
 }
