@@ -90,6 +90,12 @@
             Loading
         },
         props: {
+            loadOption:{
+                type: Boolean,
+                default: () => {
+                    return true;
+                }
+            },
             configType: {},
             routeName: {},
             Initialization: {

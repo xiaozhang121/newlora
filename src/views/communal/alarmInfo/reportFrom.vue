@@ -29,7 +29,11 @@
         </div>
       </div>
     </div>
-    <duno-main class="dunoMain">
+    <duno-main class="dunoMain"
+               style="position: relative; top: -5px"
+               v-loading="loading"
+               element-loading-background="rgba(0, 0, 0, 0.8)"
+               element-loading-text="加载中">
       <div class="task">
         <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
       </div>
@@ -62,6 +66,8 @@ export default {
   },
   data() {
     return {
+      timer: null,
+      loading: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/plan/list"
@@ -76,6 +82,18 @@ export default {
       dataForm: {},
       inspectionData: []
     };
+  },
+  watch:{
+      dataList:{
+          handler(now){
+              if(now.length){
+                  this.loading = false
+                  clearTimeout(this.timer)
+              }
+          },
+          deep: true,
+          immediate: true
+      }
   },
   methods: {
     onSelect(item) {
@@ -115,6 +133,10 @@ export default {
     }
   },
   mounted() {
+    this.loading = true
+    this.timer = setTimeout(()=>{
+        this.loading = false
+    },7000)
     this.getPlayTypeData();
   }
 };
@@ -124,6 +146,9 @@ export default {
 .duno-reportFrom {
   width: 100%;
   height: 100%;
+  .el-loading-text{
+    color: #969696   !important;
+  }
   .icon-xiala{
     /*width: 12px ;
     height: 16px;*/
@@ -185,6 +210,7 @@ export default {
     }
   }
   .dunoMain {
+    margin-bottom: 15px;
     height: inherit !important;
   }
   .task {

@@ -19,11 +19,11 @@
             />
           </div>
         </div>
-        <div class="item">
+        <div class="item" style="overflow: hidden">
           <div class="nr redCamera">
             <!--:streamAddr="cameraPath['rtspINF']"-->
             <KeyMonitor
-                class="keyMonitor"
+                class="keyMonitor noLoading"
                 :autoplay="true"
                 streamAddr="rtmp://10.0.10.39/rtsp60/stream"
             />
@@ -204,7 +204,7 @@ export default {
                       item['name'] = '暂无数据'
                   item['date'] = item['PlanStartTime']
                   item['alarmNum'] = item['AlarmCount']
-                  item['timeLong'] = item['AlarmCount']
+                  item['timeLong'] = item['timeLong']
               })
               that.newsReport = data
           })
@@ -229,6 +229,11 @@ export default {
   color: white;
   width: 100%;
   height: 100%;
+  .noLoading{
+    .el-loading-mask{
+      display: none;
+    }
+  }
   .redCamera{
     .video-player.vjs-custom-skin{
       transform: scale(1,1.38);
