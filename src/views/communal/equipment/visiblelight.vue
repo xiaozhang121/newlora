@@ -161,7 +161,7 @@ export default {
       //错的 暂时这样写
       this.$router.push({
         name: "light-report",
-        params: {
+        query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list",
           dataBread: ["操作中台", "设备监测", "可见光", "所有记录"]
@@ -171,7 +171,7 @@ export default {
     getMore() {
       this.$router.push({
         name: "light-report",
-        params: {
+        query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list",
           dataBread: ["操作中台", "设备监测", "可见光", "可见光监测记录信息"]
@@ -181,7 +181,7 @@ export default {
     getMoreReport() {
       this.$router.push({
         name: "light-info",
-        params: {
+        query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/plan/visible-report/list",
           dataBread: ["操作中台", "设备监测", "可见光", "红外监测记录信息"]

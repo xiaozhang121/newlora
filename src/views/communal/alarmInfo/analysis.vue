@@ -728,7 +728,7 @@ export default {
     handleToMore() {
       this.$router.push({
         name: "meterdata-detail",
-        params: {
+        query: {
           url: "/lenovo-plan/api/statistics/meter-data/list",
           dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"]
         }
