@@ -14,7 +14,7 @@
                 v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1 && !isHidden"
                 hide-trigger
                 collapsible
-                :width="collapsed ? '64px' : '256px'"
+                :width="collapsed ? '64px' : '200px'"
                 class="left-sider"
                 :style="{overflow: 'hidden'}"
         >
@@ -62,7 +62,7 @@
                       v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1 && !isHidde"
                       hide-trigger
                       collapsible
-                      :width="collapsed ? '64px' : '256px'"
+                      :width="collapsed ? '64px' : '200px'"
                       class="left-sider"
                       :style="{overflow: 'hidden'}"
               >

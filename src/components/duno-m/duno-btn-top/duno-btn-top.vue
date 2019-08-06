@@ -280,8 +280,8 @@ export default {
   .icon-xiala{
     font-size: 9px;
     position: absolute;
-    width: 10px;
-    height: 12px;
+   /* width: 10px;
+    height: 12px;*/
     right: 20px;
     top: 12px;
     &.active{

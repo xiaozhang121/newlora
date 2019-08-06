@@ -872,8 +872,8 @@
 <style lang="scss">
   .realEnv{
     .icon-xiala{
-      width: 12px;
-      height: 15px;
+     /* width: 12px;
+      height: 15px;*/
     }
     .ol-zoom{
       z-index: 4;

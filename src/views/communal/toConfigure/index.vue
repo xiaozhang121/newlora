@@ -440,8 +440,8 @@ export default {
 .toConfigure {
   width: 100%;
   .icon-xiala {
-    width: 9px;
-    height: 12px;
+    /*width: 9px;
+    height: 12px;*/
   }
   .circleStatus {
     width: 13px;

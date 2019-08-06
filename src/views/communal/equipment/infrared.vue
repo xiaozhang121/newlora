@@ -285,8 +285,8 @@ export default {
 }
 .visiblelight {
   .icon-xiala {
-    width: 12px;
-    height: 15px;
+    /*width: 12px;
+    height: 15px;*/
   }
   .selectSearch {
     .el-input--small .el-input__inner {
