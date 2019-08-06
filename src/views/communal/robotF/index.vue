@@ -98,6 +98,7 @@ export default {
   data () {
     const that = this
     return {
+        noPic:require('@/assets/noPic.png'),
         visible: false,
         ischange: false,
         timer: null,
@@ -190,7 +191,10 @@ export default {
               data = data.reportList
               data.map(item=>{
                   // item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
-                  item['pic'] = item['taskImg']
+                  if('taskImg' in item && item['taskImg'])
+                    item['pic'] = item['taskImg']
+                  else
+                    item['pic'] = that.noPic
                   item['planId'] = item['TaskID']
                   if(item['taskType'] == '1501')
                       item['name'] = '全面巡视'
