@@ -903,10 +903,10 @@ export default {
     .icon-xiala {
       font-size: 9px;
       position: absolute;
-      width: 12px !important;
-      height: 15px !important;
-      right: 20px;
-      top: 14px;
+   /*   width: 12px !important;
+      height: 15px !important;*/
+      /*right: 20px;
+      top: 14px;*/
     }
   }
 }

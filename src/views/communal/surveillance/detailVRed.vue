@@ -712,8 +712,8 @@ export default {
   min-height: 100%;
   overflow-y: hidden;
   .icon-xiala {
-    width: 12px;
-    height: 15px;
+   /* width: 12px;
+    height: 15px;*/
   }
   .echartsData {
     background: transparent;

@@ -689,8 +689,8 @@ export default {
   padding-bottom: 100px;
   /*overflow-y: hidden;*/
   .icon-xiala {
-    width: 12px;
-    height: 15px;
+   /* width: 12px;
+    height: 15px;*/
   }
   .el-input--small .el-input__inner {
     border-radius: 0;

@@ -125,8 +125,8 @@ export default {
   width: 100%;
   height: 100%;
   .icon-xiala{
-    width: 12px ;
-    height: 16px;
+    /*width: 12px ;
+    height: 16px;*/
   }
   .dunoDrap {
     display: flex;

@@ -938,8 +938,8 @@ export default {
         padding-bottom: 0;
         height: 40px;
         .icon-xiala {
-          width: 13px !important;
-          height: 14px !important;
+        /*  width: 13px !important;
+          height: 14px !important;*/
         }
         .btnList {
           top: inherit !important;
@@ -1011,10 +1011,10 @@ export default {
               }
             }
             .icon-xiala {
-              height: 15px;
+              /*height: 15px;*/
               right: 11px;
               top: 12px;
-              width: 12px;
+              /*width: 12px;*/
             }
           }
         }

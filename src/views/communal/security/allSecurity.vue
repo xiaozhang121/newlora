@@ -517,8 +517,8 @@ export default {
 .analysis-detail {
   width: 100%;
   .icon-xiala {
-    width: 13px;
-    height: 16px;
+    /*width: 13px;
+    height: 16px;*/
   }
   //-------------------表格样式
   .dunoMain {

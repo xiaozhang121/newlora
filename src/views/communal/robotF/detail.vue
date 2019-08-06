@@ -424,8 +424,8 @@ export default {
 <style lang="scss">
 .robotDetail {
   .dunoBtnTop .icon-xiala{
-    width: 12px !important;
-    height: 15px !important;
+   /* width: 12px !important;
+    height: 15px !important;*/
     right: 20px !important;
     top: 12px !important;
   }

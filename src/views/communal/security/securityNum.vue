@@ -159,8 +159,8 @@ export default {
 <style lang="scss">
 .securityNum {
   .icon-xiala{
-    width: 12px;
-    height: 15px;
+   /* width: 12px;
+    height: 15px;*/
   }
   & > div:nth-child(2) {
     font-size: 20px;

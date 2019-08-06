@@ -662,8 +662,8 @@ export default {
     }
   }
   .icon-xiala{
-    width: 12px;
-    height: 14px;
+   /* width: 12px;
+    height: 14px;*/
   }
   /*overflow-y: hidden;*/
   .el-input--small .el-input__inner {
