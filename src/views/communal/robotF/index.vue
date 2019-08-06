@@ -193,8 +193,6 @@ export default {
                   // item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
                   if('taskImg' in item && item['taskImg'])
                       item['pic'] = item['taskImg']
-                  else
-                      item['pic'] = that.noPic
                   item['planId'] = item['TaskID']
                   if(item['taskType'] == '1501')
                       item['name'] = '全面巡视'

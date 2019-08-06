@@ -85,6 +85,9 @@ export default {
       ...mapState([
           'user'
       ]),
+      isPush(){
+          return this.$store.state.app.isPush
+      },
       displayType(){
           return this.$store.state.user.configInfo['displayType']
       },
@@ -162,6 +165,20 @@ export default {
       },
       layoutTypeName(){
           return this.dataList[this.$store.state.user.configInfo['displayType']-1]['describeName']
+      }
+  },
+  watch:{
+      isPush:{
+          handler(now){
+              if(now){
+                  this.getCamera()
+                  this.getArea()
+                  this.initData()
+                  this.$store.state.app.isPush = false
+              }
+          },
+          deep: true,
+          immediate: true
       }
   },
   data() {
