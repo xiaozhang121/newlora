@@ -1,6 +1,6 @@
 <template>
   <div class="statisticsCom">
-    <div class="mapStatistics">
+    <div class="mapStatistics" ref="mapContain">
       <gis-map
         ref="gisMapObj"
         :small="true"
@@ -12,6 +12,7 @@
         :kind="mapKind"
         :controlBtn="false"
       />
+      <i class="fullScreen iconfont icon-quanping"  @click="changeFullScreen($refs.mapContain)"></i>
     </div>
     <div class="warningStatistics">
       <p class="allWraning" style="margin-bottom:16px">
@@ -29,6 +30,7 @@
   </div>
 </template>
 <script>
+import screenfull from 'screenfull'
 import gisMap from "_c/duno-m/gisMap";
 import mixinViewModule from "@/mixins/view-module";
 import { deviceLocation } from "@/api/currency/currency.js";
@@ -91,6 +93,10 @@ export default {
     }
   },
   methods: {
+    changeFullScreen(target){
+        const that = this
+        screenfull.toggle(target)
+    },
     initPoint() {
       let now = this.mapKind;
       if (now == 1000) {
@@ -178,6 +184,13 @@ export default {
     height: 270px;
     float: left;
     background-color: #0f1b21;
+    position: relative;
+    .fullScreen{
+      position: absolute;
+      bottom: 3px;
+      right: 9px;
+      cursor: pointer;
+    }
     img {
       width: 100%;
       display: block;

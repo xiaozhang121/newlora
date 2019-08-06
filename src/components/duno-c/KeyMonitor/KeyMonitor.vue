@@ -242,6 +242,7 @@ export default {
         id: this.$store.state.user.configInfo.id
       };
       editConfig(query).then(res => {
+        that.$store.state.app.isPush = true
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
       });
@@ -254,14 +255,17 @@ export default {
       // this.$emit("on-push", this.monitorInfoR);
       this.pushMovVisable = true;
       if (this.monitorInfoR) {
-        if ("pic" in this.monitorInfoR)
-          this.cameraPic = this.monitorInfoR["pic"];
+        if ("pic" in this.monitorInfoR){
+            // this.cameraPic = this.monitorInfoR["pic"];
+            this.cameraPic = ''
+        }
         else {
-          getAxiosData("/lenovo-device/api/pic/url", {
+          this.cameraPic = ''
+          /*getAxiosData("/lenovo-device/api/pic/url", {
             rtmpUrl: this.monitorSrc
           }).then(res => {
             this.cameraPic = res.data.pic;
-          });
+          });*/
         }
       } else {
         this.cameraPic = "";

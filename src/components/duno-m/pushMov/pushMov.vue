@@ -125,28 +125,32 @@
             ]),
             cameraPic01(){
                 if(this.$store.state.user.configInfo.cameraPic01){
-                    return this.$store.state.user.configInfo.cameraPic01
+                    // return this.$store.state.user.configInfo.cameraPic01
+                    return ' '
                 }else{
                     return ' '
                 }
             },
             cameraPic02(){
                 if(this.$store.state.user.configInfo.cameraPic02){
-                    return this.$store.state.user.configInfo.cameraPic02
+                    // return this.$store.state.user.configInfo.cameraPic02
+                    return ' '
                 }else{
                     return ' '
                 }
             },
             cameraPic03(){
                 if(this.$store.state.user.configInfo.cameraPic03){
-                    return this.$store.state.user.configInfo.cameraPic03
+                    // return this.$store.state.user.configInfo.cameraPic03
+                    return ' '
                 }else{
                     return ' '
                 }
             },
             cameraPic04(){
                 if(this.$store.state.user.configInfo.cameraPic04){
-                    return this.$store.state.user.configInfo.cameraPic04
+                    // return this.$store.state.user.configInfo.cameraPic04
+                    return ' '
                 }else{
                     return ' '
                 }

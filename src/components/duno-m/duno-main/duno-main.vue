@@ -1,21 +1,23 @@
 <template>
   <div class="dunoMain">
-    <img :src="angle" class="angle">
-    <img :src="angle" class="angle angle-top-right">
-    <img :src="angle" class="angle angle-botton-left">
-    <img :src="angle" class="angle angle-botton-right">
-    <div class="dunoMain_nr">
+    <transition-group  name="fade">
+    <img key="1" v-show="isShow || !controlOver" :src="angle" class="angle">
+    <img key="2" v-show="isShow || !controlOver" :src="angle" class="angle angle-top-right">
+    <img key="3" v-show="isShow || !controlOver" :src="angle" class="angle angle-botton-left">
+    <img key="4" v-show="isShow || !controlOver" :src="angle" class="angle angle-botton-right">
+    </transition-group>
+    <div class="dunoMain_nr" @mouseenter="mouseenter()" @mouseleave="mouseleave()">
       <slot></slot>
     </div>
   </div>
 </template>
-
 <script>
 import Icons from '_c/icons'
 export default {
   name: 'dunoMain',
   data (){
     return {
+      isShow: false,
       angle: require('@/assets/images/angle.png')
     }
   },
@@ -23,13 +25,21 @@ export default {
     Icons
   },
   props: {
-
+    controlOver:{
+        type: Boolean,
+        default: false
+    }
   },
   computed: {
 
   },
   methods:{
-
+      mouseenter(){
+          this.isShow = true
+      },
+      mouseleave(){
+          this.isShow = false
+      }
   }
 }
 </script>
@@ -42,6 +52,12 @@ export default {
   position: absolute;
   overflow: hidden;
   box-sizing: border-box;
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
   .angle {
     display: block;
     position: absolute;

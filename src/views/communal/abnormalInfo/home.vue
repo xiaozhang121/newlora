@@ -4,48 +4,52 @@
       <scroller :listOption="messageList"></scroller>
     </div>
     <div class="middle">
-      <div class="abnormalInfo">
-        <div class="contain">
-          <div class="iconTop pointer" @click="getIn">
-            <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
-            异常信息
-          </div>
-          <div>
-            <duno-tables-tep
-              class="table_abnormalInfo"
-              :columns="columns"
-              :data="dataList"
-              :totalNum="totalNum"
-              :pageSize="pageRows"
-              :current="pageIndex"
-              :isShowPage="false"
-              @on-select="dataListSelectionChangeHandle"
-              @clickPage="pageCurrentChangeHandle"
-              @on-page-size-change="pageSizeChangeHandle"
-            />
-          </div>
+        <div class="abnormalInfo">
+            <div class="contain">
+              <duno-main :controlOver="true" class="main_contain">
+                <div class="iconTop pointer" @click="getIn">
+                  <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
+                  异常信息
+                </div>
+                <div>
+                  <duno-tables-tep
+                          class="table_abnormalInfo"
+                          :columns="columns"
+                          :data="dataList"
+                          :totalNum="totalNum"
+                          :pageSize="pageRows"
+                          :current="pageIndex"
+                          :isShowPage="false"
+                          @on-select="dataListSelectionChangeHandle"
+                          @clickPage="pageCurrentChangeHandle"
+                          @on-page-size-change="pageSizeChangeHandle"
+                  />
+                </div>
+              </duno-main>
+           </div>
         </div>
-      </div>
-      <div class="reportForm">
-        <div class="iconTop">
-          <img src="../../../assets/iconFunction/icon_statement.png" alt />
-          报表
+        <div class="reportForm">
+          <duno-main  :controlOver="true" class="main_contain">
+            <div class="iconTop">
+              <img src="../../../assets/iconFunction/icon_statement.png" alt />
+              报表
+            </div>
+            <div class="re-middle">
+              <ReportTable v-for="(item,index) in mockData" :key="index" :url="url" :reportData="item" />
+            </div>
+            <div class="re-table">
+              <duno-tables-tep
+                      class="table_analysis"
+                      :columns="RecodeColumns"
+                      :data="RecodeList"
+                      :isShowPage="false"
+                      @on-select="dataListSelectionChangeHandle"
+                      @clickPage="pageCurrentChangeHandle"
+                      @on-page-size-change="pageSizeChangeHandle"
+              />
+            </div>
+          </duno-main>
         </div>
-        <div class="re-middle">
-          <ReportTable v-for="(item,index) in mockData" :key="index" :url="url" :reportData="item" />
-        </div>
-        <div class="re-table">
-          <duno-tables-tep
-            class="table_analysis"
-            :columns="RecodeColumns"
-            :data="RecodeList"
-            :isShowPage="false"
-            @on-select="dataListSelectionChangeHandle"
-            @clickPage="pageCurrentChangeHandle"
-            @on-page-size-change="pageSizeChangeHandle"
-          />
-        </div>
-      </div>
       <!-- <div class="ARRange">
         <div class="iconcen">
           <div class="iconTop">
@@ -503,6 +507,14 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
+  .main_contain{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(20, 40, 56, 0.8);
+  }
   .topNav {
     background-color: rgba(20, 40, 56, 0.8);
     height: 80px;
@@ -547,6 +559,7 @@ export default {
       }
     }
     .reportForm {
+      position: relative;
       width: calc(40% - 10px);
       // margin-right: 20px;
       height: 100%;

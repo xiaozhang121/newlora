@@ -4,6 +4,7 @@ export default {
   state: {
     breadCrumbList: [],
     tagNavList: [],
+    isPush: false,
     homeRoute: getHomeRoute(routers),
     local: '',
     kilovolt: '',
