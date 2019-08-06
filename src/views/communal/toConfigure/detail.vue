@@ -210,7 +210,7 @@ export default {
                     click: () => {
                       this.$router.push({
                         name: "configure-report",
-                        params: {
+                        query: {
                           planId: params.row.planId,
                           planType: params.row.planType,
                           url: this.url.viewUrl

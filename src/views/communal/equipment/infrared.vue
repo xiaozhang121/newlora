@@ -161,7 +161,7 @@ export default {
       //错误跳转 以后改
       this.$router.push({
         name: "infrared-report",
-        params: {
+        query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/task/iir-result/list",
           dataBread: ["操作中台", "设备监测", "红外监测", "所有记录"]
@@ -171,7 +171,7 @@ export default {
     getMore() {
       this.$router.push({
         name: "infrared-report",
-        params: {
+        query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/task/iir-result/list",
           dataBread: ["操作中台", "设备监测", "红外监测", "最新24小时记录信息"]
@@ -245,7 +245,7 @@ export default {
     getMoreReport() {
       this.$router.push({
         name: "infrared-info",
-        params: {
+        query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/plan/iir-report/list",
           dataBread: ["操作中台", "设备监测", "红外监测", "最新巡检报表"]
