@@ -15,11 +15,12 @@
       <i class="fullScreen iconfont icon-quanping"  @click="changeFullScreen($refs.mapContain)"></i>
     </div>
     <div class="warningStatistics">
-      <p class="allWraning" style="margin-bottom:16px">
-        月度统计警告
-        <span class="warningCount">{{warningList.monthStatistics}}</span>
-        条
-      </p>
+      <div class="warnTtype" style="margin-bottom:16px;">
+        <div class="circle">
+          <div class="typeCircle" style="border-color: white">{{warningList.monthStatistics}}</div>
+          <p>月度异常统计</p>
+        </div>
+      </div>
       <div class="warnTtype">
         <div class="circle" v-for="(item, index) in warningList.alarmList" :key="index">
           <div class="typeCircle">{{item.alarmNum}}</div>
@@ -179,6 +180,9 @@ export default {
   height: 100%;
   overflow: hidden;
   color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .mapStatistics {
     width: 30%;
     height: 270px;
@@ -197,25 +201,36 @@ export default {
     }
   }
   .warningStatistics {
-    width: 70%;
-    float: left;
+    display: flex;
     padding-left: 30px;
+    justify-content: space-between;
+    flex-grow: 1;
     & > p {
       padding-left: 15px;
     }
+    .warnTtype:first-child{
+      width: 37%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(1.2);
+    }
+    .warnTtype:last-child{
+      margin-right: 25px;
+    }
     .warnTtype {
-      margin-top: 40px;
+      /*margin-top: 40px;*/
       overflow: hidden;
-      max-width: 96%;
+      max-width: 694px;
       display: flex;
       padding-bottom: 18px;
-      overflow-x: auto;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
+      float: right;
       &>div:first-child{
           margin-left: 0;
       }
       & > div {
-        margin-left: 14px;
+        margin-right: 14px;
       }
       .circle {
         float: left;

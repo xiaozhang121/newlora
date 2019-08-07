@@ -9,38 +9,38 @@
     <div class="main" :class="{widthA : displayType == '2'}">
       <div class="left_main" :class="{widthA : displayType == '2'}">
         <div class="left"  style="padding-bottom: 32%"  v-if="displayType == '2'">
-          <key-monitor :monitorInfo="monitorInfo01"   kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo01"   :kilovolt="$store.state.user.configInfo['camera01Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" paddingBottom="32%" class="monitorM second"></key-monitor>
         </div>
         <div class="left" v-else>
-          <key-monitor :monitorInfo="monitorInfo01" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" class="monitorM first"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo01" :kilovolt="$store.state.user.configInfo['camera01Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr01" :showBtmOption="true" class="monitorM first"></key-monitor>
         </div>
       </div>
       <div class="right_main" v-if="displayType != '2'" :class="{hidden : displayType == '2'}">
         <div class="right">
-          <key-monitor :monitorInfo="monitorInfo02" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02" :showBtmOption="true" class="monitorM child"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo02" :kilovolt="$store.state.user.configInfo['camera02Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr02" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :monitorInfo="monitorInfo03" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM child"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo03" :kilovolt="$store.state.user.configInfo['camera03Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
         <div class="right">
-          <key-monitor :monitorInfo="monitorInfo04" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM child"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo04" :kilovolt="$store.state.user.configInfo['camera04Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
       </div>
     </div>
     <div class="oltagevMain second" v-if="displayType == '2'">
       <div class="item_main">
         <div class="item">
-          <key-monitor :monitorInfo="monitorInfo02" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr02"  :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo02" :kilovolt="$store.state.user.configInfo['camera02Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr02"  :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :monitorInfo="monitorInfo03" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo03" :kilovolt="$store.state.user.configInfo['camera03Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr03" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
-          <key-monitor :monitorInfo="monitorInfo04" kilovolt="" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
+          <key-monitor :monitorInfo="monitorInfo04" :kilovolt="$store.state.user.configInfo['camera04Name']" :autoplay="true" imgAdress="" :streamAddr="streamAddr04" :showBtmOption="true" class="monitorM"></key-monitor>
         </div>
       </div>
     </div>
@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { initConfigure } from '@/api/user'
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import { getAxiosData } from "@/api/axiosType";
@@ -216,6 +217,12 @@ export default {
     };
   },
   methods:{
+    initConfigure(){
+        const that = this
+        initConfigure({userId:this.$store.state.user.userId, type: '2'}).then(res=>{
+            that.$store.state.user.configInfo = res.data
+        })
+    },
     getArea(){
         getAreaList().then(res=>{
             let data = res.data.areaList
@@ -269,6 +276,7 @@ export default {
       this.getCamera()
       this.getArea()
       this.initData()
+      this.initConfigure()
   }
 }
 </script>

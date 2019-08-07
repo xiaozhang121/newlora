@@ -60,11 +60,19 @@
           <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
         </div>
       </div>
-      <el-row style="position: relative; top: -12px">
+      <el-row>
+        <el-col :span="24">
+          <p class="itemTitle">
+            来源：
+            <span style="color: #366590">{{itemData.source}}</span>
+          </p>
+        </el-col>
+      </el-row>
+      <el-row style="position: relative; top: -12px; margin-top: 20px">
         <!--<el-col :span="15"><h5 class="itemTitle time">{{itemData.alarmTime}}</h5></el-col>-->
-        <el-col :span="16">
+        <el-col :span="17">
           <div class="buttonAll">
-            <el-button type="info" round @click="restoration('1')">复归</el-button>
+            <el-button type="info" round @click="restoration('1')" style="margin-right: 25px">复归</el-button>
             <el-button type="success" round @click="restoration('0')">备注</el-button>
           </div>
         </el-col>

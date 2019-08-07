@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="visible" @onClose="alarmClose" :visible="visible"></popup-one-info>
+    <!--<popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="visible" @onClose="alarmClose" :visible="visible"></popup-one-info>-->
   </div>
 </template>
 
@@ -164,10 +164,10 @@ export default {
       }
   },
   methods: {
-      alarmClose(){
+   /*   alarmClose(){
           this.visible = false
           this.$store.state.user.isAlarm = false
-      },
+      },*/
       onFresh(){
           this.initReport()
       },

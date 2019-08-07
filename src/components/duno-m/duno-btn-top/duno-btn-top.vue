@@ -21,7 +21,7 @@
                 {{item['describeName']}}</el-checkbox>
               <el-checkbox v-else :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
-                <img :src="item.img">
+                <img class="icon_img" :src="item.img">
                 {{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
@@ -65,8 +65,10 @@
 
 <script>
 import Icons from '_c/icons'
+import mixinViewModule from '@/mixins/view-module'
 import dunoBtnTopItem  from '../duno-btn-topItem'
 export default {
+  mixins: [mixinViewModule],
   name: 'dunoBtnTop',
   data (){
     return {
@@ -139,28 +141,28 @@ export default {
       default:()=>{
         return [
           {
-            img:require('@/assets/iconCover/ico_visible_light.png'),
-            circleColor:'#00B4FF',
+            img:require('@/assets/buttonPng/light.svg'),
+            circleColor:'#00b4ff',
             describeName: '可见光',
             monitorDeviceType: 1,
             isActive: true
           },
           {
-            img:require('@/assets/iconCover/ico_Infra-red.png'),
-            circleColor:'#4FF2B7',
+            img:require('@/assets/buttonPng/redLight.png'),
+            circleColor:'#e654a6',
             describeName: '红外测温',
             monitorDeviceType: 2,
             isActive: true
           },
           {
-            img:require('@/assets/iconCover/ico_Locks.png'),
-            circleColor:'#597AFF',
+            img:require('@/assets/buttonPng/intelLock.png'),
+            circleColor:'#ffca28',
             describeName: '智能锁具',
             monitorDeviceType: 5,
             isActive: true
           },
           {
-            img:require('@/assets/iconCover/ico_weather.png'),
+            img:require('@/assets/SVG/weatherCheck.svg'),
             circleColor:'#C06EFF',
             describeName: '微型气象站',
             monitorDeviceType: 6,
@@ -289,6 +291,10 @@ export default {
   display: flex;
   justify-content: space-between;
   padding-bottom: 13px;
+  .icon_img{
+    width: 20px;
+    height: 20px;
+  }
   .fullScreenTop{
     color: white;
     font-size: 24px;

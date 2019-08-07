@@ -838,6 +838,9 @@
             })
             this.$store.state.app.kilovolt = this.$route.meta.kind
         },
+        beforeDestroy(){
+            this.$store.state.app.kilovolt = ''
+        },
         mounted () {
             const that = this
             document.addEventListener('fullscreenchange', function(event){

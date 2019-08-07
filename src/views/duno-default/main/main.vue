@@ -96,12 +96,14 @@
         </el-row>
       </el-container>
     </el-container>
+    <popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="visible && !kilovoltKind && frameLength" @onClose="alarmClose" :visible="visible"></popup-one-info>
   </div>
 </template>
 <script>
     import { mapMutations, mapState } from "vuex";
     import { getNewTagList } from "@/libs/util";
     import SideMenu from "./components/side-menu"; // 侧导航栏
+    import { popupOneInfo } from '_c/popupinfo'
     import HeaderBar from "./components/header-bar"; // header
     import customBreadCrumb from "_c/custom-bread-crumb"; // 面包屑导航
     import User from "./components/user"; // 用户基础操作
@@ -114,6 +116,7 @@
     export default {
         name: "Main",
         components: {
+            popupOneInfo,
             SideMenu,
             HeaderBar,
             customBreadCrumb,
@@ -126,6 +129,7 @@
         },
         data() {
             return {
+                visible: false,
                 isHidden: false,
                 collapsed: false,
                 isFullscreen: false,
@@ -139,6 +143,15 @@
             };
         },
         computed: {
+            frameLength(){
+                return !parent.frames.length
+            },
+            kilovoltKind(){
+                return this.$store.state.app.kilovolt
+            },
+            isAlarm(){
+                return this.$store.state.user.isAlarm
+            },
             defaultActive() {
                 const that = this;
                 const active =
@@ -173,6 +186,10 @@
         },
         methods: {
             ...mapMutations(["setBreadCrumb", "setTagNavList"]),
+            alarmClose(){
+                this.visible = false
+                this.$store.state.user.isAlarm = false
+            },
             turnToPage(route) {
                 let { name, params, query } = {};
                 if (typeof route === "string") name = route;
@@ -222,6 +239,20 @@
             }
         },
         watch: {
+            kilovoltKind:{
+               handler(now){
+               },
+               deep: true,
+               immediate: true
+            },
+            isAlarm:{
+                handler(now){
+                    if(!this.kilovoltKind && this.frameLength)
+                      this.visible = now
+                },
+                deep: true,
+                immediate: true
+            },
             $route(newRoute) {
                 this.setBreadCrumb(newRoute.matched);
                 this.setTagNavList(getNewTagList(this.tagNavList, newRoute));
