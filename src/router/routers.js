@@ -996,7 +996,7 @@ export default [{
             name: 'detection-report',
             meta: {
                 topNav: '2',
-                title: '任务配置',
+                title: '监测设备管理',
                 hideInMenu: true,
                 isDetails: true,
                 active: 'detectionList'

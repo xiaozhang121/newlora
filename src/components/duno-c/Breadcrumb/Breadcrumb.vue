@@ -2,11 +2,11 @@
   <div class="duno-breadcrumb">
     <el-breadcrumb :separator="separator">
       <el-breadcrumb-item
-        :class="{'pointer': index == (dataList.length-1)}"
-        v-for="(item,index) in dataList"
+        v-for="(item,index) in breadData"
         :key="index"
+        :to="{path:item.path}"
         @click.native="toBack(index)"
-      >{{ item }}</el-breadcrumb-item>
+      >{{ item.name }}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
       //面包屑
       type: Array,
       default: () => {
-        return ["操作中台", "动态环境监测", "动态环境总览"];
+        return [];
       }
     },
     separator: {
@@ -29,13 +29,30 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      breadData: []
+    };
+  },
   methods: {
     toBack(index) {
-      if (this.dataList.length - 1 == index) this.$router.go(-1);
+      if (this.breadData.length < 3) {
+        console.log(index);
+        if (index == 0) this.$router.go(-1);
+      }
+    },
+    handleReturn() {
+      if (this.breadData.length < 2) {
+        let obj = {
+          name: "返回"
+        };
+        this.breadData.unshift(obj);
+      }
     }
   },
   mounted() {
-    console.log();
+    this.breadData = this.dataList;
+    this.handleReturn();
   }
 };
 </script>

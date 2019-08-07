@@ -98,17 +98,14 @@ export default {
     warningSetting,
     wraning
   },
-  //   props: {
-  //     viewData: {
-  //       type: Object,
-  //       default: () => {
-  //         return {
-  //           title: "所有信息",
-  //           url: "/lenovo-plan/api/statistics/meter-data/list"
-  //         };
-  //       }
-  //     }
-  //   },
+  props: {
+    dataBread: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    }
+  },
   data() {
     const that = this;
     return {
@@ -132,7 +129,7 @@ export default {
       titleTypeL: "所有设备",
       titleTypeC: "所有报表",
       titleTypeR: "所有类型",
-      dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"],
+      //   dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"],
       columns: [
         {
           title: "对象",
@@ -371,7 +368,7 @@ export default {
     this.dataForm.planType = this.$route.query.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.title = this.$route.query.title;
-    this.dataBread = this.$route.query.dataBread;
+    // this.dataBread = this.$route.query.dataBread;
     this.getRegion();
     this.getStart();
     this.getType();
@@ -531,45 +528,48 @@ export default {
       });
     },
     getJump(row) {
-      let monitorDeviceId = ('monitorDeviceId' in row && row.monitorDeviceId)?row.monitorDeviceId:row.monitorDevice[0]['monitorDeviceId']
+      let monitorDeviceId =
+        "monitorDeviceId" in row && row.monitorDeviceId
+          ? row.monitorDeviceId
+          : row.monitorDevice[0]["monitorDeviceId"];
       getAxiosData("/lenovo-device/api/preset/type", {
-          monitorDeviceId: monitorDeviceId
+        monitorDeviceId: monitorDeviceId
       }).then(res => {
-          let supportPreset = res.data["supportPreset"];
-          let monitorDeviceType = res.data["monitorDeviceType"];
-          if (monitorDeviceType == 1) {
-              if (supportPreset) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLight",
-                      query: {
-                          monitorDeviceId: monitorDeviceId
-                      }
-                  });
-              } else {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLightN",
-                      query: {
-                          monitorDeviceId: monitorDeviceId
-                      }
-                  });
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: monitorDeviceId
               }
-          } else if (monitorDeviceType == 2) {
-              this.$router.push({
-                  path: "/surveillancePath/detailRedN",
-                  query: {
-                      monitorDeviceId: monitorDeviceId
-                  }
-              });
-          } else if (monitorDeviceType == 3) {
-              this.$router.push({
-                  path: "/surveillancePath/detailEnv",
-                  query: {
-                      monitorDeviceId: monitorDeviceId
-                  }
-              });
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: monitorDeviceId
+              }
+            });
           }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: monitorDeviceId
+            }
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: monitorDeviceId
+            }
+          });
+        }
       });
-     /* if (row.monitorDeviceType == "1") {
+      /* if (row.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailLight",
           query: {

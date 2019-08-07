@@ -49,8 +49,8 @@
             <div class="title">识别</div>
             <div class="nr">{{ dataList.result }}</div>
           </div>
-          <div style="visibility: hidden">
-            <a href="javascript:;" @click="clickJudge">结果修订</a>
+          <div>
+            <!-- <a href="javascript:;" @click="clickJudge">结果修订</a> -->
           </div>
           <div class="from">
             <span class="origin">
@@ -179,11 +179,11 @@ export default {
   computed: {},
   watch: {
     popData(now) {
-      if ("alarmId" in now && now['alarmId']) {
+      if ("alarmId" in now && now["alarmId"]) {
         // this.searchId = now["alarmId"];
         this.searchId = now["alarmId"];
         this.searchType = "alarmId";
-      } else if ("taskId" in now && now['taskId']) {
+      } else if ("taskId" in now && now["taskId"]) {
         this.searchId = now["taskId"] + "," + now["batchId"];
         this.searchType = "alarmId";
       } else {
@@ -248,63 +248,48 @@ export default {
     },
     getJump() {
       getAxiosData("/lenovo-device/api/preset/type", {
-          monitorDeviceId: this.popData.monitorDeviceId
+        monitorDeviceId: this.popData.monitorDeviceId
       }).then(res => {
-          let supportPreset = res.data["supportPreset"];
-          let monitorDeviceType = res.data["monitorDeviceType"];
-          if (monitorDeviceType == 1) {
-              if (supportPreset) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLight",
-                      query: {
-                          monitorDeviceId: this.popData.monitorDeviceId
-                      }
-                  });
-              } else {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLightN",
-                      query: {
-                          monitorDeviceId: this.popData.monitorDeviceId
-                      }
-                  });
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId
               }
-          } else if (monitorDeviceType == 2) {
-              this.$router.push({
-                  path: "/surveillancePath/detailRedN",
-                  query: {
-                      monitorDeviceId: this.popData.monitorDeviceId
-                  }
-              });
-          } else if (monitorDeviceType == 3) {
-              this.$router.push({
-                  path: "/surveillancePath/detailEnv",
-                  query: {
-                      monitorDeviceId: this.popData.monitorDeviceId
-                  }
-              });
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId
+              }
+            });
           }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: this.popData.monitorDeviceId
+            }
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: this.popData.monitorDeviceId
+            }
+          });
+        }
       });
-/*      if (this.popData.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: this.popData.monitorDeviceId
-          }
-        });
-      } else if (this.popData.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: this.popData.monitorDeviceId
-          }
-        });
-      }*/
     },
     clickJudge() {
-      /*  if (this.dataList.alarmValue == "") {
+      if (this.dataList.alarmValue == "") {
         this.isTemperture = false;
       }
-      this.visibleJudge = true;*/
+      this.visibleJudge = true;
     },
     onClose() {
       this.visibleJudge = false;

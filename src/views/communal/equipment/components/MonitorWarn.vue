@@ -190,7 +190,7 @@ export default {
   margin-bottom: 20px;
   width: calc(50% - 10px);
   margin-left: 20px;
-  height: 180px;
+  height: 200px;
   background-color: #203644;
   border-radius: 2px;
   display: flex;
@@ -217,7 +217,7 @@ export default {
       }
     }
     .milldle {
-      margin-top: 5px;
+      margin-top: 10px;
       div {
         font-size: 13px;
         color: #ffffff;
@@ -239,7 +239,7 @@ export default {
     }
     .btn {
       p {
-        // padding-top: 5px;
+        padding-top: 10px;
         font-size: 14px;
         color: #ffffff;
         span {
@@ -264,7 +264,7 @@ export default {
         }
       }
       & > p:nth-child(2) {
-        line-height: 20px;
+        line-height: 32px;
       }
     }
   }

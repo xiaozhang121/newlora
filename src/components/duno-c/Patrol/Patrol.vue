@@ -176,7 +176,6 @@ export default {
           query: {
             planId: row.planId,
             planType: this.planType,
-            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
           }
         });
       } else if (this.$route.name == "configurationList") {
@@ -185,7 +184,6 @@ export default {
           query: {
             planId: row.planId,
             planType: this.planType,
-            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
           }
         });
       }

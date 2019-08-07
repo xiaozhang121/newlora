@@ -40,7 +40,12 @@ export default {
     return {
       checkList: [],
       width: "calc(25% - 15px)",
-      dataBread: ["视频监控", "1000kv", "摄像头详情"]
+      //   dataBread: ["视频监控", "1000kv", "摄像头详情"],
+      dataBread: [
+        { path: "/surveillancePath/list", name: "视频监控" },
+        { path: "/surveillancePath/list", name: "1000kv" },
+        { path: "", name: "摄像头详情" }
+      ]
     };
   },
   methods: {

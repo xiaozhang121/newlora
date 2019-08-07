@@ -357,6 +357,7 @@ export default {
 <style lang="scss">
 .polygonal {
   height: 100%;
+  background-color: rgba(32,54,68,0.8);
   .title {
     margin-bottom: 20px;
     font-size: 22px;

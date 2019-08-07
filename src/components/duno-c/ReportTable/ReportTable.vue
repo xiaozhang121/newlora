@@ -219,7 +219,7 @@ export default {
   color: #ffffff;
   position: relative;
   & > div:first-child {
-    height: 225px;
+    height: 200px;
     width: 100%;
     background-image: url("../../../assets/images/placeholder.png");
     img {
@@ -228,10 +228,9 @@ export default {
     }
   }
   .content {
-    padding: 20px 20px 10px 20px;
+    padding: 10px 20px 10px 20px;
     h3 {
       font-size: 14px;
-      margin-bottom: 5px;
       font-weight: normal;
     }
     p {

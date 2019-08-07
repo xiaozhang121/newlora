@@ -338,7 +338,7 @@ export default {
           align: "center",
           tooltip: true
         },
-   /*     {
+        /*     {
           title: "视频/图片",
           key: "id",
           minWidth: 120,
@@ -413,7 +413,8 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["摄像头详情", "返回"]
+      //   dataBread: ["摄像头详情", "返回"]
+      dataBread: [{ name: "摄像头详情" }]
     };
   },
   methods: {
@@ -430,7 +431,9 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp/"+ this.dataForm.monitorDeviceId;
+      const url =
+        "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+        this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptionsd.streamAddr = res.data;
         that.$nextTick(() => {
@@ -445,7 +448,8 @@ export default {
           }, 500);
         });
       });
-      const urld = "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
+      const urld =
+        "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(urld, {}).then(res => {
         that.playerOptionsd.sources[0].src = res.data.data;
         that.$forceUpdate();

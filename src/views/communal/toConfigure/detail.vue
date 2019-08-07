@@ -50,7 +50,12 @@ export default {
       allInspectList: [],
       nightInspectList: [],
       specialInspectList: [],
-      dataBread: ["操作中台", "配置管理", "任务配置"],
+      //   dataBread: ["操作中台", "配置管理", "任务配置"],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/configuration/list", name: "配置管理" },
+        { path: "", name: "任务配置" }
+      ],
       titleNight:
         "（利用红外热像仪查看电力设备本体及部件是否发红，生成巡视报告，异常状态及时告警）",
       dataList: [

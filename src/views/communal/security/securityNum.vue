@@ -59,7 +59,12 @@ export default {
           this.titleData = {
             title: "1000千伏安防警告",
             securityRecord: "1000千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "1000千伏"],
+            // navBar: ["操作中台", "动态环境监测", "1000千伏"],
+            navBar: [
+              { path: "/realEnv/list", name: "操作中台" },
+              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "", name: "1000千伏" }
+            ],
             titleType: "全部类型",
             value: ""
           };
@@ -68,7 +73,12 @@ export default {
           this.titleData = {
             title: "500千伏安防警告",
             securityRecord: "500千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "500千伏"],
+            // navBar: ["操作中台", "动态环境监测", "500千伏"],
+            navBar: [
+              { path: "/realEnv/list", name: "操作中台" },
+              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "", name: "500千伏" }
+            ],
             titleType: "全部类型",
             value: ""
           };
@@ -77,7 +87,12 @@ export default {
           this.titleData = {
             title: "220千伏安防警告",
             securityRecord: "220千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "220千伏"],
+            // navBar: ["操作中台", "动态环境监测", "220千伏"],
+            navBar: [
+              { path: "/realEnv/list", name: "操作中台" },
+              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "", name: "220千伏" }
+            ],
             titleType: "全部类型",
             value: ""
           };
@@ -86,7 +101,12 @@ export default {
           this.titleData = {
             title: "110千伏安防警告",
             securityRecord: "110千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "110千伏"],
+            // navBar: ["操作中台", "动态环境监测", "110千伏"],
+            navBar: [
+              { path: "/realEnv/list", name: "操作中台" },
+              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "", name: "110千伏" }
+            ],
             titleType: "全部类型",
             value: ""
           };
@@ -95,7 +115,12 @@ export default {
           this.titleData = {
             title: "35千伏安防警告",
             securityRecord: "35千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "350千伏"],
+            // navBar: ["操作中台", "动态环境监测", "350千伏"],
+            navBar: [
+              { path: "/realEnv/list", name: "操作中台" },
+              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "", name: "35千伏" }
+            ],
             titleType: "全部类型",
             value: ""
           };
@@ -104,7 +129,12 @@ export default {
           this.titleData = {
             title: "10千伏安防警告",
             securityRecord: "10千伏安防记录",
-            navBar: ["操作中台", "动态环境监测", "10千伏"],
+            // navBar: ["操作中台", "动态环境监测", "10千伏"],
+            navBar: [
+              { path: "/realEnv/list", name: "操作中台" },
+              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "", name: "10千伏" }
+            ],
             titleType: "全部类型",
             value: ""
           };
@@ -158,8 +188,8 @@ export default {
 
 <style lang="scss">
 .securityNum {
-  .icon-xiala{
-   /* width: 12px;
+  .icon-xiala {
+    /* width: 12px;
     height: 15px;*/
   }
   & > div:nth-child(2) {

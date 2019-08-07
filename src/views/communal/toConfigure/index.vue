@@ -7,14 +7,6 @@
       <div>监测设备管理</div>
       <div class="btn">
         <div>
-          <!-- <duno-btn-top
-            @on-select="onSelectDevice"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="TestEquipment"
-            :title="titleTypeL"
-            :showBtnList="false"
-          ></duno-btn-top>-->
           <duno-btn-top
             ref="btnTopRef"
             @on-active="onSelectDevice"
@@ -91,7 +83,6 @@ export default {
     const that = this;
     return {
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
         getDataListURL: "/lenovo-device/api/monitor/device-list"
       },
       dataForm: {},
@@ -101,7 +92,12 @@ export default {
       titleTypeL: "所有监测设备",
       titleTypeC: "所有电压等级",
       titleTypeR: "所有状态",
-      dataBread: ["操作中台", "配置管理", "监测设备管理"],
+      //   dataBread: ["操作中台", "配置管理", "监测设备管理"],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/detection/list", name: "配置管理" },
+        { path: "", name: "监测设备管理" }
+      ],
       TestEquipment: [],
       voltageLevel: [],
       stateSelect: [],
@@ -258,7 +254,8 @@ export default {
                   background: "#3a81a1",
                   width: "90px",
                   lineHeight: "30px",
-                  margin: "auto"
+                  margin: "auto",
+                  cursor: "pointer"
                 },
                 on: {
                   click: () => {
@@ -286,14 +283,15 @@ export default {
           };
           return obj;
         });
-        console.log('------->'+map)
-        console.log('------->'+map.join(','))
+        console.log("------->" + map);
+        console.log("------->" + map.join(","));
         this.TestEquipment = map;
-        this.$forceUpdate()
-        this.$refs.btnTopRef.handleCheckAllChange(true)
-        this.$refs.btnTopRef.checkAll = true
-        this.$refs.btnTopRef.checkedCities = this.onSelectDevice(map)
+        this.$forceUpdate();
+        this.$refs.btnTopRef.handleCheckAllChange(true);
+        this.$refs.btnTopRef.checkAll = true;
+        this.$refs.btnTopRef.checkedCities = this.onSelectDevice(map);
         console.log(this.TestEquipment);
+        this.getDataList();
       });
     },
     handleVoltage() {
@@ -318,27 +316,25 @@ export default {
     },
     onSelectDevice(item) {
       console.log(item);
-      let arr = []
-      let value = []
-      item.forEach(nr=>{
-          if(nr['isActive']){
-              arr.push(nr['value'])
-              if('describeName' in nr)
-                value.push(nr['describeName'])
-          }
-      })
-      this.dataForm.deviceType = arr.join(',');
+      let arr = [];
+      let value = [];
+      item.forEach(nr => {
+        if (nr["isActive"]) {
+          arr.push(nr["value"]);
+          if ("describeName" in nr) value.push(nr["describeName"]);
+        }
+      });
+      this.dataForm.deviceType = arr.join(",");
       this.getDataList();
-      return value
+      return value;
       // this.titleTypeL = item["describeName"];
     },
     onSelectVol(item) {
-      if(item["value"])
-        this.dataForm.areaId = item["value"];
-      else{
-         if('areaId' in this.dataForm){
-             delete this.dataForm['areaId']
-         }
+      if (item["value"]) this.dataForm.areaId = item["value"];
+      else {
+        if ("areaId" in this.dataForm) {
+          delete this.dataForm["areaId"];
+        }
       }
       this.getDataList();
       this.titleTypeC = item["describeName"];
@@ -410,21 +406,43 @@ export default {
       });
     },
     getJump(row) {
-      if (row.monitorDeviceType == "可见光") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
+      getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: row.monitorDeviceId
+      }).then(res => {
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: row.monitorDeviceId
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: row.monitorDeviceId
+              }
+            });
           }
-        });
-      } else if (row.monitorDeviceType == "红外") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: row.monitorDeviceId
+            }
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: row.monitorDeviceId
+            }
+          });
+        }
+      });
     }
   },
   mounted() {

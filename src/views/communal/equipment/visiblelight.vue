@@ -12,10 +12,12 @@
           <div>最新生成的巡检报告</div>
           <div @click="getMoreReport">查看更多 ></div>
         </div>
-        <div class="inspection"
-             v-loading="loadingOptionF"
-             element-loading-background="rgba(0, 0, 0, 0.8)"
-             element-loading-text="加载中">
+        <div
+          class="inspection"
+          v-loading="loadingOptionF"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          element-loading-text="加载中"
+        >
           <div v-for="(item,index) in inspecReport" :key="index">
             <ReportTable :url="url" :reportData="item" />
           </div>
@@ -26,10 +28,12 @@
           <div>最新24小时记录信息</div>
           <div @click="getMore">查看更多 ></div>
         </div>
-        <div class="hours"
-             v-loading="loadingOptionS"
-             element-loading-background="rgba(0, 0, 0, 0.8)"
-             element-loading-text="加载中">
+        <div
+          class="hours"
+          v-loading="loadingOptionS"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          element-loading-text="加载中"
+        >
           <MonitorWarn
             v-for="(item,index) in lightInformation"
             :remarkData="lightInformation[index]"
@@ -132,7 +136,12 @@ export default {
       lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      dataBread: ["操作中台", "设备监测", "可见光"],
+      //   dataBread: ["操作中台", "设备监测", "可见光"],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/visiblelight/list", name: "设备监测" },
+        { path: "", name: "可见光" }
+      ],
       numberCameras: [
         {
           circleColor: "#00B4FF",
@@ -172,8 +181,8 @@ export default {
         name: "light-report",
         query: {
           title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list",
-          dataBread: ["操作中台", "设备监测", "可见光", "所有记录"]
+          url: "/lenovo-plan/api/task/visible-result/list"
+          //   dataBread: ["操作中台", "设备监测", "可见光", "所有记录"]
         }
       });
     },
@@ -182,8 +191,8 @@ export default {
         name: "light-report",
         query: {
           title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list",
-          dataBread: ["操作中台", "设备监测", "可见光", "可见光监测记录信息"]
+          url: "/lenovo-plan/api/task/visible-result/list"
+          //   dataBread: ["操作中台", "设备监测", "可见光", "可见光监测记录信息"]
         }
       });
     },
@@ -193,8 +202,8 @@ export default {
         query: {
           title: "可见光监测记录信息",
           planType: "1",
-          url: "/lenovo-plan/api/plan/visible-report/list",
-          dataBread: ["操作中台", "设备监测", "可见光", "红外监测记录信息"]
+          url: "/lenovo-plan/api/plan/visible-report/list"
+          //   dataBread: ["操作中台", "设备监测", "可见光", "红外监测记录信息"]
         }
       });
     },
@@ -237,23 +246,23 @@ export default {
       }
     },
     getlightData() {
-      this.loadingOptionF = true
-      this.loadingOptionS = true
-      this.timerF = setTimeout(()=>{
-          this.loadingOptionF = false
-      },7000)
-      this.timerS = setTimeout(()=>{
-          this.loadingOptionS = false
-      },7000)
+      this.loadingOptionF = true;
+      this.loadingOptionS = true;
+      this.timerF = setTimeout(() => {
+        this.loadingOptionF = false;
+      }, 7000);
+      this.timerS = setTimeout(() => {
+        this.loadingOptionS = false;
+      }, 7000);
       let query = {
         ...this.timeQueryData,
         pageIndex: 1,
-        pageRows: 6
+        pageRows: 4
       };
       lightNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
-          clearTimeout(this.timerS)
-          this.loadingOptionS = false
+        clearTimeout(this.timerS);
+        this.loadingOptionS = false;
       });
       let data = {
         pageIndex: 1,
@@ -261,8 +270,8 @@ export default {
       };
       lightNewInformation(data).then(res => {
         this.lightInformation = res.data.tableData;
-        clearTimeout(this.timerF)
-        this.loadingOptionF = false
+        clearTimeout(this.timerF);
+        this.loadingOptionF = false;
       });
     },
     getInit() {
@@ -304,11 +313,11 @@ export default {
   top: -5px;
 }
 .visiblelight {
-  .el-loading-mask{
+  .el-loading-mask {
     width: 100% !important;
   }
-  .el-loading-text{
-    color: #969696   !important;
+  .el-loading-text {
+    color: #969696 !important;
   }
   .icon-xiala {
     /* width: 12px;
@@ -371,31 +380,27 @@ export default {
     .right {
       .inspection {
         position: relative;
-        height: 795px;
+        height: 910px;
         padding: 20px 0 0 20px;
         background-color: #142838;
         overflow: hidden;
         & > div {
-          //   height: 367px;
           float: left;
-          width: calc(50% - 10px);
+          width: calc(50% - 20px);
           margin-right: 20px;
           .reportTable {
-            height: 380px;
+            height: 425px;
             img {
-              height: 137px;
+              height: 100%;
             }
           }
-        }
-        & > div:nth-child(2n) {
-          margin-right: 0;
         }
       }
     }
     .left {
       .hours {
         width: 100%;
-        height: 795px;
+        height: 910px;
         // padding: 20px 20px 20px 0;
         padding: 20px 20px 14px 20px;
         overflow: hidden;
@@ -403,7 +408,6 @@ export default {
         .alarmLog {
           margin-left: 0;
           box-sizing: border-box;
-          height: 170px;
           width: 100%;
         }
       }

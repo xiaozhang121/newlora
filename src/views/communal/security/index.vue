@@ -1,7 +1,7 @@
 <template>
   <div class="duno-security">
     <div class="breadcrumb">
-      <Breadcrumb />
+      <Breadcrumb :dataList="dataBread" />
     </div>
     <div>
       <KeyErea />
@@ -12,10 +12,11 @@
         <div @click="clickToDetail">所有动态环境异常信息</div>
       </div>
     </div>
-    <div class="alarmLogIn"
-         v-loading="loading"
-         element-loading-background="rgba(0, 0, 0, 0.8)"
-         element-loading-text="加载中"
+    <div
+      class="alarmLogIn"
+      v-loading="loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      element-loading-text="加载中"
     >
       <AlarmLog
         v-for="(item,index) in dataList"
@@ -71,6 +72,11 @@ export default {
       cameraSelection: [],
       dataMonitorAll: [],
       dataMonitor: [],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/environmental/list", name: "动态环境监测" },
+        { path: "", name: "动态环境总览" }
+      ],
       numberCameras: [
         {
           circleColor: "#00B4FF",
@@ -105,17 +111,17 @@ export default {
       active: 4
     };
   },
-  watch:{
-      dataList:{
-          handler(now){
-              if(now.length){
-                  this.loading = false
-                  clearTimeout(this.timer)
-              }
-          },
-          deep: true,
-          immediate: true
-      }
+  watch: {
+    dataList: {
+      handler(now) {
+        if (now.length) {
+          this.loading = false;
+          clearTimeout(this.timer);
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     handleData() {
@@ -137,10 +143,10 @@ export default {
   },
   created() {
     this.getTime();
-    this.loading = true
-    this.timer = setTimeout(()=>{
-        this.loading = false
-    },7000)
+    this.loading = true;
+    this.timer = setTimeout(() => {
+      this.loading = false;
+    }, 7000);
   },
   beforeDestroy() {}
 };
@@ -152,11 +158,11 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  .el-loading-text{
-    color: #969696   !important;
+  .el-loading-text {
+    color: #969696 !important;
   }
   .icon-xiala {
-  /*  width: 12px;
+    /*  width: 12px;
     height: 14px;*/
   }
   .popper__arrow {

@@ -39,7 +39,7 @@
           </span>-->
           <!-- <span>
             <i class="iconfont icon-jietu"></i>截图
-          </span> -->
+          </span>-->
           <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
@@ -48,14 +48,13 @@
           </span>
         </div>
       </transition>
-      <div v-if="isSecond" class="explain iconList detailIcon">
-        <div @click="getJump" class="text">
+      <div v-if="isSecond" @click="getJump"  class="explain iconList detailIcon">
+        <div class="text">
           <span>{{kilovolt}}</span>
           <span>{{patrol}}</span>
-          <i class="iconfont icon-jiantou"></i>
         </div>
         <span @click="fullScreen()">
-          <i class="iconfont icon-quanping"></i>
+          <i class="iconfont icon-jiantou"></i>
         </span>
       </div>
     </div>
@@ -146,7 +145,7 @@ export default {
     },
     patrol: {
       type: String,
-      default: "正在巡视中"
+      default: "正在巡视中..."
     },
     isNav: {
       type: Boolean,
@@ -172,8 +171,8 @@ export default {
           this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
           this.showView = true;
-          this.loading = false
-          clearTimeout(this.timer)
+          this.loading = false;
+          clearTimeout(this.timer);
         }
       },
       immediate: true
@@ -249,7 +248,7 @@ export default {
         id: this.$store.state.user.configInfo.id
       };
       editConfig(query).then(res => {
-        that.$store.state.app.isPush = true
+        that.$store.state.app.isPush = true;
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
       });
@@ -262,12 +261,11 @@ export default {
       // this.$emit("on-push", this.monitorInfoR);
       this.pushMovVisable = true;
       if (this.monitorInfoR) {
-        if ("pic" in this.monitorInfoR){
-            // this.cameraPic = this.monitorInfoR["pic"];
-            this.cameraPic = ''
-        }
-        else {
-          this.cameraPic = ''
+        if ("pic" in this.monitorInfoR) {
+          // this.cameraPic = this.monitorInfoR["pic"];
+          this.cameraPic = "";
+        } else {
+          this.cameraPic = "";
           /*getAxiosData("/lenovo-device/api/pic/url", {
             rtmpUrl: this.monitorSrc
           }).then(res => {
@@ -344,10 +342,10 @@ export default {
     }
   },
   mounted() {
-    this.loading = true
-    this.timer = setTimeout(()=>{
-        this.loading = false
-    }, 7000)
+    this.loading = true;
+    this.timer = setTimeout(() => {
+      this.loading = false;
+    }, 7000);
     this.isIniializa = this.Initialization;
     this.isNavbar = this.isNav;
   },
@@ -364,8 +362,8 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
-  .el-loading-text{
-    color: #969696   !important;
+  .el-loading-text {
+    color: #969696 !important;
   }
   .topStyle {
     background: black;
@@ -384,7 +382,7 @@ export default {
     }
   }
   .infraredList {
-  /*  transform: scale(1, 0.75);
+    /*  transform: scale(1, 0.75);
     transform-origin: left top;*/
   }
   .video-player.vjs-custom-skin {
@@ -476,11 +474,13 @@ export default {
         span:nth-child(2) {
           padding-right: 10px;
           font-size: 12px;
+          color: #a0a0a0;
         }
       }
     }
     .detailIcon {
       bottom: -33px;
+      background-color: #213848;
       cursor: pointer;
     }
   }

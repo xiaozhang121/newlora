@@ -296,7 +296,12 @@ export default {
       alarmLevel: "",
       startTime: "",
       endTime: "",
-      dataBread: ["操作中台", "所有报表", "表计分析"],
+      //   dataBread: ["操作中台", "所有报表", "表计分析"],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/meterdata/list", name: "所有报表" },
+        { path: "", name: "表计分析" }
+      ],
       //   isChangeFlag: true,
       //   titleOption: {
       //     text: "泄露电流表24小时温度分析",
@@ -938,7 +943,7 @@ export default {
         padding-bottom: 0;
         height: 40px;
         .icon-xiala {
-        /*  width: 13px !important;
+          /*  width: 13px !important;
           height: 14px !important;*/
         }
         .btnList {
@@ -1198,7 +1203,7 @@ export default {
   }
   //------------------
 }
-.el-select .el-tag:first-child{
+.el-select .el-tag:first-child {
   margin-top: 33px;
 }
 .el-select-dropdown {

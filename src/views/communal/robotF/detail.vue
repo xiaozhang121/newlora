@@ -77,8 +77,8 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import Patrol from "_c/duno-c/Patrol";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
-import { postAxiosData, getAxiosData } from '@/api/axiosType'
-import selectDistrict from '_c/duno-m/selectDistrict'
+import { postAxiosData, getAxiosData } from "@/api/axiosType";
+import selectDistrict from "_c/duno-m/selectDistrict";
 import { infrInformation } from "@/api/configuration/configuration.js";
 export default {
   mixins: [mixinViewModule],
@@ -91,12 +91,12 @@ export default {
     selectDistrict
   },
   data() {
-    const that = this
+    const that = this;
     return {
       timer: null,
-      taskId: '',
-      routeName: '',
-      taskNormalData: '',
+      taskId: "",
+      routeName: "",
+      taskNormalData: "",
       dialogVisible: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true
@@ -104,18 +104,22 @@ export default {
       },
       InspectData: [],
       specialInspectList: {
-          data:[],
-          pageRows: 10,
-          pageIndex: 1,
-          totalRows: ''
+        data: [],
+        pageRows: 10,
+        pageIndex: 1,
+        totalRows: ""
       },
       title: "特殊巡视",
       titleCon: "",
-      dataList: [
-
-      ],
+      dataList: [],
       titleInspect: "例行巡视编号",
-      dataBread: ["操作中台", "机器人巡视", "机器人一", "任务配置列表"],
+      //   dataBread: ["操作中台", "机器人巡视", "机器人一", "任务配置列表"],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/robot-one/list", name: "机器人巡视" },
+        { path: "/robot-one/list", name: "机器人" },
+        { path: "", name: "任务配置列表" }
+      ],
       newColumns: [
         {
           type: "index",
@@ -209,7 +213,7 @@ export default {
                     patrol: params.row.status === "1"
                   }
                 },
-                params.row.taskStatus == 1?'空闲中':'运行中'
+                params.row.taskStatus == 1 ? "空闲中" : "运行中"
               )
             );
             return h("div", newArr);
@@ -265,11 +269,11 @@ export default {
                   props: { type: "text", content: "开始巡视" },
                   on: {
                     click: () => {
-                      this.startBoot(params)
+                      this.startBoot(params);
                     }
                   }
                 },
-                  (params.row.taskStatus == 1)?'开始任务':'结束任务'
+                params.row.taskStatus == 1 ? "开始任务" : "结束任务"
               )
             );
             newArr.push(
@@ -281,8 +285,15 @@ export default {
                   props: { type: "text", content: "查看报告>" },
                   on: {
                     click: () => {
-                       console.log(params)
-                      this.$router.push({'path':'report',query: {taskId: params.row.taskId, taskRunHisId:params.row.latestTaskRunHisId, planType:params.row.taskType  }})
+                      console.log(params);
+                      this.$router.push({
+                        path: "report",
+                        query: {
+                          taskId: params.row.taskId,
+                          taskRunHisId: params.row.latestTaskRunHisId,
+                          planType: params.row.taskType
+                        }
+                      });
                     }
                   }
                 },
@@ -293,128 +304,146 @@ export default {
           }
         }
       ],
-      baseUrl: process.env.NODE_ENV === 'development' ? that.$config.baseUrl.dev : that.$config.baseUrl.pro
+      baseUrl:
+        process.env.NODE_ENV === "development"
+          ? that.$config.baseUrl.dev
+          : that.$config.baseUrl.pro
     };
   },
   watch: {
-        '$route' (to) {
-            this.routeName = to.name
-        },
-        routeName(now){
-            if(now == 'robot-twoList'){
-                this.$set(this.dataBread,2,'机器人二')
-            }else{
-                this.dataBread[2] = '机器人一'
-                this.$set(this.dataBread,2,'机器人一')
-            }
-        }
+    $route(to) {
+      this.routeName = to.name;
     },
+    routeName(now) {
+      if (now == "robot-twoList") {
+        this.$set(this.dataBread, 2, "机器人二");
+      } else {
+        this.dataBread[2] = "机器人一";
+        this.$set(this.dataBread, 2, "机器人一");
+      }
+    }
+  },
   methods: {
-    success(){
-        setTimeout(()=>{
-            this.getInfor()
-        },2000)
+    success() {
+      setTimeout(() => {
+        this.getInfor();
+      }, 2000);
     },
-    changePage(cur){
-        this.specialInspectList.pageIndex = cur
-        this.getInfor()
+    changePage(cur) {
+      this.specialInspectList.pageIndex = cur;
+      this.getInfor();
     },
-    startBoot(params){
-        let index = params.index
-        let substationId = this.$route.query.substationId
-        let robotId = this.$route.query.robotId
-        let state = ''
-        if('taskStatus' in params.row && params.row['taskStatus'] == 1){
-            this.specialInspectList['data'][index]['taskStatus'] = 2
-            state = '2'
-        }else if('taskStatus' in params.row && params.row['taskStatus'] == 2){
-            this.specialInspectList['data'][index]['taskStatus'] = 1
-            state = '1'
+    startBoot(params) {
+      let index = params.index;
+      let substationId = this.$route.query.substationId;
+      let robotId = this.$route.query.robotId;
+      let state = "";
+      if ("taskStatus" in params.row && params.row["taskStatus"] == 1) {
+        this.specialInspectList["data"][index]["taskStatus"] = 2;
+        state = "2";
+      } else if ("taskStatus" in params.row && params.row["taskStatus"] == 2) {
+        this.specialInspectList["data"][index]["taskStatus"] = 1;
+        state = "1";
+      }
+      this.$forceUpdate();
+      postAxiosData("/lenovo-robot/rest/taskControl", {
+        taskID: params.row.taskId,
+        substationID: substationId,
+        robotID: robotId,
+        state: state
+      }).then(res => {
+        if (res.data.resConf) this.$message.info("更新中，请稍等....");
+        else this.$message.info(res.data.resInfo);
+        setTimeout(() => {
+          this.getInfor();
+        }, 10000);
+      });
+    },
+    getTableData() {
+      const that = this;
+      postAxiosData("/lenovo-robot/rest/taskNormalDetail", {
+        taskId: that.taskId
+      }).then(res => {
+        let data = res.data;
+        // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
+        data["roadImgPath"] = data["roadImg"];
+        that.dataList = data["details"];
+        if (data["details"] == null) {
+          that.dataList = [];
         }
-        this.$forceUpdate()
-        postAxiosData('/lenovo-robot/rest/taskControl', {taskID: params.row.taskId, substationID: substationId, robotID: robotId, state: state}).then(res=>{
-            if(res.data.resConf)
-              this.$message.info('更新中，请稍等....')
-            else
-              this.$message.info(res.data.resInfo)
-            setTimeout(()=>{this.getInfor()},10000)
-        })
+        that.taskNormalData = data;
+        that.$forceUpdate();
+      });
     },
-    getTableData(){
-        const that = this
-        postAxiosData('/lenovo-robot/rest/taskNormalDetail',{'taskId':that.taskId}).then(res=>{
-            let data = res.data
-            // data['roadImgPath'] =  that.baseUrl + '/' + data['roadImgPath']
-            data['roadImgPath'] =  data['roadImg']
-            that.dataList = data['details']
-            if(data['details'] == null){
-                that.dataList = []
-            }
-            that.taskNormalData =  data
-            that.$forceUpdate()
-        })
+    initData() {
+      const that = this;
+      let substationId = this.$route.query.substationId;
+      let robotId = this.$route.query.robotId;
+      postAxiosData("/lenovo-robot/rest/tasks", {
+        substationId: substationId,
+        robotId: robotId
+      }).then(res => {
+        let data = res.data.taskList;
+        data.map(item => {
+          item["describeName"] = item["Name"];
+        });
+        that.InspectData = data;
+        let index = 0;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].length > 0) {
+            index = i;
+            break;
+          }
+        }
+        that.onSelect(data[0]);
+      });
     },
-    initData(){
-        const that = this
-        let substationId = this.$route.query.substationId
-        let robotId = this.$route.query.robotId
-        postAxiosData('/lenovo-robot/rest/tasks',{substationId: substationId, robotId: robotId}).then(res=>{
-            let data = res.data.taskList
-            data.map(item=>{
-                item['describeName'] = item['Name']
-            })
-            that.InspectData = data
-            let index = 0
-            for(let i=0; i<data.length; i++){
-                if(data[i].length >0){
-                    index = i
-                    break;
-                }
-            }
-            that.onSelect(data[0])
-        })
+    onClose() {
+      this.dialogVisible = false;
     },
-    onClose(){
-      this.dialogVisible = false
-    },
-    addTask(){
-      this.dialogVisible = true
+    addTask() {
+      this.dialogVisible = true;
     },
     onSelect(item) {
-      this.taskId = item['ID']
+      this.taskId = item["ID"];
       this.titleInspect = item["Name"];
-      this.getTableData()
+      this.getTableData();
     },
     getInfor() {
-      let substationId = this.$route.query.substationId
-      let robotId = this.$route.query.robotId
-      getAxiosData('/lenovo-robot/rest/specialTasks',{substationId:substationId, robotId:robotId, pageIndex:this.specialInspectList['pageIndex'], pageRows:this.specialInspectList['pageRows']}).then(res=>{
-          let data = res.data['specialTasks']
-          data.map(item=>{
-              item['start'] = 1
-          })
-          this.title = '特殊巡视'+ '('+ res.data['total'] +')'
-          this.specialInspectList['totalRows'] = res.data['total']
-          this.specialInspectList['data'] = data;
-          this.$forceUpdate()
-      })
-     /* infrInformation().then(res => {
+      let substationId = this.$route.query.substationId;
+      let robotId = this.$route.query.robotId;
+      getAxiosData("/lenovo-robot/rest/specialTasks", {
+        substationId: substationId,
+        robotId: robotId,
+        pageIndex: this.specialInspectList["pageIndex"],
+        pageRows: this.specialInspectList["pageRows"]
+      }).then(res => {
+        let data = res.data["specialTasks"];
+        data.map(item => {
+          item["start"] = 1;
+        });
+        this.title = "特殊巡视" + "(" + res.data["total"] + ")";
+        this.specialInspectList["totalRows"] = res.data["total"];
+        this.specialInspectList["data"] = data;
+        this.$forceUpdate();
+      });
+      /* infrInformation().then(res => {
       });*/
     }
   },
-  created(){
-      this.initData()
-      this.timer = setInterval(()=>{
-          this.getInfor()
-      },1000)
+  created() {
+    this.initData();
+    this.timer = setInterval(() => {
+      this.getInfor();
+    }, 1000);
   },
-  beforeDestroy(){
-      clearInterval(this.timer)
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   mounted() {
     this.getInfor();
-    this.routeName = this.$route.name
-   /* setTimeout(()=>{
+    this.routeName = this.$route.name;
+    /* setTimeout(()=>{
         this.dialogVisible = true
     },1000)*/
   }
@@ -423,8 +452,8 @@ export default {
 
 <style lang="scss">
 .robotDetail {
-  .dunoBtnTop .icon-xiala{
-   /* width: 12px !important;
+  .dunoBtnTop .icon-xiala {
+    /* width: 12px !important;
     height: 15px !important;*/
     right: 20px !important;
     top: 12px !important;
@@ -514,7 +543,7 @@ export default {
         margin-left: 20px;
         height: 100%;
         position: relative;
-        img{
+        img {
           width: 100%;
           height: 100%;
         }

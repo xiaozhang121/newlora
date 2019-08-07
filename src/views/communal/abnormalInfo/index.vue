@@ -84,6 +84,9 @@ import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+
+import preview from "vue-photo-preview";
+import "vue-photo-preview/dist/skin.css";
 export default {
   name: "abnormalInfo",
   mixins: [mixinViewModule],
@@ -106,7 +109,11 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      dataBread: ["卡片功能", "异常信息"],
+      //   dataBread: ["卡片功能", "异常信息"],
+      dataBread: [
+        { path: "/abnormalInfoPath/home", name: "卡片功能" },
+        { path: "/abnormalInfoPath/list", name: "异常信息" }
+      ],
       isFileType: false,
       visibleSettingOption: false,
       visible: false,
@@ -563,45 +570,48 @@ export default {
       });
     },
     getJump(row) {
-      let monitorDeviceId = ('monitorDeviceId' in row && row.monitorDeviceId)?row.monitorDeviceId:row.monitorDevice[0]['monitorDeviceId']
+      let monitorDeviceId =
+        "monitorDeviceId" in row && row.monitorDeviceId
+          ? row.monitorDeviceId
+          : row.monitorDevice[0]["monitorDeviceId"];
       getAxiosData("/lenovo-device/api/preset/type", {
-          monitorDeviceId: monitorDeviceId
+        monitorDeviceId: monitorDeviceId
       }).then(res => {
-          let supportPreset = res.data["supportPreset"];
-          let monitorDeviceType = res.data["monitorDeviceType"];
-          if (monitorDeviceType == 1) {
-              if (supportPreset) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLight",
-                      query: {
-                          monitorDeviceId: monitorDeviceId
-                      }
-                  });
-              } else {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLightN",
-                      query: {
-                          monitorDeviceId: monitorDeviceId
-                      }
-                  });
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: monitorDeviceId
               }
-          } else if (monitorDeviceType == 2) {
-              this.$router.push({
-                  path: "/surveillancePath/detailRedN",
-                  query: {
-                      monitorDeviceId: monitorDeviceId
-                  }
-              });
-          } else if (monitorDeviceType == 3) {
-              this.$router.push({
-                  path: "/surveillancePath/detailEnv",
-                  query: {
-                      monitorDeviceId: monitorDeviceId
-                  }
-              });
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: monitorDeviceId
+              }
+            });
           }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: monitorDeviceId
+            }
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: monitorDeviceId
+            }
+          });
+        }
       });
-     /* if (row.monitorDeviceType == "1") {
+      /* if (row.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailLight",
           query: {
@@ -623,12 +633,12 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.abnormalInfod{
+.abnormalInfod {
   .el-select-dropdown {
     background: linear-gradient(
-                    210deg,
-                    rgba(48, 107, 135, 0.9),
-                    rgba(28, 50, 64, 0.7) 60%
+      210deg,
+      rgba(48, 107, 135, 0.9),
+      rgba(28, 50, 64, 0.7) 60%
     ) !important;
     border: none !important;
     margin-top: 1px !important;
@@ -905,7 +915,7 @@ export default {
     .icon-xiala {
       font-size: 9px;
       position: absolute;
-   /*   width: 12px !important;
+      /*   width: 12px !important;
       height: 15px !important;*/
       /*right: 20px;
       top: 14px;*/

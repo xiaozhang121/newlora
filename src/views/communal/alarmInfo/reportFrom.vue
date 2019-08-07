@@ -29,11 +29,13 @@
         </div>
       </div>
     </div>
-    <duno-main class="dunoMain"
-               style="position: relative; top: -5px"
-               v-loading="loading"
-               element-loading-background="rgba(0, 0, 0, 0.8)"
-               element-loading-text="加载中">
+    <duno-main
+      class="dunoMain"
+      style="position: relative; top: -5px"
+      v-loading="loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      element-loading-text="加载中"
+    >
       <div class="task">
         <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
       </div>
@@ -76,24 +78,29 @@ export default {
         downloadUrl: "/lenovo-plan/api/statistics/plan/download",
         viewUrl: "/lenovo-plan/api/statistics/plan/view"
       },
-      dataBread: ["视频监控", "所有报表", "巡检任务报表"],
+      //   dataBread: ["视频监控", "所有报表", "巡检任务报表"],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/report/list", name: "所有报表" },
+        { path: "", name: "巡检任务报表" }
+      ],
       titleValue: "所有巡检报表",
       value: "",
       dataForm: {},
       inspectionData: []
     };
   },
-  watch:{
-      dataList:{
-          handler(now){
-              if(now.length){
-                  this.loading = false
-                  clearTimeout(this.timer)
-              }
-          },
-          deep: true,
-          immediate: true
-      }
+  watch: {
+    dataList: {
+      handler(now) {
+        if (now.length) {
+          this.loading = false;
+          clearTimeout(this.timer);
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     onSelect(item) {
@@ -133,10 +140,10 @@ export default {
     }
   },
   mounted() {
-    this.loading = true
-    this.timer = setTimeout(()=>{
-        this.loading = false
-    },7000)
+    this.loading = true;
+    this.timer = setTimeout(() => {
+      this.loading = false;
+    }, 7000);
     this.getPlayTypeData();
   }
 };
@@ -146,10 +153,10 @@ export default {
 .duno-reportFrom {
   width: 100%;
   height: 100%;
-  .el-loading-text{
-    color: #969696   !important;
+  .el-loading-text {
+    color: #969696 !important;
   }
-  .icon-xiala{
+  .icon-xiala {
     /*width: 12px ;
     height: 16px;*/
   }
@@ -220,10 +227,10 @@ export default {
     & > div {
       width: calc(20% - 20px);
       float: left;
-      height: 450px;
+      height: 425px;
       margin-right: 20px;
       img {
-        height: 173px;
+        height: 100%；
       }
     }
   }
