@@ -17,11 +17,11 @@
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
               <el-checkbox v-if="keyChange" :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
-                <img :src="item.img">
+                <img  :src="item.img">
                 {{item['describeName']}}</el-checkbox>
               <el-checkbox v-else :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
-                <img class="icon_img" :src="item.img">
+                <img v-if="item.img" class="icon_img" :src="item.img">
                 {{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
