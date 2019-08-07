@@ -1011,10 +1011,10 @@ export default {
               }
             }
             .icon-xiala {
-              /*height: 15px;*/
+              height: 15px;
               right: 11px;
               top: 12px;
-              /*width: 12px;*/
+              width: 12px;
             }
           }
         }

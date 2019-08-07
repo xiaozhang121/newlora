@@ -9,13 +9,17 @@
           <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
-          <div>
+          <div v-if="showAll">
             <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           </div>
           <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
             <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
-              <el-checkbox  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">
+              <el-checkbox v-if="keyChange" :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
+                <!-- <i class="item.icon"></i> -->
+                <img :src="item.img">
+                {{item['describeName']}}</el-checkbox>
+              <el-checkbox v-else :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
                 <img :src="item.img">
                 {{item['describeName']}}</el-checkbox>
@@ -66,6 +70,7 @@ export default {
   name: 'dunoBtnTop',
   data (){
     return {
+        disabled: false,
         isFullscreen: false,
         showListFlag: false,
         checkAll: false,
@@ -97,6 +102,14 @@ export default {
     dunoBtnTopItem
   },
   props: {
+    keyChange:{
+        type: Boolean,
+        default: false
+    },
+    showAll: {
+        type: Boolean,
+        default: true
+    },
     zIndex: {
         type: [String, Number],
         default: '10'
@@ -218,6 +231,7 @@ export default {
           let checkedCount = value.length;
           this.checkAll = checkedCount === this.dataListName.length;
           this.isIndeterminate = checkedCount > 0 && checkedCount < this.dataListName.length;
+          this.$emit('on-disabled', this.checkedCities)
       },
       handleCheckAllChange(val) {
           if(!val){
@@ -230,7 +244,10 @@ export default {
           this.isIndeterminate = false;
           this.$emit('on-active',this.dataList)
       },
-      handleActive(index,event){
+      handleActive(index,flag){
+        if(flag){
+            return
+        }
         if(!this.isClick){
             this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
             this.$forceUpdate();
