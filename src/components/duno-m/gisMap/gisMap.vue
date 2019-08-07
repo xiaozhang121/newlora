@@ -29,6 +29,7 @@
         data() {
             const that = this
             return {
+                isIn:false,
                 rebotTimer: null,
                 coverList:[{vectorLayer: null},{vectorLayer: null}],                   // 机器人线路
                 drawList: [],
@@ -922,6 +923,7 @@
                     anchor.set('dataId', index)
                     this.vector.getSource().addFeature(anchor)
                     anchor.on('mousein',function (event) {
+                        that.isIn = true
                         if(event.target.values_.dataFlag == 1 && (that.mapTarget.getView().getZoom()>15 || that.isDiagram == 1 || that.noZoomLimit)) {
                             let item = JSON.parse(event.target.values_.dataInfo)
                             that.clickTarget = item
@@ -1147,6 +1149,16 @@
                     }
                 })
             },
+            clearTextLabel(){
+                const that = this
+                try{
+                    let feature = that.vector.getSource().getFeatureById('pointName')
+                    that.vector.getSource().removeFeature(feature)
+                    that.clickTarget = null
+                }catch (e) {
+
+                }
+            },
             initMap(){
                 const that = this
                 let mapcontainer = this.$refs.rootmap;
@@ -1212,19 +1224,17 @@
                     })
                 });
                 this.mapTarget.on('pointermove', function (event) {
+                    if(that.isIn){
+                       that.clearTextLabel()
+                    }
                     if(that.mapTarget.hasFeatureAtPixel(event.pixel)){
                         that.mapTarget.forEachFeatureAtPixel(event.pixel, function(feature){
                             // 为移动到的feature发送自定义的mousemove消息
                             feature.dispatchEvent({type: 'mousein'});
                         });
                     }else{
-                        try{
-                            let feature = that.vector.getSource().getFeatureById('pointName')
-                            that.vector.getSource().removeFeature(feature)
-                            that.clickTarget = null
-                        }catch (e) {
-
-                        }
+                        that.isIn = false
+                        that.clearTextLabel()
                     }
                 })
                 this.mapTarget.on('movestart', function (evt) {

@@ -232,11 +232,15 @@ export default {
   width: 100%;
   height: 100%;
   .noLoading{
-    .vjs-fluid {
+    /*.vjs-fluid {
       padding-top: 56%;
-    }
+    }*/
     .el-loading-mask{
       display: none;
+    }
+    .video-player.vjs-custom-skin{
+      transform: scale(1,1.38);
+      transform-origin: left top;
     }
   }
   .redCamera{
