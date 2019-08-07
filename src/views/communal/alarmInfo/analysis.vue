@@ -526,30 +526,30 @@ export default {
           align: "center",
           tooltip: true
         },
-        // {
-        //   title: "视频/图片",
-        //   key: "fileType",
-        //   minWidth: 120,
-        //   align: "center",
-        //   tooltip: true,
-        //   render: (h, params) => {
-        //     let newArr = [];
-        //     if (params.row.fileType == "1") {
-        //       newArr.push([
-        //         h("i", {
-        //           class: "iconfont icon-tupian"
-        //         })
-        //       ]);
-        //     } else if (params.row.fileType == "2") {
-        //       newArr.push([
-        //         h("i", {
-        //           class: "iconfont icon-bofang"
-        //         })
-        //       ]);
-        //     }
-        //     return h("div", newArr);
-        //   }
-        // },
+        {
+          title: "视频/图片",
+          key: "fileType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            if (params.row.fileType == "1") {
+              newArr.push([
+                h("i", {
+                  class: "iconfont icon-tupian"
+                })
+              ]);
+            } else if (params.row.fileType == "2") {
+              newArr.push([
+                h("i", {
+                  class: "iconfont icon-bofang"
+                })
+              ]);
+            }
+            return h("div", newArr);
+          }
+        },
         {
           title: " ",
           width: 90,

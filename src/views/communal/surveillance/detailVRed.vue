@@ -378,7 +378,7 @@ export default {
           align: "center",
           tooltip: true
         },
-        /*  {
+        {
           title: "视频/图片",
           key: "id",
           minWidth: 120,
@@ -405,7 +405,7 @@ export default {
             }
             return h("div", newArr);
           }
-        },*/
+        },
         // {
         //   title: "自动/手动",
         //   key: "sourceType",
