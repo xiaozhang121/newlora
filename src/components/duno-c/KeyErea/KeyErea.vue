@@ -15,7 +15,17 @@
           ></duno-btn-top>
         </div>
         <div>
-          <el-select
+          <duno-btn-top
+             ref="btnTopRef"
+             :showBtnList="false"
+             :dataList="optionsList"
+             :showAll="false"
+             :keyChange="true"
+             @on-disabled="onDisabled"
+             @on-active="deviceShowHandle"
+          >
+          </duno-btn-top>
+     <!--     <el-select
                   @change="selectData"
                   class="selectSearch"
                   multiple
@@ -31,7 +41,7 @@
                     :label="item.serialNo"
                     :value="item.monitorDeviceId"
             ></el-option>
-          </el-select>
+          </el-select>-->
         </div>
       </div>
     </div>
@@ -142,7 +152,7 @@
             }
         },
         computed: {
-            ...mapState(["app"])
+            ...mapState(["app"]),
         },
         watch: {
             '$route' (to) {
@@ -183,6 +193,41 @@
             }
         },
         methods: {
+            onDisabled(now){
+                debugger
+                if(this.selectCount!=0 && (now.length == this.selectCount)){
+                    this.$refs.btnTopRef.disabled = true
+                }else{
+                    this.$refs.btnTopRef.disabled = false
+                }
+            },
+            deviceShowHandle(arr){
+                if(this.selectCount){
+                    this.$refs.btnTopRef.disabled = false
+                }
+                const that = this
+                let target = arr.filter(item=>{
+                    return item['isActive'] == true
+                })
+                let data = []
+                target.forEach(item=>{
+                    data.push(item['monitorDeviceId'])
+                })
+                securityMonitor({
+                    monitorDeviceId: data.join(","),
+                    configType: that.configType,
+                    userId: this.$store.state.user.userId
+                }).then(res => {
+                    // that.titleValueL = "监控摄像头数量";
+                    that.dataMonitor = res.data.tableData;
+                    that.$forceUpdate();
+                    if(that.selectCount)
+                      that.saveCamera();
+                    // that.videoWidth = "calc(50%)";
+                    // that.active = 1;
+                    // that.isCenter = true;
+                });
+            },
             onClose() {
                 this.pushMovVisable = false;
             },
@@ -221,6 +266,7 @@
                         that.selectCount = res.data.cameraNum;
                         that.initCount = that.selectCount;
                         that.dataMonitor = data.slice(0, that.selectCount);
+                        this.onDisabled(that.$refs.btnTopRef.checkedCities)
                     }
                 });
             },
@@ -241,14 +287,25 @@
                                 if (item["monitorDeviceId"] != null)
                                     arr.push(item["monitorDeviceId"]);
                             });
-                            that.$nextTick(() => {
-                                that.valueSelect = arr;
-                            });
+                            that.$nextTick(()=> {
+                                that.$refs.btnTopRef.checkedCities = arr
+                                that.onDisabled(arr)
+                            })
+                                // that.valueSelect = arr;
                             // that.getCameraInfo(data)
                         } else {
-                            that.valueSelect = [];
+                            that.$nextTick(()=>{
+                                that.$refs.btnTopRef.checkedCities = []
+                            })
+                            // that.valueSelect = [];
                         }
-                        that.optionsList = res.data;
+                        let dataB = res.data
+                        dataB.map(item=>{
+                            if(item['isSelected'] == true || item["isSelected"] == 1)
+                              item['isActive'] = true
+                            item['describeName'] = item['serialNo']
+                        })
+                        that.optionsList = dataB;
                     }
                 });
             },
@@ -271,8 +328,12 @@
             },
             saveCamera() {
                 const that = this;
+                if(that.isFirst){
+                    that.isFirst = false
+                    return
+                }
                 let query = {};
-                that.valueSelect.forEach((item, index) => {
+                that.$refs.btnTopRef.checkedCities.forEach((item, index) => {
                     query["camera0" + (index + 1) + "Id"] = item;
                 });
                 query["cameraNum"] = that.selectCount;
@@ -306,7 +367,15 @@
                 this.titleValueL = item["describeName"];
                 console.log(item.widthType);
                 this.dataMonitor = this.dataMonitor.slice(0, item["count"]);
-                this.valueSelect = this.valueSelect.slice(0, item["count"]);
+                this.$refs.btnTopRef.checkedCities = this.$refs.btnTopRef.checkedCities.slice(0, item["count"])
+                this.optionsList.map(item=>{
+                    if(this.$refs.btnTopRef.checkedCities.indexOf(item['monitorDeviceId'])>-1){
+                        item['isActive'] = true
+                    }else{
+                        item['isActive'] = false
+                    }
+                })
+                // this.valueSelect = this.valueSelect.slice(0, item["count"]);
                 switch (item.widthType) {
                     case 2:
                         this.videoWidth = "calc(50% - 10px)";
@@ -327,7 +396,8 @@
                         this.active = 4;
                         this.isCenter = false;
                 }
-                that.saveCamera();
+                this.saveCamera();
+                this.onDisabled(this.$refs.btnTopRef.checkedCities)
             },
             beforeunload(e) {
                 const that = this;

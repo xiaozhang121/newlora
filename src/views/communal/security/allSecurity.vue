@@ -215,34 +215,34 @@ export default {
             return h("div", timeDay);
           }
         },
-        // {
-        //   title: "视频/图片",
-        //   key: "fileType",
-        //   minWidth: 120,
-        //   align: "center",
-        //   tooltip: true,
-        //   render: (h, params) => {
-        //     let newArr = [];
-        //     if (params.row.fileType == "1") {
-        //       newArr.push([
-        //         h("img", {
-        //           class: "imgOrMv",
-        //           attrs: { src: params.row.alarmFileAddress },
-        //           draggable: false
-        //         })
-        //       ]);
-        //     } else if (params.row.fileType == "2") {
-        //       newArr.push([
-        //         h("video", {
-        //           class: "imgOrMv",
-        //           attrs: { src: params.row.alarmFileAddress },
-        //           draggable: false
-        //         })
-        //       ]);
-        //     }
-        //     return h("div", newArr);
-        //   }
-        // },
+        {
+          title: "视频/图片",
+          key: "fileType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            if (params.row.fileType == "1") {
+              newArr.push([
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
+            } else if (params.row.fileType == "2") {
+              newArr.push([
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
+            }
+            return h("div", newArr);
+          }
+        },
         {
           title: " ",
           width: 200,

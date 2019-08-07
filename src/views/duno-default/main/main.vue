@@ -116,6 +116,12 @@
         </el-row>
       </el-container>
     </el-container>
+    <popup-one-info
+      :itemDataOption="$store.state.user.alarmInfo"
+      v-if="visible && !kilovoltKind && frameLength"
+      @onClose="alarmClose"
+      :visible="visible"
+    ></popup-one-info>
   </div>
 </template>
 <script>
@@ -129,12 +135,14 @@ import alarmTip from "./components/alarm/alarm.vue"; // 告警消息
 import DunoFooter from "_c/duno-footer";
 import parentAlarm from "_c/duno-c/parent-alarm";
 import parentVideo from "_c/duno-c/parent-video";
+import { popupOneInfo } from "_c/popupinfo";
 import headerBig from "_c/duno-c/header-big";
 import "./main.scss";
 export default {
   name: "Main",
   components: {
     SideMenu,
+    popupOneInfo,
     HeaderBar,
     customBreadCrumb,
     User,
@@ -147,6 +155,7 @@ export default {
   data() {
     return {
       isHidden: false,
+      visible: false,
       collapsed: false,
       isFullscreen: false,
       bodyWidth: null,
@@ -161,6 +170,15 @@ export default {
     };
   },
   computed: {
+    frameLength() {
+      return !parent.frames.length;
+    },
+    kilovoltKind() {
+      return this.$store.state.app.kilovolt;
+    },
+    isAlarm() {
+      return this.$store.state.user.isAlarm;
+    },
     defaultActive() {
       const that = this;
       const active =
@@ -195,6 +213,10 @@ export default {
   },
   methods: {
     ...mapMutations(["setBreadCrumb", "setTagNavList"]),
+    alarmClose() {
+      this.visible = false;
+      this.$store.state.user.isAlarm = false;
+    },
     turnToPage(route) {
       let { name, params, query } = {};
       if (typeof route === "string") name = route;
@@ -257,6 +279,18 @@ export default {
     }
   },
   watch: {
+    kilovoltKind: {
+      handler(now) {},
+      deep: true,
+      immediate: true
+    },
+    isAlarm: {
+      handler(now) {
+        if (!this.kilovoltKind && this.frameLength) this.visible = now;
+      },
+      deep: true,
+      immediate: true
+    },
     $route(newRoute) {
       this.setBreadCrumb(newRoute.matched);
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute));

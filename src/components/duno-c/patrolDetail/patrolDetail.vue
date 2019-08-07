@@ -85,7 +85,6 @@ export default {
         downloadUrl: "/lenovo-plan/api/statistics/plan/download",
         viewUrl: "/lenovo-plan/api/statistics/plan/view"
       },
-      // dataBread: ["视频监控", "所有报表", "巡检任务报表"],
       titleValue: "所有巡检报表",
       value: "",
       dataForm: {},
@@ -155,7 +154,6 @@ export default {
       this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
     }
     this.dataForm = { planId: this.$route.params.planId };
-    // this.dataBread = this.$route.params.dataBread;
   }
 };
 </script>

@@ -75,12 +75,7 @@
         </div>
       </div>
     </div>
-    <popup-one-info
-      :itemDataOption="$store.state.user.alarmInfo"
-      v-if="visible"
-      @onClose="alarmClose"
-      :visible="visible"
-    ></popup-one-info>
+    <!--<popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="visible" @onClose="alarmClose" :visible="visible"></popup-one-info>-->
   </div>
 </template>
 
@@ -206,68 +201,58 @@ export default {
     }
   },
   methods: {
-    alarmClose() {
-      this.visible = false;
-      this.$store.state.user.isAlarm = false;
-    },
-    onFresh() {
-      this.initReport();
-    },
-    initData() {
-      const that = this;
-      postAxiosData("/lenovo-robot/rest/taskStatus", {
-        substationId: that.substationId,
-        robotId: that.robotId
-      }).then(res => {
-        that.taskStatus = res.data;
-        postAxiosData("/lenovo-robot/rest/taskCurLink", {
-          substationId: that.substationId,
-          robotId: that.robotId,
-          taskRunHisId: that.taskStatus["taskRunHisId"]
-        }).then(res => {
-          that.taskCurreny = res.data;
-        });
-      });
-      postAxiosData("/lenovo-robot/rest/robotStatus", {
-        substationId: that.substationId,
-        robotId: that.robotId
-      }).then(res => {
-        that.robotStatus = res.data;
-      });
-    },
-    initReport() {
-      const that = this;
-      postAxiosData("/lenovo-robot/rest/reports", {
-        substationId: that.substationId,
-        robotId: that.robotId,
-        length: 10
-      }).then(res => {
-        that.reportsList = res.data;
-        let data = res.data;
-        data = data.reportList;
-        data.map(item => {
-          // item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
-          if ("taskImg" in item && item["taskImg"])
-            item["pic"] = item["taskImg"];
-          item["planId"] = item["TaskID"];
-          if (item["taskType"] == "1501") item["name"] = "全面巡视";
-          else if (item["taskType"] == "1502") item["name"] = "例行巡视";
-          else if (item["taskType"] == "1503") item["name"] = "专项巡视";
-          else if (item["taskType"] == "1504") item["name"] = "特殊巡视";
-          else item["name"] = "暂无数据";
-          item["date"] = item["PlanStartTime"];
-          item["alarmNum"] = item["AlarmCount"];
-          item["timeLong"] = item["timeLong"];
-        });
-        that.newsReport = data;
-      });
-      postAxiosData("/lenovo-robot/getRobotVedioPath", {
-        stationID: that.substationId,
-        robotID: that.robotId
-      }).then(res => {
-        that.cameraPath = res.data;
-      });
-    }
+   /*   alarmClose(){
+          this.visible = false
+          this.$store.state.user.isAlarm = false
+      },*/
+      onFresh(){
+          this.initReport()
+      },
+      initData(){
+          const that = this
+          postAxiosData('/lenovo-robot/rest/taskStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
+              that.taskStatus = res.data
+              postAxiosData('/lenovo-robot/rest/taskCurLink',{substationId: that.substationId, robotId: that.robotId,taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+                  that.taskCurreny = res.data
+              })
+          })
+          postAxiosData('/lenovo-robot/rest/robotStatus',{substationId: that.substationId, robotId: that.robotId}).then(res=>{
+              that.robotStatus = res.data
+          })
+      },
+      initReport(){
+          const that = this
+          postAxiosData('/lenovo-robot/rest/reports',{substationId: that.substationId, robotId: that.robotId,length: 10}).then(res=>{
+              that.reportsList = res.data
+              let data = res.data
+              data = data.reportList
+              data.map(item=>{
+                  // item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
+              if('taskImg' in item && item['taskImg'])
+                item['pic'] = item['taskImg']
+                  item['planId'] = item['TaskID']
+                  if(item['taskType'] == '1501')
+                      item['name'] = '全面巡视'
+                  else if(item['taskType'] == '1502')
+                      item['name'] = '例行巡视'
+                  else if(item['taskType'] == '1503')
+                      item['name'] = '专项巡视'
+                  else if(item['taskType'] == '1504')
+                      item['name'] = '特殊巡视'
+                  else
+                      item['name'] = '暂无数据'
+                  item['date'] = item['PlanStartTime']
+                  item['alarmNum'] = item['AlarmCount']
+                  item['timeLong'] = item['timeLong']
+              })
+              that.newsReport = data
+          })
+          postAxiosData('/lenovo-robot/getRobotVedioPath',{stationID: that.substationId, robotID: that.robotId}).then(res=>{
+                that.cameraPath = res.data
+          })
+      }
+  },
+  created(){
   },
   created() {},
   beforeDestroy() {
@@ -284,12 +269,16 @@ export default {
   color: white;
   width: 100%;
   height: 100%;
-  .noLoading {
-    .vjs-fluid {
+  .noLoading{
+    /*.vjs-fluid {
       padding-top: 56%;
-    }
-    .el-loading-mask {
+    }*/
+    .el-loading-mask{
       display: none;
+    }
+    .video-player.vjs-custom-skin{
+      transform: scale(1,1.38);
+      transform-origin: left top;
     }
   }
   .redCamera {

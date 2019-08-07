@@ -9,15 +9,19 @@
           <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
-          <div>
+          <div v-if="showAll">
             <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           </div>
           <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
             <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
-              <el-checkbox  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index)">
+              <el-checkbox v-if="keyChange" :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
-                <img :src="item.img">
+                <img  :src="item.img">
+                {{item['describeName']}}</el-checkbox>
+              <el-checkbox v-else :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
+                <!-- <i class="item.icon"></i> -->
+                <img v-if="item.img" class="icon_img" :src="item.img">
                 {{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
@@ -61,11 +65,14 @@
 
 <script>
 import Icons from '_c/icons'
+import mixinViewModule from '@/mixins/view-module'
 import dunoBtnTopItem  from '../duno-btn-topItem'
 export default {
+  mixins: [mixinViewModule],
   name: 'dunoBtnTop',
   data (){
     return {
+        disabled: false,
         isFullscreen: false,
         showListFlag: false,
         checkAll: false,
@@ -97,6 +104,14 @@ export default {
     dunoBtnTopItem
   },
   props: {
+    keyChange:{
+        type: Boolean,
+        default: false
+    },
+    showAll: {
+        type: Boolean,
+        default: true
+    },
     zIndex: {
         type: [String, Number],
         default: '10'
@@ -126,28 +141,28 @@ export default {
       default:()=>{
         return [
           {
-            img:require('@/assets/iconCover/ico_visible_light.png'),
-            circleColor:'#00B4FF',
+            img:require('@/assets/buttonPng/light.svg'),
+            circleColor:'#00b4ff',
             describeName: '可见光',
             monitorDeviceType: 1,
             isActive: true
           },
           {
-            img:require('@/assets/iconCover/ico_Infra-red.png'),
-            circleColor:'#4FF2B7',
+            img:require('@/assets/buttonPng/redLight.png'),
+            circleColor:'#e654a6',
             describeName: '红外测温',
             monitorDeviceType: 2,
             isActive: true
           },
           {
-            img:require('@/assets/iconCover/ico_Locks.png'),
-            circleColor:'#597AFF',
+            img:require('@/assets/buttonPng/intelLock.png'),
+            circleColor:'#ffca28',
             describeName: '智能锁具',
             monitorDeviceType: 5,
             isActive: true
           },
           {
-            img:require('@/assets/iconCover/ico_weather.png'),
+            img:require('@/assets/SVG/weatherCheck.svg'),
             circleColor:'#C06EFF',
             describeName: '微型气象站',
             monitorDeviceType: 6,
@@ -218,6 +233,7 @@ export default {
           let checkedCount = value.length;
           this.checkAll = checkedCount === this.dataListName.length;
           this.isIndeterminate = checkedCount > 0 && checkedCount < this.dataListName.length;
+          this.$emit('on-disabled', this.checkedCities)
       },
       handleCheckAllChange(val) {
           if(!val){
@@ -230,7 +246,10 @@ export default {
           this.isIndeterminate = false;
           this.$emit('on-active',this.dataList)
       },
-      handleActive(index,event){
+      handleActive(index,flag){
+        if(flag){
+            return
+        }
         if(!this.isClick){
             this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
             this.$forceUpdate();
@@ -272,6 +291,10 @@ export default {
   display: flex;
   justify-content: space-between;
   padding-bottom: 13px;
+  .icon_img{
+    width: 20px;
+    height: 20px;
+  }
   .fullScreenTop{
     color: white;
     font-size: 24px;

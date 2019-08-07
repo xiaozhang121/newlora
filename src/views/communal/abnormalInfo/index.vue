@@ -307,34 +307,34 @@ export default {
             return h("div", { class: { member_operate_div: true } }, newArr);
           }
         },
-        // {
-        //   title: "视频/图片",
-        //   key: "id",
-        //   minWidth: 120,
-        //   align: "center",
-        //   tooltip: true,
-        //   render: (h, params) => {
-        //     let newArr = [];
-        //     if (params.row.fileType == "1") {
-        //       newArr.push([
-        //         h("img", {
-        //           class: "imgOrMv",
-        //           attrs: { src: params.row.alarmFileAddress },
-        //           draggable: false
-        //         })
-        //       ]);
-        //     } else if (params.row.fileType == "2") {
-        //       newArr.push([
-        //         h("video", {
-        //           class: "imgOrMv",
-        //           attrs: { src: params.row.alarmFileAddress },
-        //           draggable: false
-        //         })
-        //       ]);
-        //     }
-        //     return h("div", newArr);
-        //   }
-        // },
+        {
+          title: "视频/图片",
+          key: "id",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            if (params.row.fileType == "1") {
+              newArr.push([
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
+            } else if (params.row.fileType == "2") {
+              newArr.push([
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false
+                })
+              ]);
+            }
+            return h("div", newArr);
+          }
+        },
         {
           title: "处理记录",
           key: "dealRecord",
