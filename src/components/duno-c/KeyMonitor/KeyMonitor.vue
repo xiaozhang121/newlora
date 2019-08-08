@@ -48,17 +48,17 @@
           </span>
         </div>
       </transition>
+      <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
       <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
-        <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
           <div class="text">
             <span>{{kilovolt}}</span>
             <span>{{patrol}}</span>
           </div>
-          <span @click="fullScreen()">
+          <span  @click="fullScreen()">
             <i class="iconfont icon-jiantou"></i>
           </span>
-        </el-tooltip>
       </div>
+      </el-tooltip>
     </div>
     <push-mov
       ref="pushMov"
@@ -137,7 +137,7 @@ export default {
     },
     kilovolt: {
       type: String,
-      default: ""
+      default: " "
     },
     showBtmOption: {
       type: Boolean,

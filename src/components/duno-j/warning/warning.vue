@@ -6,9 +6,9 @@
           <div class="title_top">
             <span>{{ dataList.title }}</span>
             <span class="iconfontList">
-            <i class="iconfont icon-xiazai"></i>
+            <!--<i class="iconfont icon-xiazai"></i>-->
             <i class="iconfont icon-dayin" v-print="target"></i>
-            <i class="iconfont icon-wangye"></i>
+            <!--<i class="iconfont icon-wangye"></i>-->
           </span>
           </div>
           <div class="extend">{{ dataList.alarmTypeValue }}</div>
