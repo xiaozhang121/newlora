@@ -363,7 +363,7 @@
                 sharp.setOffsetY(10)
                 sharp.setOffsetX(-10)
                 let style = new Style({
-                    text: sharp
+                    text: sharp,
                 })
                 let anchor = new Feature({
                     geometry: new Point([xReal, yReal]),
@@ -952,7 +952,8 @@
                             })
                             text.setOffsetY(-10)
                             anchor.setStyle(new Style({
-                                text: text
+                                text: text,
+                                zIndex: 99,
                             }));
                             anchor.setId('pointName')
                             that.vector.getSource().addFeature(anchor)
@@ -1212,8 +1213,8 @@
                                 projection: 'EPSG:3857'
                             }),
                         }),
-                        that.vector,
-                        that.vectord
+                        that.vectord,
+                        that.vector
                     ],
                     view: new View({
                         center: [118.79129270,32.06046262],
