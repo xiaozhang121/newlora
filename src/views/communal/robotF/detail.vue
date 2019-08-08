@@ -451,6 +451,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/style/tableStyle.scss";
 .robotDetail {
   .dunoBtnTop .icon-xiala {
     /* width: 12px !important;
@@ -510,7 +511,7 @@ export default {
           .ivu-table-wrapper {
             tr:nth-child(odd) {
               td {
-                background-color: #1b3b47;
+                background: rgba(0, 0, 0, 0) !important;
               }
             }
             tr:nth-child(even) {
