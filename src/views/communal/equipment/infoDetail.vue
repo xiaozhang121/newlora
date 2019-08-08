@@ -24,7 +24,7 @@ export default {
             { path: "/realEnv/list", name: "操作中台" },
             { path: "/visiblelight/list", name: "设备监测" },
             { path: "/visiblelight/list", name: "可见光" },
-            { path: "", name: "可见光监测记录信息" }
+            { path: "", name: "可见光巡检报告" }
           ];
           break;
         case "infrared-info":
@@ -32,7 +32,7 @@ export default {
             { path: "/realEnv/list", name: "操作中台" },
             { path: "/infrared/list", name: "设备监测" },
             { path: "/infrared/list", name: "红外监测" },
-            { path: "", name: "红外监测记录信息" }
+            { path: "", name: "红外监测巡检报告" }
           ];
           break;
       }
