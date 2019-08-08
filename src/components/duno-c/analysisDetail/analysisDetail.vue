@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="top">
+    <div class="top not-print">
       <div>{{title}}</div>
       <div class="btn">
         <div>

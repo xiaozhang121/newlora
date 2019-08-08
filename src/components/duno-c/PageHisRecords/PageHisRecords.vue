@@ -1,6 +1,6 @@
 <template>
   <div class="pageHisRecords">
-    <div class="top">
+    <div class="top not-print">
       <div>{{titleCode.securityRecord}}</div>
       <div class="btn">
         <div>

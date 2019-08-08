@@ -1,5 +1,5 @@
 <template>
-  <div class="keyErea">
+  <div class="keyErea not-print">
     <div class="dunoDrap">
       <div>重点监测区域</div>
       <div class="selectBtn">

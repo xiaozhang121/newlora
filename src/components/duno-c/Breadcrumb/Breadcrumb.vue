@@ -1,5 +1,5 @@
 <template>
-  <div class="duno-breadcrumb">
+  <div class="duno-breadcrumb not-print">
     <el-breadcrumb :separator="separator">
       <el-breadcrumb-item
         :class="{'pointer': index == 0}"

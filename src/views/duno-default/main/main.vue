@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
     <el-container v-if="!isBigScreen" style="height: 100%" class="main">
-      <el-header v-if="isShowHeader && !isHidden" class="main-header" style="height: 80px;">
+      <el-header v-if="isShowHeader && !isHidden" class="main-header not-print" style="height: 80px;">
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
           <alarm-tip />
           <!-- 告警消息 -->
@@ -61,7 +61,7 @@
       </el-container>
     </el-container>
     <el-container v-if="isBigScreen" style="height: 100%;width: 100%" class="main">
-      <el-collapse-transition>
+      <el-collapse-transition class="not-print">
         <el-row v-show="showheader">
           <el-col :span="24">
             <headerBig />
