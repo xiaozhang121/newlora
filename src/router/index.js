@@ -12,11 +12,13 @@ const router = new Router({
 })
 const LOGIN_PAGE_NAME = 'login'
 
-router.beforeEach((to, from, next) => {
-  if('kind' in to.meta){
-      store.state.app.kilovolt = to.meta.kind
-  }else{
-      store.state.app.kilovolt = ''
+router.beforeEach((to, from, next) => { 
+  if(!(self.frameElement && self.frameElement.tagName == "IFRAME")){  
+    if('kind' in to.meta){
+        store.state.app.kilovolt = to.meta.kind
+    }else{
+        store.state.app.kilovolt = ''
+    }
   }
   if(from.name){
     if(to.meta.topNav == '1'){

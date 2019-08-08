@@ -41,7 +41,6 @@
                 type="circle"
                 :percentage="tepmNum"
                 :width="80"
-                color="#87CEEB"
                 :format="format"
         />
         <p>温度℃</p>
@@ -53,7 +52,6 @@
                 type="circle"
                 :percentage="item['realValue']"
                 :width="80"
-                color="#87CEEB"
                 :format="format"
         />
         <p>温度℃</p>
@@ -274,6 +272,7 @@
   };
 </script>
 <style lang="scss">
+@import './realtime.css';
   .realtime_video > div {
     /*transform: scale(1.355, 1.2);*/
     /*transform-origin: left top;*/
@@ -318,4 +317,5 @@
       }
     }
   }
+
 </style>

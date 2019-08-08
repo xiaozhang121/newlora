@@ -85,7 +85,6 @@ export default {
           // }
           that.Socket.onmessage = function (evt) { // 接收数据 websocket
             let receivedMsg = JSON.parse(evt.data)
-              debugger
             clearInterval(that.SocketTime)
             that.SocketTime = null
             that.isSocketOk = true
