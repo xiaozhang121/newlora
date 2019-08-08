@@ -61,15 +61,15 @@
           </div>
         </div>
       </div>
-      <!-- <div class="handleInfo">
-        <div>
+      <div class="handleInfo">
+        <!-- <div>
           <p class="monitorTitle">处理记录</p>
           <p v-for="(item, index) in handleList" :key="index" class="item">
             <span class="title">{{ item['time'] }}</span>
             <span class="info">{{ item['info'] }}</span>
-          </p>
-        </div>
-      </div>-->
+          </p>  
+        </div> -->
+      </div>
       <div style="clear: both"></div>
     </el-dialog>
     <personJudge

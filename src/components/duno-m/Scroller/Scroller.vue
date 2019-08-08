@@ -105,7 +105,7 @@ export default {
           that.distance = document.body.clientWidth;
         }
         box.style.transform = "translateX(" + that.distance + "px)";
-      }, 10);
+      }, 30);
     },
     move(flag) {
       const that = this;
@@ -126,6 +126,7 @@ export default {
       this.visible = false;
     },
     handleClick() {
+      let that = this;
       that.popData = that.lists;
       that.visible = true;
     }
