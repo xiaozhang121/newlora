@@ -222,8 +222,9 @@ export default {
     height: 200px;
     width: 100%;
     background-image: url("../../../assets/images/placeholder.png");
+    background-size: 100% 100%;
     img {
-      height: 100%!important;
+      height: 100% !important;
       width: 100%;
       display: block;
     }
@@ -237,7 +238,13 @@ export default {
     p {
       font-size: 14px;
       span {
+        width: 80%;
+        display: inline-block;
         padding-left: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
     & > p:last-child {

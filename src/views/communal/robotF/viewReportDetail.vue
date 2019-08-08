@@ -7,7 +7,7 @@
       <div>{{planType=='1504'?'特殊巡视':'例行巡视'}}&nbsp;{{dataForm.taskRunHisId}}</div>
       <div class="btn">
         <div>
-         <!-- <duno-btn-top
+          <!-- <duno-btn-top
                   @on-select="onSelect"
                   class="dunoBtnTop"
                   :isCheck="false"
@@ -97,7 +97,17 @@ export default {
       value: "",
       alarmLevel: "",
       titleType: "按设备筛选",
-      dataBread: ["机器人巡视","报告"],
+      //   dataBread: ["机器人巡视","报告"],
+      dataBread: [
+        {
+          path: "/robot-one/list",
+          name: "机器人巡视"
+        },
+        {
+          path: "",
+          name: "报告"
+        }
+      ],
       columns: [
         {
           title: "序号",
@@ -112,7 +122,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-              return h("div", params.row.linkArea + params.row.linkName1);
+            return h("div", params.row.linkArea + params.row.linkName1);
           }
         },
         {
@@ -122,17 +132,17 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-              return h("div", params.row.linkName2 + params.row.linkName3);
+            return h("div", params.row.linkName2 + params.row.linkName3);
           }
         },
-       /* {
+        /* {
           title: "描述",
           key: "description",
           minWidth: 90,
           align: "center",
           tooltip: true
         },*/
-      /*  {
+        /*  {
           title: "缺陷等级",
           key: "alarmLevel",
           minWidth: 120,
@@ -225,7 +235,7 @@ export default {
             return h("div", newArr);
           }
         },*/
-     /*   {
+        /*   {
           title: "拍摄来源",
           key: "monitorDeviceName",
           minWidth: 150,
@@ -292,7 +302,7 @@ export default {
                     click: () => {
                       that.popData = params.row;
                       that.visible = true;
-                      that.initDD(params.row.id)
+                      that.initDD(params.row.id);
                     }
                   }
                 },
@@ -313,41 +323,43 @@ export default {
       regionList: [],
       statusList: [],
       popData: {},
-      taskDeviceId: '',
+      taskDeviceId: "",
       clcikQueryData: {},
-      routeName: ''
+      routeName: ""
     };
   },
   watch: {
-      '$route' (to) {
-          this.routeName = to.name
-      },
-      routeName(now){
-          if(now == 'robot-twoList'){
-              this.$set(this.dataBread,1,'机器人二')
-          }else{
-              this.$set(this.dataBread,1,'机器人一')
-          }
+    $route(to) {
+      this.routeName = to.name;
+    },
+    routeName(now) {
+      if (now == "robot-twoList") {
+        this.$set(this.dataBread, 1, "机器人二");
+      } else {
+        this.$set(this.dataBread, 1, "机器人一");
       }
+    }
   },
   created() {
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId;
     this.planType = this.$route.query.planType;
     this.getRegion();
     // this.initDataD()
-    this.routeName = this.$route.name
+    this.routeName = this.$route.name;
     // this.getStart();
     // this.getType();
   },
   methods: {
-    initDD(taskDeviceId){
-        this.taskDeviceId = taskDeviceId
-        this.initDataD()
+    initDD(taskDeviceId) {
+      this.taskDeviceId = taskDeviceId;
+      this.initDataD();
     },
-    initDataD(){
-        postAxiosData('/lenovo-robot/rest/taskCurLink',{taskDeviceId: this.taskDeviceId}).then(res=>{
-            this.warnData = res.data
-        })
+    initDataD() {
+      postAxiosData("/lenovo-robot/rest/taskCurLink", {
+        taskDeviceId: this.taskDeviceId
+      }).then(res => {
+        this.warnData = res.data;
+      });
     },
     cutOut(data) {
       if (data) {
@@ -483,7 +495,7 @@ export default {
     getType() {
       const that = this;
       const url = "/lenovo-robot/rest/reportDetailDevices";
-     /* getAxiosData(url, {taskRunHisId: this.dataForm.taskRunHisId}).then(res => {
+      /* getAxiosData(url, {taskRunHisId: this.dataForm.taskRunHisId}).then(res => {
         const resData = res.data;
 
 
@@ -507,8 +519,7 @@ export default {
         });
       }
     }
-  },
-
+  }
 };
 </script>
 
@@ -516,12 +527,12 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail {
   width: 100%;
-  .icon-xiala{
-   /* width: 13px;
+  .icon-xiala {
+    /* width: 13px;
     height: 16px;*/
     right: 20px;
   }
-  .imgShow{
+  .imgShow {
     width: 189px;
     padding: 10px 10px;
     height: 62px;
