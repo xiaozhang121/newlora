@@ -1,4 +1,5 @@
 .el-progress__text   {
-    color: #fff;
-    /* font-size: 18px!important; */
+    color: #fff!important;
+    font-weight: 700!important;
+
   }
