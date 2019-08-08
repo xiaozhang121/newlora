@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="configure">
-      <div>任务配置列表（{{ dataBread[2] }}）</div>
+      <div>任务配置列表</div>
       <div class="main">
         <div class="left">
           <duno-btn-top
@@ -314,14 +314,14 @@ export default {
     $route(to) {
       this.routeName = to.name;
     },
-    routeName(now) {
-      if (now == "robot-twoList") {
-        this.$set(this.dataBread, 2, "机器人二");
-      } else {
-        this.dataBread[2] = "机器人一";
-        this.$set(this.dataBread, 2, "机器人一");
-      }
-    }
+    // routeName(now) {
+    //   if (now == "robot-twoList") {
+    //     this.$set(this.dataBread, 2, "机器人二");
+    //   } else {
+    //     this.dataBread[2] = "机器人一";
+    //     this.$set(this.dataBread, 2, "机器人一");
+    //   }
+    // }
   },
   methods: {
     success() {
