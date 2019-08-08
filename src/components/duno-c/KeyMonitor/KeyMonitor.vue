@@ -48,7 +48,7 @@
           </span>
         </div>
       </transition>
-      <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
+      <el-tooltip effect="dark"  content="点击查看摄像头详情" placement="top">
       <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
           <div class="text">
             <span>{{kilovolt}}</span>
