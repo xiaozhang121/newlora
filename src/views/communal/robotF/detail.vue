@@ -474,14 +474,14 @@ export default {
       .left {
         width: 20%;
         .dunoBtnTop {
-          min-width: 300px;
+          min-width: 200px;
           display: inline-flex;
           padding-bottom: 0;
           height: 42px;
           border-bottom: 2px solid #305e83;
           .btnList {
             top: inherit !important;
-            min-width: 300px;
+            min-width: 200px;
             .title {
               background: rgba(20, 40, 56, 1);
               padding: 8px 20px;

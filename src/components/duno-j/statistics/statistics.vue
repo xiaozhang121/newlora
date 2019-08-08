@@ -236,19 +236,22 @@ export default {
       }
       .circle {
         float: left;
-        width: 100px;
+        width: 80px;
+        @media screen and (min-width: 3500px) {
+          width: 75px;
+        }
         .typeCircle {
           margin: 10px auto;
           border-radius: 50%;
-          width: 88px;
-          height: 88px;
-          line-height: 88px;
+          width: 70px;
+          height: 70px;
+          line-height: 70px;
           text-align: center;
-          font-size: 28px;
+          font-size: 20px;
           @media screen and (min-width: 3500px) {
-            width: 60px;
-            height: 60px;
-            line-height: 60px;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
             font-size: 14px;
           }
         }
