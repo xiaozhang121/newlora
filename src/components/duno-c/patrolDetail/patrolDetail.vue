@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="dunoDrap">
-      <div></div>
+      <div>{{title}}</div>
       <div class="selectBtn">
         <div>
           <duno-btn-top
@@ -87,6 +87,7 @@ export default {
       },
       titleValue: "所有巡检报表",
       value: "",
+      title: "",
       dataForm: {},
       inspectionData: []
     };
@@ -150,10 +151,11 @@ export default {
     this.timer = setTimeout(() => {
       this.loadingOption = false;
     }, 7000);
+    this.title = this.$route.query.title;
     if (this.$route.params.url) {
-      this.mixinViewModuleOptions.getDataListURL = this.$route.params.url;
+      this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     }
-    this.dataForm = { planId: this.$route.params.planId };
+    this.dataForm = { planId: this.$route.query.planId };
   }
 };
 </script>

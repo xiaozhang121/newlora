@@ -365,6 +365,7 @@ export default {
           background-image: url(../../../assets/images/btn/moreBtn.png);
           text-align: center;
           font-size: 18px;
+          cursor: pointer;
           color: #ffffff;
         }
       }

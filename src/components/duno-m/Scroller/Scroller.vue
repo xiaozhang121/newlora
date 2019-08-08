@@ -9,7 +9,7 @@
             :key="index"
             @mouseenter="enter()"
             @mouseleave="leave()"
-            @click="handleClick"
+            @click="handleClick(index)"
           >
             <div
               class="name"
@@ -62,6 +62,7 @@ export default {
       visibleSettingOption: false,
       visible: false,
       lists: [],
+      popData: {},
       distance: 1,
       timer: null,
       text: "" // 数组文字转化后的字符串
@@ -125,9 +126,9 @@ export default {
       this.popData = {};
       this.visible = false;
     },
-    handleClick() {
+    handleClick(index) {
       let that = this;
-      that.popData = that.lists;
+      that.popData = that.lists[index];
       that.visible = true;
     }
   },

@@ -18,7 +18,7 @@
           <div>
             <el-cascader
               placeholder="自动关联（对应样本库2-4级目录）"
-              :options="twoptionsData"
+              :options="platOptions"
               @active-item-change="handleItemChange"
               :props="props"
             ></el-cascader>
@@ -94,7 +94,7 @@ export default {
       value: "",
       optionsFirst: [],
       options: [],
-      twoptionsData: [],
+      platOptions: [],
       cascadeValue: "",
       selectValue: "",
       textarea: "",
@@ -108,19 +108,7 @@ export default {
       picFilePath: "",
       imgsrc: "",
       props: {
-        lazy: true,
-        lazyLoad(node, resolve) {
-          const { level } = node;
-          setTimeout(() => {
-            const nodes = Array.from({ length: level + 1 }).map(item => ({
-              value: item.value,
-              label: item.label,
-              leaf: level >= 2
-            }));
-            // 通过调用resolve将子节点数据返回，通知组件数据加载完成
-            resolve(nodes);
-          }, 1000);
-        }
+        lazy: true
       }
     };
   },
@@ -181,7 +169,7 @@ export default {
         });
       });
     },
-    //清楚标定
+    //清除标定
     delTag() {
       let query = {};
       let url = "";
@@ -200,19 +188,10 @@ export default {
     getSelect() {
       let query = {};
       getMainDevice(query).then(res => {
-        //     lazyLoad (node, resolve) {
-        //     const { level } = node;
-        //     setTimeout(() => {
-        //       const nodes = Array.from({ length: level + 1 })
-        //         .map(item => ({
-        //           value: ++id,
-        //           label: `选项${id}`,
-        //           leaf: level >= 2
-        //         }));
-        //       // 通过调用resolve将子节点数据返回，通知组件数据加载完成
-        //       resolve(nodes);
-        //     }, 1000);
-        //   }
+        this.platOptions = res.data;
+        this.platOptions.map((item, index, array) => {
+          this.$set(array[index], "child", []);
+        });
       });
     },
     //自动关联（五级目录）

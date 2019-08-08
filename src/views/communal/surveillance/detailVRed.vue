@@ -170,7 +170,7 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
-    <!-- <screenshot /> -->
+    <screenshot />
   </div>
 </template>
 

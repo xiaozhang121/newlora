@@ -451,6 +451,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/style/tableStyle.scss";
 .robotDetail {
   .dunoBtnTop .icon-xiala {
     /* width: 12px !important;
@@ -474,14 +475,14 @@ export default {
       .left {
         width: 20%;
         .dunoBtnTop {
-          min-width: 300px;
+          min-width: 200px;
           display: inline-flex;
           padding-bottom: 0;
           height: 42px;
           border-bottom: 2px solid #305e83;
           .btnList {
             top: inherit !important;
-            min-width: 300px;
+            min-width: 200px;
             .title {
               background: rgba(20, 40, 56, 1);
               padding: 8px 20px;
@@ -510,7 +511,7 @@ export default {
           .ivu-table-wrapper {
             tr:nth-child(odd) {
               td {
-                background-color: #1b3b47;
+                background: rgba(0, 0, 0, 0) !important;
               }
             }
             tr:nth-child(even) {
