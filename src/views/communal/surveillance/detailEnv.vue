@@ -124,6 +124,7 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning
+      :popData="popData"
       :discriminate="false"
       :hasSelect="true"
       :alarmLevel="alarmLevel"

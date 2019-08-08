@@ -223,6 +223,7 @@ export default {
     width: 100%;
     background-image: url("../../../assets/images/placeholder.png");
     img {
+      height: 100%!important;
       width: 100%;
       display: block;
     }

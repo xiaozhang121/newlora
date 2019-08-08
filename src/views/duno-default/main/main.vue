@@ -118,7 +118,7 @@
     </el-container>
     <popup-one-info
       :itemDataOption="$store.state.user.alarmInfo"
-      v-if="visible && !kilovoltKind && frameLength"
+      v-if="visible && frameLength"
       @onClose="alarmClose"
       :visible="visible"
     ></popup-one-info>
@@ -171,7 +171,10 @@ export default {
   },
   computed: {
     frameLength() {
-      return !parent.frames.length;
+      if(!('kind' in this.$route.meta))
+        return !parent.frames.length;
+      else
+        return false
     },
     kilovoltKind() {
       return this.$store.state.app.kilovolt;
@@ -267,13 +270,13 @@ export default {
         }
       } catch (e) {}
     },
-    // handleHidden(e) {
-    //   if (e.clientY == 10 && this.showheader == false) {
-    //     this.showheader = true;
-    //   } else if (e.clientY > 80 && this.showheader == true) {
-    //     this.showheader = false;
-    //   }
-    // },
+  /*  handleHidden(e) {
+      if (e.clientY == 10 && this.showheader == false) {
+        this.showheader = true;
+      } else if (e.clientY > 80 && this.showheader == true) {
+        this.showheader = false;
+      }
+    },*/
     isShowSide() {
       this.isCollapse = !this.isCollapse;
     }
@@ -286,7 +289,7 @@ export default {
     },
     isAlarm: {
       handler(now) {
-        if (!this.kilovoltKind && this.frameLength) this.visible = now;
+        if (this.frameLength) this.visible = now;
       },
       deep: true,
       immediate: true

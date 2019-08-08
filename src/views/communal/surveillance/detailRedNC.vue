@@ -158,6 +158,7 @@
       :alarmLevel="alarmLevel"
       :visible="visible"
       warningID="20190711002"
+      :popData="popData"
       :monitorUrl="popData.alarmFileAddress || ''"
       :judgeResult="popData.alarmContent || ''"
       :origin="popData.monitorDeviceId"
@@ -203,6 +204,7 @@ export default {
     wraning
   },
   data() {
+    const that = this
     return {
       addOrEdit: "添加",
       disabled: false,
@@ -397,7 +399,6 @@ export default {
           width: 220,
           align: "center",
           render: (h, params) => {
-            const that = this;
             let newArr = [];
             newArr.push([
               h(

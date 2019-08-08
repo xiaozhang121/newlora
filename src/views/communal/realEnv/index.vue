@@ -839,13 +839,9 @@
             this.$store.state.app.kilovolt = this.$route.meta.kind
         },
         beforeDestroy(){
-            this.$store.state.app.kilovolt = ''
         },
         mounted () {
             const that = this
-            that.$nextTick(()=>{
-                this.$store.state.app.kilovolt = 'all'
-            })
             document.addEventListener('fullscreenchange', function(event){
                 if(that.$refs.btnTopRef)
                     that.$refs.btnTopRef.isFullscreen = !that.$refs.btnTopRef.isFullscreen
