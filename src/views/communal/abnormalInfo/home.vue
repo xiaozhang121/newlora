@@ -5,7 +5,7 @@
     </div>
     <div class="middle">
         <div class="abnormalInfo">
-            <div class="contain">
+            <div class="contain borderTX">
               <duno-main :controlOver="true" class="main_contain">
                 <div class="iconTop pointer" @click="getIn">
                   <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
@@ -29,26 +29,28 @@
            </div>
         </div>
         <div class="reportForm">
-          <duno-main  :controlOver="true" class="main_contain">
-            <div class="iconTop">
-              <img src="../../../assets/iconFunction/icon_statement.png" alt />
-              报表
+            <div class="contain borderTX">
+              <duno-main  :controlOver="true" class="main_contain">
+                <div class="iconTop">
+                  <img src="../../../assets/iconFunction/icon_statement.png" alt />
+                  报表
+                </div>
+                <div class="re-middle">
+                  <ReportTable v-for="(item,index) in mockData" :key="index" :url="url" :reportData="item" />
+                </div>
+                <div class="re-table">
+                  <duno-tables-tep
+                          class="table_analysis"
+                          :columns="RecodeColumns"
+                          :data="RecodeList"
+                          :isShowPage="false"
+                          @on-select="dataListSelectionChangeHandle"
+                          @clickPage="pageCurrentChangeHandle"
+                          @on-page-size-change="pageSizeChangeHandle"
+                  />
+                </div>
+              </duno-main>
             </div>
-            <div class="re-middle">
-              <ReportTable v-for="(item,index) in mockData" :key="index" :url="url" :reportData="item" />
-            </div>
-            <div class="re-table">
-              <duno-tables-tep
-                      class="table_analysis"
-                      :columns="RecodeColumns"
-                      :data="RecodeList"
-                      :isShowPage="false"
-                      @on-select="dataListSelectionChangeHandle"
-                      @clickPage="pageCurrentChangeHandle"
-                      @on-page-size-change="pageSizeChangeHandle"
-              />
-            </div>
-          </duno-main>
         </div>
       <!-- <div class="ARRange">
         <div class="iconcen">
@@ -507,6 +509,14 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+  .borderTX{
+  }
   .main_contain{
     position: absolute;
     left: 0;
@@ -531,6 +541,7 @@ export default {
       margin-right: 20px;
       position: relative;
       // height: 557px;
+      padding: 2px;
       height: 100%;
       .ivu-table-cell {
         padding-left: 0;
@@ -541,6 +552,12 @@ export default {
         width: 100%;
         height: 100%;
         background-color: rgba(20, 40, 56, 0.8);
+        border: 2px solid transparent;
+        transition:border .5s;
+        &:hover{
+          border: 2px solid white;
+          transition-duration:.5s;
+        }
         .pointer {
           cursor: pointer;
         }
@@ -562,9 +579,20 @@ export default {
       position: relative;
       width: calc(40% - 10px);
       // margin-right: 20px;
+      padding: 2px;
       height: 100%;
-      padding: 20px;
       background-color: rgba(20, 40, 56, 0.8);
+      .contain{
+        padding: 20px;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        transition:border .5s;
+        &:hover{
+          border: 2px solid white;
+          transition-duration:.5s;
+        }
+      }
       .re-middle {
         overflow: hidden;
         margin-top: 20px;
