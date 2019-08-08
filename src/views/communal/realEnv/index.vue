@@ -2,7 +2,7 @@
   <div class="realEnv">
     <duno-btn-top ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
     <div class="mainList" v-if="mainlistShow">
-      <duno-main   v-if="kilovoltKind == 'all'">
+      <duno-main   v-if="kilovoltKind == 'all'" :class="{'dunoMainContain': isDiagram==1}">
         <div class="main_ctx" ref="firstElE">
           <div :class="['toward']">
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2 || isDiagram == 3"/>
@@ -23,14 +23,14 @@
                   <img :src="kilovoltAllAround" />
                 </div>
             </drappable>-->
-            <gis-map mapUrl="http://10.0.10.45:8203" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8203" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice" mapUrl="http://10.0.10.45:8202" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
         </div>
         <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
       </duno-main>
-      <duno-main class="kilovolt" v-else-if="kilovoltKind == '1000'">
+      <duno-main class="kilovolt" :class="{dunoMainContain: isDiagram==1}" v-else-if="kilovoltKind == '1000'">
         <div :class="['item_ctx']"  ref="firstElE"  v-if="isDiagram==1">
           <div>
             <div  class="toward">
@@ -53,7 +53,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map mapUrl="http://10.0.10.45:8204/" :kind="1000" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="1000" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -79,7 +79,7 @@
           <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
       </duno-main>
-      <duno-main class="kilovolt" v-else-if="kilovoltKind == '500'">
+      <duno-main class="kilovolt" :class="{'dunoMainContain': isDiagram==1}" v-else-if="kilovoltKind == '500'">
         <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
           <div>
             <div class="toward">
@@ -102,7 +102,7 @@
                   </div>
                 </div>
               </drappable>-->
-            <gis-map mapUrl="http://10.0.10.45:8204/" :kind="500" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="500" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
             <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -128,7 +128,7 @@
           </div>
         </div>
       </duno-main>
-      <duno-main class="kilovolt" v-else-if="kilovoltKind == '220'">
+      <duno-main class="kilovolt" :class="{'dunoMainContain': isDiagram==1}" v-else-if="kilovoltKind == '220'">
         <div :class="['item_ctx']"  ref="firstElE"  v-if="isDiagram==1">
           <div>
             <div class="toward">
@@ -151,7 +151,7 @@
                   </div>
                 </div>
               </drappable>-->
-            <gis-map mapUrl="http://10.0.10.45:8204/" :kind="220" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="220" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -177,7 +177,7 @@
           </div>
         </div>
       </duno-main>
-      <duno-main class="kilovolt" v-else-if="kilovoltKind == '110'">
+      <duno-main class="kilovolt" :class="{'dunoMainContain': isDiagram==1}" v-else-if="kilovoltKind == '110'">
         <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
           <div>
             <div class="toward">
@@ -200,7 +200,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map mapUrl="http://10.0.10.45:8204/" :kind="110" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="110" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
                 <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -226,7 +226,7 @@
           </div>
         </div>
       </duno-main>
-      <duno-main class="kilovolt" v-else-if="kilovoltKind == '35'">
+      <duno-main class="kilovolt" :class="{'dunoMainContain': isDiagram==1}" v-else-if="kilovoltKind == '35'">
         <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
           <div>
             <div class="toward">
@@ -249,7 +249,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map mapUrl="http://10.0.10.45:8204/" :kind="35" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="35" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
             <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
                   <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
 
@@ -283,13 +283,13 @@
           </div>
         </div>
       </duno-main>
-      <duno-main class="kilovolt" v-else-if="kilovoltKind == '10'">
+      <duno-main class="kilovolt" :class="{'dunoMainContain': isDiagram==1}" v-else-if="kilovoltKind == '10'">
         <div :class="['item_ctx']" ref="firstElE"  v-if="isDiagram==1">
           <div>
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <gis-map mapUrl="http://10.0.10.45:8204/" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--  <drappable class="drappable_assembly" width="1900px" height="675px">
               <div class="allShowPic">
@@ -873,6 +873,11 @@
 </script>
 <style lang="scss">
   .realEnv{
+    .dunoMainContain{
+      .gisMap{
+        background: #1d2026 !important;
+      }
+    }
     .icon-xiala{
      /* width: 12px;
       height: 15px;*/
