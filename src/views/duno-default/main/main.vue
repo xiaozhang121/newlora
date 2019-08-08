@@ -259,11 +259,11 @@ export default {
         window.screenWidth = document.body.clientWidth;
         that.screenWidth = window.screenWidth - ivuLayoutWidth;
         that.bodyWidth = window.screenWidth;
-        if (window.screen.availWidth < 3000 && parent.frames.length == 0) {
+        if (window.screen.availWidth > 3000 && parent.frames.length == 0) {
           that.isBigScreen = true;
           this.user.isHeader = 2;
         } else if (
-          window.screen.availWidth < 3000 &&
+          window.screen.availWidth > 3000 &&
           parent.frames.length > 0
         ) {
           that.isHidden = true;
