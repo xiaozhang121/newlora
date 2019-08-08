@@ -118,7 +118,7 @@
     </el-container>
     <popup-one-info
       :itemDataOption="$store.state.user.alarmInfo"
-      v-if="visible && !kilovoltKind && frameLength"
+      v-if="visible && frameLength"
       @onClose="alarmClose"
       :visible="visible"
     ></popup-one-info>
@@ -171,7 +171,10 @@ export default {
   },
   computed: {
     frameLength() {
-      return !parent.frames.length;
+      if(!('kind' in this.$route.meta))
+        return !parent.frames.length;
+      else
+        return false
     },
     kilovoltKind() {
       return this.$store.state.app.kilovolt;
@@ -256,11 +259,11 @@ export default {
         window.screenWidth = document.body.clientWidth;
         that.screenWidth = window.screenWidth - ivuLayoutWidth;
         that.bodyWidth = window.screenWidth;
-        if (window.screen.availWidth > 3000 && parent.frames.length == 0) {
+        if (window.screen.availWidth < 3000 && parent.frames.length == 0) {
           that.isBigScreen = true;
           this.user.isHeader = 2;
         } else if (
-          window.screen.availWidth > 3000 &&
+          window.screen.availWidth < 3000 &&
           parent.frames.length > 0
         ) {
           that.isHidden = true;
@@ -286,7 +289,7 @@ export default {
     },
     isAlarm: {
       handler(now) {
-        if (!this.kilovoltKind && this.frameLength) this.visible = now;
+        if (this.frameLength) this.visible = now;
       },
       deep: true,
       immediate: true
