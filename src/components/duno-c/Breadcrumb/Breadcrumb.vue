@@ -1,13 +1,21 @@
 <template>
   <div class="duno-breadcrumb not-print">
     <el-breadcrumb :separator="separator">
-      <el-breadcrumb-item
-        :class="{'pointer': index == 0}"
-        v-for="(item,index) in breadData"
-        :key="index"
-        :to="{path:item.path}"
-        @click.native="toBack(index)"
-      >{{ item.name }}</el-breadcrumb-item>
+      <template    v-for="(item,index) in breadData">
+        <el-breadcrumb-item
+                v-if="item.path"
+                :class="{'pointer': index == 0}"
+                :key="index"
+                :to="{path:item.path}"
+        >{{ item.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item
+                v-else
+                :class="{'pointer': index == 0}"
+                :key="index"
+                @click.native="toBack(index)"
+        >{{ item.name }}</el-breadcrumb-item>
+      </template>
+
     </el-breadcrumb>
   </div>
 </template>
