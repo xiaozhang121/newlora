@@ -1,6 +1,6 @@
 <template>
   <div class="dunoMain">
-    <transition-group  name="fade">
+    <transition-group  name="fade" class='demo'>
     <img key="1" v-show="isShow || !controlOver" :src="angle" class="angle">
     <img key="2" v-show="isShow || !controlOver" :src="angle" class="angle angle-top-right">
     <img key="3" v-show="isShow || !controlOver" :src="angle" class="angle angle-botton-left">
@@ -45,7 +45,11 @@ export default {
 </script>
 
 <style lang="scss">
+img{
+  z-index: 99!important;
+}
 .dunoMain{
+  // border: 1px solid #fff;
   margin-top: 20;
   width: calc(100% - 43px);
   height: calc(100% - 80px);
@@ -59,6 +63,7 @@ export default {
     opacity: 0;
   }
   .angle {
+    transform: translate(2px,2px);
     display: block;
     position: absolute;
     top: 0;
@@ -69,22 +74,25 @@ export default {
   }
   .angle-top-right {
     left: auto;
-    right: 0;
+    right: 2px;
+    top: 2px;
     transform:rotate(90deg);
   }
   .angle-botton-left {
     top: auto;
-    bottom: 0;
+    left: 2px;
+    bottom: 2px;
     transform:rotate(-90deg);
   }
   .angle-botton-right {
     left: auto;
     top: auto;
-    bottom: 0;
-    right: 0;
+    bottom: 2px;
+    right: 2px;
     transform:rotate(180deg);
   }
   .dunoMain_nr{
+    border: 0.5px solid #eee;
     position: relative;
     width: calc(100% - 6px);
     height: calc(100% - 7px);
