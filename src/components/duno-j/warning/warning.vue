@@ -2,7 +2,14 @@
   <div class="warningDialog">
     <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
-        <div class="title_top">{{ dataList.title }}</div>
+        <div class="title_top">
+          <span>{{ dataList.title }}</span>
+          <span class="iconfontList" style="display: none">
+            <i class="iconfont icon-xiazai"></i>
+            <i class="iconfont icon-dayin"></i>
+            <i class="iconfont icon-wangye"></i>
+          </span>
+        </div>
         <div class="extend">{{ dataList.alarmTypeValue }}</div>
       </div>
       <div class="main">
@@ -452,6 +459,15 @@ export default {
   }
   .title_top {
     font-weight: bold;
+    .iconfontList{
+      float: right;
+      margin-right: 28px;
+      .iconfont{
+        color: #95939d;
+        margin-left: 12px;
+        cursor: pointer;
+      }
+    }
   }
   .extend {
     font-size: 14px;

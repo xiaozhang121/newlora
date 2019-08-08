@@ -57,6 +57,13 @@ export default {
     activeChange(flag){
         this.activeBtn = flag
         this.$store.state.app.topNav = flag
+        if(flag == 1){
+            this.$router.push({name:'abnormalInfoList'})
+        }else if(flag == 2){
+            this.$router.push({name:'_realEnv'})
+        }else if(flag == 3){
+            this.$router.push({name:'surveillanceList'})
+        }
     },
     handleCollpasedChange (state) {
       this.$emit('on-coll-change', state)

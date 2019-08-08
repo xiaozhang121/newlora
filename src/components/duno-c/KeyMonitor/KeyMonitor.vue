@@ -135,7 +135,7 @@ export default {
     },
     kilovolt: {
       type: String,
-      default: "机器人一"
+      default: ""
     },
     showBtmOption: {
       type: Boolean,
