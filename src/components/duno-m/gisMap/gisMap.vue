@@ -1256,11 +1256,15 @@
              this.initFeature()
              this.bindEvent()*/
             if(!this.small){
-                this.initMap()
+                setTimeout(()=>{
+                    this.initMap()
+                },2000)
             }
             this.$nextTick(()=>{
                 if(this.small){
-                    this.initMap()
+                    setTimeout(()=>{
+                        this.initMap()
+                    },2000)
                 }
                 this.isFirst = false
                 this.initFeature()

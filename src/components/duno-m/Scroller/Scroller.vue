@@ -62,7 +62,6 @@ export default {
       visibleSettingOption: false,
       visible: false,
       lists: [],
-      popData:[],
       distance: 1,
       timer: null,
       text: "" // 数组文字转化后的字符串
@@ -102,8 +101,6 @@ export default {
           .width;
         that.distance = that.distance - 3;
         // 如果位移超过文字宽度，则回到起点
-        // console.log(-that.distance);
-        // console.log(width);
         if (-that.distance >= width) {
           that.distance = document.body.clientWidth;
         }
