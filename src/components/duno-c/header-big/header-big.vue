@@ -47,7 +47,7 @@ export default {
     background-image: url("../../../assets/images/header-title.png");
     background-repeat: no-repeat;
     margin-top: 20px;
-    width: 269px;
+    width: 300px;
     height: 40px;
   }
   .dateTime {
