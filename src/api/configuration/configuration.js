@@ -372,8 +372,8 @@ export const getviewDetail = (query) => {
 //结果修订-五级样本库
 export const fiveSample = (query) => {
     return axios.request({
-        url: "/lenovo-device/api/select/list/fifth",
-        method: 'post',
+        url: "/lenovo-alarm/api/alarm/getAlarmDetailType",
+        method: 'get',
         params: {
             ...query
         }
@@ -383,8 +383,8 @@ export const fiveSample = (query) => {
 //结果修订-四级样本库
 export const fourSample = (query) => {
     return axios.request({
-        url: "/lenovo-device/api/select/list/fourth",
-        method: 'post',
+        url: "/lenovo-alarm/api/alarm/getAlarmType",
+        method: 'get',
         params: {
             ...query
         }

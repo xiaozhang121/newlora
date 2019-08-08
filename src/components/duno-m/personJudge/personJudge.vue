@@ -10,7 +10,7 @@
       <el-select
         class="itemInput"
         v-model="formData.input"
-        placeholder="请选择"
+        placeholder="机器判定结果，可修改"
         @change="handlerSelectFour"
       >
         <el-option
@@ -20,13 +20,17 @@
           :value="item.value"
         ></el-option>
       </el-select>
-      <el-input v-if="isTemperture" class="itemInput" v-model="formData.inputT" placeholder="请输入内容"></el-input>
+      <el-input
+        v-if="isTemperture"
+        class="itemInput"
+        v-model="formData.inputT"
+        placeholder="机械判断数值"
+      ></el-input>
       <el-select
         class="itemInput"
         v-model="formData.select"
-        placeholder="请选择"
+        placeholder="数据类型"
         @change="handleSelect"
-        @click="clickhandle"
       >
         <el-option
           v-for="item in options"
@@ -101,12 +105,13 @@ export default {
     handleSubmit() {
       this.dialogVisible = false;
       this.$emit("on-close");
-      let url = "/lenovo-alarm/alarm/add/humanJudge";
+      let url = "/lenovo-alarm/api/alarm/result/change";
       let query = {
         alarmId: this.formData.alarmId,
-        alarmDetailType: this.formData.input
+        alarmDetailType: this.formData.input,
+        alarmValue: this.formData.inputT
       };
-      getAxiosData(url, query).then(res => {
+      postAxiosData(url, query).then(res => {
         this.$message({
           type: "succsee",
           message: "修改成功"
@@ -117,25 +122,33 @@ export default {
       this.dialogVisible = false;
       this.$emit("on-close");
     },
+
     handlerSelectFour(item) {
+      this.formData.input = item.lable;
+      this.fourValue = item.value;
+      this.initFive(this.fourValue);
+    },
+    handleSelect(item) {
+      this.formData.select = item.lable;
+    },
+    //初始化下拉框
+    initFour() {
       fourSample().then(res => {
         this.optionsData = res.data;
       });
-      this.fourValue = item.value;
-      this.handleSelect(this.fourValue);
     },
-    handleSelect(query) {
-      fiveSample(query).then(res => {
+    initFive(query) {
+      let data = {
+        alarmType: this.fourValue
+      };
+      fiveSample(data).then(res => {
         this.options = res.data;
       });
-    },
-    clickhandle() {
-      this.handleSelect();
     }
   },
   mounted() {
     this.formData = this.data;
-    this.handleSelect();
+    this.initFour();
   }
 };
 </script>
