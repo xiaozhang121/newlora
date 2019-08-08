@@ -46,6 +46,7 @@
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { getAxiosData, postAxiosData } from "../../../api/axiosType";
+import { fiveSample, fourSample } from "@/api/configuration/configuration.js";
 export default {
   name: "personJudge",
   components: {
@@ -117,14 +118,14 @@ export default {
       this.$emit("on-close");
     },
     handlerSelectFour(item) {
-      postAxiosData("/lenovo-device/api/select/list/fourth").then(res => {
+      fourSample().then(res => {
         this.optionsData = res.data;
       });
       this.fourValue = item.value;
-      this.handlerSelectFour(this.fourValue);
+      this.handleSelect(this.fourValue);
     },
     handleSelect(query) {
-      postAxiosData("/lenovo-device/api/select/list/fifth", query).then(res => {
+      fiveSample(query).then(res => {
         this.options = res.data;
       });
     },
@@ -135,7 +136,6 @@ export default {
   mounted() {
     this.formData = this.data;
     this.handleSelect();
-    // this.handlerSelectFour();
   }
 };
 </script>

@@ -310,7 +310,7 @@ export default {
           key: "id",
           minWidth: 120,
           align: "center",
-          ref: "imgContain",
+          
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
@@ -320,9 +320,10 @@ export default {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
+                  ref: "imgContain",
                   on: {
                     click: () => {
-                      that.changeFullScreen($refs.imgContain);
+                      that.changeFullScreen(this.$refs.imgContain);
                     }
                   }
                 })
@@ -333,9 +334,10 @@ export default {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
+                  ref: "videoContain",
                   on: {
                     click: () => {
-                      that.changeFullScreen($refs.imgContain);
+                      that.changeFullScreen($refs.videoContain);
                     }
                   }
                 })
