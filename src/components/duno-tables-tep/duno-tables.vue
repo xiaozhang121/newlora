@@ -1,7 +1,8 @@
 <template>
-  <div class="tablesTep">
+  <div class="tablesTep not-print">
     <Table
             ref="tablesMain"
+            not-print
             :data="insideTableData"
             :columns="insideColumns"
             :stripe="stripe"

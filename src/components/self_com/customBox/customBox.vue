@@ -1,6 +1,6 @@
 <template>
     <div class="customBox" :style="'width: '+ width">
-        <div class="top">
+        <div class="top not-print">
             <div class="title">{{ title }}</div>
             <div class="handle" v-if="!noHandle"><span v-if="isClose" @click="changeClose"><i class="el-icon-caret-bottom"></i>打开</span><span  @click="changeClose" v-else><i class="el-icon-caret-top"></i>收起</span></div>
             <div class="img">

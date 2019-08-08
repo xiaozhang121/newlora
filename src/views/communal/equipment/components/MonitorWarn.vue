@@ -4,7 +4,7 @@
       <img :src="remarkData.pic" alt />
     </div>
     <div class="content">
-      <div class="top">
+      <div class="top not-print">
         <p>
           监测对象:
           <span>{{remarkData.powerDeviceName}}</span>

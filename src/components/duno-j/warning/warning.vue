@@ -1,83 +1,84 @@
 <template>
-  <div class="warningDialog">
-    <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
-      <div slot="title">
-        <div class="title_top">
-          <span>{{ dataList.title }}</span>
-          <span class="iconfontList" style="display: none">
+  <section class="warningDialog">
+    <div>
+    <el-dialog  v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
+        <div slot="title">
+          <div class="title_top">
+            <span>{{ dataList.title }}</span>
+            <span class="iconfontList">
             <i class="iconfont icon-xiazai"></i>
-            <i class="iconfont icon-dayin"></i>
+            <i class="iconfont icon-dayin" v-print="target"></i>
             <i class="iconfont icon-wangye"></i>
           </span>
-        </div>
-        <div class="extend">{{ dataList.alarmTypeValue }}</div>
-      </div>
-      <div class="main">
-        <div class="monitor" ref="imgContain">
-          <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
-          <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
-          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
-        </div>
-        <div class="info">
-          <div class="info_top">
-            <p class="monitorTitle">判定结果:</p>
-            <p>{{dataList.powerDeviceName}}</p>
           </div>
-          <div v-if="!discriminate" class="temperature">
-            <p class="monitorTitle">{{dataList.result}}</p>
-            <p>
-              {{ popData['alarmValue']?popData['alarmValue']+'℃':'' }}
-              <i-dropdown
-                v-if="hasSelect && !discriminate"
-                trigger="click"
-                placement="bottom-start"
-              >
-                <div
-                  class="table_select"
-                  :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
+          <div class="extend">{{ dataList.alarmTypeValue }}</div>
+        </div>
+        <div class="main">
+          <div class="monitor" ref="imgContain">
+            <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
+            <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
+            <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
+          </div>
+          <div class="info">
+            <div class="info_top">
+              <p class="monitorTitle">判定结果:</p>
+              <p>{{dataList.powerDeviceName}}</p>
+            </div>
+            <div v-if="!discriminate" class="temperature">
+              <p class="monitorTitle">{{dataList.result}}</p>
+              <p>
+                {{ popData['alarmValue']?popData['alarmValue']+'℃':'' }}
+                <i-dropdown
+                        v-if="hasSelect && !discriminate"
+                        trigger="click"
+                        placement="bottom-start"
                 >
+                  <div
+                          class="table_select"
+                          :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
+                  >
                   <span class="member_operate_div">
                     <span>{{ alarmLevelT }}</span>
                   </span>
-                  <i class="iconfont icon-xiala"></i>
-                </div>
-                <i-dropdownMenu slot="list">
-                  <i-dropdownItem
-                    v-for="(item, index) in selectList"
-                    :key="index"
-                    @click.native="selectItem(item, index)"
-                  >
-                    <div class="alarmLevel">{{ item }}</div>
-                  </i-dropdownItem>
-                </i-dropdownMenu>
-              </i-dropdown>
-            </p>
-          </div>
-          <div v-else class="discriminate">
-            <div class="title">识别</div>
-            <div class="nr">{{ dataList.result }}</div>
-          </div>
-          <div>
-            <!-- <a href="javascript:;" @click="clickJudge">结果修订</a> -->
-          </div>
-          <div class="from">
+                    <i class="iconfont icon-xiala"></i>
+                  </div>
+                  <i-dropdownMenu slot="list">
+                    <i-dropdownItem
+                            v-for="(item, index) in selectList"
+                            :key="index"
+                            @click.native="selectItem(item, index)"
+                    >
+                      <div class="alarmLevel">{{ item }}</div>
+                    </i-dropdownItem>
+                  </i-dropdownMenu>
+                </i-dropdown>
+              </p>
+            </div>
+            <div v-else class="discriminate">
+              <div class="title">识别</div>
+              <div class="nr">{{ dataList.result }}</div>
+            </div>
+            <div>
+              <!-- <a href="javascript:;" @click="clickJudge">结果修订</a> -->
+            </div>
+            <div class="from">
             <span class="origin">
               来源：
               <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
             </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="handleInfo">
-        <!-- <div>
-          <p class="monitorTitle">处理记录</p>
-          <p v-for="(item, index) in handleList" :key="index" class="item">
-            <span class="title">{{ item['time'] }}</span>
-            <span class="info">{{ item['info'] }}</span>
-          </p>  
-        </div> -->
-      </div>
-      <div style="clear: both"></div>
+        <div class="handleInfo">
+          <!-- <div>
+            <p class="monitorTitle">处理记录</p>
+            <p v-for="(item, index) in handleList" :key="index" class="item">
+              <span class="title">{{ item['time'] }}</span>
+              <span class="info">{{ item['info'] }}</span>
+            </p>
+          </div> -->
+        </div>
+        <div style="clear: both"></div>
     </el-dialog>
     <personJudge
       :data="formData"
@@ -86,6 +87,7 @@
       :visible="visibleJudge"
     />
   </div>
+  </section>
 </template>
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
@@ -96,6 +98,7 @@ export default {
   components: { personJudge, KeyMonitor },
   data() {
     return {
+      target: null,
       searchId: "",
       searchType: "",
       visibleJudge: false,
@@ -309,11 +312,17 @@ export default {
     }
   },
   mounted() {
+    this.target = this.querySelectorAll('.warningDialog')[1]
     this.newVisible = this.visible;
   }
 };
 </script>
 <style lang="scss">
+@media print{
+  .not-print {
+    opacity: 0
+  }
+}
 .warningDialog {
   .iconfont.icon-xiala {
     color: #999999;
@@ -475,7 +484,9 @@ export default {
     font-weight: bold;
     .iconfontList{
       float: right;
-      margin-right: 28px;
+      position: relative;
+      top: -3px;
+      margin-right: 30px;
       .iconfont{
         color: #95939d;
         margin-left: 12px;

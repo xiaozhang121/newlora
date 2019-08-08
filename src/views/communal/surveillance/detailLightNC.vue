@@ -28,7 +28,7 @@
         </div>
         <div class="right nr contain contain_nr_out">
           <div class="main">
-            <div class="top">
+            <div class="top not-print">
               <div>历史数据</div>
               <div class="btn">
                 <div>
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="middle_table">
-        <div class="top">
+        <div class="top not-print">
           <div class="name">历史信息记录</div>
           <div class="select">
             <div>

@@ -1,6 +1,6 @@
 <template>
   <div class="patrol">
-    <div class="top">
+    <div class="top not-print">
       <div>
         <span>{{title}}</span>
         <span>{{titleCon}}</span>

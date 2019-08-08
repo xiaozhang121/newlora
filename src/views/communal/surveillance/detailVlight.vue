@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="middle_table">
-        <div class="top">
+        <div class="top not-print">
           <div class="name">历史信息记录</div>
           <div class="select">
             <div>
@@ -114,7 +114,7 @@
         />
       </div>
       <div class="historicalData">
-        <div class="top">
+        <div class="top not-print">
           <div>历史数据</div>
           <div class="btn">
             <div>

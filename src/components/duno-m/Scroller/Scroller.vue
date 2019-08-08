@@ -1,5 +1,5 @@
 <template>
-  <div class="Scroller">
+  <div class="Scroller not-print">
     <div class="wrap" v-show="wrapShow">
       <div id="box">
         <div id="marquee">

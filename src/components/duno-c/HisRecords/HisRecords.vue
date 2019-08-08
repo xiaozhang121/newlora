@@ -1,6 +1,6 @@
 <template>
   <div class="hisRecords">
-    <div class="top">
+    <div class="top not-print">
       <div>历史信息记录</div>
       <div class="btn">
         <div>

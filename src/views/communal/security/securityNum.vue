@@ -5,7 +5,7 @@
     </div>
     <div>{{titleData.title}}</div>
     <div class="number">
-      <statistics :warningList="circleData" />
+      <statistics class="not-print" :warningList="circleData" />
     </div>
     <div class="thRecord">
       <PageHisRecords :areaId="areaId" :titleCode="titleData" />

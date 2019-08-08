@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="top">
+    <div class="top not-print">
       <div>{{planType=='1504'?'特殊巡视':'例行巡视'}}&nbsp;{{dataForm.taskRunHisId}}</div>
       <div class="btn">
         <div>

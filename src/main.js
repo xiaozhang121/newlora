@@ -8,6 +8,8 @@ import ElementUI from 'element-ui'
 import 'iview/dist/styles/iview.css'
 import './style/theme/index.css'
 import VueI18n from 'vue-i18n'
+import Print from 'vue-print-nb'
+Vue.use(Print);  //注册
 Vue.config.productionTip = false
 
 // 实际打包时应该不引入mock

@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="top">任务配置</div>
+    <div class="top not-print">任务配置</div>
     <duno-main class="dunoMain">
       <Patrol :dataList="allInspectList" planType="全面巡视" />
       <Patrol
