@@ -92,7 +92,7 @@ img{
     transform:rotate(180deg);
   }
   .dunoMain_nr{
-    border: 0.5px solid #eee;
+    border: 1px solid #eee;
     position: relative;
     width: calc(100% - 6px);
     height: calc(100% - 7px);
