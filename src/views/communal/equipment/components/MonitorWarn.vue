@@ -34,7 +34,7 @@
         <p v-if="isShow">
           <i @click="dialogVisible = true">备注</i>
           <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
-          <i v-else :disabled="isDisabled">已复归</i>
+          <i v-else :disabled="isDisabled" class="gray">已复归</i>
         </p>
         <p v-else>
           <i>查看详情></i>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { postAxiosData, getAxiosData } from '@/api/axiosType'
+import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import buttonCustom from "_c/duno-m/buttonCustom";
@@ -130,43 +130,43 @@ export default {
     },
     getJump() {
       getAxiosData("/lenovo-device/api/preset/type", {
-          monitorDeviceId: this.remarkData.monitorDeviceId
+        monitorDeviceId: this.remarkData.monitorDeviceId
       }).then(res => {
-          let supportPreset = res.data["supportPreset"];
-          let monitorDeviceType = res.data["monitorDeviceType"];
-          if (monitorDeviceType == 1) {
-              if (supportPreset) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLight",
-                      query: {
-                          monitorDeviceId: this.remarkData.monitorDeviceId
-                      }
-                  });
-              } else {
-                  this.$router.push({
-                      path: "/surveillancePath/detailLightN",
-                      query: {
-                          monitorDeviceId: this.remarkData.monitorDeviceId
-                      }
-                  });
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: this.remarkData.monitorDeviceId
               }
-          } else if (monitorDeviceType == 2) {
-              this.$router.push({
-                  path: "/surveillancePath/detailRedN",
-                  query: {
-                      monitorDeviceId: this.remarkData.monitorDeviceId
-                  }
-              });
-          } else if (monitorDeviceType == 3) {
-              this.$router.push({
-                  path: "/surveillancePath/detailEnv",
-                  query: {
-                      monitorDeviceId: this.remarkData.monitorDeviceId
-                  }
-              });
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: this.remarkData.monitorDeviceId
+              }
+            });
           }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: this.remarkData.monitorDeviceId
+            }
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: this.remarkData.monitorDeviceId
+            }
+          });
+        }
       });
-    /*  this.$router.push({
+      /*  this.$router.push({
         path: "/surveillancePath/detailLight",
         query: {
           monitorDeviceId: this.remarkData.monitorDeviceId
@@ -261,6 +261,10 @@ export default {
         }
         i:last-child {
           background-color: #305e83;
+        }
+        .gray {
+          background-color: #979797 !important;
+          color: #767676;
         }
       }
       & > p:nth-child(2) {

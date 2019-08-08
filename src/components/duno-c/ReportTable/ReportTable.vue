@@ -278,9 +278,6 @@ export default {
         padding-left: 5px;
       }
     }
-    // & > div:first-child {
-    //   border-right: 1px solid #ffffff;
-    // }
   }
 }
 </style>

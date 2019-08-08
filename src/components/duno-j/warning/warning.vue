@@ -6,9 +6,10 @@
         <div class="extend">{{ dataList.alarmTypeValue }}</div>
       </div>
       <div class="main">
-        <div class="monitor">
+        <div class="monitor" ref="imgContain">
           <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
           <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
+          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
         </div>
         <div class="info">
           <div class="info_top">
@@ -55,7 +56,7 @@
           <div class="from">
             <span class="origin">
               来源：
-              <a href="javascript:;" @click="getJump">{{popData['monitorDeviceName']}}</a>
+              <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
             </span>
           </div>
         </div>
@@ -83,6 +84,7 @@
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import personJudge from "_c/duno-m/personJudge";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import screenfull from "screenfull";
 export default {
   components: { personJudge, KeyMonitor },
   data() {
@@ -214,6 +216,10 @@ export default {
     }
   },
   methods: {
+    changeFullScreen(target) {
+      const that = this;
+      screenfull.toggle(target);
+    },
     initData() {
       getAxiosData("/lenovo-plan/api/task-result/view", {
         [this.searchType]: this.searchId
@@ -360,11 +366,19 @@ export default {
       width: 540px;
       height: 303.75px;
       background-color: #000;
+      position: relative;
       float: left;
       img {
         width: 100%;
         height: 100%;
         display: block;
+      }
+      i {
+        position: absolute;
+        bottom: 3px;
+        color: #ffffff;
+        right: 9px;
+        cursor: pointer;
       }
     }
     .info {

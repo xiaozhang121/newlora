@@ -84,9 +84,7 @@ import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
-
-import preview from "vue-photo-preview";
-import "vue-photo-preview/dist/skin.css";
+import screenfull from "screenfull";
 export default {
   name: "abnormalInfo",
   mixins: [mixinViewModule],
@@ -312,6 +310,7 @@ export default {
           key: "id",
           minWidth: 120,
           align: "center",
+          ref: "imgContain",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
@@ -320,7 +319,12 @@ export default {
                 h("img", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.changeFullScreen($refs.imgContain);
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
@@ -328,7 +332,12 @@ export default {
                 h("video", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.changeFullScreen($refs.imgContain);
+                    }
+                  }
                 })
               ]);
             }
@@ -414,6 +423,10 @@ export default {
     this.getType();
   },
   methods: {
+    changeFullScreen(target) {
+      const that = this;
+      screenfull.toggle(target);
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");

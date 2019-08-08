@@ -384,13 +384,13 @@ export default {
             return h("div", newArr);
           }
         },
-        {
-          title: "自动/手动",
-          key: "sourceType",
-          width: 120,
-          align: "center",
-          tooltip: true
-        },
+        // {
+        //   title: "自动/手动",
+        //   key: "sourceType",
+        //   width: 120,
+        //   align: "center",
+        //   tooltip: true
+        // },
         {
           title: " ",
           key: "id",
@@ -439,7 +439,7 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["摄像头详情", "返回"]
+      dataBread: [{ name: "摄像头详情" }]
     };
   },
   props: {

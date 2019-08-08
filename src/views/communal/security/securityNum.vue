@@ -50,6 +50,7 @@ export default {
     routeName(now) {
       this.getAreaData();
       this.getRouteName(now);
+      console.log(this.titleData);
     }
   },
   methods: {

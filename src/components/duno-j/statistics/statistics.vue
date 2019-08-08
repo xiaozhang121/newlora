@@ -12,7 +12,7 @@
         :kind="mapKind"
         :controlBtn="false"
       />
-      <i class="fullScreen iconfont icon-quanping"  @click="changeFullScreen($refs.mapContain)"></i>
+      <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.mapContain)"></i>
     </div>
     <div class="warningStatistics">
       <div class="warnTtype" style="margin-bottom:16px;">
@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import screenfull from 'screenfull'
+import screenfull from "screenfull";
 import gisMap from "_c/duno-m/gisMap";
 import mixinViewModule from "@/mixins/view-module";
 import { deviceLocation } from "@/api/currency/currency.js";
@@ -94,9 +94,9 @@ export default {
     }
   },
   methods: {
-    changeFullScreen(target){
-        const that = this
-        screenfull.toggle(target)
+    changeFullScreen(target) {
+      const that = this;
+      screenfull.toggle(target);
     },
     initPoint() {
       let now = this.mapKind;
@@ -158,20 +158,19 @@ export default {
     this.getDeviceList();
   },
   mounted() {
-    try{
-    document
-      .querySelector("#map")
-      .setAttribute("style", "height:100% !important");
-    }catch (e) {
-    }
-   this.routeName = this.$route.name;
+    try {
+      document
+        .querySelector("#map")
+        .setAttribute("style", "height:100% !important");
+    } catch (e) {}
+    this.routeName = this.$route.name;
   },
   beforeDestroy() {
-    try{
-    document
-      .querySelector("#map")
-      .setAttribute("style", "height:calc( 100vh - 166px) !important");
-    }catch (e) {}
+    try {
+      document
+        .querySelector("#map")
+        .setAttribute("style", "height:calc( 100vh - 166px) !important");
+    } catch (e) {}
   }
 };
 </script>
@@ -189,7 +188,7 @@ export default {
     float: left;
     background-color: #0f1b21;
     position: relative;
-    .fullScreen{
+    .fullScreen {
       position: absolute;
       bottom: 3px;
       right: 9px;
@@ -208,14 +207,17 @@ export default {
     & > p {
       padding-left: 15px;
     }
-    .warnTtype:first-child{
+    .warnTtype:first-child {
       width: 37%;
       display: flex;
       justify-content: center;
       align-items: center;
       transform: scale(1.2);
+      @media screen and (min-width: 3500px) {
+        width: 25%;
+      }
     }
-    .warnTtype:last-child{
+    .warnTtype:last-child {
       margin-right: 25px;
     }
     .warnTtype {
@@ -226,8 +228,8 @@ export default {
       padding-bottom: 18px;
       flex-wrap: wrap;
       float: right;
-      &>div:first-child{
-          margin-left: 0;
+      & > div:first-child {
+        margin-left: 0;
       }
       & > div {
         margin-right: 14px;
@@ -243,6 +245,12 @@ export default {
           line-height: 88px;
           text-align: center;
           font-size: 28px;
+          @media screen and (min-width: 3500px) {
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            font-size: 14px;
+          }
         }
         p {
           text-align: center;

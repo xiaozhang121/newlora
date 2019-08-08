@@ -513,6 +513,11 @@ export default {
                 background-color: #1b3b47;
               }
             }
+            tr:nth-child(even) {
+              td {
+                background-color: #2a526c;
+              }
+            }
             border: none;
             .ivu-table {
               font-size: 16px;
