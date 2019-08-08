@@ -223,6 +223,7 @@ export default {
     width: 100%;
     background-image: url("../../../assets/images/placeholder.png");
     img {
+      height: 100%!important;
       width: 100%;
       display: block;
     }
@@ -278,9 +279,6 @@ export default {
         padding-left: 5px;
       }
     }
-    // & > div:first-child {
-    //   border-right: 1px solid #ffffff;
-    // }
   }
 }
 </style>

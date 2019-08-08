@@ -735,7 +735,7 @@ export default {
         name: "meterdata-detail",
         query: {
           url: "/lenovo-plan/api/statistics/meter-data/list",
-          dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"]
+        //   dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"]
         }
       });
     },
@@ -1075,6 +1075,7 @@ export default {
       text-align: center;
       font-size: 18px;
       color: #ffffff;
+      cursor: pointer;
     }
   }
   //

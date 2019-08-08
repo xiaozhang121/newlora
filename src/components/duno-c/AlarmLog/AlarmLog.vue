@@ -35,7 +35,7 @@
         <p v-if="isShow">
           <i @click="dialogVisible = true">备注</i>
           <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
-          <i v-else :disabled="isDisabled">已复归</i>
+          <i v-else :disabled="isDisabled" class="gray">已复归</i>
         </p>
         <p v-else>
           <i>查看详情></i>
@@ -257,6 +257,10 @@ export default {
         }
         i:last-child {
           background-color: #305e83;
+        }
+        .gray {
+          background-color: #979797!important;
+          color: #767676;
         }
       }
     }

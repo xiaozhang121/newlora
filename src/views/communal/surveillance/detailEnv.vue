@@ -13,12 +13,12 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                        paddingBottom="56%"
-                        class="monitor child"
-                        :autoplay="playerOptions.autoplay"
-                        :streamAddr="playerOptions.streamAddr"
-                        :showBtmOption="false"
-                        :Initialization="true"
+                  paddingBottom="56%"
+                  class="monitor child"
+                  :autoplay="playerOptions.autoplay"
+                  :streamAddr="playerOptions.streamAddr"
+                  :showBtmOption="false"
+                  :Initialization="true"
                 ></key-monitor>
               </div>
             </div>
@@ -356,13 +356,13 @@ export default {
             return h("div", newArr);
           }
         },
-        {
-          title: "自动/手动",
-          key: "sourceType",
-          width: 120,
-          align: "center",
-          tooltip: true
-        },
+        // {
+        //   title: "自动/手动",
+        //   key: "sourceType",
+        //   width: 120,
+        //   align: "center",
+        //   tooltip: true
+        // },
         {
           title: " ",
           key: "id",
@@ -404,14 +404,15 @@ export default {
         autoplay: true
       },
       playerOptionsd: {
-          streamAddr: "",
-          autoplay: true
+        streamAddr: "",
+        autoplay: true
       },
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: ["摄像头详情", "返回"]
+      //   dataBread: ["摄像头详情", "返回"]
+      dataBread: [{ name: "摄像头详情" }]
     };
   },
   props: {
@@ -434,10 +435,12 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-        const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp/"+ this.dataForm.monitorDeviceId;
-        getAxiosData(url, {}).then(res => {
-            that.playerOptions.streamAddr = res.data
-        });
+      const url =
+        "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+        this.dataForm.monitorDeviceId;
+      getAxiosData(url, {}).then(res => {
+        that.playerOptions.streamAddr = res.data;
+      });
     },
     cutOut(data) {
       if (data) {
@@ -650,8 +653,8 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
-  .Main_contain{
-    .content{
+  .Main_contain {
+    .content {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -662,8 +665,8 @@ export default {
       padding-top: 56%;
     }
   }
-  .icon-xiala{
-   /* width: 12px;
+  .icon-xiala {
+    /* width: 12px;
     height: 14px;*/
   }
   /*overflow-y: hidden;*/
@@ -739,10 +742,10 @@ export default {
     display: flex;
     .left {
       width: 50%;
-      &:first-child{
+      &:first-child {
         margin-right: 10px;
       }
-      &:last-child{
+      &:last-child {
         margin-left: 10px;
       }
       &.nr {
@@ -763,7 +766,7 @@ export default {
               width: 100%;
               padding-bottom: 56%;
               background: black;
-              .contain_img{
+              .contain_img {
                 position: absolute;
                 width: 100%;
                 height: 100%;

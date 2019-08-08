@@ -71,6 +71,13 @@
 
 <script>
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import {
+  sampleMark,
+  getMainDevice,
+  getPart,
+  getPartSub,
+  getRecognizeType
+} from "@/api/configuration/configuration.js";
 export default {
   name: "screenshot",
   props: {
@@ -83,10 +90,6 @@ export default {
   },
   data() {
     return {
-      props: {
-        lazy: true,
-        lazyLoad: lazyLoadData()
-      },
       dialogVisible: true,
       value: "",
       optionsFirst: [],
@@ -103,7 +106,22 @@ export default {
       clickFlage: 0,
       imgInfo: {},
       picFilePath: "",
-      imgsrc: ""
+      imgsrc: "",
+      props: {
+        lazy: true,
+        lazyLoad(node, resolve) {
+          const { level } = node;
+          setTimeout(() => {
+            const nodes = Array.from({ length: level + 1 }).map(item => ({
+              value: item.value,
+              label: item.label,
+              leaf: level >= 2
+            }));
+            // 通过调用resolve将子节点数据返回，通知组件数据加载完成
+            resolve(nodes);
+          }, 1000);
+        }
+      }
     };
   },
   methods: {
@@ -151,13 +169,12 @@ export default {
     //手动标定
     addTag() {
       let query = {
-        x1: this.startPointX,
-        y1: this.startPointY,
-        x2: this.endPointX,
-        y2: this.endPointY
+        x0: this.startPointX,
+        y0: this.startPointY,
+        x1: this.endPointX,
+        y1: this.endPointY
       };
-      var url = "/lenovo-sample/api/mark/edit";
-      putAxiosData(url, query).then(res => {
+      sampleMark(query).then(res => {
         this.$message({
           type: "sucess",
           message: "标定成功"
@@ -181,12 +198,21 @@ export default {
       });
     },
     getSelect() {
-      let url = "/lenovo-sample/api/sample/getConfInfo";
-      // let urlFirst = "/lenovo-sample/api/sample/getConfInfo";
-      // let urlSecond = "/lenovo-sample/api/sample/getPart";
-      // let urlthree = "/lenovo-sample/api/sample/getPartSub";
-      getAxiosData(url).then(res => {
-        this.twoptionsData = res.data;
+      let query = {};
+      getMainDevice(query).then(res => {
+        //     lazyLoad (node, resolve) {
+        //     const { level } = node;
+        //     setTimeout(() => {
+        //       const nodes = Array.from({ length: level + 1 })
+        //         .map(item => ({
+        //           value: ++id,
+        //           label: `选项${id}`,
+        //           leaf: level >= 2
+        //         }));
+        //       // 通过调用resolve将子节点数据返回，通知组件数据加载完成
+        //       resolve(nodes);
+        //     }, 1000);
+        //   }
       });
     },
     //自动关联（五级目录）
@@ -207,21 +233,6 @@ export default {
           message: "保存成功"
         });
       });
-    },
-    lazyLoadData(node, resolve) {
-      const { level } = node;
-      setTimeout(() => {
-        const nodes = Array.from({ length: level + 1 }).map(item => ({
-          value: item.value,
-          label: item.label,
-          leaf: level >= 2
-        }));
-        // 通过调用resolve将子节点数据返回，通知组件数据加载完成
-        getAxiosData("/lenovo-sample/api/sample/getConfInfo").then(res => {
-          node = res.data;
-        });
-        resolve(nodes);
-      }, 1000);
     }
   },
   mounted() {

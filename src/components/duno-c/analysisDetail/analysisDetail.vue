@@ -369,6 +369,8 @@ export default {
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.title = this.$route.query.title;
     // this.dataBread = this.$route.query.dataBread;
+    debugger
+    console.log(this.dataBread)
     this.getRegion();
     this.getStart();
     this.getType();

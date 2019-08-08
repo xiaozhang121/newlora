@@ -50,7 +50,7 @@
       <div>
         <div @click="handleClick" v-for="(item,index) in dataList.slice(0,8)" :key="index">
           <img :src="item.fileAddress" alt />
-          <p>{{item.deviceName}}</p>
+          <!-- <p>{{item.deviceName}}</p> -->
         </div>
       </div>
     </div>
@@ -92,36 +92,28 @@ export default {
       // },
       dataList: [
         {
-          fileAddress: require("../../../assets/demo/001.png"),
-          deviceName: "4号主变"
+          fileAddress: require("../../../assets/demo/001.png")
         },
         {
-          fileAddress: require("../../../assets/demo/002.png"),
-          deviceName: "4号主变5093开关"
+          fileAddress: require("../../../assets/demo/002.png")
         },
         {
-          fileAddress: require("../../../assets/demo/003.png"),
-          deviceName: "4号主变71号电容器"
+          fileAddress: require("../../../assets/demo/003.png")
         },
         {
-          fileAddress: require("../../../assets/demo/004.png"),
-          deviceName: "4号主变72号电容器"
+          fileAddress: require("../../../assets/demo/004.png")
         },
         {
-          fileAddress: require("../../../assets/demo/005.png"),
-          deviceName: "4号主变73号低抗"
+          fileAddress: require("../../../assets/demo/005.png")
         },
         {
-          fileAddress: require("../../../assets/demo/006.png"),
-          deviceName: "4号主变T043开关"
+          fileAddress: require("../../../assets/demo/006.png")
         },
         {
-          fileAddress: require("../../../assets/demo/007.png"),
-          deviceName: "安塘线/4号主变T042开关"
+          fileAddress: require("../../../assets/demo/007.png")
         },
         {
-          fileAddress: require("../../../assets/demo/008.png"),
-          deviceName: "练亭线/4号主变5092开关"
+          fileAddress: require("../../../assets/demo/008.png")
         }
       ],
       isCenter: false,

@@ -48,14 +48,16 @@
           </span>
         </div>
       </transition>
-      <div v-if="isSecond" @click="getJump"  class="explain iconList detailIcon">
-        <div class="text">
-          <span>{{kilovolt}}</span>
-          <span>{{patrol}}</span>
-        </div>
-        <span @click="fullScreen()">
-          <i class="iconfont icon-jiantou"></i>
-        </span>
+      <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
+        <el-tooltip class="item" effect="dark" content="点击查看摄像头详情" placement="top">
+          <div class="text">
+            <span>{{kilovolt}}</span>
+            <span>{{patrol}}</span>
+          </div>
+          <span @click="fullScreen()">
+            <i class="iconfont icon-jiantou"></i>
+          </span>
+        </el-tooltip>
       </div>
     </div>
     <push-mov

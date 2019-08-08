@@ -193,6 +193,61 @@ export const getDifference = (query) => {
     })
 }
 
+//视频监控-摄像头-样本库标注
+export const sampleMark = (query) => {
+    return axios.request({
+        url: "/lenovo-sample/api/sample/monitor/mark",
+        method: 'post',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-摄像头-样本库标注-设备
+export const getMainDevice = (query) => {
+    return axios.request({
+        url: "/lenovo-sample/api/sample/getMainDevice",
+        method: 'post',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-摄像头-样本库标注-样本部件
+export const getPart = (query) => {
+    return axios.request({
+        url: "/lenovo-sample/api/sample/getPart",
+        method: 'post',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-摄像头-样本库标注-样本子部件
+export const getPartSub = (query) => {
+    return axios.request({
+        url: "/lenovo-sample/api/sample/getPartSub",
+        method: 'post',
+        params: {
+            ...query
+        }
+    })
+}
+
+//视频监控-摄像头-样本库标注-识别类型
+export const getRecognizeType = (query) => {
+    return axios.request({
+        url: "/lenovo-sample/api/sample/getRecognizeType",
+        method: 'post',
+        params: {
+            ...query
+        }
+    })
+}
+
 //视频监控-可见光-摄像头详情-历史信息记录
 export const getVLIght = (query) => {
     return axios.request({

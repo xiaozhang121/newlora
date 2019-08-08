@@ -2,6 +2,7 @@
   <div class="duno-breadcrumb">
     <el-breadcrumb :separator="separator">
       <el-breadcrumb-item
+        :class="{'pointer': index == 0}"
         v-for="(item,index) in breadData"
         :key="index"
         :to="{path:item.path}"
@@ -33,6 +34,15 @@ export default {
     return {
       breadData: []
     };
+  },
+  watch: {
+    dataList: {
+      handler(now) {
+        this.breadData = now;
+        this.handleReturn();
+      },
+      deep: true
+    }
   },
   methods: {
     toBack(index) {

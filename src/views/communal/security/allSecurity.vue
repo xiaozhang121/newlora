@@ -272,7 +272,7 @@ export default {
                 h(
                   "el-button",
                   {
-                    class: "btn_pre",
+                    class: "btn_pre btngrey",
                     style: { background: "#305e83!important" },
                     props: { type: "text" },
                     on: {
@@ -677,6 +677,10 @@ export default {
     @media screen and (min-width: 3500px) {
       padding: 6px 12px;
     }
+  }
+  .btngrey {
+    background: #979797;
+    color: #767676;
   }
   .top {
     color: #ffffff;

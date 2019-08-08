@@ -207,11 +207,11 @@ export default {
             });
           }
         },
-        {
-          key: "autoManual",
-          title: "自动/手动",
-          align: "center"
-        }
+        // {
+        //   key: "autoManual",
+        //   title: "自动/手动",
+        //   align: "center"
+        // }
       ]
     };
   },

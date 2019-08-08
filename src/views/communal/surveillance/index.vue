@@ -47,7 +47,7 @@
     <div class="title" style="margin: 15px 0">
        <span>{{ oltagevLevel }}</span>
       <!-- 隐藏功  能 -->
-       <duno-btn-top
+       <!-- <duno-btn-top
         @on-select="onSelectVol"
         class="dunoBtnTop"
         :isCheck="false"
@@ -55,7 +55,7 @@
         :dataList="oltagevLevelList"
         :title="titleValue"
         :showBtnList="false"
-      ></duno-btn-top>
+      ></duno-btn-top> -->
     </div>
     <div class="oltagevMain">
       <div class="item_main" v-for="(item, index) in areaCameraList" :key="'camera'+index" :class="{noMarginRight:(index+1)%3 == 0}">
@@ -212,7 +212,7 @@ export default {
           isActive: false
         }
       ],
-      oltagevLevel: "所有区域",
+      oltagevLevel: "所有电器回路",
       layoutType: 1
     };
   },
