@@ -203,7 +203,8 @@ export default {
       }
       
       .el-dialog__body {
-        padding: 8px 20px;
+        padding: 8px 0;
+        margin: 0 20px;
         background-color: rgba(32,54,68,0.8);
         .el-tabs {
           .el-tabs__header {
