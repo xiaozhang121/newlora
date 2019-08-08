@@ -267,13 +267,13 @@ export default {
         }
       } catch (e) {}
     },
-    handleHidden(e) {
-      if (e.clientY == 10 && this.showheader == false) {
-        this.showheader = true;
-      } else if (e.clientY > 80 && this.showheader == true) {
-        this.showheader = false;
-      }
-    },
+    // handleHidden(e) {
+    //   if (e.clientY == 10 && this.showheader == false) {
+    //     this.showheader = true;
+    //   } else if (e.clientY > 80 && this.showheader == true) {
+    //     this.showheader = false;
+    //   }
+    // },
     isShowSide() {
       this.isCollapse = !this.isCollapse;
     }
@@ -325,7 +325,7 @@ export default {
     window.addEventListener("resize", function() {
       that.getWidth();
     });
-    window.addEventListener("mousemove", this.handleHidden);
+    // window.addEventListener("mousemove", this.handleHidden);
     if (this.user.isHeader == 1) {
       that.isShowHeader = true;
     } else if (this.user.isHeader == 2) {
