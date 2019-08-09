@@ -1,6 +1,6 @@
 <template>
   <div class="realEnv">
-    <duno-btn-top ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
+    <duno-btn-top :zIndex="100" ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
     <div class="mainList" v-if="mainlistShow">
       <duno-main   v-if="kilovoltKind == 'all'" :class="{'dunoMainContain': isDiagram==1}">
         <div class="main_ctx" ref="firstElE">
