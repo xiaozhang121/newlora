@@ -196,7 +196,6 @@
         computed: {},
         watch: {
             popData(now) {
-                debugger
                 if ("alarmId" in now && now["alarmId"]) {
                     // this.searchId = now["alarmId"];
                     this.searchId = now["alarmId"];

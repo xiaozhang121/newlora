@@ -150,7 +150,6 @@
                 this.visible = false;
             },
             handleClick(index) {
-                debugger
                 this.$emit('on-click', index)
                 /*let that = this;
                 that.popData = that.lists[index];
