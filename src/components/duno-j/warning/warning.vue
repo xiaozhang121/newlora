@@ -7,7 +7,7 @@
             <span>{{ dataList.title }}</span>
             <span class="iconfontList">
             <!--<i class="iconfont icon-xiazai"></i>-->
-            <i class="iconfont icon-dayin" v-print="target"></i>
+            <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
             <!--<i class="iconfont icon-wangye"></i>-->
           </span>
           </div>
@@ -226,6 +226,9 @@ export default {
     }
   },
   methods: {
+    toPrint(e){
+        this.target = e.path[5]
+    },
     changeFullScreen(target) {
       const that = this;
       screenfull.toggle(target);
@@ -312,7 +315,7 @@ export default {
     }
   },
   mounted() {
-    this.target = this.querySelectorAll('.warningDialog')[1]
+    // this.target = this.querySelectorAll('.warningDialog')[1]
     this.newVisible = this.visible;
   }
 };

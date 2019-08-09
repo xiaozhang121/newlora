@@ -53,7 +53,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="1000" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="1000" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -102,7 +102,7 @@
                   </div>
                 </div>
               </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="500" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="500" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
             <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -151,7 +151,7 @@
                   </div>
                 </div>
               </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="220" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="220" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -200,7 +200,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="110" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="110" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
                 <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -249,7 +249,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="35" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="35" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
             <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
                   <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
 
@@ -289,7 +289,7 @@
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204/" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--  <drappable class="drappable_assembly" width="1900px" height="675px">
               <div class="allShowPic">

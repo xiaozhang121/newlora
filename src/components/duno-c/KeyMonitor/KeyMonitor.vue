@@ -147,7 +147,7 @@ export default {
     },
     patrol: {
       type: [String, Number],
-      default: "正在巡视中..."
+      default: " "
     },
     isNav: {
       type: Boolean,

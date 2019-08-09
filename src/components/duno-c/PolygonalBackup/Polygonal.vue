@@ -30,7 +30,7 @@
         :seriesOption="seriesOption"
       />
     </div>
-    <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)"><span>你可拖拽设备图标至此处进行对比</span></p>
+    <p  class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)"><span>你可拖拽设备图标至此处进行对比</span></p>
   </div>
 </template>
 
@@ -260,6 +260,7 @@ export default {
       const endTime = moment(arr[1]).format('YYYY-MM-DD')
       this.startTime = JSON.parse(JSON.stringify(startTime))
       this.endTime = JSON.parse(JSON.stringify(endTime))
+      $('#moveTarget').find('img').remove()
       this.$emit("onChange", arr);
     },
     onChangeTime(data) {

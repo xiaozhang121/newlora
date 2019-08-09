@@ -260,6 +260,7 @@ export default {
       const endTime = moment(arr[1]).format('YYYY-MM-DD')
       this.startTime = JSON.parse(JSON.stringify(startTime))
       this.endTime = JSON.parse(JSON.stringify(endTime))
+      $('#moveTarget').find('img').remove()
       this.$emit("onChange", arr);
     },
     onChangeTime(data) {
@@ -295,7 +296,9 @@ export default {
         }
         if(now.length>4){
           this.legendOption['type'] = 'scroll'
-          this.legendOption['color'] = 'white'
+          this.legendOption['pageIconColor'] = '#aaaaaa'
+          this.legendOption['pageIconInactiveColor'] = '#aaaaaa'
+          this.legendOption['left'] = '60'
         }
         this.legendOption.data = arr
       },

@@ -62,9 +62,9 @@
               :width="videoWidth"
               :showBtmOption="true"
               :kilovolt="item['monitorDeviceName']"
-              :patrol="item['monitorDeviceId']"
       />
     </div>
+    <!--:patrol="item['monitorDeviceId']"-->
     <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->
   </div>
 </template>
