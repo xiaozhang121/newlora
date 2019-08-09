@@ -333,9 +333,9 @@ export default {
     },
     routeName(now) {
       if (now == "robot-twoList") {
-        this.$set(this.dataBread, 1, "机器人二");
+        this.$set(this.dataBread, 2, {name: "机器人二", path: ''});
       } else {
-        this.$set(this.dataBread, 1, "机器人一");
+        this.$set(this.dataBread, 2, {name: "机器人一", path: ''});
       }
     }
   },

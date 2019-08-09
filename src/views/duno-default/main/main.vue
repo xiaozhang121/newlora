@@ -11,7 +11,7 @@
       </el-header>
       <el-container class="mainAside">
         <el-menu
-          class="el-menu-vertical-demo"
+          class="el-menu-vertical-demo not-print"
           @open="handleOpen"
           @close="handleClose"
           :collapse="isCollapse"
@@ -39,12 +39,12 @@
           <i
             v-show="!isCollapse"
             @click="isShowSide"
-            class="sideShow sideShrink el-icon-d-arrow-left"
+            class="sideShow sideShrink el-icon-d-arrow-left not-print"
           >收起</i>
           <i
             v-show="isCollapse"
             @click="isShowSide"
-            class="sideShow sideOpen el-icon-d-arrow-right"
+            class="sideShow sideOpen el-icon-d-arrow-right not-print"
           ></i>
         </el-menu>
         <el-main class="main-content-con">

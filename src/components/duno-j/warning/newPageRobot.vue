@@ -1,106 +1,71 @@
 <template>
-    <section class="warningDialogNew">
-        <div>
-            <el-dialog :close-on-click-modal="false" :visible="newVisible" width="900px" center @close="handleClose">
-                <div slot="title">
-                    <div class="title_top">
-                        <span>{{ dataList.title }}</span>
-                        <span class="iconfontList">
-            <!--<i class="iconfont icon-xiazai"></i>-->
+    <div class="warningDialogbNew">
+        <el-dialog :close-on-click-modal="false"  :visible="true" width="900px" center @close="handleClose">
+            <div slot="title">
+                <div class="title_top">
+                    <span>{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</span>
+                    <span class="iconList">
             <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
-            <!--<i class="iconfont icon-wangye" @click="openPage()"></i>-->
           </span>
-                    </div>
-                    <div class="extend">{{ dataList.alarmTypeValue }}</div>
                 </div>
-                <div class="main">
-                    <div class="monitor" ref="imgContain">
-                        <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
-                        <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
-                        <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
+            </div>
+            <div class="main">
+                <div class="monitor">
+                    <img :src="warnData['taskCurLinkImg']" alt />
+                </div>
+                <div class="info">
+                    <div class="info_top">
+                        <p class="monitorTitle">判定结果:</p>
+                        <p>{{dataList.alarmType}}</p>
                     </div>
-                    <div class="info">
-                        <div class="info_top">
-                            <p class="monitorTitle">判定结果:</p>
-                            <p>{{dataList.powerDeviceName}}</p>
-                        </div>
-                        <div v-if="!discriminate" class="temperature">
-                            <p class="monitorTitle">{{dataList.result}}</p>
-                            <p>
-                                {{ popData['alarmValue']?popData['alarmValue']+'℃':'' }}
-                                <i-dropdown
-                                        v-if="hasSelect && !discriminate"
-                                        trigger="click"
-                                        placement="bottom-start"
-                                >
-                                    <div
-                                            class="table_select"
-                                            :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
-                                    >
-                  <span class="member_operate_div">
-                    <span>{{ alarmLevelT }}</span>
-                  </span>
-                                        <i class="iconfont icon-xiala"></i>
-                                    </div>
-                                    <i-dropdownMenu slot="list">
-                                        <i-dropdownItem
-                                                v-for="(item, index) in selectList"
-                                                :key="index"
-                                                @click.native="selectItem(item, index)"
-                                        >
-                                            <div class="alarmLevel">{{ item }}</div>
-                                        </i-dropdownItem>
-                                    </i-dropdownMenu>
-                                </i-dropdown>
-                            </p>
-                        </div>
-                        <div v-else class="discriminate">
-                            <div class="title">识别</div>
-                            <div class="nr">{{ dataList.result }}</div>
-                        </div>
-                        <div>
-                            <!-- <a href="javascript:;" @click="clickJudge">结果修订</a> -->
-                        </div>
-                        <div class="from">
+                    <div v-if="!discriminate" class="temperature">
+                        <!--<p class="monitorTitle">温度正常</p>-->
+                        <p>
+                            {{ warnData['valueShow'] }}
+                        </p>
+                    </div>
+                    <div v-else class="discriminate">
+                        <div class="title">识别</div>
+                        <div class="nr">{{ dataList.result }}</div>
+                    </div>
+                    <div>
+                        <a href="javascript:;" @click="clickJudge">结果修订</a>
+                    </div>
+                    <div class="from">
             <span class="origin">
               来源：
-              <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
+              <a href="javascript:;" @click="getJump">{{ dataBread[2].name }}</a>
             </span>
-                        </div>
                     </div>
                 </div>
-                <div class="handleInfo">
-                    <!-- <div>
-                      <p class="monitorTitle">处理记录</p>
-                      <p v-for="(item, index) in handleList" :key="index" class="item">
-                        <span class="title">{{ item['time'] }}</span>
-                        <span class="info">{{ item['info'] }}</span>
-                      </p>
-                    </div> -->
+            </div>
+            <div class="handleInfo">
+                <div>
+                    <p class="monitorTitle">处理记录</p>
+                    <div class="monitorMain">
+                        <p v-for="(item, index) in warnData['manualJudgeLog']" :key="index" class="item">
+                            <span class="title">{{ item['createTime'] }}</span>
+                            <span class="info">{{ item['manualRecognType']+'  '+item['manualValueShow'] }}</span>
+                        </p>
+                    </div>
                 </div>
-                <div style="clear: both"></div>
-            </el-dialog>
-            <personJudge
-                    :data="formData"
-                    :isTemperture="isTemperture"
-                    @on-close="onClose"
-                    :visible="visibleJudge"
-            />
-        </div>
-    </section>
+            </div>
+            <div style="clear: both"></div>
+        </el-dialog>
+        <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="{taskDeviceId: taskDeviceId}" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
+    </div>
 </template>
 <script>
     import { Base64 } from 'js-base64'
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
-    import personJudge from "_c/duno-m/personJudge";
-    import KeyMonitor from "_c/duno-c/KeyMonitor";
-    import screenfull from "screenfull";
+    import personJudge  from '_c/duno-m/personJudgeRobot'
     export default {
-        components: { personJudge, KeyMonitor },
+        components: { personJudge },
         data() {
             return {
-                popData: null,
+                dataBread: [],
                 target: null,
+                warnData: '',
                 searchId: "",
                 searchType: "",
                 visibleJudge: false,
@@ -111,28 +76,14 @@
                 alarmLevelN: "",
                 newMonitorUrl: "",
                 dataList: [],
-                discriminate: false,
-                isImgVideo: true,
-                isTemperture: true,
-                formData: {}
+                discriminate: false
             };
         },
         props: {
-            name: {
-
-            },
-            value: {
-
-            },
-            info:{
-
-            },
-            fileType: {
-                type: Boolean,
-                default: () => {
-                    return true;
-                }
-            },
+            taskDeviceId:{},
+            bread: {},
+            datainfo:{},
+            info:{},
             alarmType: {
                 type: String,
                 default: ""
@@ -196,12 +147,8 @@
         computed: {},
         watch: {
             popData(now) {
-                if ("alarmId" in now && now["alarmId"]) {
-                    // this.searchId = now["alarmId"];
+                if ("alarmId" in now) {
                     this.searchId = now["alarmId"];
-                    this.searchType = "alarmId";
-                } else if ("taskId" in now && now["taskId"]) {
-                    this.searchId = now["taskId"] + "," + now["batchId"];
                     this.searchType = "alarmId";
                 } else {
                     this.searchId = now["resultId"];
@@ -209,6 +156,15 @@
                 }
                 this.initData();
             },
+            // handleNotes(now) {
+            //   this.handleList = [];
+            //   let obj = {};
+            //   now.forEach(el => {
+            //     obj.time = el.dealTime;
+            //     obj.info = el.dealType;
+            //     this.handleList.push(obj);
+            //   });
+            // },
             alarmLevel: {
                 handler(now) {
                     this.alarmLevelN = now;
@@ -222,18 +178,24 @@
             }
         },
         methods: {
-            openPage(){
-                let routeData = this.$router.resolve({ path: '/newPage', query: { id: '123' } });
-                window.open(routeData.href, '_blank');
+            initDataD(taskDeviceId) {
+                let id = this.taskDeviceId?this.taskDeviceId:taskDeviceId
+                postAxiosData("/lenovo-robot/rest/taskCurLink", {
+                    taskDeviceId: id
+                }).then(res => {
+                    this.warnData = res.data;
+                });
             },
             toPrint(e){
                 this.target = e.path[5]
             },
-            changeFullScreen(target) {
-                const that = this;
-                screenfull.toggle(target);
+            onClose(){
+                this.visibleJudge = false
+                this.initDataD()
+                this.$emit('on-fresh')
             },
             initData() {
+                //   debugger;
                 getAxiosData("/lenovo-plan/api/task-result/view", {
                     [this.searchType]: this.searchId
                 }).then(res => {
@@ -248,12 +210,6 @@
                     if (this.dataList.alarmTypeValue == "动态环境类") {
                         this.discriminate = true;
                     }
-                    this.formData = {
-                        alarmId: this.searchId,
-                        input: this.dataList.result,
-                        inputT: this.dataList.alarmValue,
-                        select: this.dataList.alarmType
-                    };
                 });
             },
             selectItem(item, index) {
@@ -266,78 +222,45 @@
                 this.$emit("handleClose");
             },
             getJump() {
-                getAxiosData("/lenovo-device/api/preset/type", {
-                    monitorDeviceId: this.popData.monitorDeviceId
-                }).then(res => {
-                    let supportPreset = res.data["supportPreset"];
-                    let monitorDeviceType = res.data["monitorDeviceType"];
-                    if (monitorDeviceType == 1) {
-                        if (supportPreset) {
-                            this.$router.push({
-                                path: "/surveillancePath/detailLight",
-                                query: {
-                                    monitorDeviceId: this.popData.monitorDeviceId
-                                }
-                            });
-                        } else {
-                            this.$router.push({
-                                path: "/surveillancePath/detailLightN",
-                                query: {
-                                    monitorDeviceId: this.popData.monitorDeviceId
-                                }
-                            });
+                if (this.popData.monitorDeviceType == "1") {
+                    this.$router.push({
+                        path: "/surveillancePath/detailLight",
+                        query: {
+                            monitorDeviceId: this.popData.monitorDeviceId
                         }
-                    } else if (monitorDeviceType == 2) {
-                        this.$router.push({
-                            path: "/surveillancePath/detailRedN",
-                            query: {
-                                monitorDeviceId: this.popData.monitorDeviceId
-                            }
-                        });
-                    } else if (monitorDeviceType == 3) {
-                        this.$router.push({
-                            path: "/surveillancePath/detailEnv",
-                            query: {
-                                monitorDeviceId: this.popData.monitorDeviceId
-                            }
-                        });
-                    }
-                });
+                    });
+                } else if (this.popData.monitorDeviceType == "2") {
+                    this.$router.push({
+                        path: "/surveillancePath/detailRed",
+                        query: {
+                            monitorDeviceId: this.popData.monitorDeviceId
+                        }
+                    });
+                }
             },
             clickJudge() {
-                if (this.dataList.alarmValue == "") {
-                    this.isTemperture = false;
-                }
+                //   debugger;
                 this.visibleJudge = true;
-            },
-            onClose() {
-                this.visibleJudge = false;
             }
         },
         created(){
-            this.searchType = Base64.decode(this.name)
-            this.searchId = Base64.decode(this.value)
-            this.popData = JSON.parse(Base64.decode(this.info))
+            this.warnData = JSON.parse(Base64.decode(this.info))
+            this.popData = JSON.parse(Base64.decode(this.datainfo))
+            this.dataBread = JSON.parse(Base64.decode(this.bread))
         },
         mounted() {
-            // this.target = this.querySelectorAll('.warningDialog')[1]
         }
     };
 </script>
 <style lang="scss">
-    @media print{
-        .not-print {
-            opacity: 0
-        }
-    }
-    .warningDialogNew {
-        .el-icon-close{
-         display: none;
-        }
+    .warningDialogbNew {
         .iconfont.icon-xiala {
             color: #999999;
             font-size: 10px;
             margin-left: 3px;
+        }
+        .el-icon-close{
+            display: none;
         }
         .serious {
             span {
@@ -392,19 +315,11 @@
                 width: 540px;
                 height: 303.75px;
                 background-color: #000;
-                position: relative;
                 float: left;
                 img {
                     width: 100%;
                     height: 100%;
                     display: block;
-                }
-                i {
-                    position: absolute;
-                    bottom: 3px;
-                    color: #ffffff;
-                    right: 9px;
-                    cursor: pointer;
                 }
             }
             .info {
@@ -465,6 +380,10 @@
         }
         .handleInfo {
             color: #333333;
+            .monitorMain{
+                max-height: 300px;
+                overflow-y: auto;
+            }
             .monitorTitle {
                 margin: 14px 0;
             }
@@ -492,23 +411,19 @@
         }
         .title_top {
             font-weight: bold;
-            .iconfontList{
-                float: right;
-                position: relative;
-                top: -3px;
+            .iconList{
+                position: absolute;
+                right: 33px;
                 .iconfont{
-                    color: #95939d;
-                    margin-left: 12px;
                     cursor: pointer;
+                    color: #909399;
+                    margin-right: 10px;
                 }
             }
         }
         .extend {
             font-size: 14px;
             margin-top: 3px;
-        }
-        .keyMonitor {
-            width: 100%;
         }
     }
 </style>

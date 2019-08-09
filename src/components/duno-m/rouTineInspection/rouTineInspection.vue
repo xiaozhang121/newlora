@@ -3,7 +3,7 @@
         <div class="rouTineInspection_left">
             <div class="nr">
                 <div class="main">
-                    <gis-map :rebot="true" :deviceList="deviceList" :zoom="16"  ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
+                    <gis-map v-if="mapShow" :rebot="true" :deviceList="deviceList" :zoom="16"  ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
                 </div>
             </div>
         </div>
@@ -53,6 +53,7 @@
         },
         data() {
             return {
+                mapShow: false,
                 isFirst: true,
                 workTime: '',
                 state: 1,
@@ -207,8 +208,14 @@
             }
         },
         mounted() {
+            setTimeout(()=>{
+                this.mapShow = true
+                this.$nextTick(()=>{
+                    document.querySelector('#map').setAttribute('style','height:100% !important')
+                })
+            },3000)
             try{
-            document.querySelector('#map').setAttribute('style','height:100% !important')
+
             }catch (e) {
                 
             }
