@@ -1,8 +1,14 @@
 <template>
   <div class="warningDialog">
-    <el-dialog v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
+    <el-dialog  :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
-        <div class="title_top">{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</div>
+        <div class="title_top">
+          <span>{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</span>
+          <span class="iconList">
+            <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
+            <i class="iconfont icon-wangye" @click="openPage()"></i>
+          </span>
+        </div>
         <!--<div class="extend">{{ dataList.alarmTypeValue }}</div>-->
       </div>
       <div class="main">
@@ -54,7 +60,7 @@
           <div class="from">
             <span class="origin">
               来源：
-              <a href="javascript:;" @click="getJump">{{ dataBread[1] }}</a>
+              <a href="javascript:;" @click="getJump">{{ dataBread[2].name }}</a>
             </span>
           </div>
         </div>
@@ -76,12 +82,14 @@
   </div>
 </template>
 <script>
+import { Base64 } from 'js-base64'
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import personJudge  from '_c/duno-m/personJudgeRobot'
 export default {
   components: { personJudge },
   data() {
     return {
+      target: null,
       searchId: "",
       searchType: "",
       visibleJudge: false,
@@ -174,7 +182,7 @@ export default {
         this.searchId = now["resultId"];
         this.searchType = "resultId";
       }
-      // this.initData();
+      this.initData();
     },
     // handleNotes(now) {
     //   this.handleList = [];
@@ -198,6 +206,13 @@ export default {
     }
   },
   methods: {
+    openPage(){
+        let routeData = this.$router.resolve({ name: 'newPageRobot', params: { datainfo:Base64.encode(JSON.stringify(this.popData)),info:Base64.encode(JSON.stringify(this.warnData)), bread: Base64.encode(JSON.stringify(this.dataBread)), taskDeviceId: this.$route.query.taskDeviceId?this.$route.query.taskDeviceId:' '} });
+        window.open(routeData.href, '_blank');
+    },
+    toPrint(e){
+        this.target = e.path[5]
+    },
     onClose(){
         this.visibleJudge = false
         this.$emit('on-fresh')
@@ -412,6 +427,15 @@ export default {
   }
   .title_top {
     font-weight: bold;
+    .iconList{
+      position: absolute;
+      right: 33px;
+      .iconfont{
+        cursor: pointer;
+        color: #909399;
+        margin-right: 10px;
+      }
+    }
   }
   .extend {
     font-size: 14px;

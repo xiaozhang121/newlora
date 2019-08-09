@@ -9,7 +9,7 @@
             <el-input class="itemInput" v-model="dataTyped" placeholder="数据类型"></el-input>
             <el-input class="itemInput" v-model="analysisResultd" placeholder="分析结果"></el-input>
             <span slot="footer" class="dialog-footer">
-                <button-custom class="button" @click.native="dialogVisible = false"  title="取消" />
+                <button-custom class="button" @click.native="handleClose"  title="取消" />
                 <button-custom @click.native="submit" class="button"  title="确定" />
             </span>
         </el-dialog>
@@ -103,6 +103,7 @@
                 })
             },
             handleClose(){
+                this.dialogVisible = false
                 this.$emit('on-close')
             }
         },

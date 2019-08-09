@@ -51,6 +51,18 @@ export default [{
     },
     component: () => import('@/components/duno-j/warning/newPage.vue')
 },
+{
+    path: '/newPageRobot/:datainfo/:info/:bread/:taskDeviceId',
+    name: 'newPageRobot',
+    props: true,
+    meta: {
+        title: '列表',
+        hideMenuAuthority: true,
+        hideInMenu: true,
+        isLogin: true
+    },
+    component: () => import('@/components/duno-j/warning/newPageRobot.vue')
+},
 /*  {
     path: '/',
     name: '_home',
