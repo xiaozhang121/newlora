@@ -100,13 +100,13 @@ export default {
         that.wrapShow = true;
         let width = document.getElementById("marquee").getBoundingClientRect()
           .width;
-        that.distance = that.distance - 3;
+        that.distance = that.distance - 1;
         // 如果位移超过文字宽度，则回到起点
         if (-that.distance >= width) {
           that.distance = document.body.clientWidth;
         }
         box.style.transform = "translateX(" + that.distance + "px)";
-      }, 30);
+      }, 10);
     },
     move(flag) {
       const that = this;
