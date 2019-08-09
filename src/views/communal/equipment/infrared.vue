@@ -129,7 +129,6 @@ export default {
       lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      //   dataBread: ["操作中台", "设备监测", "红外测温"],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/visiblelight/list", name: "设备监测" },
@@ -175,7 +174,6 @@ export default {
         query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/task/iir-result/list",
-          dataBread: ["操作中台", "设备监测", "红外监测", "所有记录"]
         }
       });
     },
@@ -185,7 +183,6 @@ export default {
         query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/task/iir-result/list",
-          dataBread: ["操作中台", "设备监测", "红外监测", "最新24小时记录信息"]
         }
       });
     },
@@ -272,7 +269,6 @@ export default {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/plan/iir-report/list",
           planType: "2",
-          dataBread: ["操作中台", "设备监测", "红外监测", "最新巡检报表"]
         }
       });
     },

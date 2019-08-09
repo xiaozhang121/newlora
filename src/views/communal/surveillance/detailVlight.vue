@@ -435,7 +435,6 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-    //   dataBread: ["摄像头详情", "返回"],
       dataBread: [{ name: "摄像头详情" }]
     };
   },

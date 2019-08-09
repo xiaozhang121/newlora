@@ -139,7 +139,6 @@ export default {
       routeName: "",
       newsReport: [],
       cameraPath: [],
-      // dataBread: ['操作中台','机器人巡视','机器人一'],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/robot-one/list", name: "机器人巡视" },

@@ -218,7 +218,7 @@ export default {
       }
     }
     .warnTtype:last-child {
-      margin-right: 25px;
+    //   margin-right: 25px;
     }
     .warnTtype {
       /*margin-top: 40px;*/
@@ -236,10 +236,10 @@ export default {
       }
       .circle {
         float: left;
-        width: 80px;
-        @media screen and (min-width: 3500px) {
-          width: 75px;
-        }
+        width: 74px;
+        // @media screen and (min-width: 3500px) {
+        //   width: 75px;
+        // }
         .typeCircle {
           margin: 10px auto;
           border-radius: 50%;

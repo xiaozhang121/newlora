@@ -16,20 +16,20 @@
         </h3>
       </el-tooltip>
       <p v-if="kind != 'robot'">
-        类型:
-        <span>{{reportData.planType}}</span>
+        类型: {{reportData.planType}}
+        <!-- <span>{{reportData.planType}}</span> -->
       </p>
       <p>
-        日期:
-        <span>{{reportData.date}}</span>
+        日期: {{reportData.date}}
+        <!-- <span>{{reportData.date}}</span> -->
       </p>
       <p>
-        时长:
-        <span>{{reportData.timeLong}}</span>
+        时长: {{reportData.timeLong}}
+        <!-- <span>{{reportData.timeLong}}</span> -->
       </p>
       <p>
-        异常信息数量:
-        <span>{{reportData.alarmNum}}</span>
+        异常信息数量: {{reportData.alarmNum}}
+        <!-- <span>{{reportData.alarmNum}}</span> -->
       </p>
       <p>
         <!-- <i>来源:</i> -->
@@ -133,8 +133,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl,
-            dataBread: ["操作中台", "设备监测", "可见光", "查看报告"]
+            url: this.url.viewUrl
           }
         });
       } else if (
@@ -146,8 +145,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl,
-            dataBread: ["操作中台", "设备检测", "红外监测", "查看报告"]
+            url: this.url.viewUrl
           }
         });
       } else if (this.$route.name == "reportList") {
@@ -156,8 +154,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl,
-            dataBread: ["操作中台", "所有报表", "巡检任务报表", "查看报告"]
+            url: this.url.viewUrl
           }
         });
       } else if (this.$route.name == "configure-report") {
@@ -166,8 +163,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl,
-            dataBread: ["操作中台", "配置管理", "任务配置", "查看报告"]
+            url: this.url.viewUrl
           }
         });
       } else if (this.$route.name == "abnormalInfoList") {
@@ -176,8 +172,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl,
-            dataBread: ["功能卡片", "查看报告"]
+            url: this.url.viewUrl
           }
         });
       }
@@ -237,14 +232,13 @@ export default {
     }
     p {
       font-size: 14px;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -o-text-overflow: ellipsis;
+      white-space: nowrap;
       span {
-        width: 80%;
-        display: inline-block;
         padding-left: 10px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-        white-space: nowrap;
       }
     }
     & > p:last-child {
