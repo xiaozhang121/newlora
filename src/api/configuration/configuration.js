@@ -209,9 +209,6 @@ export const getMainDevice = (query) => {
     return axios.request({
         url: "/lenovo-sample/api/sample/getMainDevice",
         method: 'post',
-        params: {
-            ...query
-        }
     })
 }
 

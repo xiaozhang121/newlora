@@ -16,12 +16,7 @@
         </div>
         <div v-if="isCalibrat" class="shotInput">
           <div>
-            <el-cascader
-              placeholder="自动关联（对应样本库2-4级目录）"
-              :options="platOptions"
-              @active-item-change="handleItemChange"
-              :props="props"
-            ></el-cascader>
+            <el-cascader placeholder="自动关联（对应样本库2-4级目录）" :options="platOptions" :props="props"></el-cascader>
           </div>
           <div>
             <el-select v-model="selectValue" placeholder="自动关联（对应样本库5级目录）">
@@ -89,6 +84,7 @@ export default {
     }
   },
   data() {
+    let that = this;
     return {
       dialogVisible: true,
       value: "",
@@ -108,7 +104,12 @@ export default {
       picFilePath: "",
       imgsrc: "",
       props: {
-        lazy: true
+        lazy: true,
+        value: "value",
+        lable: "lable",
+        lazyLoad: (node, resolve) => {
+          that.getSelect(node, resolve);
+        }
       }
     };
   },
@@ -185,14 +186,37 @@ export default {
         this.imgsrc = res.data;
       });
     },
-    getSelect() {
-      let query = {};
-      getMainDevice(query).then(res => {
-        this.platOptions = res.data;
-        this.platOptions.map((item, index, array) => {
-          this.$set(array[index], "child", []);
-        });
+    init() {
+    //   debugger;
+      getMainDevice().then(res => {
+        //   debugger
+        // this.platOptions = res.data;
       });
+    },
+    getSelect(node, resolve) {
+      const { level, root, data } = node;
+      console.log(node);
+      let params = {};
+      params = root ? {} : {};
+      if (root) {
+        getMainDevice(params).then(res => {
+          const result = res.data.map(item => {
+            return Object.assign(item, {
+              leaf: level >= 2
+            });
+          });
+          resolve(result);
+        });
+      } else {
+        getPart().then(res => {
+          const result = res.data.map(item => {
+            return Object.assign(item, {
+              leaf: level >= 2
+            });
+          });
+          resolve(result);
+        });
+      }
     },
     //自动关联（五级目录）
     getFiveSelect() {
@@ -216,7 +240,8 @@ export default {
   },
   mounted() {
     this.getImgInfo();
-    this.getSelect();
+    // this.getSelect();
+    this.init();
   }
 };
 </script>
