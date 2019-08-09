@@ -32,7 +32,7 @@ export default {
             { path: "/realEnv/list", name: "操作中台" },
             { path: "/infrared/list", name: "设备监测" },
             { path: "/infrared/list", name: "红外监测" },
-            { path: "", name: "红外检测记录信息" }
+            { path: "", name: "红外监测记录信息" }
           ];
           break;
       }
