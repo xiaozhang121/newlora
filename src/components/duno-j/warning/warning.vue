@@ -1,14 +1,14 @@
 <template>
   <section class="warningDialog">
     <div>
-    <el-dialog  v-dialogDrag :visible="newVisible" width="900px" center @close="handleClose">
+    <el-dialog   :visible="newVisible" width="900px" center @close="handleClose">
         <div slot="title">
           <div class="title_top">
             <span>{{ dataList.title }}</span>
             <span class="iconfontList">
             <!--<i class="iconfont icon-xiazai"></i>-->
             <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
-            <!--<i class="iconfont icon-wangye"></i>-->
+            <i class="iconfont icon-wangye" @click="openPage()"></i>
           </span>
           </div>
           <div class="extend">{{ dataList.alarmTypeValue }}</div>
@@ -90,6 +90,7 @@
   </section>
 </template>
 <script>
+import { Base64 } from 'js-base64'
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import personJudge from "_c/duno-m/personJudge";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -226,6 +227,10 @@ export default {
     }
   },
   methods: {
+    openPage(){
+        let routeData = this.$router.resolve({ name: 'newPage', params: { name: Base64.encode(this.searchType), value: Base64.encode(this.searchId), info:  Base64.encode(JSON.stringify(this.popData))} });
+        window.open(routeData.href, '_blank');
+    },
     toPrint(e){
         this.target = e.path[5]
     },

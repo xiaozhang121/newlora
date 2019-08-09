@@ -39,6 +39,18 @@ export default [{
     },
     component: () => import('@/views/duno-default/login/login.vue')
 },
+{
+    path: '/newPage/:name/:value/:info',
+    name: 'newPage',
+    props: true,
+    meta: {
+        title: '列表',
+        hideMenuAuthority: true,
+        hideInMenu: true,
+        isLogin: true
+    },
+    component: () => import('@/components/duno-j/warning/newPage.vue')
+},
 /*  {
     path: '/',
     name: '_home',
@@ -422,7 +434,7 @@ export default [{
                 isDetails: true
             },
             component: () => import('@/views/communal/abnormalInfo/reportDetail.vue')
-        },
+        }
         ]
     }]
 },

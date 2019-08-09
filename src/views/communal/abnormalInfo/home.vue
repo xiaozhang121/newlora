@@ -3,7 +3,7 @@
     <div class="topNav">
       <scroller :listOption="messageList"></scroller>
     </div>
-    <div class="middle">
+    <div class="middle not-print">
         <div class="abnormalInfo">
             <div class="contain borderTX">
               <duno-main :controlOver="true" class="main_contain">

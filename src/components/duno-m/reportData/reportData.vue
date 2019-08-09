@@ -1,15 +1,20 @@
 <template>
     <div class="reportData" >
-        <div class="title">
+        <div class="title" v-if="taskCurreny['doneStepsCnt']">
             <span>第{{ stepCount }}步上报数据</span>
             <span @click="visible = true">人工否定</span>
         </div>
-        <div class="middle">
+        <div class="title" v-else>
+            <span v-if="taskStatus['taskState'] == 2">正在巡视中</span>
+            <span v-else>任务暂停中</span>
+            <span></span>
+        </div>
+        <div :style="{visibility: taskCurreny['doneStepsCnt']?'visible':'hidden'}" class="middle">
             <div class="img">
                 <img :src="imgData" />
             </div>
         </div>
-        <div class="last">
+        <div :style="{visibility: taskCurreny['doneStepsCnt']?'visible':'hidden'}" class="last">
             <div class="item">
                 <div class="name">设备名：</div>
                 <div class="nr">{{ deviceName }}</div>
@@ -67,6 +72,7 @@
             }
         },
         props: {
+            taskStatus:{},
             imgData:{},
             taskCurreny: {},
             imgUr:{

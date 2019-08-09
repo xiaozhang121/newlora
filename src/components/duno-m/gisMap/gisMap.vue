@@ -177,13 +177,19 @@
                 // 用于设置线串所在的矢量图层样式的函数
                 let styleFunction = function(feature) {
                     let geometry = feature.getGeometry();
+                    let width  = 0
+                    if(type[0] == 10){
+                        width = 2
+                    }else{
+                        width =  4
+                    }
                     let styles = [
                         new Style({
                             // 线串的样式
                             stroke: new Stroke({
                                 lineDash: type,
                                 color: "#78cbff",
-                                width: 4
+                                width: width
                             })
                         })
                     ];

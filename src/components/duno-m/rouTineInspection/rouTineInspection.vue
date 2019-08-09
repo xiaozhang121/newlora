@@ -104,7 +104,7 @@
                         }
                         this.stateF = now['taskState']
                         if(now['taskState'] == 2){
-                          this.taskName = '结束任务'
+                          this.taskName = '暂停任务'
                         }else{
                           this.taskName = '开始任务'
                         }
@@ -191,7 +191,7 @@
                     this.state = '1'
                 }
                 if(this.taskName.indexOf('开始')>-1){
-                    this.taskName = '结束任务'
+                    this.taskName = '暂停任务'
                 }else{
                     this.taskName = '开始任务'
                 }
