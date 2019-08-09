@@ -128,7 +128,6 @@ export default {
       lightInformation: [],
       titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
-      //   dataBread: ["操作中台", "设备监测", "可见光"],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/visiblelight/list", name: "设备监测" },
@@ -174,7 +173,6 @@ export default {
         query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list"
-          //   dataBread: ["操作中台", "设备监测", "可见光", "所有记录"]
         }
       });
     },
@@ -184,7 +182,6 @@ export default {
         query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list"
-          //   dataBread: ["操作中台", "设备监测", "可见光", "可见光监测记录信息"]
         }
       });
     },
@@ -195,7 +192,6 @@ export default {
           title: "可见光监测记录信息",
           planType: "1",
           url: "/lenovo-plan/api/plan/visible-report/list"
-          //   dataBread: ["操作中台", "设备监测", "可见光", "红外监测记录信息"]
         }
       });
     },

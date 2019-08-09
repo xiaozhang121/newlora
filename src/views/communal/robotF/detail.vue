@@ -113,7 +113,6 @@ export default {
       titleCon: "",
       dataList: [],
       titleInspect: "例行巡视编号",
-      //   dataBread: ["操作中台", "机器人巡视", "机器人一", "任务配置列表"],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/robot-one/list", name: "机器人巡视" },
@@ -314,14 +313,14 @@ export default {
     $route(to) {
       this.routeName = to.name;
     },
-    // routeName(now) {
-    //   if (now == "robot-twoList") {
-    //     this.$set(this.dataBread, 2, "机器人二");
-    //   } else {
-    //     this.dataBread[2] = "机器人一";
-    //     this.$set(this.dataBread, 2, "机器人一");
-    //   }
-    // }
+        // routeName(now) {
+        //   if (now == "robot-twoList") {
+        //     this.$set(this.dataBread, 2, "机器人二");
+        //   } else {
+        //     this.dataBread[2] = "机器人一";
+        //     this.$set(this.dataBread, 2, "机器人一");
+        //   }
+        // }
   },
   methods: {
     success() {

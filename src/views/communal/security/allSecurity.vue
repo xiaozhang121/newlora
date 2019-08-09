@@ -136,12 +136,6 @@ export default {
       value: "",
       titleTypeL: "全部电压等级",
       titleTypeR: "全部类型",
-      //   dataBread: [
-      //     "操作中台",
-      //     "动态环境监测",
-      //     "动态环境总览",
-      //     "所有动态环境异常信息"
-      //   ],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/environmental/list", name: "动态环境监测" },

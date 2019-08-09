@@ -107,7 +107,6 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      //   dataBread: ["卡片功能", "异常信息"],
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "卡片功能" },
         { path: "/abnormalInfoPath/list", name: "异常信息" }

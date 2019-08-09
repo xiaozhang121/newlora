@@ -129,7 +129,6 @@ export default {
       titleTypeL: "所有设备",
       titleTypeC: "所有报表",
       titleTypeR: "所有类型",
-      //   dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"],
       columns: [
         {
           title: "对象",
@@ -368,9 +367,6 @@ export default {
     this.dataForm.planType = this.$route.query.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.title = this.$route.query.title;
-    // this.dataBread = this.$route.query.dataBread;
-    debugger
-    console.log(this.dataBread)
     this.getRegion();
     this.getStart();
     this.getType();

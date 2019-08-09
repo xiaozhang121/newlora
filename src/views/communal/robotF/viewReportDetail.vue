@@ -97,7 +97,6 @@ export default {
       value: "",
       alarmLevel: "",
       titleType: "按设备筛选",
-      //   dataBread: ["机器人巡视","报告"],
       dataBread: [
         {
           path: "/robot-one/list",

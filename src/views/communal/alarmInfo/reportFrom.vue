@@ -78,7 +78,6 @@ export default {
         downloadUrl: "/lenovo-plan/api/statistics/plan/download",
         viewUrl: "/lenovo-plan/api/statistics/plan/view"
       },
-      //   dataBread: ["视频监控", "所有报表", "巡检任务报表"],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/report/list", name: "所有报表" },
