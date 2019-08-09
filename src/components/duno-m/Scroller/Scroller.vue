@@ -1,27 +1,7 @@
 <template>
-  <div class="Scroller not-print">
-    <div class="wrap" v-show="wrapShow">
-      <div id="box">
-        <div id="marquee">
-          <div
-            class="marquee_item"
-            v-for="(item, index) in lists"
-            :key="index"
-            @mouseenter="enter()"
-            @mouseleave="leave()"
-            @click="handleClick(index)"
-          >
-            <div
-              class="name"
-              :class="[{'commonly':item.alarmLevel == 1},{'serious':item.alarmLevel == 2},{'danger':item.alarmLevel == 3}]"
-            >{{ item['alarmLevelName'] }}</div>
-            <div class="time">{{ item['alarmTime'] }}</div>
-            <div class="mainDevice">{{ item['mainDevice'] }}</div>
-            <div class="powerDeviceName">{{ item['powerDeviceName'] }}</div>
-            <div class="nr">{{ item.alarmValue?item.alarmValue:item.alarmDetailType }}</div>
-          </div>
-        </div>
-      </div>
+  <div class="Scroller" @mouseenter="enterControl" @mousemove="enterMove($event)"  @mouseleave="leaveControl()">
+      <scroller-item :widthOption="setWidth" @save-width="saveWidth" class="scrollerItem" id="first" ref="first" style="position: absolute" v-if="visibleFlagF" idName="box"  index="1" @on-hide="onHide" @on-stop="onStop" @on-click="handleClick" :listOption="lists"></scroller-item>
+      <scroller-item :widthOption="setWidth" @save-width="saveWidth" class="scrollerItem" id="second" ref="second" style="position: absolute" v-if="visibleFlagS" idName="boxF" index="2" @on-hide="onHide" @on-stop="onStop" @on-click="handleClick" :listOption="lists"></scroller-item>
       <!--<div id="node">
                 <div v-for="(item, index) in lists" class="node_item" :key="index">
                     <div class="name">
@@ -41,7 +21,6 @@
                     </div>
                 </div>
       </div>-->
-    </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
   </div>
@@ -49,16 +28,21 @@
 
 <script>
 import warningSetting from "_c/duno-j/warningSetting";
+import ScrollerItem from './ScrollerItem'
 import wraning from "_c/duno-j/warning";
 export default {
   name: "Scroller",
   components: {
     warningSetting,
-    wraning
+    wraning,
+    ScrollerItem
   },
   data() {
     return {
-      wrapShow: false,
+      setWidth: 0,
+      count: 1,
+      visibleFlagF: false,
+      visibleFlagS: false,
       visibleSettingOption: false,
       visible: false,
       lists: [],
@@ -80,6 +64,8 @@ export default {
     listOption: {
       handler(now) {
         this.lists = now;
+        if(now.length)
+          this.visibleFlagF = true
       },
       deep: true,
       immediate: true
@@ -87,37 +73,63 @@ export default {
   },
   computed: {},
   methods: {
-    enter() {
-      clearInterval(this.timer);
-    },
-    leave() {
-      this.move();
-    },
-    setTimer(box) {
-      const that = this;
-      // 设置位移
-      this.timer = setInterval(function() {
-        that.wrapShow = true;
-        let width = document.getElementById("marquee").getBoundingClientRect()
-          .width;
-        that.distance = that.distance - 1;
-        // 如果位移超过文字宽度，则回到起点
-        if (-that.distance >= width) {
-          that.distance = document.body.clientWidth;
-        }
-        box.style.transform = "translateX(" + that.distance + "px)";
-      }, 10);
-    },
-    move(flag) {
-      const that = this;
-      let box = document.getElementById("box");
-      /* let copy = document.getElementById('copy')
-            copy.innerText = this.text // 文字副本填充*/
-      if (flag) {
-        // that.distance = document.body.clientWidth // 位移距离
-        that.distance = document.body.clientWidth; // 位移距离
+   saveWidth(now){
+      if(this.setWidth < now){
+          this.setWidth = now
       }
-      this.setTimer(box);
+   },
+   enterControl(){
+        if(this.$refs.first){
+            this.$refs.first.enter()
+        }
+        if(this.$refs.second){
+            this.$refs.second.enter()
+        }
+    },
+    enterMove(e){
+      const that = this
+      if(document.querySelectorAll('.scrollerItem').length == 2){
+          if(e.screenX<=1000){
+              if(that.count % 2 == 0){
+                  $('#second').css({'z-index': 99})
+                  $('#first').css({'z-index': 0})
+              }else{
+                  $('#first').css({'z-index': 99})
+                  $('#second').css({'z-index': 0})
+              }
+          }else{
+              if(that.count % 2 == 0){
+                  $('#first').css({'z-index': 99})
+                  $('#second').css({'z-index': 0})
+              }else{
+                  $('#second').css({'z-index': 99})
+                  $('#first').css({'z-index': 0})
+              }
+          }
+      }else{
+          $('#first').css({'z-index': 0})
+      }
+    },
+    leaveControl(){
+        if(this.$refs.first)
+          this.$refs.first.leave()
+        if(this.$refs.second)
+          this.$refs.second.leave()
+    },
+    onHide(index){
+        this.count++
+        if(index == 1){
+            this.visibleFlagF = false
+        }else{
+            this.visibleFlagS = false
+        }
+    },
+    onStop(index){
+        if(index == 1){
+            this.visibleFlagS = true
+        }else{
+            this.visibleFlagF = true
+        }
     },
     onClose() {
       this.visibleSettingOption = false;
@@ -130,12 +142,13 @@ export default {
       let that = this;
       that.popData = that.lists[index];
       that.visible = true;
-    }
+    },
   },
   created() {},
   updated: function() {},
   beforeDestroy() {
-    clearInterval(this.timer);
+    this.enterControl()
+    // clearInterval(this.timer);
   },
   mounted() {
     this.$nextTick(() => {
@@ -155,6 +168,7 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  position: relative;
   .wrap {
     overflow: hidden;
     color: #005bbe;
