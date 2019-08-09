@@ -1,6 +1,6 @@
 <template>
   <div>
-    <analysisDetail :dataBread="dataBread" />
+    <analysisDetail :dataBread="dataBread" :downloadURL="downloadURL" />
   </div>
 </template>
 
@@ -12,7 +12,8 @@ export default {
   },
   data() {
     return {
-      dataBread: []
+      dataBread: [],
+      downloadURL: ""
     };
   },
   methods: {
@@ -26,6 +27,7 @@ export default {
             { path: "/visiblelight/list", name: "可见光" },
             { path: "", name: "可见光监测记录信息" }
           ];
+          this.downloadURL = "/lenovo-plan/api/plan/visible-report/download";
           break;
         case "infrared-report":
           this.dataBread = [
@@ -34,11 +36,12 @@ export default {
             { path: "/infrared/list", name: "红外监测" },
             { path: "", name: "红外监测记录信息" }
           ];
+          this.downloadURL = "/lenovo-plan/api/plan/iir-report/download";
           break;
       }
     }
   },
-  mounted() {
+  created() {
     this.handleroute();
   }
 };

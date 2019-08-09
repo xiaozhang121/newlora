@@ -172,7 +172,7 @@ export default {
     DunoCharts,
     DunoTablesTep,
     warningSetting,
-    wraning
+    wraning,
   },
   props: {
     legendData: {
@@ -296,7 +296,6 @@ export default {
       alarmLevel: "",
       startTime: "",
       endTime: "",
-      //   dataBread: ["操作中台", "所有报表", "表计分析"],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/meterdata/list", name: "所有报表" },
@@ -734,8 +733,7 @@ export default {
       this.$router.push({
         name: "meterdata-detail",
         query: {
-          url: "/lenovo-plan/api/statistics/meter-data/list",
-        //   dataBread: ["操作中台", "所有报表", "表计分析", "所有表计分析"]
+          url: "/lenovo-plan/api/statistics/meter-data/list"
         }
       });
     },

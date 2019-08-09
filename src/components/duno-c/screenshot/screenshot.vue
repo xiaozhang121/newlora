@@ -2,13 +2,7 @@
   <div class="screenshot">
     <el-dialog :show-close="false" :visible.sync="dialogVisible" width="30%" :center="true">
       <div class="dialog-content">
-        <div
-          class="shotImg"
-          @click="cricle"
-          @mousedown="getFirstCode"
-          @mouseup="getEndCode"
-          @mousemove="getCircle"
-        >
+        <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
           <img :src="this.imgsrc" alt />
           <div ref="box" id="box1"></div>
           <div v-if="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
@@ -16,10 +10,16 @@
         </div>
         <div v-if="isCalibrat" class="shotInput">
           <div>
-            <el-cascader placeholder="自动关联（对应样本库2-4级目录）" :options="platOptions" :props="props"></el-cascader>
+            <el-cascader
+              placeholder="选择设备-部件-类型"
+              @change="handleChange"
+              v-model="cascadeValue"
+              :options="platOptions"
+              :props="props"
+            ></el-cascader>
           </div>
           <div>
-            <el-select v-model="selectValue" placeholder="自动关联（对应样本库5级目录）">
+            <el-select v-model="selectValue" placeholder="选择识别结果">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -36,8 +36,9 @@
           <div>
             <el-cascader
               placeholder="选择设备-部件-类型"
+              @getCheckedNodes="getCheckedNodes"
               v-model="cascadeValue"
-              :options="options"
+              :options="platOptions"
               @change="handleChange"
             ></el-cascader>
           </div>
@@ -95,14 +96,19 @@ export default {
       selectValue: "",
       textarea: "",
       isCalibrat: true,
-      startPointX: 0,
-      endPointX: 0,
-      startPointY: 0,
-      endPointY: 0,
+      startPointX: null,
+      endPointX: null,
+      startPointY: null,
+      endPointY: null,
       clickFlage: 0,
+      x0: null,
+      y0: null,
+      x1: null,
+      y1: null,
       imgInfo: {},
       picFilePath: "",
       imgsrc: "",
+      mainDevice: "",
       props: {
         lazy: true,
         value: "value",
@@ -116,6 +122,14 @@ export default {
   methods: {
     handleChange(value) {
       console.log(value);
+      let query = {
+        mainDevice: value[0],
+        part: value[1],
+        partSub: value[2]
+      };
+      getRecognizeType(query).then(res => {
+        this.options = res.data;
+      });
     },
     getCircle(e) {
       if (this.clickFlage == 1) {
@@ -157,23 +171,15 @@ export default {
     },
     //手动标定
     addTag() {
-      let query = {
-        x0: this.startPointX,
-        y0: this.startPointY,
-        x1: this.endPointX,
-        y1: this.endPointY
-      };
-      sampleMark(query).then(res => {
-        this.$message({
-          type: "sucess",
-          message: "标定成功"
-        });
-      });
+      this.x0 = this.startPointX;
+      this.y0 = this.startPointY;
+      this.x1 = this.endPointX;
+      this.y1 = this.endPointY;
+      this.isCalibrat = false;
     },
     //清除标定
     delTag() {
-      let query = {};
-      let url = "";
+      this.isCalibrat = true;
     },
     //框选图片
     getImgInfo() {
@@ -186,20 +192,34 @@ export default {
         this.imgsrc = res.data;
       });
     },
-    init() {
-    //   debugger;
-      getMainDevice().then(res => {
-        //   debugger
-        // this.platOptions = res.data;
-      });
-    },
     getSelect(node, resolve) {
       const { level, root, data } = node;
-      console.log(node);
       let params = {};
-      params = root ? {} : {};
-      if (root) {
-        getMainDevice(params).then(res => {
+      switch (level) {
+        case 1:
+          params = {
+            mainDevice: data.value
+          };
+          this.mainDevice = data.value;
+          break;
+        case 2:
+          params = {
+            mainDevice: this.mainDevice,
+            part: data.value
+          };
+          break;
+      }
+      if (level == 0) {
+        getMainDevice().then(res => {
+          const result = res.data.map(item => {
+            return Object.assign(item, {
+              leaf: level >= 2
+            });
+          });
+          resolve(result);
+        });
+      } else if (level == 1) {
+        getPart(params).then(res => {
           const result = res.data.map(item => {
             return Object.assign(item, {
               leaf: level >= 2
@@ -208,7 +228,7 @@ export default {
           resolve(result);
         });
       } else {
-        getPart().then(res => {
+        getPartSub(params).then(res => {
           const result = res.data.map(item => {
             return Object.assign(item, {
               leaf: level >= 2
@@ -217,14 +237,6 @@ export default {
           resolve(result);
         });
       }
-    },
-    //自动关联（五级目录）
-    getFiveSelect() {
-      let url = "";
-      let query = {};
-      getAxiosData(url, query).then(res => {
-        this.options = res.data;
-      });
     },
     handleSubmit() {
       this.dialogVisible = false;
@@ -240,8 +252,6 @@ export default {
   },
   mounted() {
     this.getImgInfo();
-    // this.getSelect();
-    this.init();
   }
 };
 </script>
@@ -274,6 +284,7 @@ export default {
           color: #fff;
           line-height: 32px;
           opacity: 0.5;
+          cursor: pointer;
         }
         .calibrat {
           width: 80px;
@@ -306,6 +317,25 @@ export default {
       }
     }
   }
+}
+.el-cascader-menu {
+  overflow: hidden;
+  padding-left: 10px;
+}
+.el-scrollbar__wrap {
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.el-cascader-node {
+  line-height: 2em;
+  cursor: pointer;
+  i {
+    float: right;
+    margin-right: 10px;
+  }
+}
+.el-cascader-node:hover {
+  background-color: #eee;
 }
 #box1 {
   position: absolute;

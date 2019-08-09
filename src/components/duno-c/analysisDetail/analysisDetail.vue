@@ -16,26 +16,6 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <!-- <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="statusList"
-            :title="titleTypeC"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="typeList"
-            :title="titleTypeR"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>-->
         <div class="dateChose">
           <el-date-picker
             unlink-panels
@@ -47,7 +27,7 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div style="display: none">
+        <div>
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
             导出Excel
@@ -104,6 +84,12 @@ export default {
       default: () => {
         return [];
       }
+    },
+    downloadURL: {
+      type: String,
+      default: () => {
+        return "";
+      }
     }
   },
   data() {
@@ -111,7 +97,7 @@ export default {
     return {
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
-        exportURL: "/lenovo-alarm/api/alarm/history/export"
+        exportURL: ""
       },
       dataForm: {},
       title: "所有信息",
@@ -366,6 +352,7 @@ export default {
     this.dataForm.planId = this.$route.query.planId;
     this.dataForm.planType = this.$route.query.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
+    this.mixinViewModuleOptions.exportURL = this.downloadURL;
     this.title = this.$route.query.title;
     this.getRegion();
     this.getStart();
@@ -567,21 +554,6 @@ export default {
           });
         }
       });
-      /* if (row.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      } else if (row.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      }*/
     }
   }
 };
@@ -782,6 +754,7 @@ export default {
         background-image: url(../../../assets/images/btn/moreBtn.png);
         text-align: center;
         font-size: 18px;
+        cursor: pointer;
         color: #ffffff;
         @media screen and (min-width: 3500px) {
           background-size: 100% 100%;

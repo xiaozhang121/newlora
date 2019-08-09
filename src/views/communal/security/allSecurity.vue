@@ -37,7 +37,7 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div style="display: none">
+        <div>
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
             导出表格
@@ -266,8 +266,12 @@ export default {
                 h(
                   "el-button",
                   {
-                    class: "btn_pre btngrey",
-                    style: { background: "#305e83!important" },
+                    class: "btn_pre",
+                    style: {
+                      background: "#305e83!important",
+                      background: "#979797",
+                      color: "#767676"
+                    },
                     props: { type: "text" },
                     on: {
                       click: () => {
@@ -672,10 +676,6 @@ export default {
       padding: 6px 12px;
     }
   }
-  .btngrey {
-    background: #979797;
-    color: #767676;
-  }
   .top {
     color: #ffffff;
     height: 40px;
@@ -737,6 +737,7 @@ export default {
         background-image: url(../../../assets/images/btn/moreBtn.png);
         text-align: center;
         font-size: 18px;
+        cursor: pointer;
         color: #ffffff;
         @media screen and (min-width: 3500px) {
           background-size: 100% 100%;

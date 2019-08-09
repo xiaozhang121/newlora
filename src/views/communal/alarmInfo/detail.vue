@@ -1,6 +1,6 @@
 <template>
   <div>
-    <analysisDetail :dataBread="dataBread" />
+    <analysisDetail :dataBread="dataBread" :downloadURL="downloadURL" />
   </div>
 </template>
 
@@ -12,7 +12,8 @@ export default {
   },
   data() {
     return {
-      dataBread: []
+      dataBread: [],
+      downloadURL: ""
     };
   },
   methods: {
@@ -26,6 +27,7 @@ export default {
             { path: "/meterdata/list", name: "表计分析" },
             { path: "", name: "所有表计分析" }
           ];
+          this.downloadURL = "/lenovo-plan/api/statistics/meter-data/list/download";
           break;
         case "report-view":
           this.dataBread = [
@@ -34,12 +36,13 @@ export default {
             { path: "/report/list", name: "巡检任务报表" },
             { path: "", name: "查看报告" }
           ];
+          this.downloadURL = "/lenovo-plan/api/statistics/plan/download";
           break;
       }
     }
   },
-  mounted() {
-    console.log(this.$route.name);
+  created() {
+    console.log(this.downloadURL);
     this.handleroute();
   }
 };

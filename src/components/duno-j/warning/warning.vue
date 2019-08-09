@@ -1,15 +1,15 @@
 <template>
   <section class="warningDialog">
     <div>
-    <el-dialog   :visible="newVisible" width="900px" center @close="handleClose">
+      <el-dialog :visible="newVisible" width="900px" center @close="handleClose">
         <div slot="title">
           <div class="title_top">
             <span>{{ dataList.title }}</span>
             <span class="iconfontList">
-            <!--<i class="iconfont icon-xiazai"></i>-->
-            <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
-            <i class="iconfont icon-wangye" @click="openPage()"></i>
-          </span>
+              <!--<i class="iconfont icon-xiazai"></i>-->
+              <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+              <i class="iconfont icon-wangye" @click="openPage()"></i>
+            </span>
           </div>
           <div class="extend">{{ dataList.alarmTypeValue }}</div>
         </div>
@@ -17,7 +17,10 @@
           <div class="monitor" ref="imgContain">
             <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
             <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
-            <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
+            <i
+              class="fullScreen iconfont icon-quanping"
+              @click="changeFullScreen($refs.imgContain)"
+            ></i>
           </div>
           <div class="info">
             <div class="info_top">
@@ -29,24 +32,24 @@
               <p>
                 {{ popData['alarmValue']?popData['alarmValue']+'℃':'' }}
                 <i-dropdown
-                        v-if="hasSelect && !discriminate"
-                        trigger="click"
-                        placement="bottom-start"
+                  v-if="hasSelect && !discriminate"
+                  trigger="click"
+                  placement="bottom-start"
                 >
                   <div
-                          class="table_select"
-                          :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
+                    class="table_select"
+                    :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
                   >
-                  <span class="member_operate_div">
-                    <span>{{ alarmLevelT }}</span>
-                  </span>
+                    <span class="member_operate_div">
+                      <span>{{ alarmLevelT }}</span>
+                    </span>
                     <i class="iconfont icon-xiala"></i>
                   </div>
                   <i-dropdownMenu slot="list">
                     <i-dropdownItem
-                            v-for="(item, index) in selectList"
-                            :key="index"
-                            @click.native="selectItem(item, index)"
+                      v-for="(item, index) in selectList"
+                      :key="index"
+                      @click.native="selectItem(item, index)"
                     >
                       <div class="alarmLevel">{{ item }}</div>
                     </i-dropdownItem>
@@ -62,10 +65,10 @@
               <!-- <a href="javascript:;" @click="clickJudge">结果修订</a> -->
             </div>
             <div class="from">
-            <span class="origin">
-              来源：
-              <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
-            </span>
+              <span class="origin">
+                来源：
+                <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
+              </span>
             </div>
           </div>
         </div>
@@ -76,21 +79,21 @@
               <span class="title">{{ item['time'] }}</span>
               <span class="info">{{ item['info'] }}</span>
             </p>
-          </div> -->
+          </div>-->
         </div>
         <div style="clear: both"></div>
-    </el-dialog>
-    <personJudge
-      :data="formData"
-      :isTemperture="isTemperture"
-      @on-close="onClose"
-      :visible="visibleJudge"
-    />
-  </div>
+      </el-dialog>
+      <personJudge
+        :data="formData"
+        :isTemperture="isTemperture"
+        @on-close="onClose"
+        :visible="visibleJudge"
+      />
+    </div>
   </section>
 </template>
 <script>
-import { Base64 } from 'js-base64'
+import { Base64 } from "js-base64";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import personJudge from "_c/duno-m/personJudge";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -227,12 +230,19 @@ export default {
     }
   },
   methods: {
-    openPage(){
-        let routeData = this.$router.resolve({ name: 'newPage', params: { name: Base64.encode(this.searchType), value: Base64.encode(this.searchId), info:  Base64.encode(JSON.stringify(this.popData))} });
-        window.open(routeData.href, '_blank');
+    openPage() {
+      let routeData = this.$router.resolve({
+        name: "newPage",
+        params: {
+          name: Base64.encode(this.searchType),
+          value: Base64.encode(this.searchId),
+          info: Base64.encode(JSON.stringify(this.popData))
+        }
+      });
+      window.open(routeData.href, "_blank");
     },
-    toPrint(e){
-        this.target = e.path[5]
+    toPrint(e) {
+      this.target = e.path[5];
     },
     changeFullScreen(target) {
       const that = this;
@@ -312,6 +322,8 @@ export default {
     clickJudge() {
       if (this.dataList.alarmValue == "") {
         this.isTemperture = false;
+      } else {
+        this.isTemperture = true;
       }
       this.visibleJudge = true;
     },
@@ -326,9 +338,9 @@ export default {
 };
 </script>
 <style lang="scss">
-@media print{
+@media print {
   .not-print {
-    opacity: 0
+    opacity: 0;
   }
 }
 .warningDialog {
@@ -490,12 +502,12 @@ export default {
   }
   .title_top {
     font-weight: bold;
-    .iconfontList{
+    .iconfontList {
       float: right;
       position: relative;
       top: -3px;
       margin-right: 30px;
-      .iconfont{
+      .iconfont {
         color: #95939d;
         margin-left: 12px;
         cursor: pointer;
