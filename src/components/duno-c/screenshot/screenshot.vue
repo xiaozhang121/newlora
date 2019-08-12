@@ -72,9 +72,11 @@ import {
   getMainDevice,
   getPart,
   getPartSub,
-  getRecognizeType
+  getRecognizeType,
+  snapshoot
 } from "@/api/configuration/configuration.js";
 import { now } from "moment";
+import { type } from "os";
 export default {
   name: "screenshot",
   props: {
@@ -88,6 +90,12 @@ export default {
       type: Object | Array,
       default() {
         return {};
+      }
+    },
+    streamAddr: {
+      type: String,
+      default: () => {
+        return "";
       }
     }
   },
@@ -158,10 +166,11 @@ export default {
       }
     },
     getFirstCode(e) {
+      // if (!isCalibrat) {
+      // }
       if (this.clickFlage == 0) {
         this.$refs.box.style.width = 0;
         this.$refs.box.style.height = 0;
-
         this.startPointX = e.offsetX;
         this.startPointY = e.offsetY;
         this.$refs.box.style.left = this.startPointX + "px";
@@ -178,10 +187,6 @@ export default {
     },
     //手动标定
     addTag() {
-      this.x0 = this.startPointX;
-      this.y0 = this.startPointY;
-      this.x1 = this.endPointX;
-      this.y1 = this.endPointY;
       this.isCalibrat = false;
     },
     //清除标定
@@ -256,8 +261,7 @@ export default {
             y0: this.startPointY,
             x1: this.endPointX,
             y1: this.endPointY,
-            recognizeType: "",
-            recognizeType: ""
+            recognizeType: this.selectValue
           }
         ],
         fileName: "",
