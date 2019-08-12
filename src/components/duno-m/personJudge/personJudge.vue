@@ -138,7 +138,7 @@ export default {
       });
     },
     initFive(query) {
-      debugger;
+      // debugger;
       let data = {
         alarmType: this.fourValue
       };

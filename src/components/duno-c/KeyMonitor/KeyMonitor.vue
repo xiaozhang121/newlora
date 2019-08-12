@@ -67,7 +67,7 @@
       @on-close="onClose"
       :visible="pushMovVisable"
     />
-    <screenshot :isShow="isShow" @closeShot="closeShot" />
+    <screenshot :isShow="isShow" @closeShot="closeShot" :monitorInfo="monitorInfo" />
   </div>
 </template>
 
