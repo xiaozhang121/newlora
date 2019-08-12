@@ -1,7 +1,7 @@
 <template>
-  <div class="Scroller" @mouseenter="enterControl" @mousemove="enterMove($event)"  @mouseleave="leaveControl()">
-      <scroller-item :widthOption="setWidth" @save-width="saveWidth" class="scrollerItem" id="first" ref="first" style="position: absolute" v-if="visibleFlagF" idName="box"  index="1" @on-hide="onHide" @on-stop="onStop" @on-click="handleClick" :listOption="lists"></scroller-item>
-      <scroller-item :widthOption="setWidth" @save-width="saveWidth" class="scrollerItem" id="second" ref="second" style="position: absolute" v-if="visibleFlagS" idName="boxF" index="2" @on-hide="onHide" @on-stop="onStop" @on-click="handleClick" :listOption="lists"></scroller-item>
+  <div class="Scroller"  @mousemove="enterMove($event)">
+      <scroller-item @on-enter="enterControl" @on-leave="leaveControl" :widthOption="setWidth" @save-width="saveWidth" class="scrollerItem" id="first" ref="first" style="position: absolute" v-if="visibleFlagF" idName="box"  index="1" @on-hide="onHide" @on-stop="onStop" @on-click="handleClick" :listOption="lists"></scroller-item>
+      <scroller-item  @on-enter="enterControl" @on-leave="leaveControl"  :widthOption="setWidth" @save-width="saveWidth" class="scrollerItem" id="second" ref="second" style="position: absolute" v-if="visibleFlagS" idName="boxF" index="2" @on-hide="onHide" @on-stop="onStop" @on-click="handleClick" :listOption="lists"></scroller-item>
       <!--<div id="node">
                 <div v-for="(item, index) in lists" class="node_item" :key="index">
                     <div class="name">
@@ -61,6 +61,11 @@ export default {
     }
   },
   watch: {
+    visible(now){
+      if(!now){
+          this.leaveControl()
+      }
+    },
     listOption: {
       handler(now) {
         this.lists = now;
@@ -111,10 +116,12 @@ export default {
       }
     },
     leaveControl(){
-        if(this.$refs.first)
-          this.$refs.first.leave()
-        if(this.$refs.second)
-          this.$refs.second.leave()
+        if(!this.visible){
+            if(this.$refs.first)
+              this.$refs.first.leave()
+            if(this.$refs.second)
+              this.$refs.second.leave()
+        }
     },
     onHide(index){
         this.count++

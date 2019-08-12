@@ -5,6 +5,8 @@
                    <!-- @mouseenter="enter()"
                     @mouseleave="leave()"-->
                     <div
+                            @mouseenter="enterControl"
+                            @mouseleave="leaveControl"
                             class="marquee_item"
                             v-for="(item, indexd) in lists"
                             :key="indexd+''+idName"
@@ -99,6 +101,12 @@
         },
         computed: {},
         methods: {
+            enterControl(){
+                this.$emit('on-enter')
+            },
+            leaveControl(){
+                this.$emit('on-leave')
+            },
             enter() {
                 clearInterval(this.timer);
             },
@@ -150,6 +158,7 @@
                 this.visible = false;
             },
             handleClick(index) {
+                this.enterControl()
                 this.$emit('on-click', index)
                 /*let that = this;
                 that.popData = that.lists[index];
