@@ -37,9 +37,9 @@
           <!-- <span>
             <i class="iconfont icon-luxiang"></i>录像
           </span>-->
-          <!-- <span>
+          <span @click="isSample">
             <i class="iconfont icon-jietu"></i>截图
-          </span>-->
+          </span>
           <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
@@ -48,16 +48,16 @@
           </span>
         </div>
       </transition>
-      <el-tooltip effect="dark"  content="点击查看摄像头详情" placement="top">
-      <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
+      <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
+        <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
           <div class="text">
             <span>{{kilovolt}}</span>
             <span>{{patrol}}</span>
           </div>
-          <span  @click="fullScreen()">
+          <span @click="fullScreen()">
             <i class="iconfont icon-jiantou"></i>
           </span>
-      </div>
+        </div>
       </el-tooltip>
     </div>
     <push-mov
@@ -67,6 +67,7 @@
       @on-close="onClose"
       :visible="pushMovVisable"
     />
+    <screenshot :isShow="isShow" @closeShot="closeShot" />
   </div>
 </template>
 
@@ -80,13 +81,15 @@ import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { editConfig } from "@/api/currency/currency.js";
 import { setTimeout } from "timers";
+import screenshot from "_c/duno-c/screenshot";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
 videojs.options.flash.swf = SWF_URL;
 export default {
   name: "KeyMonitor",
   components: {
     videoPlayer,
-    pushMov
+    pushMov,
+    screenshot
   },
   props: {
     configType: {},
@@ -197,6 +200,7 @@ export default {
   data() {
     return {
       timer: null,
+      isShow: false,
       loading: false,
       monitorSrc: "",
       monitorInfoR: "",
@@ -341,6 +345,12 @@ export default {
       });
       this.isIniializa = false;
       this.isNavbar = true;
+    },
+    isSample() {
+      this.isShow = true;
+    },
+    closeShot() {
+      this.isShow = false;
     }
   },
   mounted() {

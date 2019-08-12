@@ -11,10 +11,10 @@
         class="itemInput"
         v-model="formData.input"
         placeholder="机器判定结果，可修改"
-        @change="handlerSelectFour"
+        @change="handlerSelect"
       >
         <el-option
-          v-for="item in optionsData"
+          v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value"
@@ -30,10 +30,10 @@
         class="itemInput"
         v-model="formData.select"
         placeholder="数据类型"
-        @change="handleSelect"
+        @change="handlerSelectFour"
       >
         <el-option
-          v-for="item in options"
+          v-for="item in optionsData"
           :key="item.value"
           :label="item.label"
           :value="item.value"
@@ -124,12 +124,12 @@ export default {
     },
 
     handlerSelectFour(item) {
-      this.formData.input = item.lable;
+      // this.formData.input = item.lable;
       this.fourValue = item.value;
       this.initFive(this.fourValue);
     },
     handleSelect(item) {
-      this.formData.select = item.lable;
+      // this.formData.select = item.value;
     },
     //初始化下拉框
     initFour() {
@@ -138,6 +138,7 @@ export default {
       });
     },
     initFive(query) {
+      debugger;
       let data = {
         alarmType: this.fourValue
       };

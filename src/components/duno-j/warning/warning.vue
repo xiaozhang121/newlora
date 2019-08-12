@@ -62,7 +62,7 @@
               <div class="nr">{{ dataList.result }}</div>
             </div>
             <div>
-              <!-- <a href="javascript:;" @click="clickJudge">结果修订</a> -->
+              <a href="javascript:;" @click="clickJudge">结果修订</a>
             </div>
             <div class="from">
               <span class="origin">

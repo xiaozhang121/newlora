@@ -1,6 +1,6 @@
 <template>
   <div class="screenshot">
-    <el-dialog :show-close="false" :visible.sync="dialogVisible" width="30%" :center="true">
+    <el-dialog :show-close="false" @close="close" :visible.sync="isShow" width="30%" :center="true">
       <div class="dialog-content">
         <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
           <img :src="this.imgsrc" alt />
@@ -58,8 +58,8 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消并删除图像</el-button>
-        <el-button type="primary" @click="dialogVisible = false">保 存</el-button>
+        <el-button @click="deletSubmit">取消并删除图像</el-button>
+        <el-button type="primary" @click="handleSubmit">保 存</el-button>
       </span>
     </el-dialog>
   </div>
@@ -74,20 +74,21 @@ import {
   getPartSub,
   getRecognizeType
 } from "@/api/configuration/configuration.js";
+import { now } from "moment";
 export default {
   name: "screenshot",
   props: {
     isShow: {
       type: Boolean,
       default: () => {
-        return true;
+        return false;
       }
     }
   },
   data() {
     let that = this;
     return {
-      dialogVisible: true,
+      // dialogVisible: false,
       value: "",
       optionsFirst: [],
       options: [],
@@ -239,7 +240,8 @@ export default {
       }
     },
     handleSubmit() {
-      this.dialogVisible = false;
+      // this.dialogVisible = false;
+      this.$emit("closeShot");
       let url = "";
       let query = {};
       postAxiosData(url, query).then(res => {
@@ -248,9 +250,21 @@ export default {
           message: "保存成功"
         });
       });
+    },
+    close() {
+      this.$emit("closeShot");
+    },
+    deletSubmit() {
+      this.$emit("closeShot");
     }
   },
+  // watch: {
+  //   isShow(now) {
+  //     this.dialogVisible = now;
+  //   }
+  // },
   mounted() {
+    // this.dialogVisible = this.isShow;
     this.getImgInfo();
   }
 };

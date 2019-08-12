@@ -170,7 +170,6 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
-    <!-- <screenshot /> -->
   </div>
 </template>
 
@@ -178,7 +177,6 @@
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-import screenshot from "_c/duno-c/screenshot";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
 import mixinViewModule from "@/mixins/view-module";
@@ -209,8 +207,7 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning,
-    screenshot
+    wraning
   },
   data() {
     return {
@@ -712,7 +709,7 @@ export default {
   min-height: 100%;
   overflow-y: hidden;
   .icon-xiala {
-   /* width: 12px;
+    /* width: 12px;
     height: 15px;*/
   }
   .echartsData {
