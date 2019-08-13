@@ -256,7 +256,6 @@ export default {
       getAxiosData("/lenovo-plan/api/task-result/view", {
         [that.searchType]: that.searchId
       }).then(res => {
-        debugger;
         that.dataList = res.data;
         let obj = {};
         (res.data.dealList || []).forEach(el => {
@@ -267,7 +266,6 @@ export default {
         if (that.dataList.alarmTypeValue == "动态环境类") {
           that.discriminate = true;
         }
-        // debugger;
         that.formData = {
           alarmId: that.searchId,
           input: that.dataList.result,

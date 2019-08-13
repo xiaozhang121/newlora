@@ -192,16 +192,16 @@ export default {
       this.isCalibrat = true;
     },
     //框选图片
-    getImgInfo() {
-      var query = {
-        picFilePath: this.picFilePath
-      };
-      var url = "/lenovo-sample/api/mark/pic-flow";
-      getAxiosData(url, query).then(res => {
-        console.log(res);
-        this.imgsrc = res.data;
-      });
-    },
+    // getImgInfo() {
+    //   var query = {
+    //     picFilePath: this.picFilePath
+    //   };
+    //   var url = "/lenovo-sample/api/mark/pic-flow";
+    //   getAxiosData(url, query).then(res => {
+    //     console.log(res);
+    //     this.imgsrc = res.data;
+    //   });
+    // },
     getSelect(node, resolve) {
       const { level, root, data } = node;
       let params = {};
@@ -283,7 +283,7 @@ export default {
     }
   },
   mounted() {
-    this.getImgInfo();
+    // this.getImgInfo();
   }
 };
 </script>

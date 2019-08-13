@@ -90,6 +90,12 @@ export default {
       default: () => {
         return "";
       }
+    },
+    monitorDeviceType: {
+      type: String,
+      default: () => {
+        return "";
+      }
     }
   },
   data() {
@@ -112,6 +118,9 @@ export default {
       commonly: false,
       danger: false,
       value: "",
+      queryForm: {
+        monitorDeviceType: "1"
+      },
       titleTypeL: "所有设备",
       titleTypeC: "所有报表",
       titleTypeR: "所有类型",
@@ -353,6 +362,7 @@ export default {
     this.dataForm.planType = this.$route.query.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;
+    this.queryForm.monitorDeviceType = this.monitorDeviceType;
     this.title = this.$route.query.title;
     this.getRegion();
     this.getStart();

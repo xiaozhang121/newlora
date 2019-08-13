@@ -11,8 +11,12 @@
           @mouseleave.stop="mouseleave"
         >
           <transition name="el-zoom-in-center">
-            <div class="picDetail" v-show="item.show">
+            <div class="picDetail" ref="imgContain" v-show="item.show">
               <img :src="item.alarmFileAddress" />
+              <!-- <i
+                class="fullScreen iconfont icon-quanping"
+                @click="changeFullScreen($refs.imgContain)"
+              ></i>-->
             </div>
           </transition>
           <div class="mainMli">
@@ -21,12 +25,16 @@
               <div>
                 <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;
                 <span>{{item.alarmContent}}</span>
-                <!-- <span class="threshold">超出阈值：{{item.threshold}}</span> -->
+                <span class="threshold">内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}℃</span>
+                <span class="commonly" v-if="item.alarmLevel == '1'">一般</span>
+                <span class="serious" v-if="item.alarmLevel == '2'">严重</span>
+                <span class="danger" v-if="item.alarmLevel == '3'">危急</span>
               </div>
-              <div class="itemTitle">
-                <p>内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}℃</p>
+              <div class="itemdetail">
+                <span @click="handleClick">详情</span>
               </div>
             </div>
+            <!--
             <div>
               <i-dropdown class="dropAlarmDown" trigger="click" placement="bottom-start">
                 <div
@@ -49,6 +57,7 @@
                 </i-dropdownMenu>
               </i-dropdown>
             </div>
+            -->
           </div>
           <!-- <div>
             缺陷评估：
@@ -57,20 +66,27 @@
             >{{item.alarmLevelName}}</span>
           </div>-->
         </div>
+        <wraning :popData="item" :visible="visible" @handleClose="handleClose" />
       </div>
     </div>
   </div>
 </template>
 <script>
+import wraning from "_c/duno-j/warning";
+import screenfull from "screenfull";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType.js";
 export default {
   name: "historicalwarning",
+  components: {
+    wraning
+  },
   data() {
     return {
       selectList: ["一般", "严重", "危急"],
       timer: null,
       noEvent: false,
-      isClip: true
+      isClip: true,
+      visible: false
     };
   },
   props: {
@@ -156,6 +172,17 @@ export default {
           that.itemData = res.data.tableData;
         }
       });
+    },
+    handleClick() {
+      this.visible = true;
+    },
+    handleClose() {
+      this.popData = {};
+      this.visible = false;
+    },
+    changeFullScreen(target) {
+      const that = this;
+      screenfull.toggle(target);
     }
   },
   mounted() {
@@ -167,7 +194,7 @@ export default {
 .historicalwarning {
   .itemData {
     position: relative;
-    height: 100px;
+    height: 90px;
     margin-bottom: 10px;
     background: linear-gradient(
       to right,
@@ -249,6 +276,24 @@ export default {
     font-size: 16px;
     display: flex;
     justify-content: space-between;
+    position: relative;
+    .itemdetail {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      span {
+        display: inline-block;
+        padding: 2px 15px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        border: 1px solid #fff;
+      }
+      // span:hover {
+      //   color: #5eb0fc;
+      //   border: 1px solid #5eb0fc;
+      // }
+    }
     .itemTitle {
       p {
         font-size: 16px !important;
@@ -283,6 +328,18 @@ export default {
         font-size: 18px;
       }
     }
+  }
+  .commonly {
+    color: #5eb0fc;
+    padding-left: 10px;
+  }
+  .serious {
+    color: #ff8300;
+    padding-left: 10px;
+  }
+  .danger {
+    color: #d7203f;
+    padding-left: 10px;
   }
 }
 </style>

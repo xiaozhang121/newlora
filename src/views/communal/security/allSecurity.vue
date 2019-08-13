@@ -62,6 +62,7 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
     <div class="remarks">
       <el-dialog
         title="备注"
@@ -91,6 +92,7 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
+import enlarge from "_c/duno-c/enlarge";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
@@ -114,7 +116,8 @@ export default {
     DunoTablesTep,
     warningSetting,
     wraning,
-    buttonCustom
+    buttonCustom,
+    enlarge
   },
   data() {
     const that = this;
@@ -132,6 +135,8 @@ export default {
       serious: false,
       commonly: false,
       danger: false,
+      isEnlarge: false,
+      srcData: [],
       dialogVisible: false,
       value: "",
       titleTypeL: "全部电压等级",
@@ -222,7 +227,13 @@ export default {
                 h("img", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
@@ -230,7 +241,13 @@ export default {
                 h("video", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -442,6 +459,9 @@ export default {
         });
         this.typeList = map;
       });
+    },
+    closeEnlarge() {
+      this.isEnlarge = false;
     },
     getJump(row) {
       let monitorDeviceId =

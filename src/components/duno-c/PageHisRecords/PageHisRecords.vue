@@ -47,6 +47,7 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
     <div class="remarks">
       <el-dialog
         title="备注"
@@ -77,6 +78,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import buttonCustom from "_c/duno-m/buttonCustom";
+import enlarge from "_c/duno-c/enlarge";
 import moment from "moment";
 import {
   alarmType,
@@ -90,7 +92,8 @@ export default {
   components: {
     dunoBtnTop,
     DunoTablesTep,
-    buttonCustom
+    buttonCustom,
+    enlarge
   },
   props: {
     areaId: {
@@ -123,6 +126,8 @@ export default {
       dialogVisible: false,
       textarea: "",
       alarmId: "",
+      isEnlarge: false,
+      srcData: [],
       columns: [
         {
           key: "alarmTime",
@@ -192,7 +197,13 @@ export default {
                 h("img", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
@@ -200,7 +211,13 @@ export default {
                 h("video", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -350,6 +367,9 @@ export default {
         else that.$message.error(res.msg);
         this.getDataList();
       });
+    },
+    closeEnlarge() {
+      this.isEnlarge = false;
     },
     getJump(row) {
       let monitorDeviceId =
