@@ -50,6 +50,9 @@
             height: 120,
             sources: [{
               type: 'rtmp/flv',
+              type: 'video/ogg',
+              type: 'video/webm',
+              type: 'video/mp4',
               src: itemData['alarmFileAddress']
             }],
             techOrder: ['flash'],
@@ -272,6 +275,7 @@ export default {
 .popuponeinfoBox {
   .realtime_video > div {
     transform: scale(2.2095, 2.8) !important;
+    transform-origin: left top;
   }
 }
 .popuponeinfoBox .el-dialog__body {

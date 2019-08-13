@@ -2,6 +2,8 @@ import { getFormat, getTopNav, getBreadCrumbList, setTagNavListInLocalstorage, g
 import routers from '@/router/routers'
 export default {
   state: {
+    webFullVisable: false,
+    webFull: '',
     rebotFresh: '',
     breadCrumbList: [],
     tagNavList: [],

@@ -43,6 +43,9 @@
           <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
+          <span @click="webFullScreen()">
+            <i class="iconfont icon-quanping"></i>网页全屏
+          </span>
           <span @click="pushMov()">
             <i class="iconfont icon-tuisong"></i>推送
           </span>
@@ -222,8 +225,9 @@ export default {
             /* type: "video/ogg",
             type: "video/webm",
             type: "video/mp4",*/
+            src: ''
             // src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
-            src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+            // src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
           }
         ],
         fluid: true,
@@ -243,6 +247,10 @@ export default {
     }
   },
   methods: {
+    webFullScreen(){
+        this.$store.state.app.webFullVisable = !this.$store.state.app.webFullVisable
+        this.$store.state.app.webFull = this.streamAddr
+    },
     onPlayerPlay(player) {
       //   alert("play");
     },
