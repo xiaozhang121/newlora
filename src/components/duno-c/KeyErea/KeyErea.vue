@@ -47,22 +47,23 @@
     </div>
     <div class="monitorArea" :class="{'center': isCenter}">
       <!--@on-push="onPush"-->
-      <KeyMonitor
-              class="monitorN"
-              style="margin-bottom: 47px"
-              :routeName="routeNamed"
-              :configType="configType"
-              v-for="(item,index) in dataMonitor"
-              :autoplay="true"
-              :class="{'noMargin': (index+1) % active == 0}"
-              :key="index"
-              :imgAdress="item['pic']"
-              :streamAddr="item['streamAddress']"
-              :monitorInfo="item"
-              :width="videoWidth"
-              :showBtmOption="true"
-              :kilovolt="item['monitorDeviceName']"
-      />
+        <KeyMonitor
+                class="monitorN"
+                style="margin-bottom: 47px"
+                :routeName="routeNamed"
+                :configType="configType"
+                v-for="(item,index) in dataMonitor"
+                :autoplay="true"
+                :class="{'noMargin': (index+1) % active == 0}"
+                :key="index"
+                :isAlarm="item['isAlarm']"
+                :imgAdress="item['pic']"
+                :streamAddr="item['streamAddress']"
+                :monitorInfo="item"
+                :width="videoWidth"
+                :showBtmOption="true"
+                :kilovolt="item['monitorDeviceName']"
+        />
     </div>
     <!--:patrol="item['monitorDeviceId']"-->
     <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->
@@ -153,8 +154,30 @@
         },
         computed: {
             ...mapState(["app"]),
+            isAlarmF() {
+                return this.$store.state.user.isAlarm;
+            }
         },
         watch: {
+            isAlarmF: {
+                handler(now) {
+                   if(now && this.configType == '3'){
+                       let monitorDeviceId = this.$store.state.user.alarmInfo['monitorDeviceId']
+                       let data = JSON.parse(JSON.stringify(this.dataMonitor))
+                       data.map(item=>{
+                           if(item['monitorDeviceId'] == monitorDeviceId){
+                                item['isAlarm'] = true
+                           }else{
+                                item['isAlarm'] = false
+                           }
+                       })
+                       this.dataMonitor = data
+                       this.$forceUpdate()
+                   }
+                },
+                deep: true,
+                immediate: true
+            },
             '$route' (to) {
                 this.routeName = to.name
             },
