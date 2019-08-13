@@ -206,7 +206,10 @@ export default {
         this.searchId = now["resultId"];
         this.searchType = "resultId";
       }
-      this.initData();
+      console.log(this.searchId);
+      if (this.searchId != "") {
+        this.initData();
+      }
     },
     // handleNotes(now) {
     //   this.handleList = [];
@@ -249,25 +252,27 @@ export default {
       screenfull.toggle(target);
     },
     initData() {
+      let that = this;
       getAxiosData("/lenovo-plan/api/task-result/view", {
-        [this.searchType]: this.searchId
+        [that.searchType]: that.searchId
       }).then(res => {
-        this.dataList = res.data;
+        debugger;
+        that.dataList = res.data;
         let obj = {};
         res.data.dealList.forEach(el => {
           obj.time = el.dealTime;
           obj.info = el.dealType;
-          this.handleList.push(obj);
+          that.handleList.push(obj);
         });
-
-        if (this.dataList.alarmTypeValue == "动态环境类") {
-          this.discriminate = true;
+        if (that.dataList.alarmTypeValue == "动态环境类") {
+          that.discriminate = true;
         }
-        this.formData = {
-          alarmId: this.searchId,
-          input: this.dataList.result,
-          inputT: this.dataList.alarmValue,
-          select: this.dataList.alarmType
+        // debugger;
+        that.formData = {
+          alarmId: that.searchId,
+          input: that.dataList.result,
+          inputT: that.dataList.alarmValue,
+          select: that.dataList.alarmType
         };
       });
     },
