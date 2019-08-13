@@ -127,7 +127,7 @@ export default {
       this.fourValue = item;
       this.initFive(this.fourValue);
     },
-    handleSelect(item) {
+    handlerSelect(item) {
       // this.formData.select = item.value;
     },
     //初始化下拉框

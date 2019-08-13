@@ -398,7 +398,16 @@ export default {
         rtmpUrl: this.streamAddr
       };
       postAxiosData(url, query).then(res => {
-        this.shotData = res.data;
+        let query = {
+          fileName: res.data.cephFileName,
+          bucketName: res.data.cephBucket
+        };
+        postAxiosData(
+          "/lenovo-storage/api/storageService/file/imgFile",
+          query
+        ).then(res => {
+          this.shotData = res.data;
+        });
       });
     },
     closeShot() {
