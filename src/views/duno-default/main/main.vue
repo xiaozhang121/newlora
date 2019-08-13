@@ -125,6 +125,7 @@
             class="dialogMain"
             :visible.sync="visibleCamera"
             :show-close="false"
+            :before-close="beforeClose"
            >
       <KeyMonitor
               v-if="visibleCamera"
@@ -241,6 +242,9 @@ export default {
   },
   methods: {
     ...mapMutations(["setBreadCrumb", "setTagNavList"]),
+    beforeClose(){
+       this.$store.state.app.webFullVisable = false
+    },
     alarmClose() {
       this.visible = false;
       this.$store.state.user.isAlarm = false;
