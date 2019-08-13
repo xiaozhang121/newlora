@@ -296,9 +296,12 @@ export default {
         }
         if(now.length>4){
           this.legendOption['type'] = 'scroll'
+          this.legendOption['padding'] = [0,0,0,0]
+          this.legendOption['itemGap'] = 20
+          this.legendOption['itemWidth'] = 14
+          this.legendOption['align'] = 'auto'
           this.legendOption['pageIconColor'] = '#aaaaaa'
           this.legendOption['pageIconInactiveColor'] = '#aaaaaa'
-          this.legendOption['left'] = '60'
         }
         this.legendOption.data = arr
       },
