@@ -70,6 +70,7 @@
       :visible="visible"
       @handleClose="handleClose"
     />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
@@ -79,6 +80,7 @@ import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import enlarge from "_c/duno-c/enlarge";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
@@ -95,7 +97,8 @@ export default {
     DunoTablesTep,
     warningSetting,
     wraning,
-    Breadcrumb
+    Breadcrumb,
+    enlarge
   },
   data() {
     const that = this;
@@ -114,12 +117,14 @@ export default {
       isFileType: false,
       visibleSettingOption: false,
       visible: false,
+      isEnlarge: false,
       totalNum: 500,
       pageRows: 20,
       selectInfo: "更多",
       serious: false,
       commonly: false,
       danger: false,
+      srcData: [],
       value: "",
       titleTypeL: "所有区域",
       titleTypeC: "所有状态",
@@ -309,7 +314,6 @@ export default {
           key: "id",
           minWidth: 120,
           align: "center",
-          
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
@@ -319,10 +323,11 @@ export default {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
-                  ref: "imgContain",
                   on: {
                     click: () => {
-                      that.changeFullScreen(this.$refs.imgContain);
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                      // that.changeFullScreen(this.$refs.imgContain);
                     }
                   }
                 })
@@ -333,10 +338,11 @@ export default {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
-                  ref: "videoContain",
                   on: {
                     click: () => {
-                      that.changeFullScreen($refs.videoContain);
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                      // that.changeFullScreen($refs.videoContain);
                     }
                   }
                 })
@@ -582,6 +588,9 @@ export default {
         });
         this.typeList = map;
       });
+    },
+    closeEnlarge() {
+      this.isEnlarge = false;
     },
     getJump(row) {
       let monitorDeviceId =

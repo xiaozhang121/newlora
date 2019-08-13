@@ -194,7 +194,6 @@
         },
         methods: {
             onDisabled(now){
-                debugger
                 if(this.selectCount!=0 && (now.length == this.selectCount)){
                     this.$refs.btnTopRef.disabled = true
                 }else{
