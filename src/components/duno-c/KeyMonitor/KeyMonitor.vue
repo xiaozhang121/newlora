@@ -1,5 +1,5 @@
 <template>
-  <div class="keyMonitor" :style="{width:width}">
+  <div class="keyMonitor" :style="{width:width}" :class="{isAlarm: isAlarmOption}">
     <div
       class="camera"
       :style="{'paddingBottom': paddingBottom}"
@@ -96,6 +96,12 @@ export default {
     screenshot
   },
   props: {
+    isAlarm:{
+      type: Boolean,
+      default: () => {
+          return false;
+      }
+    },
     configType: {},
     routeName: {},
     Initialization: {
@@ -164,6 +170,29 @@ export default {
     }
   },
   watch: {
+    isAlarmG:{
+      handler(now){
+        if(!now){
+            clearInterval(this.sTimer)
+            this.isAlarmOption = false
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    isAlarm:{
+      handler(now){
+        this.isAlarmOption = now
+        if(now){
+          clearInterval(this.sTimer)
+          this.sTimer = setInterval(()=>{
+              this.isAlarmOption = !this.isAlarmOption
+          },500)
+        }
+      },
+      deep: true,
+      immediate: true
+    },
     isNav(now) {
       this.isNavbar = now;
     },
@@ -180,8 +209,12 @@ export default {
           this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
           this.showView = true;
-          this.loading = false;
           clearTimeout(this.timer);
+          this.$nextTick(()=>{
+              setTimeout(()=>{
+                  this.loading = false;
+              },1500)
+          })
         }
       },
       immediate: true
@@ -203,6 +236,8 @@ export default {
   },
   data() {
     return {
+      isAlarmOption: false,
+      sTimer: null,
       timer: null,
       isShow: false,
       loading: false,
@@ -244,7 +279,10 @@ export default {
     ...mapState(["user"]),
     player() {
       return this.$refs.videoPlayer.player;
-    }
+    },
+    isAlarmG() {
+        return this.$store.state.user.isAlarm;
+    },
   },
   methods: {
     webFullScreen(){
@@ -401,6 +439,9 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  &.isAlarm{
+    border: 1px solid red;
+  }
   .el-loading-text {
     color: #969696 !important;
   }

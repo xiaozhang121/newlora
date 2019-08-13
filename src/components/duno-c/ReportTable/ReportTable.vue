@@ -1,7 +1,7 @@
 <template>
   <div class="reportTable">
     <div>
-      <img :src="reportData.pic" />
+      <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg"/>
     </div>
     <div class="content">
       <el-tooltip class="item" effect="dark" :content="reportData.planId" placement="top">
@@ -68,6 +68,8 @@ export default {
   data() {
     const that = this;
     return {
+      defaultImg: 'this.src="' + require('@/assets/transperant.png')  + '"',
+      imageVisible: true,
       baseUrl:
         process.env.NODE_ENV === "development"
           ? that.$config.baseUrl.dev
@@ -95,6 +97,9 @@ export default {
     }
   },
   methods: {
+    onError(error){
+        this.imageVisible = false
+    },
     clickDownload() {
       let url = this.url.downloadUrl;
       let params = qs.stringify({
