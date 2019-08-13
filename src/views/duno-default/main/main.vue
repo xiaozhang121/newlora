@@ -12,8 +12,6 @@
       <el-container class="mainAside">
         <el-menu
           class="el-menu-vertical-demo not-print"
-          @open="handleOpen"
-          @close="handleClose"
           :collapse="isCollapse"
         >
           <el-aside
@@ -122,9 +120,24 @@
       @onClose="alarmClose"
       :visible="visible"
     ></popup-one-info>
+    <el-dialog
+            v-if="visibleCamera"
+            class="dialogMain"
+            :visible.sync="visibleCamera"
+            :show-close="false"
+           >
+      <KeyMonitor
+              v-if="visibleCamera"
+              :autoplay="true"
+              :streamAddr="monitorData.src"
+              :isNav="false"
+      />
+    </el-dialog>
+
   </div>
 </template>
 <script>
+import KeyMonitor from "_c/duno-c/KeyMonitor"
 import { mapMutations, mapState } from "vuex";
 import { getNewTagList } from "@/libs/util";
 import SideMenu from "./components/side-menu"; // 侧导航栏
@@ -141,6 +154,7 @@ import "./main.scss";
 export default {
   name: "Main",
   components: {
+    KeyMonitor,
     SideMenu,
     popupOneInfo,
     HeaderBar,
@@ -154,6 +168,11 @@ export default {
   },
   data() {
     return {
+      monitorData:{
+          src: ''
+          // src: "rtmp://202.69.69.180:443/webcast/bshdlive-pc"
+      },
+      visibleCamera: false,
       isHidden: false,
       visible: false,
       collapsed: false,
@@ -170,6 +189,12 @@ export default {
     };
   },
   computed: {
+    addrFlag(){
+        return this.$store.state.app.webFullVisable
+    },
+    addrData(){
+        return this.$store.state.app.webFull
+    },
     frameLength() {
       if(!('kind' in this.$route.meta))
         return !parent.frames.length;
@@ -282,6 +307,21 @@ export default {
     }
   },
   watch: {
+    addrFlag: {
+      handler(now){
+         this.visibleCamera = true
+      },
+      deep: true
+    },
+    addrData:{
+      handler(now){
+        if(now){
+            this.monitorData['src'] = now
+        }
+      },
+      deep: true,
+      immediate: true
+    },
     kilovoltKind: {
       handler(now) {},
       deep: true,
@@ -338,6 +378,38 @@ export default {
 };
 </script>
 <style lang="scss">
+.dialogMain{
+  .el-dialog{
+    width: 100% !important;
+    height: 100%;
+    margin-top: 0 !important;
+    margin: 0;
+  }
+  .video-js.vjs-fluid{
+    height: 100vh !important;
+    padding-top: 0 !important;
+  }
+  .el-dialog__header{
+    display: none;
+  }
+  .camera{
+    padding-bottom: 0 !important;
+    height: 100vh;
+  }
+  .keyMonitor .video-player.vjs-custom-skin{
+    height: 100vh;
+  }
+  .vjs_video_395-dimensions.vjs-fluid{
+    height: 100vh;
+    padding-top: 0;
+  }
+  .el-dialog__body{
+    padding: 0;
+    .keyMonitor{
+      width: 100% !important;
+    }
+  }
+}
 .el-menu {
   border-right: none !important;
 }
