@@ -8,7 +8,7 @@
         </div>
         <div v-show="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
         <div v-show="!isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
-        <div v-if="isCalibrat" class="shotInput">
+        <div class="shotInput">
           <div>
             <el-cascader
               placeholder="选择设备-部件-类型"
@@ -32,6 +32,7 @@
             <el-input type="textarea" :rows="2" placeholder="人工备注（选填）" v-model="textarea"></el-input>
           </div>
         </div>
+        <!--
         <div v-if="!isCalibrat" class="shotInput">
           <div>
             <el-cascader
@@ -56,6 +57,7 @@
             <el-input type="textarea" :rows="2" placeholder="人工备注（选填）" v-model="textarea"></el-input>
           </div>
         </div>
+        -->
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="deletSubmit">取消并删除图像</el-button>
@@ -75,8 +77,6 @@ import {
   getRecognizeType,
   snapshoot
 } from "@/api/configuration/configuration.js";
-import { now } from "moment";
-import { type } from "os";
 export default {
   name: "screenshot",
   props: {
@@ -166,9 +166,7 @@ export default {
       }
     },
     getFirstCode(e) {
-      // if (!isCalibrat) {
-      // }
-      if (this.clickFlage == 0) {
+      if (this.clickFlage == 0 && this.isCalibrat) {
         this.$refs.box.style.width = 0;
         this.$refs.box.style.height = 0;
         this.startPointX = e.offsetX;

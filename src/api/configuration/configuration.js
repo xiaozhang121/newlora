@@ -393,8 +393,5 @@ export const snapshoot = (query) => {
     return axios.request({
         url: "/lenovo-device/api/stream/snapshoot",
         method: 'post',
-        params: {
-            ...query
-        }
     })
 }

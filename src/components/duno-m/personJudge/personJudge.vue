@@ -4,7 +4,7 @@
       v-dialogDrag
       title="人工判断"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="500px"
       :before-close="handleClose"
     >
       <el-select
@@ -124,8 +124,7 @@ export default {
     },
 
     handlerSelectFour(item) {
-      // this.formData.input = item.lable;
-      this.fourValue = item.value;
+      this.fourValue = item;
       this.initFive(this.fourValue);
     },
     handleSelect(item) {
@@ -138,7 +137,6 @@ export default {
       });
     },
     initFive(query) {
-      // debugger;
       let data = {
         alarmType: this.fourValue
       };
