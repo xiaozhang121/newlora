@@ -54,7 +54,7 @@
         top="20vh"
         :visible.sync="dialogVisible"
         :modal="false"
-        width="30%"
+        width="500px"
       >
         <el-input
           type="textarea"
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { postAxiosData, getAxiosData } from '@/api/axiosType'
+import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
@@ -352,45 +352,48 @@ export default {
       });
     },
     getJump(row) {
-        let monitorDeviceId = ('monitorDeviceId' in row && row.monitorDeviceId)?row.monitorDeviceId:row.monitorDevice[0]['monitorDeviceId']
-        getAxiosData("/lenovo-device/api/preset/type", {
-            monitorDeviceId: monitorDeviceId
-        }).then(res => {
-            let supportPreset = res.data["supportPreset"];
-            let monitorDeviceType = res.data["monitorDeviceType"];
-            if (monitorDeviceType == 1) {
-                if (supportPreset) {
-                    this.$router.push({
-                        path: "/surveillancePath/detailLight",
-                        query: {
-                            monitorDeviceId: monitorDeviceId
-                        }
-                    });
-                } else {
-                    this.$router.push({
-                        path: "/surveillancePath/detailLightN",
-                        query: {
-                            monitorDeviceId: monitorDeviceId
-                        }
-                    });
-                }
-            } else if (monitorDeviceType == 2) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: monitorDeviceId
-                    }
-                });
-            } else if (monitorDeviceType == 3) {
-                this.$router.push({
-                    path: "/surveillancePath/detailEnv",
-                    query: {
-                        monitorDeviceId: monitorDeviceId
-                    }
-                });
+      let monitorDeviceId =
+        "monitorDeviceId" in row && row.monitorDeviceId
+          ? row.monitorDeviceId
+          : row.monitorDevice[0]["monitorDeviceId"];
+      getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: monitorDeviceId
+      }).then(res => {
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: monitorDeviceId
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: monitorDeviceId
+              }
+            });
+          }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: monitorDeviceId
             }
-        });
-     /* if (row.monitorDeviceType == "1") {
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: monitorDeviceId
+            }
+          });
+        }
+      });
+      /* if (row.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailLight",
           query: {
