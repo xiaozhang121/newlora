@@ -259,7 +259,7 @@ export default {
         debugger;
         that.dataList = res.data;
         let obj = {};
-        res.data.dealList.forEach(el => {
+        (res.data.dealList || []).forEach(el => {
           obj.time = el.dealTime;
           obj.info = el.dealType;
           that.handleList.push(obj);
