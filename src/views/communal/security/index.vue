@@ -6,32 +6,61 @@
     <div>
       <KeyErea />
     </div>
-    <div class="alarmTitle">
-      <div>3天内动态环境异常记录</div>
-      <div>
-        <div @click="clickToDetail">所有动态环境异常信息</div>
+    <div class="mainContamin">
+      <div class="item">
+        <div class="alarmTitle">
+          <div>24小时监测记录</div>
+          <div>
+            <div @click="clickToDetail(1)">查看更多 ></div>
+          </div>
+        </div>
+        <div class="monitorContain">
+            <div class="monitorItem" :class="{marginRight: index%2 == 0}" v-for="(item, index) in demoList"  :key="index">
+              <key-monitor
+                  class="monitorRecord"
+                  :showBtmOption="true"
+                  :noButton="false"
+                  configType="2"
+                  imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
+                  streamAddr="rtmp://10.0.10.39/rtsp59/stream"
+                  kilovolt="摄像头名称"
+                  patrol="20190813"
+              />
+            </div>
+            <div style="clear: both"></div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="alarmTitle">
+          <div>3天内动态环境异常记录</div>
+          <div>
+            <div @click="clickToDetail(2)">查看更多 ></div>
+          </div>
+        </div>
+        <div
+                class="alarmLogIn"
+                v-loading="loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)"
+                element-loading-text="加载中"
+        >
+          <AlarmLog
+                  v-for="(item,index) in dataList"
+                  :remarkData="dataList[index]"
+                  :time="item.alarmTime"
+                  :remarks="item.dealList"
+                  :key="index"
+                  @handleListData="handleData"
+          />
+        </div>
       </div>
     </div>
-    <div
-      class="alarmLogIn"
-      v-loading="loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-      element-loading-text="加载中"
-    >
-      <AlarmLog
-        v-for="(item,index) in dataList"
-        :remarkData="dataList[index]"
-        :time="item.alarmTime"
-        :remarks="item.dealList"
-        :key="index"
-        @handleListData="handleData"
-      />
-    </div>
+
     <!-- <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" /> -->
   </div>
 </template>
 
 <script>
+import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import KeyErea from "_c/duno-c/KeyErea";
 import AlarmLog from "_c/duno-c/AlarmLog";
@@ -47,12 +76,21 @@ export default {
   mixins: [mixinViewModule],
   name: "security",
   components: {
+    KeyMonitor,
     Breadcrumb,
     AlarmLog,
     KeyErea
   },
   data() {
     return {
+      demoList:[
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+      ],
       timer: null,
       loading: false,
       mixinViewModuleOptions: {
@@ -127,10 +165,17 @@ export default {
     handleData() {
       this.getDataList();
     },
-    clickToDetail() {
-      this.$router.push({
-        name: "security-all"
-      });
+    clickToDetail(flag) {
+      if(flag == 2){
+        this.$router.push({
+            name: "security-all"
+        });
+      }else{
+        this.$router.push({
+            name: "record-all"
+        });
+      }
+
     },
     getTime() {
       let endTime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -275,6 +320,32 @@ export default {
     overflow: hidden;
     & > div:nth-child(odd) {
       margin-left: 0 !important;
+    }
+  }
+  .mainContamin{
+    display: flex;
+    .monitorContain{
+      background: rgba(20,40,56,0.8);
+      padding: 20px;
+      min-height: 491px;
+    }
+    .monitorItem{
+      width: 49%;
+      float: left;
+      &.marginRight{
+        margin-right: 2%;
+      }
+      .monitorRecord{
+        width: 100% !important;
+        height: 100%;
+        margin: 0 0px 50px 0;
+      }
+    }
+    .item{
+      flex-grow: 1;
+    }
+    .item:last-child{
+      margin-left: 20px;
     }
   }
 }

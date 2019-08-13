@@ -1,5 +1,5 @@
 <template>
-  <div class="keyMonitor" :style="{width:width}" :class="{isAlarm: isAlarmOption}">
+  <div class="keyMonitor" :style="{width:width}" :class="[{isAlarm: isAlarmOption},{noButton: noButton}]">
     <div
       class="camera"
       :style="{'paddingBottom': paddingBottom}"
@@ -96,6 +96,12 @@ export default {
     screenshot
   },
   props: {
+    noButton:{
+      type: Boolean,
+      default: () => {
+          return true;
+      }
+    },
     isAlarm:{
       type: Boolean,
       default: () => {
@@ -439,6 +445,14 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  &.noButton{
+    .vjs-big-play-button{
+      display: none;
+    }
+    .video-js .vjs-big-play-button{
+      display: none;
+    }
+  }
   &.isAlarm{
     border: 1px solid red;
   }
@@ -448,15 +462,14 @@ export default {
   .topStyle {
     background: black;
     .vjs-big-play-button {
-      display: none;
-      height: 2.2em !important;
+      height: 2em !important;
       width: 2em;
       line-height: 2em;
       border-radius: 1em;
       position: absolute;
       top: 0;
       right: 0;
-      bottom: -26% !important;
+      bottom: 0 !important;
       left: 0;
       margin: auto;
     }
@@ -469,7 +482,6 @@ export default {
     width: 100%;
   }
   .video-js .vjs-big-play-button {
-    display: none;
     /*
      播放按钮换成圆形
     */

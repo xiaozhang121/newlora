@@ -483,6 +483,18 @@ export default [{
             component: () => import('@/views/communal/security/index.vue')
         },
         {
+            path: 'record-all',
+            name: 'record-all',
+            meta: {
+                topNav: '2',
+                title: '24小时监测记录',
+                hideInMenu: true,
+                isDetails: true,
+                active: 'environmentalList'
+            },
+            component: () => import('@/views/communal/security/allRecord.vue')
+        },
+        {
             path: 'security-all',
             name: 'security-all',
             meta: {
