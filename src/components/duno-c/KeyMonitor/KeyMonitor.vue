@@ -209,8 +209,12 @@ export default {
           this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
           this.showView = true;
-          this.loading = false;
           clearTimeout(this.timer);
+          this.$nextTick(()=>{
+              setTimeout(()=>{
+                  this.loading = false;
+              },1500)
+          })
         }
       },
       immediate: true

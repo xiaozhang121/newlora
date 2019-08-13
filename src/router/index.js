@@ -12,7 +12,8 @@ const router = new Router({
 })
 const LOGIN_PAGE_NAME = 'login'
 
-router.beforeEach((to, from, next) => { 
+router.beforeEach((to, from, next) => {
+  store.state.app.webFullVisable = false
   if(!(self.frameElement && self.frameElement.tagName == "IFRAME")){  
     if('kind' in to.meta){
         store.state.app.kilovolt = to.meta.kind

@@ -309,7 +309,7 @@ export default {
   watch: {
     addrFlag: {
       handler(now){
-         this.visibleCamera = true
+         this.visibleCamera = now
       },
       deep: true
     },
@@ -395,6 +395,7 @@ export default {
   .camera{
     padding-bottom: 0 !important;
     height: 100vh;
+    background: black;
   }
   .keyMonitor .video-player.vjs-custom-skin{
     height: 100vh;
