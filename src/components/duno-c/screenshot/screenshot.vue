@@ -75,8 +75,6 @@ import {
   getRecognizeType,
   snapshoot
 } from "@/api/configuration/configuration.js";
-import { now } from "moment";
-import { type } from "os";
 export default {
   name: "screenshot",
   props: {

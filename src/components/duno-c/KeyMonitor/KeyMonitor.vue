@@ -351,10 +351,11 @@ export default {
     //获取图片
     isSample() {
       this.isShow = true;
+      let url = "/lenovo-device/api/stream/snapshoot";
       let query = {
         rtmpUrl: this.streamAddr
       };
-      snapshoot(query).then(res => {
+      postAxiosData(url, query).then(res => {
         this.shotData = res.data;
       });
     },
