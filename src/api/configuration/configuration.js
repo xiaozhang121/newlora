@@ -387,3 +387,14 @@ export const fourSample = (query) => {
         }
     })
 }
+
+//流媒体-截取指定rtmp流的图片
+export const snapshoot = (query) => {
+    return axios.request({
+        url: "/lenovo-device/api/stream/snapshoot",
+        method: 'post',
+        params: {
+            ...query
+        }
+    })
+}

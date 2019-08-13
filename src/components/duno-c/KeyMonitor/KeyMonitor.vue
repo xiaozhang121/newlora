@@ -67,7 +67,7 @@
       @on-close="onClose"
       :visible="pushMovVisable"
     />
-    <screenshot :isShow="isShow" @closeShot="closeShot" />
+    <screenshot :isShow="isShow" @closeShot="closeShot" :monitorInfo="monitorInfo" />
   </div>
 </template>
 
@@ -84,6 +84,7 @@ import { setTimeout } from "timers";
 import screenshot from "_c/duno-c/screenshot";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
 videojs.options.flash.swf = SWF_URL;
+import { snapshoot } from "@/api/configuration/configuration.js";
 export default {
   name: "KeyMonitor",
   components: {
@@ -211,6 +212,7 @@ export default {
       isIniializa: false,
       isNavbar: true,
       showBtm: false,
+      shotData: [],
       //   isChange: true,
       isSecond: false,
       playerOptions: {
@@ -346,8 +348,15 @@ export default {
       this.isIniializa = false;
       this.isNavbar = true;
     },
+    //获取图片
     isSample() {
       this.isShow = true;
+      let query = {
+        rtmpUrl: this.streamAddr
+      };
+      snapshoot(query).then(res => {
+        this.shotData = res.data;
+      });
     },
     closeShot() {
       this.isShow = false;

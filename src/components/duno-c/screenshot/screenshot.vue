@@ -5,9 +5,9 @@
         <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
           <img :src="this.imgsrc" alt />
           <div ref="box" id="box1"></div>
-          <div v-if="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
-          <div v-if="!isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
         </div>
+        <div v-show="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
+        <div v-show="!isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
         <div v-if="isCalibrat" class="shotInput">
           <div>
             <el-cascader
@@ -72,9 +72,11 @@ import {
   getMainDevice,
   getPart,
   getPartSub,
-  getRecognizeType
+  getRecognizeType,
+  snapshoot
 } from "@/api/configuration/configuration.js";
 import { now } from "moment";
+import { type } from "os";
 export default {
   name: "screenshot",
   props: {
@@ -82,6 +84,18 @@ export default {
       type: Boolean,
       default: () => {
         return false;
+      }
+    },
+    monitorInfo: {
+      type: Object | Array,
+      default() {
+        return {};
+      }
+    },
+    streamAddr: {
+      type: String,
+      default: () => {
+        return "";
       }
     }
   },
@@ -152,10 +166,11 @@ export default {
       }
     },
     getFirstCode(e) {
+      // if (!isCalibrat) {
+      // }
       if (this.clickFlage == 0) {
         this.$refs.box.style.width = 0;
         this.$refs.box.style.height = 0;
-
         this.startPointX = e.offsetX;
         this.startPointY = e.offsetY;
         this.$refs.box.style.left = this.startPointX + "px";
@@ -172,10 +187,6 @@ export default {
     },
     //手动标定
     addTag() {
-      this.x0 = this.startPointX;
-      this.y0 = this.startPointY;
-      this.x1 = this.endPointX;
-      this.y1 = this.endPointY;
       this.isCalibrat = false;
     },
     //清除标定
@@ -240,14 +251,29 @@ export default {
       }
     },
     handleSubmit() {
-      // this.dialogVisible = false;
       this.$emit("closeShot");
-      let url = "";
-      let query = {};
-      postAxiosData(url, query).then(res => {
+      let query = {
+        monitorDeviceId: this.monitorInfo["monitorDeviceId"],
+        powerDeviceId: this.monitorInfo["powerDeviceId"],
+        areaList: [
+          {
+            x0: this.startPointX,
+            y0: this.startPointY,
+            x1: this.endPointX,
+            y1: this.endPointY,
+            recognizeType: this.selectValue
+          }
+        ],
+        fileName: "",
+        picWigth: "",
+        picSize: "",
+        picHeigh: "",
+        photoTime: ""
+      };
+      sampleMark(query).then(res => {
         this.$message({
-          type: "success",
-          message: "保存成功"
+          message: "标定成功",
+          type: "success"
         });
       });
     },
@@ -258,13 +284,7 @@ export default {
       this.$emit("closeShot");
     }
   },
-  // watch: {
-  //   isShow(now) {
-  //     this.dialogVisible = now;
-  //   }
-  // },
   mounted() {
-    // this.dialogVisible = this.isShow;
     this.getImgInfo();
   }
 };
@@ -281,33 +301,34 @@ export default {
       padding-bottom: 20px;
     }
     .dialog-content {
+      position: relative;
       .shotImg {
         // width: 400px;
         width: 100%;
         height: 225px;
         background: #fff;
-        position: relative;
         img {
           display: block;
         }
-        div {
-          position: absolute;
-          bottom: 10px;
-          right: 10px;
-          text-align: center;
-          color: #fff;
-          line-height: 32px;
-          opacity: 0.5;
-          cursor: pointer;
-        }
-        .calibrat {
-          width: 80px;
-          background-color: #ff9000;
-        }
-        .clearCalibrat {
-          width: 60px;
-          background-color: #ff9000;
-        }
+      }
+      .calibrat,
+      .clearCalibrat {
+        position: absolute;
+        top: 185px;
+        right: 10px;
+        text-align: center;
+        color: #fff;
+        line-height: 32px;
+        opacity: 0.5;
+        cursor: pointer;
+      }
+      .calibrat {
+        width: 80px;
+        background-color: #ff9000;
+      }
+      .clearCalibrat {
+        width: 60px;
+        background-color: #ff9000;
       }
       .shotInput {
         & > div {
