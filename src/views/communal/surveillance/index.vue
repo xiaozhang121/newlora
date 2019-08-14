@@ -60,7 +60,7 @@
     <div class="oltagevMain">
       <div class="item_main" v-for="(item, index) in areaCameraList" :key="'camera'+index" :class="{noMarginRight:(index+1)%3 == 0}">
         <div class="item">
-          <key-monitor :autoplay="true" :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}" :imgAdress="item['pic']"  :kilovolt="item['areaName']" :streamAddr="item['streamAddr']" :showBtmOption="true" class="monitorM child"></key-monitor>
+          <key-monitor :autoplay="true" aggregate="true" :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}" :imgAdress="item['pic']"  :kilovolt="item['areaName']" :streamAddr="item['streamAddr']" :showBtmOption="true" class="monitorM child"></key-monitor>
         </div>
       </div>
     </div>

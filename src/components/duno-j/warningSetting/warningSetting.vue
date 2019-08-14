@@ -67,12 +67,17 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item :rules='rules' prop='defectStatus'>
+        <el-form-item class="judge" :rules='rules' prop='defectStatus'>
           <el-switch
                   v-model="form.defectStatus"
                   inactive-text="声音提示"
+                  @change='changeState'
+                  active-color="#20a717"
+                  inactive-color="#979797"
           >
           </el-switch>
+          <i v-show="!judge" class="judgeClose el-icon-close"></i>
+          <i v-show="judge" class="judgeCheck el-icon-check"></i>
         </el-form-item>
         <!-- <el-form-item :rules='rules' prop='people'  label="">
            <el-select
@@ -100,12 +105,17 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :rules='rules' prop='securityStatus'>
+        <el-form-item class="judge" :rules='rules' prop='securityStatus'>
           <el-switch
                   v-model="form.securityStatus"
                   inactive-text="声音提示"
+                  @change='change'
+                   active-color="#20a717"
+                  inactive-color="#979797"
           >
           </el-switch>
+          <i v-show="!judged" class="judgeClose el-icon-close"></i>
+          <i v-show="judged" class="judgeCheck el-icon-check"></i>
         </el-form-item>
       </el-form>
       <div slot='footer'>
@@ -141,6 +151,8 @@ export default {
   data () {
     return {
       visible: false,
+      judge:true,
+      judged:true,
       options: [
       /*{
         value: '弹窗',
@@ -216,6 +228,12 @@ export default {
         }
       });
     },
+    changeState(){
+      this.judge=!this.judge;
+    },
+    change(){
+      this.judged=!this.judged;
+    }
   },
   created(){
       this.initData()
@@ -246,6 +264,20 @@ export default {
     span{
         padding-left: 10px;
         padding-right: 10px;
+    }
+  }
+  .judge{
+    position: relative;
+    i{
+      position: absolute;
+      top: 11px;
+      color: #fff;
+    }
+    .judgeClose{
+      left: 85px;
+    }
+    .judgeCheck{
+      left: 72px;
     }
   }
 }

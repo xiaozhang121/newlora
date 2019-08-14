@@ -15,14 +15,18 @@
       </div>
     </div>
     <div class="main-video">
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
-      <KeyMonitor :width="width" :showBtmOption="true" kilovolt="摄像头ID" patrol />
+      <KeyMonitor
+        v-for="(item,index) in areaCameraList"
+        :key="index"
+        :autoplay="true"
+        :width="width"
+        :showBtmOption="true"
+        :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
+        :imgAdress="item['pic']"
+        :kilovolt="item['areaName']"
+        :streamAddr="item['streamAddr']"
+        patrol
+      />
     </div>
   </div>
 </template>
@@ -39,6 +43,7 @@ export default {
   data() {
     return {
       checkList: [],
+      areaCameraList: [],
       width: "calc(25% - 15px)",
       dataBread: [
         { path: "/surveillancePath/list", name: "视频监控" },
@@ -48,7 +53,23 @@ export default {
     };
   },
   methods: {
+    getList() {
+      const that = this;
+      let query = {
+        areaId: this.$route.query.areaId
+      };
+      getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
+        if (res.code == 200) {
+          let data = res.data;
+          that.areaCameraList = data;
+          that.$forceUpdate();
+        }
+      });
+    },
     change() {}
+  },
+  mounted() {
+    this.getList();
   }
 };
 </script>

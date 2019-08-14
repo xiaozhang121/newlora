@@ -82,7 +82,7 @@ export default {
       type: Boolean,
       default: false
     },
-    data: {
+    dataList: {
       type: Object,
       default: () => {
         return {};
@@ -94,6 +94,13 @@ export default {
       handler(now) {
         this.dialogVisible = now;
       },
+      immediate: true
+    },
+    dataList: {
+      handler(now) {
+        this.formData = now;
+      },
+      deep: true,
       immediate: true
     }
   },
@@ -146,7 +153,6 @@ export default {
     }
   },
   mounted() {
-    this.formData = this.data;
     this.initFour();
   }
 };
