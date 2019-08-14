@@ -1,5 +1,5 @@
 <template>
-  <div class="analysis-detail">
+  <div class="analysis-detail-record">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
@@ -7,20 +7,25 @@
       <div>24小时监测记录</div>
       <div class="btn">
         <div>
-          <duno-btn-top
+          <el-date-picker
+                  v-model="chosenDate"
+                  type="date"
+                  placeholder="全部日期">
+          </el-date-picker>
+         <!-- <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTo"
             :isCheck="false"
             :dataList="regionList"
             :title="titleTypeL"
             :showBtnList="false"
-          ></duno-btn-top>
+          ></duno-btn-top>-->
         </div>
         <div>
           <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTop"
-            :isCheck="false"
+            :isCheck="true"
             :dataList="typeList"
             :title="titleTypeR"
             :showBtnList="false"
@@ -46,7 +51,42 @@
       </div>
     </div>
     <duno-main class="dunoMain">
-     121313
+      <div class="record_item">
+          <div class="title">{{'2019年8月13日'}}&nbsp;&nbsp;{{diffTime('2019年8月13日')}}</div>
+          <div class="monitorContain">
+            <div class="monitorItem" :class="{marginRight: (index+1)%4 != 0}" v-for="(item, index) in demoList"  :key="index">
+              <key-monitor
+                      class="monitorRecord"
+                      :showBtmOption="true"
+                      :noButton="false"
+                      configType="2"
+                      imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
+                      streamAddr="rtmp://10.0.10.39/rtsp59/stream"
+                      kilovolt="摄像头名称"
+                      patrol="20190813"
+              />
+            </div>
+            <div style="clear: both"></div>
+          </div>
+      </div>
+      <div class="record_item">
+        <div class="title">{{'2019年8月7日'}}&nbsp;&nbsp;{{diffTime('2019年8月7日')}}</div>
+        <div class="monitorContain">
+          <div class="monitorItem" :class="{marginRight: (index+1)%4 != 0}" v-for="(item, index) in demoList"  :key="index">
+            <key-monitor
+                    class="monitorRecord"
+                    :showBtmOption="true"
+                    :noButton="false"
+                    configType="2"
+                    imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
+                    streamAddr="rtmp://10.0.10.39/rtsp59/stream"
+                    kilovolt="摄像头名称"
+                    patrol="20190813"
+            />
+          </div>
+          <div style="clear: both"></div>
+        </div>
+      </div>
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
@@ -107,6 +147,16 @@ export default {
   data() {
     const that = this;
     return {
+      chosenDate: '',
+      demoList:[
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+
+      ],
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/security/list",
@@ -122,8 +172,8 @@ export default {
       danger: false,
       dialogVisible: false,
       value: "",
-      titleTypeL: "全部电压等级",
-      titleTypeR: "全部类型",
+      titleTypeL: "全部日期",
+      titleTypeR: "全部摄像头",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/environmental/list", name: "动态环境监测" },
@@ -343,6 +393,25 @@ export default {
     this.getType();
   },
   methods: {
+    diffTime(time){
+        let date = ''
+        if(time.indexOf('年')>-1){
+            date = time.replace(/年|月/g,'-')
+            date = date.replace(/日/g,'')
+        }else{
+            date = time
+        }
+        let diff =  moment().diff(date, 'days')
+        if(diff == 0){
+            return '(今天)'
+        }else if(diff == 1){
+            return '(昨天)'
+        }else if(diff == 2){
+            return '(前天)'
+        }else{
+            return '('+diff+'天前)'
+        }
+    },
     onClose() {
       this.visibleSettingOption = false;
     },
@@ -508,15 +577,74 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.analysis-detail {
+.analysis-detail-record {
   width: 100%;
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    color: white;
+  }
+
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: white;
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: white;
+  }
+
+  .el-input--small .el-input__inner{
+    background: #1a2f42;
+    border: none;
+    color: white;
+    height: 40px;
+    border-radius: 0;
+    font-size: 15px;
+    width: 154px;
+    float: right;
+  }
+  .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: 156px;
+  }
+  .dunoMain_nr{
+    border: 2px solid #464d51;
+  }
+  .record_item{
+    &:first-child{
+      margin-top: 13px;
+    }
+    .title{
+      color: white;
+      padding: 0 20px;
+      position: relative;
+      top: 10px;
+    }
+    .monitorContain{
+      background: rgba(20, 40, 56, 0.8);
+      padding: 20px;
+      padding-bottom: 0;
+    }
+    .monitorItem{
+      width: 24%;
+      float: left;
+      &.marginRight{
+        margin-right: 1.3%;
+      }
+      .monitorRecord{
+        width: 100% !important;
+        height: 100%;
+        margin: 0 0px 55px 0;
+      }
+    }
+  }
   .icon-xiala {
     /*width: 13px;
     height: 16px;*/
+    right: 20px;
+    top: 10px;
   }
   //-------------------表格样式
   .dunoMain {
     height: inherit;
+    margin-bottom: 28px;
   }
   .ivu-table {
     font-size: 16px;

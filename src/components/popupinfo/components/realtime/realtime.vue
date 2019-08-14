@@ -283,6 +283,8 @@
 </style>
 <style lang="scss">
   .realtime {
+    position: relative;
+    left: -5px;
     .lightPanel {
       .realtime_video > div {
         width: 100%;

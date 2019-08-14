@@ -1,15 +1,14 @@
 <template>
-    <section class="warningDialogNew">
+    <section class="warningDialog">
         <div>
-            <el-dialog :close-on-press-escape="false" :close-on-click-modal="false" :visible="newVisible" width="900px" center @close="handleClose">
+            <el-dialog :close-on-press-escape="false" :close-on-click-modal="false" class="elDialogClass" :visible="true" width="900px" center @close="handleClose">
                 <div slot="title">
                     <div class="title_top">
                         <span>{{ dataList.title }}</span>
                         <span class="iconfontList">
-            <!--<i class="iconfont icon-xiazai"></i>-->
-            <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
-            <!--<i class="iconfont icon-wangye" @click="openPage()"></i>-->
-          </span>
+              <!--<i class="iconfont icon-xiazai"></i>-->
+              <i style="position: relative; left: 10px" class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+            </span>
                     </div>
                     <div class="extend">{{ dataList.alarmTypeValue }}</div>
                 </div>
@@ -17,7 +16,10 @@
                     <div class="monitor" ref="imgContain">
                         <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
                         <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
-                        <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
+                        <i
+                                class="fullScreen iconfont icon-quanping"
+                                @click="changeFullScreen($refs.imgContain)"
+                        ></i>
                     </div>
                     <div class="info">
                         <div class="info_top">
@@ -37,9 +39,9 @@
                                             class="table_select"
                                             :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
                                     >
-                  <span class="member_operate_div">
-                    <span>{{ alarmLevelT }}</span>
-                  </span>
+                    <span class="member_operate_div">
+                      <span>{{ alarmLevelT }}</span>
+                    </span>
                                         <i class="iconfont icon-xiala"></i>
                                     </div>
                                     <i-dropdownMenu slot="list">
@@ -59,13 +61,13 @@
                             <div class="nr">{{ dataList.result }}</div>
                         </div>
                         <div>
-                            <!-- <a href="javascript:;" @click="clickJudge">结果修订</a> -->
+                            <a href="javascript:;" @click="clickJudge">结果修订</a>
                         </div>
                         <div class="from">
-            <span class="origin">
-              来源：
-              <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
-            </span>
+              <span class="origin">
+                来源：
+                <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
+              </span>
                         </div>
                     </div>
                 </div>
@@ -76,12 +78,12 @@
                         <span class="title">{{ item['time'] }}</span>
                         <span class="info">{{ item['info'] }}</span>
                       </p>
-                    </div> -->
+                    </div>-->
                 </div>
                 <div style="clear: both"></div>
             </el-dialog>
             <personJudge
-                    :data="formData"
+                    :dataList="formData"
                     :isTemperture="isTemperture"
                     @on-close="onClose"
                     :visible="visibleJudge"
@@ -90,7 +92,7 @@
     </section>
 </template>
 <script>
-    import { Base64 } from 'js-base64'
+    import { Base64 } from "js-base64";
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     import personJudge from "_c/duno-m/personJudge";
     import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -105,7 +107,7 @@
                 searchType: "",
                 visibleJudge: false,
                 handleList: [],
-                newVisible: true,
+                newVisible: false,
                 selectList: ["一般", "严重", "危急"],
                 alarmLevelT: "",
                 alarmLevelN: "",
@@ -198,7 +200,7 @@
             popData(now) {
                 if ("alarmId" in now && now["alarmId"]) {
                     // this.searchId = now["alarmId"];
-                    this.searchId = now["alarmId"];
+                    this.searchId = now["taskId"] + "," + now["batchId"];
                     this.searchType = "alarmId";
                 } else if ("taskId" in now && now["taskId"]) {
                     this.searchId = now["taskId"] + "," + now["batchId"];
@@ -207,8 +209,20 @@
                     this.searchId = now["resultId"];
                     this.searchType = "resultId";
                 }
-                this.initData();
+                console.log(this.searchId);
+                if (this.searchId != "") {
+                    this.initData();
+                }
             },
+            // handleNotes(now) {
+            //   this.handleList = [];
+            //   let obj = {};
+            //   now.forEach(el => {
+            //     obj.time = el.dealTime;
+            //     obj.info = el.dealType;
+            //     this.handleList.push(obj);
+            //   });
+            // },
             alarmLevel: {
                 handler(now) {
                     this.alarmLevelN = now;
@@ -222,37 +236,44 @@
             }
         },
         methods: {
-            openPage(){
-                let routeData = this.$router.resolve({ path: '/newPage', query: { id: '123' } });
-                window.open(routeData.href, '_blank');
+            openPage() {
+                let routeData = this.$router.resolve({
+                    name: "newPage",
+                    params: {
+                        name: Base64.encode(this.searchType),
+                        value: Base64.encode(this.searchId),
+                        info: Base64.encode(JSON.stringify(this.popData))
+                    }
+                });
+                window.open(routeData.href, "_blank");
             },
-            toPrint(e){
-                this.target = e.path[5]
+            toPrint(e) {
+                this.target = e.path[5];
             },
             changeFullScreen(target) {
                 const that = this;
                 screenfull.toggle(target);
             },
             initData() {
+                let that = this;
                 getAxiosData("/lenovo-plan/api/task-result/view", {
-                    [this.searchType]: this.searchId
+                    [that.searchType]: that.searchId
                 }).then(res => {
-                    this.dataList = res.data;
+                    that.dataList = res.data;
                     let obj = {};
-                    res.data.dealList.forEach(el => {
+                    (res.data.dealList || []).forEach(el => {
                         obj.time = el.dealTime;
                         obj.info = el.dealType;
-                        this.handleList.push(obj);
+                        that.handleList.push(obj);
                     });
-
-                    if (this.dataList.alarmTypeValue == "动态环境类") {
-                        this.discriminate = true;
+                    if (that.dataList.alarmTypeValue == "动态环境类") {
+                        that.discriminate = true;
                     }
-                    this.formData = {
-                        alarmId: this.searchId,
-                        input: this.dataList.result,
-                        inputT: this.dataList.alarmValue,
-                        select: this.dataList.alarmType
+                    that.formData = {
+                        alarmId: that.searchId,
+                        input: that.dataList.result,
+                        inputT: that.dataList.alarmValue,
+                        select: that.dataList.alarmType
                     };
                 });
             },
@@ -307,6 +328,8 @@
             clickJudge() {
                 if (this.dataList.alarmValue == "") {
                     this.isTemperture = false;
+                } else {
+                    this.isTemperture = true;
                 }
                 this.visibleJudge = true;
             },
@@ -314,25 +337,29 @@
                 this.visibleJudge = false;
             }
         },
-        created(){
+        mounted() {
             this.searchType = Base64.decode(this.name)
             this.searchId = Base64.decode(this.value)
             this.popData = JSON.parse(Base64.decode(this.info))
-        },
-        mounted() {
             // this.target = this.querySelectorAll('.warningDialog')[1]
+            this.newVisible = this.visible;
         }
     };
 </script>
 <style lang="scss">
-    @media print{
+    @media print {
         .not-print {
-            opacity: 0
+            opacity: 0;
+        }
+        .elDialogClass{
+            .el-dialog--center{
+                width: 710px !important;
+            }
         }
     }
-    .warningDialogNew {
-        .el-icon-close{
-         display: none;
+    .warningDialog {
+        .el-dialog__close{
+            display: none;
         }
         .iconfont.icon-xiala {
             color: #999999;
@@ -492,11 +519,12 @@
         }
         .title_top {
             font-weight: bold;
-            .iconfontList{
+            .iconfontList {
                 float: right;
                 position: relative;
                 top: -3px;
-                .iconfont{
+                margin-right: 30px;
+                .iconfont {
                     color: #95939d;
                     margin-left: 12px;
                     cursor: pointer;

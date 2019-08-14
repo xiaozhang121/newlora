@@ -1,7 +1,7 @@
 <template>
   <section class="warningDialog">
     <div>
-      <el-dialog :visible="newVisible" width="900px" center @close="handleClose">
+      <el-dialog class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
         <div slot="title">
           <div class="title_top">
             <span>{{ dataList.title }}</span>
@@ -344,6 +344,11 @@ export default {
 @media print {
   .not-print {
     opacity: 0;
+  }
+  .elDialogClass{
+    .el-dialog--center{
+      width: 710px !important;
+    }
   }
 }
 .warningDialog {

@@ -1,6 +1,6 @@
 <template>
     <div class="warningDialogbNew">
-        <el-dialog :close-on-press-escape="false" :close-on-click-modal="false"  :visible="true" width="900px" center @close="handleClose">
+        <el-dialog class="elDialogClass" :close-on-press-escape="false" :close-on-click-modal="false"  :visible="true" width="900px" center @close="handleClose">
             <div slot="title">
                 <div class="title_top">
                     <span>{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</span>
@@ -254,6 +254,16 @@
 </script>
 <style lang="scss">
     .warningDialogbNew {
+        @media print {
+            .not-print {
+                opacity: 0;
+            }
+            .elDialogClass{
+                .el-dialog--center{
+                    width: 710px !important;
+                }
+            }
+        }
         .iconfont.icon-xiala {
             color: #999999;
             font-size: 10px;
