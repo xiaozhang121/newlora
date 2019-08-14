@@ -1,92 +1,120 @@
 <template>
-  <div class="historyfourth"
-       v-loading="loadingOption"
-       element-loading-background="rgba(0, 0, 0, 0.8)"
-       element-loading-text="加载中">
+  <div
+    class="historyfourth"
+    v-loading="loadingOption"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="加载中"
+  >
     <h4 class="title">{{title}}</h4>
     <div class="historyfourthBox">
-      <div :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']" @mouseenter.stop="mouseNum = index" @mouseleave.stop="mouseNum = -1" v-for="(item, index) in alarmHistoryData" :key="index">
+      <div
+        :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']"
+        @mouseenter.stop="mouseNum = index"
+        @mouseleave.stop="mouseNum = -1"
+        v-for="(item, index) in alarmHistoryData"
+        :key="index"
+      >
         <div>{{item.alarmTime}}</div>
-        <div><span>温度：{{item.alarmValue}}℃</span><span class="threshold">超出阈值：{{item.threshold}}</span>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></div>
+        <!-- <div><span>温度：{{item.alarmValue}}℃</span><span class="threshold">超出阈值：{{item.threshold}}</span>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></div> -->
+        <div>
+          <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;
+          <span>{{item.alarmContent}}</span>
+          <span class="threshold">内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}℃</span>
+          <span
+            :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]"
+          >{{item.alarmLevelName}}</span>
+        </div>
+        <div class="itemdetail" :key="index">
+          <span @click="handleClick">详情</span>
+        </div>
+        <wraning :popData="item" :visible="visible" @handleClose="handleClose" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { getAxiosData } from '@/api/axiosType'
-import { error } from 'util';
+import wraning from "_c/duno-j/warning";
+import { getAxiosData } from "@/api/axiosType";
+import { error } from "util";
 export default {
-  name: 'historyfourth',
-  components: {},
-  data () {
+  name: "historyfourth",
+  components: { wraning },
+  data() {
     return {
       timer: null,
       loadingOption: false,
+      visible: false,
       alarmHistoryData: [],
       mouseNum: -1
-    }
+    };
   },
   props: {
     title: {
       type: String,
       default: () => {
-        return ''
+        return "";
       }
     },
     itemId: {
       type: String | Number,
       default: () => {
-        return 0
+        return 0;
       }
     },
     itemData: {
       type: Object,
       default: () => {
-        return {}
+        return {};
       }
     }
   },
   watch: {
     itemId(now) {
       if (now) {
-        this.getData()
+        this.getData();
       }
     }
   },
   methods: {
-    getData () {
-      this.loadingOption = true
-      this.timer = setTimeout(()=>{
-          this.loadingOption = false
-      },7000)
-      const that = this
-      const url = '/lenovo-alarm/api/alarm/history'
+    getData() {
+      this.loadingOption = true;
+      this.timer = setTimeout(() => {
+        this.loadingOption = false;
+      }, 7000);
+      const that = this;
+      const url = "/lenovo-alarm/api/alarm/history";
       let query = {
-          monitorDeviceId: this.itemId,
-          pageIndex: 1,
-          pageRows: 10
-      }
+        monitorDeviceId: this.itemId,
+        pageIndex: 1,
+        pageRows: 10
+      };
       if (that.itemData.monitorDeviceType) {
-        query.deviceType = that.itemData.monitorDeviceType
+        query.deviceType = that.itemData.monitorDeviceType;
       }
-      getAxiosData(url, query).then(res=>{
-          console.log(res.data.tableData)
-          clearTimeout(this.timer)
-          this.loadingOption = false
-          if (res.code == 200) {
-            that.alarmHistoryData = res.data.tableData
-          } else {
-            that.alarmHistoryData = []
-          }
-      })
+      getAxiosData(url, query).then(res => {
+        console.log(res.data.tableData);
+        clearTimeout(this.timer);
+        this.loadingOption = false;
+        if (res.code == 200) {
+          that.alarmHistoryData = res.data.tableData;
+        } else {
+          that.alarmHistoryData = [];
+        }
+      });
+    },
+    handleClick() {
+      // this.visible = true;
+    },
+    handleClose() {
+      this.visible = false;
     }
   },
   mounted() {
     if (this.itemId) {
-      this.getData()
+      this.getData();
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .historyfourth {
@@ -100,6 +128,20 @@ export default {
     max-height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
+    position: relative;
+    .itemdetail {
+      position: absolute;
+      top: 25px;
+      right: 40px;
+      span {
+        display: inline-block;
+        padding: 2px 15px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        border: 1px solid #fff;
+      }
+    }
   }
   &Item {
     color: #fff;
@@ -110,7 +152,7 @@ export default {
     border-radius: 4px;
 
     .threshold {
-      margin: 0 1.5em;
+      margin-right: 1em;
     }
     .alarm {
       color: #d7203f;

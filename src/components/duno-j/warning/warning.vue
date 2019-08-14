@@ -1,7 +1,14 @@
 <template>
   <section class="warningDialog">
     <div>
-      <el-dialog class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
+      <el-dialog
+        class="elDialogClass"
+        :visible="newVisible"
+        width="900px"
+        center
+        :top="top"
+        @close="handleClose"
+      >
         <div slot="title">
           <div class="title_top">
             <span>{{ dataList.title }}</span>
@@ -120,6 +127,12 @@ export default {
     };
   },
   props: {
+    top: {
+      type: String,
+      default: () => {
+        return "15vh";
+      }
+    },
     fileType: {
       type: Boolean,
       default: () => {
@@ -268,9 +281,9 @@ export default {
         }
         that.formData = {
           alarmId: that.searchId,
-          input: that.dataList.result,
+          input: that.dataList.alarmDetailType,
           inputT: that.dataList.alarmValue,
-          select: that.dataList.alarmType
+          select: that.dataList.alarmSuperDetailType
         };
       });
     },
@@ -345,8 +358,8 @@ export default {
   .not-print {
     opacity: 0;
   }
-  .elDialogClass{
-    .el-dialog--center{
+  .elDialogClass {
+    .el-dialog--center {
       width: 710px !important;
     }
   }

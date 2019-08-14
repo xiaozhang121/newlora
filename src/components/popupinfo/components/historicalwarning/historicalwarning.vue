@@ -35,7 +35,7 @@
                 </p>
               </div>
               <div class="itemdetail">
-                <span @click="handleClick">详情</span>
+                <span @click="handleClick(index)">详情</span>
               </div>
             </div>
             <!--
@@ -70,9 +70,9 @@
             >{{item.alarmLevelName}}</span>
           </div>-->
         </div>
-        <wraning :popData="item" :visible="visible" @handleClose="handleClose" />
       </div>
     </div>
+    <wraning :popData="popData" :top="0" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 <script>
@@ -90,7 +90,8 @@ export default {
       timer: null,
       noEvent: false,
       isClip: true,
-      visible: false
+      visible: false,
+      popData: {}
     };
   },
   props: {
@@ -177,11 +178,15 @@ export default {
         }
       });
     },
-    handleClick() {
+    handleClick(index) {
+      // debugger;
+      // console.log(index);
+
+      this.popData = this.dataList[index];
+
       this.visible = true;
     },
     handleClose() {
-      this.popData = {};
       this.visible = false;
     },
     changeFullScreen(target) {
