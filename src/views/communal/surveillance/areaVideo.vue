@@ -5,7 +5,7 @@
     </div>
     <div class="top">
       <div>
-        <span>1000千伏</span>
+        <span>{{areaCameraList[0].areaName}}</span>
       </div>
       <div>
         <el-checkbox-group v-model="checkList" @change="change">
@@ -34,6 +34,7 @@
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import { postAxiosData, getAxiosData } from "@/api/axiosType";
 export default {
   name: "areaVideo",
   components: {
@@ -47,8 +48,7 @@ export default {
       width: "calc(25% - 15px)",
       dataBread: [
         { path: "/surveillancePath/list", name: "视频监控" },
-        { path: "/surveillancePath/list", name: "1000kv" },
-        { path: "", name: "摄像头详情" }
+        { path: "", name: "1000kv" }
       ]
     };
   },
@@ -58,10 +58,12 @@ export default {
       let query = {
         areaId: this.$route.query.areaId
       };
+      debugger;
       getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
         if (res.code == 200) {
           let data = res.data;
           that.areaCameraList = data;
+          this.dataBread[1].name = data[0].areaName;
           that.$forceUpdate();
         }
       });
@@ -89,8 +91,12 @@ export default {
     }
   }
   .main-video {
+    & > div:nth-child(-n + 4) {
+      margin-top: 10px;
+    }
     & > div {
       margin-right: 20px;
+      margin-top: 50px;
       float: left;
     }
     & > div:nth-child(4n) {

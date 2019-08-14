@@ -183,6 +183,12 @@ export default {
       default: () => {
         return false;
       }
+    },
+    areaId: {
+      type: String,
+      default: () => {
+        return "";
+      }
     }
   },
   watch: {
@@ -363,7 +369,7 @@ export default {
         this.$router.push({
           path: "/surveillancePath/areaVideo",
           query: {
-            areaId: this.monitorInfoR["areaId"]
+            areaId: this.areaId
           }
         });
         return;
