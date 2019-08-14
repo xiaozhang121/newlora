@@ -84,7 +84,7 @@
         <div style="clear: both"></div>
       </el-dialog>
       <personJudge
-        :data="formData"
+        :dataList="formData"
         :isTemperture="isTemperture"
         @on-close="onClose"
         :visible="visibleJudge"
@@ -197,7 +197,7 @@ export default {
     popData(now) {
       if ("alarmId" in now && now["alarmId"]) {
         // this.searchId = now["alarmId"];
-        this.searchId = now["alarmId"];
+        this.searchId = now["taskId"] + "," + now["batchId"];
         this.searchType = "alarmId";
       } else if ("taskId" in now && now["taskId"]) {
         this.searchId = now["taskId"] + "," + now["batchId"];

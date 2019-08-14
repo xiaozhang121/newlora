@@ -248,7 +248,7 @@ export default {
     }
     & > p:last-child {
       word-wrap: break-word;
-      margin-top: 10px;
+      margin-top: 5px;
       span {
         color: #3baddf;
         padding-left: 0;

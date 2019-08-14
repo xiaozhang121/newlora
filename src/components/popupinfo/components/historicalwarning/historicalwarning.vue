@@ -13,10 +13,7 @@
           <transition name="el-zoom-in-center">
             <div class="picDetail" ref="imgContain" v-show="item.show">
               <img :src="item.alarmFileAddress" />
-              <!-- <i
-                class="fullScreen iconfont icon-quanping"
-                @click="changeFullScreen($refs.imgContain)"
-              ></i>-->
+              <i class="iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
             </div>
           </transition>
           <div class="mainMli">
@@ -25,10 +22,17 @@
               <div>
                 <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;
                 <span>{{item.alarmContent}}</span>
-                <span class="threshold">内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}℃</span>
-                <span class="commonly" v-if="item.alarmLevel == '1'">一般</span>
-                <span class="serious" v-if="item.alarmLevel == '2'">严重</span>
-                <span class="danger" v-if="item.alarmLevel == '3'">危急</span>
+              </div>
+              <div>
+                <p>
+                  内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}℃
+                  <span
+                    class="commonly"
+                    v-if="item.alarmLevel == '1'"
+                  >一般</span>
+                  <span class="serious" v-if="item.alarmLevel == '2'">严重</span>
+                  <span class="danger" v-if="item.alarmLevel == '3'">危急</span>
+                </p>
               </div>
               <div class="itemdetail">
                 <span @click="handleClick">详情</span>
@@ -194,7 +198,7 @@ export default {
 .historicalwarning {
   .itemData {
     position: relative;
-    height: 90px;
+    height: 100px;
     margin-bottom: 10px;
     background: linear-gradient(
       to right,
@@ -236,6 +240,12 @@ export default {
       img {
         width: 137px;
         height: 99px;
+      }
+      i {
+        position: absolute;
+        left: 117px;
+        bottom: 0;
+        cursor: pointer;
       }
     }
   }
@@ -279,7 +289,7 @@ export default {
     position: relative;
     .itemdetail {
       position: absolute;
-      top: 10px;
+      top: 20px;
       right: 20px;
       span {
         display: inline-block;

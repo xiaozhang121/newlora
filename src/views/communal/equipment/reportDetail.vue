@@ -32,7 +32,7 @@ export default {
             { path: "/visiblelight/list", name: "可见光" },
             { path: "", name: "可见光监测记录信息" }
           ];
-          this.downloadURL = "/lenovo-plan/api/plan/visible-report/download";
+          this.downloadURL = "/lenovo-plan/api/task/result/list/downLoad";
           this.monitorDeviceType = "1";
           break;
         case "infrared-report":
@@ -42,7 +42,7 @@ export default {
             { path: "/infrared/list", name: "红外监测" },
             { path: "", name: "红外监测记录信息" }
           ];
-          this.downloadURL = "/lenovo-plan/api/plan/iir-report/download";
+          this.downloadURL = "/lenovo-plan/api/task/result/list/downLoad";
           this.monitorDeviceType = "2";
           break;
       }

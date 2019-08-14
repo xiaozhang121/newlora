@@ -1,5 +1,9 @@
 <template>
-  <div class="keyMonitor" :style="{width:width}" :class="[{isAlarm: isAlarmOption},{noButton: noButton}]">
+  <div
+    class="keyMonitor"
+    :style="{width:width}"
+    :class="[{isAlarm: isAlarmOption},{noButton: noButton}]"
+  >
     <div
       class="camera"
       :style="{'paddingBottom': paddingBottom}"
@@ -96,16 +100,16 @@ export default {
     screenshot
   },
   props: {
-    noButton:{
+    noButton: {
       type: Boolean,
       default: () => {
-          return true;
+        return true;
       }
     },
-    isAlarm:{
+    isAlarm: {
       type: Boolean,
       default: () => {
-          return false;
+        return false;
       }
     },
     configType: {},
@@ -173,27 +177,33 @@ export default {
       default: () => {
         return true;
       }
+    },
+    aggregate: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
     }
   },
   watch: {
-    isAlarmG:{
-      handler(now){
-        if(!now){
-            clearInterval(this.sTimer)
-            this.isAlarmOption = false
+    isAlarmG: {
+      handler(now) {
+        if (!now) {
+          clearInterval(this.sTimer);
+          this.isAlarmOption = false;
         }
       },
       deep: true,
       immediate: true
     },
-    isAlarm:{
-      handler(now){
-        this.isAlarmOption = now
-        if(now){
-          clearInterval(this.sTimer)
-          this.sTimer = setInterval(()=>{
-              this.isAlarmOption = !this.isAlarmOption
-          },500)
+    isAlarm: {
+      handler(now) {
+        this.isAlarmOption = now;
+        if (now) {
+          clearInterval(this.sTimer);
+          this.sTimer = setInterval(() => {
+            this.isAlarmOption = !this.isAlarmOption;
+          }, 500);
         }
       },
       deep: true,
@@ -216,11 +226,11 @@ export default {
           this.monitorSrc = now;
           this.showView = true;
           clearTimeout(this.timer);
-          this.$nextTick(()=>{
-              setTimeout(()=>{
-                  this.loading = false;
-              },1500)
-          })
+          this.$nextTick(() => {
+            setTimeout(() => {
+              this.loading = false;
+            }, 1500);
+          });
         }
       },
       immediate: true
@@ -266,7 +276,7 @@ export default {
             /* type: "video/ogg",
             type: "video/webm",
             type: "video/mp4",*/
-            src: ''
+            src: ""
             // src: "rtmp://live.hkstv.hk.lxdns.com/live/hks2"
             // src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
           }
@@ -287,13 +297,14 @@ export default {
       return this.$refs.videoPlayer.player;
     },
     isAlarmG() {
-        return this.$store.state.user.isAlarm;
-    },
+      return this.$store.state.user.isAlarm;
+    }
   },
   methods: {
-    webFullScreen(){
-        this.$store.state.app.webFullVisable = !this.$store.state.app.webFullVisable
-        this.$store.state.app.webFull = this.streamAddr
+    webFullScreen() {
+      this.$store.state.app.webFullVisable = !this.$store.state.app
+        .webFullVisable;
+      this.$store.state.app.webFull = this.streamAddr;
     },
     onPlayerPlay(player) {
       //   alert("play");
@@ -348,6 +359,15 @@ export default {
       this.showBtm = false;
     },
     getJump() {
+      if (this.aggregate) {
+        this.$router.push({
+          path: "/surveillancePath/areaVideo",
+          query: {
+            areaId: this.monitorInfoR["areaId"]
+          }
+        });
+        return;
+      }
       getAxiosData("/lenovo-device/api/preset/type", {
         monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
       }).then(res => {
@@ -445,15 +465,15 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
-  &.noButton{
-    .vjs-big-play-button{
+  &.noButton {
+    .vjs-big-play-button {
       display: none;
     }
-    .video-js .vjs-big-play-button{
+    .video-js .vjs-big-play-button {
       display: none;
     }
   }
-  &.isAlarm{
+  &.isAlarm {
     border: 1px solid red;
   }
   .el-loading-text {
