@@ -2,11 +2,12 @@
   <div class="statisticsCom">
     <div class="mapStatistics" ref="mapContain">
       <gis-map
+        v-if="mapFlag"
         ref="gisMapObj"
-        :small="true"
         :isDiagram="3"
         :deviceList="deviceList"
         fillColor="#0f1b21"
+        :small="true"
         :zoom="13"
         :minZoom="13"
         :kind="mapKind"
@@ -43,6 +44,8 @@ export default {
   },
   data() {
     return {
+      isFullscreen: false,
+      mapFlag: true,
       deviceList: [],
       tempDeviceList: [],
       mapKind: 0,
@@ -65,6 +68,17 @@ export default {
     }
   },
   watch: {
+    warningList:{
+        handler(now){
+            this.mapFlag = true
+            try {
+                document
+                    .querySelector("#map")
+                    .setAttribute("style", "height:100% !important");
+            } catch (e) {}
+        },
+        deep: true
+    },
     mapKind(now) {
       this.initPoint();
     },
@@ -158,6 +172,10 @@ export default {
     this.getDeviceList();
   },
   mounted() {
+    const that = this
+    document.addEventListener('fullscreenchange', function(event){
+        that.isFullscreen = !that.isFullscreen
+    })
     try {
       document
         .querySelector("#map")
