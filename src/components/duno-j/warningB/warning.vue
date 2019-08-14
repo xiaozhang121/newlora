@@ -1,6 +1,6 @@
 <template>
   <div class="warningDialog">
-    <el-dialog  :visible="newVisible" width="900px" center @close="handleClose">
+    <el-dialog  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">
           <span>{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</span>
@@ -273,6 +273,16 @@ export default {
 </script>
 <style lang="scss">
 .warningDialog {
+  @media print {
+    .not-print {
+      opacity: 0;
+    }
+    .elDialogClass{
+      .el-dialog--center{
+        width: 710px !important;
+      }
+    }
+  }
   .iconfont.icon-xiala {
     color: #999999;
     font-size: 10px;
