@@ -21,7 +21,6 @@ router.beforeEach((to, from, next) => {
         store.state.app.kilovolt = ''
     }
   }
-  if(from.name){
     if(to.meta.topNav == '1'){
         store.state.app.topNav = 1
     }else if(to.meta.topNav == '2'){
@@ -29,7 +28,6 @@ router.beforeEach((to, from, next) => {
     }else if(to.meta.topNav == '3'){
         store.state.app.topNav = 3
     }
-  }
   let token = getToken()
   if (!token && to.name !== LOGIN_PAGE_NAME && !to.meta.isLogin) {
     // 未登录且要跳转的页面不是登录页

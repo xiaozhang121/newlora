@@ -181,6 +181,20 @@ export default {
     warningSetting,
     wraning
   },
+  computed: {
+      isAlarm(){
+          return this.$store.state.user.isAlarm
+      }
+  },
+  watch: {
+     isAlarm:{
+        handler(now){
+            this.getData()
+         },
+         deep: true,
+         immediate: true
+        }
+  },
   data() {
     const that = this;
     return {

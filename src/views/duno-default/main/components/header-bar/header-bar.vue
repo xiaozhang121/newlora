@@ -76,7 +76,7 @@ export default {
     }
   },
   created(){
-      this.activeBtn = this.$store.state.app.topNav
+      // this.activeBtn = this.$store.state.app.topNav
   },
   mounted (){
       const that = this

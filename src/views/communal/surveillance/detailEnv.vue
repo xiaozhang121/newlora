@@ -24,6 +24,27 @@
             </div>
           </div>
         </div>
+        <div class="left nr">
+          <div class="item" style="background: transparent">
+            <div class="camera_surveillanceDetail">
+              <div class="contain color">
+                  <div class="main_add">
+                    <div class="title_add">
+                      <span>24小时监测记录</span>
+                      <el-date-picker
+                              v-model="chosenDate"
+                              type="date"
+                              placeholder="全部日期">
+                      </el-date-picker>
+                    </div>
+                    <div class="contain_add">
+                      <video-list class="videoList" v-for="(item, index) in videoList" :key="index" />
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="middle_table">
         <div class="top not-print">
@@ -140,6 +161,7 @@
 </template>
 
 <script>
+import videoList from './components/videoList'
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
@@ -164,6 +186,7 @@ export default {
   name: "detailEnv",
   mixins: [mixinViewModule],
   components: {
+    videoList,
     dunoBtnTop,
     KeyMonitor,
     Breadcrumb,
@@ -176,6 +199,15 @@ export default {
   },
   data() {
     return {
+      videoList:[
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+      ],
+      chosenDate:'',
       addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
@@ -648,16 +680,102 @@ export default {
 .mainAside {
   /*min-height: 100%;*/
 }
+.el-picker-panel {
+  background-color: rgba(27, 59, 71, 0.7) !important;
+  color: #fff !important;
+  border: none !important;
+  .el-picker-panel__body-wrapper {
+    .el-picker-panel__body {
+      .in-range {
+        div {
+          background-color: rgba(81, 89, 112, 0.7) !important;
+        }
+      }
+    }
+  }
+  .remarks {
+    .dialog-footer {
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      .button {
+        height: 37px;
+        line-height: 31px;
+        font-size: 14px;
+        &:first-child {
+          margin-right: 30px;
+        }
+      }
+    }
+  }
+}
 .detailEnv {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    color: white;
+  }
+
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: white;
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: white;
+  }
+
+  .el-input--small .el-input__inner{
+    background: #1a2f42;
+    border: none;
+    color: white;
+    height: 40px;
+    border-radius: 0;
+    font-size: 15px;
+    width: 154px;
+    float: right;
+  }
+  .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: 156px;
+  }
   .Main_contain {
+    .contain.color{
+      background: #132838 !important;
+    }
     .content {
       display: flex;
-      justify-content: center;
-      align-items: center;
     }
+    .main_add{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      .title_add{
+        position: relative;
+        top: -45px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .contain_add{
+        padding: 13px;
+        position: absolute;
+        overflow-y: auto;
+        text-align: left;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #112432;
+        .videoList{
+          margin-bottom: 10px;
+          &:last-child{
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
   }
   .monitor.child {
     .vjs-fluid {
