@@ -214,6 +214,12 @@
                 })
                 return
             }
+            if(this.monitorDeviceType==1){
+                getAxiosData('/lenovo-plan/api/yinshi/device/real-data',{'monitorDeviceId': that.deviceId}).then(res=>{
+                    this.templateList = res.data
+                    this.$forceUpdate()
+                })
+            }
             if (this.monitorDeviceType == 1 || this.monitorDeviceType == 3) {
                 const url =
                     '/lenovo-visible/api/visible-equipment/sdk/rtmp/' + that.deviceId;
