@@ -516,6 +516,10 @@
                 deep: true,
                 immediate: true
             },
+            isDiagram(){
+                this.$refs.btnTopRef.handleCheckAllChange(true)
+                this.$refs.btnTopRef.checkAll = true
+            },
             kilovoltKind(now){
                 this.mainlistShow = false
                 this.$nextTick(()=>{
