@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       isFullscreen: false,
-      mapFlag: true,
+      mapFlag: false,
       deviceList: [],
       tempDeviceList: [],
       mapKind: 0,
@@ -72,9 +72,11 @@ export default {
         handler(now){
             this.mapFlag = true
             try {
-                document
-                    .querySelector("#map")
-                    .setAttribute("style", "height:100% !important");
+                this.$nextTick(()=>{
+                    document
+                        .querySelector("#map")
+                        .setAttribute("style", "height:100% !important");
+                })
             } catch (e) {}
         },
         deep: true
@@ -169,11 +171,12 @@ export default {
     }
   },
   created() {
-    this.getDeviceList();
   },
   mounted() {
     const that = this
-    document.addEventListener('fullscreenchange', function(event){
+      this.getDeviceList();
+
+      document.addEventListener('fullscreenchange', function(event){
         that.isFullscreen = !that.isFullscreen
     })
     try {
