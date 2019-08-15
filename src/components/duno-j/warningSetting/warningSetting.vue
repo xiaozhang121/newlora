@@ -195,7 +195,11 @@ export default {
         query['securityStatus']?query['securityStatus'] = 1:query['securityStatus'] = 0
         query['userId'] = this.$store.state.user.userId
         postAxiosData('/lenovo-alarm/api/alarm-tip/set',query).then(res=>{
-            this.$message.info(res.errorMessage)
+            if(res.code == 200){
+                this.$message.success(res.msg)
+            }else{
+                this.$message.fail(res.msg)
+            }
         })
     },
     initSelect(){

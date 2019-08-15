@@ -44,11 +44,11 @@
           <span @click="isSample()">
             <i class="iconfont icon-jietu"></i>截图
           </span>
-          <span @click="fullScreen()">
+        <!--  <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
-          </span>
+          </span>-->
           <span @click="webFullScreen()">
-            <i class="iconfont icon-quanping"></i>网页全屏
+            <i class="iconfont icon-quanping"></i>全屏
           </span>
           <span @click="pushMov()">
             <i class="iconfont icon-tuisong"></i>推送
