@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="dunoDrap">
+    <div class="dunoDrap not-print">
       <div>表计分析</div>
       <div class="selectBtn">
         <div>
@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="echarts">
+    <div class="echarts not-print">
       <div class="title">
         <div>泄露电流表24小时温度分析</div>
         <div>
@@ -121,11 +121,11 @@
         :seriesOption="seriesOption"
       />
     </div>
-    <div class="btn">
+    <div class="btn not-print">
       <div>最新记录</div>
       <div @click="handleToMore">查看更多 ></div>
     </div>
-    <div class="table">
+    <div class="table not-print">
       <duno-tables-tep
         class="table_analysis"
         :columns="columns"
@@ -885,7 +885,11 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-
+@media print {
+  .not-print {
+    opacity: 0;
+  }
+}
 .analysis {
   .selectSearch {
     overflow: hidden;

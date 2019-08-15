@@ -285,6 +285,11 @@ export default {
 </script>
 
 <style lang="scss">
+@media print {
+  .not-print {
+    opacity: 0;
+  }
+}
 .dunoBtnTop{
   min-height: 38px;
   z-index: 10;

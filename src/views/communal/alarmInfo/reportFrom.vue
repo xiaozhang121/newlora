@@ -142,7 +142,7 @@ export default {
     this.loading = true;
     this.timer = setTimeout(() => {
       this.loading = false;
-    }, 7000);
+    }, 1000000000);
     this.getPlayTypeData();
   }
 };

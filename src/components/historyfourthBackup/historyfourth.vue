@@ -81,7 +81,7 @@ export default {
       this.loadingOption = true;
       this.timer = setTimeout(() => {
         this.loadingOption = false;
-      }, 7000);
+      }, 1000000000);
       const that = this;
       const url = "/lenovo-alarm/api/alarm/history";
       let query = {

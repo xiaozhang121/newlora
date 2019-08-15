@@ -33,6 +33,25 @@ html, body, #app {
   scrollbar-track-color: #12222b; /**//*立体滚动条背景颜色*/ 
   scrollbar-base-color:#f8f8f8; /**//*滚动条的基本颜色*/
 }
+
+@media print {
+  ::-webkit-scrollbar {
+    opacity: 0 !important;
+    width: 0px !important;
+    height: 0px !important;
+  }
+  ::-webkit-scrollbar-thumb{
+    border-radius: 0px !important;
+    -webkit-box-shadow: inset 0 0 5px rgba(18,34,43,0.2);
+    background: #213848;
+  }
+  ::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 5px rgba(18,34,43,0.2);
+    border-radius: 0px !important;
+    background: #12222b;
+  }
+}
+
 /* 滚动条样式 webkit内核 */
 ::-webkit-scrollbar {/*滚动条整体样式*/
   width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
