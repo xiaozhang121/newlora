@@ -150,7 +150,7 @@ export default {
     this.loadingOption = true;
     this.timer = setTimeout(() => {
       this.loadingOption = false;
-    }, 7000);
+    }, 1000000000);
     this.title = this.$route.query.title;
     if (this.$route.params.url) {
       this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;

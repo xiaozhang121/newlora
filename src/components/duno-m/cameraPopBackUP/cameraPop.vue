@@ -117,7 +117,7 @@
                 this.isGetData = false
                 this.timer = setTimeout(()=>{
                     this.loadingOption = false
-                },7000)
+                },1000000000)
                 const that = this
                 const url = '/lenovo-plan/api/plan/history'
                 const query = {

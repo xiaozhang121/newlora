@@ -225,7 +225,7 @@ export default {
       this.loadingOptionF = true;
       this.timerF = setTimeout(() => {
         this.loadingOptionF = false;
-      }, 7000);
+      }, 1000000000);
       let query = {
         ...this.timeQueryData,
         pageIndex: 1,
@@ -241,7 +241,7 @@ export default {
       this.loadingOptionS = true;
       this.timerS = setTimeout(() => {
         this.loadingOptionS = false;
-      }, 7000);
+      }, 1000000000);
       let data = {
         pageIndex: 1,
         pageRows: 4

@@ -35,7 +35,11 @@
                   <img src="../../../assets/iconFunction/icon_statement.png" alt />
                   报表
                 </div>
-                <div class="re-middle">
+                <div class="re-middle"
+                 v-loading="loadingOption"
+                 element-loading-background="rgba(0, 0, 0, 0.8)"
+                 element-loading-text="加载中"
+                >
                   <ReportTable v-for="(item,index) in mockData" :key="index" :url="url" :reportData="item" />
                 </div>
                 <div class="re-table">
@@ -198,6 +202,7 @@ export default {
   data() {
     const that = this;
     return {
+      loadingOption: true,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
@@ -440,6 +445,7 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.mockData = res.data.tableData;
+        this.loadingOption = false
       });
     },
     cutOut(data) {
@@ -523,6 +529,9 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
+  .el-loading-text{
+    color: #969696   !important;
+  }
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
   }

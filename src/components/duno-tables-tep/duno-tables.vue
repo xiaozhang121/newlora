@@ -327,7 +327,7 @@
         mounted () {
             this.timer = setTimeout(()=>{
                 this.loadingOption = false
-            },10000)
+            },100000000000000000)
             if (this.isShowCheckbox) {
                 this.isHeaderBtn()
             } else {

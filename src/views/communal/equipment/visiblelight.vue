@@ -238,10 +238,10 @@ export default {
       this.loadingOptionS = true;
       this.timerF = setTimeout(() => {
         this.loadingOptionF = false;
-      }, 7000);
+      }, 1000000000);
       this.timerS = setTimeout(() => {
         this.loadingOptionS = false;
-      }, 7000);
+      }, 1000000000);
       let query = {
         ...this.timeQueryData,
         pageIndex: 1,
