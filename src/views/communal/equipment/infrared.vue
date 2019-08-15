@@ -173,7 +173,7 @@ export default {
         name: "infrared-report",
         query: {
           title: "红外监测记录信息",
-          url: "/lenovo-plan/api/task/iir-result/list",
+          url: "/lenovo-plan/api/task/iir-result/list"
         }
       });
     },
@@ -182,7 +182,7 @@ export default {
         name: "infrared-report",
         query: {
           title: "红外监测记录信息",
-          url: "/lenovo-plan/api/task/iir-result/list",
+          url: "/lenovo-plan/api/task/iir-result/list"
         }
       });
     },
@@ -266,9 +266,9 @@ export default {
       this.$router.push({
         name: "infrared-info",
         query: {
-          title: "红外监测记录信息",
+          title: "红外监测巡检报告",
           url: "/lenovo-plan/api/plan/iir-report/list",
-          planType: "2",
+          planType: "2"
         }
       });
     },

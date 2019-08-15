@@ -289,7 +289,7 @@ export default {
                       color: "#767676",
                       pointerEvents: "none"
                     },
-                    props: { type: "text" },
+                    props: { type: "text" }
                   },
                   "已复归"
                 )

@@ -10,7 +10,7 @@
     >
       <img
         v-if="srcData.fileType=='1'"
-        :src="srcData.alarmFileAddress"
+        :src="srcData.alarmFileAddress || srcData.pic"
         preview
         preview-text="描述文字"
         alt
@@ -50,7 +50,7 @@ export default {
   },
   watch: {
     isShow(now) {
-      if (srcData.fileType == "2" && now) {
+      if (this.srcData.fileType == "2" && now) {
         this.$refs.monitor.fullScreen();
       }
     }

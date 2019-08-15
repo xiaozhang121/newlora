@@ -274,11 +274,13 @@ export default {
         let obj = {};
         (res.data.dealList || []).forEach(el => {
           obj.time = el.dealTime;
-          obj.info = el.dealType;
+          obj.info = el.dealContent;
           that.handleList.push(obj);
         });
         if (that.dataList.alarmTypeValue == "动态环境类") {
           that.discriminate = true;
+        }
+        if (that.dataList.alarmDetailType == "null") {
         }
         that.formData = {
           alarmId: that.searchId,

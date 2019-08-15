@@ -440,16 +440,6 @@ export default {
       };
       postAxiosData(url, query).then(res => {
         this.shotData = res.data;
-        // let query = {
-        //   bucketName: res.data.cephBucket,
-        //   fileName: res.data.cephFileName
-        // };
-        // getAxiosData(
-        //   "/lenovo-storage/api/storageService/file/imgFile",
-        //   query
-        // ).then(res => {
-
-        // });
       });
     },
     closeShot() {

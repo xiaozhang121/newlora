@@ -46,7 +46,7 @@ export default {
     margin: 0 auto;
     background-image: url("../../../assets/images/header-title.png");
     background-repeat: no-repeat;
-    margin-top: 20px;
+    margin-top: 5px;
     width: 300px;
     height: 40px;
   }
@@ -55,7 +55,7 @@ export default {
     // margin-right: 50px;
     position: absolute;
     right: 50px;
-    top: 30px;
+    top: 15px;
     color: #fff;
     opacity: 0.6;
   }

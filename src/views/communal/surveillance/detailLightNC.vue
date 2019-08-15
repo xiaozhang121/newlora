@@ -135,15 +135,15 @@
       :handleResult="popData.dealRecord || ''"
       @handleClose="handleClose"
     />
-    <!--<screenshot />-->
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
 <script>
+import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-import screenshot from "_c/duno-c/screenshot";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
 import mixinViewModule from "@/mixins/view-module";
@@ -175,7 +175,7 @@ export default {
     echarts,
     warningSetting,
     wraning,
-    screenshot
+    enlarge
   },
   data() {
     return {
@@ -203,6 +203,8 @@ export default {
       dataForm: {},
       echartForm: {},
       echartData: [],
+      isEnlarge: false,
+      srcData: [],
       typeList: [],
       value: "",
       alarmLevel: "",
@@ -352,7 +354,13 @@ export default {
                 h("img", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
@@ -360,7 +368,13 @@ export default {
                 h("video", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -418,6 +432,9 @@ export default {
     };
   },
   methods: {
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
     onEdit(name) {
       this.presetName = name;
       this.addOrEdit = "编辑";
@@ -431,7 +448,9 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp/"+ this.dataForm.monitorDeviceId;
+      const url =
+        "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+        this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptionsd.streamAddr = res.data;
         that.$nextTick(() => {
@@ -446,7 +465,8 @@ export default {
           }, 500);
         });
       });
-      const urld = "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
+      const urld =
+        "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(urld, {}).then(res => {
         that.playerOptionsd.sources[0].src = res.data.data;
         that.$forceUpdate();

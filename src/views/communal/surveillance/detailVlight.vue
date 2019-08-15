@@ -153,10 +153,12 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
 <script>
+import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
@@ -189,7 +191,8 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning
+    wraning,
+    enlarge
   },
   data() {
     return {
@@ -206,6 +209,8 @@ export default {
       isControl: "1",
       currentTime: 10,
       timeOut: null,
+      srcData: [],
+      isEnlarge: false,
       dataForm: {},
       echartForm: {},
       echartData: [],
@@ -349,7 +354,7 @@ export default {
           align: "center",
           tooltip: true
         },
-            {
+        {
           title: "视频/图片",
           key: "id",
           minWidth: 120,
@@ -362,7 +367,13 @@ export default {
                 h("img", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
@@ -370,7 +381,13 @@ export default {
                 h("video", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -445,6 +462,9 @@ export default {
     }
   },
   methods: {
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
     onEdit(name) {
       this.presetName = name;
       this.addOrEdit = "编辑";
@@ -689,7 +709,7 @@ export default {
   padding-bottom: 100px;
   /*overflow-y: hidden;*/
   .icon-xiala {
-   /* width: 12px;
+    /* width: 12px;
     height: 15px;*/
   }
   .el-input--small .el-input__inner {

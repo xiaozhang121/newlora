@@ -52,6 +52,7 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
@@ -59,6 +60,7 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
+import enlarge from "_c/duno-c/enlarge";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
@@ -76,7 +78,8 @@ export default {
     dunoMain,
     DunoTablesTep,
     warningSetting,
-    wraning
+    wraning,
+    enlarge
   },
   props: {
     dataBread: {
@@ -110,9 +113,11 @@ export default {
       handleNotes: [],
       alarmType: "",
       visibleSettingOption: false,
+      isEnlarge: false,
       visible: false,
       totalNum: 500,
       pageRows: 20,
+      srcData: [],
       selectInfo: "更多",
       serious: false,
       commonly: false,
@@ -285,14 +290,31 @@ export default {
             let newArr = [];
             if (params.row.fileType == "1") {
               newArr.push([
-                h("i", {
-                  class: "iconfont icon-tupian"
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.pic },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      debugger;
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
               newArr.push([
-                h("i", {
-                  class: "iconfont icon-bofang"
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -380,6 +402,9 @@ export default {
     //     return "/";
     //   }
     // },
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
     onClickDropdown(row, type, No) {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;

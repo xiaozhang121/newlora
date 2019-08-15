@@ -170,10 +170,12 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
 <script>
+import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
@@ -207,7 +209,8 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning
+    wraning,
+    enlarge
   },
   data() {
     return {
@@ -216,6 +219,7 @@ export default {
       isControl: "1",
       currentTime: 10,
       timeOut: null,
+      srcData: [],
       playerOptions: {
         streamAddr: "",
         autoplay: true
@@ -238,6 +242,7 @@ export default {
       typeList: [],
       value: "",
       alarmLevel: "",
+      isEnlarge: false,
       visible: false,
       visibleSettingOption: false,
       popData: {},
@@ -388,7 +393,13 @@ export default {
                 h("img", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
@@ -396,7 +407,13 @@ export default {
                 h("video", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -461,6 +478,9 @@ export default {
     };
   },
   methods: {
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
     onEdit(name) {
       this.presetName = name;
       this.addOrEdit = "编辑";

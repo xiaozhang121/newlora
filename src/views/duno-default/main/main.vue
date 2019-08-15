@@ -299,13 +299,13 @@ export default {
         }
       } catch (e) {}
     },
-    handleHidden(e) {
-      if (e.clientY == 20 && this.showheader == false) {
-        this.showheader = true;
-      } else if (e.clientY > 80 && this.showheader == true) {
-        this.showheader = false;
-      }
-    },
+    // handleHidden(e) {
+    //   if (e.clientY == 20 && this.showheader == false) {
+    //     this.showheader = true;
+    //   } else if (e.clientY > 80 && this.showheader == true) {
+    //     this.showheader = false;
+    //   }
+    // },
     isShowSide() {
       this.isCollapse = !this.isCollapse;
     }

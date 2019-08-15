@@ -327,7 +327,6 @@ export default {
                     click: () => {
                       that.isEnlarge = true;
                       that.srcData = params.row;
-                      // that.changeFullScreen(this.$refs.imgContain);
                     }
                   }
                 })
@@ -342,7 +341,6 @@ export default {
                     click: () => {
                       that.isEnlarge = true;
                       that.srcData = params.row;
-                      // that.changeFullScreen($refs.videoContain);
                     }
                   }
                 })

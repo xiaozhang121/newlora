@@ -17,7 +17,7 @@
            结束控制倒计时
            <i>{{ currentTime }} s</i>
            <span @click="getControl">结束控制</span>
-         </div>-->
+      </div>-->
     </div>
     <div class="Main_contain">
       <div class="content">
@@ -26,12 +26,12 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                        paddingBottom="56%"
-                        class="monitor child"
-                        :autoplay="playerOptionsd.autoplay"
-                        :streamAddr="playerOptionsd.streamAddr"
-                        :showBtmOption="false"
-                        :Initialization="true"
+                  paddingBottom="56%"
+                  class="monitor child"
+                  :autoplay="playerOptionsd.autoplay"
+                  :streamAddr="playerOptionsd.streamAddr"
+                  :showBtmOption="false"
+                  :Initialization="true"
                 ></key-monitor>
               </div>
             </div>
@@ -42,12 +42,12 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                        paddingBottom="56%"
-                        class="monitor"
-                        :autoplay="playerOptions.autoplay"
-                        :streamAddr="playerOptions.streamAddr"
-                        :showBtmOption="false"
-                        :Initialization="true"
+                  paddingBottom="56%"
+                  class="monitor"
+                  :autoplay="playerOptions.autoplay"
+                  :streamAddr="playerOptions.streamAddr"
+                  :showBtmOption="false"
+                  :Initialization="true"
                 ></key-monitor>
               </div>
             </div>
@@ -165,6 +165,7 @@
       :handleResult="popData.dealRecord || ''"
       @handleClose="handleClose"
     />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
@@ -179,6 +180,7 @@ import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
+import enlarge from "_c/duno-c/enlarge";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import moment from "moment";
 import {
@@ -201,10 +203,11 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning
+    wraning,
+    enlarge
   },
   data() {
-    const that = this
+    const that = this;
     return {
       addOrEdit: "添加",
       disabled: false,
@@ -219,6 +222,8 @@ export default {
       isControl: "1",
       currentTime: 10,
       timeOut: null,
+      isEnlarge: false,
+      srcData: [],
       dataForm: {},
       echartForm: {},
       echartData: [],
@@ -371,7 +376,13 @@ export default {
                 h("img", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
@@ -379,7 +390,13 @@ export default {
                 h("video", {
                   class: "imgOrMv",
                   attrs: { src: params.row.alarmFileAddress },
-                  draggable: false
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -433,8 +450,8 @@ export default {
         autoplay: true
       },
       playerOptionsd: {
-          streamAddr: "",
-          autoplay: true
+        streamAddr: "",
+        autoplay: true
       },
       presetName: "",
       allDataKind: [],
@@ -450,6 +467,9 @@ export default {
     }
   },
   methods: {
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
     onEdit(name) {
       this.presetName = name;
       this.addOrEdit = "编辑";
@@ -463,14 +483,16 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-        const url = "/lenovo-iir/device/visible/url/rtmp/"+ this.dataForm.monitorDeviceId;
-        getAxiosData(url, {}).then(res => {
-            that.playerOptions.streamAddr = res.data.data
-        });
-        const urld = "/lenovo-iir/device/video/url/rtmp/"+ this.dataForm.monitorDeviceId;
-        getAxiosData(urld, {}).then(res => {
-            that.playerOptionsd.streamAddr = res.data.data
-        });
+      const url =
+        "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
+      getAxiosData(url, {}).then(res => {
+        that.playerOptions.streamAddr = res.data.data;
+      });
+      const urld =
+        "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
+      getAxiosData(urld, {}).then(res => {
+        that.playerOptionsd.streamAddr = res.data.data;
+      });
     },
     cutOut(data) {
       if (data) {
@@ -688,8 +710,8 @@ export default {
       padding-top: 56%;
     }
   }
-  .icon-xiala{
-  /*  width: 12px;
+  .icon-xiala {
+    /*  width: 12px;
     height: 14px;*/
   }
   /*overflow-y: hidden;*/
@@ -765,10 +787,10 @@ export default {
     display: flex;
     .left {
       width: 50%;
-      &:first-child{
+      &:first-child {
         margin-right: 10px;
       }
-      &:last-child{
+      &:last-child {
         margin-left: 10px;
       }
       &.nr {
@@ -788,7 +810,7 @@ export default {
               width: 100%;
               padding-bottom: 56%;
               background: black;
-              .contain_img{
+              .contain_img {
                 position: absolute;
                 width: 100%;
                 height: 100%;

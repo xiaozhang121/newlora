@@ -1,6 +1,6 @@
 <template>
   <div class="screenshot">
-    <el-dialog :show-close="false" @close="close" :visible.sync="isShow" width="30%" :center="true">
+    <el-dialog :show-close="false" @close="close" :visible.sync="isShow" width="500px" :center="true">
       <div class="dialog-content">
         <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
           <img :src="this.imgsrc" alt />
@@ -99,10 +99,15 @@ export default {
       }
     },
     shotData: {
-      type: Array,
+      type: Object,
       default: () => {
-        return [];
+        return {};
       }
+    }
+  },
+  watch: {
+    shotData(now) {
+      this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${now.cephBucket}&fileName=${now.cephFileName}`;
     }
   },
   data() {
@@ -142,7 +147,6 @@ export default {
   },
   methods: {
     handleChange(value) {
-      console.log(value);
       let query = {
         mainDevice: value[0],
         part: value[1],
@@ -187,19 +191,13 @@ export default {
         this.endPointX = e.offsetX;
         this.clickFlage = 0;
       }
-      console.log(
-        this.startPointX,
-        this.endPointX,
-        this.startPointY,
-        this.endPointY
-      );
-      if (
-        this.endPointX == -1 &&
-        this.endPointY == -1 &&
-        this.startPointX != 1 &&
-        this.startPointY != 1
-      ) {
-      }
+      // if (
+      //   this.endPointX == -1 &&
+      //   this.endPointY == -1 &&
+      //   this.startPointX != 1 &&
+      //   this.startPointY != 1
+      // ) {
+      // }
     },
     //手动标定
     addTag() {
@@ -209,17 +207,6 @@ export default {
     delTag() {
       this.isCalibrat = true;
     },
-    //框选图片
-    // getImgInfo() {
-    //   var query = {
-    //     picFilePath: this.picFilePath
-    //   };
-    //   var url = "/lenovo-sample/api/mark/pic-flow";
-    //   getAxiosData(url, query).then(res => {
-    //     console.log(res);
-    //     this.imgsrc = res.data;
-    //   });
-    // },
     getSelect(node, resolve) {
       const { level, root, data } = node;
       let params = {};
@@ -301,7 +288,6 @@ export default {
     }
   },
   mounted() {
-    // this.getImgInfo();
     this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
   }
 };
@@ -320,11 +306,12 @@ export default {
     .dialog-content {
       position: relative;
       .shotImg {
-        // width: 400px;
         width: 100%;
         height: 225px;
         background: #fff;
         img {
+          width: 100%;
+          height: 100%;
           display: block;
         }
       }
