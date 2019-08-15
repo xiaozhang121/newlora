@@ -240,11 +240,11 @@ export default {
   },
   methods: {
     ...mapMutations(["setBreadCrumb", "setTagNavList"]),
-    webFullScreen(streamAddr){
-        this.$store.state.app.webFullVisable = !this.$store.state.app
-            .webFullVisable;
-        this.$store.state.app.webFull = streamAddr
-        alert(streamAddr)
+    webFullScreen(streamAddr) {
+      this.$store.state.app.webFullVisable = !this.$store.state.app
+        .webFullVisable;
+      this.$store.state.app.webFull = streamAddr;
+      alert(streamAddr);
     },
     beforeClose() {
       this.$store.state.app.webFullVisable = false;
@@ -286,13 +286,13 @@ export default {
     },
     getWidth() {
       let that = this;
-      try{
-          let ivuLayoutWidth = document.getElementsByClassName("el-aside")[0]
-              .clientWidth;
-          window.screenWidth = document.body.clientWidth;
-          that.screenWidth = window.screenWidth - ivuLayoutWidth;
-          that.bodyWidth = window.screenWidth;
-      }catch (e) {}
+      try {
+        let ivuLayoutWidth = document.getElementsByClassName("el-aside")[0]
+          .clientWidth;
+        window.screenWidth = document.body.clientWidth;
+        that.screenWidth = window.screenWidth - ivuLayoutWidth;
+        that.bodyWidth = window.screenWidth;
+      } catch (e) {}
       try {
         if (window.screen.availWidth > 3000 && parent.frames.length == 0) {
           that.isBigScreen = true;
@@ -305,13 +305,13 @@ export default {
         }
       } catch (e) {}
     },
-    // handleHidden(e) {
-    //   if (e.clientY == 20 && this.showheader == false) {
-    //     this.showheader = true;
-    //   } else if (e.clientY > 80 && this.showheader == true) {
-    //     this.showheader = false;
-    //   }
-    // },
+    handleHidden(e) {
+      if (e.clientY == 20 && this.showheader == false) {
+        this.showheader = true;
+      } else if (e.clientY > 80 && this.showheader == true) {
+        this.showheader = false;
+      }
+    },
     isShowSide() {
       this.isCollapse = !this.isCollapse;
     }
@@ -371,7 +371,7 @@ export default {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
-    window.webFullScreen = this.webFullScreen
+    window.webFullScreen = this.webFullScreen;
     let that = this;
     that.setTagNavList();
     that.getWidth();
