@@ -32,6 +32,7 @@
                     <div class="title_add">
                       <span>24小时监测记录</span>
                       <el-date-picker
+                              style="width: 156px"
                               v-model="chosenDate"
                               type="date"
                               placeholder="全部日期">
@@ -736,7 +737,6 @@ export default {
     float: right;
   }
   .el-date-editor.el-input, .el-date-editor.el-input__inner{
-    width: 156px;
   }
   .Main_contain {
     .contain.color{
