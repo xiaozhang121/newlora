@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-        <div class="left nr">
+      <!--  <div class="left nr">
           <div class="item" style="background: transparent">
             <div class="camera_surveillanceDetail">
               <div class="contain color">
@@ -45,7 +45,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
       <div class="middle_table">
         <div class="top not-print">
@@ -744,6 +744,8 @@ export default {
     }
     .content {
       display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .main_add{
       position: absolute;

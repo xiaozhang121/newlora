@@ -7,7 +7,7 @@
       <KeyErea />
     </div>
     <div class="mainContamin">
-      <div class="item">
+     <!-- <div class="item">
         <div class="alarmTitle">
           <div>24小时监测记录</div>
           <div>
@@ -29,8 +29,8 @@
             </div>
             <div style="clear: both"></div>
         </div>
-      </div>
-      <div class="item">
+      </div>-->
+      <div class="item" style="margin-left: 0">
         <div class="alarmTitle">
           <div>3天内动态环境异常记录</div>
           <div>
