@@ -508,10 +508,10 @@ export default {
     justify-content: space-around;
     .swiper-button-prev,
     .swiper-button-next {
-      margin-top: 170px;
+      margin-top: 262px;
       width: 30px;
       color: #fff;
-      height: 24%;
+      height: 20%;
       text-align: center;
       font-size: 20px;
       background: #333;

@@ -460,6 +460,9 @@ export default {
     /*width: 9px;
     height: 12px;*/
   }
+  .dunoMain {
+    height: inherit;
+  }
   .circleStatus {
     width: 13px;
     height: 13px;
