@@ -422,14 +422,14 @@
                 this.onDisabled(this.$refs.btnTopRef.checkedCities)
             },
             beforeunload(e) {
-                const that = this;
+             /*   const that = this;
                 console.log("保存相关操作");
                 console.log("I want to cancel");
                 // Cancel the event
                 e.preventDefault();
                 // that.saveCamera()
                 // Chrome requires returnValue to be set
-                e.returnValue = "hello";
+                e.returnValue = "hello";*/
             }
         },
         beforeDestroy() {

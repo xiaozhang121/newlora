@@ -277,8 +277,14 @@ export default {
     .not-print {
       opacity: 0;
     }
-    .elDialogClass{
-      .el-dialog--center{
+    .el-dialog__headerbtn{
+      display: none;
+    }
+    .iconList{
+      display: none;
+    }
+    .elDialogClass {
+      .el-dialog--center {
         width: 710px !important;
       }
     }
