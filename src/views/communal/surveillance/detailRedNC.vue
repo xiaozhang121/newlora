@@ -26,6 +26,7 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
+                  :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor child"
                   :autoplay="playerOptionsd.autoplay"
@@ -42,6 +43,7 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
+                  :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor"
                   :autoplay="playerOptions.autoplay"
