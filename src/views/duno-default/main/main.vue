@@ -244,7 +244,12 @@ export default {
       this.$store.state.app.webFullVisable = !this.$store.state.app
         .webFullVisable;
       this.$store.state.app.webFull = streamAddr;
-      alert(streamAddr);
+      document.onkeydown=function(event){
+          var e = event || window.event || arguments.callee.caller.arguments[0];
+          if (e && e.keyCode==27) {
+             parent.beforeClose()
+          }
+      }
     },
     beforeClose() {
       this.$store.state.app.webFullVisable = false;
@@ -372,6 +377,16 @@ export default {
      * @description 初始化设置面包屑导航和标签导航
      */
     window.webFullScreen = this.webFullScreen;
+    window.beforeClose = this.beforeClose;
+    document.onkeydown=function(event){
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode==27) {
+            parent.document.querySelector('.dialogMain').click(function (event) {
+                event.preventDefault()
+                event.stopImmediatePropagation()
+            })
+        }
+    }
     let that = this;
     that.setTagNavList();
     that.getWidth();

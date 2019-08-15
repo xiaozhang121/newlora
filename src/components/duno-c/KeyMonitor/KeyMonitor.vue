@@ -313,9 +313,13 @@ export default {
   },
   methods: {
     webFullScreen() {
-      this.$store.state.app.webFullVisable = !this.$store.state.app
-        .webFullVisable;
-      this.$store.state.app.webFull = this.streamAddr;
+      if(self.frameElement && self.frameElement.tagName == "IFRAME"){
+          parent.webFullScreen(this.streamAddr)
+      }else{
+          this.$store.state.app.webFullVisable = !this.$store.state.app
+              .webFullVisable;
+          this.$store.state.app.webFull = this.streamAddr;
+      }
     },
     onPlayerPlay(player) {
       //   alert("play");
