@@ -8,7 +8,7 @@
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2 || isDiagram == 3"/>
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-else-if="isDiagram == 1"/>
           </div>
-          <img id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
+          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
           <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->
           <!-- <div v-for="(item, index) in deviceList" class="anchorPoint" :id="'anchor'+index" :key="index" >
                <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
@@ -461,6 +461,7 @@
         data () {
             const that = this
             return {
+                showWeather: false,
                 disgramList: [],
                 alarmId: '',
                 visible: false,
@@ -515,10 +516,15 @@
                 deep: true,
                 immediate: true
             },
+            isDiagram(){
+                this.$refs.btnTopRef.handleCheckAllChange(true)
+                this.$refs.btnTopRef.checkAll = true
+            },
             kilovoltKind(now){
                 this.mainlistShow = false
                 this.$nextTick(()=>{
                     this.mainlistShow = true
+                    this.getDeviceList()
                     this.initOtherPoint()
                     this.initDisgram()
                 })
@@ -721,6 +727,7 @@
             },
             changDiagram(now){
                 this.isDiagram = now
+                this.getDeviceList()
                 this.initOtherPoint()
                 this.initDisgram()
                 this.$forceUpdate()
@@ -773,6 +780,7 @@
                     }
                 }
                 that.deviceList = data
+                this.showWeather = this.$refs.btnTopRef.dataList[3].isActive
                 that.$forceUpdate()
             },
             alarmClear(){
@@ -831,8 +839,8 @@
             }
         },
         created(){
-            this.getDeviceList()
             this.$nextTick(()=>{
+                this.getDeviceList()
                 this.initDisgram()
                 this.initOtherPoint()
             })
@@ -843,17 +851,22 @@
         mounted () {
             const that = this
             document.addEventListener('fullscreenchange', function(event){
+                let temp = that.isDiagram
                 if(that.$refs.btnTopRef)
                     that.$refs.btnTopRef.isFullscreen = !that.$refs.btnTopRef.isFullscreen
                 that.isFullscreen = !that.isFullscreen
                 let data = that.modeList
-                if(that.isFullscreen){
-                    document.querySelector('#map').setAttribute('style','height:100vh !important')
-                    that.$refs.firstElE.style.background = 'rgba(20, 40, 56)'
-                }else{
-                    document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
-                    that.$refs.firstElE.style.background = 'transparent'
-                }
+                that.$nextTick(()=>{
+                    if(that.isFullscreen){
+                          document.querySelector('#map').setAttribute('style','height:100vh !important')
+                          that.$refs.firstElE.style.background = 'rgba(20, 40, 56)'
+                    }else{
+                          document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
+                          that.$refs.firstElE.style.background = 'transparent'
+                    }
+                    debugger
+                    that.$refs.gisMapObj.mapTarget.updateSize()
+                })
                 data.map(item=>{
                     /* if(item['popupinfoVisable']){
                          item['popupinfoVisable'] = false

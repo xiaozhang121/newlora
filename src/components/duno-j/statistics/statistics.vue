@@ -178,6 +178,7 @@ export default {
 
       document.addEventListener('fullscreenchange', function(event){
         that.isFullscreen = !that.isFullscreen
+        that.$refs.gisMapObj.mapTarget.updateSize()
     })
     try {
       document

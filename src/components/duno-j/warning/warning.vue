@@ -361,6 +361,12 @@ export default {
   .not-print {
     opacity: 0;
   }
+  .el-dialog__headerbtn{
+    display: none;
+  }
+  .iconfontList{
+    display: none;
+  }
   .elDialogClass {
     .el-dialog--center {
       width: 710px !important;
@@ -531,6 +537,13 @@ export default {
       padding-bottom: 0;
     }
   }
+  .el-dialog__headerbtn .el-dialog__close{
+    color: #777777;
+    font-size: 22px;
+    position: relative;
+    top: 5px;
+    left: 1px;
+  }
   .title_top {
     font-weight: bold;
     .iconfontList {
@@ -539,7 +552,8 @@ export default {
       top: -3px;
       margin-right: 30px;
       .iconfont {
-        color: #95939d;
+        font-size: 22px;
+        color: #777777;
         margin-left: 12px;
         cursor: pointer;
       }

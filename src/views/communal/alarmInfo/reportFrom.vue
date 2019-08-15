@@ -152,6 +152,10 @@ export default {
 .duno-reportFrom {
   width: 100%;
   height: 100%;
+  .dunoMain {
+    // border: 1px solid #fff;
+    width: 100%;
+  }
   .el-loading-text {
     color: #969696 !important;
   }
