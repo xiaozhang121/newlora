@@ -313,7 +313,7 @@ export default {
         if (now && now.length) {
           arr = now
         }
-        // this.xAxisOption.data = arr
+        this.xAxisOption.data = arr
       },
       deep: true
     },
