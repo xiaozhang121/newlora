@@ -25,11 +25,11 @@
           >{{item.alarmLevelName}}</span>
         </div>
         <div class="itemdetail" :key="index">
-          <span @click="handleClick">详情</span>
+          <span @click="handleClick(index)">详情</span>
         </div>
-        <wraning :popData="item" :visible="visible" @handleClose="handleClose" />
       </div>
     </div>
+    <wraning :popData="popData" :top="0" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 <script>
@@ -45,6 +45,7 @@ export default {
       loadingOption: false,
       visible: false,
       alarmHistoryData: [],
+      popData: {},
       mouseNum: -1
     };
   },
@@ -102,8 +103,9 @@ export default {
         }
       });
     },
-    handleClick() {
-      // this.visible = true;
+    handleClick(index) {
+      this.popData = this.dataList[index];
+      this.visible = true;
     },
     handleClose() {
       this.visible = false;

@@ -11,9 +11,9 @@
           @mouseleave.stop="mouseleave"
         >
           <transition name="el-zoom-in-center">
-            <div class="picDetail" ref="imgContain" v-show="item.show">
-              <img :src="item.alarmFileAddress" />
-              <i class="iconfont icon-quanping" @click="changeFullScreen($refs.imgContain)"></i>
+            <div class="picDetail" v-show="item.show">
+              <img :src="item.alarmFileAddress" ref="imgFull" />
+              <i class="iconfont icon-quanping" @click="changeFullScreen($refs.imgFull,index)"></i>
             </div>
           </transition>
           <div class="mainMli">
@@ -179,19 +179,16 @@ export default {
       });
     },
     handleClick(index) {
-      // debugger;
-      // console.log(index);
-
       this.popData = this.dataList[index];
-
       this.visible = true;
     },
     handleClose() {
       this.visible = false;
     },
-    changeFullScreen(target) {
+    changeFullScreen(target, index) {
       const that = this;
-      screenfull.toggle(target);
+      let imgtarget = target[index];
+      screenfull.toggle(imgtarget);
     }
   },
   mounted() {
@@ -357,4 +354,7 @@ export default {
     padding-left: 10px;
   }
 }
+// .HistoricalDocuments .el-dialog__wrapper .el-dialog .el-dialog__body {
+//   background: #fff;
+// }
 </style>

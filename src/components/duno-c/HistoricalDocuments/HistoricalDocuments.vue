@@ -1,11 +1,28 @@
 <template>
   <div :class="['HistoricalDocuments', !isShowTab? 'noHistorical':'']">
-    <el-dialog class="elDialogMain" v-dialogDrag :close-on-click-modal="false" :visible="isOpen" :width="width" :top="top" :modal="false" @close="close">
+    <el-dialog
+      class="elDialogMain"
+      v-dialogDrag
+      :close-on-click-modal="false"
+      :visible="isOpen"
+      :width="width"
+      :top="top"
+      :modal="false"
+      @close="close"
+    >
       <div slot="title">
         <span class="title titleSpan" v-if="!isShowTab || showHeader">{{title}}</span>
         <div v-if="isShowTab" class="titleBtn">
-          <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()"><i class="iconfont icon-daochu"></i></el-button>
-          <el-button class="titleTopBtn" v-if="activeName == 'fifth'" @click="clickMagnify($refs.contentMagnify)"><i class="iconfont icon-fangda"></i></el-button>
+          <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()">
+            <i class="iconfont icon-daochu"></i>
+          </el-button>
+          <el-button
+            class="titleTopBtn"
+            v-if="activeName == 'fifth'"
+            @click="clickMagnify($refs.contentMagnify)"
+          >
+            <i class="iconfont icon-fangda"></i>
+          </el-button>
         </div>
       </div>
       <el-tabs v-if="isShowTab" v-model="activeName" @tab-click="handleClick" type="card">
@@ -17,9 +34,18 @@
         ></el-tab-pane>
       </el-tabs>
       <div v-if="isClassify" class="classifyBtn">
-        <el-button :class="[classifyActive == 'A'? 'classifyActive':'']" @click="clickClassify('A', true)">A 相</el-button>
-        <el-button :class="[classifyActive == 'B'? 'classifyActive':'']" @click="clickClassify('B', true)">B 相</el-button>
-        <el-button :class="[classifyActive == 'C'? 'classifyActive':'']" @click="clickClassify('C', true)">C 相</el-button>
+        <el-button
+          :class="[classifyActive == 'A'? 'classifyActive':'']"
+          @click="clickClassify('A', true)"
+        >A 相</el-button>
+        <el-button
+          :class="[classifyActive == 'B'? 'classifyActive':'']"
+          @click="clickClassify('B', true)"
+        >B 相</el-button>
+        <el-button
+          :class="[classifyActive == 'C'? 'classifyActive':'']"
+          @click="clickClassify('C', true)"
+        >C 相</el-button>
       </div>
       <div class="connent" ref="contentMagnify">
         <slot></slot>
@@ -30,28 +56,28 @@
 <script>
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { method } from "bluebird";
-import { mapState } from 'vuex'
-import screenfull from 'screenfull'
-import qs from 'qs'
+import { mapState } from "vuex";
+import screenfull from "screenfull";
+import qs from "qs";
 export default {
   name: "HistoricalDocuments",
   props: {
     showHeader: {
       type: Boolean,
       default: () => {
-          return false
+        return false;
       }
     },
     isShowTab: {
       type: Boolean,
       default: () => {
-        return true
+        return true;
       }
     },
     title: {
       type: String,
       default: () => {
-        return ''
+        return "";
       }
     },
     dialogTableVisible: {
@@ -98,13 +124,13 @@ export default {
     width: {
       type: String,
       default: () => {
-        return '50%'
+        return "50%";
       }
     },
     top: {
       type: String,
       default: () => {
-        return '15vh'
+        return "15vh";
       }
     },
     itemId: {
@@ -113,7 +139,7 @@ export default {
     isClassify: {
       type: Boolean,
       default: () => {
-        return false
+        return false;
       }
     }
   },
@@ -123,40 +149,41 @@ export default {
   data() {
     return {
       activeName: "first",
-      classifyActive: 'A',
+      classifyActive: "A",
       isOpen: false
     };
   },
   computed: {
-    ...mapState([
-      'user'
-    ])
+    ...mapState(["user"])
   },
   watch: {
     dialogTableVisible(now) {
-      this.isOpen = now
+      this.isOpen = now;
     }
   },
   methods: {
-    clickClassify (type, flag) {
-      this.classifyActive = type
-      this.$emit('clickClassify', type, flag)
+    clickClassify(type, flag) {
+      this.classifyActive = type;
+      this.$emit("clickClassify", type, flag);
     },
-    clickExport () {
-      const baseUrl = process.env.NODE_ENV === 'development' ? this.$config.baseUrl.dev : this.$config.baseUrl.pro
+    clickExport() {
+      const baseUrl =
+        process.env.NODE_ENV === "development"
+          ? this.$config.baseUrl.dev
+          : this.$config.baseUrl.pro;
       let params = qs.stringify({
-        't': this.user.token,
-        'monitorDeviceId': this.itemId
-      })
-      window.location.href = `${baseUrl}/lenovo-alarm/api/alarm/history/export?${params}`
+        t: this.user.token,
+        monitorDeviceId: this.itemId
+      });
+      window.location.href = `${baseUrl}/lenovo-alarm/api/alarm/history/export?${params}`;
     },
-    clickMagnify (target) {
-      screenfull.toggle(target)
+    clickMagnify(target) {
+      screenfull.toggle(target);
     },
     close() {
       this.isOpen = !this.isOpen;
       if (this.isClassify && !this.isOpen) {
-        this.clickClassify('A', false)
+        this.clickClassify("A", false);
       }
       this.$emit("close", this.isOpen);
     },
@@ -166,7 +193,7 @@ export default {
     }
   },
   mounted() {
-    this.isOpen = this.dialogTableVisible
+    this.isOpen = this.dialogTableVisible;
   }
 };
 </script>
@@ -176,174 +203,180 @@ export default {
     top: 25px;
   }
 }
-  .HistoricalDocuments {
+.HistoricalDocuments {
+  width: 100%;
+  height: 100%;
+  .el-dialog__wrapper {
+    overflow: visible !important;
+  }
+  .title {
+    color: #fff;
+    font-size: 22px;
+  }
+  .titleSpan {
+    padding: 10px 10px;
+    display: block;
+    background: rgba(50, 95, 125, 0.8);
+  }
+  .el-dialog {
+    // box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
+    background-color: rgba(18, 33, 39, 0.7);
     width: 100%;
-    height: 100%;
-    .el-dialog__wrapper{
-      overflow: visible !important;
+    border-radius: 0;
+    position: relative;
+    border: 1px solid #4b9bc1;
+    .el-dialog__header {
+      padding: 10px;
     }
-    .title {
-      color: #fff;
-      font-size: 22px;
-    }
-    .titleSpan {
-      padding: 10px 10px;
-      display: block;
-      background: rgba(50, 95, 125, 0.8);
-    }
-    .el-dialog {
-      // box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;
-      background-color: rgba(18, 33, 39, 0.7);
-      width: 100%;
-      border-radius: 0;
-      position: relative;
-      border: 1px solid #4b9bc1;
-      .el-dialog__header {
-        padding: 10px;
-      }
-      
-      .el-dialog__body {
-        padding: 8px 10px;
-        margin: 0 10px;
-        background-color: rgba(32,54,68,0.8);
-        .el-tabs {
-          .el-tabs__header {
-            /*width: 84%;*/
-            position: absolute;
-            top: -41px;
-            left: -1px;
+
+    .el-dialog__body {
+      padding: 8px 10px;
+      margin: 0 10px;
+      background-color: rgba(32, 54, 68, 0.8);
+      .el-tabs {
+        .el-tabs__header {
+          /*width: 84%;*/
+          position: absolute;
+          top: -41px;
+          left: -1px;
+          border: none;
+          .el-tabs__nav-wrap {
             border: none;
-            .el-tabs__nav-wrap {
+            .el-tabs__nav-scroll {
               border: none;
-              .el-tabs__nav-scroll {
+              .el-tabs__nav {
                 border: none;
-                .el-tabs__nav {
+                .el-tabs__item {
+                  width: 123px;
                   border: none;
-                  .el-tabs__item {
-                    width: 123px;
-                    border: none;
-                    color: #fff;
-                    background: linear-gradient(225deg, transparent 30px, rgba(18, 33, 39, 0.7) 0) top left;
-                    /*background: linear-gradient(225deg, transparent 30px, #58a 0) top left;*/
-                  }
-                  .is-active {
-                    background: linear-gradient(225deg, transparent 30px, #58a 0) top left;
-                    opacity: 1;
-                    color: #ffffff;
-                  }
+                  color: #fff;
+                  background: linear-gradient(
+                      225deg,
+                      transparent 30px,
+                      rgba(18, 33, 39, 0.7) 0
+                    )
+                    top left;
+                  /*background: linear-gradient(225deg, transparent 30px, #58a 0) top left;*/
+                }
+                .is-active {
+                  background: linear-gradient(225deg, transparent 30px, #58a 0)
+                    top left;
+                  opacity: 1;
+                  color: #ffffff;
                 }
               }
             }
           }
         }
-        .connent {
-          & > div {
-            p {
-              font-size: 18px;
-            }
-            color: #ffffff;
-            .AlarmModuleTable {
-              /*height: 272px;*/
-              margin-top: 20px;
-              overflow: hidden;
-              .tablesTep {
-                overflow-y: scroll;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0);
-                .ivu-table-wrapper {
-                  margin-right: 15px;
-                  tr:nth-child(odd) {
-                    td {
-                      background-color: rgba(32, 54, 68, 0.7);
-                    }
-                  }
-                  border: none;
-                  .ivu-table {
-                    border: none !important;
-                    color: #fff;
-                    background-color: rgba(0, 0, 0, 0);
-                  }
-                  .ivu-table:before,
-                  .ivu-table:after {
-                    background-color: rgba(0, 0, 0, 0);
-                  }
-                  .ivu-table td,
-                  .ivu-table th {
-                    color: #fff;
-                    border: none;
-                    background-color: rgba(0, 0, 0, 0);
+      }
+      .connent {
+        & > div {
+          p {
+            font-size: 18px;
+          }
+          color: #ffffff;
+          .AlarmModuleTable {
+            /*height: 272px;*/
+            margin-top: 20px;
+            overflow: hidden;
+            .tablesTep {
+              overflow-y: scroll;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0);
+              .ivu-table-wrapper {
+                margin-right: 15px;
+                tr:nth-child(odd) {
+                  td {
+                    background-color: rgba(32, 54, 68, 0.7);
                   }
                 }
-                .ivu-select-dropdown {
-                  background-color: #1b3b47;
+                border: none;
+                .ivu-table {
+                  border: none !important;
+                  color: #fff;
+                  background-color: rgba(0, 0, 0, 0);
+                }
+                .ivu-table:before,
+                .ivu-table:after {
+                  background-color: rgba(0, 0, 0, 0);
+                }
+                .ivu-table td,
+                .ivu-table th {
+                  color: #fff;
+                  border: none;
+                  background-color: rgba(0, 0, 0, 0);
                 }
               }
-            }
-            .fl {
-              float: left;
-            }
-            .fr {
-              float: right;
+              .ivu-select-dropdown {
+                background-color: #1b3b47;
+              }
             }
           }
-          .el-select-dropdown {
-            border: none;
-            background-color: #272b35;
-            .el-select-dropdown__item {
-              color: #fff;
-            }
-            .el-select-dropdown__item:hover {
-              background-color: #1b3b47;
-            }
-            .selected {
-              background-color: #1b3b47;
-            }
+          .fl {
+            float: left;
+          }
+          .fr {
+            float: right;
           }
         }
-      }
-    }
-    .tableBtnName {
-      background-size: contain;
-      box-sizing: border-box;
-      z-index: 99;
-    }
-    .el-dialog__close {
-      color: #fff;
-      font-size: 30px;
-    }
-    .titleBtn {
-      float: right;
-      margin-right: 42px;
-      margin-top: 12px;
-      z-index: 5;
-      position: relative;
-      .titleTopBtn {
-        background: transparent;
-        width: auto;
-        height: auto;
-        line-height: initial;
-        padding: 0;
-        border: none;
-        .iconfont {
-          font-size: 22px;
-          color: #fff;
+        .el-select-dropdown {
+          border: none;
+          background-color: #272b35;
+          .el-select-dropdown__item {
+            color: #fff;
+          }
+          .el-select-dropdown__item:hover {
+            background-color: #1b3b47;
+          }
+          .selected {
+            background-color: #1b3b47;
+          }
         }
-      }
-    }
-    .classifyBtn {
-      position: absolute;
-      top: 45px;
-      left: -68px;
-      button {
-        display: block;
-        margin: 10px 0;
-        background-color: rgba(27, 59, 71, 0.7);
-        border: none;
-      }
-      .classifyActive {
-        color: #00e5ff;
-        background: rgba(32, 54, 68, 0.7);
       }
     }
   }
+  .tableBtnName {
+    background-size: contain;
+    box-sizing: border-box;
+    z-index: 99;
+  }
+  .el-dialog__close {
+    color: #fff;
+    font-size: 30px;
+  }
+  .titleBtn {
+    float: right;
+    margin-right: 42px;
+    margin-top: 12px;
+    z-index: 5;
+    position: relative;
+    .titleTopBtn {
+      background: transparent;
+      width: auto;
+      height: auto;
+      line-height: initial;
+      padding: 0;
+      border: none;
+      .iconfont {
+        font-size: 22px;
+        color: #fff;
+      }
+    }
+  }
+  .classifyBtn {
+    position: absolute;
+    top: 45px;
+    left: -68px;
+    button {
+      display: block;
+      margin: 10px 0;
+      background-color: rgba(27, 59, 71, 0.7);
+      border: none;
+    }
+    .classifyActive {
+      color: #00e5ff;
+      background: rgba(32, 54, 68, 0.7);
+    }
+  }
+}
 </style>

@@ -5,6 +5,7 @@
         class="elDialogClass"
         :visible="newVisible"
         width="900px"
+        :modal="false"
         center
         :top="top"
         @close="handleClose"
@@ -128,7 +129,7 @@ export default {
   },
   props: {
     top: {
-      type: String,
+      type: String || Number,
       default: () => {
         return "15vh";
       }
@@ -516,10 +517,17 @@ export default {
   }
   .el-dialog {
     background: #e0e0e0;
-  }
-  .el-dialog__header {
-    text-align: left;
-    padding-bottom: 0;
+    border: none;
+    .el-dialog__body {
+      padding: 25px 25px 30px;
+      margin: 0;
+      background-color: #e0e0e0;
+    }
+    .el-dialog__header {
+      color: #515a6e;
+      text-align: left;
+      padding-bottom: 0;
+    }
   }
   .title_top {
     font-weight: bold;
