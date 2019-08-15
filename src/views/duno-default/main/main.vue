@@ -240,6 +240,12 @@ export default {
   },
   methods: {
     ...mapMutations(["setBreadCrumb", "setTagNavList"]),
+    webFullScreen(streamAddr){
+        this.$store.state.app.webFullVisable = !this.$store.state.app
+            .webFullVisable;
+        this.$store.state.app.webFull = streamAddr
+        alert(streamAddr)
+    },
     beforeClose() {
       this.$store.state.app.webFullVisable = false;
     },
@@ -365,6 +371,7 @@ export default {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
+    window.webFullScreen = this.webFullScreen
     let that = this;
     that.setTagNavList();
     that.getWidth();
