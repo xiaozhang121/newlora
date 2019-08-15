@@ -70,7 +70,7 @@
       :visible="visible"
       @handleClose="handleClose"
     />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @handleLarge="closeEnlarge" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
@@ -590,7 +590,6 @@ export default {
       });
     },
     closeEnlarge() {
-      debugger
       this.isEnlarge = false;
     },
     getJump(row) {

@@ -1,12 +1,12 @@
 <template>
   <div class="enlarge">
     <el-dialog
-      :visible.sync="isEnlarge"
+      :visible.sync="isShow"
       :show-close="false"
       :modal="true"
       width="80%"
       top="5vh"
-      :close="handleLarge"
+      :before-close="handleLarge"
     >
       <img
         v-if="srcData.fileType=='1'"
@@ -48,19 +48,12 @@ export default {
       }
     }
   },
-  watch: {
-    isShow(now) {
-      this.isEnlarge = now;
-    }
-  },
   data() {
-    return {
-      isEnlarge: false
-    };
+    return {};
   },
-  method: {
+  methods: {
     handleLarge() {
-      this.$emit("handleLarge");
+      this.$emit("closeEnlarge");
     }
   }
 };
