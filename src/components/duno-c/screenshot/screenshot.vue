@@ -1,6 +1,12 @@
 <template>
   <div class="screenshot">
-    <el-dialog :show-close="false" @close="close" :visible.sync="isShow" width="500px" :center="true">
+    <el-dialog
+      :show-close="false"
+      @close="close"
+      :visible.sync="isShow"
+      width="500px"
+      :center="true"
+    >
       <div class="dialog-content">
         <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
           <img :src="this.imgsrc" alt />

@@ -70,7 +70,7 @@
       :visible="visible"
       @handleClose="handleClose"
     />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @handleLarge="closeEnlarge" />
   </div>
 </template>
 
@@ -327,6 +327,7 @@ export default {
                     click: () => {
                       that.isEnlarge = true;
                       that.srcData = params.row;
+                      that.$forceUpdate();
                     }
                   }
                 })
@@ -341,6 +342,7 @@ export default {
                     click: () => {
                       that.isEnlarge = true;
                       that.srcData = params.row;
+                      that.$forceUpdate();
                     }
                   }
                 })
@@ -588,6 +590,7 @@ export default {
       });
     },
     closeEnlarge() {
+      debugger
       this.isEnlarge = false;
     },
     getJump(row) {

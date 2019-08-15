@@ -296,7 +296,6 @@ export default {
                   draggable: false,
                   on: {
                     click: () => {
-                      debugger;
                       that.isEnlarge = true;
                       that.srcData = params.row;
                     }

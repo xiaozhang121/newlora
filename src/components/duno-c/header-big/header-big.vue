@@ -4,14 +4,22 @@
     <div class="dateTime">
       <span class="timeDate">练塘站</span>
       {{ dateTime }}
+      <alarm />
+      <User />
     </div>
   </div>
 </template>
 
 <script>
+import alarm from "@/views/duno-default/main/components/alarm";
+import User from "@/views/duno-default/main/components/user";
 import moment from "moment";
 export default {
   name: "headerBig",
+  components: {
+    alarm,
+    User
+  },
   data() {
     return {
       dateTime: ""
@@ -51,11 +59,10 @@ export default {
     height: 40px;
   }
   .dateTime {
-    // float: left;
-    // margin-right: 50px;
     position: absolute;
-    right: 50px;
-    top: 15px;
+    right: 10px;
+    top: 10px;
+    line-height: 40px;
     color: #fff;
     opacity: 0.6;
   }

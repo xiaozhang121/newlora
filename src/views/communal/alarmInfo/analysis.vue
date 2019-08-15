@@ -142,11 +142,13 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoCharts } from "_c/duno-charts";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -173,6 +175,7 @@ export default {
     DunoTablesTep,
     warningSetting,
     wraning,
+    enlarge
   },
   props: {
     legendData: {
@@ -265,6 +268,8 @@ export default {
       valueDate: "",
       handleNotes: [],
       alarmType: "",
+      isEnlarge: false,
+      srcData: [],
       ByDayData: [
         {
           describeName: "按日",
@@ -540,14 +545,30 @@ export default {
             let newArr = [];
             if (params.row.fileType == "1") {
               newArr.push([
-                h("i", {
-                  class: "iconfont icon-tupian"
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             } else if (params.row.fileType == "2") {
               newArr.push([
-                h("i", {
-                  class: "iconfont icon-bofang"
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
                 })
               ]);
             }
@@ -599,6 +620,9 @@ export default {
     };
   },
   methods: {
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");

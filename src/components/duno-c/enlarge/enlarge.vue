@@ -1,12 +1,12 @@
 <template>
   <div class="enlarge">
     <el-dialog
-      :visible.sync="isShow"
+      :visible.sync="isEnlarge"
       :show-close="false"
       :modal="true"
       width="80%"
       top="5vh"
-      :before-close="handleClose"
+      :close="handleLarge"
     >
       <img
         v-if="srcData.fileType=='1'"
@@ -27,8 +27,8 @@
 
 <script>
 import KeyMonitor from "_c/duno-c/KeyMonitor";
-import preview from "vue-photo-preview";
-import "vue-photo-preview/dist/skin.css";
+// import preview from "vue-photo-preview";
+// import "vue-photo-preview/dist/skin.css";
 export default {
   name: "enlarge",
   components: {
@@ -50,21 +50,17 @@ export default {
   },
   watch: {
     isShow(now) {
-      if (this.srcData.fileType == "2" && now) {
-        this.$refs.monitor.fullScreen();
-      }
+      this.isEnlarge = now;
     }
   },
   data() {
     return {
-      options: {
-        fullscreenEl: true //关闭全屏按钮
-      }
+      isEnlarge: false
     };
   },
   method: {
-    handleClose() {
-      this.$emit("closeEnlarge");
+    handleLarge() {
+      this.$emit("handleLarge");
     }
   }
 };
