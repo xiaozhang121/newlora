@@ -282,12 +282,14 @@ export default {
     },
     getWidth() {
       let that = this;
+      try{
+          let ivuLayoutWidth = document.getElementsByClassName("el-aside")[0]
+              .clientWidth;
+          window.screenWidth = document.body.clientWidth;
+          that.screenWidth = window.screenWidth - ivuLayoutWidth;
+          that.bodyWidth = window.screenWidth;
+      }catch (e) {}
       try {
-        let ivuLayoutWidth = document.getElementsByClassName("el-aside")[0]
-          .clientWidth;
-        window.screenWidth = document.body.clientWidth;
-        that.screenWidth = window.screenWidth - ivuLayoutWidth;
-        that.bodyWidth = window.screenWidth;
         if (window.screen.availWidth > 3000 && parent.frames.length == 0) {
           that.isBigScreen = true;
           this.user.isHeader = 2;
