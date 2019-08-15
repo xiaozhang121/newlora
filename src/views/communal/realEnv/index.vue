@@ -403,12 +403,6 @@
             ...mapState([
                 'user'
             ]),
-            showWeather(){
-                if(this.$refs.btnTopRef)
-                  return this.$refs.btnTopRef.dataList[3].isActive
-                else
-                  return false
-            },
             alarmInfo(){
                 return this.$store.state.user.alarmInfo
             },
@@ -467,6 +461,7 @@
         data () {
             const that = this
             return {
+                showWeather: false,
                 disgramList: [],
                 alarmId: '',
                 visible: false,
@@ -781,6 +776,7 @@
                     }
                 }
                 that.deviceList = data
+                this.showWeather = this.$refs.btnTopRef.dataList[3].isActive
                 that.$forceUpdate()
             },
             alarmClear(){
