@@ -13,9 +13,9 @@ import moment from "moment";
 export default {
   name: "headerBig",
   data() {
-    return{
-        dateTime: "",
-    }
+    return {
+      dateTime: ""
+    };
   },
   methods: {
     getDateTime() {
@@ -39,7 +39,7 @@ export default {
   background-image: url("../../../assets/images/big-header-background.png");
   background-size: 100% 100%;
   overflow: hidden;
-  height: 80px;
+  height: 50px;
   position: relative;
   //   width: 100%;
   .iconImg {

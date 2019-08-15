@@ -1,7 +1,11 @@
 <template>
   <div style="height: 100%">
     <el-container v-if="!isBigScreen" style="height: 100%" class="main">
-      <el-header v-if="isShowHeader && !isHidden" class="main-header not-print" style="height: 80px;">
+      <el-header
+        v-if="isShowHeader && !isHidden"
+        class="main-header not-print"
+        style="height: 80px;"
+      >
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
           <alarm-tip />
           <!-- 告警消息 -->
@@ -10,10 +14,7 @@
         </header-bar>
       </el-header>
       <el-container class="mainAside">
-        <el-menu
-          class="el-menu-vertical-demo not-print"
-          :collapse="isCollapse"
-        >
+        <el-menu class="el-menu-vertical-demo not-print" :collapse="isCollapse">
           <el-aside
             v-show="!isCollapse"
             v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1 && !isHidden"
@@ -121,24 +122,23 @@
       :visible="visible"
     ></popup-one-info>
     <el-dialog
-            v-if="visibleCamera"
-            class="dialogMain"
-            :visible.sync="visibleCamera"
-            :show-close="false"
-            :before-close="beforeClose"
-           >
+      v-if="visibleCamera"
+      class="dialogMain"
+      :visible.sync="visibleCamera"
+      :show-close="false"
+      :before-close="beforeClose"
+    >
       <KeyMonitor
-              v-if="visibleCamera"
-              :autoplay="true"
-              :streamAddr="monitorData.src"
-              :isNav="false"
+        v-if="visibleCamera"
+        :autoplay="true"
+        :streamAddr="monitorData.src"
+        :isNav="false"
       />
     </el-dialog>
-
   </div>
 </template>
 <script>
-import KeyMonitor from "_c/duno-c/KeyMonitor"
+import KeyMonitor from "_c/duno-c/KeyMonitor";
 import { mapMutations, mapState } from "vuex";
 import { getNewTagList } from "@/libs/util";
 import SideMenu from "./components/side-menu"; // 侧导航栏
@@ -169,9 +169,9 @@ export default {
   },
   data() {
     return {
-      monitorData:{
-          src: ''
-          // src: "rtmp://202.69.69.180:443/webcast/bshdlive-pc"
+      monitorData: {
+        src: ""
+        // src: "rtmp://202.69.69.180:443/webcast/bshdlive-pc"
       },
       visibleCamera: false,
       isHidden: false,
@@ -190,17 +190,15 @@ export default {
     };
   },
   computed: {
-    addrFlag(){
-        return this.$store.state.app.webFullVisable
+    addrFlag() {
+      return this.$store.state.app.webFullVisable;
     },
-    addrData(){
-        return this.$store.state.app.webFull
+    addrData() {
+      return this.$store.state.app.webFull;
     },
     frameLength() {
-      if(!('kind' in this.$route.meta))
-        return !parent.frames.length;
-      else
-        return false
+      if (!("kind" in this.$route.meta)) return !parent.frames.length;
+      else return false;
     },
     kilovoltKind() {
       return this.$store.state.app.kilovolt;
@@ -242,8 +240,8 @@ export default {
   },
   methods: {
     ...mapMutations(["setBreadCrumb", "setTagNavList"]),
-    beforeClose(){
-       this.$store.state.app.webFullVisable = false
+    beforeClose() {
+      this.$store.state.app.webFullVisable = false;
     },
     alarmClose() {
       this.visible = false;
@@ -301,28 +299,28 @@ export default {
         }
       } catch (e) {}
     },
-  /*  handleHidden(e) {
-      if (e.clientY == 10 && this.showheader == false) {
+    handleHidden(e) {
+      if (e.clientY == 20 && this.showheader == false) {
         this.showheader = true;
       } else if (e.clientY > 80 && this.showheader == true) {
         this.showheader = false;
       }
-    },*/
+    },
     isShowSide() {
       this.isCollapse = !this.isCollapse;
     }
   },
   watch: {
     addrFlag: {
-      handler(now){
-         this.visibleCamera = now
+      handler(now) {
+        this.visibleCamera = now;
       },
       deep: true
     },
-    addrData:{
-      handler(now){
-        if(now){
-            this.monitorData['src'] = now
+    addrData: {
+      handler(now) {
+        if (now) {
+          this.monitorData["src"] = now;
         }
       },
       deep: true,
@@ -374,7 +372,7 @@ export default {
     window.addEventListener("resize", function() {
       that.getWidth();
     });
-    // window.addEventListener("mousemove", this.handleHidden);
+    window.addEventListener("mousemove", this.handleHidden);
     if (this.user.isHeader == 1) {
       that.isShowHeader = true;
     } else if (this.user.isHeader == 2) {
@@ -384,35 +382,35 @@ export default {
 };
 </script>
 <style lang="scss">
-.dialogMain{
-  .el-dialog{
+.dialogMain {
+  .el-dialog {
     width: 100% !important;
     height: 100%;
     margin-top: 0 !important;
     margin: 0;
   }
-  .video-js.vjs-fluid{
+  .video-js.vjs-fluid {
     height: 100vh !important;
     padding-top: 0 !important;
   }
-  .el-dialog__header{
+  .el-dialog__header {
     display: none;
   }
-  .camera{
+  .camera {
     padding-bottom: 0 !important;
     height: 100vh;
     background: black;
   }
-  .keyMonitor .video-player.vjs-custom-skin{
+  .keyMonitor .video-player.vjs-custom-skin {
     height: 100vh;
   }
-  .vjs_video_395-dimensions.vjs-fluid{
+  .vjs_video_395-dimensions.vjs-fluid {
     height: 100vh;
     padding-top: 0;
   }
-  .el-dialog__body{
+  .el-dialog__body {
     padding: 0;
-    .keyMonitor{
+    .keyMonitor {
       width: 100% !important;
     }
   }
