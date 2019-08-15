@@ -30,7 +30,7 @@
         <div>
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
-            导出Excel
+            导出表格
           </div>
         </div>
       </div>

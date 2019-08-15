@@ -87,7 +87,7 @@
               ></el-date-picker>
             </div>
             <div style="visibility: hidden">
-              <div class="exportExcel">导出Excel</div>
+              <div class="exportExcel">导出表格</div>
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@
             <div>
               <div @click="clickExcel" class="clickBtn">
                 <i class="iconfont icon-daochu1"></i>
-                导出Excel
+                导出表格
               </div>
             </div>
           </div>

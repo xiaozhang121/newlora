@@ -34,7 +34,7 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div style="visibility: hidden">
+        <div>
           <div>
             <i class="iconfont icon-daochu1"></i>
             导出表格
