@@ -663,7 +663,7 @@ export default {
   //------------------
   .el-button--text {
     border-color: transparent !important;
-    background: transparent !important;
+    background: transparent;
   }
   .flexPos {
     display: flex;

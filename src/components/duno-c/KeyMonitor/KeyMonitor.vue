@@ -41,7 +41,7 @@
           <!-- <span>
             <i class="iconfont icon-luxiang"></i>录像
           </span>-->
-          <span @click="isSample">
+          <span @click="isSample()">
             <i class="iconfont icon-jietu"></i>截图
           </span>
           <span @click="fullScreen()">
@@ -74,7 +74,12 @@
       @on-close="onClose"
       :visible="pushMovVisable"
     />
-    <screenshot :isShow="isShow" @closeShot="closeShot" :monitorInfo="monitorInfo" />
+    <screenshot
+      :isShow="isShow"
+      :shotData="shotData"
+      @closeShot="closeShot"
+      :monitorInfo="monitorInfo"
+    />
   </div>
 </template>
 
@@ -434,16 +439,17 @@ export default {
         rtmpUrl: this.streamAddr
       };
       postAxiosData(url, query).then(res => {
-        let query = {
-          fileName: res.data.cephFileName,
-          bucketName: res.data.cephBucket
-        };
-        postAxiosData(
-          "/lenovo-storage/api/storageService/file/imgFile",
-          query
-        ).then(res => {
-          this.shotData = res.data;
-        });
+        this.shotData = res.data;
+        // let query = {
+        //   bucketName: res.data.cephBucket,
+        //   fileName: res.data.cephFileName
+        // };
+        // getAxiosData(
+        //   "/lenovo-storage/api/storageService/file/imgFile",
+        //   query
+        // ).then(res => {
+
+        // });
       });
     },
     closeShot() {

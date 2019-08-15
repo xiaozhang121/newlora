@@ -97,6 +97,12 @@ export default {
       default: () => {
         return "";
       }
+    },
+    shotData: {
+      type: Array,
+      default: () => {
+        return [];
+      }
     }
   },
   data() {
@@ -160,15 +166,14 @@ export default {
         } else {
           this.$refs.box.style.left = this.startPointX + "px";
         }
-
-        this.$refs.box.style.width = width - 10 + "px";
-        this.$refs.box.style.height = height - 10 + "px";
+        this.$refs.box.style.width = width + "px";
+        this.$refs.box.style.height = height + "px";
       }
     },
     getFirstCode(e) {
       if (this.clickFlage == 0 && this.isCalibrat) {
-        this.$refs.box.style.width = 0;
-        this.$refs.box.style.height = 0;
+        this.$refs.box.style.width = null;
+        this.$refs.box.style.height = null;
         this.startPointX = e.offsetX;
         this.startPointY = e.offsetY;
         this.$refs.box.style.left = this.startPointX + "px";
@@ -181,6 +186,19 @@ export default {
         this.endPointY = e.offsetY;
         this.endPointX = e.offsetX;
         this.clickFlage = 0;
+      }
+      console.log(
+        this.startPointX,
+        this.endPointX,
+        this.startPointY,
+        this.endPointY
+      );
+      if (
+        this.endPointX == -1 &&
+        this.endPointY == -1 &&
+        this.startPointX != 1 &&
+        this.startPointY != 1
+      ) {
       }
     },
     //手动标定
@@ -284,6 +302,7 @@ export default {
   },
   mounted() {
     // this.getImgInfo();
+    this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
   }
 };
 </script>

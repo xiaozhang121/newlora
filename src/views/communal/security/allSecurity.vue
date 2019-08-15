@@ -285,16 +285,11 @@ export default {
                   {
                     class: "btn_pre",
                     style: {
-                      background: "#305e83!important",
                       background: "#979797",
-                      color: "#767676"
+                      color: "#767676",
+                      pointerEvents: "none"
                     },
                     props: { type: "text" },
-                    on: {
-                      click: () => {
-                        console.log(111);
-                      }
-                    }
                   },
                   "已复归"
                 )
@@ -637,7 +632,7 @@ export default {
   //------------------
   .el-button--text {
     border-color: transparent !important;
-    background: transparent !important;
+    background: transparent;
   }
   .flexPos {
     display: flex;
