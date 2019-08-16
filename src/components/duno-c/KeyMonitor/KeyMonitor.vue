@@ -96,6 +96,7 @@ import { setTimeout } from "timers";
 import screenshot from "_c/duno-c/screenshot";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
 videojs.options.flash.swf = SWF_URL;
+import 'videojs-contrib-hls.js/src/videojs.hlsjs'
 import { snapshoot } from "@/api/configuration/configuration.js";
 export default {
   name: "KeyMonitor",
@@ -284,6 +285,7 @@ export default {
         sources: [
           {
             type: "rtmp/flv",
+            type: 'application/x-mpegURL',
             /* type: "video/ogg",
             type: "video/webm",
             type: "video/mp4",*/
