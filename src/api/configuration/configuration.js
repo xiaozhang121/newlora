@@ -296,6 +296,7 @@ export const getPosition = (data) => {
     return axios.request({
         url: "/lenovo-plan/api/preset/list",
         method: 'post',
+        data
     })
 }
 

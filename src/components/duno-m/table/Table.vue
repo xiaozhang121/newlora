@@ -7,6 +7,7 @@
         :totalNum="dataList.length"
         :border="false"
         :height="height"
+        :loading="false"
         :showSizer="true"
         :isShowPage="false"
       />

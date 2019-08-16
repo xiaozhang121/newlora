@@ -139,7 +139,7 @@
             },
             loading: {
                 type: Boolean,
-                default: false
+                default: true
             },
             /**
              * @description 全局设置是否可编辑
@@ -301,6 +301,12 @@
             },
         },
         watch: {
+            loading:{
+                handler(now){
+                    this.loadingOption = now
+                },
+                immediate: true
+            },
             columns (columns) {
                 if (!this.isShowCheckbox) {
                     this.handleColumns(columns)
@@ -314,6 +320,7 @@
                 }
             },
             data (val) {
+                debugger
                 this.handleTableData()
                 clearTimeout(this.timer)
                 this.loadingOption = false

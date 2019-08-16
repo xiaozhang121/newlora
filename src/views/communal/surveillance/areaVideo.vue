@@ -8,10 +8,10 @@
         <span>{{areaCameraList[0].areaName}}</span>
       </div>
       <div>
-        <el-checkbox-group v-model="checkList" @change="change">
+        <!-- <el-checkbox-group v-model="checkList" @change="change">
           <el-checkbox label="可见光"></el-checkbox>
           <el-checkbox label="红外固定热像仪"></el-checkbox>
-        </el-checkbox-group>
+        </el-checkbox-group> -->
       </div>
     </div>
     <div class="main-video">

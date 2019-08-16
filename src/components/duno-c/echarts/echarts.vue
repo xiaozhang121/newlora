@@ -95,6 +95,12 @@ export default {
       default: () => {
         return "泄露电流表24小时温度分析";
       }
+    },
+    gridOptionTop: {
+      type: String,
+      default: () => {
+        return "120";
+      }
     }
   },
   data() {
@@ -119,7 +125,7 @@ export default {
         data: that.legendData
       },
       gridOption: {
-        top: "120"
+        top: that.gridOptionTop
       },
       xAxisOption: {
         type: "category",

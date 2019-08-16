@@ -56,7 +56,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <echarts :dataAllList="echartData" />
+              <echarts :dataAllList="echartData" gridOptionTop="80" />
             </div>
           </div>
         </div>
@@ -599,13 +599,17 @@ export default {
       });
     },
     getEchasrts() {
-      getPosition().then(res => {
+      let query = {
+        deviceId: this.$route.query.monitorDeviceId,
+        deviceType: "2"
+      };
+      getPosition(query).then(res => {
         let presetId = res.data[0].value;
         this.echartForm = {
           startTime: this.echartForm.startTime,
           endTime: this.echartForm.endTime,
           deviceType: "2",
-          monitorDeviceId: this.$route.params.monitorDeviceId,
+          monitorDeviceId: this.$route.query.monitorDeviceId,
           presetIds: presetId
         };
         getRedEcharts(this.echartForm).then(res => {
@@ -995,7 +999,7 @@ export default {
         .chartBox {
           height: 400px;
           .charts {
-            height: 400px;
+            height: 300px;
           }
         }
       }
