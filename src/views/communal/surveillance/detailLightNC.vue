@@ -198,7 +198,7 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      titleType: "选择预置位",
+      titleType: "选择对比设备",
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       dataForm: {},
@@ -599,23 +599,24 @@ export default {
       });
     },
     getEchasrts() {
-      let query = {
-        deviceId: this.$route.query.monitorDeviceId,
-        deviceType: "2"
+      // let query = {
+      //   deviceId: this.$route.query.monitorDeviceId,
+      //   deviceType: "2"
+      // };
+      // getPosition(query).then(res => {
+      debugger;
+      // let presetId = res.data[0].value;
+      this.echartForm = {
+        startTime: this.echartForm.startTime,
+        endTime: this.echartForm.endTime,
+        deviceType: "2",
+        monitorDeviceId: this.$route.query.monitorDeviceId,
+        presetIds: presetId
       };
-      getPosition(query).then(res => {
-        let presetId = res.data[0].value;
-        this.echartForm = {
-          startTime: this.echartForm.startTime,
-          endTime: this.echartForm.endTime,
-          deviceType: "2",
-          monitorDeviceId: this.$route.query.monitorDeviceId,
-          presetIds: presetId
-        };
-        getRedEcharts(this.echartForm).then(res => {
-          this.echartData = res.data.itemDataList;
-        });
+      getRedEcharts(this.echartForm).then(res => {
+        this.echartData = res.data.itemDataList;
       });
+      // });
     },
     handleClose() {
       this.popData = {};
