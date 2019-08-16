@@ -88,18 +88,22 @@ export default {
             clearInterval(that.SocketTime)
             that.SocketTime = null
             that.isSocketOk = true
-            that.$store.state.user.alarmInfo = receivedMsg
-            that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
-            if(that.$store.state.user.isAlarm){
-              if(receivedMsg['alarmType'] == 1){
-                  that.audio = that.defectAlarm
-              }else{
-                  that.audio = that.safetyAlarm
-              }
+            if(receivedMsg['type'] == 'monitor'){
+                this.$store.state.app.pushData = receivedMsg['data']
+                this.$store.state.app.isPush = true
             }else{
-                  that.audio = null
+                that.$store.state.user.alarmInfo = receivedMsg
+                that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
+                if(that.$store.state.user.isAlarm){
+                    if(receivedMsg['alarmType'] == 1){
+                        that.audio = that.defectAlarm
+                    }else{
+                        that.audio = that.safetyAlarm
+                    }
+                }else{
+                    that.audio = null
+                }
             }
-
           /*  const account = that.$store.state.user.account
             let num = 0
             for (let i = 0; i < receivedMsg.length; i++) {
