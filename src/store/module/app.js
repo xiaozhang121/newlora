@@ -8,6 +8,7 @@ export default {
     breadCrumbList: [],
     tagNavList: [],
     isPush: false,
+    pushData: '',
     homeRoute: getHomeRoute(routers),
     local: '',
     kilovolt: '',

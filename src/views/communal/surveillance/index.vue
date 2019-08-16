@@ -180,7 +180,6 @@
 <script>
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
-
 import { initConfigure } from "@/api/user";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -287,9 +286,8 @@ export default {
     isPush: {
       handler(now) {
         if (now) {
-          this.getCamera();
-          this.getArea();
-          this.initData();
+          this.cameraList = this.$store.state.app.pushData
+          this.$forceUpdate();
           this.$store.state.app.isPush = false;
         }
       },
@@ -299,6 +297,7 @@ export default {
   },
   data() {
     return {
+      socketUrl: '10.0.0.164:8081',
       activeAreaId: "",
       dataForm: {},
       titleLayout: "切换布局",
