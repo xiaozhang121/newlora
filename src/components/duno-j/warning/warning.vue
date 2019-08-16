@@ -209,17 +209,17 @@ export default {
   computed: {},
   watch: {
     popData(now) {
-      if ("alarmId" in now && now["alarmId"]) {
-        // this.searchId = now["alarmId"];
-        this.searchId = now["taskId"] + "," + now["batchId"];
-        this.searchType = "alarmId";
-      } else if ("taskId" in now && now["taskId"]) {
-        this.searchId = now["taskId"] + "," + now["batchId"];
-        this.searchType = "alarmId";
-      } else {
-        this.searchId = now["resultId"];
-        this.searchType = "resultId";
-      }
+        if ("alarmId" in now && now["alarmId"]) {
+          // this.searchId = now["alarmId"];
+          this.searchId = now["taskId"] + "," + now["batchId"];
+          this.searchType = "alarmId";
+        } else if ("taskId" in now && now["taskId"]) {
+          this.searchId = now["taskId"] + "," + now["batchId"];
+          this.searchType = "alarmId";
+        } else {
+          this.searchId = now["resultId"];
+          this.searchType = "resultId";
+        }
       console.log(this.searchId);
       if (this.searchId != "") {
         this.initData();
@@ -361,10 +361,10 @@ export default {
   .not-print {
     opacity: 0;
   }
-  .el-dialog__headerbtn{
+  .el-dialog__headerbtn {
     display: none;
   }
-  .iconfontList{
+  .iconfontList {
     display: none;
   }
   .elDialogClass {
@@ -537,7 +537,7 @@ export default {
       padding-bottom: 0;
     }
   }
-  .el-dialog__headerbtn .el-dialog__close{
+  .el-dialog__headerbtn .el-dialog__close {
     color: #777777;
     font-size: 22px;
     position: relative;

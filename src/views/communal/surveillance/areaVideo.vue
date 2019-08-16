@@ -58,7 +58,6 @@ export default {
       let query = {
         areaId: this.$route.query.areaId
       };
-      debugger;
       getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
         if (res.code == 200) {
           let data = res.data;

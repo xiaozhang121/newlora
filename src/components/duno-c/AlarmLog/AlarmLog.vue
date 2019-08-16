@@ -11,7 +11,7 @@
     <div class="content">
       <div class="top">
         <p>
-          机械判断:
+          机器判断:
           <span>{{remarkData.machineJudge}}</span>
         </p>
       </div>

@@ -320,7 +320,6 @@
                 }
             },
             data (val) {
-                debugger
                 this.handleTableData()
                 clearTimeout(this.timer)
                 this.loadingOption = false
