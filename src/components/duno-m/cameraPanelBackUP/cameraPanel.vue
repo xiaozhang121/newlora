@@ -471,6 +471,7 @@
             panelType(){
                 const that = this
                 this.$nextTick(()=> {
+                    that.getListData()
                     // that.initCamera()
                 })
             },
