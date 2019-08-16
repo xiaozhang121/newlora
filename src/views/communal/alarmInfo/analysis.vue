@@ -547,7 +547,7 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: params.row.fileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -1144,6 +1144,12 @@ export default {
         background: #d0011b;
       }
     }
+  }
+  .imgOrMv {
+    width: 80%;
+    height: 45px;
+    position: relative;
+    top: 2px;
   }
   //-------------------表格样式
   .ivu-table {

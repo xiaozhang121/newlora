@@ -204,7 +204,7 @@
     .pushMov{
         position: absolute;
         top: 0;
-        z-index: 2;
+        z-index: 12;
         overflow: hidden;
         .cameraItem{
             border: 1.5px dashed #a4adaf;

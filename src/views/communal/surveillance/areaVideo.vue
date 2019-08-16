@@ -23,7 +23,7 @@
         :showBtmOption="true"
         :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
         :imgAdress="item['pic']"
-        :kilovolt="item['areaName']"
+        :kilovolt="item['source']"
         :streamAddr="item['streamAddr']"
         patrol
       />
