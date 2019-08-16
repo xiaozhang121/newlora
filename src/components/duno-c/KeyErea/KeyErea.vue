@@ -325,7 +325,7 @@
                         dataB.map(item=>{
                             if(item['isSelected'] == true || item["isSelected"] == 1)
                               item['isActive'] = true
-                            item['describeName'] = item['serialNo']
+                            item['describeName'] = item['monitorDeviceName']
                         })
                         that.optionsList = dataB;
                     }
