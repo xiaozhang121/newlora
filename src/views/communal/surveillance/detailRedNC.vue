@@ -26,6 +26,8 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
+                  @mousemove.native="pointerPos($event)"
+                  @mouseout.native="clearTimer()"
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor child"
@@ -34,6 +36,7 @@
                   :showBtmOption="false"
                   :Initialization="true"
                 ></key-monitor>
+                <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">666</span>
               </div>
             </div>
           </div>
@@ -211,6 +214,11 @@ export default {
   data() {
     const that = this;
     return {
+      overFlag: false,
+      offsetX:0,
+      offsetY:0,
+      tepmNum: 0,
+      timer: false,
       addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
@@ -469,6 +477,32 @@ export default {
     }
   },
   methods: {
+    clearTimer() {
+        clearInterval(this.timer);
+        this.overFlag = false
+        this.timer = null;
+        this.tepmNum = 0;
+    },
+    pointerPos(event) {
+        const that = this;
+        that.overFlag = true
+            // console.log('x:'+event.offsetX)
+            // console.log('y:'+event.offsetY)
+            that.offsetX = event.offsetX;
+            that.offsetY = event.offsetY;
+            if (!this.timer) {
+                this.timer = setInterval(() => {
+                    let x = that.offsetX-27<0?0:that.offsetX-27
+                    getAxiosData(
+                        "/lenovo-iir/device/temperature/get/location/" + this.dataForm.monitorDeviceId,
+                        { x: x, y: that.offsetY, r: 1, pannelWidth: '172', pannelHeight:'128' }
+                    ).then(res => {
+                        // console.log('data:'+res.data)
+                        that.tepmNum = res.data.data;
+                    });
+                }, 200);
+            }
+    },
     closeEnlarge() {
       this.isEnlarge = false;
     },
