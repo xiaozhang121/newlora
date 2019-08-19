@@ -33,14 +33,17 @@
       </div>
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
-          <div class="block">
-            <!-- <span class="demonstration">-15s</span>
-            <el-slider v-model="value2"></el-slider>
-            <span>当前</span>-->
+          <div class="block"  v-if="!isCamera">
+              <span class="demonstration">-15s</span>
+              <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
+              <span class="nowNR">当前</span>
           </div>
-          <!-- <span>
-            <i class="iconfont icon-luxiang"></i>录像
-          </span>-->
+          <div class="block" v-else>
+            视频录制 {{timeIncreateD}}  <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+          </div>
+           <span @click="videotape()">
+            <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
+          </span>
           <span @click="isSample()">
             <i class="iconfont icon-jietu"></i>截图
           </span>
@@ -264,6 +267,12 @@ export default {
   },
   data() {
     return {
+      passTime: 0,
+      timeSeed: null,
+      isStop: false,
+      timerTime: null,
+      timeIncreateD: '0:00:00',
+      isCamera: false,
       isAlarmOption: false,
       sTimer: null,
       timer: null,
@@ -314,6 +323,49 @@ export default {
     }
   },
   methods: {
+    toStop(flag){
+        this.isStop = flag
+        if(this.isStop){
+            // 暂停录像
+            clearInterval(this.timerTime)
+        }else{
+            // 继续录像
+            this.timeIncreate(true)
+        }
+    },
+    timeIncreate(flag){
+        this.timeSeed = new Date().getTime()
+        if(flag)
+            this.timeSeed -= this.passTime
+        else{
+            this.passTime = 0
+        }
+        this.timerTime = setInterval(()=>{
+            console.log(new Date().getTime())
+            let times = new Date().getTime() - this.timeSeed
+            this.passTime += 1000
+            this.timeIncreateD = this.formatDuring(times)
+        },1000)
+    },
+    formatDuring(mss) {
+        let days = parseInt(mss / (1000 * 60 * 60 * 24));
+        let hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+        minutes = minutes<10?'0'+minutes:minutes
+        let seconds = parseInt((mss % (1000 * 60)) / 1000);
+        return hours + ":" + minutes + ":" + (Number(seconds)<10?'0'+seconds:seconds);
+    },
+    videotape(){
+        this.isCamera = !this.isCamera
+        if(this.isCamera){
+            // 开始录像
+            this.timeIncreate()
+        }else{
+            // 结束录像
+            clearInterval(this.timerTime)
+            this.timeIncreateD = '0:00:00'
+        }
+    },
     webFullScreen() {
       if(self.frameElement && self.frameElement.tagName == "IFRAME"){
           parent.webFullScreen(this.streamAddr)
@@ -473,6 +525,27 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  .el-slider__button-wrapper .el-tooltip{
+    vertical-align: middle;
+    display: inline-block;
+    border-radius: 100%;
+    width: 16px;
+    height: 16px;
+  }
+  .el-slider__runway{
+      background-color: #ee183b;
+  }
+  .el-slider__bar{
+      background-color: white;
+  }
+  .redPoint{
+    position: absolute;
+    background: red;
+    width: 12px;
+    height: 12px;
+    margin-left: -19px !important;
+    border-radius: 300px;
+  }
   &.noButton {
     .vjs-big-play-button {
       display: none;
@@ -577,6 +650,17 @@ export default {
         display: flex;
         justify-content: flex-start;
         width: 100%;
+        padding-right: 60%;
+        .nowNR{
+          position: relative;
+          left: 5px;
+        }
+        .icon-zanting,.icon-bofang{
+          position: relative; left: 6px
+        }
+        .iconfont{
+          cursor: pointer;
+        }
         span {
           font-size: 12px;
         }

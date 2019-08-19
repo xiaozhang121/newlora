@@ -1,77 +1,28 @@
 <template>
-    <div class="hotCameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
-        <template  v-if="panelType == 'first'">
-            <div>
-                <div class="cameraMain">
-                    <camera
-                            v-if="showCamera"
-                            domName="videoPlayer"
-                            :options="playerOptions"
-                    />
-                    <camera
-                            v-if="showCamera"
-                            domName="videoPlayerd"
-                            :options="playerOptiond"
-                    />
+    <div class="camera" style="position: relative">
+        <div class="main">
+            <video-player :class="domName"  :ref="domName" class="vjs-custom-skin" :options="options"></video-player>
+            <div class="controlTip"  v-if="isCamera">
+                <div class="left">
+                    录制 {{timeIncreateD}}
+                </div>
+                <div class="right">
+                    <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
                 </div>
             </div>
-        </template>
-        <template  v-if="panelType == 'second'">
-            <div class="cameraMain">
-                <div class="camera" v-if="showCamera">
-                    <div class="main">
-                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
-                    </div>
-                    <div class="explain iconList" style="margin-bottom: 10px">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
-                        <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
-                    </div>
-                </div>
-                <div class="camera" v-if="showCamera" style="position: relative">
-                    <div class="main">
-                        <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
-                    </div>
-                    <div class="explain iconList" style="bottom: 17px; position: absolute">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
-                        <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
-                    </div>
-                </div>
-            </div>
-        </template>
-        <template  v-if="panelType == 'third'">
-            <div style="padding-bottom: 15px">
-                <div class="cameraMain">
-                    <div class="camera" v-if="showCamera">
-                        <div class="main">
-                            <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
-                        </div>
-                        <div class="explain iconList" style="margin-bottom: 10px">
-                            <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                            <span><i class="iconfont icon-jietu"></i>截图</span> -->
-                            <span @click="fullScreen('videoPlayer')"><i class="iconfont icon-quanping"></i>全屏</span>
-                        </div>
-                    </div>
-                    <div class="camera" v-if="showCamera" style="position: relative">
-                        <div class="main">
-                            <video-player  ref="videoPlayerd" class="vjs-custom-skin" :options="playerOptiond"></video-player>
-                        </div>
-                        <div class="explain iconList" style="bottom: 17px; position: absolute">
-                            <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                            <span><i class="iconfont icon-jietu"></i>截图</span> -->
-                            <span @click="fullScreen('videoPlayerd')"><i class="iconfont icon-quanping"></i>全屏</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </template>
+        </div>
+        <div class="explain iconList" style="margin-top: 4px">
+         <span @click="videotape()">
+            <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
+        </span>
+            <span><i class="iconfont icon-jietu"></i>截图</span>
+            <span @click="fullScreen(domName)"><i class="iconfont icon-quanping"></i>全屏</span>
+        </div>
     </div>
 </template>
 
 <script>
     import  { controlCamera } from '@/api/camera'
-    import camera from './components/camera'
     import videojs from 'video.js'
     import dunoTable from '_c/duno-m/table/Table'
     import { getImage, stopImage, getPointData } from '@/api/user'
@@ -84,8 +35,8 @@
     import SWF_URL from 'videojs-swf/dist/video-js.swf'
     videojs.options.flash.swf = SWF_URL
     export default {
-        name: 'cameraPanel',
-        components: { dunoTable, DunoCharts, videoPlayer, camera },
+        name: 'camera',
+        components: { dunoTable, DunoCharts, videoPlayer },
         data() {
             return {
                 passTime: 0,
@@ -311,10 +262,10 @@
                 immediate: true
             },
             overFlag(now){
-              if(!now){
-                  clearInterval(this.timerObj)
-                  this.timerObj = null
-              }
+                if(!now){
+                    clearInterval(this.timerObj)
+                    this.timerObj = null
+                }
             },
             weatherData(){
 
@@ -358,6 +309,11 @@
             }
         },
         props: {
+            domName:{
+                type: String,
+                default: 'domName'
+            },
+            options: {},
             deviceId:{},
             itemData:{},
             panelType: {
@@ -593,8 +549,8 @@
                 putAxiosData(url,{cmd: cmd, value: value}).then(res=>{
 
                 })
-              /*  controlCamera({command: command, flag:flag}).then(res=>{
-                })*/
+                /*  controlCamera({command: command, flag:flag}).then(res=>{
+                  })*/
             },
             initCamera() {
                 return new Promise((resolve, reject) => {
@@ -819,12 +775,10 @@
                         background-repeat: no-repeat !important;
                     }
                     .btn.active{
-                        background: url("../../../../src/assets/camera/xjBtnClick.png") !important;
                         background-size: contain !important;
                         background-repeat: no-repeat !important;
                     }
                     .btn.actived{
-                        background: url("../../../../src/assets/camera/squeraClick.png")  !important;
                         background-size: contain !important;
                         background-repeat: no-repeat !important;
                     }

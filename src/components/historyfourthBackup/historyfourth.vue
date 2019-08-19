@@ -124,6 +124,11 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+  .el-loading-text{
+    color: #969696   !important;
+  }
+</style>
 <style lang="scss" scoped>
 .historyfourth {
   .title {

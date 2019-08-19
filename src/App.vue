@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="[{'none': transperant},{'bigB': bgBack}]">
     <router-view/>
     <audio v-if="$store.state.user.isAlarm" :src="audio" loop="loop" autoplay="autoplay">
     </audio>
@@ -57,6 +57,12 @@ export default {
     ...mapState([
       'user'
     ]),
+    bgBack(){
+        return !this.transperant && window.screen.availWidth > 3000
+    },
+    transperant(){
+        return window.screen.availWidth > 3000 && parent.frames.length > 0
+    },
     alarmInfo(){
       return this.$store.state.user.isAlarm
     }
@@ -196,6 +202,13 @@ export default {
     overflow: hidden;
     background: #15222d;
     background: url('./assets/images/home-bg.png') no-repeat top left;
-    background-size: cover;
+    background-size: 100% 100%;
+    &.none{
+      background: transparent !important;
+    }
+    &.bigB{
+      background: url('./assets/images/home-B.png') no-repeat top left;
+      background-size: 100% 100%;
+    }
   }
 </style>

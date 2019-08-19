@@ -21,7 +21,12 @@
                 {{item['describeName']}}</el-checkbox>
               <el-checkbox v-else :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
-                <img v-if="item.img" class="icon_img" :src="item.img">
+                <span v-if="Array.isArray(item.img)">
+                  <img v-for="(pic, indexd) in item['img']" :key="indexd" class="icon_img" :src="pic">
+                </span>
+                <span v-else>
+                  <img v-if="item.img" class="icon_img" :src="item.img">
+                </span>
                 {{item['describeName']}}</el-checkbox>
             </div>
           </el-checkbox-group>
@@ -141,14 +146,14 @@ export default {
       default:()=>{
         return [
           {
-            img:require('@/assets/buttonPng/light.svg'),
+            img:[require('@/assets/buttonPng/light.svg'),require('@/assets/buttonPng/lightCamera.png')],
             circleColor:'#00b4ff',
             describeName: '可见光',
             monitorDeviceType: 1,
             isActive: true
           },
           {
-            img:require('@/assets/buttonPng/redLight.png'),
+            img:[require('@/assets/buttonPng/redLight.png'), require('@/assets/buttonPng/redLightNCamera.png')],
             circleColor:'#e654a6',
             describeName: '红外测温',
             monitorDeviceType: 2,
@@ -299,6 +304,7 @@ export default {
   .icon_img{
     width: 20px;
     height: 20px;
+    margin-right: 5px;
   }
   .fullScreenTop{
     color: white;

@@ -668,6 +668,9 @@
                 }
                 this.modeList[index][target] = now
                 this.$forceUpdate()
+              /*  this.changPoint(-1)
+                this.$refs.btnTopRef.handleCheckAllChange(true)
+                this.$refs.btnTopRef.checkAll = true*/
             },
             isOverlap(idOne,idTwo){
                 let objOne=$("#"+idOne),
