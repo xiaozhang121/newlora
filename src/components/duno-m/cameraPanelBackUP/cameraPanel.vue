@@ -6,11 +6,21 @@
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
                         <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                        <div class="controlTip"  v-if="isCamera">
+                            <div class="left">
+                                录制 {{timeIncreateD}}
+                            </div>
+                            <div class="right">
+                                <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+                            </div>
+                        </div>
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                         <span @click="videotape()">
+                                <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
+                        </span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -47,11 +57,21 @@
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
                         <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                        <div class="controlTip" style="position: absolute; bottom: 96px"  v-if="isCamera">
+                            <div class="left">
+                                录制 {{timeIncreateD}}
+                            </div>
+                            <div class="right">
+                                <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+                            </div>
+                        </div>
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                         <span @click="videotape()">
+                                <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
+                        </span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -91,11 +111,21 @@
                 <div class="camera" v-if="showCamera">
                     <div class="main" style="width: 400px; height: 250px">
                         <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
+                        <div class="controlTip"  style="position: absolute; bottom: 253px" v-if="isCamera">
+                            <div class="left">
+                                录制 {{timeIncreateD}}
+                            </div>
+                            <div class="right">
+                                <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+                            </div>
+                        </div>
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                        <!-- <span><i class="iconfont icon-luxiang"></i>录像</span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span> -->
+                          <span @click="videotape()">
+                                <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
+                        </span>
+                        <span><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -232,6 +262,12 @@
         components: { dunoTable,DunoCharts, videoPlayer },
         data() {
             return {
+                passTime: 0,
+                timeSeed: null,
+                isStop: false,
+                timerTime: null,
+                timeIncreateD: '0:00:00',
+                isCamera: false,
                 disabled: false,
                 sliderValue: 1,
                 clock,
@@ -431,7 +467,7 @@
                     }],
                     techOrder: ['flash'],
                     autoplay: true,
-                    controls: true
+                    controls: false
                 },
                 activeNum: -1,
                 sliderValueold: 1,
@@ -526,6 +562,49 @@
             }
         },
         methods:{
+            toStop(flag){
+                this.isStop = flag
+                if(this.isStop){
+                    // 暂停录像
+                    clearInterval(this.timerTime)
+                }else{
+                    // 继续录像
+                    this.timeIncreate(true)
+                }
+            },
+            timeIncreate(flag){
+                this.timeSeed = new Date().getTime()
+                if(flag)
+                    this.timeSeed -= this.passTime
+                else{
+                    this.passTime = 0
+                }
+                this.timerTime = setInterval(()=>{
+                    console.log(new Date().getTime())
+                    let times = new Date().getTime() - this.timeSeed
+                    this.passTime += 1000
+                    this.timeIncreateD = this.formatDuring(times)
+                },1000)
+            },
+            formatDuring(mss) {
+                let days = parseInt(mss / (1000 * 60 * 60 * 24));
+                let hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+                minutes = minutes<10?'0'+minutes:minutes
+                let seconds = parseInt((mss % (1000 * 60)) / 1000);
+                return hours + ":" + minutes + ":" + (Number(seconds)<10?'0'+seconds:seconds);
+            },
+            videotape(){
+                this.isCamera = !this.isCamera
+                if(this.isCamera){
+                    // 开始录像
+                    this.timeIncreate()
+                }else{
+                    // 结束录像
+                    clearInterval(this.timerTime)
+                    this.timeIncreateD = '0:00:00'
+                }
+            },
             cameraSF(now){
                 const that = this
                 if(now == this.sliderValueold){
@@ -772,6 +851,34 @@
         /*border: 1px solid #04e6e7;*/
         /*padding: 1px 20px;*/
         width: 710px;
+        .redPoint{
+            position: relative;
+            background: red;
+            width: 12px;
+            height: 12px;
+            margin-left: 0 !important;
+            margin-right: 16px !important;
+            border-radius: 300px;
+            left: 7px;
+        }
+        .controlTip{
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            width: 447px;
+            height: 30px;
+            bottom: 56px;
+            left: -7px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            & div:last-child > i{
+                cursor: pointer;
+                &:first-child{
+                  margin-right: 7px;
+                }
+            }
+        }
         .vjs-custom-skin{
             transform: scale(0.62, 0.6);
             transform-origin: left top;
