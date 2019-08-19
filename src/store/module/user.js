@@ -104,6 +104,7 @@ export default {
           commit('setAvator', avator)
           commit('setUserName', data.user_name)
           commit('setUserId', data.userId)
+          commit('setUserName', data.userName)
           commit('setAccess', data.access)
           commit('setAccount', data.account)
           commit('setUserinfo', data)

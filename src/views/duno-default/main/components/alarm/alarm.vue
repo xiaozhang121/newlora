@@ -125,14 +125,14 @@ export default {
     isDot() {
       return this.value > 0;
     },
-    isAlarm(){
-        return this.$store.state.user.isAlarm
+    isAlarm() {
+      return this.$store.state.user.isAlarm;
     }
   },
   watch: {
-    isAlarm:{
-      handler(now){
-          this.getData()
+    isAlarm: {
+      handler(now) {
+        this.getData();
       },
       deep: true,
       immediate: true
@@ -152,9 +152,29 @@ export default {
     psotAlarmData(row, No) {
       const that = this;
       const url = "/lenovo-alarm/api/alarm/level-edit";
+      let oldLevel;
+      let newLevel;
+      if (No == "1") {
+        newLevel = "一般";
+      } else if (No == "2") {
+        newLevel = "严重";
+      } else {
+        newLevel = "危急";
+      }
+      if (row.alarmLevel == "1") {
+        oldLevel = "一般";
+      } else if (row.alarmLevel == "2") {
+        oldLevel = "严重";
+      } else {
+        oldLevel = "危急";
+      }
+      debugger;
       const query = {
-        id: row,
-        alarmLevel: No
+        id: row.id,
+        alarmLevel: No,
+        oldLevel: oldLevel,
+        newLevel: newLevel,
+        userName: this.$store.state.user.userName
       };
       putAxiosData(url, query).then(
         res => {
@@ -167,11 +187,11 @@ export default {
       return name.substring(0, 2);
     },
     selectItem(item, index) {
-      this.psotAlarmData(item.id, index + 1);
+      this.psotAlarmData(item, index + 1);
     },
     restoration(item, type, index) {
       console.log(type == "1" ? "复归" : "备注");
-      this.$store.state.user.isAlarm = false
+      this.$store.state.user.isAlarm = false;
       const url = "/lenovo-alarm/api/alarm/deal";
       const query = {
         alarmId: item.alarmId,

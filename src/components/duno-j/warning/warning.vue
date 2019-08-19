@@ -23,8 +23,16 @@
         </div>
         <div class="main">
           <div class="monitor" ref="imgContain">
-            <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
-            <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
+            <img
+              v-if="isImgVideo"
+              :src="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+              alt
+            />
+            <KeyMonitor
+              v-else
+              width="100%"
+              :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+            />
             <i
               class="fullScreen iconfont icon-quanping"
               @click="changeFullScreen($refs.imgContain)"
@@ -81,13 +89,13 @@
           </div>
         </div>
         <div class="handleInfo">
-          <!-- <div>
-            <p class="monitorTitle">处理记录</p>
+          <p class="monitorTitle">处理记录</p>
+          <div>
             <p v-for="(item, index) in handleList" :key="index" class="item">
               <span class="title">{{ item['time'] }}</span>
               <span class="info">{{ item['info'] }}</span>
             </p>
-          </div>-->
+          </div>
         </div>
         <div style="clear: both"></div>
       </el-dialog>
@@ -204,36 +212,45 @@ export default {
     },
     handleResult: {
       type: String
+    },
+    detailsType: {
+      type: String,
+      default: () => {
+        return "task";
+      }
     }
   },
   computed: {},
   watch: {
     popData(now) {
-        if ("alarmId" in now && now["alarmId"]) {
-          // this.searchId = now["alarmId"];
-          this.searchId = now["taskId"] + "," + now["batchId"];
-          this.searchType = "alarmId";
-        } else if ("taskId" in now && now["taskId"]) {
-          this.searchId = now["taskId"] + "," + now["batchId"];
-          this.searchType = "alarmId";
-        } else {
-          this.searchId = now["resultId"];
-          this.searchType = "resultId";
-        }
-      console.log(this.searchId);
+      if ("alarmId" in now && now["alarmId"]) {
+        // this.searchId = now["alarmId"];
+        this.searchId = now["taskId"] + "," + now["batchId"];
+        this.searchType = "alarmId";
+      } else if ("taskId" in now && now["taskId"]) {
+        this.searchId = now["taskId"] + "," + now["batchId"];
+        this.searchType = "alarmId";
+      } else {
+        this.searchId = now["resultId"];
+        this.searchType = "resultId";
+      }
+      if (this.detailsType == "alarm") {
+        this.searchId = now["id"];
+        this.searchType = "id";
+      }
       if (this.searchId != "") {
         this.initData();
       }
     },
-    // handleNotes(now) {
-    //   this.handleList = [];
-    //   let obj = {};
-    //   now.forEach(el => {
-    //     obj.time = el.dealTime;
-    //     obj.info = el.dealType;
-    //     this.handleList.push(obj);
-    //   });
-    // },
+    handleNotes(now) {
+      this.handleList = [];
+      let obj = {};
+      now.forEach(el => {
+        obj.time = el.dealTime;
+        obj.info = el.dealType;
+        this.handleList.push(obj);
+      });
+    },
     alarmLevel: {
       handler(now) {
         this.alarmLevelN = now;
@@ -267,7 +284,11 @@ export default {
     },
     initData() {
       let that = this;
-      getAxiosData("/lenovo-plan/api/task-result/view", {
+      let url = "/lenovo-plan/api/task-result/view";
+      if (this.detailsType == "alarm") {
+        url = "/lenovo-alarm/api/alarm/view";
+      }
+      getAxiosData(url, {
         [that.searchType]: that.searchId
       }).then(res => {
         that.dataList = res.data;
@@ -505,6 +526,10 @@ export default {
   }
   .handleInfo {
     color: #333333;
+    & > div {
+      height: 200px;
+      overflow-y: auto;
+    }
     .monitorTitle {
       margin: 14px 0;
     }

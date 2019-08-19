@@ -333,23 +333,19 @@ export default {
     },
     routeName(now) {
       if (now == "robot-twoList") {
-        this.$set(this.dataBread, 2, {name: "机器人二", path: ''});
+        this.$set(this.dataBread, 2, { name: "机器人二", path: "" });
       } else {
-        this.$set(this.dataBread, 2, {name: "机器人一", path: ''});
+        this.$set(this.dataBread, 2, { name: "机器人一", path: "" });
       }
     }
   },
   created() {
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId;
     this.planType = this.$route.query.planType;
-    if(this.planType == '1501')
-        this.planType = '全面巡视'
-    else if(this.planType == '1502')
-        this.planType = '例行巡视'
-    else if(this.planType == '1503')
-        this.planType = '专项巡视'
-    else if(this.planType == '1504')
-        this.planType = '特殊巡视'
+    if (this.planType == "1501") this.planType = "全面巡视";
+    else if (this.planType == "1502") this.planType = "例行巡视";
+    else if (this.planType == "1503") this.planType = "专项巡视";
+    else if (this.planType == "1504") this.planType = "特殊巡视";
     this.getRegion();
     // this.initDataD()
     this.routeName = this.$route.name;
@@ -383,14 +379,25 @@ export default {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;
       this.dataList[index].alarmLevel = No;
-      this.psotAlarmData(row, No);
+      this.psotAlarmData(row, type, No);
     },
-    psotAlarmData(row, No) {
+    psotAlarmData(row, type, No) {
       const that = this;
       const url = "/lenovo-alarm/api/alarm/level-edit";
+      let oldLevel;
+      if (row.alarmLevel == "1") {
+        oldLevel = "一般";
+      } else if (row.alarmLevel == "2") {
+        oldLevel = "严重";
+      } else {
+        oldLevel = "危急";
+      }
       const query = {
         id: row.id,
-        alarmLevel: No
+        alarmLevel: No,
+        oldLevel: oldLevel,
+        newLevel: type,
+        userName: this.$store.state.user.userName
       };
       putAxiosData(url, query).then(
         res => {

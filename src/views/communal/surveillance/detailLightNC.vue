@@ -32,16 +32,15 @@
             <div class="top not-print">
               <div>历史数据</div>
               <div class="btn">
-                <div>
+                <!-- <div>
                   <duno-btn-top
-                    @on-select="onSelect"
+                    @on-active="onSelect"
                     class="dunoBtnTop"
-                    :isCheck="false"
                     :dataList="typeList"
                     :title="titleType"
                     :showBtnList="false"
                   ></duno-btn-top>
-                </div>
+                </div>-->
                 <div class="dateChose">
                   <el-date-picker
                     unlink-panels
@@ -56,7 +55,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <echarts :dataAllList="echartData" gridOptionTop="80" />
+              <echarts :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
             </div>
           </div>
         </div>
@@ -182,6 +181,7 @@ export default {
     return {
       addOrEdit: "添加",
       disabled: false,
+      echartTitle: "",
       isControl: "1",
       currentTime: 10,
       timeOut: null,
@@ -198,7 +198,7 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      titleType: "选择对比设备",
+    //   titleType: "选择对比设备",
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       dataForm: {},
@@ -206,7 +206,7 @@ export default {
       echartData: [],
       isEnlarge: false,
       srcData: [],
-      typeList: [],
+    //   typeList: [],
       value: "",
       alarmLevel: "",
       visible: false,
@@ -515,9 +515,6 @@ export default {
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
         this.getDataList();
-      } else if (item.title == "titleType") {
-        this.echartForm.source = item.monitorDeviceType;
-        this.getEchasrts();
       }
     },
     onChangeHis(data) {
@@ -538,6 +535,10 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD HH:mm:ss");
         endTime = moment(data[1]).format("YYYY-MM-DD HH:mm:ss");
       }
+      this.echartTitle =
+        moment(data[0]).format("YYYY/MM/DD") +
+        "-" +
+        moment(data[1]).format("YYYY/MM/DD");
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
@@ -584,39 +585,35 @@ export default {
         this.allDataLevel = map;
       });
     },
-    getSelectPreset() {
-      getRedPreset().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        this.typeList = map;
-      });
-    },
+    // getSelectPreset() {
+    //   let url = "/lenovo-device/api/monitor/power-device";
+    //   let query = {
+    //     monitorDeviceId: this.$route.query.monitorDeviceId
+    //   };
+    //   getAxiosData(url, query).then(res => {
+    //     const resData = res.data;
+    //     const map = resData.map(item => {
+    //       const obj = {
+    //         describeName: item.label,
+    //         monitorDeviceType: item.value,
+    //         title: "titleType"
+    //       };
+    //       return obj;
+    //     });
+    //     this.typeList = map;
+    //   });
+    // },
     getEchasrts() {
-      // let query = {
-      //   deviceId: this.$route.query.monitorDeviceId,
-      //   deviceType: "2"
-      // };
-      // getPosition(query).then(res => {
-      debugger;
-      // let presetId = res.data[0].value;
-      this.echartForm = {
+      let query = {
         startTime: this.echartForm.startTime,
         endTime: this.echartForm.endTime,
         deviceType: "2",
-        monitorDeviceId: this.$route.query.monitorDeviceId,
-        presetIds: presetId
+        powerDeviceId: this.echartForm.sources,
+        monitorDeviceId: this.$route.query.monitorDeviceId
       };
-      getRedEcharts(this.echartForm).then(res => {
-        this.echartData = res.data.itemDataList;
+      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
+        this.echartData = res.data.dataList;
       });
-      // });
     },
     handleClose() {
       this.popData = {};
@@ -631,6 +628,9 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
+      this.echartTitle = moment()
+        .add(-1, "days")
+        .format("YYYY/MM/DD");
     },
     getControl() {
       if (this.isControl == "1") {
@@ -839,12 +839,12 @@ export default {
           & > div {
             margin-left: 10px;
             .dunoBtnTop {
-              width: 145px;
+              width: 160px;
               display: inline-flex;
               padding-bottom: 0;
               .btnList {
                 top: inherit !important;
-                width: 145px;
+                width: 160px;
                 .title {
                   padding: 8px 20px;
                 }

@@ -4,58 +4,64 @@
       <scroller :listOption="messageList"></scroller>
     </div>
     <div class="middle not-print">
-        <div class="abnormalInfo">
-            <div class="contain borderTX">
-              <duno-main :controlOver="true" class="main_contain">
-                <div class="iconTop pointer" @click="getIn">
-                  <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
-                  异常信息
-                </div>
-                <div>
-                  <duno-tables-tep
-                          class="table_abnormalInfo"
-                          :columns="columns"
-                          :data="dataList"
-                          :totalNum="totalNum"
-                          :pageSize="pageRows"
-                          :current="pageIndex"
-                          :isShowPage="false"
-                          @on-select="dataListSelectionChangeHandle"
-                          @clickPage="pageCurrentChangeHandle"
-                          @on-page-size-change="pageSizeChangeHandle"
-                  />
-                </div>
-              </duno-main>
-           </div>
-        </div>
-        <div class="reportForm">
-            <div class="contain borderTX">
-              <duno-main  :controlOver="true" class="main_contain">
-                <div class="iconTop">
-                  <img src="../../../assets/iconFunction/icon_statement.png" alt />
-                  报表
-                </div>
-                <div class="re-middle"
-                 v-loading="loadingOption"
-                 element-loading-background="rgba(0, 0, 0, 0.8)"
-                 element-loading-text="加载中"
-                >
-                  <ReportTable v-for="(item,index) in mockData" :key="index" :url="url" :reportData="item" />
-                </div>
-                <div class="re-table">
-                  <duno-tables-tep
-                          class="table_analysis"
-                          :columns="RecodeColumns"
-                          :data="RecodeList"
-                          :isShowPage="false"
-                          @on-select="dataListSelectionChangeHandle"
-                          @clickPage="pageCurrentChangeHandle"
-                          @on-page-size-change="pageSizeChangeHandle"
-                  />
-                </div>
-              </duno-main>
+      <div class="abnormalInfo">
+        <div class="contain borderTX">
+          <duno-main :controlOver="true" class="main_contain">
+            <div class="iconTop pointer" @click="getIn">
+              <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
+              异常信息
             </div>
+            <div>
+              <duno-tables-tep
+                class="table_abnormalInfo"
+                :columns="columns"
+                :data="dataList"
+                :totalNum="totalNum"
+                :pageSize="pageRows"
+                :current="pageIndex"
+                :isShowPage="false"
+                @on-select="dataListSelectionChangeHandle"
+                @clickPage="pageCurrentChangeHandle"
+                @on-page-size-change="pageSizeChangeHandle"
+              />
+            </div>
+          </duno-main>
         </div>
+      </div>
+      <div class="reportForm">
+        <div class="contain borderTX">
+          <duno-main :controlOver="true" class="main_contain">
+            <div class="iconTop">
+              <img src="../../../assets/iconFunction/icon_statement.png" alt />
+              报表
+            </div>
+            <div
+              class="re-middle"
+              v-loading="loadingOption"
+              element-loading-background="rgba(0, 0, 0, 0.8)"
+              element-loading-text="加载中"
+            >
+              <ReportTable
+                v-for="(item,index) in mockData"
+                :key="index"
+                :url="url"
+                :reportData="item"
+              />
+            </div>
+            <div class="re-table">
+              <duno-tables-tep
+                class="table_analysis"
+                :columns="RecodeColumns"
+                :data="RecodeList"
+                :isShowPage="false"
+                @on-select="dataListSelectionChangeHandle"
+                @clickPage="pageCurrentChangeHandle"
+                @on-page-size-change="pageSizeChangeHandle"
+              />
+            </div>
+          </duno-main>
+        </div>
+      </div>
       <!-- <div class="ARRange">
         <div class="iconcen">
           <div class="iconTop">
@@ -158,7 +164,7 @@
       </div>
     </div>-->
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -186,18 +192,18 @@ export default {
     wraning
   },
   computed: {
-      isAlarm(){
-          return this.$store.state.user.isAlarm
-      }
+    isAlarm() {
+      return this.$store.state.user.isAlarm;
+    }
   },
   watch: {
-     isAlarm:{
-        handler(now){
-            this.getData()
-         },
-         deep: true,
-         immediate: true
-        }
+    isAlarm: {
+      handler(now) {
+        this.getData();
+      },
+      deep: true,
+      immediate: true
+    }
   },
   data() {
     const that = this;
@@ -445,7 +451,7 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.mockData = res.data.tableData;
-        this.loadingOption = false
+        this.loadingOption = false;
       });
     },
     cutOut(data) {
@@ -463,15 +469,27 @@ export default {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;
       this.dataList[index].alarmLevel = No;
-      this.psotAlarmData(row, No);
+      this.psotAlarmData(row, type, No);
     },
-    psotAlarmData(row, No) {
+    psotAlarmData(row, type, No) {
       const that = this;
       const url = "/lenovo-alarm/api/alarm/level-edit";
+      let oldLevel;
+      if (row.alarmLevel == "1") {
+        oldLevel = "一般";
+      } else if (row.alarmLevel == "2") {
+        oldLevel = "严重";
+      } else {
+        oldLevel = "危急";
+      }
       const query = {
         id: row.id,
-        alarmLevel: No
+        alarmLevel: No,
+        oldLevel: oldLevel,
+        newLevel: type,
+        userName: this.$store.state.user.userName
       };
+      debugger;
       putAxiosData(url, query).then(
         res => {
           if (res.code !== 200) {
@@ -529,18 +547,19 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
-  .el-loading-text{
-    color: #969696   !important;
+  .el-loading-text {
+    color: #969696 !important;
   }
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
   }
-  .borderTX{
+  .borderTX {
   }
-  .main_contain{
+  .main_contain {
     position: absolute;
     left: 0;
     top: 0;
@@ -576,10 +595,10 @@ export default {
         height: 100%;
         background-color: rgba(20, 40, 56, 0.8);
         border: 2px solid transparent;
-        transition:border .5s;
-        &:hover{
+        transition: border 0.5s;
+        &:hover {
           border: 2px solid white;
-          transition-duration:.5s;
+          transition-duration: 0.5s;
         }
         .pointer {
           cursor: pointer;
@@ -605,15 +624,15 @@ export default {
       padding: 2px;
       height: 100%;
       background-color: rgba(20, 40, 56, 0.8);
-      .contain{
+      .contain {
         padding: 20px;
         width: 100%;
         height: 100%;
         border: 2px solid transparent;
-        transition:border .5s;
-        &:hover{
+        transition: border 0.5s;
+        &:hover {
           border: 2px solid white;
-          transition-duration:.5s;
+          transition-duration: 0.5s;
         }
       }
       .re-middle {

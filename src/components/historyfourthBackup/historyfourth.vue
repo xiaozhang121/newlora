@@ -29,7 +29,13 @@
         </div>
       </div>
     </div>
-    <wraning :popData="popData" :top="0" :visible="visible" @handleClose="handleClose" />
+    <wraning
+      :popData="popData"
+      :top="0"
+      detailsType="alarm"
+      :visible="visible"
+      @handleClose="handleClose"
+    />
   </div>
 </template>
 <script>

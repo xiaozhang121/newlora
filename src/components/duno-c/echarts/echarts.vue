@@ -2,7 +2,6 @@
   <div class="echartsData">
     <duno-charts
       :isChange="isChangeFlag"
-      :isItemEchart="isItemEchart"
       :legendOption="legendOption"
       :xAxisOption="xAxisOption"
       :yAxisOption="yAxisOption"
@@ -27,73 +26,10 @@ export default {
         return [];
       }
     },
-    legendData: {
-      type: Array,
-      default: () => {
-        return ["4号主变1000千伏侧压变B相", "4号主变1000千伏侧压变C相"];
-      }
-    },
-    xAxisData: {
-      type: Array,
-      default: () => {
-        return [
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "10",
-          "11",
-          "12",
-          "13",
-          "14",
-          "15",
-          "16",
-          "17",
-          "18",
-          "19",
-          "20",
-          "21",
-          "22",
-          "23",
-          "24"
-        ];
-      }
-    },
-    yMax: {
-      type: Number,
-      default: 100
-    },
-    yMin: {
-      type: Number,
-      default: 0
-    },
-    seriesData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
-    isChange: {
-      type: Boolean,
-      default: () => {
-        return true;
-      }
-    },
-    isItemEchart: {
-      type: Boolean,
-      default: () => {
-        return true;
-      }
-    },
     title: {
       type: String,
       default: () => {
-        return "泄露电流表24小时温度分析";
+        return "油温数据";
       }
     },
     gridOptionTop: {
@@ -107,8 +43,9 @@ export default {
     const that = this;
     return {
       dataList: [],
+      isChangeFlag: true,
       titleOption: {
-        text: that.title,
+        text: "油温数据",
         x: "center",
         y: "20",
         textStyle: {
@@ -122,7 +59,7 @@ export default {
         textStyle: {
           color: "#fff"
         },
-        data: that.legendData
+        data: []
       },
       gridOption: {
         top: that.gridOptionTop
@@ -147,13 +84,13 @@ export default {
         axisTick: {
           show: false
         },
-        data: that.xAxisData
+        data: []
       },
       yAxisOption: {
         type: "value",
         name: "(温度℃)",
-        max: that.yMax,
-        min: that.yMin,
+        max: 100,
+        min: 0,
         splitNumber: 5,
         // boundaryGap: ["0", "2"],
         axisLine: {
@@ -174,131 +111,33 @@ export default {
           show: false
         }
       },
-      seriesOption: that.seriesData
-      /*
-      seriesOption: [
-        {
-          name: "4号主变1000千伏侧压变B相",
-          type: "line",
-          data: [
-            30,
-            42,
-            75,
-            25,
-            45,
-            86,
-            35,
-            56,
-            56,
-            23,
-            48,
-            12,
-            45,
-            89,
-            25,
-            35,
-            46,
-            48,
-            56,
-            45,
-            78,
-            12
-          ]
-        },
-        {
-          name: "4号主变1000千伏侧压变C相",
-          type: "line",
-          data: [
-            56,
-            35,
-            35,
-            42,
-            36,
-            56,
-            76,
-            45,
-            25,
-            86,
-            48,
-            68,
-            45,
-            75,
-            25,
-            55,
-            44,
-            33,
-            56,
-            45,
-            25,
-            12
-          ]
-        }
-      ]
-      */
+      seriesOption: []
     };
   },
   watch: {
-    isChange: {
-      handler(now) {
-        this.isChangeFlag = now;
-      },
-      immediate: true
+    dataAllList(now) {
+      this.dataList = now;
+      this.changeType();
     },
-    legendData: {
-      handler(now) {
-        let arr = [];
-        if (now && now.length) {
-          arr = now;
-        }
-        this.legendOption.data = arr;
-      },
-      deep: true
-    },
-    xAxisData: {
-      handler(now) {
-        let arr = [];
-        if (now && now.length) {
-          arr = now;
-        }
-        // this.xAxisOption.data = arr
-      },
-      deep: true
-    },
-    yName(now) {
-      this.yAxisOption.yName = now;
-    },
-    yMax(now) {
-      this.yAxisOption.yMax = now;
-    },
-    yMin(now) {
-      this.yAxisOption.yMin = now;
-    },
-    ySplitNumber(now) {
-      this.yAxisOption.ySplitNumber = now;
-    },
-    seriesData: {
-      handler(now) {
-        let arr = [];
-        if (now && now.length) {
-          arr = now;
-        }
-        this.seriesOption = arr;
-      },
-      deep: true
+    title(now) {
+      this.titleOption.text = now + "油温数据";
+      this.changeType();
     }
   },
   methods: {
     changeType() {
-      //   const dataList = res.data.dataList;
-      this.dataList = this.dataAllList;
+      let that = this;
+      that.dataList = that.dataAllList;
       const legendData = [];
       const xAxisData = [];
       const seriesData = [];
-      for (let i = 0; i < dataList.length; i++) {
-        legendData.push(dataList[i].itemName);
-        const itemDataList = dataList[i].itemDataList;
+      const yMax = [];
+      for (let i = 0; i < that.dataList.length; i++) {
+        legendData.push(that.dataList[i].itemName);
+        const itemDataList = that.dataList[i].itemDataList;
+        yMax.push(Number(that.dataList[i].maxData));
         const obj = {
-          name: dataList[i].itemName,
+          name: that.dataList[i].itemName,
           type: "line",
           data: []
         };
@@ -310,11 +149,17 @@ export default {
         }
         seriesData.push(obj);
       }
-      that.legendData.push(...legendData);
-      that.seriesData.push(...seriesData);
+      that.yAxisOption.max = Math.ceil(yMax.sort()[0]);
+      that.legendOption.data.push(...legendData);
+      that.seriesOption.push(...seriesData);
+      that.xAxisOption.data = [];
+      that.xAxisOption.data.push(...xAxisData);
       that.$forceUpdate();
       that.isChangeFlag = !that.isChangeFlag;
     }
+  },
+  mounted() {
+    this.changeType();
   }
 };
 </script>
