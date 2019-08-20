@@ -36,7 +36,11 @@
                   :showBtmOption="false"
                   :Initialization="true"
                 ></key-monitor>
-                <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">666</span>
+                <span
+                  v-show="overFlag"
+                  class="aaaaaaaaaaaaa"
+                  :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'"
+                >666</span>
               </div>
             </div>
           </div>
@@ -215,8 +219,8 @@ export default {
     const that = this;
     return {
       overFlag: false,
-      offsetX:0,
-      offsetY:0,
+      offsetX: 0,
+      offsetY: 0,
       tepmNum: 0,
       timer: false,
       addOrEdit: "添加",
@@ -478,30 +482,37 @@ export default {
   },
   methods: {
     clearTimer() {
-        clearInterval(this.timer);
-        this.overFlag = false
-        this.timer = null;
-        this.tepmNum = 0;
+      clearInterval(this.timer);
+      this.overFlag = false;
+      this.timer = null;
+      this.tepmNum = 0;
     },
     pointerPos(event) {
-        const that = this;
-        that.overFlag = true
-            // console.log('x:'+event.offsetX)
-            // console.log('y:'+event.offsetY)
-            that.offsetX = event.offsetX;
-            that.offsetY = event.offsetY;
-            if (!this.timer) {
-                this.timer = setInterval(() => {
-                    let x = that.offsetX-27<0?0:that.offsetX-27
-                    getAxiosData(
-                        "/lenovo-iir/device/temperature/get/location/" + this.dataForm.monitorDeviceId,
-                        { x: x, y: that.offsetY, r: 1, pannelWidth: '172', pannelHeight:'128' }
-                    ).then(res => {
-                        // console.log('data:'+res.data)
-                        that.tepmNum = res.data.data;
-                    });
-                }, 200);
+      const that = this;
+      that.overFlag = true;
+      // console.log('x:'+event.offsetX)
+      // console.log('y:'+event.offsetY)
+      that.offsetX = event.offsetX;
+      that.offsetY = event.offsetY;
+      if (!this.timer) {
+        this.timer = setInterval(() => {
+          let x = that.offsetX - 27 < 0 ? 0 : that.offsetX - 27;
+          getAxiosData(
+            "/lenovo-iir/device/temperature/get/location/" +
+              this.dataForm.monitorDeviceId,
+            {
+              x: x,
+              y: that.offsetY,
+              r: 1,
+              pannelWidth: "172",
+              pannelHeight: "128"
             }
+          ).then(res => {
+            // console.log('data:'+res.data)
+            that.tepmNum = res.data.data;
+          });
+        }, 200);
+      }
     },
     closeEnlarge() {
       this.isEnlarge = false;
@@ -545,9 +556,20 @@ export default {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;
       this.dataList[index].alarmLevel = No;
+      let oldLevel;
+      if (row.alarmLevel == "1") {
+        oldLevel = "一般";
+      } else if (row.alarmLevel == "2") {
+        oldLevel = "严重";
+      } else {
+        oldLevel = "危急";
+      }
       const query = {
         id: row.id,
-        alarmLevel: No
+        alarmLevel: No,
+        oldLevel: oldLevel,
+        newLevel: type,
+        userName: this.$store.state.user.userName
       };
       getVLIght(query).then(
         res => {

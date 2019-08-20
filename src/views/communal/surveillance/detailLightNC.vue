@@ -489,9 +489,20 @@ export default {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;
       this.dataList[index].alarmLevel = No;
+      let oldLevel;
+      if (row.alarmLevel == "1") {
+        oldLevel = "一般";
+      } else if (row.alarmLevel == "2") {
+        oldLevel = "严重";
+      } else {
+        oldLevel = "危急";
+      }
       const query = {
         id: row.id,
-        alarmLevel: No
+        alarmLevel: No,
+        oldLevel: oldLevel,
+        newLevel: type,
+        userName: this.$store.state.user.userName
       };
       getRedLIght(query).then(
         res => {

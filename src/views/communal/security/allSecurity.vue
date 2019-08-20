@@ -133,6 +133,7 @@ export default {
       visible: false,
       selectInfo: "更多",
       serious: false,
+      textarea: "",
       commonly: false,
       danger: false,
       isEnlarge: false,
@@ -183,7 +184,6 @@ export default {
                   on: {
                     click: () => {
                       this.getJump(params.row);
-                      //   console.log("摄像头ID：", params.row.monitorDeviceId);
                     }
                   }
                 },

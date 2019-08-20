@@ -237,15 +237,15 @@ export default {
         this.initData();
       }
     },
-    handleNotes(now) {
-      this.handleList = [];
-      let obj = {};
-      now.forEach(el => {
-        obj.time = el.dealTime;
-        obj.info = el.dealType;
-        this.handleList.push(obj);
-      });
-    },
+    // handleNotes(now) {
+    //   this.handleList = [];
+    //   let obj = {};
+    //   now.forEach(el => {
+    //     obj.time = el.dealTime;
+    //     obj.info = el.dealType;
+    //     this.handleList.push(obj);
+    //   });
+    // },
     alarmLevel: {
       handler(now) {
         this.alarmLevelN = now;
@@ -290,9 +290,10 @@ export default {
         let obj = {};
         (res.data.dealList || []).forEach(el => {
           obj.time = el.dealTime;
-          obj.info = el.dealContent;
+          obj.info = el.dealType;
           that.handleList.push(obj);
         });
+        console.log(that.handleList);
         if (that.dataList.alarmTypeValue == "动态环境类") {
           that.discriminate = true;
         }
@@ -368,9 +369,9 @@ export default {
   },
   mounted() {
     // this.target = this.querySelectorAll('.warningDialog')[1]
-    if (this.handleNotes.length < 1) {
-      this.isdeal = false;
-    }
+    // if (this.handleNotes.length < 1) {
+    //   this.isdeal = false;
+    // }
     this.newVisible = this.visible;
   }
 };
