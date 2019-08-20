@@ -21,13 +21,14 @@
                 {{item['describeName']}}</el-checkbox>
               <el-checkbox v-else :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
+                {{item['describeName']}}
                 <span v-if="Array.isArray(item.img)">
                   <img v-for="(pic, indexd) in item['img']" :key="indexd" class="icon_img" :src="pic">
                 </span>
                 <span v-else>
                   <img v-if="item.img" class="icon_img" :src="item.img">
                 </span>
-                {{item['describeName']}}</el-checkbox>
+                </el-checkbox>
             </div>
           </el-checkbox-group>
         </div>

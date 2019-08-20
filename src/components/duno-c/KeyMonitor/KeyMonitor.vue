@@ -16,7 +16,7 @@
           element-loading-background="rgba(0, 0, 0, 0.8)"
           element-loading-text="加载中"
           :class="{'infraredList':routeName == 'infraredList'}"
-          v-if="showView"
+          v-if="showView && !isPic"
           ref="videoPlayer"
           class="vjs-custom-skin"
           :options="playerOptions"
@@ -24,6 +24,7 @@
           @play="onPlayerPlay($event)"
           @pause="onPlayerPause($event)"
         ></video-player>
+        <img v-else class="cameraImg" :src="picUrl"/>
       </div>
       <div v-if="isIniializa" class="Initialization">
         <!--<p>
@@ -33,15 +34,15 @@
       </div>
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
-          <div class="block"  v-if="!isCamera">
+            <div class="block" :class="{'hidden': isPic}"  v-if="!isCamera" >
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
               <span class="nowNR">当前</span>
-          </div>
-          <div class="block" v-else>
-            视频录制 {{timeIncreateD}}  <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
-          </div>
-           <span @click="videotape()">
+            </div>
+            <div class="block" v-else  :class="{'hidden': !isPic}">
+              视频录制 {{timeIncreateD}}  <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+            </div>
+           <span @click="videotape()" v-if="!isPic">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
           </span>
           <span @click="isSample()">
@@ -53,7 +54,7 @@
           <span @click="webFullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
-          <span @click="pushMov()">
+          <span @click="pushMov()"  v-if="!isPic">
             <i class="iconfont icon-tuisong"></i>推送
           </span>
         </div>
@@ -109,6 +110,13 @@ export default {
     screenshot
   },
   props: {
+    picUrl:{},
+    isPic:{
+      type: Boolean,
+      default: () => {
+          return false;
+      }
+    },
     noButton: {
       type: Boolean,
       default: () => {
@@ -368,8 +376,9 @@ export default {
     },
     webFullScreen() {
       if(self.frameElement && self.frameElement.tagName == "IFRAME"){
-          parent.webFullScreen(this.streamAddr)
+          parent.webFullScreen(this.streamAddr, this.isPic)
       }else{
+          this.$store.state.app.isPic = this.isPic
           this.$store.state.app.webFullVisable = !this.$store.state.app
               .webFullVisable;
           this.$store.state.app.webFull = this.streamAddr;
@@ -433,7 +442,7 @@ export default {
         this.$router.push({
           path: "/surveillancePath/areaVideo",
           query: {
-            areaId: this.areaId
+            areaId: this.areaId,
           }
         });
         return;
@@ -463,7 +472,8 @@ export default {
           this.$router.push({
             path: "/surveillancePath/detailRedN",
             query: {
-              monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+              monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+              typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {
@@ -492,14 +502,24 @@ export default {
     },
     //获取图片
     isSample() {
-      this.isShow = true;
-      let url = "/lenovo-device/api/stream/snapshoot";
-      let query = {
-        rtmpUrl: this.streamAddr
-      };
-      postAxiosData(url, query).then(res => {
-        this.shotData = res.data;
-      });
+      if(!this.isPic){
+        this.isShow = true;
+        let url = "/lenovo-device/api/stream/snapshoot";
+        let query = {
+          rtmpUrl: this.streamAddr
+        };
+        postAxiosData(url, query).then(res => {
+          this.shotData = res.data;
+        });
+      }else{
+         getAxiosData(`/lenovo-iir/device/image/get/output-image/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
+             if(res.code == 200){
+                 this.$message.success(res.msg)
+             }else{
+                 this.$message.error(res.msg)
+             }
+         })
+      }
     },
     closeShot() {
       this.isShow = false;
@@ -526,6 +546,13 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
+  .hidden{
+    visibility: hidden;
+  }
+  .cameraImg{
+    width: 100%;
+    height: 100%;
+  }
   .el-slider__button-wrapper .el-tooltip{
     vertical-align: middle;
     display: inline-block;

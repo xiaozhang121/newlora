@@ -1,5 +1,5 @@
 <template>
-  <div class="warningDialog">
+  <div class="warningDialog robot">
     <el-dialog  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">
@@ -207,7 +207,9 @@ export default {
   },
   methods: {
     openPage(){
-        let routeData = this.$router.resolve({ name: 'newPageRobot', params: { datainfo:Base64.encode(JSON.stringify(this.popData)),info:Base64.encode(JSON.stringify(this.warnData)), bread: Base64.encode(JSON.stringify(this.dataBread)), taskDeviceId: this.$route.query.taskDeviceId?this.$route.query.taskDeviceId:' '} });
+        sessionStorage.setItem('datainfo', Base64.encode(JSON.stringify(this.popData)))
+        sessionStorage.setItem('info', Base64.encode(JSON.stringify(this.warnData)))
+        let routeData = this.$router.resolve({ name: 'newPageRobot', params: { datainfo:Base64.encode(JSON.stringify('1')),info:Base64.encode(JSON.stringify('1')), bread: Base64.encode(JSON.stringify(this.dataBread)), taskDeviceId: this.$route.query.taskDeviceId?this.$route.query.taskDeviceId:' '} });
         window.open(routeData.href, '_blank');
     },
     toPrint(e){
@@ -272,6 +274,19 @@ export default {
 };
 </script>
 <style lang="scss">
+.robot{
+  .el-dialog__close{
+    left: 5px;
+  }
+  .el-dialog__headerbtn{
+    right: 14px;
+  }
+}
+.warningDialog.robot .handleInfo > div{
+  max-height: 200px;
+  height: inherit !important;
+  overflow-y: auto;
+}
 .warningDialog {
   @media print {
     .not-print {
@@ -447,6 +462,7 @@ export default {
       position: absolute;
       right: 33px;
       .iconfont{
+        font-size: 22px;
         cursor: pointer;
         color: #909399;
         margin-right: 10px;
