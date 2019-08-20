@@ -20,7 +20,7 @@
                          <span @click="videotape()">
                                 <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
                         </span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                          <span @click="videotape()">
                                 <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
                         </span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                           <span @click="videotape()">
                                 <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
                         </span>
-                        <span><i class="iconfont icon-jietu"></i>截图</span>
+                        <span @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -243,10 +243,17 @@
            <div class="topBtn">
                <div v-for="(item,index) in topBtnList" :key="index" @click="changeRightActive(index)"  class="btn" :class="{'active':item['active']}">{{ item.name }}</div>
            </div>-->
+        <screenshot
+                :isShow="isShow"
+                :shotData="shotData"
+                @closeShot="closeShot"
+                :monitorInfo="monitorInfo"
+        />
     </div>
 </template>
 
 <script>
+    import screenshot from "_c/duno-c/screenshot";
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
     import dunoTable from '_c/duno-m/table/Table'
     import videojs from 'video.js'
@@ -259,9 +266,12 @@
     videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
-        components: { dunoTable,DunoCharts, videoPlayer },
+        components: { dunoTable,DunoCharts, videoPlayer, screenshot },
         data() {
             return {
+                monitorInfo: {},
+                isShow: false,
+                shotData: [],
                 passTime: 0,
                 timeSeed: null,
                 isStop: false,
@@ -562,6 +572,20 @@
             }
         },
         methods:{
+            closeShot() {
+                this.isShow = false;
+            },
+            isSample() {
+                const that = this
+                this.isShow = true;
+                let url = "/lenovo-device/api/stream/snapshoot";
+                let query = {
+                    rtmpUrl: that.playerOptions.sources[0].src
+                };
+                postAxiosData(url, query).then(res => {
+                    this.shotData = res.data;
+                });
+            },
             toStop(flag){
                 this.isStop = flag
                 if(this.isStop){
@@ -811,6 +835,7 @@
             initCamera(){
                 const that = this
                 that.disabled = true
+                this.monitorInfo = {'monitorDeviceId': that.deviceId}
                 const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp/'+that.deviceId;
                 getAxiosData(url, {}).then(res => {
                      that.playerOptions.sources[0].src = res.data;

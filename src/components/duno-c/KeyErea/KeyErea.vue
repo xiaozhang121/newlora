@@ -257,6 +257,7 @@
                 const that = this;
                 let query = {
                     ["cameraPos0" + index]: this.cameraInfo["monitorDeviceId"],
+                    userId: this.$store.state.user.configInfo["userId"],
                     id: this.$store.state.user.configInfo.id
                 };
                 editConfig(query).then(res => {

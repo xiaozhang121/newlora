@@ -5,6 +5,7 @@
       @close="close"
       :visible.sync="isShow"
       width="500px"
+      :modal="false"
       :center="true"
     >
       <div class="dialog-content">
@@ -345,6 +346,7 @@ export default {
     }
     .dialog-content {
       position: relative;
+
       .shotImg {
         width: 100%;
         height: 225px;
