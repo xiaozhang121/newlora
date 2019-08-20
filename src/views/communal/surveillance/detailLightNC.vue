@@ -97,8 +97,8 @@
                 @change="onChangeHis"
               ></el-date-picker>
             </div>
-            <div style="visibility: hidden">
-              <div class="exportExcel">
+            <div>
+              <div @click="clickExcel" class="exportExcel">
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
               </div>
@@ -194,19 +194,20 @@ export default {
         autoplay: true
       },
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
+        // activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-    //   titleType: "选择对比设备",
+      //   titleType: "选择对比设备",
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       dataForm: {},
+      queryForm: {},
       echartForm: {},
       echartData: [],
       isEnlarge: false,
       srcData: [],
-    //   typeList: [],
+      //   typeList: [],
       value: "",
       alarmLevel: "",
       visible: false,
@@ -545,6 +546,7 @@ export default {
     },
     clickExcel() {
       const that = this;
+      that.queryForm.monitorDeviceId = that.$route.query.monitorDeviceId;
       that.exportHandle();
     },
     getSelectType() {
@@ -661,6 +663,7 @@ export default {
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.getDataList();
     this.initCamera();
     this.getEchasrts();
   },

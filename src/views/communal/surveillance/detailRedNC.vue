@@ -98,7 +98,7 @@
                 @change="onChangeHis"
               ></el-date-picker>
             </div>
-            <div style="visibility: hidden">
+            <div>
               <div class="exportExcel">导出表格</div>
             </div>
           </div>
@@ -143,7 +143,7 @@
                 @change="onChangeTime"
               ></el-date-picker>
             </div>
-            <div style="display: none">
+            <div>
               <div @click="clickExcel" class="clickBtn">
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
