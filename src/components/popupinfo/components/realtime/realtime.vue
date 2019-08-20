@@ -26,7 +26,8 @@
              style="width: 228px; height: 150px"
         >
           <div class="picVideo" v-if="itemData['deviceMessage']['typeId'] == 3">
-            <img :src="cameraPic"/>
+            <img   @mousemove="pointerPos($event)"
+                   @mouseout="clearTimer()" :src="cameraPic"/>
           </div>
           <video-player
                   v-else
@@ -264,11 +265,14 @@
                 getAxiosData(urldd, {}).then(res => {
                     console.log(that.itemData['deviceMessage']['typeId'])
                     if(that.itemData['deviceMessage']['typeId'] == 3){
+                        getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
+                            that.cameraPic = res.data
+                        })
                         setInterval(()=>{
                             getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                                   that.cameraPic = res.data
                             })
-                        },1000)
+                        },200)
                     }
                     that.playerOptions.sources[0].src = res.data.data;
                     that.$forceUpdate();
@@ -317,7 +321,7 @@
       background: grey;
       & img{
         width: 100%;
-        height: 100%;
+        height: 128px !important;
       }
     }
     .lightPanel {

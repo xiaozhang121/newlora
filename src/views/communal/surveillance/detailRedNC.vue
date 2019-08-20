@@ -51,7 +51,7 @@
                 <key-monitor
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
-                  class="monitor"
+                  class="monitor child"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
@@ -742,7 +742,7 @@ export default {
            getAxiosData(`/lenovo-iir/device/video/new-frame/${that.dataForm.monitorDeviceId}`).then(res=>{
                that.$store.state.app.picSrc = res.data
            })
-       },1000)
+       },200)
     }
   },
   created() {
