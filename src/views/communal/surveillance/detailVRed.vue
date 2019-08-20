@@ -146,7 +146,7 @@
                 @change="onChangeHis"
               ></el-date-picker>
             </div>
-            <div style="visibility: hidden">
+            <div>
               <div class="exportExcel">
                 <i class="iconfont icon-daochu1"></i>
                 导出表格

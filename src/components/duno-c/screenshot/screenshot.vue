@@ -10,7 +10,7 @@
     >
       <div class="dialog-content">
         <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
-          <img :src="this.imgsrc" alt />
+          <img :src="this.imgsrc" ref="image" alt />
           <div ref="box" id="box1"></div>
         </div>
         <div v-show="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
@@ -75,7 +75,12 @@
 </template>
 
 <script>
-import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import {
+  getAxiosData,
+  postAxiosData,
+  putAxiosData,
+  deleteDataId
+} from "@/api/axiosType";
 import {
   sampleMark,
   getMainDevice,
@@ -84,6 +89,7 @@ import {
   getRecognizeType,
   snapshoot
 } from "@/api/configuration/configuration.js";
+import moment from "moment";
 export default {
   name: "screenshot",
   props: {
@@ -128,6 +134,9 @@ export default {
       cascadeValue: "",
       selectValue: "",
       textarea: "",
+      picWigth: "",
+      picHeigh: "",
+      picSize: "",
       isCalibrat: true,
       startPointX: null,
       endPointX: null,
@@ -198,13 +207,6 @@ export default {
         this.endPointX = e.offsetX;
         this.clickFlage = 0;
       }
-      // if (
-      //   this.endPointX == -1 &&
-      //   this.endPointY == -1 &&
-      //   this.startPointX != 1 &&
-      //   this.startPointY != 1
-      // ) {
-      // }
     },
     //手动标定
     addTag() {
@@ -262,6 +264,7 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
+      let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorInfo["monitorDeviceId"],
         powerDeviceId: this.monitorInfo["powerDeviceId"],
@@ -274,12 +277,13 @@ export default {
             recognizeType: this.selectValue
           }
         ],
-        fileName: "",
+        fileName: this.shotData.cephFileName,
         picWigth: "",
         picSize: "",
         picHeigh: "",
-        photoTime: ""
+        photoTime: photoTime
       };
+      debugger;
       sampleMark(query).then(res => {
         this.$message({
           message: "标定成功",
@@ -287,11 +291,40 @@ export default {
         });
       });
     },
+    getImgInfo() {
+      this.$nextTick(() => {
+        this.picWigth = this.$refs.image.naturalWidth;
+        this.picHeigh = this.$refs.image.naturalHeight;
+        function compressImg(image, quality) {
+          let width = image.width;
+          let height = image.height;
+          let canvas = document.createElement("canvas");
+          let ctx = canvas.getContext("2d");
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+          let base64 = canvas.toDataURL("image/jpeg", quality);
+          return base64;
+        }
+      });
+    },
     close() {
       this.$emit("closeShot");
     },
     deletSubmit() {
       this.$emit("closeShot");
+      let url = "/lenovo-storage/api/storageService/file/deleteFile";
+      let query = {
+        bucketName: this.shotData.cephBucket,
+        fileName: this.shotData.cephFileName
+      };
+      debugger;
+      deleteDataId(url, query).then(res => {
+        this.$message({
+          type: "success",
+          message: "删除成功"
+        });
+      });
     }
   },
   mounted() {
@@ -365,25 +398,28 @@ export default {
     }
   }
 }
-.el-cascader-menu {
-  overflow: hidden;
-  padding-left: 10px;
-}
-.el-scrollbar__wrap {
-  overflow: hidden;
-  overflow-y: scroll;
-}
-.el-cascader-node {
-  line-height: 2em;
-  cursor: pointer;
-  i {
-    float: right;
-    margin-right: 10px;
+.el-cascader-panel {
+  .el-cascader-menu {
+    overflow: hidden;
+    padding-left: 10px;
+  }
+  .el-scrollbar__wrap {
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  .el-cascader-node {
+    line-height: 2em;
+    cursor: pointer;
+    i {
+      float: right;
+      margin-right: 10px;
+    }
+  }
+  .el-cascader-node:hover {
+    background-color: #eee;
   }
 }
-.el-cascader-node:hover {
-  background-color: #eee;
-}
+
 #box1 {
   position: absolute;
   background: none;
