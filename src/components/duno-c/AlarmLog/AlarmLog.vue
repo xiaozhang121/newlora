@@ -8,7 +8,7 @@
         :isNav="false"
       />
     </div>
-    <div class="content">
+    <div class="content" @click="handleWain">
       <div class="top">
         <p>
           机器判断:
@@ -30,12 +30,12 @@
       <div class="btn">
         <p>
           拍摄来源:
-          <span @click="getJump">{{remarkData.monitorDeviceName}}</span>
+          <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
         </p>
         <p v-if="isShow">
-          <i @click="dialogVisible = true">备注</i>
-          <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
-          <i v-else :disabled="isDisabled" class="gray">已复归</i>
+          <i @click.stop="dialogVisible = true">备注</i>
+          <i v-if="remarkData.isReturn=='0'" @click.stop="addReturn">复归</i>
+          <i v-else :disabled="isDisabled" class="gray" @click.stop>已复归</i>
         </p>
         <p v-else>
           <i>查看详情></i>
@@ -63,7 +63,7 @@
         </span>
       </el-dialog>
     </div>
-    <!-- <Remarks :isShow="isShowRemarks" /> -->
+    <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -73,10 +73,11 @@ import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Remarks from "_c/duno-c/Remarks";
 import buttonCustom from "_c/duno-m/buttonCustom";
+import wraning from "_c/duno-j/warning";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor, buttonCustom, Remarks },
+  components: { KeyMonitor, buttonCustom, Remarks, wraning },
   props: {
     isShow: {
       type: Boolean,
@@ -100,11 +101,18 @@ export default {
       isDisabled: true,
       dialogVisible: false,
       isShowRemarks: false,
+      visible: false,
       textarea: "",
       dealList: []
     };
   },
   methods: {
+    handleClose() {
+      this.visible = false;
+    },
+    handleWain() {
+      this.visible = true;
+    },
     addReturn() {
       const that = this;
       const query = {
@@ -202,6 +210,7 @@ export default {
     // }
   }
   .content {
+    cursor: pointer;
     width: 60%;
     padding: 20px 10px;
     .top {
@@ -259,7 +268,7 @@ export default {
           background-color: #305e83;
         }
         .gray {
-          background-color: #979797!important;
+          background-color: #979797 !important;
           color: #767676;
         }
       }

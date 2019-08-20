@@ -131,7 +131,8 @@ export default {
           name: "light-report",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType
+            planType: this.reportData.planType,
+            url: "/lenovo-plan/api/plan/visible-report/view"
           }
         });
       } else if (
@@ -142,7 +143,8 @@ export default {
           name: "infrared-report",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType
+            planType: this.reportData.planType,
+            url: "/lenovo-plan/api/plan/iir-report/view"
           }
         });
       } else if (this.$route.name == "reportList") {
@@ -193,7 +195,6 @@ export default {
     }
   },
   created() {
-    debugger;
     this.mixinViewModuleOptions.exportURL = this.url;
   }
 };

@@ -657,30 +657,31 @@ export default [{
             title: '设备监测',
             notCache: true
         },
-        children: [{
-                path: 'overview',
-                name: 'overview',
-                meta: {
-                    topNav: '2',
-                    title: '信息总览',
-                    notCache: true,
-                    toListName: 'overviewList',
-                    btnArr: []
-                },
-                component: parentView,
-                children: [{
-                    path: 'list',
-                    name: 'overviewList',
-                    meta: {
-                        topNav: '2',
-                        title: '列表',
-                        hideInMenu: true,
-                        isDetails: true
-                    },
-                    component: () => import('@/views/communal/equipment/overview.vue')
+        children: [
+            // {
+            //     path: 'overview',
+            //     name: 'overview',
+            //     meta: {
+            //         topNav: '2',
+            //         title: '信息总览',
+            //         notCache: true,
+            //         toListName: 'overviewList',
+            //         btnArr: []
+            //     },
+            //     component: parentView,
+            //     children: [{
+            //         path: 'list',
+            //         name: 'overviewList',
+            //         meta: {
+            //             topNav: '2',
+            //             title: '列表',
+            //             hideInMenu: true,
+            //             isDetails: true
+            //         },
+            //         component: () => import('@/views/communal/equipment/overview.vue')
 
-                }]
-            },
+            //     }]
+            // },
             {
                 path: 'visiblelight',
                 name: 'visiblelight',

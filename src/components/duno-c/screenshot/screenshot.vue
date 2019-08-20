@@ -264,6 +264,7 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
+      this.getImgInfo();
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorInfo["monitorDeviceId"],
@@ -278,12 +279,11 @@ export default {
           }
         ],
         fileName: this.shotData.cephFileName,
-        picWigth: "",
-        picSize: "",
-        picHeigh: "",
+        picWigth: this.picWigth,
+        picSize: this.picSize,
+        picHeigh: this.picHeigh,
         photoTime: photoTime
       };
-      debugger;
       sampleMark(query).then(res => {
         this.$message({
           message: "标定成功",
@@ -307,7 +307,9 @@ export default {
           let base64 = canvas.toDataURL("image/png", quality);
           return base64;
         }
+        // debugger;
         console.log(base64.length);
+        this.picSize = base64.length;
       });
     },
     close() {

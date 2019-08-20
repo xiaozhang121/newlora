@@ -127,6 +127,9 @@ export default {
     },
     handlecancle() {
       this.dialogVisible = false;
+      this.formData.input = this.dataList.input;
+      this.formData.inputT = this.dataList.inputT;
+      this.formData.select = this.dataList.select;
       this.$emit("on-close");
     },
 
