@@ -42,6 +42,7 @@
             :key="index"
             @handleListData="handleListData"
           />
+          <!--<monitor-warn-t></monitor-warn-t>-->
         </div>
       </div>
     </div>
@@ -64,6 +65,7 @@ import ReportTable from "_c/duno-c/ReportTable";
 import KeyErea from "_c/duno-c/KeyErea";
 import mixinViewModule from "@/mixins/view-module";
 import MonitorWarn from "./components/MonitorWarn";
+import MonitorWarnT from "./components/MonitorWarnT";
 import {
   infraNewReport,
   infraNewInformation
@@ -78,7 +80,8 @@ export default {
     KeyMonitor,
     ReportTable,
     KeyErea,
-    MonitorWarn
+    MonitorWarn,
+    MonitorWarnT
   },
   name: "visiblelightTep",
   data() {

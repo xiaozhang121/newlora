@@ -8,7 +8,7 @@
     @close="onClose"
   >
     <div class="popuponeinfo">
-      <el-row>
+      <el-row v-if="true">
         <!-- <el-col :span="24">
           <p class="itemTitle">
             设备名称：
@@ -35,7 +35,7 @@
           </p>
         </el-col>
       </el-row>
-      <div>
+      <div  v-if="true">
         <div class="imgBox">
           <img
             v-if="itemData['alarmFileType'] == 1"
@@ -63,6 +63,32 @@
           <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
         </div>
       </div>
+      <el-row v-if="false">
+         <el-col :span="24">
+          <p class="itemTitle">
+            内容：
+            <span>三相告警</span>
+          </p>
+        </el-col>
+        <el-col :span="24">
+          <p class="itemTitle main">
+            <img src=""/>
+            <span>A相：20℃</span>
+          </p>
+        </el-col>
+        <el-col :span="24">
+          <p class="itemTitle main">
+            <img src=""/>
+            <span>B相：20℃</span>
+          </p>
+        </el-col>
+        <el-col :span="24">
+          <p class="itemTitle main">
+            <img src=""/>
+            <span>C相：20℃</span>
+          </p>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="24">
           <p class="itemTitle">
@@ -225,6 +251,16 @@ export default {
     color: #fff;
     font-size: 18px;
     padding: 5px 0;
+    &.main{
+      display: flex;
+      align-items: center;
+      img{
+        width: 150px;
+        height: 85px;
+        margin-right: 20px;
+      }
+    }
+
     .alarm {
       color: #d7203f;
       font-size: 22px;
