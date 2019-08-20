@@ -15,13 +15,20 @@
          <span @click="videotape()">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
         </span>
-            <span><i class="iconfont icon-jietu"></i>截图</span>
+            <span  @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
             <span @click="fullScreen(domName)"><i class="iconfont icon-quanping"></i>全屏</span>
         </div>
+        <screenshot
+                :isShow="isShow"
+                :shotData="shotData"
+                @closeShot="closeShot"
+                :monitorInfo="monitorInfo"
+        />
     </div>
 </template>
 
 <script>
+    import screenshot from "_c/duno-c/screenshot";
     import  { controlCamera } from '@/api/camera'
     import videojs from 'video.js'
     import dunoTable from '_c/duno-m/table/Table'
@@ -30,15 +37,18 @@
     import { mapState } from 'vuex'
     import { DunoCharts } from '_c/duno-charts'
     import { videoPlayer } from 'vue-video-player'
-    import { getAxiosData, putAxiosData } from '@/api/axiosType'
+    import { getAxiosData, putAxiosData, postAxiosData } from '@/api/axiosType'
     import 'videojs-flash'
     import SWF_URL from 'videojs-swf/dist/video-js.swf'
     videojs.options.flash.swf = SWF_URL
     export default {
         name: 'camera',
-        components: { dunoTable, DunoCharts, videoPlayer },
+        components: { dunoTable, DunoCharts, videoPlayer, screenshot },
         data() {
             return {
+                monitorInfo: {},
+                isShow: false,
+                shotData: [],
                 passTime: 0,
                 timeSeed: null,
                 isStop: false,
@@ -255,7 +265,7 @@
             deviceId:{
                 handler(now){
                     if(now) {
-                        this.getCameraFuild()
+                        this.monitorInfo = {'monitorDeviceId': now}
                     }
                 },
                 deep: true,
@@ -342,6 +352,19 @@
             },
         },
         methods:{
+            closeShot() {
+                this.isShow = false;
+            },
+            isSample() {
+                this.isShow = true;
+                let url = "/lenovo-device/api/stream/snapshoot";
+                let query = {
+                    rtmpUrl: this.options.sources[0].src
+                };
+                postAxiosData(url, query).then(res => {
+                    this.shotData = res.data;
+                });
+            },
             toStop(flag){
                 this.isStop = flag
                 if(this.isStop){

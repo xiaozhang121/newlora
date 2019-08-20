@@ -117,7 +117,7 @@
       </div>
     </div>
     <div class="title" style="margin: 15px 0">
-      <span>{{ oltagevLevel }}</span>
+      <span style="visibility: hidden">{{ oltagevLevel }}</span>
       <!-- 隐藏功  能 -->
       <!-- <duno-btn-top
         @on-select="onSelectVol"
@@ -383,6 +383,7 @@ export default {
       this.$store.state.user.configInfo["displayType"] = item["format"];
       editConfig({
         id: this.$store.state.user.configInfo["id"],
+        userId: this.$store.state.user.configInfo["userId"],
         displayType: item["format"]
       }).then(res => {
         sessionStorage.setItem("format", item["format"]);

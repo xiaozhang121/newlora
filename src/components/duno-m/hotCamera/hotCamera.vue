@@ -5,11 +5,13 @@
                 <div class="cameraMain">
                     <camera
                             v-if="showCamera"
+                            :deviceId="deviceId"
                             domName="videoPlayer"
                             :options="playerOptions"
                     />
                     <camera
                             v-if="showCamera"
+                            :deviceId="deviceId"
                             domName="videoPlayerd"
                             :options="playerOptiond"
                     />

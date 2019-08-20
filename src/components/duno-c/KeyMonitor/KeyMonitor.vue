@@ -385,6 +385,7 @@ export default {
       const that = this;
       let query = {
         ["cameraPos0" + index]: this.monitorInfoR["monitorDeviceId"],
+        userId: this.$store.state.user.configInfo["userId"],
         id: this.$store.state.user.configInfo.id
       };
       editConfig(query).then(res => {
@@ -650,10 +651,10 @@ export default {
         display: flex;
         justify-content: flex-start;
         width: 100%;
-        padding-right: 60%;
+        padding-right: 11%;
         .nowNR{
           position: relative;
-          left: 5px;
+          left: 9px;
         }
         .icon-zanting,.icon-bofang{
           position: relative; left: 6px
