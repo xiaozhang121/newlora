@@ -123,9 +123,7 @@ export default {
       commonly: false,
       danger: false,
       value: "",
-      queryForm: {
-        monitorDeviceType: "1"
-      },
+      queryForm: {},
       titleTypeL: "所有设备",
       titleTypeC: "所有报表",
       titleTypeR: "所有类型",
@@ -491,6 +489,7 @@ export default {
     },
     clickExcel() {
       const that = this;
+      that.queryForm.planId = that.$route.query.planId;
       that.exportHandle();
     },
     getRegion() {

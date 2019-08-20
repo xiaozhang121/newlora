@@ -46,7 +46,7 @@
               @getCheckedNodes="getCheckedNodes"
               v-model="cascadeValue"
               :options="platOptions"
-              @change="handleChange"
+              @change="handleChange"    
             ></el-cascader>
           </div>
           <div>
@@ -294,6 +294,7 @@ export default {
       this.$nextTick(() => {
         this.picWigth = this.$refs.image.naturalWidth;
         this.picHeigh = this.$refs.image.naturalHeight;
+        let image = this.imgsrc;
         function compressImg(image, quality) {
           let width = image.width;
           let height = image.height;
@@ -302,9 +303,10 @@ export default {
           canvas.width = width;
           canvas.height = height;
           ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-          let base64 = canvas.toDataURL("image/jpeg", quality);
+          let base64 = canvas.toDataURL("image/png", quality);
           return base64;
         }
+        console.log(base64.length);
       });
     },
     close() {
@@ -317,7 +319,6 @@ export default {
         bucketName: this.shotData.cephBucket,
         fileName: this.shotData.cephFileName
       };
-      debugger;
       deleteDataId(url, query).then(res => {
         this.$message({
           type: "success",
