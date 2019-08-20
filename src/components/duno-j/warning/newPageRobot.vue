@@ -244,8 +244,8 @@
             }
         },
         created(){
-            this.warnData = JSON.parse(Base64.decode(this.info))
-            this.popData = JSON.parse(Base64.decode(this.datainfo))
+            this.warnData = JSON.parse(Base64.decode(sessionStorage.getItem('info')))
+            this.popData = JSON.parse(Base64.decode(sessionStorage.getItem('datainfo')))
             this.dataBread = JSON.parse(Base64.decode(this.bread))
         },
         mounted() {

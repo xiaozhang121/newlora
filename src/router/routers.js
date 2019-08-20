@@ -40,7 +40,7 @@ export default [{
         component: () => import('@/views/duno-default/login/login.vue')
     },
     {
-        path: '/newPage/:name/:value/:info',
+        path: '/newPage/:name/:value/:info/:detailsType',
         name: 'newPage',
         props: true,
         meta: {

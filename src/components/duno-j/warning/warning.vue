@@ -10,7 +10,7 @@
         :top="top"
         @close="handleClose"
       >
-        <div slot="title">
+        <div slot="title" style="text-align: left">
           <div class="title_top">
             <span>{{ dataList.title }}</span>
             <span class="iconfontList">
@@ -270,7 +270,8 @@ export default {
         params: {
           name: Base64.encode(this.searchType),
           value: Base64.encode(this.searchId),
-          info: Base64.encode(JSON.stringify(this.popData))
+          info: Base64.encode(JSON.stringify(this.popData)),
+          detailsType:  Base64.encode(this.detailsType)
         }
       });
       window.open(routeData.href, "_blank");
@@ -291,11 +292,12 @@ export default {
       getAxiosData(url, {
         [that.searchType]: that.searchId
       }).then(res => {
+        that.handleList = []
         that.dataList = res.data;
         let obj = {};
         (res.data.dealList || []).forEach(el => {
           obj.time = el.dealTime;
-          obj.info = el.dealContent;
+          obj.info = el.dealType;
           that.handleList.push(obj);
         });
         if (that.dataList.alarmTypeValue == "动态环境类") {
@@ -395,6 +397,9 @@ export default {
   }
 }
 .warningDialog {
+  .el-dialog__headerbtn{
+    top: 17px;
+  }
   .iconfont.icon-xiala {
     color: #999999;
     font-size: 10px;
@@ -527,7 +532,7 @@ export default {
   .handleInfo {
     color: #333333;
     & > div {
-      height: 200px;
+      max-height: 200px;
       overflow-y: auto;
     }
     .monitorTitle {

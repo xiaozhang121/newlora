@@ -129,6 +129,8 @@
       :before-close="beforeClose"
     >
       <KeyMonitor
+        :isPic="$store.state.app.isPic"
+        :picUrl="$store.state.app.picSrc"
         v-if="visibleCamera"
         :autoplay="true"
         :streamAddr="monitorData.src"
@@ -240,7 +242,8 @@ export default {
   },
   methods: {
     ...mapMutations(["setBreadCrumb", "setTagNavList"]),
-    webFullScreen(streamAddr) {
+    webFullScreen(streamAddr, flag) {
+      this.$store.state.app.isPic = flag
       this.$store.state.app.webFullVisable = !this.$store.state.app
         .webFullVisable;
       this.$store.state.app.webFull = streamAddr;

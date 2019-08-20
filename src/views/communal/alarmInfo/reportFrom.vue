@@ -6,7 +6,7 @@
     <div class="dunoDrap">
       <div>巡检任务报表</div>
       <div class="selectBtn">
-        <div>
+        <div style="position: relative">
           <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTop"

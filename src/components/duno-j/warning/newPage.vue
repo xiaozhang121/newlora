@@ -14,8 +14,16 @@
                 </div>
                 <div class="main">
                     <div class="monitor" ref="imgContain">
-                        <img v-if="isImgVideo" :src="dataList.fileAddress" alt />
-                        <KeyMonitor v-else width="100%" :streamAddr="dataList.fileAddress" />
+                        <img
+                                v-if="isImgVideo"
+                                :src="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+                                alt
+                        />
+                        <KeyMonitor
+                                v-else
+                                width="100%"
+                                :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+                        />
                         <i
                                 class="fullScreen iconfont icon-quanping"
                                 @click="changeFullScreen($refs.imgContain)"
@@ -72,13 +80,13 @@
                     </div>
                 </div>
                 <div class="handleInfo">
-                    <!-- <div>
+                     <div>
                       <p class="monitorTitle">处理记录</p>
                       <p v-for="(item, index) in handleList" :key="index" class="item">
                         <span class="title">{{ item['time'] }}</span>
                         <span class="info">{{ item['info'] }}</span>
                       </p>
-                    </div>-->
+                    </div>
                 </div>
                 <div style="clear: both"></div>
             </el-dialog>
@@ -101,6 +109,7 @@
         components: { personJudge, KeyMonitor },
         data() {
             return {
+                detailsType: '',
                 popData: null,
                 target: null,
                 searchId: "",
@@ -120,6 +129,7 @@
             };
         },
         props: {
+            detailsType:{},
             name: {
 
             },
@@ -209,7 +219,10 @@
                     this.searchId = now["resultId"];
                     this.searchType = "resultId";
                 }
-                console.log(this.searchId);
+                if (this.detailsType == "alarm") {
+                    this.searchId = now["id"];
+                    this.searchType = "id";
+                }
                 if (this.searchId != "") {
                     this.initData();
                 }
@@ -256,9 +269,15 @@
             },
             initData() {
                 let that = this;
-                getAxiosData("/lenovo-plan/api/task-result/view", {
+                let url = "/lenovo-plan/api/task-result/view";
+                if (this.detailsType == "alarm") {
+                    url = "/lenovo-alarm/api/alarm/view";
+                }
+                getAxiosData(url, {
                     [that.searchType]: that.searchId
                 }).then(res => {
+                    that.handleList = []
+                    debugger
                     that.dataList = res.data;
                     let obj = {};
                     (res.data.dealList || []).forEach(el => {
@@ -271,9 +290,9 @@
                     }
                     that.formData = {
                         alarmId: that.searchId,
-                        input: that.dataList.result,
+                        input: that.dataList.alarmDetailType,
                         inputT: that.dataList.alarmValue,
-                        select: that.dataList.alarmType
+                        select: that.dataList.alarmSuperDetailType
                     };
                 });
             },
@@ -341,6 +360,8 @@
             this.searchType = Base64.decode(this.name)
             this.searchId = Base64.decode(this.value)
             this.popData = JSON.parse(Base64.decode(this.info))
+            this.detailsType = Base64.decode(this.detailsType)
+            debugger
             // this.target = this.querySelectorAll('.warningDialog')[1]
             this.newVisible = this.visible;
         }

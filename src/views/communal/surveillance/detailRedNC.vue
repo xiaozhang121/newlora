@@ -26,6 +26,8 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
+                  :isPic="$store.state.app.isPic"
+                  :picUrl="$store.state.app.picSrc"
                   @mousemove.native="pointerPos($event)"
                   @mouseout.native="clearTimer()"
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
@@ -36,7 +38,7 @@
                   :showBtmOption="false"
                   :Initialization="true"
                 ></key-monitor>
-                <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">666</span>
+                <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ tepmNum }}</span>
               </div>
             </div>
           </div>
@@ -214,6 +216,7 @@ export default {
   data() {
     const that = this;
     return {
+      typeId: -1,
       overFlag: false,
       offsetX:0,
       offsetY:0,
@@ -467,7 +470,8 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: [{ name: "摄像头详情" }]
+      dataBread: [{ name: "摄像头详情" }],
+      picTurnTimer: null
     };
   },
   props: {
@@ -488,14 +492,24 @@ export default {
         that.overFlag = true
             // console.log('x:'+event.offsetX)
             // console.log('y:'+event.offsetY)
+            if(that.$store.state.app.isPic){
+                if(event.target.className != "cameraImg"){
+                    that.overFlag = false
+                }
+            }else{
+                if(event.target.className != "vjs-tech"){
+                    that.overFlag = false
+                }
+            }
             that.offsetX = event.offsetX;
             that.offsetY = event.offsetY;
             if (!this.timer) {
                 this.timer = setInterval(() => {
-                    let x = that.offsetX-27<0?0:that.offsetX-27
+                    let pos = 0.1184210526315789 * document.querySelector('.keyMonitor ').offsetWidth
+                    let x = that.offsetX-pos<0?0:that.offsetX-pos
                     getAxiosData(
                         "/lenovo-iir/device/temperature/get/location/" + this.dataForm.monitorDeviceId,
-                        { x: x, y: that.offsetY, r: 1, pannelWidth: '172', pannelHeight:'128' }
+                        { x: parseInt(x), y: that.offsetY, r: 1, pannelWidth: document.querySelector('.keyMonitor ').offsetWidth, pannelHeight:document.querySelector('.keyMonitor ').offsetHeight }
                     ).then(res => {
                         // console.log('data:'+res.data)
                         that.tepmNum = res.data.data;
@@ -709,14 +723,30 @@ export default {
           }, 1000);
         }, 1000 * 60 * 5);
       }
+    },
+    picTurn(){
+       const that = this
+       this.picTurnTimer = setInterval(()=>{
+           getAxiosData(`/lenovo-iir/device/video/new-frame/${that.dataForm.monitorDeviceId}`).then(res=>{
+               that.$store.state.app.picSrc = res.data
+           })
+       },1000)
     }
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.dataForm.typeId = this.$route.query.typeId;
     this.initCamera();
     this.getEchasrts();
+    if(this.dataForm.typeId == 3){
+        this.$store.state.app.isPic = true
+        this.picTurn()
+    }else{
+        this.$store.state.app.isPic = false
+    }
   },
   mounted() {
+    const that = this
     this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
@@ -726,6 +756,8 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
+    clearInterval(this.picTurnTimer)
+    this.$store.state.app.isPic = false
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }

@@ -25,13 +25,18 @@
         <div class="itemImgBox"
              style="width: 228px; height: 150px"
         >
+          <div class="picVideo" v-if="itemData['deviceMessage']['typeId'] == 3">
+            <img :src="cameraPic"/>
+          </div>
           <video-player
+                  v-else
                   @mousemove.native="pointerPos($event)"
                   @mouseout.native="clearTimer()"
                   ref="videoPlayerd"
                   class="vjs-custom-skin realtime_video"
                   :options="playerOptions"
           ></video-player>
+
         </div>
       </el-col>
     </el-row>
@@ -77,6 +82,7 @@
     components: { videoPlayer },
     data() {
         return {
+            cameraPic: '',
             templateList: [],
             demoImage: require('@/assets/images/clock.png'),
             tepmNum: 0,
@@ -189,13 +195,19 @@
                 that.offsetY = event.offsetY;
                 if (!this.timer) {
                     this.timer = setInterval(() => {
-                        let x = that.offsetX-27<0?0:that.offsetX-27
+                        let x = ''
+                        console.log(this.itemData['deviceMessage']['typeId'])
+                        if(this.itemData['deviceMessage']['typeId'] == 3){
+                            x = that.offsetX
+                        }else{
+                            x = that.offsetX-27<0?0:that.offsetX-27
+                        }
                         getAxiosData(
                             "/lenovo-iir/device/temperature/get/location/" + this.deviceId,
                             { x: x, y: that.offsetY, r: 1, pannelWidth: '172', pannelHeight:'128' }
                         ).then(res => {
                             // console.log('data:'+res.data)
-                            that.tepmNum = res.data.data;
+                            that.tepmNum = Number(res.data.data);
                         });
                     }, 200);
                 }
@@ -250,6 +262,14 @@
                 );
                 const urldd = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urldd, {}).then(res => {
+                    console.log(that.itemData['deviceMessage']['typeId'])
+                    if(that.itemData['deviceMessage']['typeId'] == 3){
+                        setInterval(()=>{
+                            getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
+                                  that.cameraPic = res.data
+                            })
+                        },1000)
+                    }
                     that.playerOptions.sources[0].src = res.data.data;
                     that.$forceUpdate();
                 });
@@ -291,6 +311,15 @@
   .realtime {
     position: relative;
     left: -5px;
+    .picVideo{
+      width: 100%;
+      height: 128px;
+      background: grey;
+      & img{
+        width: 100%;
+        height: 100%;
+      }
+    }
     .lightPanel {
       .realtime_video > div {
         width: 100%;
