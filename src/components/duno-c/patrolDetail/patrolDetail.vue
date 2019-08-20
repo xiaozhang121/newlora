@@ -36,7 +36,12 @@
       element-loading-text="加载中"
     >
       <div class="task">
-        <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
+        <ReportTable
+          v-for="(item,index) in dataList"
+          :url="downloadURL"
+          :key="index"
+          :reportData="item"
+        />
       </div>
       <!-- <el-pagination
         :page-size="dataList.pageParam.pageSize"
@@ -71,6 +76,12 @@ export default {
       default: () => {
         return [];
       }
+    },
+    downloadURL: {
+      type: String,
+      default: () => {
+        return "";
+      }
     }
   },
   data() {
@@ -78,12 +89,7 @@ export default {
       loadingOption: false,
       timer: null,
       mixinViewModuleOptions: {
-        // activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/plan/list"
-      },
-      url: {
-        downloadUrl: "/lenovo-plan/api/statistics/plan/download",
-        viewUrl: "/lenovo-plan/api/statistics/plan/view"
       },
       titleValue: "所有巡检报表",
       value: "",

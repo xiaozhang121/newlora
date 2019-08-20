@@ -61,7 +61,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
     <div class="remarks">
       <el-dialog

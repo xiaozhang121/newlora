@@ -90,7 +90,7 @@
         </div>
         <div class="handleInfo">
           <p class="monitorTitle">处理记录</p>
-          <div>
+          <div v-if="isdeal">
             <p v-for="(item, index) in handleList" :key="index" class="item">
               <span class="title">{{ item['time'] }}</span>
               <span class="info">{{ item['info'] }}</span>
@@ -123,6 +123,7 @@ export default {
       searchType: "",
       visibleJudge: false,
       handleList: [],
+      isdeal: true,
       newVisible: false,
       selectList: ["一般", "严重", "危急"],
       alarmLevelT: "",
@@ -161,13 +162,7 @@ export default {
     handleNotes: {
       type: Array,
       default: () => {
-        return [
-          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-          { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
-          { time: "2019-06-31 12:22:32", info: "自定义文字描述" }
-        ];
+        return [];
       }
     },
     hasSelect: {
@@ -375,6 +370,9 @@ export default {
   },
   mounted() {
     // this.target = this.querySelectorAll('.warningDialog')[1]
+    if (this.handleNotes.length < 1) {
+      this.isdeal = false;
+    }
     this.newVisible = this.visible;
   }
 };

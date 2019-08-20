@@ -685,6 +685,8 @@ export default {
     },
     onSelectAmmeter(item) {
       this.titleAmmeter = item["describeName"];
+      this.valueParts = [];
+      this.valuePhase = [];
       let query = {
         meterType: item["ammeterType"]
       };

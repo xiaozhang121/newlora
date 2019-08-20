@@ -26,6 +26,7 @@ export default {
             { path: "/configuration/list", name: "任务配置" },
             { path: "", name: "查看报告" }
           ];
+          this.downloadURL = "/lenovo-plan/api/statistics/plan/downLoad";
           break;
         case "detection-report":
           this.dataBread = [
@@ -34,6 +35,7 @@ export default {
             { path: "/detection/list", name: "任务配置" },
             { path: "", name: "查看报告" }
           ];
+          this.downloadURL = "/lenovo-plan/api/statistics/plan/downLoad";
           break;
       }
     }

@@ -74,10 +74,7 @@ export default {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/plan/list"
       },
-      url: {
-        downloadUrl: "/lenovo-plan/api/statistics/plan/download",
-        viewUrl: "/lenovo-plan/api/statistics/plan/view"
-      },
+      url: "/lenovo-plan/api/statistics/plan/download",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/report/list", name: "所有报表" },
@@ -233,7 +230,7 @@ export default {
       height: 425px;
       margin-right: 20px;
       img {
-        height: 100%；
+        height: 100%；;
       }
     }
   }

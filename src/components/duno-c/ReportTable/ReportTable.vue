@@ -1,7 +1,7 @@
 <template>
   <div class="reportTable">
     <div>
-      <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg"/>
+      <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg" />
     </div>
     <div class="content">
       <el-tooltip class="item" effect="dark" :content="reportData.planId" placement="top">
@@ -43,10 +43,10 @@
       </p>
     </div>
     <div class="btn">
-      <!-- <div @click="clickDownload">
+      <div @click="clickExcel">
         <i class="iconfont icon-xiazai"></i>
         <span>下载报告</span>
-      </div>-->
+      </div>
       <div @click="viewReports">
         <i class="iconfont icon-chakan"></i>
         <span>查看报告</span>
@@ -62,14 +62,19 @@ import {
   reportDownload,
   getViewreport
 } from "@/api/configuration/configuration.js";
-import { constants } from "crypto";
+import mixinViewModule from "@/mixins/view-module";
 export default {
   name: "ReportTable",
+  mixins: [mixinViewModule],
   data() {
     const that = this;
     return {
-      defaultImg: 'this.src="' + require('@/assets/transperant.png')  + '"',
+      mixinViewModuleOptions: {
+        exportURL: "/lenovo-plan/api/statistics/plan/download"
+      },
+      defaultImg: 'this.src="' + require("@/assets/transperant.png") + '"',
       imageVisible: true,
+      queryForm: {},
       baseUrl:
         process.env.NODE_ENV === "development"
           ? that.$config.baseUrl.dev
@@ -90,30 +95,20 @@ export default {
       }
     },
     url: {
-      type: Object,
+      type: String,
       default: () => {
-        return {};
+        return "";
       }
     }
   },
   methods: {
-    onError(error){
-        this.imageVisible = false
+    onError(error) {
+      this.imageVisible = false;
     },
-    clickDownload() {
-      let url = this.url.downloadUrl;
-      let params = qs.stringify({
-        taskRunHisId: this.reportData.taskRunHisId,
-        planId: this.reportData.planId,
-        t: this.$store.state.user.token
-      });
-      window.location.href = `${this.baseUrl}${url}?${params}`;
-      /* getAxiosData(url, query).then(res => {
-        this.$message({
-          message: "开始下载",
-          type: "success"
-        });
-      });*/
+    clickExcel() {
+      const that = this;
+      that.queryForm.planId = that.reportData.planId;
+      that.exportHandle();
     },
     viewReports() {
       if (this.path) {
@@ -123,7 +118,6 @@ export default {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,
             taskRunHisId: this.reportData.ID,
-            //   planId: '603610399709396992',
             planType: this.reportData.taskType
           }
         });
@@ -138,7 +132,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl
+            url: "/lenovo-plan/api/plan/visible-report/view"
           }
         });
       } else if (
@@ -150,7 +144,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: this.url.viewUrl
+            url: "/lenovo-plan/api/plan/iir-report/view"
           }
         });
       } else if (this.$route.name == "reportList") {
@@ -158,8 +152,7 @@ export default {
           name: "report-view",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType,
-            url: this.url.viewUrl
+            planType: this.reportData.planType
           }
         });
       } else if (this.$route.name == "configure-report") {
@@ -167,8 +160,7 @@ export default {
           name: "configure-view",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType,
-            url: this.url.viewUrl
+            planType: this.reportData.planType
           }
         });
       } else if (this.$route.name == "abnormalInfoList") {
@@ -176,8 +168,7 @@ export default {
           name: "abnormalInfoList-report",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType,
-            url: this.url.viewUrl
+            planType: this.reportData.planType
           }
         });
       }
@@ -203,8 +194,8 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this.$route.name);
+  created() {
+    this.mixinViewModuleOptions.exportURL = this.url;
   }
 };
 </script>
@@ -276,7 +267,7 @@ export default {
       cursor: pointer;
       box-sizing: border-box;
       float: left;
-      width: 100%;
+      width: calc(50% - 1px);
       line-height: 40px;
       text-align: center;
       font-size: 16px;
@@ -284,6 +275,9 @@ export default {
       span {
         padding-left: 5px;
       }
+    }
+    & > div:first-child {
+      border-right: 2px solid #ffffff;
     }
   }
 }
