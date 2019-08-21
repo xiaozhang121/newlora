@@ -84,7 +84,7 @@ export default {
           let url = that.baseUrl.substring(index, that.baseUrl.length)
           url = url.replace(':8008',':8200')
         //   that.Socket = new WebSocket(`ws:${url}/lenovo-alarm/alarm/websocket`)
-          that.Socket = new WebSocket(`ws://10.0.10.200:31081/lenovo-alarm/alarm/websocket`)
+          that.Socket = new WebSocket(`ws://10.0.10.35:8081/lenovo-alarm/alarm/websocket`)
           // this.Socket.onopen = function() { // 发送数据 websocket
           // // Web Socket 已连接上，使用 send() 方法发送数据
           // console.log("数据发送中...")
@@ -98,7 +98,7 @@ export default {
                 this.$store.state.app.pushData = receivedMsg['data']
                 this.$store.state.app.isPush = true
             }else{
-                // 三项外alarm
+                // 三项外alarm   phase
                 that.$store.state.user.alarmInfo = receivedMsg
                 that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
                 if(that.$store.state.user.isAlarm){

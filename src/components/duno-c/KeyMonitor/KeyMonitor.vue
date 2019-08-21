@@ -40,7 +40,7 @@
               <span class="nowNR">当前</span>
             </div>
             <div class="block" v-else>
-              视频录制 {{timeIncreateD}}  <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+              视频录制 {{timeIncreateD}}  <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
            <span @click="videotape()" v-if="!isPic">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
@@ -275,6 +275,7 @@ export default {
   },
   data() {
     return {
+      taskId: 0,
       passTime: 0,
       timeSeed: null,
       isStop: false,
@@ -368,8 +369,15 @@ export default {
         if(this.isCamera){
             // 开始录像
             this.timeIncreate()
+            postAxiosData('/lenovo-device/api/stream/startRecord',{'rtmpUrl': this.playerOptions["sources"][0]["src"]}).then(res=>{
+                this.$message.info(res.msg)
+                this.taskId = res.data.taskId
+            })
         }else{
             // 结束录像
+            postAxiosData('/lenovo-device/api/stream/endRecord',{'rtmpUrl': this.playerOptions["sources"][0]["src"], 'taskId':this.taskId}).then(res=>{
+                this.$message.info(res.msg)
+            })
             clearInterval(this.timerTime)
             this.timeIncreateD = '0:00:00'
         }
@@ -702,11 +710,18 @@ export default {
         }
       }
       .text {
-        display: flex;
+        overflow: hidden;
+        display: block;
         justify-content: flex-start;
+        width: 100%;
         span:first-child {
           padding-right: 10px;
           font-size: 14px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+          white-space: nowrap;
+          text-align: left !important;
         }
         span:nth-child(2) {
           padding-right: 10px;

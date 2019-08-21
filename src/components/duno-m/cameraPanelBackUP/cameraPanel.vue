@@ -11,7 +11,7 @@
                                 录制 {{timeIncreateD}}
                             </div>
                             <div class="right">
-                                <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+                                <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
                             </div>
                         </div>
                         <!--<video id="video1" width="400" height="250" controls></video>-->
@@ -62,7 +62,7 @@
                                 录制 {{timeIncreateD}}
                             </div>
                             <div class="right">
-                                <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+                                <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
                             </div>
                         </div>
                         <!--<video id="video1" width="400" height="250" controls></video>-->
@@ -116,7 +116,7 @@
                                 录制 {{timeIncreateD}}
                             </div>
                             <div class="right">
-                                <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
+                                <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
                             </div>
                         </div>
                         <!--<video id="video1" width="400" height="250" controls></video>-->
@@ -269,6 +269,7 @@
         components: { dunoTable,DunoCharts, videoPlayer, screenshot },
         data() {
             return {
+                taskId: '',
                 monitorInfo: {},
                 isShow: false,
                 shotData: [],
@@ -623,8 +624,15 @@
                 if(this.isCamera){
                     // 开始录像
                     this.timeIncreate()
+                    postAxiosData('/lenovo-device/api/stream/startRecord',{'rtmpUrl': this.playerOptions["sources"][0]["src"]}).then(res=>{
+                        this.$message.info(res.msg)
+                        this.taskId = res.data.taskId
+                    })
                 }else{
                     // 结束录像
+                    postAxiosData('/lenovo-device/api/stream/endRecord',{'rtmpUrl': this.playerOptions["sources"][0]["src"], 'taskId':this.taskId}).then(res=>{
+                        this.$message.info(res.msg)
+                    })
                     clearInterval(this.timerTime)
                     this.timeIncreateD = '0:00:00'
                 }

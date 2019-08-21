@@ -8,87 +8,89 @@
     @close="onClose"
   >
     <div class="popuponeinfo">
-      <el-row v-if="true">
-        <!-- <el-col :span="24">
-          <p class="itemTitle">
-            设备名称：
-            <span>{{itemData.powerDeviceName}}</span>
-          </p>
-        </el-col>-->
-        <el-col :span="24">
-          <p class="itemTitle">
-            当前状态：
-            <span>{{itemData.status}}</span>
-          </p>
-        </el-col>
-        <el-col :span="24">
-          <p class="itemTitle">
-            缺陷评估：
-            <span
-              :class="[itemData.alarmLevel == '1'?'general':(itemData.alarmLevel == '2'?'warning':'alarm')]"
-            >{{itemData.alarmLevelName}}</span>
-          </p>
-        </el-col>
-        <el-col :span="12">
-          <p class="itemTitle">
-            <span>{{itemData.alarmTime}}</span>
-          </p>
-        </el-col>
-      </el-row>
-      <div v-if="true">
-        <div class="imgBox">
-          <img
-            v-if="itemData['alarmFileType'] == 1"
-            :src="itemData.alarmFileAddress"
-            style="width: 100% !important;"
-          />
-          <video-player
-            v-else-if="itemData['alarmFileType'] == 2"
-            class="vjs-custom-skin realtime_video"
-            :options="{
-            width:160,
-            height: 120,
-            sources: [{
-              type: 'rtmp/flv',
-              type: 'video/ogg',
-              type: 'video/webm',
-              type: 'video/mp4',
-              src: itemData['alarmFileAddress']
-            }],
-            techOrder: ['flash'],
-            autoplay: true,
-            controls: false
-            }"
-          ></video-player>
-          <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
-        </div>
-      </div>
-      <el-row v-if="false">
+      <el-row v-if="itemData['type'] == 'phase'">
         <el-col :span="24">
           <p class="itemTitle">
             内容：
-            <span>三相告警</span>
+            <span>{{itemData['alarmContent']}}</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
             <img src />
-            <span>A相：20℃</span>
+            <span>A相：{{itemData['alarmValue'].split('||')[0]}}</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
             <img src />
-            <span>B相：20℃</span>
+            <span>B相：{{itemData['alarmValue'].split('||')[1]}}</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
             <img src />
-            <span>C相：20℃</span>
+            <span>C相：{{itemData['alarmValue'].split('||')[2]}}</span>
           </p>
         </el-col>
       </el-row>
+      <template v-else>
+        <el-row>
+          <!-- <el-col :span="24">
+            <p class="itemTitle">
+              设备名称：
+              <span>{{itemData.powerDeviceName}}</span>
+            </p>
+          </el-col>-->
+          <el-col :span="24">
+            <p class="itemTitle">
+              当前状态：
+              <span>{{itemData.status}}</span>
+            </p>
+          </el-col>
+          <el-col :span="24">
+            <p class="itemTitle">
+              缺陷评估：
+              <span
+                :class="[itemData.alarmLevel == '1'?'general':(itemData.alarmLevel == '2'?'warning':'alarm')]"
+              >{{itemData.alarmLevelName}}</span>
+            </p>
+          </el-col>
+          <el-col :span="12">
+            <p class="itemTitle">
+              <span>{{itemData.alarmTime}}</span>
+            </p>
+          </el-col>
+        </el-row>
+        <div>
+          <div class="imgBox">
+            <img
+              v-if="itemData['alarmFileType'] == 1"
+              :src="itemData.alarmFileAddress"
+              style="width: 100% !important;"
+            />
+            <video-player
+              v-else-if="itemData['alarmFileType'] == 2"
+              class="vjs-custom-skin realtime_video"
+              :options="{
+              width:160,
+              height: 120,
+              sources: [{
+                type: 'rtmp/flv',
+                type: 'video/ogg',
+                type: 'video/webm',
+                type: 'video/mp4',
+                src: itemData['alarmFileAddress']
+              }],
+              techOrder: ['flash'],
+              autoplay: true,
+              controls: false
+              }"
+            ></video-player>
+            <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
+          </div>
+        </div>
+      </template>
       <el-row>
         <el-col :span="24">
           <p class="itemTitle">
