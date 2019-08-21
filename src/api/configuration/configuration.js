@@ -1,13 +1,11 @@
 import axios from '@/libs/api.request'
 
 //动态环境监测-动态环境总览-安防警告记录-复归/备注
-export const dealRemarks = (query) => {
+export const dealRemarks = (data) => {
     return axios.request({
         url: '/lenovo-alarm/api/alarm/deal',
         method: 'post',
-        params: {
-            ...query
-        }
+        data
     })
 }
 

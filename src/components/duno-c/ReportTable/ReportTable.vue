@@ -152,7 +152,8 @@ export default {
           name: "report-view",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType
+            planType: this.reportData.planType,
+            url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
       } else if (this.$route.name == "configure-report") {
@@ -160,7 +161,8 @@ export default {
           name: "configure-view",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType
+            planType: this.reportData.planType,
+            url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
       } else if (this.$route.name == "abnormalInfoList") {
@@ -168,7 +170,8 @@ export default {
           name: "abnormalInfoList-report",
           query: {
             planId: this.reportData.planId,
-            planType: this.reportData.planType
+            planType: this.reportData.planType,
+            url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
       }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <patrolDetail :dataBread="dataBread" />
+    <patrolDetail :dataBread="dataBread" :url="url" />
   </div>
 </template>
 
@@ -12,7 +12,8 @@ export default {
   },
   data() {
     return {
-      dataBread: []
+      dataBread: [],
+      url: ""
     };
   },
   methods: {

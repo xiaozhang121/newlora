@@ -217,7 +217,7 @@ export default {
                         query: {
                           planId: params.row.planId,
                           planType: params.row.planType,
-                          url: this.url.viewUrl
+                        //   url: ""
                         }
                       });
                     }

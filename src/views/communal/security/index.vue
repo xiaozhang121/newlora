@@ -191,7 +191,7 @@ export default {
     this.loading = true;
     this.timer = setTimeout(() => {
       this.loading = false;
-    }, 1000000000);
+    }, 10000);
   },
   beforeDestroy() {}
 };

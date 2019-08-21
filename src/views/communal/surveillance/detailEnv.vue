@@ -218,8 +218,8 @@ export default {
       addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        // activatedIsNeed: true,
+        getDataListURL: "/lenovo-alarm/api/security/list",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
       titleType: "选择预置位",
@@ -696,6 +696,7 @@ export default {
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.getDataList();
     this.initCamera();
     this.getEchasrts();
   },
@@ -769,7 +770,7 @@ export default {
   }
 
   .el-input--small .el-input__inner {
-    background: #1a2f42;
+    // background: #1a2f42;
     border: none;
     color: white;
     height: 40px;
@@ -1241,6 +1242,9 @@ export default {
         font-style: normal;
       }
     }
+  }
+  .el-select-dropdown {
+    background: #fff;
   }
 }
 </style>

@@ -87,7 +87,7 @@
           top="20vh"
           :visible.sync="dialogVisible"
           :modal="false"
-          width="500px"
+          width="400px"
         >
           <el-input
             type="textarea"
@@ -242,7 +242,12 @@ export default {
     clickRemarks() {
       const that = this;
       that.dialogVisible = false;
-      dealRemarks(this.queryData).then(res => {
+      let query = {
+        alarmId: this.queryData.alarmId,
+        type: this.queryData.type,
+        content: this.textarea
+      };
+      dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
         this.$emit("handleListData");
