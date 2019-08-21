@@ -214,10 +214,7 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      url: {
-        downloadUrl: "/lenovo-plan/api/statistics/plan/download",
-        viewUrl: "/lenovo-plan/api/statistics/plan/view"
-      },
+      url: "/lenovo-plan/api/statistics/plan/download",
       RecodeList: [],
       popData: {},
       visibleSettingOption: false,

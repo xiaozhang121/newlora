@@ -168,7 +168,6 @@ export default {
       } else {
         oldLevel = "危急";
       }
-      debugger;
       const query = {
         id: row.id,
         alarmLevel: No,

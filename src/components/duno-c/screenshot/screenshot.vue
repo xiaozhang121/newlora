@@ -68,7 +68,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="deletSubmit">取消并删除图像</el-button>
-        <el-button type="primary" @click="handleSubmit">保 存</el-button>
+        <el-button type="primary" @click="getImgInfo">保 存</el-button>
       </span>
     </el-dialog>
   </div>
@@ -264,7 +264,8 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
-      this.getImgInfo();
+      this.picWigth = this.$refs.image.naturalWidth;
+      this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorInfo["monitorDeviceId"],
@@ -292,24 +293,13 @@ export default {
       });
     },
     getImgInfo() {
-      this.$nextTick(() => {
-        this.picWigth = this.$refs.image.naturalWidth;
-        this.picHeigh = this.$refs.image.naturalHeight;
-        let image = this.imgsrc;
-        function compressImg(image, quality) {
-          let width = image.width;
-          let height = image.height;
-          let canvas = document.createElement("canvas");
-          let ctx = canvas.getContext("2d");
-          canvas.width = width;
-          canvas.height = height;
-          ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-          let base64 = canvas.toDataURL("image/png", quality);
-          return base64;
-        }
-        // debugger;
-        console.log(base64.length);
-        this.picSize = base64.length;
+      let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+      getAxiosData(url).then(res => {
+        let baseStr = res.substring(23);
+        let baseLen = baseStr.length;
+        this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
+        console.log(this.picSize);
+        this.handleSubmit();
       });
     },
     close() {
@@ -318,10 +308,6 @@ export default {
     deletSubmit() {
       this.$emit("closeShot");
       let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
-      //   let query = {
-      //     bucketName: this.shotData.cephBucket,
-      //     fileName: this.shotData.cephFileName
-      //   };
       deleteDataId(url).then(res => {
         this.$message({
           type: "success",

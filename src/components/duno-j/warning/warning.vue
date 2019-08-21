@@ -54,7 +54,7 @@
                 >
                   <div
                     class="table_select"
-                    :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
+                    :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                   >
                     <span class="member_operate_div">
                       <span>{{ alarmLevelT }}</span>
@@ -83,7 +83,7 @@
             <div class="from">
               <span class="origin">
                 来源：
-                <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceId']}}</a>
+                <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
               </span>
             </div>
           </div>
@@ -133,6 +133,7 @@ export default {
       discriminate: false,
       isImgVideo: true,
       isTemperture: true,
+      hasSelect: true,
       formData: {}
     };
   },
@@ -165,12 +166,12 @@ export default {
         return [];
       }
     },
-    hasSelect: {
-      type: Boolean,
-      default: () => {
-        return false;
-      }
-    },
+    // hasSelect: {
+    //   type: Boolean,
+    //   default: () => {
+    //     return false;
+    //   }
+    // },
     // discriminate: {
     //   type: Boolean,
     //   default: () => {
@@ -303,7 +304,8 @@ export default {
         if (that.dataList.alarmTypeValue == "动态环境类") {
           that.discriminate = true;
         }
-        if (that.dataList.alarmDetailType == "null") {
+        if (that.dataList.result == "温度正常") {
+          that.hasSelect = false;
         }
         that.formData = {
           alarmId: that.searchId,
@@ -314,8 +316,43 @@ export default {
       });
     },
     selectItem(item, index) {
-      this.alarmLevelT = item;
-      this.alarmLevelN = index + 1;
+      this.psotAlarmData(item, index + 1);
+    },
+    psotAlarmData(row, No) {
+      const that = this;
+      const url = "/lenovo-alarm/api/alarm/level-edit";
+      let oldLevel;
+      let newLevel;
+      if (No == "1") {
+        newLevel = "一般";
+      } else if (No == "2") {
+        newLevel = "严重";
+      } else {
+        newLevel = "危急";
+      }
+      if (row.alarmLevel == "1") {
+        oldLevel = "一般";
+      } else if (row.alarmLevel == "2") {
+        oldLevel = "严重";
+      } else {
+        oldLevel = "危急";
+      }
+      const query = {
+        id: row.id,
+        alarmLevel: No,
+        oldLevel: oldLevel,
+        newLevel: newLevel,
+        userName: this.$store.state.user.userName
+      };
+      putAxiosData(url, query).then(
+        res => {
+          this.$message({
+            type: "success",
+            message: "修改成功"
+          });
+        },
+        error => {}
+      );
     },
     handleClose() {
       this.newVisible = false;
