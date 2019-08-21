@@ -167,7 +167,7 @@
         ></el-input>
         <span slot="footer" class="dialog-footer">
           <button-custom class="button" @click.native="closeRemarks" title="取消" />
-          <button-custom class="button" @click="clickRemarks" title="确定" />
+          <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
     </div>
@@ -396,7 +396,6 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      console.log(111);
                       this.dialogVisible = true;
                     }
                   }
@@ -923,6 +922,7 @@ export default {
   .btn_pre {
     padding: 10px 20px;
     cursor: pointer;
+    border: none;
     border-radius: 20px;
     @media screen and (min-width: 3500px) {
       padding: 6px 12px;
@@ -1274,7 +1274,7 @@ export default {
 }
 .el-popup-parent--hidden {
   .el-select-dropdown {
-    background: #fff;
+    background: #fff !important;
     color: #333;
   }
   .el-select-dropdown__empty,
