@@ -35,7 +35,7 @@
           </p>
         </el-col>
       </el-row>
-      <div  v-if="true">
+      <div v-if="true">
         <div class="imgBox">
           <img
             v-if="itemData['alarmFileType'] == 1"
@@ -64,7 +64,7 @@
         </div>
       </div>
       <el-row v-if="false">
-         <el-col :span="24">
+        <el-col :span="24">
           <p class="itemTitle">
             内容：
             <span>三相告警</span>
@@ -72,19 +72,19 @@
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
-            <img src=""/>
+            <img src />
             <span>A相：20℃</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
-            <img src=""/>
+            <img src />
             <span>B相：20℃</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
-            <img src=""/>
+            <img src />
             <span>C相：20℃</span>
           </p>
         </el-col>
@@ -122,7 +122,7 @@
             v-model="textarea"
           ></el-input>
           <span slot="footer" class="dialog-footer">
-            <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+            <button-custom class="button" @click.native="closeRemarks" title="取消" />
             <button-custom class="button" @click.native="clickRemarks" title="确定" />
           </span>
         </el-dialog>
@@ -226,6 +226,10 @@ export default {
     onClose(data) {
       this.$emit("onClose", data);
     },
+    closeRemarks() {
+      this.dialogVisible = false;
+      this.textarea = "";
+    },
     clickRemarks() {
       const that = this;
       that.dialogVisible = false;
@@ -251,10 +255,10 @@ export default {
     color: #fff;
     font-size: 18px;
     padding: 5px 0;
-    &.main{
+    &.main {
       display: flex;
       align-items: center;
-      img{
+      img {
         width: 150px;
         height: 85px;
         margin-right: 20px;
