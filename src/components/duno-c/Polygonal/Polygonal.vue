@@ -256,8 +256,8 @@ export default {
         date = moment().subtract(1, 'days')
       }
       arr.push(date,date)
-      const startTime = moment(arr[0]).format('YYYY-MM-DD')
-      const endTime = moment(arr[1]).format('YYYY-MM-DD')
+      const startTime = moment().add(-6,'hour').format('YYYY-MM-DD')
+      const endTime = moment().format('YYYY-MM-DD')
       this.startTime = JSON.parse(JSON.stringify(startTime))
       this.endTime = JSON.parse(JSON.stringify(endTime))
       $('#moveTarget').find('img').remove()

@@ -15,11 +15,14 @@
           <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
             <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
-              <el-checkbox v-if="keyChange" :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
+                 <el-tooltip class="item" effect="dark" :content="item['describeName']" placement="top">
+              <el-checkbox v-if="keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
                 <img  :src="item.img">
                 {{item['describeName']}}</el-checkbox>
-              <el-checkbox v-else :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
+                </el-tooltip>
+                <el-tooltip  class="item" effect="dark" :content="item['describeName']" placement="top">
+              <el-checkbox v-if="!keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
                 {{item['describeName']}}
                 <span v-if="Array.isArray(item.img)">
@@ -29,6 +32,7 @@
                   <img v-if="item.img" class="icon_img" :src="item.img">
                 </span>
                 </el-checkbox>
+                </el-tooltip>
             </div>
           </el-checkbox-group>
         </div>

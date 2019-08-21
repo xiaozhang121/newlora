@@ -304,7 +304,6 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      console.log(111);
                       this.dialogVisible = true;
                     }
                   }

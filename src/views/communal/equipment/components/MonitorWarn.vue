@@ -69,12 +69,13 @@
 <script>
 import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import moment from "moment";
+import wraning from "_c/duno-j/warning";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor, buttonCustom },
+  components: { KeyMonitor, buttonCustom, wraning },
   props: {
     isShow: {
       type: Boolean,
@@ -167,7 +168,7 @@ export default {
             path: "/surveillancePath/detailRedN",
             query: {
               monitorDeviceId: this.remarkData.monitorDeviceId,
-                typeId: res.data["typeId"]
+              typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {
@@ -218,6 +219,7 @@ export default {
     }
   }
   .content {
+    cursor: pointer;
     width: 60%;
     padding: 10px 20px;
     .top {
@@ -252,7 +254,7 @@ export default {
     }
     .btn {
       p {
-        padding-top: 10px;
+        // padding-top: 10px;
         font-size: 14px;
         color: #ffffff;
         span {

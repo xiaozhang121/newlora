@@ -167,7 +167,7 @@
         ></el-input>
         <span slot="footer" class="dialog-footer">
           <button-custom class="button" @click.native="closeRemarks" title="取消" />
-          <button-custom class="button" @click="clickRemarks" title="确定" />
+          <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
     </div>
@@ -181,6 +181,7 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import mixinViewModule from "@/mixins/view-module";
 import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -194,7 +195,8 @@ import {
   getVGrade,
   getVPreset,
   getVEcharts,
-  getPosition
+  getPosition,
+  dealRemarks
 } from "@/api/configuration/configuration.js";
 export default {
   name: "detailEnv",
@@ -209,9 +211,11 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning
+    wraning,
+    buttonCustom
   },
   data() {
+    const that = this;
     return {
       videoList: [{}, {}, {}, {}, {}, {}],
       chosenDate: "",
@@ -234,6 +238,7 @@ export default {
       echartForm: {},
       echartData: [],
       //   typeList: [],
+      srcData: [],
       value: "",
       textarea: "",
       alarmLevel: "",
@@ -392,7 +397,6 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      console.log(111);
                       this.dialogVisible = true;
                     }
                   }
@@ -489,6 +493,18 @@ export default {
     onEdit(name) {
       this.presetName = name;
       this.addOrEdit = "编辑";
+    },
+    addReturn(row) {
+      const that = this;
+      const query = {
+        alarmId: row.alarmId,
+        type: "1"
+      };
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.getDataList();
+      });
     },
     addPoint() {
       this.$refs.inspectionRef.addPosInput = this.presetName;
@@ -776,7 +792,7 @@ export default {
   .el-input--small .el-input__inner {
     // background: #1a2f42;
     border: none;
-    color: white;
+    color: #333;
     height: 40px;
     border-radius: 0;
     font-size: 15px;
@@ -902,6 +918,15 @@ export default {
         background: #d0011b;
         color: #1d1f26;
       }
+    }
+  }
+  .btn_pre {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    @media screen and (min-width: 3500px) {
+      padding: 6px 12px;
     }
   }
   .content {
@@ -1248,8 +1273,15 @@ export default {
     }
   }
 }
-.el-select-dropdown {
-  background: #fff;
-  color: #333;
+.el-popup-parent--hidden {
+  .el-select-dropdown {
+    background: #fff !important;
+    color: #333;
+  }
+  .el-select-dropdown__empty,
+  .el-select-dropdown__item,
+  .el-select-dropdown__item.selected {
+    color: #333;
+  }
 }
 </style>

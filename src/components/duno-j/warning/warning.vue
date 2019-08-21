@@ -65,7 +65,7 @@
                     <i-dropdownItem
                       v-for="(item, index) in selectList"
                       :key="index"
-                      @click.native="selectItem(item, index)"
+                      @click.native="selectItem(dataList, index)"
                     >
                       <div class="alarmLevel">{{ item }}</div>
                     </i-dropdownItem>
