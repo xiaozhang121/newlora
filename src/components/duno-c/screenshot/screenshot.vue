@@ -121,6 +121,9 @@ export default {
   watch: {
     shotData(now) {
       this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${now.cephBucket}&fileName=${now.cephFileName}`;
+    },
+    monitorInfo(now) {
+      this.getPowerDeviceId();
     }
   },
   data() {

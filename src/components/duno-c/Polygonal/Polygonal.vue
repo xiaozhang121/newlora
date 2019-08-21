@@ -265,8 +265,8 @@ export default {
     },
     onChangeTime(data) {
       $('#moveTarget').find('img').remove()
-      const startTime = moment(data[0]).format('YYYY-MM-DD HH:mm:ss')
-      const endTime = moment(data[1]).format('YYYY-MM-DD HH:mm:ss')
+      const startTime = moment().add(-6,'hour').format('YYYY-MM-DD HH:mm:ss')
+      const endTime = moment().format('YYYY-MM-DD HH:mm:ss')
       this.startTime = JSON.parse(JSON.stringify(startTime))
       this.endTime = JSON.parse(JSON.stringify(endTime))
       this.datePeriod = data;
