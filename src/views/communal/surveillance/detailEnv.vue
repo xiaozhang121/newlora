@@ -195,7 +195,8 @@ import {
   getVGrade,
   getVPreset,
   getVEcharts,
-  getPosition
+  getPosition,
+  dealRemarks
 } from "@/api/configuration/configuration.js";
 export default {
   name: "detailEnv",
