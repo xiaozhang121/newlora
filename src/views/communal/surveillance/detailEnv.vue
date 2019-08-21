@@ -770,7 +770,7 @@ export default {
   }
 
   .el-input--small .el-input__inner {
-    background: #1a2f42;
+    // background: #1a2f42;
     border: none;
     color: white;
     height: 40px;
@@ -1242,6 +1242,9 @@ export default {
         font-style: normal;
       }
     }
+  }
+  .el-select-dropdown {
+    background: #fff;
   }
 }
 </style>
