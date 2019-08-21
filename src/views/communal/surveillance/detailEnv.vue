@@ -181,6 +181,7 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import mixinViewModule from "@/mixins/view-module";
 import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -209,9 +210,11 @@ export default {
     DunoTablesTep,
     echarts,
     warningSetting,
-    wraning
+    wraning,
+    buttonCustom
   },
   data() {
+    const that = this;
     return {
       videoList: [{}, {}, {}, {}, {}, {}],
       chosenDate: "",
@@ -1269,8 +1272,15 @@ export default {
     }
   }
 }
-.el-select-dropdown {
-  background: #fff;
-  color: #333;
+.el-popup-parent--hidden {
+  .el-select-dropdown {
+    background: #fff;
+    color: #333;
+  }
+  .el-select-dropdown__empty,
+  .el-select-dropdown__item,
+  .el-select-dropdown__item.selected {
+    color: #333;
+  }
 }
 </style>
