@@ -508,6 +508,12 @@ export default {
                 this.timer = setInterval(() => {
                     let pos = 0.1184210526315789 * document.querySelector('.keyMonitor ').offsetWidth
                     let x = that.offsetX-pos<0?0:that.offsetX-pos
+                    if(that.offsetX > document.querySelector('.keyMonitor ').offsetWidth-pos){
+                        x = document.querySelector('.keyMonitor ').offsetWidth-pos*2
+                    }
+                    if(this.$store.state.app.isPic){
+                        x = that.offsetX
+                    }
                     getAxiosData(
                         "/lenovo-iir/device/temperature/get/location/" + this.dataForm.monitorDeviceId,
                         { x: parseInt(x), y: that.offsetY, r: 1, pannelWidth: document.querySelector('.keyMonitor ').offsetWidth, pannelHeight:document.querySelector('.keyMonitor ').offsetHeight }

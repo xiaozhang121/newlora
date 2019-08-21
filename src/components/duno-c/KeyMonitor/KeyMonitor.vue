@@ -39,7 +39,7 @@
               <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
               <span class="nowNR">当前</span>
             </div>
-            <div class="block" v-else  :class="{'hidden': !isPic}">
+            <div class="block" v-else>
               视频录制 {{timeIncreateD}}  <i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
            <span @click="videotape()" v-if="!isPic">
@@ -514,9 +514,9 @@ export default {
       }else{
          getAxiosData(`/lenovo-iir/device/image/get/output-image/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
              if(res.code == 200){
-                 this.$message.success(res.msg)
+                 this.$message.success('截图成功')
              }else{
-                 this.$message.error(res.msg)
+                 this.$message.error('截图失败')
              }
          })
       }

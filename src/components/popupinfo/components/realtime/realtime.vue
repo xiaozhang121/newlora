@@ -83,6 +83,7 @@
     components: { videoPlayer },
     data() {
         return {
+            picTimer: null,
             cameraPic: '',
             templateList: [],
             demoImage: require('@/assets/images/clock.png'),
@@ -202,10 +203,13 @@
                             x = that.offsetX
                         }else{
                             x = that.offsetX-27<0?0:that.offsetX-27
+                            if(that.offsetX > 228-27){
+                                x = 228-27*2
+                            }
                         }
                         getAxiosData(
                             "/lenovo-iir/device/temperature/get/location/" + this.deviceId,
-                            { x: x, y: that.offsetY, r: 1, pannelWidth: '172', pannelHeight:'128' }
+                            { x: x, y: that.offsetY, r: 1, pannelWidth: '174', pannelHeight:'128' }
                         ).then(res => {
                             // console.log('data:'+res.data)
                             that.tepmNum = Number(res.data.data);
@@ -268,7 +272,7 @@
                         getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                             that.cameraPic = res.data
                         })
-                        setInterval(()=>{
+                        that.picTimer = setInterval(()=>{
                             getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                                   that.cameraPic = res.data
                             })
@@ -289,6 +293,9 @@
     created() {
         this.initCamera();
         // videojs.options.flash.swf = this.videoTarget
+    },
+    beforeDestroy(){
+        clearInterval(this.picTimer)
     },
     mounted() {
         if (this.classifyData && this.isClassify) {
