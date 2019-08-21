@@ -177,7 +177,45 @@ export default {
       }
     },
     getJump(item) {
-      if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
+        getAxiosData("/lenovo-device/api/preset/type", {
+            monitorDeviceId: item.monitorDeviceId
+        }).then(res => {
+            let supportPreset = res.data["supportPreset"];
+            let monitorDeviceType = res.data["monitorDeviceType"];
+            if (monitorDeviceType == 1) {
+                if (supportPreset) {
+                    this.$router.push({
+                        path: "/surveillancePath/detailLight",
+                        query: {
+                            monitorDeviceId: item.monitorDeviceId
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        path: "/surveillancePath/detailLightN",
+                        query: {
+                            monitorDeviceId: item.monitorDeviceId
+                        }
+                    });
+                }
+            } else if (monitorDeviceType == 2) {
+                this.$router.push({
+                    path: "/surveillancePath/detailRedN",
+                    query: {
+                        monitorDeviceId: item.monitorDeviceId,
+                        typeId: res.data["typeId"]
+                    }
+                });
+            } else if (monitorDeviceType == 3) {
+                this.$router.push({
+                    path: "/surveillancePath/detailEnv",
+                    query: {
+                        monitorDeviceId:item.monitorDeviceId
+                    }
+                });
+            }
+        });
+  /*    if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
         this.$router.push({
           path: "/surveillancePath/detailRed",
           query: {
@@ -194,7 +232,7 @@ export default {
             monitorDeviceId: item.monitorDeviceId
           }
         });
-      }
+      }*/
     }
   },
   created() {
