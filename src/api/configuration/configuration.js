@@ -194,13 +194,11 @@ export const getDifference = (query) => {
 }
 
 //视频监控-摄像头-样本库标注
-export const sampleMark = (query) => {
+export const sampleMark = (data) => {
     return axios.request({
         url: "/lenovo-sample/api/sample/monitor/mark",
         method: 'post',
-        params: {
-            ...query
-        }
+        data
     })
 }
 

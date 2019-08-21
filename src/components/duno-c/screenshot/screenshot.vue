@@ -296,26 +296,8 @@ export default {
     getImgInfo() {
       let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       getAxiosData(url).then(res => {
-        this.picSize = res.data.base64;
+        this.picSize = res.length;
       });
-      //   this.$nextTick(() => {
-      //     this.picWigth = this.$refs.image.naturalWidth;
-      //     this.picHeigh = this.$refs.image.naturalHeight;
-      //     let image = this.imgsrc;
-      //     function compressImg(image, quality) {
-      //       let width = image.width;
-      //       let height = image.height;
-      //       let canvas = document.createElement("canvas");
-      //       let ctx = canvas.getContext("2d");
-      //       canvas.width = width;
-      //       canvas.height = height;
-      //       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-      //       let base64 = canvas.toDataURL("image/png", quality);
-      //       return base64;
-      //     }
-      //     console.log(base64.length);
-      //     this.picSize = base64.length;
-      //   });
     },
     close() {
       this.$emit("closeShot");
