@@ -400,6 +400,7 @@ export default {
       });
     },
     clickJudge() {
+      let that = this;
       that.formData = {
         alarmId: that.searchId,
         input: that.dataList.alarmDetailType,

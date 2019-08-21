@@ -297,7 +297,7 @@ export default {
       let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       getAxiosData(url).then(res => {
         console.log(res,'0000000');
-        let baseLen = res.length;
+        let baseLen = res.data.length;
         this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
         console.log(that.picSize);
         that.handleSubmit();
