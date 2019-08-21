@@ -117,7 +117,7 @@
       </div>
     </div>
     <div class="title" style="margin: 15px 0">
-      <span style="visibility: hidden">{{ oltagevLevel }}</span>
+      <span>{{ oltagevLevel }}</span>
       <!-- 隐藏功  能 -->
       <!-- <duno-btn-top
         @on-select="onSelectVol"
