@@ -280,6 +280,7 @@ export default {
   }
   .el-dialog__headerbtn{
     right: 14px;
+    top: 20px;
   }
 }
 .warningDialog.robot .handleInfo > div{
@@ -302,6 +303,12 @@ export default {
       .el-dialog--center {
         width: 710px !important;
       }
+    }
+    .warningDialog .handleInfo > div{
+      max-height: inherit;
+    }
+    .el-dialog.el-dialog--center{
+      margin-top: 0vh !important;
     }
   }
   .iconfont.icon-xiala {

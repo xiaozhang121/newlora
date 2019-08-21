@@ -42,7 +42,8 @@
             :key="index"
             @handleListData="handleListData"
           />
-          <!--<monitor-warn-t></monitor-warn-t>-->
+         <!-- <monitor-warn-t></monitor-warn-t>
+          <monitor-warn-t></monitor-warn-t>-->
         </div>
       </div>
     </div>
