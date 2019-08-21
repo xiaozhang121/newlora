@@ -265,6 +265,8 @@ export default {
     handleSubmit() {
       this.$emit("closeShot");
       this.getImgInfo();
+      this.picWigth = this.$refs.image.naturalWidth;
+      this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorInfo["monitorDeviceId"],
@@ -292,25 +294,28 @@ export default {
       });
     },
     getImgInfo() {
-      this.$nextTick(() => {
-        this.picWigth = this.$refs.image.naturalWidth;
-        this.picHeigh = this.$refs.image.naturalHeight;
-        let image = this.imgsrc;
-        function compressImg(image, quality) {
-          let width = image.width;
-          let height = image.height;
-          let canvas = document.createElement("canvas");
-          let ctx = canvas.getContext("2d");
-          canvas.width = width;
-          canvas.height = height;
-          ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-          let base64 = canvas.toDataURL("image/png", quality);
-          return base64;
-        }
-        // debugger;
-        console.log(base64.length);
-        this.picSize = base64.length;
+      let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+      getAxiosData(url).then(res => {
+        this.picSize = res.data.base64;
       });
+      //   this.$nextTick(() => {
+      //     this.picWigth = this.$refs.image.naturalWidth;
+      //     this.picHeigh = this.$refs.image.naturalHeight;
+      //     let image = this.imgsrc;
+      //     function compressImg(image, quality) {
+      //       let width = image.width;
+      //       let height = image.height;
+      //       let canvas = document.createElement("canvas");
+      //       let ctx = canvas.getContext("2d");
+      //       canvas.width = width;
+      //       canvas.height = height;
+      //       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      //       let base64 = canvas.toDataURL("image/png", quality);
+      //       return base64;
+      //     }
+      //     console.log(base64.length);
+      //     this.picSize = base64.length;
+      //   });
     },
     close() {
       this.$emit("closeShot");
@@ -318,10 +323,6 @@ export default {
     deletSubmit() {
       this.$emit("closeShot");
       let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
-      //   let query = {
-      //     bucketName: this.shotData.cephBucket,
-      //     fileName: this.shotData.cephFileName
-      //   };
       deleteDataId(url).then(res => {
         this.$message({
           type: "success",
