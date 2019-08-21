@@ -266,7 +266,7 @@ export default {
           name: Base64.encode(this.searchType),
           value: Base64.encode(this.searchId),
           info: Base64.encode(JSON.stringify(this.popData)),
-          detailsType:  Base64.encode(this.detailsType)
+          detailsType: Base64.encode(this.detailsType)
         }
       });
       window.open(routeData.href, "_blank");
@@ -287,15 +287,18 @@ export default {
       getAxiosData(url, {
         [that.searchType]: that.searchId
       }).then(res => {
-        that.handleList = []
+        that.handleList = [];
         that.dataList = res.data;
-        debugger
+        debugger;
         let obj = {};
         (res.data.dealList || []).forEach(el => {
           obj.time = el.dealTime;
           obj.info = el.dealType;
           that.handleList.push(obj);
         });
+        if (this.handleList.length < 1) {
+          this.isdeal = false;
+        }
         console.log(that.handleList);
         if (that.dataList.alarmTypeValue == "动态环境类") {
           that.discriminate = true;
@@ -394,7 +397,7 @@ export default {
   }
 }
 .warningDialog {
-  .el-dialog__headerbtn{
+  .el-dialog__headerbtn {
     top: 17px;
   }
   .iconfont.icon-xiala {

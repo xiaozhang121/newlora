@@ -22,7 +22,7 @@
                 </div>
       </div>-->
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning :popData="popData"  detailsType="alarm" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
