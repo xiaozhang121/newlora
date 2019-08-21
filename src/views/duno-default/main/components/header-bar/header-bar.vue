@@ -27,7 +27,7 @@ export default {
   },
   data () {
     return {
-      activeBtn: '2',
+      activeBtn: '-1',
       maxLogo,
       dateTime: ''
     }
@@ -39,6 +39,9 @@ export default {
       activeBtn(now, old){
           this.$store.state.app.topNav = now
           sessionStorage.setItem('topNav', now)
+          if(old == -1){
+            return
+          }
           if(now == 3){
                 this.$router.push({name:'surveillanceList'})
           }else if(now == 2){
