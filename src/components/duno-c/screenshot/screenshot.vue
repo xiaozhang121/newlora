@@ -317,7 +317,7 @@ export default {
     },
     deletSubmit() {
       this.$emit("closeShot");
-      let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName:${this.shotData.cephBucket}&fileName:${this.shotData.cephFileName}`;
+      let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       //   let query = {
       //     bucketName: this.shotData.cephBucket,
       //     fileName: this.shotData.cephFileName
