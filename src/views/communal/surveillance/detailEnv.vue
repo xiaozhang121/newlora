@@ -88,7 +88,10 @@
               ></el-date-picker>
             </div>
             <div>
-              <div class="exportExcel">导出表格</div>
+              <div @click="clickExcel" class="clickBtn">
+                <i class="iconfont icon-daochu1"></i>
+                导出表格
+              </div>
             </div>
           </div>
         </div>
@@ -230,7 +233,7 @@ export default {
       dataForm: {},
       echartForm: {},
       echartData: [],
-      typeList: [],
+      //   typeList: [],
       value: "",
       textarea: "",
       alarmLevel: "",
@@ -445,8 +448,8 @@ export default {
         autoplay: true
       },
       presetName: "",
-      allDataKind: [],
-      allDataLevel: [],
+      //   allDataKind: [],
+      //   allDataLevel: [],
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }]
     };
@@ -583,58 +586,58 @@ export default {
       const that = this;
       that.exportHandle();
     },
-    getSelectType() {
-      getVType().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeL"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有数据类型",
-          monitorDeviceType: "",
-          title: "titleTypeL"
-        });
-        this.allDataKind = map;
-      });
-    },
-    getSelcetGrade() {
-      getVGrade().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有异常等级",
-          monitorDeviceType: "",
-          title: "titleTypeR"
-        });
-        this.allDataLevel = map;
-      });
-    },
-    getSelectPreset() {
-      getVPreset().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        this.typeList = map;
-      });
-    },
+    // getSelectType() {
+    //   getVType().then(res => {
+    //     const resData = res.data;
+    //     const map = resData.map(item => {
+    //       const obj = {
+    //         describeName: item.label,
+    //         monitorDeviceType: item.value,
+    //         title: "titleTypeL"
+    //       };
+    //       return obj;
+    //     });
+    //     map.unshift({
+    //       describeName: "所有数据类型",
+    //       monitorDeviceType: "",
+    //       title: "titleTypeL"
+    //     });
+    //     this.allDataKind = map;
+    //   });
+    // },
+    // getSelcetGrade() {
+    //   getVGrade().then(res => {
+    //     const resData = res.data;
+    //     const map = resData.map(item => {
+    //       const obj = {
+    //         describeName: item.label,
+    //         monitorDeviceType: item.value,
+    //         title: "titleTypeR"
+    //       };
+    //       return obj;
+    //     });
+    //     map.unshift({
+    //       describeName: "所有异常等级",
+    //       monitorDeviceType: "",
+    //       title: "titleTypeR"
+    //     });
+    //     this.allDataLevel = map;
+    //   });
+    // },
+    // getSelectPreset() {
+    //   getVPreset().then(res => {
+    //     const resData = res.data;
+    //     const map = resData.map(item => {
+    //       const obj = {
+    //         describeName: item.label,
+    //         monitorDeviceType: item.value,
+    //         title: "titleTypeR"
+    //       };
+    //       return obj;
+    //     });
+    //     this.typeList = map;
+    //   });
+    // },
     getEchasrts() {
       getPosition().then(res => {
         let presetId = res.data[0].value;
@@ -698,8 +701,8 @@ export default {
   },
   mounted() {
     this.getInit();
-    this.getSelectType();
-    this.getSelcetGrade();
+    // this.getSelectType();
+    // this.getSelcetGrade();
     this.getSelectPreset();
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";

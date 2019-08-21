@@ -68,7 +68,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="deletSubmit">取消并删除图像</el-button>
-        <el-button type="primary" @click="handleSubmit">保 存</el-button>
+        <el-button type="primary" @click="getImgInfo">保 存</el-button>
       </span>
     </el-dialog>
   </div>
@@ -264,7 +264,6 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
-      this.getImgInfo();
       this.picWigth = this.$refs.image.naturalWidth;
       this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -296,7 +295,11 @@ export default {
     getImgInfo() {
       let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       getAxiosData(url).then(res => {
-        this.picSize = res.length;
+        let baseStr = res.substring(23);
+        let baseLen = baseStr.length;
+        this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
+        console.log(this.picSize);
+        this.handleSubmit();
       });
     },
     close() {
