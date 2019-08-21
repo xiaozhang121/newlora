@@ -293,13 +293,14 @@ export default {
       });
     },
     getImgInfo() {
+      let that = this;
       let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       getAxiosData(url).then(res => {
         let baseStr = res.substring(23);
         let baseLen = baseStr.length;
         this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
-        console.log(this.picSize);
-        this.handleSubmit();
+        console.log(that.picSize);
+        that.handleSubmit();
       });
     },
     close() {

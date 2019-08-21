@@ -21,7 +21,7 @@
         ></el-option>
       </el-select>
       <el-input
-        v-if="isTemperture"
+        v-if="!isTemperture"
         class="itemInput"
         v-model="formData.inputT"
         placeholder="机械判断数值"
@@ -75,7 +75,7 @@ export default {
     isTemperture: {
       type: Boolean,
       default: () => {
-        return true;
+        return false;
       }
     },
     visible: {

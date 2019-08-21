@@ -101,7 +101,7 @@
       </el-dialog>
       <personJudge
         :dataList="formData"
-        :isTemperture="isTemperture"
+        :isTemperture="discriminate"
         @on-close="onClose"
         :visible="visibleJudge"
       />
@@ -132,7 +132,7 @@ export default {
       dataList: [],
       discriminate: false,
       isImgVideo: true,
-      isTemperture: true,
+      //   isTemperture: true,
       hasSelect: true,
       formData: {}
     };
@@ -399,11 +399,11 @@ export default {
       });
     },
     clickJudge() {
-      if (this.dataList.alarmValue == "") {
-        this.isTemperture = false;
-      } else {
-        this.isTemperture = true;
-      }
+      //   if (this.dataList.alarmValue == "") {
+      //     this.isTemperture = false;
+      //   } else {
+      //     this.isTemperture = true;
+      //   }
       this.visibleJudge = true;
     },
     onClose() {
