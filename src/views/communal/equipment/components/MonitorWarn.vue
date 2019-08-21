@@ -93,6 +93,7 @@ export default {
       type: String
     }
   },
+  watch: {},
   data() {
     return {
       address: "",

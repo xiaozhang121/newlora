@@ -132,7 +132,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: "/lenovo-plan/api/plan/visible-report/view"
+            url: "/lenovo-plan/api/plan/visible-report/view/detail"
           }
         });
       } else if (
@@ -144,7 +144,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: "/lenovo-plan/api/plan/iir-report/view"
+            url: "/lenovo-plan/api/plan/iir-report/view/detail"
           }
         });
       } else if (this.$route.name == "reportList") {

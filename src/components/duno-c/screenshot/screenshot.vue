@@ -137,6 +137,7 @@ export default {
       picWigth: "",
       picHeigh: "",
       picSize: "",
+      powerDeviceId: "",
       isCalibrat: true,
       startPointX: null,
       endPointX: null,
@@ -269,7 +270,7 @@ export default {
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorInfo["monitorDeviceId"],
-        powerDeviceId: this.monitorInfo["powerDeviceId"],
+        powerDeviceId: this.powerDeviceId,
         areaList: [
           {
             x0: this.startPointX,
@@ -301,6 +302,15 @@ export default {
         that.handleSubmit();
       });
     },
+    getPowerDeviceId() {
+      let url = "/lenovo-device/api/monitor/power-device";
+      let query = {
+        monitorDeviceId: this.monitorInfo["monitorDeviceId"]
+      };
+      getAxiosData(url, query).then(res => {
+        this.powerDeviceId = res.data[0].value;
+      });
+    },
     close() {
       this.$emit("closeShot");
     },
@@ -316,6 +326,7 @@ export default {
     }
   },
   mounted() {
+    this.getPowerDeviceId();
     this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
   }
 };
