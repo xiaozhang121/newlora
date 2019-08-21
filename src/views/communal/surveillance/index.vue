@@ -530,7 +530,7 @@ export default {
     }
   }
   .oltagevMain {
-    height: 300px;
+    height: 400px;
     width: 100%;
     zoom: 1;
     &:after {
