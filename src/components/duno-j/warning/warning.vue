@@ -57,7 +57,7 @@
                     :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                   >
                     <span class="member_operate_div">
-                      <span>{{ alarmLevelT }}</span>
+                      <span>{{ dataList.alarmLevelName }}</span>
                     </span>
                     <i class="iconfont icon-xiala"></i>
                   </div>
