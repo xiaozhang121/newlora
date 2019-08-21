@@ -46,7 +46,7 @@
             <div v-if="!discriminate" class="temperature">
               <p class="monitorTitle">{{dataList.result}}</p>
               <p>
-                {{ popData['alarmValue']?popData['alarmValue']+'℃':'' }}
+                {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
                 <i-dropdown
                   v-if="hasSelect && !discriminate"
                   trigger="click"
@@ -83,7 +83,7 @@
             <div class="from">
               <span class="origin">
                 来源：
-                <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
+                <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceId']}}</a>
               </span>
             </div>
           </div>
@@ -290,16 +290,16 @@ export default {
         that.handleList = [];
         that.dataList = res.data;
         debugger;
-        let obj = {};
         (res.data.dealList || []).forEach(el => {
+          let obj = {};
           obj.time = el.dealTime;
           obj.info = el.dealType;
           that.handleList.push(obj);
         });
-        if (this.handleList.length < 1) {
-          this.isdeal = false;
-        }
         console.log(that.handleList);
+        if (that.handleList.length < 1) {
+          that.isdeal = false;
+        }
         if (that.dataList.alarmTypeValue == "动态环境类") {
           that.discriminate = true;
         }
