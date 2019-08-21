@@ -17,13 +17,12 @@
             <div class="btnItem" v-for="(item,index) in dataList" :key="index">
                  <el-tooltip class="item" effect="dark" :content="item['monitorDeviceId']" placement="top">
               <el-checkbox v-if="keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
-              </el-checkbox>
                 <!-- <i class="item.icon"></i> -->
                 <img  :src="item.img">
                 {{item['describeName']}}</el-checkbox>
+                </el-tooltip>
                 <el-tooltip  class="item" effect="dark" :content="item['monitorDeviceId']" placement="top">
               <el-checkbox v-if="!keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
-              </el-checkbox>
                 <!-- <i class="item.icon"></i> -->
                 {{item['describeName']}}
                 <span v-if="Array.isArray(item.img)">
@@ -33,6 +32,7 @@
                   <img v-if="item.img" class="icon_img" :src="item.img">
                 </span>
                 </el-checkbox>
+                </el-tooltip>
             </div>
           </el-checkbox-group>
         </div>
