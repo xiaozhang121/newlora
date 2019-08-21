@@ -317,12 +317,12 @@ export default {
     },
     deletSubmit() {
       this.$emit("closeShot");
-      let url = "/lenovo-storage/api/storageService/file/deleteFile";
-      let query = {
-        bucketName: this.shotData.cephBucket,
-        fileName: this.shotData.cephFileName
-      };
-      deleteDataId(url, query).then(res => {
+      let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName:${this.shotData.cephBucket}&fileName:${this.shotData.cephFileName}`;
+      //   let query = {
+      //     bucketName: this.shotData.cephBucket,
+      //     fileName: this.shotData.cephFileName
+      //   };
+      deleteDataId(url).then(res => {
         this.$message({
           type: "success",
           message: "删除成功"
