@@ -90,7 +90,7 @@
         </div>
         <div class="handleInfo">
           <p class="monitorTitle">处理记录</p>
-          <div v-if="isdeal">
+          <div>
             <p v-for="(item, index) in handleList" :key="index" class="item">
               <span class="title">{{ item['time'] }}</span>
               <span class="info">{{ item['info'] }}</span>
@@ -431,6 +431,12 @@ export default {
     .el-dialog--center {
       width: 710px !important;
     }
+  }
+  .warningDialog .handleInfo > div{
+    max-height: inherit;
+  }
+  .el-dialog.el-dialog--center{
+    margin-top: 0vh !important;
   }
 }
 .warningDialog {

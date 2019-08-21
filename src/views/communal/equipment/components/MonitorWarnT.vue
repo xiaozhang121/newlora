@@ -1,21 +1,32 @@
 <template>
   <div class="alarmLogT">
     <div class="img">
-      <img :src="remarkData.pic" alt />
-      <img :src="remarkData.pic" alt />
-      <img :src="remarkData.pic" alt />
+      <span class="item">
+         <img :src="remarkData.pic" alt />
+         <span>A相：15℃</span>
+      </span>
+      <span class="item">
+         <img :src="remarkData.pic" alt />
+         <span>B相：15℃</span>
+      </span>
+      <span class="item">
+         <img :src="remarkData.pic" alt />
+          <span>C相：15℃</span>
+      </span>
     </div>
     <div class="content">
       <div class="top not-print">
         <p>
           监测对象:
-          <span>{{remarkData.powerDeviceName}}</span>
+          <!--<span>{{remarkData.powerDeviceName}}</span>-->
+          <span>4号主变500千伏测压变</span>
         </p>
       </div>
       <div class="milldle">
         <div>
           内容:
-          <span>{{remarkData.content}}</span>
+          <!--<span>{{remarkData.content}}</span>-->
+          <span>三项告警</span>
         </div>
       </div>
       <div class="btn">
@@ -176,29 +187,43 @@ export default {
 
 <style lang="scss">
 .alarmLogT {
+  padding-top: 26px;
   float: left;
   margin-bottom: 20px;
   /*width: calc(50% - 10px);*/
   width: 100%;
   /*margin-left: 20px;*/
-  height: 200px;
+  height: 183px;
   background-color: #203644;
   border-radius: 2px;
   display: flex;
   justify-content: space-around;
   .img {
-    width: 40%;
-    height: 100%;
+    width: 100%;
+    height: 59%;
     display: flex;
+    .item{
+      width: 100%;
+      height: 100%;
+      margin-left: 17px;
+      text-align: center;
+      color: white;
+      font-size: 14px;
+      & > span{
+        margin-top: 10px;
+      }
+    }
     img {
       display: block;
       width: 100%;
       height: 100%;
+      margin-bottom: 11px;
     }
   }
   .content {
-    width: 60%;
+    width: 47%;
     padding: 10px 20px;
+    padding-top: 0;
     .top {
       p {
         font-size: 16px;

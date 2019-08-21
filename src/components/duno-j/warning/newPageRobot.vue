@@ -263,6 +263,12 @@
                     width: 710px !important;
                 }
             }
+            .warningDialog .handleInfo > div{
+                max-height: inherit;
+            }
+            .el-dialog.el-dialog--center{
+                margin-top: 0vh !important;
+            }
         }
         .iconfont.icon-xiala {
             color: #999999;
@@ -425,6 +431,7 @@
                 position: absolute;
                 right: 33px;
                 .iconfont{
+                    font-size: 22px;
                     cursor: pointer;
                     color: #909399;
                     margin-right: 10px;

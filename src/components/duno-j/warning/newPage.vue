@@ -277,14 +277,15 @@
                     [that.searchType]: that.searchId
                 }).then(res => {
                     that.handleList = []
-                    debugger
                     that.dataList = res.data;
-                    let obj = {};
+                    let data = [];
                     (res.data.dealList || []).forEach(el => {
+                        let obj = {};
                         obj.time = el.dealTime;
                         obj.info = el.dealType;
-                        that.handleList.push(obj);
+                        data.push(obj)
                     });
+                    that.handleList = data;
                     if (that.dataList.alarmTypeValue == "动态环境类") {
                         that.discriminate = true;
                     }
@@ -382,6 +383,12 @@
             .el-dialog--center {
                 width: 710px !important;
             }
+        }
+        .warningDialog .handleInfo > div{
+            max-height: inherit;
+        }
+        .el-dialog.el-dialog--center{
+            margin-top: 0vh !important;
         }
     }
     .warningDialog {
