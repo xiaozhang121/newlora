@@ -89,7 +89,7 @@
             v-model="textarea"
           ></el-input>
           <span slot="footer" class="dialog-footer">
-            <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+            <button-custom class="button" @click.native="closeRemarks" title="取消" />
             <button-custom class="button" @click.native="clickRemarks" title="确定" />
           </span>
         </el-dialog>
@@ -231,6 +231,10 @@ export default {
           that.itemData = res.data.tableData;
         }
       });
+    },
+    closeRemarks() {
+      this.dialogVisible = false;
+      this.textarea = "";
     },
     clickRemarks() {
       const that = this;

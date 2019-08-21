@@ -7,12 +7,8 @@
       <div>24小时监测记录</div>
       <div class="btn">
         <div>
-          <el-date-picker
-                  v-model="chosenDate"
-                  type="date"
-                  placeholder="全部日期">
-          </el-date-picker>
-         <!-- <duno-btn-top
+          <el-date-picker v-model="chosenDate" type="date" placeholder="全部日期"></el-date-picker>
+          <!-- <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTo"
             :isCheck="false"
@@ -31,7 +27,7 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-   <!--     <div class="dateChose">
+        <!--     <div class="dateChose">
           <el-date-picker
             unlink-panels
             v-model="value"
@@ -52,36 +48,46 @@
     </div>
     <duno-main class="dunoMain">
       <div class="record_item">
-          <div class="title">{{'2019年8月13日'}}&nbsp;&nbsp;{{diffTime('2019年8月13日')}}</div>
-          <div class="monitorContain">
-            <div class="monitorItem" :class="{marginRight: (index+1)%4 != 0}" v-for="(item, index) in demoList"  :key="index">
-              <key-monitor
-                      class="monitorRecord"
-                      :showBtmOption="true"
-                      :noButton="false"
-                      configType="2"
-                      imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
-                      streamAddr="rtmp://10.0.10.39/rtsp59/stream"
-                      kilovolt="摄像头名称"
-                      patrol="20190813"
-              />
-            </div>
-            <div style="clear: both"></div>
+        <div class="title">{{'2019年8月13日'}}&nbsp;&nbsp;{{diffTime('2019年8月13日')}}</div>
+        <div class="monitorContain">
+          <div
+            class="monitorItem"
+            :class="{marginRight: (index+1)%4 != 0}"
+            v-for="(item, index) in demoList"
+            :key="index"
+          >
+            <key-monitor
+              class="monitorRecord"
+              :showBtmOption="true"
+              :noButton="false"
+              configType="2"
+              imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
+              streamAddr="rtmp://10.0.10.39/rtsp59/stream"
+              kilovolt="摄像头名称"
+              patrol="20190813"
+            />
           </div>
+          <div style="clear: both"></div>
+        </div>
       </div>
       <div class="record_item">
         <div class="title">{{'2019年8月7日'}}&nbsp;&nbsp;{{diffTime('2019年8月7日')}}</div>
         <div class="monitorContain">
-          <div class="monitorItem" :class="{marginRight: (index+1)%4 != 0}" v-for="(item, index) in demoList"  :key="index">
+          <div
+            class="monitorItem"
+            :class="{marginRight: (index+1)%4 != 0}"
+            v-for="(item, index) in demoList"
+            :key="index"
+          >
             <key-monitor
-                    class="monitorRecord"
-                    :showBtmOption="true"
-                    :noButton="false"
-                    configType="2"
-                    imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
-                    streamAddr="rtmp://10.0.10.39/rtsp59/stream"
-                    kilovolt="摄像头名称"
-                    patrol="20190813"
+              class="monitorRecord"
+              :showBtmOption="true"
+              :noButton="false"
+              configType="2"
+              imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
+              streamAddr="rtmp://10.0.10.39/rtsp59/stream"
+              kilovolt="摄像头名称"
+              patrol="20190813"
             />
           </div>
           <div style="clear: both"></div>
@@ -106,7 +112,7 @@
           v-model="textarea"
         ></el-input>
         <span slot="footer" class="dialog-footer">
-          <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+          <button-custom class="button" @click.native="closeRemarks" title="取消" />
           <button-custom class="button" @click="clickRemarks" title="确定" />
         </span>
       </el-dialog>
@@ -147,16 +153,8 @@ export default {
   data() {
     const that = this;
     return {
-      chosenDate: '',
-      demoList:[
-          {},
-          {},
-          {},
-          {},
-          {},
-          {},
-
-      ],
+      chosenDate: "",
+      demoList: [{}, {}, {}, {}, {}, {}],
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/security/list",
@@ -177,7 +175,7 @@ export default {
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/environmental/list", name: "动态环境监测" },
-        { path: "", name: "24小时监测记录" },
+        { path: "", name: "24小时监测记录" }
       ],
       columns: [
         {
@@ -329,7 +327,6 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      console.log(111);
                       this.dialogVisible = true;
                     }
                   }
@@ -393,24 +390,24 @@ export default {
     this.getType();
   },
   methods: {
-    diffTime(time){
-        let date = ''
-        if(time.indexOf('年')>-1){
-            date = time.replace(/年|月/g,'-')
-            date = date.replace(/日/g,'')
-        }else{
-            date = time
-        }
-        let diff =  moment().diff(date, 'days')
-        if(diff == 0){
-            return '(今天)'
-        }else if(diff == 1){
-            return '(昨天)'
-        }else if(diff == 2){
-            return '(前天)'
-        }else{
-            return '('+diff+'天前)'
-        }
+    diffTime(time) {
+      let date = "";
+      if (time.indexOf("年") > -1) {
+        date = time.replace(/年|月/g, "-");
+        date = date.replace(/日/g, "");
+      } else {
+        date = time;
+      }
+      let diff = moment().diff(date, "days");
+      if (diff == 0) {
+        return "(今天)";
+      } else if (diff == 1) {
+        return "(昨天)";
+      } else if (diff == 2) {
+        return "(前天)";
+      } else {
+        return "(" + diff + "天前)";
+      }
     },
     onClose() {
       this.visibleSettingOption = false;
@@ -557,6 +554,10 @@ export default {
         });
       }*/
     },
+    closeRemarks() {
+      this.dialogVisible = false;
+      this.textarea = "";
+    },
     clickRemarks() {
       const that = this;
       that.isShowRemarks = false;
@@ -579,19 +580,22 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail-record {
   width: 100%;
-  ::-webkit-input-placeholder { /* WebKit browsers */
+  ::-webkit-input-placeholder {
+    /* WebKit browsers */
     color: white;
   }
 
-  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+  ::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
     color: white;
   }
 
-  :-ms-input-placeholder { /* Internet Explorer 10+ */
+  :-ms-input-placeholder {
+    /* Internet Explorer 10+ */
     color: white;
   }
 
-  .el-input--small .el-input__inner{
+  .el-input--small .el-input__inner {
     background: #1a2f42;
     border: none;
     color: white;
@@ -601,34 +605,35 @@ export default {
     width: 154px;
     float: right;
   }
-  .el-date-editor.el-input, .el-date-editor.el-input__inner{
+  .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
     width: 156px;
   }
-  .dunoMain_nr{
+  .dunoMain_nr {
     border: 2px solid #464d51;
   }
-  .record_item{
-    &:first-child{
+  .record_item {
+    &:first-child {
       margin-top: 13px;
     }
-    .title{
+    .title {
       color: white;
       padding: 0 20px;
       position: relative;
       top: 10px;
     }
-    .monitorContain{
+    .monitorContain {
       background: rgba(20, 40, 56, 0.8);
       padding: 20px;
       padding-bottom: 0;
     }
-    .monitorItem{
+    .monitorItem {
       width: 24%;
       float: left;
-      &.marginRight{
+      &.marginRight {
         margin-right: 1.3%;
       }
-      .monitorRecord{
+      .monitorRecord {
         width: 100% !important;
         height: 100%;
         margin: 0 0px 55px 0;

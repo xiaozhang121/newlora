@@ -129,6 +129,7 @@ export default {
       this.formData.input = this.dataList.input;
       this.formData.inputT = this.dataList.inputT;
       this.formData.select = this.dataList.select;
+      console.log(this.formData);
       this.$emit("on-close");
     },
 

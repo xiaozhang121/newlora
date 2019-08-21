@@ -399,11 +399,12 @@ export default {
       });
     },
     clickJudge() {
-      //   if (this.dataList.alarmValue == "") {
-      //     this.isTemperture = false;
-      //   } else {
-      //     this.isTemperture = true;
-      //   }
+      that.formData = {
+        alarmId: that.searchId,
+        input: that.dataList.alarmDetailType,
+        inputT: that.dataList.alarmValue,
+        select: that.dataList.alarmSuperDetailType
+      };
       this.visibleJudge = true;
     },
     onClose() {
@@ -411,7 +412,6 @@ export default {
     }
   },
   mounted() {
-    // this.target = this.querySelectorAll('.warningDialog')[1]
     this.newVisible = this.visible;
   }
 };
@@ -432,10 +432,10 @@ export default {
       width: 710px !important;
     }
   }
-  .warningDialog .handleInfo > div{
+  .warningDialog .handleInfo > div {
     max-height: inherit;
   }
-  .el-dialog.el-dialog--center{
+  .el-dialog.el-dialog--center {
     margin-top: 0vh !important;
   }
 }

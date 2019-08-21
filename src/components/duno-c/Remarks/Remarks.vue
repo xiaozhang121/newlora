@@ -10,7 +10,7 @@
     >
       <el-input type="textarea" placeholder="请输入备注内容" :autosize="{ minRows: 3}" v-model="textarea"></el-input>
       <span slot="footer" class="dialog-footer">
-        <button-custom class="button" @click.native="dialogVisible = false" title="取消" />
+        <button-custom class="button" @click.native="closeRemarks" title="取消" />
         <button-custom class="button" @click="clickRemarks" title="确定" />
       </span>
     </el-dialog>
@@ -42,6 +42,10 @@ export default {
     }
   },
   methods: {
+    closeRemarks() {
+      this.dialogVisible = false;
+      this.textarea = "";
+    },
     clickRemarks() {
       const that = this;
       that.dialogVisible = false;
