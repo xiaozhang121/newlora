@@ -401,7 +401,8 @@ export default {
           this.$router.push({
             path: "/surveillancePath/detailRedN",
             query: {
-              monitorDeviceId: monitorDeviceId
+              monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {

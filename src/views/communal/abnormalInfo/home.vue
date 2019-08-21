@@ -165,6 +165,7 @@
     </div>-->
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <!--<wraning-t :popData="popData" detailsType="alarm" :visible="true" @handleClose="handleClose"></wraning-t>-->
   </div>
 </template>
 
@@ -175,6 +176,7 @@ import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
 import warningSetting from "_c/duno-j/warningSetting";
+import wraningT from "_c/duno-j/warningT";
 import wraning from "_c/duno-j/warning";
 import { DunoChartPieLoop } from "_c/duno-charts/index";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
@@ -189,7 +191,8 @@ export default {
     ReportTable,
     DunoChartPieLoop,
     warningSetting,
-    wraning
+    wraning,
+    wraningT
   },
   computed: {
     isAlarm() {

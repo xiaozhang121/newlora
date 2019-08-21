@@ -63,6 +63,18 @@ export default [{
         },
         component: () => import('@/components/duno-j/warning/newPageRobot.vue')
     },
+    {
+        path: '/newPageT',
+        name: 'newPageT',
+        props: true,
+        meta: {
+            title: '列表',
+            hideMenuAuthority: true,
+            hideInMenu: true,
+            isLogin: true
+        },
+        component: () => import('@/components/duno-j/warningT/newPage.vue')
+    },
     /*  {
         path: '/',
         name: '_home',

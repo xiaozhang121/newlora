@@ -98,6 +98,7 @@ export default {
                 this.$store.state.app.pushData = receivedMsg['data']
                 this.$store.state.app.isPush = true
             }else{
+                // 三项外alarm
                 that.$store.state.user.alarmInfo = receivedMsg
                 that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
                 if(that.$store.state.user.isAlarm){
