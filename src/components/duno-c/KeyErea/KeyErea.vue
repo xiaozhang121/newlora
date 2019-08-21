@@ -495,6 +495,9 @@
             .btnNr {
               color: white;
             }
+            .el-checkbox__label{
+                margin-left: 0;
+            }
           }
         }
       }

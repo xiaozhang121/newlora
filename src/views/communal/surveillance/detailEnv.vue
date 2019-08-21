@@ -234,6 +234,7 @@ export default {
       echartForm: {},
       echartData: [],
       //   typeList: [],
+      srcData: [],
       value: "",
       textarea: "",
       alarmLevel: "",
@@ -489,6 +490,18 @@ export default {
     onEdit(name) {
       this.presetName = name;
       this.addOrEdit = "编辑";
+    },
+    addReturn(row) {
+      const that = this;
+      const query = {
+        alarmId: row.alarmId,
+        type: "1"
+      };
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.getDataList();
+      });
     },
     addPoint() {
       this.$refs.inspectionRef.addPosInput = this.presetName;
@@ -776,7 +789,7 @@ export default {
   .el-input--small .el-input__inner {
     // background: #1a2f42;
     border: none;
-    color: white;
+    color: #333;
     height: 40px;
     border-radius: 0;
     font-size: 15px;
@@ -902,6 +915,14 @@ export default {
         background: #d0011b;
         color: #1d1f26;
       }
+    }
+  }
+  .btn_pre {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 20px;
+    @media screen and (min-width: 3500px) {
+      padding: 6px 12px;
     }
   }
   .content {

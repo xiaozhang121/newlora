@@ -107,6 +107,7 @@ export default {
       this.visible = false;
     },
     handleWain() {
+      console.log("123123123123");
       this.visible = true;
     },
     addReturn() {
@@ -167,7 +168,7 @@ export default {
             path: "/surveillancePath/detailRedN",
             query: {
               monitorDeviceId: this.remarkData.monitorDeviceId,
-                typeId: res.data["typeId"]
+              typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {
