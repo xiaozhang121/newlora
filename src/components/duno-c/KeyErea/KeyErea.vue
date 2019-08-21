@@ -444,7 +444,7 @@
         mounted() {
             this.routeName = this.$route.name
             this.$nextTick(() => {
-                window.addEventListener("beforeunload", this.beforeunload);
+                // window.addEventListener("beforeunload", this.beforeunload);
             });
         }
     };

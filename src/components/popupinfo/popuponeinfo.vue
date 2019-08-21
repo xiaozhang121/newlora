@@ -17,20 +17,20 @@
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
-            <img src />
-            <span>A相：{{itemData['alarmValue'].split('||')[0]}}</span>
+            <img :src="itemData['alarmFileAddress'].split('||')[0]" />
+            <span :class="{'red':itemData['alarmValue'].split('||')[0].indexOf('\'')>-1}">A相：{{itemData['alarmValue'].split('||')[0].replace('\'','')}}</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
-            <img src />
-            <span>B相：{{itemData['alarmValue'].split('||')[1]}}</span>
+            <img :src="itemData['alarmFileAddress'].split('||')[1]" />
+            <span :class="{'red':itemData['alarmValue'].split('||')[1].indexOf('\'')>-1}">B相：{{itemData['alarmValue'].split('||')[1].replace('\'','')}}</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
-            <img src />
-            <span>C相：{{itemData['alarmValue'].split('||')[2]}}</span>
+            <img :src="itemData['alarmFileAddress'].split('||')[2]" />
+            <span :class="{'red':itemData['alarmValue'].split('||')[2].indexOf('\'')>-1}">C相：{{itemData['alarmValue'].split('||')[2].replace('\'','')}}</span>
           </p>
         </el-col>
       </el-row>
@@ -253,6 +253,9 @@ export default {
 .popuponeinfo {
   font-size: 20px;
   font-weight: normal;
+  .red{
+    color: red;
+  }
   .itemTitle {
     color: #fff;
     font-size: 18px;

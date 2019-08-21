@@ -579,12 +579,12 @@
             },
             onAlarm(now){
                 this.$refs.gisMapObj.isAlarm(now)
-                this.$nextTick(()=>{
                     if(now['alarmConfig'] == 1){
                         this.visible = true
+                        this.$nextTick(()=>{
                         document.querySelector('.HistoricalDocuments').style.transform="translateX(-328px)"
+                        })
                     }
-                })
             },
             initOtherPoint(){
                 const that = this
