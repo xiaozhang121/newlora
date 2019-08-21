@@ -512,12 +512,9 @@ export default {
           this.shotData = res.data;
         });
       }else{
+         this.isShow = true;
          getAxiosData(`/lenovo-iir/device/image/get/output-image/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
-             if(res.code == 200){
-                 this.$message.success('截图成功')
-             }else{
-                 this.$message.error('截图失败')
-             }
+             this.shotData = res.data.data
          })
       }
     },
@@ -532,6 +529,14 @@ export default {
     }, 1000000000);
     this.isIniializa = this.Initialization;
     this.isNavbar = this.isNav;
+  },
+  beforeDestroy(){
+      let flag = 'typeId' in this.$route.query && this.$route.query.typeId == 3?true:false
+      if(flag){
+          this.$store.state.app.isPic = true
+      }else{
+          this.$store.state.app.isPic = false
+      }
   },
   created() {
     this.playerOptions.autoplay = this.autoplay;

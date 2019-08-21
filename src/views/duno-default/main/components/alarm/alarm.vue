@@ -30,7 +30,7 @@
           <!--    <div class="itemTitle">
             <p>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></p>
           </div>-->
-          <div class="itemTitle">
+          <div class="itemTitle" v-if="true">
             <p>
               内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}
               <i-dropdown class="dropAlarmDown" trigger="click" placement="bottom-start">
@@ -53,6 +53,13 @@
                   </i-dropdownItem>
                 </i-dropdownMenu>
               </i-dropdown>
+            </p>
+          </div>
+          <div class="itemTitle"  v-if="false">
+            <p class="treeList">
+              <span>A相：20℃</span>
+              <span>B相：20℃</span>
+              <span>C相：20℃</span>
             </p>
           </div>
           <div class="itemBottomTitle">
@@ -380,6 +387,11 @@ body .prompt {
       .itemTitle {
         margin-bottom: 10px;
         font-size: 18px;
+        .treeList{
+          span{
+            margin-right: 15px;
+          }
+        }
         & > span {
           padding-right: 30px;
         }

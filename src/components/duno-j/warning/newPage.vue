@@ -332,7 +332,8 @@
                         this.$router.push({
                             path: "/surveillancePath/detailRedN",
                             query: {
-                                monitorDeviceId: this.popData.monitorDeviceId
+                                monitorDeviceId: this.popData.monitorDeviceId,
+                                typeId: res.data["typeId"]
                             }
                         });
                     } else if (monitorDeviceType == 3) {
