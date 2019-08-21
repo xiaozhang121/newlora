@@ -64,7 +64,6 @@ export default {
         input: "",
         inputT: "",
         select: ""
-        // isTemperture: true
       },
       optionsData: [],
       options: [],

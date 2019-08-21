@@ -38,7 +38,7 @@
       <div class="task">
         <ReportTable
           v-for="(item,index) in dataList"
-          :url="downloadURL"
+          :url="url"
           :key="index"
           :reportData="item"
         />
@@ -77,7 +77,7 @@ export default {
         return [];
       }
     },
-    downloadURL: {
+    url: {
       type: String,
       default: () => {
         return "";
@@ -158,7 +158,7 @@ export default {
       this.loadingOption = false;
     }, 1000000000);
     this.title = this.$route.query.title;
-    if (this.$route.params.url) {
+    if (this.$route.query.url) {
       this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     }
     this.dataForm = { planId: this.$route.query.planId };
