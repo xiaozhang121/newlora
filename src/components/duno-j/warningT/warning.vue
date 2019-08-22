@@ -1,6 +1,6 @@
 <template>
-  <div class="warningDialog three warningT">
-    <el-dialog  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
+  <div class="warningDialog three warningT" v-if="newVisible && isThree">
+    <el-dialog destroy-on-close  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">
           <span>
@@ -97,6 +97,12 @@ export default {
     };
   },
   props: {
+    isThree:{
+        type: Boolean,
+        default: () => {
+            return false;
+        }
+    },
     dataBread:{},
     warnData:{},
     popData: {
@@ -342,13 +348,13 @@ export default {
   }
   .el-dialog__headerbtn{
     right: 14px;
-    top: 20px;
+    top: 20px !important;
   }
 }
 .warningDialog.three .handleInfo > div{
   max-height: 200px;
   height: inherit !important;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 .warningDialog.three {
   @media print {

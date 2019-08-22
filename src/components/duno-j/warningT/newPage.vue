@@ -349,7 +349,7 @@
     .warningDialog.three .handleInfo > div{
         max-height: 200px;
         height: inherit !important;
-        overflow-y: auto;
+        overflow-y: hidden;
     }
     .warningDialog.three {
         @media print {
