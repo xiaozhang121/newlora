@@ -132,10 +132,12 @@ export default {
       const xAxisData = [];
       const seriesData = [];
       const yMax = [];
+      const yMin = [];
       for (let i = 0; i < that.dataList.length; i++) {
         legendData.push(that.dataList[i].itemName);
         const itemDataList = that.dataList[i].itemDataList;
         yMax.push(Number(that.dataList[i].maxData));
+        yMin.push(Number(that.dataList[i].minData));
         const obj = {
           name: that.dataList[i].itemName,
           type: "line",
@@ -150,6 +152,7 @@ export default {
         seriesData.push(obj);
       }
       that.yAxisOption.max = Math.ceil(yMax.sort((a, b) => b - a)[0]);
+      that.yAxisOption.min = Math.ceil(yMin.sort((a, b) => a - b)[0]);
       that.legendOption.data.push(...legendData);
       that.seriesOption.push(...seriesData);
       that.xAxisOption.data = [];
