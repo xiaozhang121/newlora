@@ -219,6 +219,7 @@ export default {
   computed: {},
   watch: {
     popData(now) {
+      console.log(now);
       if ("alarmId" in now && now["alarmId"]) {
         // this.searchId = now["alarmId"];
         this.searchId = now["taskId"] + "," + now["batchId"];
@@ -415,7 +416,6 @@ export default {
   },
   mounted() {
     this.newVisible = this.visible;
-    console.log(this.popData);
   }
 };
 </script>

@@ -489,6 +489,7 @@ export default {
     clickExcel() {
       const that = this;
       that.queryForm.planId = that.$route.query.planId;
+      that.queryForm.monitorDeviceType = that.monitorDeviceType;
       that.exportHandle();
     },
     getRegion() {

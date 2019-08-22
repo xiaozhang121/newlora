@@ -118,16 +118,6 @@
         <div class="top not-print">
           <div>历史数据</div>
           <div class="btn">
-            <!-- <div>
-              <duno-btn-top
-                @on-select="onSelect"
-                class="dunoBtnTop"
-                :isCheck="false"
-                :dataList="typeList"
-                :title="titleType"
-                :showBtnList="false"
-              ></duno-btn-top>
-            </div>-->
             <div class="dateChose">
               <el-date-picker
                 unlink-panels

@@ -138,6 +138,7 @@ export default {
       danger: false,
       isEnlarge: false,
       srcData: [],
+      queryForm: {},
       dialogVisible: false,
       value: "",
       titleTypeL: "全部电压等级",
@@ -411,6 +412,7 @@ export default {
     },
     clickExcel() {
       const that = this;
+    //   this.queryForm.startTime
       that.exportHandle();
     },
     getRegion() {
