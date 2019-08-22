@@ -158,6 +158,7 @@
         :visible.sync="dialogVisible"
         :modal="false"
         width="500px"
+        @before-close="beforeClose"
       >
         <el-input
           type="textarea"
@@ -482,6 +483,7 @@ export default {
         content: that.textarea
       };
       dealRemarks(query).then(res => {
+          that.textarea = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
         this.$emit("handleListData");
@@ -571,6 +573,9 @@ export default {
         }
       );
     },
+    beforeClose() {
+      this.textarea = "";
+    },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
@@ -610,58 +615,6 @@ export default {
       const that = this;
       that.exportHandle();
     },
-    // getSelectType() {
-    //   getVType().then(res => {
-    //     const resData = res.data;
-    //     const map = resData.map(item => {
-    //       const obj = {
-    //         describeName: item.label,
-    //         monitorDeviceType: item.value,
-    //         title: "titleTypeL"
-    //       };
-    //       return obj;
-    //     });
-    //     map.unshift({
-    //       describeName: "所有数据类型",
-    //       monitorDeviceType: "",
-    //       title: "titleTypeL"
-    //     });
-    //     this.allDataKind = map;
-    //   });
-    // },
-    // getSelcetGrade() {
-    //   getVGrade().then(res => {
-    //     const resData = res.data;
-    //     const map = resData.map(item => {
-    //       const obj = {
-    //         describeName: item.label,
-    //         monitorDeviceType: item.value,
-    //         title: "titleTypeR"
-    //       };
-    //       return obj;
-    //     });
-    //     map.unshift({
-    //       describeName: "所有异常等级",
-    //       monitorDeviceType: "",
-    //       title: "titleTypeR"
-    //     });
-    //     this.allDataLevel = map;
-    //   });
-    // },
-    // getSelectPreset() {
-    //   getVPreset().then(res => {
-    //     const resData = res.data;
-    //     const map = resData.map(item => {
-    //       const obj = {
-    //         describeName: item.label,
-    //         monitorDeviceType: item.value,
-    //         title: "titleTypeR"
-    //       };
-    //       return obj;
-    //     });
-    //     this.typeList = map;
-    //   });
-    // },
     getEchasrts() {
       getPosition().then(res => {
         let presetId = res.data[0].value;
@@ -726,9 +679,6 @@ export default {
   },
   mounted() {
     this.getInit();
-    // this.getSelectType();
-    // this.getSelcetGrade();
-    this.getSelectPreset();
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
@@ -1053,8 +1003,13 @@ export default {
             cursor: pointer;
           }
         }
-        & > div:last-child {
-          font-size: 22px;
+        .clickBtn {
+          line-height: 40px;
+          width: 139px;
+          background-image: url(../../../assets/images/btn/moreBtn.png);
+          text-align: center;
+          font-size: 18px;
+          color: #ffffff;
         }
         .dateChose {
           .el-date-editor {
@@ -1124,14 +1079,6 @@ export default {
             background-color: #192f41;
             cursor: pointer;
           }
-        }
-        .clickBtn {
-          line-height: 40px;
-          width: 139px;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          text-align: center;
-          font-size: 18px;
-          color: #ffffff;
         }
         .dateChose {
           .el-date-editor {

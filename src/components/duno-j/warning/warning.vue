@@ -3,43 +3,43 @@
     <section v-if="!isThree && newVisible" class="warningDialog mainDialog">
       <div>
         <el-dialog
-                destroy-on-close
-                class="elDialogClass"
-                :visible="newVisible"
-                width="900px"
-                center
-                :top="top"
-                @close="handleClose"
+          destroy-on-close
+          class="elDialogClass"
+          :visible="newVisible"
+          width="900px"
+          center
+          :top="top"
+          @close="handleClose"
         >
           <div slot="title" style="text-align: left">
             <div class="title_top">
               <span>{{ dataList.title }}</span>
               <span class="iconfontList">
-              <!--<i class="iconfont icon-xiazai"></i>-->
-              <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
-              <i class="iconfont icon-wangye" @click="openPage()"></i>
-            </span>
+                <!--<i class="iconfont icon-xiazai"></i>-->
+                <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+                <i class="iconfont icon-wangye" @click="openPage()"></i>
+              </span>
             </div>
             <div class="extend">{{ dataList.alarmTypeValue }}</div>
           </div>
           <div class="main">
             <div class="monitor" ref="imgContain">
               <img
-                      v-if="isImgVideo"
-                      :src="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
-                      alt
+                v-if="isImgVideo"
+                :src="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+                alt
               />
               <KeyMonitor
-                      v-else
-                      width="100%"
-                      :autoplay="true"
-                      :isNav="false"
-                      :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+                v-else
+                width="100%"
+                :autoplay="true"
+                :isNav="false"
+                :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
               />
               <i
-                      v-if="isImgVideo"
-                      class="fullScreen iconfont icon-quanping"
-                      @click="changeFullScreen($refs.imgContain)"
+                v-if="isImgVideo"
+                class="fullScreen iconfont icon-quanping"
+                @click="changeFullScreen($refs.imgContain)"
               ></i>
             </div>
             <div class="info">
@@ -52,13 +52,13 @@
                 <p>
                   {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
                   <i-dropdown
-                          v-if="hasSelect && !discriminate"
-                          trigger="click"
-                          placement="bottom-start"
+                    v-if="hasSelect && !discriminate"
+                    trigger="click"
+                    placement="bottom-start"
                   >
                     <div
-                            class="table_select"
-                            :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
+                      class="table_select"
+                      :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                     >
                     <span class="member_operate_div" v-if="dataList.alarmLevelName">
                       <span>{{ dataList.alarmLevelName }}</span>
@@ -67,9 +67,9 @@
                     </div>
                     <i-dropdownMenu slot="list">
                       <i-dropdownItem
-                              v-for="(item, index) in selectList"
-                              :key="index"
-                              @click.native="selectItem(dataList, index)"
+                        v-for="(item, index) in selectList"
+                        :key="index"
+                        @click.native="selectItem(dataList, index)"
                       >
                         <div class="alarmLevel">{{ item }}</div>
                       </i-dropdownItem>
@@ -85,10 +85,10 @@
                 <a href="javascript:;" @click="clickJudge">结果修订</a>
               </div>
               <div class="from">
-              <span class="origin">
-                来源：
-                <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
-              </span>
+                <span class="origin">
+                  来源：
+                  <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
+                </span>
               </div>
             </div>
           </div>
@@ -104,15 +104,22 @@
           <div style="clear: both"></div>
         </el-dialog>
         <personJudge
-                :dataList="formData"
-                :isTemperture="discriminate"
-                @on-close="onClose"
-                @on-alter="initData"
-                :visible="visibleJudge"
+          :dataList="formData"
+          :isTemperture="discriminate"
+          @on-close="onClose"
+          @on-alter="initData"
+          :visible="visibleJudge"
         />
       </div>
     </section>
-    <wraning-t  class="warningDialog" :isThree="isThree"  :popData="popData" :detailsType="detailsType" :visible="newVisible" @handleClose="handleClose" />
+    <wraning-t
+      class="warningDialog"
+      :isThree="isThree"
+      :popData="popData"
+      :detailsType="detailsType"
+      :visible="newVisible"
+      @handleClose="handleClose"
+    />
   </section>
 </template>
 <script>
@@ -460,14 +467,14 @@ export default {
     margin-top: 0vh !important;
   }
 }
-.mainDialog{
-  .vjs-fluid{
+.mainDialog {
+  .vjs-fluid {
     padding-top: 56%;
   }
-  .iconList{
+  .iconList {
     position: absolute;
     z-index: 1 !important;
-    .iconfont{
+    .iconfont {
       display: none;
     }
   }

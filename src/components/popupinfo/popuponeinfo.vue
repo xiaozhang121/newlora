@@ -116,6 +116,7 @@
           :visible.sync="dialogVisible"
           :modal="false"
           width="500px"
+          @before-close="beforeClose"
         >
           <el-input
             type="textarea"
@@ -232,6 +233,9 @@ export default {
       this.dialogVisible = false;
       this.textarea = "";
     },
+    beforeClose() {
+      this.textarea = "";
+    },
     clickRemarks() {
       const that = this;
       that.dialogVisible = false;
@@ -241,6 +245,7 @@ export default {
         content: that.textarea
       };
       dealRemarks(query).then(res => {
+          that.textarea = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
         this.$emit("handleListData");

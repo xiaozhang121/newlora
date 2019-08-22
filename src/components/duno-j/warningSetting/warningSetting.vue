@@ -1,81 +1,68 @@
 <template>
   <el-dialog
     v-dialogDrag
-    custom-class='myDia'
-    title='告警提示设置'
+    custom-class="myDia"
+    title="告警提示设置"
     :visible="visible"
     center
-    width='400px'
-    @close='handleClose'>
+    width="400px"
+    @close="handleClose"
+  >
     <div class="elForm">
       <el-form
-              ref='form'
-              :model="form"
-              label-width="120px"
-              :label-position='"left"'
-              :hide-required-asterisk='true'
+        ref="form"
+        :model="form"
+        label-width="120px"
+        :label-position="left"
+        :hide-required-asterisk="true"
       >
-        <el-form-item
-                :rules='rules'
-                prop='dangerAction'
-                label="缺陷告警">
+        <el-form-item :rules="rules" prop="dangerAction" label="缺陷告警">
           <div class="formItem">
             <span>危急</span>
-            <el-select
-                    v-model="form.dangerAction"
-                    placeholder="请选择"
-            >
+            <el-select v-model="form.dangerAction" placeholder="请选择">
               <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-              </el-option>
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item  :rules='rules' prop='seriousAction'>
+        <el-form-item :rules="rules" prop="seriousAction">
           <div class="formItem">
             <span>严重</span>
-            <el-select
-                    v-model="form.seriousAction"
-                    placeholder="请选择"
-            >
+            <el-select v-model="form.seriousAction" placeholder="请选择">
               <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-              </el-option>
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item  :rules='rules' prop='normalAction'>
+        <el-form-item :rules="rules" prop="normalAction">
           <div class="formItem">
             <span>一般</span>
-            <el-select
-                    v-model="form.normalAction"
-                    placeholder="请选择"
-            >
+            <el-select v-model="form.normalAction" placeholder="请选择">
               <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-              >
-              </el-option>
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item class="judge" :rules='rules' prop='defectStatus'>
+        <el-form-item class="judge" :rules="rules" prop="defectStatus">
           <el-switch
-                  v-model="form.defectStatus"
-                  inactive-text="声音提示"
-                  @change='changeState'
-                  active-color="#20a717"
-                  inactive-color="#979797"
-          >
-          </el-switch>
+            v-model="form.defectStatus"
+            inactive-text="声音提示"
+            @change="changeState"
+            active-color="#20a717"
+            inactive-color="#979797"
+          ></el-switch>
           <i v-show="!judge" class="judgeClose el-icon-close"></i>
           <i v-show="judge" class="judgeCheck el-icon-check"></i>
         </el-form-item>
@@ -91,51 +78,40 @@
                :value="item.value">
              </el-option>
            </el-select>
-         </el-form-item>-->
-        <el-form-item :rules='rules' prop='envAction'  label="动态环境异常">
-          <el-select
-                  v-model="form.envAction"
-                  placeholder="请选择"
-          >
+        </el-form-item>-->
+        <el-form-item :rules="rules" prop="envAction" label="动态环境异常">
+          <el-select v-model="form.envAction" placeholder="请选择">
             <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-            </el-option>
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item class="judge" :rules='rules' prop='securityStatus'>
+        <el-form-item class="judge" :rules="rules" prop="securityStatus">
           <el-switch
-                  v-model="form.securityStatus"
-                  inactive-text="声音提示"
-                  @change='change'
-                   active-color="#20a717"
-                  inactive-color="#979797"
-          >
-          </el-switch>
+            v-model="form.securityStatus"
+            inactive-text="声音提示"
+            @change="change"
+            active-color="#20a717"
+            inactive-color="#979797"
+          ></el-switch>
           <i v-show="!judged" class="judgeClose el-icon-close"></i>
           <i v-show="judged" class="judgeCheck el-icon-check"></i>
         </el-form-item>
       </el-form>
-      <div slot='footer'>
+      <div slot="footer">
         <div class="footer">
-          <el-button
-                  @click='handleClose'
-                  size='medium'
-                  class='warningBtn'
-          >取消</el-button>
-          <el-button
-                  @click='submitForm("form")'
-                  size='medium'
-                  class='warningBtn'>确定</el-button>
+          <el-button @click="handleClose" size="medium" class="warningBtn">取消</el-button>
+          <el-button @click="submitForm('form')" size="medium" class="warningBtn">确定</el-button>
         </div>
       </div>
     </div>
   </el-dialog>
 </template>
 <script>
-import { getAlarmAction } from '@/api/currency/currency.js'
+import { getAlarmAction } from "@/api/currency/currency.js";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   props: {
@@ -143,18 +119,18 @@ export default {
       type: Boolean
     }
   },
-  watch:{
-      visibleOption(now){
-          this.visible = now
-      }
+  watch: {
+    visibleOption(now) {
+      this.visible = now;
+    }
   },
-  data () {
+  data() {
     return {
       visible: false,
-      judge:true,
-      judged:true,
+      judge: true,
+      judged: true,
       options: [
-      /*{
+        /*{
         value: '弹窗',
         label: '弹窗'
       },{
@@ -166,121 +142,132 @@ export default {
       }*/
       ],
       form: {
-        dangerAction: '',
-        seriousAction: '',
-        normalAction: '',
-        envAction: '',
+        dangerAction: "",
+        seriousAction: "",
+        normalAction: "",
+        envAction: "",
         securityStatus: false,
         defectStatus: false
       },
       rules: {
         required: true,
-        message: '请选择',
-        trigger: 'blur'
+        message: "请选择",
+        trigger: "blur"
       }
-    }
+    };
   },
   methods: {
-    initData(){
-        const that = this
-        getAlarmAction().then(res=>{
-            that.options = res.data
-            that.$forceUpdate()
-            this.initSelect()
-        })
+    initData() {
+      const that = this;
+      getAlarmAction().then(res => {
+        that.options = res.data;
+        that.$forceUpdate();
+        this.initSelect();
+      });
     },
-    setData(){
-        let query = JSON.parse(JSON.stringify(this.form))
-        query['defectStatus']?query['defectStatus'] = 1:query['defectStatus'] = 0
-        query['securityStatus']?query['securityStatus'] = 1:query['securityStatus'] = 0
-        query['userId'] = this.$store.state.user.userId
-        postAxiosData('/lenovo-alarm/api/alarm-tip/set',query).then(res=>{
-            if(res.code == 200){
-                this.$message.success(res.msg)
-            }else{
-                this.$message.fail(res.msg)
-            }
-        })
+    setData() {
+      let query = JSON.parse(JSON.stringify(this.form));
+      query["defectStatus"]
+        ? (query["defectStatus"] = 1)
+        : (query["defectStatus"] = 0);
+      query["securityStatus"]
+        ? (query["securityStatus"] = 1)
+        : (query["securityStatus"] = 0);
+      query["userId"] = this.$store.state.user.userId;
+      postAxiosData("/lenovo-alarm/api/alarm-tip/set", query).then(res => {
+        if (res.code == 200) {
+          this.$message.success(res.msg);
+        } else {
+          this.$message.fail(res.msg);
+        }
+      });
     },
-    initSelect(){
-        const that = this
-        getAxiosData('/lenovo-alarm/api/alarm-tip/info',{userId:this.$store.state.user.userId}).then(res=>{
-            that.form = {
-                dangerAction: res.data.dangerAction,
-                envAction: res.data.envAction,
-                normalAction: res.data.normalAction,
-                personAction: res.data.personAction,
-                securityStatus: res.data.securityStatus==1?true:false,
-                defectStatus: res.data.defectStatus==1?true:false,
-                seriousAction: res.data.seriousAction
-            }
-            that.$forceUpdate()
-        })
+    initSelect() {
+      const that = this;
+      getAxiosData("/lenovo-alarm/api/alarm-tip/info", {
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        that.form = {
+          dangerAction: res.data.dangerAction,
+          envAction: res.data.envAction,
+          normalAction: res.data.normalAction,
+          personAction: res.data.personAction,
+          securityStatus: res.data.securityStatus == 1 ? true : false,
+          defectStatus: res.data.defectStatus == 1 ? true : false,
+          seriousAction: res.data.seriousAction
+        };
+        that.$forceUpdate();
+      });
     },
     handleClose() {
-      this.visible = false
-      this.$emit('handleClose')
+      this.$message({
+        type: success,
+        message: "修改失败"
+      });
+      this.visible = false;
+      this.$emit("handleClose");
     },
     submitForm(formName) {
-      const that = this
+      const that = this;
       this.$refs[formName].validate((valid, obj) => {
         if (valid) {
-          that.setData()
-          this.$emit('submitSetting', this.form)
+          that.setData();
+          this.$emit("submitSetting", this.form);
+          this.$emit("handleClose");
         } else {
           return false;
         }
       });
     },
-    changeState(){
-      this.judge=!this.judge;
+    changeState() {
+      this.judge = !this.judge;
     },
-    change(){
-      this.judged=!this.judged;
+    change() {
+      this.judged = !this.judged;
     }
   },
-  created(){
-      this.initData()
+  created() {
+    this.initData();
   }
-}
+};
 </script>
 <style lang='scss'>
 .myDia {
   background-color: #eee;
-  .formItem{
+  .formItem {
     display: flex;
-    & > span{
+    & > span {
       width: 47px;
     }
   }
-  .elForm{
+  .elForm {
     padding: 0 20px;
   }
-  .footer{
+  .footer {
     text-align: center;
   }
   .warningBtn {
     background-image: linear-gradient(0deg, #1b303a 0%, #287982 100%);
     color: #fff;
-    .el-form-item__label{
+    .el-form-item__label {
       text-align: right !important;
     }
-    span{
-        padding-left: 10px;
-        padding-right: 10px;
+    span {
+      padding-left: 10px;
+      padding-right: 10px;
     }
   }
-  .judge{
+  .judge {
     position: relative;
-    i{
+    i {
       position: absolute;
       top: 11px;
       color: #fff;
     }
-    .judgeClose{
+    .judgeClose {
       left: 85px;
     }
-    .judgeCheck{
+    .judgeCheck {
       left: 72px;
     }
   }

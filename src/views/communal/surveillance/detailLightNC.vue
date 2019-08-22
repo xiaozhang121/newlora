@@ -682,7 +682,7 @@ export default {
     this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
-    this.getSelectPreset();
+    // this.getSelectPreset();
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
