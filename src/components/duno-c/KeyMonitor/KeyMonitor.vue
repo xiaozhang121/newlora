@@ -68,7 +68,7 @@
             <span>{{kilovolt}}</span>
             <span>{{patrol}}</span>
           </div>
-          <span @click="fullScreen()">
+          <span>
             <i class="iconfont icon-jiantou"></i>
           </span>
         </div>

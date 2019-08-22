@@ -62,7 +62,7 @@
         </span>
       </el-dialog>
     </div>
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -93,18 +93,18 @@ export default {
       type: String
     }
   },
-  watch: {
-    remarkData(now) {
-      this.popData = now;
-    }
-  },
+//   watch: {
+//     remarkData(now) {
+//       this.popData = now;
+//     }
+//   },
   data() {
     return {
       address: "",
       isDisabled: true,
       dialogVisible: false,
       visible: false,
-      popData: {},
+    //   popData: {},
       textarea: "",
       dealContent: []
     };
@@ -114,7 +114,7 @@ export default {
       this.visible = false;
     },
     handleWain() {
-      this.visible = true;
+    //   this.visible = true;
     },
     addReturn() {
       const that = this;
