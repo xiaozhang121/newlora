@@ -116,15 +116,21 @@ export default {
       default: () => {
         return {};
       }
+    },
+    monitorDeviceId: {
+      type: String,
+      default: () => {
+        return "";
+      }
     }
   },
   watch: {
     shotData(now) {
       this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${now.cephBucket}&fileName=${now.cephFileName}`;
-    },
-    monitorInfo(now) {
-      this.getPowerDeviceId();
     }
+    // monitorInfo(now) {
+    //   this.getPowerDeviceId();
+    // }
   },
   data() {
     let that = this;
@@ -272,7 +278,7 @@ export default {
       this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
-        monitorDeviceId: this.monitorInfo["monitorDeviceId"],
+        monitorDeviceId: this.monitorDeviceId,
         powerDeviceId: this.powerDeviceId,
         areaList: [
           {
@@ -308,7 +314,7 @@ export default {
     getPowerDeviceId() {
       let url = "/lenovo-device/api/monitor/power-device";
       let query = {
-        monitorDeviceId: this.monitorInfo["monitorDeviceId"]
+        monitorDeviceId: this.monitorDeviceId
       };
       getAxiosData(url, query).then(res => {
         this.powerDeviceId = res.data[0].value;
@@ -329,7 +335,7 @@ export default {
     }
   },
   mounted() {
-    this.getPowerDeviceId();
+    // this.getPowerDeviceId();
     this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
   }
 };

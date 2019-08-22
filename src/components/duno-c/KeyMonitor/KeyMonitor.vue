@@ -24,7 +24,7 @@
           @play="onPlayerPlay($event)"
           @pause="onPlayerPause($event)"
         ></video-player>
-        <img v-else class="cameraImg" :src="picUrl"/>
+        <img v-else class="cameraImg" :src="picUrl" />
       </div>
       <div v-if="isIniializa" class="Initialization">
         <!--<p>
@@ -34,27 +34,30 @@
       </div>
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
-            <div class="block" :class="{'hidden': isPic}"  v-if="!isCamera" >
-              <span class="demonstration">-15s</span>
-              <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
-              <span class="nowNR">当前</span>
-            </div>
-            <div class="block" v-else>
-              视频录制 {{timeIncreateD}}  <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
-            </div>
-           <span @click="videotape()" v-if="!isPic">
-            <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
+          <div class="block" :class="{'hidden': isPic}" v-if="!isCamera">
+            <span class="demonstration">-15s</span>
+            <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
+            <span class="nowNR">当前</span>
+          </div>
+          <div class="block" v-else>
+            视频录制 {{timeIncreateD}}
+            <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>-->
+            <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
+          </div>
+          <span @click="videotape()" v-if="!isPic">
+            <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
+            <span v-else class="redPoint"></span>录像
           </span>
           <span @click="isSample()">
             <i class="iconfont icon-jietu"></i>截图
           </span>
-        <!--  <span @click="fullScreen()">
+          <!--  <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>-->
           <span @click="webFullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
-          <span @click="pushMov()"  v-if="!isPic">
+          <span @click="pushMov()" v-if="!isPic">
             <i class="iconfont icon-tuisong"></i>推送
           </span>
         </div>
@@ -83,6 +86,8 @@
       :shotData="shotData"
       @closeShot="closeShot"
       :monitorInfo="monitorInfo"
+      :monitorDeviceId="monitorId"
+      ref="screenShot"
     />
   </div>
 </template>
@@ -100,7 +105,7 @@ import { setTimeout } from "timers";
 import screenshot from "_c/duno-c/screenshot";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
 videojs.options.flash.swf = SWF_URL;
-import 'videojs-contrib-hls.js/src/videojs.hlsjs'
+import "videojs-contrib-hls.js/src/videojs.hlsjs";
 import { snapshoot } from "@/api/configuration/configuration.js";
 export default {
   name: "KeyMonitor",
@@ -110,11 +115,11 @@ export default {
     screenshot
   },
   props: {
-    picUrl:{},
-    isPic:{
+    picUrl: {},
+    isPic: {
       type: Boolean,
       default: () => {
-          return false;
+        return false;
       }
     },
     noButton: {
@@ -280,7 +285,8 @@ export default {
       timeSeed: null,
       isStop: false,
       timerTime: null,
-      timeIncreateD: '0:00:00',
+      timeIncreateD: "0:00:00",
+      monitorId: "",
       isCamera: false,
       isAlarmOption: false,
       sTimer: null,
@@ -303,7 +309,7 @@ export default {
         sources: [
           {
             type: "rtmp/flv",
-            type: 'application/x-mpegURL',
+            type: "application/x-mpegURL",
             /* type: "video/ogg",
             type: "video/webm",
             type: "video/mp4",*/
@@ -332,64 +338,74 @@ export default {
     }
   },
   methods: {
-    toStop(flag){
-        this.isStop = flag
-        if(this.isStop){
-            // 暂停录像
-            clearInterval(this.timerTime)
-        }else{
-            // 继续录像
-            this.timeIncreate(true)
-        }
+    toStop(flag) {
+      this.isStop = flag;
+      if (this.isStop) {
+        // 暂停录像
+        clearInterval(this.timerTime);
+      } else {
+        // 继续录像
+        this.timeIncreate(true);
+      }
     },
-    timeIncreate(flag){
-        this.timeSeed = new Date().getTime()
-        if(flag)
-            this.timeSeed -= this.passTime
-        else{
-            this.passTime = 0
-        }
-        this.timerTime = setInterval(()=>{
-            console.log(new Date().getTime())
-            let times = new Date().getTime() - this.timeSeed
-            this.passTime += 1000
-            this.timeIncreateD = this.formatDuring(times)
-        },1000)
+    timeIncreate(flag) {
+      this.timeSeed = new Date().getTime();
+      if (flag) this.timeSeed -= this.passTime;
+      else {
+        this.passTime = 0;
+      }
+      this.timerTime = setInterval(() => {
+        console.log(new Date().getTime());
+        let times = new Date().getTime() - this.timeSeed;
+        this.passTime += 1000;
+        this.timeIncreateD = this.formatDuring(times);
+      }, 1000);
     },
     formatDuring(mss) {
-        let days = parseInt(mss / (1000 * 60 * 60 * 24));
-        let hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
-        minutes = minutes<10?'0'+minutes:minutes
-        let seconds = parseInt((mss % (1000 * 60)) / 1000);
-        return hours + ":" + minutes + ":" + (Number(seconds)<10?'0'+seconds:seconds);
+      let days = parseInt(mss / (1000 * 60 * 60 * 24));
+      let hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      let seconds = parseInt((mss % (1000 * 60)) / 1000);
+      return (
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        (Number(seconds) < 10 ? "0" + seconds : seconds)
+      );
     },
-    videotape(){
-        this.isCamera = !this.isCamera
-        if(this.isCamera){
-            // 开始录像
-            this.timeIncreate()
-            postAxiosData('/lenovo-device/api/stream/startRecord',{'rtmpUrl': this.playerOptions["sources"][0]["src"]}).then(res=>{
-                this.$message.info(res.msg)
-                this.taskId = res.data.taskId
-            })
-        }else{
-            // 结束录像
-            postAxiosData('/lenovo-device/api/stream/endRecord',{'rtmpUrl': this.playerOptions["sources"][0]["src"], 'taskId':this.taskId}).then(res=>{
-                this.$message.info(res.msg)
-            })
-            clearInterval(this.timerTime)
-            this.timeIncreateD = '0:00:00'
-        }
+    videotape() {
+      this.isCamera = !this.isCamera;
+      if (this.isCamera) {
+        // 开始录像
+        this.timeIncreate();
+        postAxiosData("/lenovo-device/api/stream/startRecord", {
+          rtmpUrl: this.playerOptions["sources"][0]["src"]
+        }).then(res => {
+          this.$message.info(res.msg);
+          this.taskId = res.data.taskId;
+        });
+      } else {
+        // 结束录像
+        postAxiosData("/lenovo-device/api/stream/endRecord", {
+          rtmpUrl: this.playerOptions["sources"][0]["src"],
+          taskId: this.taskId
+        }).then(res => {
+          this.$message.info(res.msg);
+        });
+        clearInterval(this.timerTime);
+        this.timeIncreateD = "0:00:00";
+      }
     },
     webFullScreen() {
-      if(self.frameElement && self.frameElement.tagName == "IFRAME"){
-          parent.webFullScreen(this.streamAddr, this.isPic)
-      }else{
-          this.$store.state.app.isPic = this.isPic
-          this.$store.state.app.webFullVisable = !this.$store.state.app
-              .webFullVisable;
-          this.$store.state.app.webFull = this.streamAddr;
+      if (self.frameElement && self.frameElement.tagName == "IFRAME") {
+        parent.webFullScreen(this.streamAddr, this.isPic);
+      } else {
+        this.$store.state.app.isPic = this.isPic;
+        this.$store.state.app.webFullVisable = !this.$store.state.app
+          .webFullVisable;
+        this.$store.state.app.webFull = this.streamAddr;
       }
     },
     onPlayerPlay(player) {
@@ -450,7 +466,7 @@ export default {
         this.$router.push({
           path: "/surveillancePath/areaVideo",
           query: {
-            areaId: this.areaId,
+            areaId: this.areaId
           }
         });
         return;
@@ -510,7 +526,9 @@ export default {
     },
     //获取图片
     isSample() {
-      if(!this.isPic){
+      this.monitorId = this.monitorInfoR["monitorDeviceId"];
+      this.$refs.screenShot.getPowerDeviceId();
+      if (!this.isPic) {
         this.isShow = true;
         let url = "/lenovo-device/api/stream/snapshoot";
         let query = {
@@ -519,11 +537,15 @@ export default {
         postAxiosData(url, query).then(res => {
           this.shotData = res.data;
         });
-      }else{
-         this.isShow = true;
-         getAxiosData(`/lenovo-iir/device/image/get/output-image/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
-             this.shotData = res.data.data
-         })
+      } else {
+        this.isShow = true;
+        getAxiosData(
+          `/lenovo-iir/device/image/get/output-image/${
+            this.monitorInfoR["monitorDeviceId"]
+          }`
+        ).then(res => {
+          this.shotData = res.data.data;
+        });
       }
     },
     closeShot() {
@@ -538,13 +560,16 @@ export default {
     this.isIniializa = this.Initialization;
     this.isNavbar = this.isNav;
   },
-  beforeDestroy(){
-      let flag = 'typeId' in this.$route.query && this.$route.query.typeId == 3?true:false
-      if(flag){
-          this.$store.state.app.isPic = true
-      }else{
-          this.$store.state.app.isPic = false
-      }
+  beforeDestroy() {
+    let flag =
+      "typeId" in this.$route.query && this.$route.query.typeId == 3
+        ? true
+        : false;
+    if (flag) {
+      this.$store.state.app.isPic = true;
+    } else {
+      this.$store.state.app.isPic = false;
+    }
   },
   created() {
     this.playerOptions.autoplay = this.autoplay;
@@ -559,27 +584,27 @@ export default {
 
 <style lang="scss">
 .keyMonitor {
-  .hidden{
+  .hidden {
     visibility: hidden;
   }
-  .cameraImg{
+  .cameraImg {
     width: 100%;
     height: 100%;
   }
-  .el-slider__button-wrapper .el-tooltip{
+  .el-slider__button-wrapper .el-tooltip {
     vertical-align: middle;
     display: inline-block;
     border-radius: 100%;
     width: 16px;
     height: 16px;
   }
-  .el-slider__runway{
-      background-color: #ee183b;
+  .el-slider__runway {
+    background-color: #ee183b;
   }
-  .el-slider__bar{
-      background-color: white;
+  .el-slider__bar {
+    background-color: white;
   }
-  .redPoint{
+  .redPoint {
     position: absolute;
     background: red;
     width: 12px;
@@ -692,14 +717,16 @@ export default {
         justify-content: flex-start;
         width: 100%;
         padding-right: 11%;
-        .nowNR{
+        .nowNR {
           position: relative;
           left: 9px;
         }
-        .icon-zanting,.icon-bofang{
-          position: relative; left: 6px
+        .icon-zanting,
+        .icon-bofang {
+          position: relative;
+          left: 6px;
         }
-        .iconfont{
+        .iconfont {
           cursor: pointer;
         }
         span {

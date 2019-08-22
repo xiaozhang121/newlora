@@ -415,6 +415,7 @@ export default {
   },
   mounted() {
     this.newVisible = this.visible;
+    console.log(this.popData);
   }
 };
 </script>

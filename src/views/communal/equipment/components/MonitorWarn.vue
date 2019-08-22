@@ -109,7 +109,6 @@ export default {
       this.visible = false;
     },
     handleWain() {
-      console.log(this.remarkData);
       this.visible = true;
     },
     addReturn() {

@@ -119,8 +119,8 @@
                 }
             },
             onChange (data) {
-                const startTime = moment(data[0]).format('YYYY-MM-DD')
-                const endTime = moment(data[1]).format('YYYY-MM-DD')
+                const startTime = moment().add(-6,'hour').format('YYYY-MM-DD HH:mm:ss')
+                const endTime = moment().format('YYYY-MM-DD HH:mm:ss')
                 this.startTime = JSON.parse(JSON.stringify(startTime))
                 this.endTime = JSON.parse(JSON.stringify(endTime))
                 this.isGetData = true
@@ -132,8 +132,8 @@
                 const query = {
                     monitorDeviceId: that.itemId,
                     monitorDeviceType: that.monitorDeviceType,
-                    startTime: `${this.startTime} 00:00:00`,
-                    endTime: `${this.endTime} 23:59:59`,
+                    startTime: `${this.startTime}`,
+                    endTime: `${this.endTime}`,
                 }
                 getAxiosData(url, query).then( res => {
                     const dataList = res.data.dataList
