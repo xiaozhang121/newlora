@@ -235,8 +235,8 @@ export default {
   computed: {},
   watch: {
     popData(now) {
-      this.isThree =  now['isPhaseAlarm'] == 1
-      this.isImgVideo = now['fileType'] == 1
+      this.isThree = now["isPhaseAlarm"] == 1;
+      this.isImgVideo = now["fileType"] == 1;
       console.log(now);
       if ("alarmId" in now && now["alarmId"]) {
         // this.searchId = now["alarmId"];
@@ -329,9 +329,10 @@ export default {
           alarmId: that.searchId,
           input: that.dataList.alarmDetailType,
           inputT: that.dataList.alarmValue,
-          select: that.dataList.alarmSuperDetailType
+          select: that.dataList.alarmSuperDetailType,
+          alarmDetailTypeCode: that.dataList.alarmDetailTypeCode
         };
-        that.$forceUpdate()
+        that.$forceUpdate();
       });
     },
     selectItem(item, index) {
@@ -370,7 +371,7 @@ export default {
             message: "修改成功"
           });
           this.initData();
-          this.$$emit("updateData");
+          this.$emit("updateData");
         },
         error => {}
       );

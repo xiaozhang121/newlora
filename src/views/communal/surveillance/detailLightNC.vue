@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="controlTitle">
-      <div>{{ dataForm.monitorDeviceId }}</div>
+      <div>{{ dataForm.monitorDeviceName }}</div>
     </div>
     <div class="Main_contain">
       <div class="content" style="margin-top: 15px; position: relative">

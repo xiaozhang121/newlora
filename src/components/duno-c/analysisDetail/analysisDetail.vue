@@ -147,7 +147,16 @@ export default {
           key: "content",
           minWidth: 90,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            return h(
+              "div",
+              { class: { member_operate_div: true } },
+              params.row.content
+                ? params.row.content
+                : params.row.description
+            );
+          }
         },
         {
           title: "缺陷等级",

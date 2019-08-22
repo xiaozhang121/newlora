@@ -51,6 +51,7 @@
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { getAxiosData, postAxiosData } from "../../../api/axiosType";
 import { fiveSample, fourSample } from "@/api/configuration/configuration.js";
+import { EDEADLK } from "constants";
 export default {
   name: "personJudge",
   components: {
@@ -67,7 +68,8 @@ export default {
       },
       optionsData: [],
       options: [],
-      dialogVisible: false
+      dialogVisible: false,
+      isChange: false
     };
   },
   props: {
@@ -112,11 +114,20 @@ export default {
       this.dialogVisible = false;
       this.$emit("on-close");
       let url = "/lenovo-alarm/api/alarm/result/change";
-      let query = {
-        alarmId: this.formData.alarmId,
-        alarmDetailType: this.formData.input,
-        alarmValue: this.formData.inputT
-      };
+      let query;
+      if (this.isChange) {
+        query = {
+          alarmId: this.formData.alarmId,
+          alarmDetailType: this.formData.input,
+          alarmValue: this.formData.inputT
+        };
+      } else {
+        query = {
+          alarmId: this.formData.alarmId,
+          alarmDetailType: this.formData.input,
+          alarmValue: this.formData.alarmDetailTypeCode
+        };
+      }
       postAxiosData(url, query).then(res => {
         this.$message({
           type: "succsee",
@@ -140,6 +151,7 @@ export default {
       this.initFive(this.fourValue);
     },
     handlerSelect(item) {
+      this.isChange = true;
       // this.formData.select = item.value;
     },
     //初始化下拉框

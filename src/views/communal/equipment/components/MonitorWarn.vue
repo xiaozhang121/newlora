@@ -22,7 +22,9 @@
         <div>
           <i>记录:</i>
           <p>
-            <span v-for="(item,index) in dealContent.slice(0,1)" :key="index">{{item}}</span>
+            <el-tooltip class="item" effect="dark" :content="dealContent[0]" placement="top">
+              <span v-for="(item,index) in dealContent.slice(0,1)" :key="index">{{item}}</span>
+            </el-tooltip>
           </p>
         </div>
       </div>
@@ -33,7 +35,7 @@
         </p>
         <p v-if="isShow">
           <i @click.stop="dialogVisible = true">备注</i>
-          <i v-if="remarkData.isReturn=='0'" @click.stop="addReturn">复归</i>
+          <i v-if="isReturn" @click.stop="addReturn">复归</i>
           <i v-else :disabled="isDisabled" @click.stop class="gray">已复归</i>
         </p>
         <p v-else>
@@ -94,18 +96,21 @@ export default {
       type: String
     }
   },
-//   watch: {
-//     remarkData(now) {
-//       this.popData = now;
-//     }
-//   },
+  watch: {
+    remarkData(now) {
+      if (now.isReturn == "1") {
+        this.isReturn = false;
+      }
+    }
+  },
   data() {
     return {
       address: "",
       isDisabled: true,
       dialogVisible: false,
       visible: false,
-    //   popData: {},
+      //   popData: {},
+      isReturn: true,
       textarea: "",
       dealContent: []
     };
@@ -115,7 +120,7 @@ export default {
       this.visible = false;
     },
     handleWain() {
-    //   this.visible = true;
+      this.visible = true;
     },
     addReturn() {
       const that = this;
@@ -126,7 +131,7 @@ export default {
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-        this.showReturn = false;
+        this.isReturn = false;
       });
       this.$emit("handleListData");
     },
@@ -146,7 +151,7 @@ export default {
         content: that.textarea
       };
       dealRemarks(query).then(res => {
-          that.textarea = "";
+        that.textarea = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
         this.$emit("handleListData");
@@ -259,6 +264,13 @@ export default {
           padding-left: 10px;
           span {
             display: block;
+          }
+          .item {
+            span {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
           }
         }
       }

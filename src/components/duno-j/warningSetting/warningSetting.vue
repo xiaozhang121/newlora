@@ -200,12 +200,12 @@ export default {
       });
     },
     handleClose() {
-      this.$message({
-        type: success,
-        message: "修改失败"
-      });
       this.visible = false;
       this.$emit("handleClose");
+      this.$message({
+        message: "修改失败",
+        type: "warning"
+      });
     },
     submitForm(formName) {
       const that = this;
