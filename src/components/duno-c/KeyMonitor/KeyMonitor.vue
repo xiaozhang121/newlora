@@ -250,6 +250,11 @@ export default {
     streamAddr: {
       handler(now) {
         if (now) {
+          if(now.indexOf('mp4')>-1){
+              this.playerOptions["sources"][0]["type"] = 'video/mp4'
+          }else{
+              this.playerOptions["sources"][0]["type"] = 'application/x-mpegURL'
+          }
           this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
           this.showView = true;
@@ -310,7 +315,7 @@ export default {
           {
             type: "rtmp/flv",
             type: "application/x-mpegURL",
-            /* type: "video/ogg",
+           /* type: "video/ogg",
             type: "video/webm",
             type: "video/mp4",*/
             src: ""

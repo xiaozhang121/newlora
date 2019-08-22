@@ -1,6 +1,6 @@
 <template>
     <div class="diffPanel">
-        <el-dialog  class="elDialogClass" :visible="visibleOption" width="450px" center @close="handleClose">
+        <el-dialog :model="true"  class="elDialogClass" :visible="visibleOption" width="450px" center @close="handleClose">
             <div slot="title">
                 差值修订
             </div>
@@ -93,6 +93,10 @@ export default {
 
     },
     methods:{
+        handleSubmit(){
+            this.$message.info('修改成功')
+            this.handleClose()
+        },
         handleClose(){
             this.$emit('on-close')
         },
