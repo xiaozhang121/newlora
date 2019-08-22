@@ -202,6 +202,7 @@ export default {
     handleClose() {
       this.visible = false;
       this.$emit("handleClose");
+      this.initData();
       this.$message({
         message: "修改失败",
         type: "warning"
