@@ -425,6 +425,7 @@ export default {
         that.$store.state.app.isPush = true;
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
+        this.pushMovVisable = false;
       });
     },
     onClose() {

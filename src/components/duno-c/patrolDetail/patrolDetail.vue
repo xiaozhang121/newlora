@@ -36,12 +36,7 @@
       element-loading-text="加载中"
     >
       <div class="task">
-        <ReportTable
-          v-for="(item,index) in dataList"
-          :url="url"
-          :key="index"
-          :reportData="item"
-        />
+        <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
       </div>
       <!-- <el-pagination
         :page-size="dataList.pageParam.pageSize"
@@ -101,7 +96,7 @@ export default {
   watch: {
     dataList: {
       handler(now) {
-        if (now.length) {
+        if (now.length || now.length == 0) {
           this.loadingOption = false;
           clearTimeout(this.timer);
         }

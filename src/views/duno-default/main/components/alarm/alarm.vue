@@ -55,11 +55,17 @@
               </i-dropdown>
             </p>
           </div>
-          <div class="itemTitle"  v-else>
+          <div class="itemTitle" v-else>
             <p class="treeList">
-              <span :class="{'red': item['phaseData'].split('||')[0].indexOf('\'')>-1}">{{ item['phaseData'].split('||')[0].replace('\'','') }}</span>
-              <span :class="{'red': item['phaseData'].split('||')[1].indexOf('\'')>-1}">{{ item['phaseData'].split('||')[1].replace('\'','') }}</span>
-              <span :class="{'red': item['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ item['phaseData'].split('||')[2].replace('\'','') }}</span>
+              <span
+                :class="{'red': item['phaseData'].split('||')[0].indexOf('\'')>-1}"
+              >{{ item['phaseData'].split('||')[0].replace('\'','') }}</span>
+              <span
+                :class="{'red': item['phaseData'].split('||')[1].indexOf('\'')>-1}"
+              >{{ item['phaseData'].split('||')[1].replace('\'','') }}</span>
+              <span
+                :class="{'red': item['phaseData'].split('||')[2].indexOf('\'')>-1}"
+              >{{ item['phaseData'].split('||')[2].replace('\'','') }}</span>
             </p>
           </div>
           <div class="itemBottomTitle">
@@ -88,6 +94,7 @@
           :visible.sync="dialogVisible"
           :modal="false"
           width="400px"
+          @before-close="beforeClose"
         >
           <el-input
             type="textarea"
@@ -156,6 +163,9 @@ export default {
     }
   },
   methods: {
+    beforeClose() {
+      this.textarea = "";
+    },
     psotAlarmData(row, No) {
       const that = this;
       const url = "/lenovo-alarm/api/alarm/level-edit";
@@ -252,6 +262,7 @@ export default {
         content: this.textarea
       };
       dealRemarks(query).then(res => {
+        that.textarea = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
         this.$emit("handleListData");
@@ -396,11 +407,11 @@ body .prompt {
       .itemTitle {
         margin-bottom: 10px;
         font-size: 16px;
-        .treeList{
-          .red{
+        .treeList {
+          .red {
             color: red;
           }
-          span{
+          span {
             margin-right: 15px;
           }
         }
@@ -431,6 +442,7 @@ body .prompt {
   }
 }
 .remarks {
+  z-index: 3500;
   .dialog-footer {
     color: #ffffff;
     display: flex;

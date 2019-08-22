@@ -7,7 +7,7 @@
       <KeyErea />
     </div>
     <div class="mainContamin">
-     <!-- <div class="item">
+      <!-- <div class="item">
         <div class="alarmTitle">
           <div>24小时监测记录</div>
           <div>
@@ -38,18 +38,18 @@
           </div>
         </div>
         <div
-                class="alarmLogIn"
-                v-loading="loading"
-                element-loading-background="rgba(0, 0, 0, 0.8)"
-                element-loading-text="加载中"
+          class="alarmLogIn"
+          v-loading="loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          element-loading-text="加载中"
         >
           <AlarmLog
-                  v-for="(item,index) in dataList"
-                  :remarkData="dataList[index]"
-                  :time="item.alarmTime"
-                  :remarks="item.dealList"
-                  :key="index"
-                  @handleListData="handleData"
+            v-for="(item,index) in dataList"
+            :remarkData="dataList[index]"
+            :time="item.alarmTime"
+            :remarks="item.dealList"
+            :key="index"
+            @handleListData="handleData"
           />
         </div>
       </div>
@@ -83,14 +83,7 @@ export default {
   },
   data() {
     return {
-      demoList:[
-          {},
-          {},
-          {},
-          {},
-          {},
-          {},
-      ],
+      demoList: [{}, {}, {}, {}, {}, {}],
       timer: null,
       loading: false,
       mixinViewModuleOptions: {
@@ -152,7 +145,7 @@ export default {
   watch: {
     dataList: {
       handler(now) {
-        if (now.length) {
+        if (now.length || now.length == 0) {
           this.loading = false;
           clearTimeout(this.timer);
         }
@@ -166,16 +159,15 @@ export default {
       this.getDataList();
     },
     clickToDetail(flag) {
-      if(flag == 2){
+      if (flag == 2) {
         this.$router.push({
-            name: "security-all"
+          name: "security-all"
         });
-      }else{
+      } else {
         this.$router.push({
-            name: "record-all"
+          name: "record-all"
         });
       }
-
     },
     getTime() {
       let endTime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -191,7 +183,7 @@ export default {
     this.loading = true;
     this.timer = setTimeout(() => {
       this.loading = false;
-    }, 10000);  
+    }, 10000);
   },
   beforeDestroy() {}
 };
@@ -322,29 +314,29 @@ export default {
       margin-left: 0 !important;
     }
   }
-  .mainContamin{
+  .mainContamin {
     display: flex;
-    .monitorContain{
-      background: rgba(20,40,56,0.8);
+    .monitorContain {
+      background: rgba(20, 40, 56, 0.8);
       padding: 20px;
       min-height: 491px;
     }
-    .monitorItem{
+    .monitorItem {
       width: 49%;
       float: left;
-      &.marginRight{
+      &.marginRight {
         margin-right: 2%;
       }
-      .monitorRecord{
+      .monitorRecord {
         width: 100% !important;
         height: 100%;
         margin: 0 0px 50px 0;
       }
     }
-    .item{
+    .item {
       flex-grow: 1;
     }
-    .item:last-child{
+    .item:last-child {
       margin-left: 20px;
     }
   }

@@ -70,6 +70,7 @@
       :visible="visible"
       detailsType="alarm"
       @handleClose="handleClose"
+      @updateData="getDataList"
     />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
@@ -635,7 +636,7 @@ export default {
             path: "/surveillancePath/detailRedN",
             query: {
               monitorDeviceId: monitorDeviceId,
-                typeId: res.data["typeId"]
+              typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {

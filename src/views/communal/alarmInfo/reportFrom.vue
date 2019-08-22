@@ -89,7 +89,7 @@ export default {
   watch: {
     dataList: {
       handler(now) {
-        if (now.length) {
+        if (now.length || now.length == 0) {
           this.loading = false;
           clearTimeout(this.timer);
         }

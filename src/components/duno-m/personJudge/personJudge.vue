@@ -122,7 +122,7 @@ export default {
           type: "succsee",
           message: "修改成功"
         });
-        this.$emit('on-alter')
+        this.$emit("on-alter");
       });
     },
     handlecancle() {
@@ -136,6 +136,7 @@ export default {
 
     handlerSelectFour(item) {
       this.fourValue = item;
+      this.formData.input = "";
       this.initFive(this.fourValue);
     },
     handlerSelect(item) {
@@ -184,6 +185,15 @@ export default {
       }
     }
   }
+}
+.el-select-dropdown {
+  background: #fff !important;
+  color: #333;
+}
+.el-select-dropdown__empty,
+.el-select-dropdown__item,
+.el-select-dropdown__item.selected {
+  color: #333;
 }
 </style>
 

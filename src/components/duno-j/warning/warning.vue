@@ -3,40 +3,40 @@
     <section v-if="!isThree && newVisible" class="warningDialog">
       <div>
         <el-dialog
-                destroy-on-close
-                class="elDialogClass"
-                :visible="newVisible"
-                width="900px"
-                center
-                :top="top"
-                @close="handleClose"
+          destroy-on-close
+          class="elDialogClass"
+          :visible="newVisible"
+          width="900px"
+          center
+          :top="top"
+          @close="handleClose"
         >
           <div slot="title" style="text-align: left">
             <div class="title_top">
               <span>{{ dataList.title }}</span>
               <span class="iconfontList">
-              <!--<i class="iconfont icon-xiazai"></i>-->
-              <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
-              <i class="iconfont icon-wangye" @click="openPage()"></i>
-            </span>
+                <!--<i class="iconfont icon-xiazai"></i>-->
+                <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+                <i class="iconfont icon-wangye" @click="openPage()"></i>
+              </span>
             </div>
             <div class="extend">{{ dataList.alarmTypeValue }}</div>
           </div>
           <div class="main">
             <div class="monitor" ref="imgContain">
               <img
-                      v-if="isImgVideo"
-                      :src="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
-                      alt
+                v-if="isImgVideo"
+                :src="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+                alt
               />
               <KeyMonitor
-                      v-else
-                      width="100%"
-                      :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
+                v-else
+                width="100%"
+                :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
               />
               <i
-                      class="fullScreen iconfont icon-quanping"
-                      @click="changeFullScreen($refs.imgContain)"
+                class="fullScreen iconfont icon-quanping"
+                @click="changeFullScreen($refs.imgContain)"
               ></i>
             </div>
             <div class="info">
@@ -49,24 +49,24 @@
                 <p>
                   {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
                   <i-dropdown
-                          v-if="hasSelect && !discriminate"
-                          trigger="click"
-                          placement="bottom-start"
+                    v-if="hasSelect && !discriminate"
+                    trigger="click"
+                    placement="bottom-start"
                   >
                     <div
-                            class="table_select"
-                            :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
+                      class="table_select"
+                      :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                     >
-                    <span class="member_operate_div">
-                      <span>{{ dataList.alarmLevelName }}</span>
-                    </span>
+                      <span class="member_operate_div">
+                        <span>{{ dataList.alarmLevelName }}</span>
+                      </span>
                       <i class="iconfont icon-xiala"></i>
                     </div>
                     <i-dropdownMenu slot="list">
                       <i-dropdownItem
-                              v-for="(item, index) in selectList"
-                              :key="index"
-                              @click.native="selectItem(dataList, index)"
+                        v-for="(item, index) in selectList"
+                        :key="index"
+                        @click.native="selectItem(dataList, index)"
                       >
                         <div class="alarmLevel">{{ item }}</div>
                       </i-dropdownItem>
@@ -82,10 +82,10 @@
                 <a href="javascript:;" @click="clickJudge">结果修订</a>
               </div>
               <div class="from">
-              <span class="origin">
-                来源：
-                <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
-              </span>
+                <span class="origin">
+                  来源：
+                  <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
+                </span>
               </div>
             </div>
           </div>
@@ -101,15 +101,22 @@
           <div style="clear: both"></div>
         </el-dialog>
         <personJudge
-                :dataList="formData"
-                :isTemperture="discriminate"
-                @on-close="onClose"
-                @on-alter="initData"
-                :visible="visibleJudge"
+          :dataList="formData"
+          :isTemperture="discriminate"
+          @on-close="onClose"
+          @on-alter="initData"
+          :visible="visibleJudge"
         />
       </div>
     </section>
-    <wraning-t  class="warningDialog" :isThree="isThree"  :popData="popData" :detailsType="detailsType" :visible="newVisible" @handleClose="handleClose" />
+    <wraning-t
+      class="warningDialog"
+      :isThree="isThree"
+      :popData="popData"
+      :detailsType="detailsType"
+      :visible="newVisible"
+      @handleClose="handleClose"
+    />
   </section>
 </template>
 <script>
@@ -225,7 +232,7 @@ export default {
   computed: {},
   watch: {
     popData(now) {
-      this.isThree =  now['isPhaseAlarm'] == 1
+      this.isThree = now["isPhaseAlarm"] == 1;
       console.log(now);
       if ("alarmId" in now && now["alarmId"]) {
         // this.searchId = now["alarmId"];
@@ -358,6 +365,8 @@ export default {
             type: "success",
             message: "修改成功"
           });
+          this.initData();
+          this.$$emit("updateData");
         },
         error => {}
       );

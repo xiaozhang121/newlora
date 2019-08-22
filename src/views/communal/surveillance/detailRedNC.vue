@@ -105,7 +105,10 @@
               ></el-date-picker>
             </div>
             <div>
-              <div class="exportExcel">导出表格</div>
+              <div @click="clickExcel" class="clickBtn">
+                <i class="iconfont icon-daochu1"></i>
+                导出表格
+              </div>
             </div>
           </div>
         </div>
@@ -640,10 +643,11 @@ export default {
       this.echartForm.endTime = endTime;
       this.getEchasrts();
     },
-    // clickExcel() {
-    //   const that = this;
-    //   that.exportHandle();
-    // },
+    clickExcel() {
+      const that = this;
+      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.exportHandle();
+    },
     getSelectType() {
       getVType().then(res => {
         const resData = res.data;
@@ -765,7 +769,7 @@ export default {
     this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
-    this.getSelectPreset();
+    // this.getSelectPreset();
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
@@ -985,8 +989,16 @@ export default {
             cursor: pointer;
           }
         }
-        & > div:last-child {
-          font-size: 22px;
+        // & > div:last-child {
+        //   font-size: 22px;
+        // }
+        .clickBtn {
+          line-height: 40px;
+          width: 139px;
+          background-image: url(../../../assets/images/btn/moreBtn.png);
+          text-align: center;
+          font-size: 18px;
+          color: #ffffff;
         }
         .dateChose {
           .el-date-editor {
@@ -1057,14 +1069,6 @@ export default {
             cursor: pointer;
           }
         }
-        // .clickBtn {
-        //   line-height: 40px;
-        //   width: 139px;
-        //   background-image: url(../../../assets/images/btn/moreBtn.png);
-        //   text-align: center;
-        //   font-size: 18px;
-        //   color: #ffffff;
-        // }
         .dateChose {
           .el-date-editor {
             background-color: #192f41;
