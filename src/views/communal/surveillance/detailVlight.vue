@@ -95,7 +95,10 @@
               ></el-date-picker>
             </div>
             <div>
-              <div class="exportExcel">导出表格</div>
+              <div @click="clickExcel" class="clickBtn">
+                <i class="iconfont icon-daochu1"></i>
+                导出表格
+              </div>
             </div>
           </div>
         </div>
@@ -197,6 +200,7 @@ export default {
       srcData: [],
       echartTitle: "",
       isEnlarge: false,
+      queryForm: {},
       dataForm: {},
       echartForm: {},
       echartData: [],
@@ -615,6 +619,11 @@ export default {
         this.typeList = map;
       });
     },
+    clickExcel() {
+      const that = this;
+      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.exportHandle();
+    },
     getEchasrts() {
       let query = {
         startTime: this.echartForm.startTime,
@@ -887,8 +896,16 @@ export default {
             cursor: pointer;
           }
         }
-        & > div:last-child {
-          font-size: 22px;
+        // & > div:last-child {
+        //   font-size: 22px;
+        // }
+        .clickBtn {
+          line-height: 40px;
+          width: 139px;
+          background-image: url(../../../assets/images/btn/moreBtn.png);
+          text-align: center;
+          font-size: 18px;
+          color: #ffffff;
         }
         .dateChose {
           .el-date-editor {

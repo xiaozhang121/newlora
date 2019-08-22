@@ -152,9 +152,7 @@ export default {
             return h(
               "div",
               { class: { member_operate_div: true } },
-              params.row.content
-                ? params.row.content
-                : params.row.description
+              params.row.content ? params.row.content : params.row.description
             );
           }
         },
@@ -341,6 +339,8 @@ export default {
               params.row.executeTime
                 ? params.row.executeTime
                 : params.row.recordTime
+                ? params.row.recordTime
+                : params.row.data
             );
           }
         },

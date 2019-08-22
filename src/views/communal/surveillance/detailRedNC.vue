@@ -239,6 +239,7 @@ export default {
       echartTitle: "",
       srcData: [],
       dataForm: {},
+      queryForm:{},
       echartForm: {},
       echartData: [],
       value: "",
