@@ -86,7 +86,7 @@
       :shotData="shotData"
       @closeShot="closeShot"
       :monitorInfo="monitorInfo"
-      :monitorDeviceId="monitorId"
+      :monitorDeviceId="monitorInfoR['monitorDeviceId']"
       ref="screenShot"
     />
   </div>
