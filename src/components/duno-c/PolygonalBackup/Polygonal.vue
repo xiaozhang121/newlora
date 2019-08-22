@@ -189,14 +189,14 @@ export default {
         let data=JSON.parse(ev.dataTransfer.getData("itemData"));
         $(ev.target).append(`<img src="${data.src}" />`);
         if(data.name == 'weatherCheck'){
-            that.legendData.push(...['微型气象站'])
+           /* that.legendData.push(...['微型气象站'])
             that.seriesData.push(...[{
                 data: [50, 70, 10, 0, 20, 80, 30, 10, 20, 1],
                 name: "微型气象站",
                 type: "line"
             }])
             that.$forceUpdate()
-            that.isChangeFlag = !that.isChangeFlag
+            that.isChangeFlag = !that.isChangeFlag*/
         }else if(data.name == 'demoData'){
             that.legendData.push(...['可见光设备'])
             that.seriesData.push(...[{
@@ -222,7 +222,7 @@ export default {
         getAxiosData(url, query).then( res => {
             const dataList = res.data.dataList
             const legendData = []
-            const xAxisData = []
+            let xAxisData = []
             const seriesData = []
             for (let i = 0; i < dataList.length; i++) {
                 legendData.push(dataList[i].itemName)
@@ -232,10 +232,9 @@ export default {
                     type:'line',
                     data: []
                 }
+                xAxisData = []
                 for (let item in itemDataList) {
-                    if (i == 0) {
-                        xAxisData.push(itemDataList[item].time)
-                    }
+                    xAxisData.push(itemDataList[item].time)
                     obj.data.push(Number(itemDataList[item].data))
                 }
                 seriesData.push(obj)

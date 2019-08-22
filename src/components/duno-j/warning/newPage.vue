@@ -2,12 +2,13 @@
     <section class="warningDialog">
         <div>
             <el-dialog :close-on-press-escape="false" :close-on-click-modal="false" class="elDialogClass" :visible="true" width="900px" center @close="handleClose">
-                <div slot="title">
+                <div slot="title" style="text-align: left">
                     <div class="title_top">
                         <span>{{ dataList.title }}</span>
                         <span class="iconfontList">
               <!--<i class="iconfont icon-xiazai"></i>-->
-              <i style="position: relative; left: 10px" class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+              <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+              <!--<i class="iconfont icon-wangye" @click="openPage()"></i>-->
             </span>
                     </div>
                     <div class="extend">{{ dataList.alarmTypeValue }}</div>
@@ -22,9 +23,12 @@
                         <KeyMonitor
                                 v-else
                                 width="100%"
+                                :autoplay="true"
+                                :isNav="false"
                                 :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
                         />
                         <i
+                                v-if="isImgVideo"
                                 class="fullScreen iconfont icon-quanping"
                                 @click="changeFullScreen($refs.imgContain)"
                         ></i>
@@ -37,7 +41,7 @@
                         <div v-if="!discriminate" class="temperature">
                             <p class="monitorTitle">{{dataList.result}}</p>
                             <p>
-                                {{ popData['alarmValue']?popData['alarmValue']+'℃':'' }}
+                                {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
                                 <i-dropdown
                                         v-if="hasSelect && !discriminate"
                                         trigger="click"
@@ -45,10 +49,10 @@
                                 >
                                     <div
                                             class="table_select"
-                                            :class="[{'serious': alarmLevelN == 2},{'commonly': alarmLevelN == 1},{'danger': alarmLevelN == 3}]"
+                                            :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                                     >
                     <span class="member_operate_div">
-                      <span>{{ alarmLevelT }}</span>
+                      <span>{{ dataList.alarmLevelName }}</span>
                     </span>
                                         <i class="iconfont icon-xiala"></i>
                                     </div>
@@ -56,7 +60,7 @@
                                         <i-dropdownItem
                                                 v-for="(item, index) in selectList"
                                                 :key="index"
-                                                @click.native="selectItem(item, index)"
+                                                @click.native="selectItem(dataList, index)"
                                         >
                                             <div class="alarmLevel">{{ item }}</div>
                                         </i-dropdownItem>
@@ -74,18 +78,18 @@
                         <div class="from">
               <span class="origin">
                 来源：
-                <a href="javascript:;" @click="getJump">{{popData['monitorDeviceId']}}</a>
+                <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
               </span>
                         </div>
                     </div>
                 </div>
                 <div class="handleInfo">
-                     <div>
-                      <p class="monitorTitle">处理记录</p>
-                      <p v-for="(item, index) in handleList" :key="index" class="item">
-                        <span class="title">{{ item['time'] }}</span>
-                        <span class="info">{{ item['info'] }}</span>
-                      </p>
+                    <p class="monitorTitle">处理记录</p>
+                    <div>
+                        <p v-for="(item, index) in handleList" :key="index" class="item">
+                            <span class="title">{{ item['time'] }}</span>
+                            <span class="info">{{ item['info'] }}</span>
+                        </p>
                     </div>
                 </div>
                 <div style="clear: both"></div>
@@ -109,6 +113,7 @@
         components: { personJudge, KeyMonitor },
         data() {
             return {
+                hasSelect: true,
                 detailsType: '',
                 popData: null,
                 target: null,
@@ -159,12 +164,6 @@
                         { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
                         { time: "2019-06-31 12:22:32", info: "自定义文字描述" }
                     ];
-                }
-            },
-            hasSelect: {
-                type: Boolean,
-                default: () => {
-                    return false;
                 }
             },
             // discriminate: {
@@ -286,8 +285,12 @@
                         data.push(obj)
                     });
                     that.handleList = data;
+                    debugger
                     if (that.dataList.alarmTypeValue == "动态环境类") {
                         that.discriminate = true;
+                    }
+                    if (that.dataList.result == "温度正常") {
+                        that.hasSelect = false;
                     }
                     that.formData = {
                         alarmId: that.searchId,
@@ -298,8 +301,45 @@
                 });
             },
             selectItem(item, index) {
-                this.alarmLevelT = item;
-                this.alarmLevelN = index + 1;
+                this.psotAlarmData(item, index + 1);
+            },
+            psotAlarmData(row, No) {
+                const that = this;
+                const url = "/lenovo-alarm/api/alarm/level-edit";
+                let oldLevel;
+                let newLevel;
+                if (No == "1") {
+                    newLevel = "一般";
+                } else if (No == "2") {
+                    newLevel = "严重";
+                } else {
+                    newLevel = "危急";
+                }
+                if (row.alarmLevel == "1") {
+                    oldLevel = "一般";
+                } else if (row.alarmLevel == "2") {
+                    oldLevel = "严重";
+                } else {
+                    oldLevel = "危急";
+                }
+                const query = {
+                    id: row.id,
+                    alarmLevel: No,
+                    oldLevel: oldLevel,
+                    newLevel: newLevel,
+                    userName: this.$store.state.user.userName
+                };
+                putAxiosData(url, query).then(
+                    res => {
+                        this.$message({
+                            type: "success",
+                            message: "修改成功"
+                        });
+                        this.initData()
+                        this.$emit('on-fresh')
+                    },
+                    error => {}
+                );
             },
             handleClose() {
                 this.newVisible = false;

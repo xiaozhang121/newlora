@@ -69,6 +69,7 @@
       :fileType="isFileType"
       :visible="visible"
       detailsType="alarm"
+      @on-fresh="getDataList"
       @handleClose="handleClose"
       @updateData="getDataList"
     />

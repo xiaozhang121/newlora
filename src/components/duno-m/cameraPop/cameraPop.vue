@@ -117,7 +117,7 @@
                 getAxiosData(url, query).then( res => {
                     const dataList = res.data.dataList
                     const legendData = []
-                    const xAxisData = []
+                    let xAxisData = []
                     const seriesData = []
                     for (let i = 0; i < dataList.length; i++) {
                         legendData.push(dataList[i].itemName)
@@ -127,10 +127,9 @@
                             type:'line',
                             data: []
                         }
+                        xAxisData = []
                         for (let item in itemDataList) {
-                            if (i == 0) {
-                                xAxisData.push(itemDataList[item].time)
-                            }
+                            xAxisData.push(itemDataList[item].time)
                             obj.data.push(Number(itemDataList[item].data))
                         }
                         seriesData.push(obj)
