@@ -111,7 +111,7 @@ export default {
       this.visible = false;
     },
     handleWain() {
-      this.visible = true;
+    //   this.visible = true;
     },
     addReturn() {
       const that = this;

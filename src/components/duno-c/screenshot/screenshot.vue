@@ -17,13 +17,7 @@
         <div v-show="!isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
         <div class="shotInput">
           <div>
-            <el-cascader
-              placeholder="选择设备-部件-类型"
-              @change="handleChange"
-              v-model="cascadeValue"
-              :options="platOptions"
-              :props="props"
-            ></el-cascader>
+            <el-cascader placeholder="选择设备-部件-类型" @change="handleChange" :props="props"></el-cascader>
           </div>
           <div>
             <el-select v-model="selectValue" placeholder="选择识别结果">
@@ -139,8 +133,8 @@ export default {
       value: "",
       optionsFirst: [],
       options: [],
-      platOptions: [],
-      cascadeValue: "",
+      //   platOptions: [],
+      //   cascadeValue: "",
       selectValue: "",
       textarea: "",
       picWigth: "",
