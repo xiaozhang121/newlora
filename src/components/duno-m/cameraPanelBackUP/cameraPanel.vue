@@ -715,6 +715,11 @@
                     }
                     let tempName = that.addPosInput
                     postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId}).then(res=>{
+                        if(res.status == 500){
+                            this.$message.fail(res.message)
+                        }else{
+                            this.$message.success(res.message)
+                        }
                         that.getListData()
                     })
                     that.addPosInput = ''
@@ -828,11 +833,17 @@
                 this.$emit('on-close')
             },
             viewCamera(command, flag){
+                const that = this
                 this.activeNum = command
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
                     .replace("{step}", 8).replace("{flag}", Number(flag));
                 return new Promise((resolve, reject)=>{
                     putAxiosData(url).then(res => {
+                       if(!res.data.flag){
+                           putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/0`).then(res=>{
+                               putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/1`).then(res=>{})
+                           })
+                       }
                         resolve(res)
                     },error=>{
                         reject(res)

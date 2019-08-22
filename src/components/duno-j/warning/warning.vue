@@ -60,10 +60,10 @@
                             class="table_select"
                             :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                     >
-                    <span class="member_operate_div">
+                    <span class="member_operate_div" v-if="dataList.alarmLevelName">
                       <span>{{ dataList.alarmLevelName }}</span>
                     </span>
-                      <i class="iconfont icon-xiala"></i>
+                      <i class="iconfont icon-xiala"  v-if="dataList.alarmLevelName"></i>
                     </div>
                     <i-dropdownMenu slot="list">
                       <i-dropdownItem
@@ -126,6 +126,7 @@ export default {
   components: { personJudge, KeyMonitor, wraningT },
   data() {
     return {
+      isPhaseAlarm: '',
       isThree: false,
       target: null,
       searchId: "",
@@ -228,6 +229,7 @@ export default {
   computed: {},
   watch: {
     popData(now) {
+      this.isPhaseAlarm = now['isPhaseAlarm']
       this.isThree =  now['isPhaseAlarm'] == 1
       this.isImgVideo = now['fileType'] == 1
       console.log(now);
@@ -293,12 +295,15 @@ export default {
     },
     initData() {
       let that = this;
+      that.discriminate = false
+      that.hasSelect = true
       let url = "/lenovo-plan/api/task-result/view";
       if (this.detailsType == "alarm") {
         url = "/lenovo-alarm/api/alarm/view";
       }
       getAxiosData(url, {
-        [that.searchType]: that.searchId
+        [that.searchType]: that.searchId,
+        'isPhaseAlarm': that.isPhaseAlarm
       }).then(res => {
         that.handleList = [];
         that.dataList = res.data;
@@ -362,6 +367,8 @@ export default {
             type: "success",
             message: "修改成功"
           });
+          this.initData()
+          this.$emit('on-fresh')
         },
         error => {}
       );

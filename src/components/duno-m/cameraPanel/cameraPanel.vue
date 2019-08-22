@@ -261,10 +261,10 @@ import { debug } from 'util';
                 selectValue: '3000',
                 timeOptions:[
                     { value:'3000', label: '3秒/控制位' },
-                    { value:'120000', label: '2分钟/控制位' },
-                    { value:'180000', label: '3分钟/控制位' },
-                    { value:'240000', label: '4分钟/控制位' },
-                    { value:'300000', label: '5分钟/控制位' }
+                    { value:'6000', label: '6秒/控制位' },
+                    { value:'9000', label: '9秒/控制位' },
+                    { value:'12000', label: '12秒/控制位' },
+                    { value:'15000', label: '15秒/控制位' }
                 ],
                 play:require('@/assets/camera/play.png'),
                 greenPoint:require('@/assets/camera/greenPoint.png'),
@@ -611,6 +611,11 @@ import { debug } from 'util';
                     }
                     let tempName = that.addPosInput
                     postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId}).then(res=>{
+                        if(res.status == 500){
+                            this.$message.fail(res.message)
+                        }else{
+                            this.$message.success(res.message)
+                        }
                         that.getListData()
                     })
                     that.addPosInput = ''

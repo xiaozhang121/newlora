@@ -164,7 +164,7 @@
       </div>
     </div>-->
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <wraning @on-fresh="getDataList" :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
     <!--<wraning-t :popData="popData" detailsType="alarm" :visible="true" @handleClose="handleClose"></wraning-t>-->
   </div>
 </template>

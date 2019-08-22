@@ -84,6 +84,11 @@ export default {
                 .replace("{step}", 8).replace("{flag}", Number(flag));
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
+                    if(!res.data.flag){
+                        putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/0`).then(res=>{
+                            putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/1`).then(res=>{})
+                        })
+                    }
                     resolve(res)
                 },error=>{
                     reject(res)
