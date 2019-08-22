@@ -325,7 +325,7 @@
     .picVideo{
       width: 100%;
       height: 128px;
-      background: grey;
+      background: black;
       & img{
         width: 100%;
         height: 128px !important;
