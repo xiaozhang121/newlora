@@ -34,14 +34,25 @@
           element-loading-background="rgba(0, 0, 0, 0.8)"
           element-loading-text="加载中"
         >
-          <MonitorWarn
-            v-for="(item,index) in lightInformation"
-            :remarkData="lightInformation[index]"
-            :time="item.alarmTime"
-            :remarks="item.dealList"
-            :key="index"
-            @handleListData="handleListData"
-          />
+          <template  v-for="(item,index) in lightInformation">
+            <MonitorWarn
+                    v-if="item['isPhaseAlarm']!= 1"
+                    :remarkData="lightInformation[index]"
+                    :time="item.alarmTime"
+                    :remarks="item.dealList"
+                    :key="index"
+                    @handleListData="handleListData"
+            />
+            <monitor-warn-t
+                v-else
+                :remarkData="lightInformation[index]"
+                 :time="item.alarmTime"
+                 :remarks="item.dealList"
+                 :key="index"
+                 @handleListData="handleListData"
+            />
+          </template>
+
          <!-- <monitor-warn-t></monitor-warn-t>
           <monitor-warn-t></monitor-warn-t>-->
         </div>
@@ -248,6 +259,7 @@ export default {
         pageRows: 4
       };
       infraNewInformation(data).then(res => {
+          debugger
         this.lightInformation = res.data.tableData;
         clearTimeout(this.timerS);
         this.loadingOptionS = false;

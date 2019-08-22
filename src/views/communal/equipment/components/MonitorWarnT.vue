@@ -2,31 +2,31 @@
   <div class="alarmLogT">
     <div class="img">
       <span class="item">
-         <img :src="remarkData.pic" alt />
-         <span>A相：15℃</span>
+         <img :src="remarkData.pic.split('||')[0]" alt />
+         <span :class="{'red': remarkData['phaseData'].split('||')[0].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[0].replace('\'','') }}</span>
+     </span>
+      <span class="item">
+         <img :src="remarkData.pic.split('||')[1]" alt />
+         <span :class="{'red': remarkData['phaseData'].split('||')[1].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[1].replace('\'','') }}</span>
       </span>
       <span class="item">
-         <img :src="remarkData.pic" alt />
-         <span>B相：15℃</span>
-      </span>
-      <span class="item">
-         <img :src="remarkData.pic" alt />
-          <span>C相：15℃</span>
+         <img :src="remarkData.pic.split('||')[2]" alt />
+         <span :class="{'red': remarkData['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[2].replace('\'','') }}</span>
       </span>
     </div>
     <div class="content">
       <div class="top not-print">
         <p>
           监测对象:
-          <!--<span>{{remarkData.powerDeviceName}}</span>-->
-          <span>4号主变500千伏测压变</span>
+          <span>{{remarkData.powerDeviceName}}</span>
+          <!--<span>4号主变500千伏测压变</span>-->
         </p>
       </div>
       <div class="milldle">
         <div>
           内容:
-          <!--<span>{{remarkData.content}}</span>-->
-          <span>三项告警</span>
+          <span>{{remarkData.content}}</span>
+          <!--<span>三项告警</span>-->
         </div>
       </div>
       <div class="btn">
@@ -214,6 +214,9 @@ export default {
       text-align: center;
       color: white;
       font-size: 14px;
+      .red{
+        color: red;
+      }
       & > span{
         margin-top: 10px;
       }

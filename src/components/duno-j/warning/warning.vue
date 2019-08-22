@@ -103,6 +103,7 @@
         :dataList="formData"
         :isTemperture="discriminate"
         @on-close="onClose"
+        @on-alter="initData"
         :visible="visibleJudge"
       />
     </div>

@@ -64,7 +64,7 @@ export default [{
         component: () => import('@/components/duno-j/warning/newPageRobot.vue')
     },
     {
-        path: '/newPageT',
+        path: '/newPageT/:name/:value/:info/:detailsType',
         name: 'newPageT',
         props: true,
         meta: {
