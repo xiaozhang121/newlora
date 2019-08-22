@@ -38,8 +38,11 @@
                   :showBtmOption="false"
                   :Initialization="true"
                 ></key-monitor>
-                <span v-show="overFlag"  class="aaaaaaaaaaaaa" :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'">{{ tepmNum }}</span>
-
+                <span
+                  v-show="overFlag"
+                  class="aaaaaaaaaaaaa"
+                  :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'"
+                >{{ tepmNum }}</span>
               </div>
             </div>
           </div>
@@ -125,7 +128,7 @@
         <div class="top not-print">
           <div>历史数据</div>
           <div class="btn">
-            <div>
+            <!-- <div>
               <duno-btn-top
                 @on-select="onSelect"
                 class="dunoBtnTop"
@@ -134,7 +137,7 @@
                 :title="titleType"
                 :showBtnList="false"
               ></duno-btn-top>
-            </div>
+            </div>-->
             <div class="dateChose">
               <el-date-picker
                 unlink-panels
@@ -146,16 +149,10 @@
                 @change="onChangeTime"
               ></el-date-picker>
             </div>
-            <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div>
           </div>
         </div>
         <div class="con-chart">
-          <echarts :dataAllList="echartData" />
+          <echarts :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
         </div>
       </div>
     </div>
@@ -230,18 +227,17 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      titleType: "选择预置位",
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       isControl: "1",
       currentTime: 10,
       timeOut: null,
       isEnlarge: false,
+      echartTitle: "",
       srcData: [],
       dataForm: {},
       echartForm: {},
       echartData: [],
-      typeList: [],
       value: "",
       alarmLevel: "",
       visible: false,
@@ -489,34 +485,46 @@ export default {
       this.tepmNum = 0;
     },
     pointerPos(event) {
-        const that = this;
-        that.overFlag = true
-            // console.log('x:'+event.offsetX)
-            // console.log('y:'+event.offsetY)
-            if(that.$store.state.app.isPic){
-                if(event.target.className != "cameraImg"){
-                    that.overFlag = false
-                }
-            }else{
-                if(event.target.className != "vjs-tech"){
-                    that.overFlag = false
-                }
+      const that = this;
+      that.overFlag = true;
+      // console.log('x:'+event.offsetX)
+      // console.log('y:'+event.offsetY)
+      if (that.$store.state.app.isPic) {
+        if (event.target.className != "cameraImg") {
+          that.overFlag = false;
+        }
+      } else {
+        if (event.target.className != "vjs-tech") {
+          that.overFlag = false;
+        }
+      }
+      that.offsetX = event.offsetX;
+      that.offsetY = event.offsetY;
+      if (!this.timer) {
+        this.timer = setInterval(() => {
+          let pos =
+            0.1184210526315789 *
+            document.querySelector(".keyMonitor ").offsetWidth;
+          let x = that.offsetX - pos < 0 ? 0 : that.offsetX - pos;
+          if (
+            that.offsetX >
+            document.querySelector(".keyMonitor ").offsetWidth - pos
+          ) {
+            x = document.querySelector(".keyMonitor ").offsetWidth - pos * 2;
+          }
+          if (this.$store.state.app.isPic) {
+            x = that.offsetX;
+          }
+          getAxiosData(
+            "/lenovo-iir/device/temperature/get/location/" +
+              this.dataForm.monitorDeviceId,
+            {
+              x: parseInt(x),
+              y: that.offsetY,
+              r: 1,
+              pannelWidth: document.querySelector(".keyMonitor ").offsetWidth,
+              pannelHeight: document.querySelector(".keyMonitor ").offsetHeight
             }
-            that.offsetX = event.offsetX;
-            that.offsetY = event.offsetY;
-            if (!this.timer) {
-                this.timer = setInterval(() => {
-                    let pos = 0.1184210526315789 * document.querySelector('.keyMonitor ').offsetWidth
-                    let x = that.offsetX-pos<0?0:that.offsetX-pos
-                    if(that.offsetX > document.querySelector('.keyMonitor ').offsetWidth-pos){
-                        x = document.querySelector('.keyMonitor ').offsetWidth-pos*2
-                    }
-                    if(this.$store.state.app.isPic){
-                        x = that.offsetX
-                    }
-                    getAxiosData(
-                        "/lenovo-iir/device/temperature/get/location/" + this.dataForm.monitorDeviceId,
-                        { x: parseInt(x), y: that.offsetY, r: 1, pannelWidth: document.querySelector('.keyMonitor ').offsetWidth, pannelHeight:document.querySelector('.keyMonitor ').offsetHeight }
           ).then(res => {
             // console.log('data:'+res.data)
             that.tepmNum = res.data.data;
@@ -604,9 +612,6 @@ export default {
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
         this.getDataList();
-      } else if (item.title == "titleType") {
-        this.echartForm.source = item.monitorDeviceType;
-        this.getEchasrts();
       }
     },
     onChangeHis(data) {
@@ -627,14 +632,18 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
+      this.echartTitle =
+        moment(data[0]).format("YYYY/MM/DD") +
+        "-" +
+        moment(data[1]).format("YYYY/MM/DD");
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
     },
-    clickExcel() {
-      const that = this;
-      that.exportHandle();
-    },
+    // clickExcel() {
+    //   const that = this;
+    //   that.exportHandle();
+    // },
     getSelectType() {
       getVType().then(res => {
         const resData = res.data;
@@ -673,33 +682,16 @@ export default {
         this.allDataLevel = map;
       });
     },
-    getSelectPreset() {
-      getVPreset().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        this.typeList = map;
-      });
-    },
     getEchasrts() {
-      getPosition().then(res => {
-        let presetId = res.data[0].value;
-        this.echartForm = {
-          startTime: this.echartForm.startTime,
-          endTime: this.echartForm.endTime,
-          deviceType: "2",
-          monitorDeviceId: this.$route.params.monitorDeviceId,
-          presetIds: presetId
-        };
-        getVEcharts(this.echartForm).then(res => {
-          this.echartData = res.data.itemDataList;
-        });
+      let query = {
+        startTime: this.echartForm.startTime,
+        endTime: this.echartForm.endTime,
+        deviceType: "2",
+        powerDeviceId: this.echartForm.sources,
+        monitorDeviceId: this.$route.query.monitorDeviceId
+      };
+      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
+        this.echartData = res.data.dataList;
       });
     },
     handleClose() {
@@ -715,6 +707,9 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
+      this.echartTitle = moment()
+        .add(-1, "days")
+        .format("YYYY/MM/DD");
     },
     getControl() {
       if (this.isControl == "1") {
@@ -742,13 +737,15 @@ export default {
         }, 1000 * 60 * 5);
       }
     },
-    picTurn(){
-       const that = this
-       this.picTurnTimer = setInterval(()=>{
-           getAxiosData(`/lenovo-iir/device/video/new-frame/${that.dataForm.monitorDeviceId}`).then(res=>{
-               that.$store.state.app.picSrc = res.data
-           })
-       },200)
+    picTurn() {
+      const that = this;
+      this.picTurnTimer = setInterval(() => {
+        getAxiosData(
+          `/lenovo-iir/device/video/new-frame/${that.dataForm.monitorDeviceId}`
+        ).then(res => {
+          that.$store.state.app.picSrc = res.data;
+        });
+      }, 200);
     }
   },
   created() {
@@ -756,15 +753,15 @@ export default {
     this.dataForm.typeId = this.$route.query.typeId;
     this.initCamera();
     this.getEchasrts();
-    if(this.dataForm.typeId == 3){
-        this.$store.state.app.isPic = true
-        this.picTurn()
-    }else{
-        this.$store.state.app.isPic = false
+    if (this.dataForm.typeId == 3) {
+      this.$store.state.app.isPic = true;
+      this.picTurn();
+    } else {
+      this.$store.state.app.isPic = false;
     }
   },
   mounted() {
-    const that = this
+    const that = this;
     this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
@@ -774,8 +771,8 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
-    clearInterval(this.picTurnTimer)
-    this.$store.state.app.isPic = false
+    clearInterval(this.picTurnTimer);
+    this.$store.state.app.isPic = false;
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }
@@ -1060,14 +1057,14 @@ export default {
             cursor: pointer;
           }
         }
-        .clickBtn {
-          line-height: 40px;
-          width: 139px;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          text-align: center;
-          font-size: 18px;
-          color: #ffffff;
-        }
+        // .clickBtn {
+        //   line-height: 40px;
+        //   width: 139px;
+        //   background-image: url(../../../assets/images/btn/moreBtn.png);
+        //   text-align: center;
+        //   font-size: 18px;
+        //   color: #ffffff;
+        // }
         .dateChose {
           .el-date-editor {
             background-color: #192f41;

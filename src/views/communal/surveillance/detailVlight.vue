@@ -118,7 +118,7 @@
         <div class="top not-print">
           <div>历史数据</div>
           <div class="btn">
-            <div>
+            <!-- <div>
               <duno-btn-top
                 @on-select="onSelect"
                 class="dunoBtnTop"
@@ -127,7 +127,7 @@
                 :title="titleType"
                 :showBtnList="false"
               ></duno-btn-top>
-            </div>
+            </div>-->
             <div class="dateChose">
               <el-date-picker
                 unlink-panels
@@ -139,16 +139,10 @@
                 @change="onChangeTime"
               ></el-date-picker>
             </div>
-            <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div>
           </div>
         </div>
         <div class="con-chart">
-          <echarts :dataAllList="echartData" />
+          <echarts :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
         </div>
       </div>
     </div>
@@ -204,13 +198,14 @@ export default {
         getDataListURL: "/lenovo-alarm/api/alarm/history",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
-      titleType: "选择预置位",
+      //   titleType: "选择预置位",
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       isControl: "1",
       currentTime: 10,
       timeOut: null,
       srcData: [],
+      echartTitle: "",
       isEnlarge: false,
       dataForm: {},
       echartForm: {},
@@ -550,9 +545,6 @@ export default {
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
         this.getDataList();
-      } else if (item.title == "titleType") {
-        this.echartForm.source = item.monitorDeviceType;
-        this.getEchasrts();
       }
     },
     onChangeHis(data) {
@@ -573,13 +565,13 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
+      this.echartTitle =
+        moment(data[0]).format("YYYY/MM/DD") +
+        "-" +
+        moment(data[1]).format("YYYY/MM/DD");
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
-    },
-    clickExcel() {
-      const that = this;
-      that.exportHandle();
     },
     getSelectType() {
       getVType().then(res => {
@@ -620,7 +612,7 @@ export default {
       });
     },
     getSelectPreset() {
-      getVPreset().then(res => {
+      getPosition().then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {
@@ -634,18 +626,15 @@ export default {
       });
     },
     getEchasrts() {
-      getPosition().then(res => {
-        let presetId = res.data[0].value;
-        this.echartForm = {
-          startTime: this.echartForm.startTime,
-          endTime: this.echartForm.endTime,
-          deviceType: "2",
-          monitorDeviceId: this.$route.params.monitorDeviceId,
-          presetIds: presetId
-        };
-        getVEcharts(this.echartForm).then(res => {
-          this.echartData = res.data.itemDataList;
-        });
+      let query = {
+        startTime: this.echartForm.startTime,
+        endTime: this.echartForm.endTime,
+        deviceType: "2",
+        powerDeviceId: this.echartForm.sources,
+        monitorDeviceId: this.$route.query.monitorDeviceId
+      };
+      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
+        this.echartData = res.data.dataList;
       });
     },
     handleClose() {
@@ -661,6 +650,9 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
+      this.echartTitle = moment()
+        .add(-1, "days")
+        .format("YYYY/MM/DD");
     },
     getControl() {
       if (this.isControl == "1") {
@@ -976,14 +968,6 @@ export default {
             background-color: #192f41;
             cursor: pointer;
           }
-        }
-        .clickBtn {
-          line-height: 40px;
-          width: 139px;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          text-align: center;
-          font-size: 18px;
-          color: #ffffff;
         }
         .dateChose {
           .el-date-editor {

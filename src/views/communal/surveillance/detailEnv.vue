@@ -179,6 +179,7 @@ import videoList from "./components/videoList";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import enlarge from "_c/duno-c/enlarge";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
 import buttonCustom from "_c/duno-m/buttonCustom";
@@ -212,7 +213,8 @@ export default {
     echarts,
     warningSetting,
     wraning,
-    buttonCustom
+    buttonCustom,
+    enlarge
   },
   data() {
     const that = this;
@@ -230,6 +232,7 @@ export default {
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       isControl: "1",
+      alarmId: "",
       currentTime: 10,
       timeOut: null,
       isEnlarge: false,
@@ -397,6 +400,7 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      this.alarmId = params.row.alarmId;
                       this.dialogVisible = true;
                     }
                   }
@@ -473,7 +477,7 @@ export default {
       const that = this;
       that.isShowRemarks = false;
       let query = {
-        alarmId: that.remarkData.alarmId,
+        alarmId: that.alarmId,
         type: "2",
         content: that.textarea
       };

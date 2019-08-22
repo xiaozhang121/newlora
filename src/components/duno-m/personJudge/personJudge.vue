@@ -9,12 +9,12 @@
     >
       <el-select
         class="itemInput"
-        v-model="formData.input"
-        placeholder="机器判定结果，可修改"
-        @change="handlerSelect"
+        v-model="formData.select"
+        placeholder="数据类型"
+        @change="handlerSelectFour"
       >
         <el-option
-          v-for="item in options"
+          v-for="item in optionsData"
           :key="item.value"
           :label="item.label"
           :value="item.value"
@@ -28,12 +28,12 @@
       ></el-input>
       <el-select
         class="itemInput"
-        v-model="formData.select"
-        placeholder="数据类型"
-        @change="handlerSelectFour"
+        v-model="formData.input"
+        placeholder="机器判定结果，可修改"
+        @change="handlerSelect"
       >
         <el-option
-          v-for="item in optionsData"
+          v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value"
