@@ -229,7 +229,7 @@ export default {
   watch: {
     popData(now) {
       this.isThree =  now['isPhaseAlarm'] == 1
-      this.isImgVideo = now['fileType'] == 0
+      this.isImgVideo = now['fileType'] == 1
       console.log(now);
       if ("alarmId" in now && now["alarmId"]) {
         // this.searchId = now["alarmId"];
