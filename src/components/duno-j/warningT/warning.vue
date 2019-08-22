@@ -4,8 +4,8 @@
       <div slot="title">
         <div class="title_top">
           <span>
-            <p>{{ '记录'+ '20190716022'}}</p>
-            <p>{{ '相间比较'}}</p>
+            <p>{{ dataList['title'] }}</p>
+            <p>{{ dataList['alarmTypeValue']}}</p>
           </span>
           <span class="iconList">
             <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
@@ -16,9 +16,9 @@
       </div>
       <div class="main">
         <div class="monitor">
-          <img src="" alt />
-          <img src="" alt />
-          <img src="" alt />
+          <span class="img"><img :src="dataList['alarmFileAddress'].split('||')[0]" alt /></span>
+          <span class="img"><img :src="dataList['alarmFileAddress'].split('||')[1]" alt /></span>
+          <span class="img"><img :src="dataList['alarmFileAddress'].split('||')[2]" alt /></span>
         </div>
         <div class="info">
           <div class="info_item">
@@ -26,14 +26,14 @@
               判定结果：
             </div>
             <div class="info_main">
-              <p>变压器-本体邮箱</p>
+              <p>{{ dataList.alarmDetailType }}</p>
               <p class="bold">
-                <span>A相：22℃</span>
-                <span>B相：22℃</span>
-                <span>C相：22℃</span>
+                <span :class="{'red': dataList['phaseData'].split('||')[0].indexOf('\'')>-1}">{{ dataList['phaseData'].split('||')[0].replace('\'','') }}</span>
+                <span :class="{'red': dataList['phaseData'].split('||')[1].indexOf('\'')>-1}">{{ dataList['phaseData'].split('||')[1].replace('\'','') }}</span>
+                <span :class="{'red': dataList['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ dataList['phaseData'].split('||')[2].replace('\'','') }}</span>
               </p>
               <p class="alarmType">
-                <span>三项告警</span>
+                <span>{{ dataList['alarmContent'] }}</span>
                 <span class="from" @click="clickJudge()">结果修订</span>
                 <span class="from" @click="showDiff()">差值修订</span>
               </p>
@@ -44,7 +44,7 @@
               来源：
             </div>
             <div class="info_main">
-              <p class="from">4号主变东侧红外221-23</p>
+              <p class="from" @click="getJump">{{dataList['monitorDeviceName']}}</p>
             </div>
           </div>
         </div>
@@ -53,23 +53,29 @@
         <div>
           <p class="monitorTitle">处理记录</p>
           <div class="monitorMain">
-          <p v-for="(item, index) in [{createTime:'123123', manualRecognType: '2', manualValueShow: '4'}]" :key="index" class="item">
-            <span class="title">{{ item['createTime'] }}</span>
-            <span class="info">{{ item['manualRecognType']+'  '+item['manualValueShow'] }}</span>
+          <p v-for="(item, index) in handleList" :key="index" class="item">
+            <span class="title">{{ item['time'] }}</span>
+            <span class="info">{{ item['info'] }}</span>
           </p>
           </div>
         </div>
       </div>
       <div style="clear: both"></div>
     </el-dialog>
-    <!--<personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="{taskDeviceId: $route.query.taskDeviceId}" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />-->
+    <personJudge
+            :dataList="formData"
+            :isTemperture="discriminate"
+            @on-close="onClose"
+            @on-alter="initData"
+            :visible="visibleJudge"
+    />
     <diff-panel :visible="visibleDiff" @on-close="closeDiff" />
   </div>
 </template>
 <script>
 import { Base64 } from 'js-base64'
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
-import personJudge  from '_c/duno-m/personJudgeRobot'
+import personJudge from "_c/duno-m/personJudge";
 import diffPanel  from '_c/duno-m/diffPanel'
 export default {
   components: { personJudge, diffPanel },
@@ -81,7 +87,7 @@ export default {
       searchType: "",
       visibleJudge: false,
       handleList: [],
-      newVisible: true,
+      newVisible: false,
       selectList: ["一般", "严重", "危急"],
       alarmLevelT: "",
       alarmLevelN: "",
@@ -157,19 +163,35 @@ export default {
     },
     handleResult: {
       type: String
+    },
+    detailsType: {
+        type: String,
+        default: () => {
+            return "task";
+        }
     }
   },
   computed: {},
   watch: {
     popData(now) {
-      if ("alarmId" in now) {
-        this.searchId = now["alarmId"];
-        this.searchType = "alarmId";
-      } else {
-        this.searchId = now["resultId"];
-        this.searchType = "resultId";
-      }
-      this.initData();
+        if ("alarmId" in now && now["alarmId"]) {
+            // this.searchId = now["alarmId"];
+            this.searchId = now["taskId"] + "," + now["batchId"];
+            this.searchType = "alarmId";
+        } else if ("taskId" in now && now["taskId"]) {
+            this.searchId = now["taskId"] + "," + now["batchId"];
+            this.searchType = "alarmId";
+        } else {
+            this.searchId = now["resultId"];
+            this.searchType = "resultId";
+        }
+        if (this.detailsType == "alarm") {
+            this.searchId = now["id"];
+            this.searchType = "id";
+        }
+        if (this.searchId != "") {
+            this.initData();
+        }
     },
     // handleNotes(now) {
     //   this.handleList = [];
@@ -200,10 +222,16 @@ export default {
         this.visibleDiff = false
     },
     openPage(){
-     /*   sessionStorage.setItem('datainfo', Base64.encode(JSON.stringify(this.popData)))
-        sessionStorage.setItem('info', Base64.encode(JSON.stringify(this.warnData)))*/
-        let routeData = this.$router.resolve({ name: 'newPageT', params: { } });
-        window.open(routeData.href, '_blank');
+        let routeData = this.$router.resolve({
+            name: "newPageT",
+            params: {
+                name: Base64.encode(this.searchType),
+                value: Base64.encode(this.searchId),
+                info: Base64.encode(JSON.stringify(this.popData)),
+                detailsType: Base64.encode(this.detailsType)
+            }
+        });
+        window.open(routeData.href, "_blank");
     },
     toPrint(e){
         this.target = e.path[5]
@@ -213,22 +241,40 @@ export default {
         this.$emit('on-fresh')
     },
     initData() {
-      //   debugger;
-      getAxiosData("/lenovo-plan/api/task-result/view", {
-        [this.searchType]: this.searchId
-      }).then(res => {
-        this.dataList = res.data;
-        let obj = {};
-        res.data.dealList.forEach(el => {
-          obj.time = el.dealTime;
-          obj.info = el.dealType;
-          this.handleList.push(obj);
-        });
-
-        if (this.dataList.alarmTypeValue == "动态环境类") {
-          this.discriminate = true;
-        }
-      });
+          let that = this;
+          let url = "/lenovo-plan/api/task-result/view";
+          if (this.detailsType == "alarm") {
+              url = "/lenovo-alarm/api/alarm/phase/view";
+          }
+          getAxiosData(url, {
+              [that.searchType]: that.searchId
+          }).then(res => {
+              that.handleList = [];
+              that.dataList = res.data;
+              debugger;
+              (res.data.dealList || []).forEach(el => {
+                  let obj = {};
+                  obj.time = el.dealTime;
+                  obj.info = el.dealType;
+                  that.handleList.push(obj);
+              });
+              console.log(that.handleList);
+              if (that.handleList.length < 1) {
+                  that.isdeal = false;
+              }
+              if (that.dataList.alarmTypeValue == "动态环境类") {
+                  that.discriminate = true;
+              }
+              if (that.dataList.result == "温度正常") {
+                  that.hasSelect = false;
+              }
+              that.formData = {
+                  alarmId: that.searchId,
+                  input: that.dataList.alarmDetailType,
+                  inputT: that.dataList.alarmValue,
+                  select: that.dataList.alarmSuperDetailType
+              };
+          });
     },
     selectItem(item, index) {
       this.alarmLevelT = item;
@@ -240,22 +286,45 @@ export default {
       this.$emit("handleClose");
     },
     getJump() {
-      if (this.popData.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: this.popData.monitorDeviceId
-          }
-        });
-      } else if (this.popData.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: this.popData.monitorDeviceId
-          }
-        });
-      }
-    },
+          getAxiosData("/lenovo-device/api/preset/type", {
+              monitorDeviceId: this.popData.monitorDeviceId
+          }).then(res => {
+              let supportPreset = res.data["supportPreset"];
+              let monitorDeviceType = res.data["monitorDeviceType"];
+              if (monitorDeviceType == 1) {
+                  if (supportPreset) {
+                      this.$router.push({
+                          path: "/surveillancePath/detailLight",
+                          query: {
+                              monitorDeviceId: this.popData.monitorDeviceId
+                          }
+                      });
+                  } else {
+                      this.$router.push({
+                          path: "/surveillancePath/detailLightN",
+                          query: {
+                              monitorDeviceId: this.popData.monitorDeviceId
+                          }
+                      });
+                  }
+              } else if (monitorDeviceType == 2) {
+                  this.$router.push({
+                      path: "/surveillancePath/detailRedN",
+                      query: {
+                          monitorDeviceId: this.popData.monitorDeviceId,
+                          typeId: res.data["typeId"]
+                      }
+                  });
+              } else if (monitorDeviceType == 3) {
+                  this.$router.push({
+                      path: "/surveillancePath/detailEnv",
+                      query: {
+                          monitorDeviceId: this.popData.monitorDeviceId
+                      }
+                  });
+              }
+          });
+      },
     clickJudge() {
       //   debugger;
       this.visibleJudge = true;
@@ -367,14 +436,23 @@ export default {
       height: 130px;
       background-color: inherit !important;
       display: flex;
-      img {
+      .img{
         width: 100%;
+        max-width: 230px;
         height: 100%;
         margin-right: 20px;
         display: block;
-        background: grey;
-        &:last-child{
-          margin-right: 0;
+        background: black;
+        position: relative;
+        img {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          &:last-child{
+            margin-right: 0;
+          }
         }
       }
     }
@@ -388,6 +466,7 @@ export default {
         color: #3774fe;
         text-decoration: underline;
         position: inherit;
+        cursor: pointer;
         bottom: inherit;
       }
       .info_item{
@@ -404,6 +483,9 @@ export default {
               font-size: 20px;
               font-weight: bold;
               margin: 4px 0;
+              .red{
+                color: red;
+              }
               span{
                 margin-right: 40px;
               }

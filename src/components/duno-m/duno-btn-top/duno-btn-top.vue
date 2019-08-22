@@ -400,7 +400,7 @@ export default {
     display: flex;
     color: #949594;
     &.bigLeft{
-      left: -2% !important;
+      left: 27% !important;
     }
     .btn{
       cursor: pointer;

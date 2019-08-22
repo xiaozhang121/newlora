@@ -122,6 +122,7 @@ export default {
           type: "succsee",
           message: "修改成功"
         });
+        this.$emit('on-alter')
       });
     },
     handlecancle() {
