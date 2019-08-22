@@ -18,7 +18,7 @@ export default {
     return {
       dataBread: [],
       downloadURL: "",
-      monitorDeviceType: ""
+      monitorDeviceType: "1"
     };
   },
   methods: {
