@@ -1,6 +1,6 @@
 <template>
   <section>
-    <section v-if="!isThree && newVisible" class="warningDialog">
+    <section v-if="!isThree && newVisible" class="warningDialog mainDialog">
       <div>
         <el-dialog
           destroy-on-close
@@ -32,9 +32,12 @@
               <KeyMonitor
                 v-else
                 width="100%"
+                :autoplay="true"
+                :isNav="false"
                 :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
               />
               <i
+                v-if="isImgVideo"
                 class="fullScreen iconfont icon-quanping"
                 @click="changeFullScreen($refs.imgContain)"
               ></i>
@@ -232,7 +235,8 @@ export default {
   computed: {},
   watch: {
     popData(now) {
-      this.isThree = now["isPhaseAlarm"] == 1;
+      this.isThree =  now['isPhaseAlarm'] == 1
+      this.isImgVideo = now['fileType'] == 1
       console.log(now);
       if ("alarmId" in now && now["alarmId"]) {
         // this.searchId = now["alarmId"];
@@ -305,7 +309,6 @@ export default {
       }).then(res => {
         that.handleList = [];
         that.dataList = res.data;
-        debugger;
         (res.data.dealList || []).forEach(el => {
           let obj = {};
           obj.time = el.dealTime;
@@ -328,6 +331,7 @@ export default {
           inputT: that.dataList.alarmValue,
           select: that.dataList.alarmSuperDetailType
         };
+        that.$forceUpdate()
       });
     },
     selectItem(item, index) {
@@ -458,9 +462,19 @@ export default {
     margin-top: 0vh !important;
   }
 }
+.mainDialog {
+  .vjs-fluid {
+    padding-top: 56%;
+  }
+  .iconList {
+    position: absolute;
+    z-index: 1 !important;
+    .iconfont {
+      display: none;
+    }
+  }
+}
 .warningDialog {
-  position: relative;
-  z-index: 9999999999;
   .el-dialog__headerbtn {
     top: 17px;
   }
