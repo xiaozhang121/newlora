@@ -123,8 +123,8 @@ export default {
       let queryT = {
           [this['deviceType']]:this.deviceId,
           'monitorDeviceType': this.monitorDeviceType,
-          'startTime': `${this.startTime} 00:00:00`,
-          'endTime': `${this.endTime} 23:59:59`
+          'startTime': `${this.startTime}`,
+          'endTime': `${this.endTime}`
       }
       getPlanHistory(queryT).then(res=>{
         const dataList = res.data.dataList
@@ -154,14 +154,16 @@ export default {
       })
     },
     setTime(target){
-      this.startTime = moment(target[0]).format('YYYY-MM-DD')
-      this.endTime = moment(target[1]).format('YYYY-MM-DD')
+       this.startTime = moment(target[0]).format("YYYY-MM-DD HH:mm:ss");
+      this.endTime = moment(target[1]).format("YYYY-MM-DD HH:mm:ss");
       this.initData()
     }
   },
   created (){
-    this.startTime = moment().format('YYYY-MM-DD')
-    this.endTime = moment().format('YYYY-MM-DD')
+    this.startTime = moment()
+      .add(-6, "hour")
+      .format("YYYY-MM-DD HH:mm:ss");
+    this.endTime = moment().format("YYYY-MM-DD HH:mm:ss");
     console.log('设备类型：', this.itemData.monitorDeviceType == '1'? '可见光': this.itemData.monitorDeviceType == '2'? '红外': '参数没对上')
     if (this.itemData && this.itemData.monitorDeviceType && this.itemData.monitorDeviceType == '1') {
       this.isShowClassify = true
