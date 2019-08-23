@@ -20,7 +20,7 @@
           <span>{{remarkData.content}}</span>
         </div>
         <div>
-          <i>记录:</i>
+          记录:
           <el-tooltip class="item" effect="dark" :content="dealContent[0]" placement="top">
             <p>
               <span v-for="(item,index) in dealContent.slice(0,1)" :key="index">{{item}}</span>

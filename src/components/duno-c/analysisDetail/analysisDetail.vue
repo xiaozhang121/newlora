@@ -149,11 +149,15 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h(
-              "div",
-              { class: { member_operate_div: true } },
-              params.row.content ? params.row.content : params.row.description
-            );
+            let content;
+            if (params.row.content) {
+              content = params.row.content;
+            } else if (params.row.description) {
+              content = params.row.description;
+            } else if (params.row.desc) {
+              content = params.row.desc;
+            }
+            return h("div", { class: { member_operate_div: true } }, content);
           }
         },
         {

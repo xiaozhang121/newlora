@@ -755,6 +755,7 @@ export default {
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.dataForm.monitorDeviceName = this.$route.query.monitorDeviceName;
     this.dataForm.typeId = this.$route.query.typeId;
     this.initCamera();
     this.getEchasrts();
