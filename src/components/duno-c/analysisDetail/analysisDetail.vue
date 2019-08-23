@@ -333,15 +333,15 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h(
-              "div",
-              { class: { member_operate_div: true } },
-              params.row.executeTime
-                ? params.row.executeTime
-                : params.row.recordTime
-                ? params.row.recordTime
-                : params.row.data
-            );
+            let data;
+            if (params.row.executeTime) {
+              data = params.row.executeTime;
+            } else if (params.row.recordTime) {
+              data = params.row.recordTime;
+            } else if (params.row.data) {
+              data = params.row.data;
+            }
+            return h("div", { class: { member_operate_div: true } }, data);
           }
         },
         {

@@ -269,6 +269,7 @@ export default {
       handleNotes: [],
       alarmType: "",
       isEnlarge: false,
+      monitorDeviceId: "",
       srcData: [],
       ByDayData: [
         {
@@ -701,8 +702,8 @@ export default {
     },
     selectPhase(item) {
       //   this.titlePhase = item["describeName"];
-      let monitorDeviceId = item.join(",");
-      this.getEcharts(monitorDeviceId);
+      this.monitorDeviceId = item.join(",");
+      this.getEcharts();
     },
     onSelectByDay(item) {
       this.titleByDay = item["describeName"];
@@ -729,12 +730,12 @@ export default {
     onSelectDate(item) {
       this.titleDate = item["describeName"];
     },
-    getEcharts(monitorDeviceId) {
+    getEcharts() {
       let that = this;
       const query = {
-        monitorDeviceId: monitorDeviceId,
-        startTime: this.startTime,
-        endTime: this.endTime
+        monitorDeviceId: that.monitorDeviceId,
+        startTime: that.startTime,
+        endTime: that.endTime
       };
       getEchartsData(query).then(res => {
         const dataList = res.data[0];
