@@ -259,7 +259,6 @@ export default {
         pageRows: 4
       };
       infraNewInformation(data).then(res => {
-          debugger
         this.lightInformation = res.data.tableData;
         clearTimeout(this.timerS);
         this.loadingOptionS = false;

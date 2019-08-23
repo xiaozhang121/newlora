@@ -285,7 +285,6 @@
                         data.push(obj)
                     });
                     that.handleList = data;
-                    debugger
                     if (that.dataList.alarmTypeValue == "动态环境类") {
                         that.discriminate = true;
                     }
@@ -403,7 +402,6 @@
             this.searchId = Base64.decode(this.value)
             this.popData = JSON.parse(Base64.decode(this.info))
             this.detailsType = Base64.decode(this.detailsType)
-            debugger
             // this.target = this.querySelectorAll('.warningDialog')[1]
             this.newVisible = this.visible;
         }

@@ -236,6 +236,7 @@ export default {
   computed: {},
   watch: {
     popData(now) {
+      debugger
       this.isPhaseAlarm = now["isPhaseAlarm"];
       this.isThree = now["isPhaseAlarm"] == 1;
       this.isImgVideo = now["fileType"] == 1;
@@ -312,7 +313,6 @@ export default {
         isPhaseAlarm: that.isPhaseAlarm
       }).then(res => {
         that.handleList = [];
-        debugger
         that.dataList = res.data;
         (res.data.dealList || []).forEach(el => {
           let obj = {};

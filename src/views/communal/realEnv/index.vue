@@ -867,7 +867,6 @@
                           document.querySelector('#map').setAttribute('style','height:calc( 100vh - 166px) !important')
                           that.$refs.firstElE.style.background = 'transparent'
                     }
-                    debugger
                     that.$refs.gisMapObj.mapTarget.updateSize()
                 })
                 data.map(item=>{

@@ -94,7 +94,6 @@ export default {
             clearInterval(that.SocketTime)
             that.SocketTime = null
             that.isSocketOk = true
-            debugger
             if(receivedMsg['type'] == 'monitor'){
                 that.$store.state.app.pushData = receivedMsg['data']
                 that.$store.state.app.isPush = true
