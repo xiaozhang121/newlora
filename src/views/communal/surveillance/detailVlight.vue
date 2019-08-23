@@ -189,7 +189,7 @@ export default {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history",
-        exportURL: "/lenovo-alarm/api/alarm/history/export"
+        exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       //   titleType: "选择预置位",
       titleTypeL: "全部数据类型",
@@ -224,7 +224,7 @@ export default {
         },
         {
           title: "对象",
-          key: "monitorDeviceName",
+          key: "mainDevice",
           minWidth: 120,
           align: "center",
           tooltip: true
