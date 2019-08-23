@@ -12,37 +12,16 @@ export default {
   },
   data() {
     return {
-      dataBread: [],
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/configuration/list", name: "配置管理" },
+        { path: "/configuration/list", name: "任务配置" },
+        { path: "", name: "查看报表" }
+      ],
       url: ""
     };
   },
-  methods: {
-    handleroute() {
-      let name = this.$route.name;
-      switch (name) {
-        case "configure-report":
-          this.dataBread = [
-            { path: "/realEnv/list", name: "操作中台" },
-            { path: "/configuration/list", name: "配置管理" },
-            { path: "/configuration/list", name: "任务配置" },
-            { path: "", name: "查看报表" }
-          ];
-          break;
-        case "infrared-info":
-          this.dataBread = [
-            { path: "/realEnv/list", name: "操作中台" },
-            { path: "/configuration/list", name: "配置管理" },
-            { path: "/configuration/list", name: "任务配置" },
-            { path: "", name: "查看报表" }
-          ];
-          break;
-      }
-    }
-  },
-  mounted() {
-    console.log(this.$route.name);
-    this.handleroute();
-  }
+  methods: {}
 };
 </script>
 

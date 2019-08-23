@@ -191,7 +191,7 @@ export default {
     },
     getMore() {
       this.$router.push({
-        name: "infrared-report",
+        name: "infrared-detail",
         query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/task/iir-result/list"
