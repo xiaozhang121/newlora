@@ -43,7 +43,7 @@
                             <p>
                                 {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
                                 <i-dropdown
-                                        v-if="hasSelect && !discriminate"
+                                        v-if="hasSelect && !discriminate  && popData['alarmLevel']"
                                         trigger="click"
                                         placement="bottom-start"
                                 >
@@ -51,10 +51,10 @@
                                             class="table_select"
                                             :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                                     >
-                    <span class="member_operate_div">
+                    <span class="member_operate_div"  v-if="dataList.alarmLevelName">
                       <span>{{ dataList.alarmLevelName }}</span>
                     </span>
-                                        <i class="iconfont icon-xiala"></i>
+                                        <i class="iconfont icon-xiala"  v-if="dataList.alarmLevelName"></i>
                                     </div>
                                     <i-dropdownMenu slot="list">
                                         <i-dropdownItem

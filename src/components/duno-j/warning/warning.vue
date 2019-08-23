@@ -52,7 +52,7 @@
                 <p>
                   {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
                   <i-dropdown
-                    v-if="hasSelect && !discriminate"
+                    v-if="hasSelect && !discriminate && popData['alarmLevel']"
                     trigger="click"
                     placement="bottom-start"
                   >
@@ -313,6 +313,7 @@ export default {
         'isPhaseAlarm': that.isPhaseAlarm
       }).then(res => {
         that.handleList = [];
+        debugger
         that.dataList = res.data;
         (res.data.dealList || []).forEach(el => {
           let obj = {};
