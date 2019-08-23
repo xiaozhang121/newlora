@@ -168,7 +168,6 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            // debugger;
             if (
               params.row.alarmLevel == "1" ||
               params.row.alarmLevel == "2" ||

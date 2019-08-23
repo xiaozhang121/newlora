@@ -260,6 +260,7 @@ export default {
         }
         i {
           font-style: normal;
+          width: 32px;
         }
         .item {
           p {

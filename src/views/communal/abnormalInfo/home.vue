@@ -489,7 +489,6 @@ export default {
         newLevel: type,
         userName: this.$store.state.user.userName
       };
-      debugger;
       putAxiosData(url, query).then(
         res => {
           if (res.code !== 200) {

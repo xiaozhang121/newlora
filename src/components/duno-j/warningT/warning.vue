@@ -1,5 +1,5 @@
 <template>
-  <div class="warningDialog three warningT" v-if="newVisible && isThree">
+  <div class="warningDialog three warningT" v-if="newVisible && isThree && Object.keys(dataList).length">
     <el-dialog destroy-on-close  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">
@@ -33,7 +33,7 @@
                 <span :class="{'red': dataList['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ dataList['phaseData'].split('||')[2].replace('\'','') }}</span>
               </p>
               <p class="alarmType">
-                <span>{{ dataList['alarmContent'] }}</span>
+                <span v-if="dataList['alarmContent']">{{ dataList['alarmContent'] }}</span>
                 <span class="from" @click="clickJudge()">结果修订</span>
                 <span class="from" @click="showDiff()">差值修订</span>
               </p>
@@ -93,7 +93,7 @@ export default {
       alarmLevelT: "",
       alarmLevelN: "",
       newMonitorUrl: "",
-      dataList: [],
+      dataList: {},
       discriminate: false
     };
   },
@@ -250,7 +250,6 @@ export default {
     },
     initData() {
           let that = this;
-          debugger
           let url = "/lenovo-plan/api/task-result/view";
           if (this.detailsType == "alarm") {
               url = "/lenovo-alarm/api/alarm/phase/view";
@@ -260,8 +259,9 @@ export default {
               'isPhaseAlarm': that.isPhaseAlarm
           }).then(res => {
               that.handleList = [];
+              if(res.data['fileAddress'])
+                res.data['alarmFileAddress'] =  res.data['fileAddress']
               that.dataList = res.data;
-              debugger;
               (res.data.dealList || []).forEach(el => {
                   let obj = {};
                   obj.time = el.dealTime;
@@ -339,6 +339,9 @@ export default {
       //   debugger;
       this.visibleJudge = true;
     }
+  },
+  beforeDestroy(){
+      this.dataList = {}
   },
   mounted() {
     this.newVisible = this.visible;

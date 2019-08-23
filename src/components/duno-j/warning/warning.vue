@@ -52,7 +52,7 @@
                 <p>
                   {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
                   <i-dropdown
-                    v-if="hasSelect && !discriminate"
+                    v-if="hasSelect && !discriminate && popData['alarmLevel']"
                     trigger="click"
                     placement="bottom-start"
                   >
@@ -236,6 +236,7 @@ export default {
   computed: {},
   watch: {
     popData(now) {
+      debugger
       this.isPhaseAlarm = now["isPhaseAlarm"];
       this.isThree = now["isPhaseAlarm"] == 1;
       this.isImgVideo = now["fileType"] == 1;
