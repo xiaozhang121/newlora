@@ -97,10 +97,14 @@ export default {
     }
   },
   watch: {
-    remarkData(now) {
-      if (now.isReturn == "1") {
-        this.isReturn = false;
-      }
+    remarkData:{
+      handler(now) {
+        if (now.isReturn == "1") {
+            this.isReturn = false;
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   data() {
