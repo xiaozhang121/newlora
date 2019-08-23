@@ -165,6 +165,7 @@ export default {
   methods: {
     beforeClose() {
       this.textarea = "";
+      this.dialogVisible = false;
     },
     psotAlarmData(row, No) {
       const that = this;

@@ -575,6 +575,7 @@ export default {
     },
     beforeClose() {
       this.textarea = "";
+      this.dialogVisible = false;
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];

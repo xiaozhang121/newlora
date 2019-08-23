@@ -122,6 +122,7 @@ export default {
     },
     beforeClose() {
       this.textarea = "";
+      this.dialogVisible = false;
     },
     clickRemarks() {
       const that = this;
