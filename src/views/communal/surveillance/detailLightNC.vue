@@ -178,6 +178,7 @@ export default {
     enlarge
   },
   data() {
+    const that = this
     return {
       addOrEdit: "添加",
       disabled: false,

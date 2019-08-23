@@ -143,6 +143,7 @@ import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { truncate } from "fs";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
+import { dealRemarks } from "@/api/configuration/configuration.js";
 videojs.options.flash.swf = SWF_URL;
 export default {
   name: "popuponeinfo",
@@ -151,6 +152,7 @@ export default {
     return {
       itemData: {},
       textarea: "",
+      inputValue: '',
       dialogVisible: false
     };
   },
@@ -167,6 +169,13 @@ export default {
     }
   },
   watch: {
+    textarea:{
+        handler(now){
+            this.inputValue = now
+        },
+        immediate: true,
+        deep: true
+    },
     itemDataOption: {
       handler(now) {
         this.itemData = now;
@@ -232,8 +241,8 @@ export default {
     restoration(type) {
       if (type == "0") {
         this.dialogVisible = true;
+        return
       }
-      debugger
       this.$store.state.user.isAlarm = false;
       console.log(type == "1" ? "复归" : "备注");
       // const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
@@ -283,13 +292,15 @@ export default {
     clickRemarks() {
       const that = this;
       that.dialogVisible = false;
+      this.$store.state.user.isAlarm = false;
       let query = {
-        alarmId: that.remarkData.alarmId,
-        type: "2",
-        content: that.textarea
+        alarmId: this.itemData.alarmId,
+        type: "0",
+        content: that.inputValue
       };
       dealRemarks(query).then(res => {
           that.textarea = "";
+          that.inputValue = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
         this.$emit("handleListData");

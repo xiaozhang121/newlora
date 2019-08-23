@@ -1,6 +1,6 @@
 <template>
   <div>
-    <analysisDetail :dataBread="dataBread" />
+    <analysisDetail :downloadURL="downloadURL" :dataBread="dataBread" />
   </div>
 </template>
 
@@ -40,9 +40,12 @@ export default {
       }
     }
   },
-  mounted() {
+  created(){
     console.log(this.$route.name);
     this.handleroute();
+  },
+  mounted() {
+
   }
 };
 </script>
