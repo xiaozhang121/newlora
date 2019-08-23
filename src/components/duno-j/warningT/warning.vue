@@ -81,6 +81,7 @@ export default {
   components: { personJudge, diffPanel },
   data() {
     return {
+      isPhaseAlarm: '',
       visibleDiff: false,
       target: null,
       searchId: "",
@@ -180,6 +181,7 @@ export default {
   computed: {},
   watch: {
     popData(now) {
+        this.isPhaseAlarm = now['isPhaseAlarm']
         if ("alarmId" in now && now["alarmId"]) {
             // this.searchId = now["alarmId"];
             this.searchId = now["taskId"] + "," + now["batchId"];
@@ -248,12 +250,14 @@ export default {
     },
     initData() {
           let that = this;
+          debugger
           let url = "/lenovo-plan/api/task-result/view";
           if (this.detailsType == "alarm") {
               url = "/lenovo-alarm/api/alarm/phase/view";
           }
           getAxiosData(url, {
-              [that.searchType]: that.searchId
+              [that.searchType]: that.searchId,
+              'isPhaseAlarm': that.isPhaseAlarm
           }).then(res => {
               that.handleList = [];
               that.dataList = res.data;
