@@ -46,7 +46,7 @@ export default {
             { path: "/infrared/list", name: "红外监测" },
             { path: "", name: "红外监测记录信息" }
           ];
-          if (this.$$route.query.planId) {
+          if (this.$route.query.planId) {
             this.downloadURL = "/lenovo-plan/api/plan/iir-report/download";
           } else {
             this.downloadURL = "/lenovo-plan/api/task/result/list/downLoad";
