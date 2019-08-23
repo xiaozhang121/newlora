@@ -21,11 +21,11 @@
         </div>
         <div>
           <i>记录:</i>
-          <p>
-            <el-tooltip class="item" effect="dark" :content="dealContent[0]" placement="top">
+          <el-tooltip class="item" effect="dark" :content="dealContent[0]" placement="top">
+            <p>
               <span v-for="(item,index) in dealContent.slice(0,1)" :key="index">{{item}}</span>
-            </el-tooltip>
-          </p>
+            </p>
+          </el-tooltip>
         </div>
       </div>
       <div class="btn">
@@ -252,6 +252,7 @@ export default {
       div {
         font-size: 13px;
         color: #ffffff;
+        width: 100%;
         display: flex;
         justify-content: flex-start;
         & > span {
@@ -260,17 +261,18 @@ export default {
         i {
           font-style: normal;
         }
+        .item {
+          p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
         p {
+          width: 100%;
           padding-left: 10px;
           span {
             display: block;
-          }
-          .item {
-            span {
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
           }
         }
       }
