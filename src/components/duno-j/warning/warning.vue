@@ -235,29 +235,32 @@ export default {
   },
   computed: {},
   watch: {
-    popData(now) {
-      debugger
-      this.isPhaseAlarm = now["isPhaseAlarm"];
-      this.isThree = now["isPhaseAlarm"] == 1;
-      this.isImgVideo = now["fileType"] == 1;
-      if ("alarmId" in now && now["alarmId"]) {
-        // this.searchId = now["alarmId"];
-        this.searchId = now["taskId"] + "," + now["batchId"];
-        this.searchType = "alarmId";
-      } else if ("taskId" in now && now["taskId"]) {
-        this.searchId = now["taskId"] + "," + now["batchId"];
-        this.searchType = "alarmId";
-      } else {
-        this.searchId = now["resultId"];
-        this.searchType = "resultId";
-      }
-      if (this.detailsType == "alarm") {
-        this.searchId = now["id"];
-        this.searchType = "id";
-      }
-      if (this.searchId != "") {
-        this.initData();
-      }
+    popData:{
+      handler(now){
+          this.isPhaseAlarm = now["isPhaseAlarm"];
+          this.isThree = now["isPhaseAlarm"] == 1;
+          this.isImgVideo = now["fileType"] == 1;
+          if ("alarmId" in now && now["alarmId"]) {
+              // this.searchId = now["alarmId"];
+              this.searchId = now["taskId"] + "," + now["batchId"];
+              this.searchType = "alarmId";
+          } else if ("taskId" in now && now["taskId"]) {
+              this.searchId = now["taskId"] + "," + now["batchId"];
+              this.searchType = "alarmId";
+          } else {
+              this.searchId = now["resultId"];
+              this.searchType = "resultId";
+          }
+          if (this.detailsType == "alarm") {
+              this.searchId = now["id"];
+              this.searchType = "id";
+          }
+          if (this.searchId != "") {
+              this.initData();
+          }
+      },
+      deep: true,
+      immediate: true
     },
     // handleNotes(now) {
     //   this.handleList = [];
@@ -301,6 +304,7 @@ export default {
       screenfull.toggle(target);
     },
     initData() {
+      debugger
       let that = this;
       that.discriminate = false;
       that.hasSelect = true;
@@ -313,6 +317,7 @@ export default {
         isPhaseAlarm: that.isPhaseAlarm
       }).then(res => {
         that.handleList = [];
+        debugger
         that.dataList = res.data;
         (res.data.dealList || []).forEach(el => {
           let obj = {};

@@ -14,7 +14,7 @@
          <span :class="{'red': remarkData['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[2].replace('\'','') }}</span>
       </span>
     </div>
-    <div class="content">
+    <div class="content"  @click="handleWain">
       <div class="top not-print">
         <p>
           监测对象:
@@ -33,8 +33,8 @@
         <p>
         </p>
         <p v-if="isShow">
-          <i @click="dialogVisible = true">备注</i>
-          <i v-if="remarkData.isReturn=='0'" @click="addReturn">复归</i>
+          <i @click.stop="dialogVisible = true">备注</i>
+          <i v-if="isReturn" @click.stop="addReturn">复归</i>
           <i v-else :disabled="isDisabled" class="gray">已复归</i>
         </p>
         <p v-else>
@@ -64,6 +64,7 @@
         </span>
       </el-dialog>
     </div>
+    <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -95,14 +96,33 @@ export default {
   },
   data() {
     return {
+    isReturn: true,
       address: "",
       isDisabled: true,
       dialogVisible: false,
+      visible: false,
       textarea: "",
       dealContent: []
     };
   },
+    watch: {
+        remarkData:{
+            handler(now) {
+                if (now.isReturn == "1") {
+                    this.isReturn = false;
+                }
+            },
+            deep: true,
+            immediate: true
+        }
+    },
   methods: {
+      handleClose() {
+          this.visible = false;
+      },
+      handleWain() {
+          this.visible = true;
+      },
     addReturn() {
       const that = this;
       let query = {
@@ -112,7 +132,7 @@ export default {
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-        this.showReturn = false;
+      this.isReturn = false;
       });
       this.$emit("handleListData");
     },
@@ -128,7 +148,7 @@ export default {
       const that = this;
       this.dialogVisible = false;
       let query = {
-        alarmId: that.remarkData.alarmId,
+        alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
         type: "2",
         content: that.textarea
       };
