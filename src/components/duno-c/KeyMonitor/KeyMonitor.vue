@@ -34,31 +34,36 @@
       </div>
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
-          <div class="block" :class="{'hidden': isPic}" v-if="!isCamera">
-            <span class="demonstration">-15s</span>
-            <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
-            <span class="nowNR">当前</span>
-          </div>
-          <div class="block" v-else>
-            视频录制 {{timeIncreateD}}
-            <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>-->
-            <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
-          </div>
-          <span @click="videotape()" v-if="!isPic">
+          <template v-if="!onlyCanel">
+            <div class="block" :class="{'hidden': isPic}" v-if="!isCamera">
+              <span class="demonstration">-15s</span>
+              <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
+              <span class="nowNR">当前</span>
+            </div>
+            <div class="block" v-else>
+              视频录制 {{timeIncreateD}}
+              <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>-->
+              <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
+            </div>
+          </template>
+          <span @click="videotape()" v-if="!isPic && !onlyCanel">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
-          <span @click="isSample()">
+          <span @click="isSample()" v-if="!onlyCanel">
             <i class="iconfont icon-jietu"></i>截图
           </span>
           <!--  <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>-->
-          <span @click="webFullScreen()">
+          <span @click="webFullScreen()"  v-if="!onlyCanel">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
-          <span @click="pushMov()" v-if="!isPic">
+          <span @click="pushMov()" v-if="!isPic && !onlyCanel">
             <i class="iconfont icon-tuisong"></i>推送
+          </span>
+          <span class="closeWeb" @click="toClose()" v-if="onlyCanel">
+            <i class="iconfont icon-tubiaozhizuomoban"></i>关闭
           </span>
         </div>
       </transition>
@@ -115,6 +120,12 @@ export default {
     screenshot
   },
   props: {
+    onlyCanel:{
+        type: Boolean,
+        default: () => {
+            return false;
+        }
+    },
     picUrl: {},
     isPic: {
       type: Boolean,
@@ -343,6 +354,9 @@ export default {
     }
   },
   methods: {
+    toClose(){
+        this.$emit('on-close')
+    },
     toStop(flag) {
       this.isStop = flag;
       if (this.isStop) {
@@ -593,7 +607,35 @@ export default {
 </script>
 
 <style lang="scss">
+.closeWeb{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 3%;
+}
+.pushMov{
+  .el-dialog.el-dialog--center {
+    margin-top: 15vh !important;
+    width: 500px !important;
+    height: inherit !important;
+    /* align-items: center; */
+    margin: 0 auto;
+  }
+  .el-dialog__header {
+    display: block !important;
+  }
+}
 .keyMonitor {
+  .el-dialog.el-dialog--center {
+    margin-top: 15vh !important;
+    width: 500px !important;
+    height: inherit !important;
+    /* align-items: center; */
+    margin: 0 auto;
+  }
+  .el-dialog__header {
+    display: block !important;
+  }
   .hidden {
     visibility: hidden;
   }
