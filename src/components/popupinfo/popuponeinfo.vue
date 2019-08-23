@@ -191,6 +191,7 @@ export default {
       if (type == "0") {
         this.dialogVisible = true;
       }
+      debugger
       this.$store.state.user.isAlarm = false;
       console.log(type == "1" ? "复归" : "备注");
       // const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'
@@ -311,7 +312,7 @@ export default {
     padding-bottom: 100%;
     position: relative;
     &.isImg{
-      padding-bottom: 56% !important;
+      padding-bottom: 59% !important;
     }
     img {
       width: 100%;
