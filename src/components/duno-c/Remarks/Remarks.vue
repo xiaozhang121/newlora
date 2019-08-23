@@ -7,7 +7,7 @@
       :visible.sync="dialogVisible"
       :modal="false"
       width="500px"
-       @before-close="beforeClose"
+       :before-close="beforeClose"
     >
       <el-input type="textarea" placeholder="请输入备注内容" :autosize="{ minRows: 3}" v-model="textarea"></el-input>
       <span slot="footer" class="dialog-footer">

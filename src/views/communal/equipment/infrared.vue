@@ -34,26 +34,26 @@
           element-loading-background="rgba(0, 0, 0, 0.8)"
           element-loading-text="加载中"
         >
-          <template v-for="(item,index) in lightInformation">
+          <template  v-for="(item,index) in lightInformation">
             <MonitorWarn
-              v-if="item['isPhaseAlarm']!= 1"
-              :remarkData="lightInformation[index]"
-              :time="item.alarmTime"
-              :remarks="item.dealList"
-              :key="index"
-              @handleListData="handleListData"
+                    v-if="item['isPhaseAlarm']!= 1"
+                    :remarkData="lightInformation[index]"
+                    :time="item.alarmTime"
+                    :remarks="item.dealList"
+                    :key="index"
+                    @handleListData="handleListData"
             />
             <monitor-warn-t
-              v-else
-              :remarkData="lightInformation[index]"
-              :time="item.alarmTime"
-              :remarks="item.dealList"
-              :key="index"
-              @handleListData="handleListData"
+                v-else
+                :remarkData="lightInformation[index]"
+                 :time="item.alarmTime"
+                 :remarks="item.dealList"
+                 :key="index"
+                 @handleListData="handleListData"
             />
           </template>
 
-          <!-- <monitor-warn-t></monitor-warn-t>
+         <!-- <monitor-warn-t></monitor-warn-t>
           <monitor-warn-t></monitor-warn-t>-->
         </div>
       </div>
@@ -255,7 +255,7 @@ export default {
         this.loadingOptionS = false;
       }, 1000000000);
       let data = {
-        ...this.timeQueryData,
+          ...this.timeQueryData,
         pageIndex: 1,
         pageRows: 4
       };

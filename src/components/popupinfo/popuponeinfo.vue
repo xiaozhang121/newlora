@@ -116,7 +116,7 @@
           :visible.sync="dialogVisible"
           :modal="false"
           width="500px"
-          @before-close="beforeClose"
+          :before-close="beforeClose"
         >
           <el-input
             type="textarea"
