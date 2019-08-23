@@ -1,6 +1,6 @@
 <template>
   <div class="duno-reportFrom">
-    <div class="breadcrumb">
+    <!-- <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="dunoDrap">
@@ -33,13 +33,7 @@
       <div class="task">
         <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
       </div>
-      <!-- <el-pagination
-        :page-size="dataList.pageParam.pageSize"
-        :current-page="dataList.pageParam.pageIndex"
-        layout="prev, pager, next"
-        :total="dataList.pageParam.totalRows"
-      ></el-pagination>-->
-    </duno-main>
+    </duno-main>-->
   </div>
 </template>
 

@@ -769,7 +769,7 @@ export default {
     },
     handleToMore() {
       this.$router.push({
-        name: "meterdata-detail",
+        name: "allReport-detail",
         query: {
           url: "/lenovo-plan/api/statistics/meter-data/list"
         }

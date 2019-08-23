@@ -191,7 +191,6 @@ export default {
       if (type == "0") {
         this.dialogVisible = true;
       }
-      debugger
       this.$store.state.user.isAlarm = false;
       console.log(type == "1" ? "复归" : "备注");
       // const url = type == '1' ? "/lenovo-alarm/api/alarm/reset" : '/lenovo-alarm/api/alarm/save'

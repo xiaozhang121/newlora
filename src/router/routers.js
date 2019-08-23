@@ -740,6 +740,18 @@ export default [{
                         },
                         component: () => import('@/views/communal/equipment/infoDetail.vue')
                     },
+                    {
+                        path: 'light-detail',
+                        name: 'light-detail',
+                        meta: {
+                            topNav: '2',
+                            title: '可见光',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: 'visiblelightList'
+                        },
+                        component: () => import('@/views/communal/equipment/allReportDetail.vue')
+                    },
                 ]
             },
             {
@@ -787,6 +799,18 @@ export default [{
                             active: 'infraredList'
                         },
                         component: () => import('@/views/communal/equipment/infoDetail.vue')
+                    },
+                    {
+                        path: 'infrared-detail',
+                        name: 'infrared-detail',
+                        meta: {
+                            topNav: '2',
+                            title: '可见光',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: 'visiblelightList'
+                        },
+                        component: () => import('@/views/communal/equipment/allReportDetail.vue')
                     },
                 ]
             }
@@ -1183,6 +1207,18 @@ export default [{
                             active: 'meterdataList'
                         },
                         component: () => import('@/views/communal/alarmInfo/detail.vue'),
+                    },
+                    {
+                        path: 'allReport-detail',
+                        name: 'allReport-detail',
+                        meta: {
+                            topNav: '2',
+                            title: '所有表计分析',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: 'meterdataList'
+                        },
+                        component: () => import('@/views/communal/alarmInfo/viewReportDetail.vue'),
                     },
                 ]
             }

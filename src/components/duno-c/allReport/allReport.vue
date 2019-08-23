@@ -1,10 +1,10 @@
 <template>
-  <div class="analysis-detail">
+  <div class="allReport">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>{{dataForm.planType}}{{dataForm.planId}}</div>
+      <div>所有信息</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -12,11 +12,31 @@
             class="dunoBtnTo"
             :isCheck="false"
             :dataList="regionList"
-            :title="titleType"
+            :title="titleTypeL"
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <!-- <div class="dateChose">
+        <div>
+          <duno-btn-top
+            @on-select="onSelect"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="statusList"
+            :title="titleTypeC"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <div>
+          <duno-btn-top
+            @on-select="onSelect"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="typeList"
+            :title="titleTypeR"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <div class="dateChose">
           <el-date-picker
             unlink-panels
             v-model="value"
@@ -32,7 +52,7 @@
             <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
-        </div>-->
+        </div>
       </div>
     </div>
     <duno-main class="dunoMain">
@@ -69,7 +89,7 @@ import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
-  name: "abnormalInfo",
+  name: "allReport",
   mixins: [mixinViewModule],
   components: {
     Breadcrumb,
@@ -122,11 +142,11 @@ export default {
       serious: false,
       commonly: false,
       danger: false,
-      //   value: "",
+      value: "",
       queryForm: {},
-      titleType: "按设备筛选",
-      //   titleTypeC: "所有报表",
-      //   titleTypeR: "所有类型",
+      titleTypeL: "全部设备",
+      titleTypeC: "全部报表",
+      titleTypeR: "全部类型",
       columns: [
         {
           title: "对象",
@@ -404,6 +424,7 @@ export default {
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;
     this.queryForm.monitorDeviceType = this.monitorDeviceType;
+    this.title = this.$route.query.title;
     this.getRegion();
     this.getStart();
     this.getType();
@@ -459,26 +480,26 @@ export default {
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
-      //   if (item.title == "titleType") {
-      //     this.clcikQueryData.areaId = item.monitorDeviceType;
-      //   } else if (item.title == "titleTypeC") {
-      //     this.clcikQueryData.status = item.monitorDeviceType;
-      //   } else if (item.title == "titleTypeR") {
-      //     this.clcikQueryData.source = item.monitorDeviceType;
-      //   }
+      if (item.title == "titleTypeL") {
+        this.clcikQueryData.areaId = item.monitorDeviceType;
+      } else if (item.title == "titleTypeC") {
+        this.clcikQueryData.status = item.monitorDeviceType;
+      } else if (item.title == "titleTypeR") {
+        this.clcikQueryData.source = item.monitorDeviceType;
+      }
       this.clickQuery(this.clcikQueryData);
     },
-    // onChangeTime(data) {
-    //   let startTime = "";
-    //   let endTime = "";
-    //   if (data) {
-    //     startTime = moment(data[0]).format("YYYY-MM-DD");
-    //     endTime = moment(data[1]).format("YYYY-MM-DD");
-    //   }
-    //   this.clcikQueryData.startTime = startTime;
-    //   this.clcikQueryData.endTime = endTime;
-    //   this.clickQuery(this.clcikQueryData);
-    // },
+    onChangeTime(data) {
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD");
+        endTime = moment(data[1]).format("YYYY-MM-DD");
+      }
+      this.clcikQueryData.startTime = startTime;
+      this.clcikQueryData.endTime = endTime;
+      this.clickQuery(this.clcikQueryData);
+    },
     handleClose() {
       this.popData = {};
       this.visible = false;
@@ -497,32 +518,29 @@ export default {
         this.$message.success(res.msg);
       });
     },
-    // clickExcel() {
-    //   const that = this;
-    //   that.queryForm.planId = that.$route.query.planId;
-    //   that.queryForm.monitorDeviceType = that.monitorDeviceType;
-    //   that.exportHandle();
-    // },
+    clickExcel() {
+      const that = this;
+      that.queryForm.planId = that.$route.query.planId;
+      that.queryForm.monitorDeviceType = that.monitorDeviceType;
+      that.exportHandle();
+    },
     getRegion() {
       const that = this;
-      const url = "/lenovo-plan/api/plan/power/select-list";
-      let query = {
-        planId: that.$route.query.planId
-      };
-      postAxiosData(url, query).then(res => {
+      const url = "/lenovo-device/api/device/select-list";
+      postAxiosData(url).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {
             describeName: item.label,
             monitorDeviceType: item.value,
-            title: "titleType"
+            title: "titleTypeL"
           };
           return obj;
         });
         map.unshift({
-          describeName: "所有设备",
+          describeName: "全部设备",
           monitorDeviceType: "",
-          title: "titleType"
+          title: "titleTypeL"
         });
         this.regionList = map;
       });
@@ -541,7 +559,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有报表",
+          describeName: "全部报表",
           monitorDeviceType: "",
           title: "titleTypeC"
         });
@@ -563,7 +581,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有类型",
+          describeName: "全部类型",
           monitorDeviceType: "",
           title: "titleTypeR"
         });
@@ -620,7 +638,7 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.analysis-detail {
+.allReport {
   width: 100%;
   //-------------------表格样式
   .dunoMain {
@@ -807,57 +825,57 @@ export default {
       //     cursor: pointer;
       //   }
       // }
-      //   .clickBtn {
-      //     line-height: 40px;
-      //     width: 139px;
-      //     background-image: url(../../../assets/images/btn/moreBtn.png);
-      //     text-align: center;
-      //     font-size: 18px;
-      //     cursor: pointer;
-      //     color: #ffffff;
-      //     @media screen and (min-width: 3500px) {
-      //       background-size: 100% 100%;
-      //       font-size: 14px;
-      //       line-height: 34px;
-      //       width: 120px;
-      //     }
-      //   }
-      //   .dateChose {
-      //     .el-date-editor {
-      //       background-color: #192f41;
-      //       border: none;
-      //       .el-range-input {
-      //         background-color: rgba(81, 89, 112, 0);
-      //       }
-      //       .el-range-separator {
-      //         font-size: 20px;
-      //         color: #fff;
-      //         @media screen and (min-width: 3500px) {
-      //           font-size: 14px;
-      //         }
-      //       }
-      //       .el-range-input {
-      //         color: #fff;
-      //       }
-      //     }
-      //     .el-range-editor--small.el-input__inner {
-      //       height: 40px !important;
-      //       @media screen and (min-width: 3500px) {
-      //         height: 35px !important;
-      //         width: 250px;
-      //       }
-      //     }
-      //     .el-range-editor--small .el-range__icon,
-      //     .el-range-editor--small .el-range__close-icon {
-      //       line-height: 35px;
-      //     }
-      //     .el-range-editor--small .el-range-input {
-      //       font-size: 16px;
-      //       @media screen and (min-width: 3500px) {
-      //         font-size: 14px;
-      //       }
-      //     }
-      //   }
+      .clickBtn {
+        line-height: 40px;
+        width: 139px;
+        background-image: url(../../../assets/images/btn/moreBtn.png);
+        text-align: center;
+        font-size: 18px;
+        cursor: pointer;
+        color: #ffffff;
+        @media screen and (min-width: 3500px) {
+          background-size: 100% 100%;
+          font-size: 14px;
+          line-height: 34px;
+          width: 120px;
+        }
+      }
+      .dateChose {
+        .el-date-editor {
+          background-color: #192f41;
+          border: none;
+          .el-range-input {
+            background-color: rgba(81, 89, 112, 0);
+          }
+          .el-range-separator {
+            font-size: 20px;
+            color: #fff;
+            @media screen and (min-width: 3500px) {
+              font-size: 14px;
+            }
+          }
+          .el-range-input {
+            color: #fff;
+          }
+        }
+        .el-range-editor--small.el-input__inner {
+          height: 40px !important;
+          @media screen and (min-width: 3500px) {
+            height: 35px !important;
+            width: 250px;
+          }
+        }
+        .el-range-editor--small .el-range__icon,
+        .el-range-editor--small .el-range__close-icon {
+          line-height: 35px;
+        }
+        .el-range-editor--small .el-range-input {
+          font-size: 16px;
+          @media screen and (min-width: 3500px) {
+            font-size: 14px;
+          }
+        }
+      }
     }
   }
   .icon-xiala {

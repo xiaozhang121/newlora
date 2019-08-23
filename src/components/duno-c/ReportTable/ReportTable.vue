@@ -177,65 +177,48 @@ export default {
       }
     },
     getJump(item) {
-        getAxiosData("/lenovo-device/api/preset/type", {
-            monitorDeviceId: item.monitorDeviceId
-        }).then(res => {
-            let supportPreset = res.data["supportPreset"];
-            let monitorDeviceType = res.data["monitorDeviceType"];
-            if (monitorDeviceType == 1) {
-                if (supportPreset) {
-                    this.$router.push({
-                        path: "/surveillancePath/detailLight",
-                        query: {
-                            monitorDeviceId: item.monitorDeviceId
-                        }
-                    });
-                } else {
-                    this.$router.push({
-                        path: "/surveillancePath/detailLightN",
-                        query: {
-                            monitorDeviceId: item.monitorDeviceId
-                        }
-                    });
-                }
-            } else if (monitorDeviceType == 2) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: item.monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            } else if (monitorDeviceType == 3) {
-                this.$router.push({
-                    path: "/surveillancePath/detailEnv",
-                    query: {
-                        monitorDeviceId:item.monitorDeviceId
-                    }
-                });
+      getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: item.monitorDeviceId
+      }).then(res => {
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: item.monitorDeviceId
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: item.monitorDeviceId
+              }
+            });
+          }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: item.monitorDeviceId,
+              typeId: res.data["typeId"]
             }
-        });
-  /*    if (this.$route.name == "infraredList" || item.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: item.monitorDeviceId
-          }
-        });
-      } else if (
-        this.$route.name == "visiblelightList" ||
-        item.monitorDeviceType == "2"
-      ) {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: item.monitorDeviceId
-          }
-        });
-      }*/
+          });
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: item.monitorDeviceId
+            }
+          });
+        }
+      });
     }
   },
   created() {
+    console.log(this.$route.name);
     this.mixinViewModuleOptions.exportURL = this.url;
   }
 };
