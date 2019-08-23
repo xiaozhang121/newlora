@@ -259,7 +259,7 @@ export default {
       that.dialogVisible = false;
       let query = {
         alarmId: this.queryData.alarmId,
-        type: this.queryData.type,
+        type: "2",
         content: this.textarea
       };
       dealRemarks(query).then(res => {

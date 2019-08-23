@@ -798,7 +798,7 @@ export default {
     .btn {
       display: flex;
       justify-content: space-between;
-      & > div {
+      & > div:first-child {
         margin-left: 10px;
         .dunoBtnTop {
           width: 250px;
@@ -807,6 +807,24 @@ export default {
           .btnList {
             top: inherit !important;
             width: 250px;
+            .title {
+              padding: 8px 20px;
+              @media screen and (min-width: 3500px) {
+                height: 35px;
+              }
+            }
+          }
+        }
+      }
+      & > div:not(:first-child) {
+        margin-left: 10px;
+        .dunoBtnTop {
+          width: 150px;
+          display: inline-flex;
+          padding-bottom: 0;
+          .btnList {
+            top: inherit !important;
+            width: 150px;
             .title {
               padding: 8px 20px;
               @media screen and (min-width: 3500px) {

@@ -129,6 +129,12 @@ export default {
       //   titleTypeR: "所有类型",
       columns: [
         {
+          title: "序号",
+          type: "index",
+          width: 90,
+          align: "center"
+        },
+        {
           title: "对象",
           key: "powerDeviceName",
           minWidth: 120,
