@@ -95,7 +95,7 @@
         <el-col :span="24">
           <p class="itemTitle">
             来源：
-            <span style="color: #366590">{{itemData.source}}</span>
+            <span  style="color: #366590" @click="getJump">{{itemData.source}}</span>
           </p>
         </el-col>
       </el-row>
@@ -187,6 +187,48 @@ export default {
     // if (this.visible) this.getData()
   },
   methods: {
+    getJump() {
+        if('monitorDeviceId' in this.itemData){
+          getAxiosData("/lenovo-device/api/preset/type", {
+              monitorDeviceId: this.itemData.monitorDeviceId
+          }).then(res => {
+              let supportPreset = res.data["supportPreset"];
+              let monitorDeviceType = res.data["monitorDeviceType"];
+              if (monitorDeviceType == 1) {
+                  if (supportPreset) {
+                      this.$router.push({
+                          path: "/surveillancePath/detailLight",
+                          query: {
+                              monitorDeviceId: this.itemData.monitorDeviceId
+                          }
+                      });
+                  } else {
+                      this.$router.push({
+                          path: "/surveillancePath/detailLightN",
+                          query: {
+                              monitorDeviceId: this.itemData.monitorDeviceId
+                          }
+                      });
+                  }
+              } else if (monitorDeviceType == 2) {
+                  this.$router.push({
+                      path: "/surveillancePath/detailRedN",
+                      query: {
+                          monitorDeviceId: this.itemData.monitorDeviceId,
+                          typeId: res.data["typeId"]
+                      }
+                  });
+              } else if (monitorDeviceType == 3) {
+                  this.$router.push({
+                      path: "/surveillancePath/detailEnv",
+                      query: {
+                          monitorDeviceId: this.itemData.monitorDeviceId
+                      }
+                  });
+              }
+          });
+        }
+      },
     restoration(type) {
       if (type == "0") {
         this.dialogVisible = true;

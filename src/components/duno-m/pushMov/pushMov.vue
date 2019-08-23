@@ -200,12 +200,24 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .pushMov{
         position: absolute;
         top: 0;
         z-index: 12;
         overflow: hidden;
+        .el-dialog{
+            height: inherit !important;
+            margin-top: 15vh !important;
+            width: 600px !important;
+            margin: 0 auto;
+        }
+        .el-dialog__header{
+            display:block !important;
+        }
+        .el-dialog__body{
+            padding: 30px 20px;
+        }
         .cameraItem{
             border: 1.5px dashed #a4adaf;
             width: 100%;

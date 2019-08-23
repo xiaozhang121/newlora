@@ -132,9 +132,10 @@
         :isPic="$store.state.app.isPic"
         :picUrl="$store.state.app.picSrc"
         v-if="visibleCamera"
+        :onlyCanel="true"
         :autoplay="true"
         :streamAddr="monitorData.src"
-        :isNav="false"
+        @on-close="onClose"
       />
     </el-dialog>
   </div>
@@ -253,6 +254,10 @@ export default {
              parent.beforeClose()
           }
       }
+    },
+    onClose(){
+        this.visibleCamera = false
+        this.beforeClose()
     },
     beforeClose() {
       this.$store.state.app.webFullVisable = false;
@@ -405,6 +410,7 @@ export default {
 </script>
 <style lang="scss">
 .dialogMain {
+  overflow: hidden !important;
   .el-dialog {
     width: 100% !important;
     height: 100%;
