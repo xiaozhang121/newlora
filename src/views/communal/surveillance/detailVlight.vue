@@ -224,21 +224,21 @@ export default {
         },
         {
           title: "对象",
-          key: "mainDevice",
+          key: "monitorDeviceName",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "部件/相别",
-          key: "powerDeviceName",
+          key: "alarmPart",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "描述",
-          key: "areaName",
+          key: "alarmContent",
           minWidth: 90,
           align: "center",
           tooltip: true
@@ -534,7 +534,7 @@ export default {
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
-        this.dataForm.deviceType = item.monitorDeviceType;
+        this.dataForm.dataType = item.monitorDeviceType;
         this.getDataList();
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;

@@ -276,7 +276,7 @@ export default {
         },
         {
           title: "描述",
-          key: "areaName",
+          key: "alarmContent",
           minWidth: 90,
           align: "center",
           tooltip: true
