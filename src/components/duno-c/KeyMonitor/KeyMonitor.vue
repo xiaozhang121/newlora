@@ -487,14 +487,16 @@ export default {
             this.$router.push({
               path: "/surveillancePath/detailLight",
               query: {
-                monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+                monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+                monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
               }
             });
           } else {
             this.$router.push({
               path: "/surveillancePath/detailLightN",
               query: {
-                monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+                monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+                monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
               }
             });
           }
@@ -503,6 +505,7 @@ export default {
             path: "/surveillancePath/detailRedN",
             query: {
               monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+              monitorDeviceName: this.monitorInfoR["monitorDeviceName"],
               typeId: res.data["typeId"]
             }
           });
@@ -510,7 +513,8 @@ export default {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
             query: {
-              monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+              monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+              monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
             }
           });
         }

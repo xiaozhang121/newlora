@@ -450,7 +450,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有来源",
+          describeName: "全部告警类型",
           monitorDeviceType: "",
           title: "titleTypeR"
         });
