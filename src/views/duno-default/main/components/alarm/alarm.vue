@@ -94,7 +94,7 @@
           :visible.sync="dialogVisible"
           :modal="false"
           width="400px"
-          @before-close="beforeClose"
+          :before-close="beforeClose"
         >
           <el-input
             type="textarea"
@@ -165,6 +165,7 @@ export default {
   methods: {
     beforeClose() {
       this.textarea = "";
+      this.dialogVisible = false;
     },
     psotAlarmData(row, No) {
       const that = this;

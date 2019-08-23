@@ -241,7 +241,7 @@ export default {
       let query = {
         ...this.timeQueryData,
         pageIndex: 1,
-        pageRows: 6
+        pageRows: 4
       };
       infraNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
@@ -255,6 +255,7 @@ export default {
         this.loadingOptionS = false;
       }, 1000000000);
       let data = {
+          ...this.timeQueryData,
         pageIndex: 1,
         pageRows: 4
       };

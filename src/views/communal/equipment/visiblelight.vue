@@ -250,6 +250,7 @@ export default {
         this.loadingOptionS = false;
       });
       let data = {
+        ...this.timeQueryData,
         pageIndex: 1,
         pageRows: 4
       };

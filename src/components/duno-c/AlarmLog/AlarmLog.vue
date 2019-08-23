@@ -50,7 +50,7 @@
         :visible.sync="dialogVisible"
         :modal="false"
         width="500px"
-        @before-close="beforeClose"
+        :before-close="beforeClose"
       >
         <el-input
           type="textarea"
@@ -133,6 +133,7 @@ export default {
     },
     beforeClose() {
       this.textarea = "";
+      this.dialogVisible = false;
     },
     clickRemarks() {
       const that = this;

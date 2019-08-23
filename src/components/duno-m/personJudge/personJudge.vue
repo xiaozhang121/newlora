@@ -117,13 +117,13 @@ export default {
       let query;
       if (this.isChange) {
         query = {
-          id: this.formData.id,
+          alarmId: this.formData.id,
           alarmDetailType: this.formData.input,
           alarmValue: this.formData.inputT
         };
       } else {
         query = {
-          id: this.formData.id,
+          alarmId: this.formData.id,
           alarmDetailType: this.formData.input,
           alarmValue: this.formData.alarmDetailTypeCode
         };

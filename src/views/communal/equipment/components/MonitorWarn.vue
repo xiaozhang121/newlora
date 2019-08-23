@@ -20,7 +20,7 @@
           <span>{{remarkData.content}}</span>
         </div>
         <div>
-          记录:
+          <i style="{width:31px}">记录:</i>
           <el-tooltip class="item" effect="dark" :content="dealContent[0]" placement="top">
             <p>
               <span v-for="(item,index) in dealContent.slice(0,1)" :key="index">{{item}}</span>
@@ -51,7 +51,7 @@
         :visible.sync="dialogVisible"
         :modal="false"
         width="500px"
-        @before-close="beforeClose"
+        :before-close="beforeClose"
       >
         <el-input
           type="textarea"
@@ -141,6 +141,7 @@ export default {
     },
     beforeClose() {
       this.textarea = "";
+      this.dialogVisible = false;
     },
     clickRemarks() {
       const that = this;
