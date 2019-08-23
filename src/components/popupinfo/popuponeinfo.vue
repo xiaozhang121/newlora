@@ -63,7 +63,7 @@
           </el-col>
         </el-row>
         <div>
-          <div class="imgBox">
+          <div class="imgBox" :class="{'isImg': itemData['alarmFileType'] == 1}">
             <img
               v-if="itemData['alarmFileType'] == 1"
               :src="itemData.alarmFileAddress"
@@ -309,6 +309,9 @@ export default {
     margin: 20px auto;
     padding-bottom: 100%;
     position: relative;
+    &.isImg{
+      padding-bottom: 56% !important;
+    }
     img {
       width: 100%;
       left: 0;
