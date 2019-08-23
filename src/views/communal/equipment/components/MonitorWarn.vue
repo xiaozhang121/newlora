@@ -33,7 +33,7 @@
           拍摄来源:
           <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
         </p>
-        <p v-if="isShow">
+        <p v-if="remarkData.isAlarm==1">
           <i @click.stop="dialogVisible = true">备注</i>
           <i v-if="isReturn" @click.stop="addReturn">复归</i>
           <i v-else :disabled="isDisabled" @click.stop class="gray">已复归</i>
