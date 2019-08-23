@@ -338,8 +338,8 @@ export default {
               data = params.row.executeTime;
             } else if (params.row.recordTime) {
               data = params.row.recordTime;
-            } else if (params.row.data) {
-              data = params.row.data;
+            } else if (params.row.date) {
+              data = params.row.date;
             }
             return h("div", { class: { member_operate_div: true } }, data);
           }
