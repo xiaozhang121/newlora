@@ -187,8 +187,7 @@ export default {
       addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        getDataListURL: "/lenovo-plan/api/plan/history",
         exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       //   titleType: "选择预置位",
@@ -683,6 +682,7 @@ export default {
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.dataForm.monitorDeviceName = this.$route.query.monitorDeviceName;
+    this.getDataList();
     this.initCamera();
     this.getEchasrts();
   },

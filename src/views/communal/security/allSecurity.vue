@@ -63,7 +63,8 @@
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
-    <div class="remarks">
+    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <!-- <div class="remarks">
       <el-dialog
         title="备注"
         :center="true"
@@ -84,7 +85,7 @@
           <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -93,6 +94,7 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
+import Remarks from "_c/duno-c/Remarks";
 import enlarge from "_c/duno-c/enlarge";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -118,7 +120,8 @@ export default {
     warningSetting,
     wraning,
     buttonCustom,
-    enlarge
+    enlarge,
+    Remarks
   },
   data() {
     const that = this;
@@ -142,6 +145,7 @@ export default {
       queryForm: {},
       dialogVisible: false,
       value: "",
+      alarmId: "",
       titleTypeL: "全部电压等级",
       titleTypeR: "全部类型",
       dataBread: [
@@ -307,6 +311,7 @@ export default {
                   on: {
                     click: () => {
                       this.dialogVisible = true;
+                      this.alarmId = params.row.alarmId;
                     }
                   }
                 },
@@ -413,7 +418,7 @@ export default {
     },
     clickExcel() {
       const that = this;
-    //   this.queryForm.startTime
+      //   this.queryForm.startTime
       that.exportHandle();
     },
     getRegion() {
@@ -519,30 +524,29 @@ export default {
         });
       }*/
     },
-    closeRemarks() {
-      this.dialogVisible = false;
-      this.textarea = "";
-    },
+    // closeRemarks() {
+    //   this.dialogVisible = false;
+    //   this.textarea = "";
+    // },
     beforeClose() {
-      this.textarea = "";
       this.dialogVisible = false;
-    },
-    clickRemarks() {
-      const that = this;
-      this.dialogVisible = false;
-      that.isShowRemarks = false;
-      let query = {
-        alarmId: that.remarkData.alarmId,
-        type: "2",
-        content: that.textarea
-      };
-      dealRemarks(query).then(res => {
-          that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("handleListData");
-      });
     }
+    // clickRemarks() {
+    //   const that = this;
+    //   this.dialogVisible = false;
+    //   that.isShowRemarks = false;
+    //   let query = {
+    //     alarmId: that.remarkData.alarmId,
+    //     type: "2",
+    //     content: that.textarea
+    //   };
+    //   dealRemarks(query).then(res => {
+    //     that.textarea = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     this.$emit("handleListData");
+    //   });
+    // }
   }
 };
 </script>
@@ -837,20 +841,20 @@ export default {
       }
     }
   }
-  .remarks {
-    .dialog-footer {
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      .button {
-        height: 37px;
-        line-height: 31px;
-        font-size: 14px;
-        &:first-child {
-          margin-right: 30px;
-        }
-      }
-    }
-  }
+  //   .remarks {
+  //     .dialog-footer {
+  //       color: #ffffff;
+  //       display: flex;
+  //       justify-content: center;
+  //       .button {
+  //         height: 37px;
+  //         line-height: 31px;
+  //         font-size: 14px;
+  //         &:first-child {
+  //           margin-right: 30px;
+  //         }
+  //       }
+  //     }
+  //   }
 }
 </style>

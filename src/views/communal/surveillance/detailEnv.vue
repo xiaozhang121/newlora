@@ -150,7 +150,8 @@
     </div>
     <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
-    <div class="remarks">
+    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <!-- <div class="remarks">
       <el-dialog
         title="备注"
         :center="true"
@@ -171,7 +172,7 @@
           <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -184,6 +185,7 @@ import enlarge from "_c/duno-c/enlarge";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
 import buttonCustom from "_c/duno-m/buttonCustom";
+import Remarks from "_c/duno-c/Remarks";
 import mixinViewModule from "@/mixins/view-module";
 import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -215,7 +217,8 @@ export default {
     warningSetting,
     wraning,
     buttonCustom,
-    enlarge
+    enlarge,
+    Remarks
   },
   data() {
     const that = this;
@@ -470,25 +473,24 @@ export default {
     }
   },
   methods: {
-    closeRemarks() {
+    beforeClose() {
       this.dialogVisible = false;
-      this.textarea = "";
     },
-    clickRemarks() {
-      const that = this;
-      that.isShowRemarks = false;
-      let query = {
-        alarmId: that.alarmId,
-        type: "2",
-        content: that.textarea
-      };
-      dealRemarks(query).then(res => {
-          that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("handleListData");
-      });
-    },
+    // clickRemarks() {
+    //   const that = this;
+    //   that.isShowRemarks = false;
+    //   let query = {
+    //     alarmId: that.alarmId,
+    //     type: "2",
+    //     content: that.textarea
+    //   };
+    //   dealRemarks(query).then(res => {
+    //     that.textarea = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     this.$emit("handleListData");
+    //   });
+    // },
     closeEnlarge() {
       this.isEnlarge = false;
     },
@@ -572,10 +574,6 @@ export default {
           this.dataList[index].alarmLevelName = row.alarmLevelName;
         }
       );
-    },
-    beforeClose() {
-      this.textarea = "";
-      this.dialogVisible = false;
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
@@ -710,21 +708,21 @@ export default {
       }
     }
   }
-  .remarks {
-    .dialog-footer {
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      .button {
-        height: 37px;
-        line-height: 31px;
-        font-size: 14px;
-        &:first-child {
-          margin-right: 30px;
-        }
-      }
-    }
-  }
+  //   .remarks {
+  //     .dialog-footer {
+  //       color: #ffffff;
+  //       display: flex;
+  //       justify-content: center;
+  //       .button {
+  //         height: 37px;
+  //         line-height: 31px;
+  //         font-size: 14px;
+  //         &:first-child {
+  //           margin-right: 30px;
+  //         }
+  //       }
+  //     }
+  //   }
 }
 .detailEnv {
   width: 100%;

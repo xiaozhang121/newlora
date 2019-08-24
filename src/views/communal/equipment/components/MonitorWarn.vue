@@ -73,13 +73,14 @@
 <script>
 import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import moment from "moment";
+import Remarks from "_c/duno-c/Remarks";
 import wraning from "_c/duno-j/warning";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor, buttonCustom, wraning },
+  components: { KeyMonitor, buttonCustom, wraning,Remarks },
   props: {
     isShow: {
       type: Boolean,
@@ -116,6 +117,7 @@ export default {
       dialogVisible: false,
       visible: false,
       isReturn: true,
+      alarmId:"",
       dealContent: []
     };
   },

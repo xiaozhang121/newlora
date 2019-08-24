@@ -96,7 +96,8 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
-    <div class="remarks">
+    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <!-- <div class="remarks">
       <el-dialog
         title="备注"
         :center="true"
@@ -117,7 +118,7 @@
           <button-custom class="button" @click="clickRemarks" title="确定" />
         </span>
       </el-dialog>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -171,6 +172,7 @@ export default {
       danger: false,
       dialogVisible: false,
       value: "",
+      alarmId: "",
       titleTypeL: "全部日期",
       titleTypeR: "全部摄像头",
       dataBread: [
@@ -328,6 +330,7 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      this.alarmId = params.row.alarmId;
                       this.dialogVisible = true;
                     }
                   }
@@ -528,7 +531,7 @@ export default {
             path: "/surveillancePath/detailRedN",
             query: {
               monitorDeviceId: monitorDeviceId,
-                typeId: res.data["typeId"]
+              typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {
@@ -556,29 +559,24 @@ export default {
         });
       }*/
     },
-    closeRemarks() {
-      this.dialogVisible = false;
-      this.textarea = "";
-    },
     beforeClose() {
-      this.textarea = "";
       this.dialogVisible = false;
-    },
-    clickRemarks() {
-      const that = this;
-      that.isShowRemarks = false;
-      let query = {
-        alarmId: that.remarkData.alarmId,
-        type: "2",
-        content: that.textarea
-      };
-      dealRemarks(query).then(res => {
-          that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("handleListData");
-      });
     }
+    // clickRemarks() {
+    //   const that = this;
+    //   that.isShowRemarks = false;
+    //   let query = {
+    //     alarmId: that.remarkData.alarmId,
+    //     type: "2",
+    //     content: that.textarea
+    //   };
+    //   dealRemarks(query).then(res => {
+    //     that.textarea = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     this.$emit("handleListData");
+    //   });
+    // }
   }
 };
 </script>

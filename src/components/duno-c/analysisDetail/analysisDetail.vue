@@ -515,7 +515,7 @@ export default {
       let query = {
         planId: that.$route.query.planId
       };
-      postAxiosData(url, query).then(res => {
+      getAxiosData(url, query).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {
