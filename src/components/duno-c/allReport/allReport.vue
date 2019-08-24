@@ -543,7 +543,7 @@ export default {
       const that = this;
       const url = that.selectUrl;
       let query={
-          monitorDeviceType=this.monitorDeviceType
+          monitorDeviceType:this.monitorDeviceType
       }
       getAxiosData(url,query).then(res => {
         const resData = res.data;
