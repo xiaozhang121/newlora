@@ -116,14 +116,14 @@ export default {
       if (this.isChange) {
         query = {
           userName: this.$store.state.user.userName,
-          alarmId: this.formData.id,
+          alarmId: this.formData.alarmId,
           alarmDetailType: this.formData.input,
           alarmValue: this.formData.inputT
         };
       } else {
         query = {
           userName: this.$store.state.user.userName,
-          alarmId: this.formData.id,
+          alarmId: this.formData.alarmId,
           alarmDetailType: this.formData.alarmDetailTypeCode,
           alarmValue: this.formData.inputT
         };
