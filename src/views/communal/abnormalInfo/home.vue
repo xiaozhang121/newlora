@@ -242,7 +242,19 @@ export default {
           key: "mainDevice",
           minWidth: 150,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+              let newArr = [];
+              newArr.push([
+                  h(
+                      "div",
+                      params.row.mainDevice == null
+                          ? "/"
+                          : params.row.mainDevice
+                  )
+              ]);
+              return h("div", newArr);
+          }
         },
         {
           title: "描述",
