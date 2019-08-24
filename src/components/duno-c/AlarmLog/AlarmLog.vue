@@ -144,7 +144,9 @@ export default {
     // },
     beforeClose() {
       this.dialogVisible = false;
-      this.$emit("handleListData");
+      setTimeout(() => {
+        this.$emit("handleListData");
+      }, 5000);
     },
     // clickRemarks() {
     //   const that = this;
@@ -267,6 +269,9 @@ export default {
       }
       & > div:nth-child(2) {
         height: 36px;
+        i {
+          width: 54px;
+        }
         p {
           width: 88%;
           span {
