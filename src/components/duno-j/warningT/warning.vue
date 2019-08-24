@@ -96,6 +96,7 @@ export default {
       newMonitorUrl: "",
       dataList: {},
       alarmValue: '',
+      hasSelect: false,
       discriminate: false
     };
   },
@@ -128,12 +129,6 @@ export default {
           { time: "2019-06-31 12:22:32", info: "自定义文字描述" },
           { time: "2019-06-31 12:22:32", info: "自定义文字描述" }
         ];
-      }
-    },
-    hasSelect: {
-      type: Boolean,
-      default: () => {
-        return false;
       }
     },
     // discriminate: {
