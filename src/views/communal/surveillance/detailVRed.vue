@@ -115,6 +115,7 @@
           <div class="select">
             <div>
               <duno-btn-top
+                style="visibility: hidden"
                 @on-select="onSelect"
                 class="dunoBtnTo"
                 :isCheck="false"
@@ -125,6 +126,7 @@
             </div>
             <div>
               <duno-btn-top
+                style="visibility: hidden"
                 @on-select="onSelect"
                 class="dunoBtnTop"
                 :isCheck="false"
