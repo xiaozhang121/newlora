@@ -655,17 +655,17 @@ export default {
         that.playerOptionsd.streamAddr = res.data.data;
       });
     },
-    // cutOut(data) {
-    //   if (data) {
-    //     const index = data.indexOf("缺陷");
-    //     if (index > -1) {
-    //       data = data.substring(0, index);
-    //     }
-    //     return data;
-    //   } else {
-    //     return "更多";
-    //   }
-    // },
+    cutOut(data) {
+      if (data) {
+        const index = data.indexOf("缺陷");
+        if (index > -1) {
+          data = data.substring(0, index);
+        }
+        return data;
+      } else {
+        return "更多";
+      }
+    },
     onClickDropdown(row, type, No) {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;
