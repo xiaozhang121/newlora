@@ -1,6 +1,6 @@
 <template>
   <div class="alarmLogT">
-    <div class="img">
+    <div class="img not-print">
       <span class="item">
          <img :src="remarkData.pic.split('||')[0]" alt />
          <span :class="{'red': remarkData['phaseData'].split('||')[0].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[0].replace('\'','') }}</span>
@@ -14,7 +14,7 @@
          <span :class="{'red': remarkData['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[2].replace('\'','') }}</span>
       </span>
     </div>
-    <div class="content"  @click="handleWain">
+    <div class="content not-print"  @click="handleWain">
       <div class="top not-print">
         <p>
           监测对象:
@@ -42,7 +42,7 @@
         </p>
       </div>
     </div>
-    <div class="remarks">
+    <div class="remarks not-print">
       <el-dialog
         title="备注"
         :center="true"

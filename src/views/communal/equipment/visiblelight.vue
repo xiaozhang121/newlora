@@ -7,7 +7,7 @@
       <KeyErea configType="1" />
     </div>
     <div class="reportRecode">
-      <div class="right">
+      <div class="right not-print">
         <div class="report">
           <div>最新生成的巡检报告</div>
           <div @click="getMoreReport">查看更多 ></div>

@@ -1,9 +1,9 @@
 <template>
   <div class="alarmLog">
-    <div class="img">
+    <div class="img not-print">
       <img :src="remarkData.pic" alt />
     </div>
-    <div class="content" @click="handleWain">
+    <div class="content not-print" @click="handleWain">
       <div class="top not-print">
         <p>
           监测对象:
@@ -43,7 +43,7 @@
         </p>
       </div>
     </div>
-    <div class="remarks">
+    <div class="remarks not-print">
       <el-dialog
         title="备注"
         :center="true"
