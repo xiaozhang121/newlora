@@ -108,7 +108,6 @@ export default {
   computed: {},
   methods: {
     handleSubmit() {
-      this.$emit("on-close");
       let url = "/lenovo-alarm/api/alarm/result/change";
       let query;
       if (this.isChange) {
@@ -131,6 +130,7 @@ export default {
           type: "succsee",
           message: "修改成功"
         });
+        this.$emit("on-close");
         this.$emit("on-alter");
       });
     },
