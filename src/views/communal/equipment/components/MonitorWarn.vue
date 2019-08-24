@@ -151,9 +151,7 @@ export default {
         else that.$message.error(res.msg);
         this.isReturn = false;
       });
-      setTimeout(() => {
-        this.$emit("beforeClose");
-      }, 5000);
+      this.$emit("beforeClose");
     },
     // closeRemarks() {
     //   this.dialogVisible = false;

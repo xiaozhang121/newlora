@@ -108,6 +108,7 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.alarmId}`;
+        this.dealList = []
         this.handleDeal(now.dealList);
       },
       deep: true,
@@ -119,6 +120,7 @@ export default {
       item.forEach(el => {
         let str = el.dealType + " (" + el.dealTime + ")";
         this.dealList.push(str);
+        this.$forceUpdate
       });
     },
     openRemarks() {
@@ -142,18 +144,14 @@ export default {
         else that.$message.error(res.msg);
         this.isReturn = false;
       });
-      setTimeout(() => {
-        this.$emit("handleListData");
-      }, 5000);
+      this.$emit("handleListData");
     },
     // closeRemarks() {
     //   this.dialogVisible = false;
     // },
     beforeClose() {
       this.dialogVisible = false;
-      setTimeout(() => {
-        this.$emit("handleListData");
-      }, 5000);
+      this.$emit("handleListData");
     },
     // clickRemarks() {
     //   const that = this;
@@ -199,10 +197,10 @@ export default {
     }
   },
   mounted() {
-    this.remarkData.dealList.forEach(el => {
-      let str = el.dealType + " (" + el.dealTime + ")";
-      this.dealList.push(str);
-    });
+    // this.remarkData.dealList.forEach(el => {
+    //   let str = el.dealType + " (" + el.dealTime + ")";
+    //   this.dealList.push(str);
+    // });
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <allReport :dataBread="dataBread" :downloadURL="downloadURL" />
+    <allReport :dataBread="dataBread" :downloadURL="downloadURL" :selectUrl="selectUrl" />
   </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
         { path: "/meterdata/list", name: "表计分析" },
         { path: "", name: "所有表计分析" }
       ],
-      downloadURL: "/lenovo-plan/api/statistics/meter-data/list/downLoad"
+      downloadURL: "/lenovo-plan/api/statistics/meter-data/list/downLoad",
+      selectUrl: "/lenovo-device/api/statistics/meter-data/select-list"
     };
   },
   methods: {}
