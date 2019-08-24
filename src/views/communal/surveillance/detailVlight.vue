@@ -277,7 +277,7 @@ export default {
                           }
                         },
                         [
-                          h("span", this.cutOut(params.row.alarmLevelName), {
+                          h("span", this.cutOut(params.row.alarmLevel), {
                             class: { member_operate_div: true }
                           }),
                           h("i", {
@@ -490,15 +490,14 @@ export default {
       });
     },
     cutOut(data) {
-      if (data) {
-        const index = data.indexOf("缺陷");
-        if (index > -1) {
-          data = data.substring(0, index);
-        }
-        return data;
-      } else {
-        return "更多";
+      if (data == "1") {
+        data = "一般";
+      } else if (data == "2") {
+        data = "严重";
+      } else if (data == "3") {
+        data = "危急";
       }
+      return data;
     },
     onClickDropdown(row, type, No) {
       const index = row._index;

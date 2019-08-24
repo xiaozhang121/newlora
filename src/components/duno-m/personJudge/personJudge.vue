@@ -121,8 +121,8 @@ export default {
         query = {
           userName: this.$store.state.user.userName,
           alarmId: this.formData.id,
-          alarmDetailType: this.formData.input,
-          alarmValue: this.formData.alarmDetailTypeCode
+          alarmDetailType: this.formData.alarmDetailTypeCode,
+          alarmValue: this.formData.inputT
         };
       }
       postAxiosData(url, query).then(res => {
