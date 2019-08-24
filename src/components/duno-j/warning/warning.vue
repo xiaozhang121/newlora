@@ -50,7 +50,8 @@
               <div v-if="!discriminate" class="temperature">
                 <p class="monitorTitle">{{dataList.result}}</p>
                 <p>
-                  {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
+                  {{alarmValue}}
+                  <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                   <i-dropdown
                     v-if="hasSelect && !discriminate && popData['alarmLevel']"
                     trigger="click"
@@ -129,6 +130,7 @@ import personJudge from "_c/duno-m/personJudge";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import screenfull from "screenfull";
 import wraningT from "_c/duno-j/warningT";
+import { type } from "os";
 export default {
   components: { personJudge, KeyMonitor, wraningT },
   data() {
@@ -147,6 +149,7 @@ export default {
       alarmLevelN: "",
       newMonitorUrl: "",
       dataList: [],
+      alarmValue: null,
       discriminate: false,
       isImgVideo: true,
       //   isTemperture: true,
@@ -235,29 +238,29 @@ export default {
   },
   computed: {},
   watch: {
-    popData:{
-      handler(now){
-          this.isPhaseAlarm = now["isPhaseAlarm"];
-          this.isThree = now["isPhaseAlarm"] == 1;
-          this.isImgVideo = now["fileType"] == 1;
-          if ("alarmId" in now && now["alarmId"]) {
-              // this.searchId = now["alarmId"];
-              this.searchId = now["taskId"] + "," + now["batchId"];
-              this.searchType = "alarmId";
-          } else if ("taskId" in now && now["taskId"]) {
-              this.searchId = now["taskId"] + "," + now["batchId"];
-              this.searchType = "alarmId";
-          } else {
-              this.searchId = now["resultId"];
-              this.searchType = "resultId";
-          }
-          if (this.detailsType == "alarm") {
-              this.searchId = now["id"];
-              this.searchType = "id";
-          }
-          if (this.searchId != "") {
-              this.initData();
-          }
+    popData: {
+      handler(now) {
+        this.isPhaseAlarm = now["isPhaseAlarm"];
+        this.isThree = now["isPhaseAlarm"] == 1;
+        this.isImgVideo = now["fileType"] == 1;
+        if ("alarmId" in now && now["alarmId"]) {
+          // this.searchId = now["alarmId"];
+          this.searchId = now["taskId"] + "," + now["batchId"];
+          this.searchType = "alarmId";
+        } else if ("taskId" in now && now["taskId"]) {
+          this.searchId = now["taskId"] + "," + now["batchId"];
+          this.searchType = "alarmId";
+        } else {
+          this.searchId = now["resultId"];
+          this.searchType = "resultId";
+        }
+        if (this.detailsType == "alarm") {
+          this.searchId = now["id"];
+          this.searchType = "id";
+        }
+        if (this.searchId != "") {
+          this.initData();
+        }
       },
       deep: true,
       immediate: true
@@ -332,6 +335,11 @@ export default {
         }
         if (that.dataList.result == "温度正常") {
           that.hasSelect = false;
+        }
+        if (typeof that.dataList.alarmValue == String) {
+          that.alarmValue = that.dataList.alarmValue;
+        } else if (typeof that.dataList.alarmValue == Number) {
+          that.alarmValue = that.dataList.alarmValue + "℃";
         }
         that.formData = {
           alarmId: that.searchId,
