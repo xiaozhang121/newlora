@@ -346,9 +346,9 @@ export default {
         if (that.dataList.result == "温度正常") {
           that.hasSelect = false;
         }
-        if (typeof that.dataList.alarmValue == String) {
+        if (typeof that.dataList.alarmValue == 'string') {
           that.alarmValue = that.dataList.alarmValue;
-        } else if (typeof that.dataList.alarmValue == Number) {
+        } else if (typeof that.dataList.alarmValue == 'number') {
           that.alarmValue = that.dataList.alarmValue + "℃";
         }
         that.formData = {
