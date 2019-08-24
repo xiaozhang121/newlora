@@ -59,7 +59,7 @@
           <span @click="webFullScreen()"  v-if="!onlyCanel">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
-          <span @click="pushMov()" v-if="!isPic && !onlyCanel">
+          <span @click="pushMov()" v-if="!isPic && !onlyCanel && pushCamera">
             <i class="iconfont icon-tuisong"></i>推送
           </span>
           <span class="closeWeb" @click="toClose()" v-if="onlyCanel">
@@ -120,6 +120,12 @@ export default {
     screenshot
   },
   props: {
+    pushCamera:{
+        type: Boolean,
+        default: () => {
+            return true;
+        }
+    },
     onlyCanel:{
         type: Boolean,
         default: () => {
