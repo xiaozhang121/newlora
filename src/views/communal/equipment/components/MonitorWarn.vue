@@ -34,7 +34,7 @@
           <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
         </p>
         <p v-if="remarkData.isAlarm==1">
-          <i @click.stop="dialogVisible = true">备注</i>
+          <i @click.stop="openRemarks">备注</i>
           <i v-if="isReturn" @click.stop="addReturn">复归</i>
           <i v-else :disabled="isDisabled" @click.stop class="gray">已复归</i>
         </p>
@@ -43,7 +43,7 @@
         </p>
       </div>
     </div>
-    <div class="remarks">
+    <!-- <div class="remarks">
       <el-dialog
         title="备注"
         :center="true"
@@ -64,7 +64,8 @@
           <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
-    </div>
+    </div>-->
+    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
@@ -97,11 +98,12 @@ export default {
     }
   },
   watch: {
-    remarkData:{
+    remarkData: {
       handler(now) {
         if (now.isReturn == "1") {
-            this.isReturn = false;
+          this.isReturn = false;
         }
+        this.alarmId = `${now.taskId},${now.batchId}`;
       },
       deep: true,
       immediate: true
@@ -113,13 +115,15 @@ export default {
       isDisabled: true,
       dialogVisible: false,
       visible: false,
-      //   popData: {},
       isReturn: true,
-      textarea: "",
       dealContent: []
     };
   },
   methods: {
+    openRemarks() {
+      this.alarmId = `${remarkData.taskId},${remarkData.batchId}`;
+      this.dialogVisible = true;
+    },
     handleClose() {
       this.visible = false;
     },
@@ -139,29 +143,27 @@ export default {
       });
       this.$emit("handleListData");
     },
-    closeRemarks() {
-      this.dialogVisible = false;
-      this.textarea = "";
-    },
+    // closeRemarks() {
+    //   this.dialogVisible = false;
+    // },
     beforeClose() {
-      this.textarea = "";
       this.dialogVisible = false;
     },
-    clickRemarks() {
-      const that = this;
-      this.dialogVisible = false;
-      let query = {
-        alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
-        type: "2",
-        content: that.textarea
-      };
-      dealRemarks(query).then(res => {
-        that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("handleListData");
-      });
-    },
+    // clickRemarks() {
+    //   const that = this;
+    //   this.dialogVisible = false;
+    //   let query = {
+    //     alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
+    //     type: "2",
+    //     content: that.textarea
+    //   };
+    //   dealRemarks(query).then(res => {
+    //     that.textarea = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     this.$emit("handleListData");
+    //   });
+    // },
     getJump() {
       getAxiosData("/lenovo-device/api/preset/type", {
         monitorDeviceId: this.remarkData.monitorDeviceId
@@ -318,20 +320,20 @@ export default {
       }
     }
   }
-  .remarks {
-    .dialog-footer {
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      .button {
-        height: 37px;
-        line-height: 31px;
-        font-size: 14px;
-        &:first-child {
-          margin-right: 30px;
-        }
-      }
-    }
-  }
+  //   .remarks {
+  //     .dialog-footer {
+  //       color: #ffffff;
+  //       display: flex;
+  //       justify-content: center;
+  //       .button {
+  //         height: 37px;
+  //         line-height: 31px;
+  //         font-size: 14px;
+  //         &:first-child {
+  //           margin-right: 30px;
+  //         }
+  //       }
+  //     }
+  //   }
 }
 </style>
