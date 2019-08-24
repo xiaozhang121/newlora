@@ -115,28 +115,6 @@
         </el-col>
       </el-row>
       <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-      <!-- <div class="remarks">
-        <el-dialog
-          title="备注"
-          :center="true"
-          top="20vh"
-          :visible.sync="dialogVisible"
-          :modal="false"
-          width="500px"
-          :before-close="beforeClose"
-        >
-          <el-input
-            type="textarea"
-            placeholder="请输入备注内容"
-            :autosize="{ minRows: 3}"
-            v-model="textarea"
-          ></el-input>
-          <span slot="footer" class="dialog-footer">
-            <button-custom class="button" @click.native="closeRemarks" title="取消" />
-            <button-custom class="button" @click.native="clickRemarks" title="确定" />
-          </span>
-        </el-dialog>
-      </div>-->
     </div>
   </historical-documents>
 </template>
@@ -159,7 +137,6 @@ export default {
   data() {
     return {
       itemData: {},
-      //   textarea: "",
       alarmId: "",
       inputValue: "",
       dialogVisible: false
@@ -178,13 +155,6 @@ export default {
     }
   },
   watch: {
-    // textarea: {
-    //   handler(now) {
-    //     this.inputValue = now;
-    //   },
-    //   immediate: true,
-    //   deep: true
-    // },
     itemDataOption: {
       handler(now) {
         this.itemData = now;
@@ -291,29 +261,9 @@ export default {
     onClose(data) {
       this.$emit("onClose", data);
     },
-    // closeRemarks() {
-    //   this.dialogVisible = false;
-    // },
     beforeClose() {
       this.dialogVisible = false;
     }
-    // clickRemarks() {
-    //   const that = this;
-    //   that.dialogVisible = false;
-    //   this.$store.state.user.isAlarm = false;
-    //   let query = {
-    //     alarmId: this.itemData.alarmId,
-    //     type: "0",
-    //     content: that.inputValue
-    //   };
-    //   dealRemarks(query).then(res => {
-    //       that.textarea = "";
-    //       that.inputValue = "";
-    //     if (res.data.isSuccess) that.$message.success(res.msg);
-    //     else that.$message.error(res.msg);
-    //     this.$emit("handleListData");
-    //   });
-    // }
   }
 };
 </script>
@@ -397,20 +347,4 @@ export default {
 .popuponeinfoBox .el-dialog__body {
   padding: 0 20px;
 }
-// .remarks {
-//   background-color: #333;
-//   .dialog-footer {
-//     color: #ffffff;
-//     display: flex;
-//     justify-content: center;
-//     .button {
-//       height: 37px;
-//       line-height: 31px;
-//       font-size: 14px;
-//       &:first-child {
-//         margin-right: 30px;
-//       }
-//     }
-//   }
-// }
 </style>

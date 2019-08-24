@@ -87,29 +87,6 @@
         </div>
       </div>
       <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-
-      <!-- <div class="remarks">
-        <el-dialog
-          title="备注"
-          :center="true"
-          top="20vh"
-          :visible.sync="dialogVisible"
-          :modal="false"
-          width="400px"
-          :before-close="beforeClose"
-        >
-          <el-input
-            type="textarea"
-            placeholder="请输入备注内容"
-            :autosize="{ minRows: 3}"
-            v-model="textarea"
-          ></el-input>
-          <span slot="footer" class="dialog-footer">
-            <button-custom class="button" @click.native="closeRemarks" title="取消" />
-            <button-custom class="button" @click.native="clickRemarks" title="确定" />
-          </span>
-        </el-dialog>
-      </div>-->
     </div>
   </el-popover>
 </template>
@@ -442,21 +419,4 @@ body .prompt {
     }
   }
 }
-// .remarks {
-//   z-index: 3500;
-//   .dialog-footer {
-//     color: #ffffff;
-//     display: flex;
-//     justify-content: center;
-//     .button {
-//       width: 30%;
-//       height: 37px;
-//       line-height: 31px;
-//       font-size: 14px;
-//       &:first-child {
-//         margin-right: 30px;
-//       }
-//     }
-//   }
-// }
 </style>
