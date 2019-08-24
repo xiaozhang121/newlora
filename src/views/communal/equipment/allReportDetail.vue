@@ -4,6 +4,7 @@
       :dataBread="dataBread"
       :monitorDeviceType="monitorDeviceType"
       :downloadURL="downloadURL"
+      :selectUrl="selectUrl"
     />
   </div>
 </template>
@@ -18,6 +19,7 @@ export default {
     return {
       dataBread: [],
       downloadURL: "",
+      selectUrl: "",
       monitorDeviceType: ""
     };
   },
@@ -33,6 +35,7 @@ export default {
             { path: "", name: "可见光监测记录信息" }
           ];
           this.downloadURL = "/lenovo-plan/api/task/result/list/downLoad";
+          this.selectUrl = "/lenovo-device/api/power/monitor";
           this.monitorDeviceType = "1";
           break;
         case "infrared-detail":
@@ -43,6 +46,7 @@ export default {
             { path: "", name: "红外监测记录信息" }
           ];
           this.downloadURL = "/lenovo-plan/api/task/result/list/downLoad";
+          this.selectUrl = "/lenovo-device/api/power/monitor";
           this.monitorDeviceType = "2";
           break;
       }

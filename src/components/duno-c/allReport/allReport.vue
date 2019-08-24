@@ -125,7 +125,8 @@ export default {
       default: () => {
         return "";
       }
-    }
+    },
+
   },
   data() {
     const that = this;
@@ -541,7 +542,10 @@ export default {
     getRegion() {
       const that = this;
       const url = that.selectUrl;
-      getAxiosData(url).then(res => {
+      let query={
+          monitorDeviceType=this.monitorDeviceType
+      }
+      getAxiosData(url,query).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {

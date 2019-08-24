@@ -144,18 +144,14 @@ export default {
         else that.$message.error(res.msg);
         this.isReturn = false;
       });
-      setTimeout(() => {
-        this.$emit("handleListData");
-      }, 5000);
+      this.$emit("handleListData");
     },
     // closeRemarks() {
     //   this.dialogVisible = false;
     // },
     beforeClose() {
       this.dialogVisible = false;
-      setTimeout(() => {
-        this.$emit("handleListData");
-      }, 5000);
+      this.$emit("handleListData");
     },
     // clickRemarks() {
     //   const that = this;
