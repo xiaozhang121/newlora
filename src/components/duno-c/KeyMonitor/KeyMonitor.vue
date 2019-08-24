@@ -63,7 +63,7 @@
             <i class="iconfont icon-tuisong"></i>推送
           </span>
           <span class="closeWeb" @click="toClose()" v-if="onlyCanel">
-            <i class="iconfont icon-tubiaozhizuomoban"></i>关闭
+            <i class="iconfont icon-tubiaozhizuomoban"></i>退出网页全屏
           </span>
         </div>
       </transition>
