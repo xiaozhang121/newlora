@@ -61,7 +61,6 @@
           <div class="select">
             <div>
               <duno-btn-top
-                style="visibility: hidden"
                 @on-select="onSelect"
                 :zIndex="1"
                 class="dunoBtnTo"
@@ -73,7 +72,6 @@
             </div>
             <div>
               <duno-btn-top
-                style="visibility: hidden"
                 @on-select="onSelect"
                 :zIndex="1"
                 class="dunoBtnTop"

@@ -526,7 +526,7 @@ export default {
     },
     getRegion() {
       const that = this;
-      const url = "/lenovo-device/api/device/select-list";
+      const url = "/lenovo-device/api/statistics/meter-data/select-list";
       postAxiosData(url).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
