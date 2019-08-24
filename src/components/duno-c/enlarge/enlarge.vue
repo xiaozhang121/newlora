@@ -10,7 +10,7 @@
     >
       <img
         v-if="srcData.fileType=='1'"
-        :src="srcData.alarmFileAddress || srcData.pic"
+        :src="srcData.alarmFileAddress || srcData.pic  ||srcData.fileAddress"
         preview
         preview-text="描述文字"
         alt
