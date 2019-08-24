@@ -42,28 +42,6 @@
         </p>
       </div>
     </div>
-    <!-- <div class="remarks">
-      <el-dialog
-        title="备注"
-        :center="true"
-        top="20vh"
-        :visible.sync="dialogVisible"
-        :modal="false"
-        width="500px"
-        :before-close="beforeClose"
-      >
-        <el-input
-          type="textarea"
-          placeholder="请输入备注内容"
-          :autosize="{ minRows: 3}"
-          v-model="textarea"
-        ></el-input>
-        <span slot="footer" class="dialog-footer">
-          <button-custom class="button" @click.native="closeRemarks" title="取消" />
-          <button-custom class="button" @click.native="clickRemarks" title="确定" />
-        </span>
-      </el-dialog>
-    </div>-->
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>

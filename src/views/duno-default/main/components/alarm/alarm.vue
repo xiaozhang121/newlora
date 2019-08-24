@@ -86,7 +86,9 @@
           </div>
         </div>
       </div>
-      <div class="remarks">
+      <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+
+      <!-- <div class="remarks">
         <el-dialog
           title="备注"
           :center="true"
@@ -107,7 +109,7 @@
             <button-custom class="button" @click.native="clickRemarks" title="确定" />
           </span>
         </el-dialog>
-      </div>
+      </div>-->
     </div>
   </el-popover>
 </template>
@@ -116,11 +118,13 @@
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType.js";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 import buttonCustom from "_c/duno-m/buttonCustom";
+import Remarks from "_c/duno-c/Remarks";
 import { mapState } from "vuex";
 export default {
   name: "alarmTip",
   components: {
-    buttonCustom
+    buttonCustom,
+    Remarks
   },
   data() {
     return {
@@ -130,7 +134,7 @@ export default {
       itemData: [],
       isFakeData: false, // 假数据
       dialogVisible: false,
-      textarea: "",
+      alarmId: "",
       queryData: null
     };
   },
@@ -164,7 +168,6 @@ export default {
   },
   methods: {
     beforeClose() {
-      this.textarea = "";
       this.dialogVisible = false;
     },
     psotAlarmData(row, No) {
@@ -225,6 +228,7 @@ export default {
       } else if (type == "2") {
         this.dialogVisible = true;
         this.queryData = query;
+        this.alarmId = item.alarmId;
       }
     },
     getData() {
@@ -249,26 +253,22 @@ export default {
           that.itemData = res.data.tableData;
         }
       });
-    },
-    closeRemarks() {
-      this.dialogVisible = false;
-      this.textarea = "";
-    },
-    clickRemarks() {
-      const that = this;
-      that.dialogVisible = false;
-      let query = {
-        alarmId: this.queryData.alarmId,
-        type: "2",
-        content: this.textarea
-      };
-      dealRemarks(query).then(res => {
-        that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("handleListData");
-      });
     }
+    // clickRemarks() {
+    //   const that = this;
+    //   that.dialogVisible = false;
+    //   let query = {
+    //     alarmId: this.queryData.alarmId,
+    //     type: "2",
+    //     content: this.textarea
+    //   };
+    //   dealRemarks(query).then(res => {
+    //     that.textarea = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     this.$emit("handleListData");
+    //   });
+    // }
   },
   mounted() {
     this.getData();
@@ -442,21 +442,21 @@ body .prompt {
     }
   }
 }
-.remarks {
-  z-index: 3500;
-  .dialog-footer {
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    .button {
-      width: 30%;
-      height: 37px;
-      line-height: 31px;
-      font-size: 14px;
-      &:first-child {
-        margin-right: 30px;
-      }
-    }
-  }
-}
+// .remarks {
+//   z-index: 3500;
+//   .dialog-footer {
+//     color: #ffffff;
+//     display: flex;
+//     justify-content: center;
+//     .button {
+//       width: 30%;
+//       height: 37px;
+//       line-height: 31px;
+//       font-size: 14px;
+//       &:first-child {
+//         margin-right: 30px;
+//       }
+//     }
+//   }
+// }
 </style>

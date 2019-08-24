@@ -2,19 +2,25 @@
   <div class="alarmLogT">
     <div class="img not-print">
       <span class="item">
-         <img :src="remarkData.pic.split('||')[0]" alt />
-         <span :class="{'red': remarkData['phaseData'].split('||')[0].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[0].replace('\'','') }}</span>
-     </span>
-      <span class="item">
-         <img :src="remarkData.pic.split('||')[1]" alt />
-         <span :class="{'red': remarkData['phaseData'].split('||')[1].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[1].replace('\'','') }}</span>
+        <img :src="remarkData.pic.split('||')[0]" alt />
+        <span
+          :class="{'red': remarkData['phaseData'].split('||')[0].indexOf('\'')>-1}"
+        >{{ remarkData['phaseData'].split('||')[0].replace('\'','') }}</span>
       </span>
       <span class="item">
-         <img :src="remarkData.pic.split('||')[2]" alt />
-         <span :class="{'red': remarkData['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ remarkData['phaseData'].split('||')[2].replace('\'','') }}</span>
+        <img :src="remarkData.pic.split('||')[1]" alt />
+        <span
+          :class="{'red': remarkData['phaseData'].split('||')[1].indexOf('\'')>-1}"
+        >{{ remarkData['phaseData'].split('||')[1].replace('\'','') }}</span>
+      </span>
+      <span class="item">
+        <img :src="remarkData.pic.split('||')[2]" alt />
+        <span
+          :class="{'red': remarkData['phaseData'].split('||')[2].indexOf('\'')>-1}"
+        >{{ remarkData['phaseData'].split('||')[2].replace('\'','') }}</span>
       </span>
     </div>
-    <div class="content not-print"  @click="handleWain">
+    <div class="content not-print" @click="handleWain">
       <div class="top not-print">
         <p>
           监测对象:
@@ -30,10 +36,9 @@
         </div>
       </div>
       <div class="btn">
-        <p>
-        </p>
+        <p></p>
         <p v-if="isShow">
-          <i @click.stop="dialogVisible = true">备注</i>
+          <i @click.stop="openRemarks">备注</i>
           <i v-if="isReturn" @click.stop="addReturn">复归</i>
           <i v-else :disabled="isDisabled" class="gray">已复归</i>
         </p>
@@ -42,7 +47,7 @@
         </p>
       </div>
     </div>
-    <div class="remarks not-print">
+    <!-- <div class="remarks not-print">
       <el-dialog
         title="备注"
         :center="true"
@@ -63,7 +68,13 @@
           <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
-    </div>
+    </div>-->
+    <Remarks
+      class="not-print"
+      :isShow="dialogVisible"
+      :alarmId="alarmId"
+      @beforeClose="beforeClose"
+    />
     <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
@@ -71,12 +82,13 @@
 <script>
 import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import moment from "moment";
+import Remarks from "_c/duno-c/Remarks";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLogT",
-  components: { KeyMonitor, buttonCustom },
+  components: { KeyMonitor, buttonCustom, Remarks },
   props: {
     isShow: {
       type: Boolean,
@@ -96,7 +108,8 @@ export default {
   },
   data() {
     return {
-    isReturn: true,
+      isReturn: true,
+      alarmId: "",
       address: "",
       isDisabled: true,
       dialogVisible: false,
@@ -105,24 +118,24 @@ export default {
       dealContent: []
     };
   },
-    watch: {
-        remarkData:{
-            handler(now) {
-                if (now.isReturn == "1") {
-                    this.isReturn = false;
-                }
-            },
-            deep: true,
-            immediate: true
+  watch: {
+    remarkData: {
+      handler(now) {
+        if (now.isReturn == "1") {
+          this.isReturn = false;
         }
-    },
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   methods: {
-      handleClose() {
-          this.visible = false;
-      },
-      handleWain() {
-          this.visible = true;
-      },
+    handleClose() {
+      this.visible = false;
+    },
+    handleWain() {
+      this.visible = true;
+    },
     addReturn() {
       const that = this;
       let query = {
@@ -132,33 +145,35 @@ export default {
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-      this.isReturn = false;
+        this.isReturn = false;
       });
       this.$emit("handleListData");
     },
-    closeRemarks() {
-      this.dialogVisible = false;
-      this.textarea = "";
+    // closeRemarks() {
+    //   this.dialogVisible = false;
+    // },
+    openRemarks() {
+      this.alarmId = `${this.remarkData.taskId},${this.remarkData.batchId}`;
+      this.dialogVisible = true;
     },
     beforeClose() {
-      this.textarea = "";
       this.dialogVisible = false;
     },
-    clickRemarks() {
-      const that = this;
-      this.dialogVisible = false;
-      let query = {
-        alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
-        type: "2",
-        content: that.textarea
-      };
-      dealRemarks(query).then(res => {
-          that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("handleListData");
-      });
-    },
+    // clickRemarks() {
+    //   const that = this;
+    //   this.dialogVisible = false;
+    //   let query = {
+    //     alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
+    //     type: "2",
+    //     content: that.textarea
+    //   };
+    //   dealRemarks(query).then(res => {
+    //       that.textarea = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     this.$emit("handleListData");
+    //   });
+    // },
     getJump() {
       getAxiosData("/lenovo-device/api/preset/type", {
         monitorDeviceId: this.remarkData.monitorDeviceId
@@ -186,7 +201,7 @@ export default {
             path: "/surveillancePath/detailRedN",
             query: {
               monitorDeviceId: this.remarkData.monitorDeviceId,
-                typeId: res.data["typeId"]
+              typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {
@@ -233,17 +248,17 @@ export default {
     width: 100%;
     height: 59%;
     display: flex;
-    .item{
+    .item {
       width: 100%;
       height: 100%;
       margin-left: 17px;
       text-align: center;
       color: white;
       font-size: 14px;
-      .red{
+      .red {
         color: red;
       }
-      & > span{
+      & > span {
         margin-top: 10px;
       }
     }

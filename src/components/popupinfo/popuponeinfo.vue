@@ -18,19 +18,25 @@
         <el-col :span="24">
           <p class="itemTitle main">
             <img :src="itemData['alarmFileAddress'].split('||')[0]" />
-            <span :class="{'red':itemData['alarmValue'].split('||')[0].indexOf('\'')>-1}">A相：{{itemData['alarmValue'].split('||')[0].replace('\'','')}}</span>
+            <span
+              :class="{'red':itemData['alarmValue'].split('||')[0].indexOf('\'')>-1}"
+            >A相：{{itemData['alarmValue'].split('||')[0].replace('\'','')}}</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
             <img :src="itemData['alarmFileAddress'].split('||')[1]" />
-            <span :class="{'red':itemData['alarmValue'].split('||')[1].indexOf('\'')>-1}">B相：{{itemData['alarmValue'].split('||')[1].replace('\'','')}}</span>
+            <span
+              :class="{'red':itemData['alarmValue'].split('||')[1].indexOf('\'')>-1}"
+            >B相：{{itemData['alarmValue'].split('||')[1].replace('\'','')}}</span>
           </p>
         </el-col>
         <el-col :span="24">
           <p class="itemTitle main">
             <img :src="itemData['alarmFileAddress'].split('||')[2]" />
-            <span :class="{'red':itemData['alarmValue'].split('||')[2].indexOf('\'')>-1}">C相：{{itemData['alarmValue'].split('||')[2].replace('\'','')}}</span>
+            <span
+              :class="{'red':itemData['alarmValue'].split('||')[2].indexOf('\'')>-1}"
+            >C相：{{itemData['alarmValue'].split('||')[2].replace('\'','')}}</span>
           </p>
         </el-col>
       </el-row>
@@ -95,7 +101,7 @@
         <el-col :span="24">
           <p class="itemTitle">
             来源：
-            <span  style="color: #366590" @click="getJump">{{itemData.source}}</span>
+            <span style="color: #366590" @click="getJump">{{itemData.source}}</span>
           </p>
         </el-col>
       </el-row>
@@ -108,7 +114,7 @@
           </div>
         </el-col>
       </el-row>
-          <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+      <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
       <!-- <div class="remarks">
         <el-dialog
           title="备注"
@@ -130,7 +136,7 @@
             <button-custom class="button" @click.native="clickRemarks" title="确定" />
           </span>
         </el-dialog>
-      </div> -->
+      </div>-->
     </div>
   </historical-documents>
 </template>
@@ -149,12 +155,13 @@ import { dealRemarks } from "@/api/configuration/configuration.js";
 videojs.options.flash.swf = SWF_URL;
 export default {
   name: "popuponeinfo",
-  components: { HistoricalDocuments, videoPlayer, buttonCustom,Remarks },
+  components: { HistoricalDocuments, videoPlayer, buttonCustom, Remarks },
   data() {
     return {
       itemData: {},
-      textarea: "",
-      inputValue: '',
+      //   textarea: "",
+      alarmId: "",
+      inputValue: "",
       dialogVisible: false
     };
   },
@@ -171,13 +178,13 @@ export default {
     }
   },
   watch: {
-    textarea:{
-        handler(now){
-            this.inputValue = now
-        },
-        immediate: true,
-        deep: true
-    },
+    // textarea: {
+    //   handler(now) {
+    //     this.inputValue = now;
+    //   },
+    //   immediate: true,
+    //   deep: true
+    // },
     itemDataOption: {
       handler(now) {
         this.itemData = now;
@@ -199,52 +206,52 @@ export default {
   },
   methods: {
     getJump() {
-        if('monitorDeviceId' in this.itemData){
-          getAxiosData("/lenovo-device/api/preset/type", {
-              monitorDeviceId: this.itemData.monitorDeviceId
-          }).then(res => {
-              let supportPreset = res.data["supportPreset"];
-              let monitorDeviceType = res.data["monitorDeviceType"];
-              if (monitorDeviceType == 1) {
-                  if (supportPreset) {
-                      this.$router.push({
-                          path: "/surveillancePath/detailLight",
-                          query: {
-                              monitorDeviceId: this.itemData.monitorDeviceId
-                          }
-                      });
-                  } else {
-                      this.$router.push({
-                          path: "/surveillancePath/detailLightN",
-                          query: {
-                              monitorDeviceId: this.itemData.monitorDeviceId
-                          }
-                      });
-                  }
-              } else if (monitorDeviceType == 2) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailRedN",
-                      query: {
-                          monitorDeviceId: this.itemData.monitorDeviceId,
-                          typeId: res.data["typeId"]
-                      }
-                  });
-              } else if (monitorDeviceType == 3) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailEnv",
-                      query: {
-                          monitorDeviceId: this.itemData.monitorDeviceId
-                      }
-                  });
+      if ("monitorDeviceId" in this.itemData) {
+        getAxiosData("/lenovo-device/api/preset/type", {
+          monitorDeviceId: this.itemData.monitorDeviceId
+        }).then(res => {
+          let supportPreset = res.data["supportPreset"];
+          let monitorDeviceType = res.data["monitorDeviceType"];
+          if (monitorDeviceType == 1) {
+            if (supportPreset) {
+              this.$router.push({
+                path: "/surveillancePath/detailLight",
+                query: {
+                  monitorDeviceId: this.itemData.monitorDeviceId
+                }
+              });
+            } else {
+              this.$router.push({
+                path: "/surveillancePath/detailLightN",
+                query: {
+                  monitorDeviceId: this.itemData.monitorDeviceId
+                }
+              });
+            }
+          } else if (monitorDeviceType == 2) {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: this.itemData.monitorDeviceId,
+                typeId: res.data["typeId"]
               }
-          });
-        }
-      },
+            });
+          } else if (monitorDeviceType == 3) {
+            this.$router.push({
+              path: "/surveillancePath/detailEnv",
+              query: {
+                monitorDeviceId: this.itemData.monitorDeviceId
+              }
+            });
+          }
+        });
+      }
+    },
     restoration(type) {
       if (type == "0") {
         this.dialogVisible = true;
-        this.alarmId=this.itemData.alarmId
-        return
+        this.alarmId = this.itemData.alarmId;
+        return;
       }
       this.$store.state.user.isAlarm = false;
       console.log(type == "1" ? "复归" : "备注");
@@ -289,7 +296,7 @@ export default {
     // },
     beforeClose() {
       this.dialogVisible = false;
-    },
+    }
     // clickRemarks() {
     //   const that = this;
     //   that.dialogVisible = false;
@@ -314,7 +321,7 @@ export default {
 .popuponeinfo {
   font-size: 20px;
   font-weight: normal;
-  .red{
+  .red {
     color: red;
   }
   .itemTitle {
@@ -365,7 +372,7 @@ export default {
     margin: 20px auto;
     padding-bottom: 100%;
     position: relative;
-    &.isImg{
+    &.isImg {
       padding-bottom: 59% !important;
     }
     img {
@@ -390,20 +397,20 @@ export default {
 .popuponeinfoBox .el-dialog__body {
   padding: 0 20px;
 }
-.remarks {
-  background-color: #333;
-  .dialog-footer {
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    .button {
-      height: 37px;
-      line-height: 31px;
-      font-size: 14px;
-      &:first-child {
-        margin-right: 30px;
-      }
-    }
-  }
-}
+// .remarks {
+//   background-color: #333;
+//   .dialog-footer {
+//     color: #ffffff;
+//     display: flex;
+//     justify-content: center;
+//     .button {
+//       height: 37px;
+//       line-height: 31px;
+//       font-size: 14px;
+//       &:first-child {
+//         margin-right: 30px;
+//       }
+//     }
+//   }
+// }
 </style>
