@@ -230,7 +230,7 @@ export default {
       mixinViewModuleOptions: {
         // activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/security/list",
-        exportURL: "/lenovo-alarm/api/alarm/history/export"
+        exportURL: "/lenovo-alarm/api/security/history/export"
       },
       titleType: "选择预置位",
       titleTypeL: "全部数据类型",

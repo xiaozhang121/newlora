@@ -188,7 +188,7 @@ export default {
       disabled: false,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
-        exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
+        exportURL: "/lenovo-plan/api/task/result/list/export"
       },
       //   titleType: "选择预置位",
       titleTypeL: "全部数据类型",
