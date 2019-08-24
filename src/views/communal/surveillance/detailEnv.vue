@@ -675,7 +675,7 @@ export default {
         monitorDeviceId: this.$route.query.monitorDeviceId
       };
       getAxiosData(url, query).then(res => {
-        this.dataForm.monitorDeviceName = res.data.monitorDeviceName;
+        this.dataForm.monitorDeviceName = res.data.deviceName;
       });
     }
   },

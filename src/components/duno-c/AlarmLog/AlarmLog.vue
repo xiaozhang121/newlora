@@ -34,7 +34,7 @@
         </p>
         <p v-if="isShow">
           <i @click.stop="openRemarks">备注</i>
-          <i v-if="remarkData.isReturn=='0'" @click.stop="addReturn">复归</i>
+          <i v-if="isReturn" @click.stop="addReturn">复归</i>
           <i v-else :disabled="isDisabled" class="gray" @click.stop>已复归</i>
         </p>
         <p v-else>
@@ -82,17 +82,21 @@ export default {
       dialogVisible: false,
       isShowRemarks: false,
       visible: false,
+      isReturn: true,
       dealList: [],
       alarmId: ""
     };
   },
   watch: {
-    remarkData:{
-        handler(now){
-            this.alarmId = now.alarmId;
-        },
-        deep: true,
-        immediate: true
+    remarkData: {
+      handler(now) {
+        if (now.isReturn == "1") {
+          this.isReturn = false;
+        }
+        this.alarmId = `${now.alarmId}`;
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
@@ -115,7 +119,7 @@ export default {
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-        this.showReturn = false;
+        this.isReturn = false;
       });
       this.$emit("handleListData");
     },
