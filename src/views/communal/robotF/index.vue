@@ -19,6 +19,7 @@
             <KeyMonitor
                     class="keyMonitor"
                     :autoplay="true"
+                    :pushCamera="false"
                     streamAddr="rtmp://10.0.10.39/rtsp59/stream"
             />
           </div>
@@ -29,6 +30,7 @@
             <KeyMonitor
                     class="keyMonitor noLoading"
                     :autoplay="true"
+                    :pushCamera="false"
                     streamAddr="rtmp://10.0.10.39/rtsp60/stream"
             />
           </div>

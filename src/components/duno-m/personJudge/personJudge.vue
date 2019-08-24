@@ -94,6 +94,9 @@ export default {
     visible: {
       handler(now) {
         this.dialogVisible = now;
+        if(!now){
+            this.$emit('on-alter')
+        }
       },
       immediate: true
     },
