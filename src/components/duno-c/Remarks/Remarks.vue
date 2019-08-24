@@ -7,12 +7,12 @@
       :visible.sync="dialogVisible"
       :modal="false"
       width="500px"
-       :before-close="beforeClose"
+      :before-close="beforeClose"
     >
       <el-input type="textarea" placeholder="请输入备注内容" :autosize="{ minRows: 3}" v-model="textarea"></el-input>
       <span slot="footer" class="dialog-footer">
         <button-custom class="button" @click.native="closeRemarks" title="取消" />
-        <button-custom class="button" @click="clickRemarks" title="确定" />
+        <button-custom class="button" @click.native="clickRemarks" title="确定" />
       </span>
     </el-dialog>
   </div>
@@ -20,6 +20,7 @@
 
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
+import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "Remarks",
   components: { buttonCustom },
@@ -28,6 +29,12 @@ export default {
       type: Boolean,
       default: () => {
         return true;
+      }
+    },
+    alarmId: {
+      type: String,
+      default: () => {
+        return "";
       }
     }
   },
@@ -44,26 +51,25 @@ export default {
   },
   methods: {
     closeRemarks() {
-      this.dialogVisible = false;
       this.textarea = "";
+      this.$emit("beforeClose");
     },
     beforeClose() {
       this.textarea = "";
-      this.dialogVisible = false;
+      this.$emit("beforeClose");
     },
     clickRemarks() {
       const that = this;
-      that.dialogVisible = false;
+      that.$emit("beforeClose");
       let query = {
-        alarmId: that.remarkData.alarmId,
+        alarmId: that.alarmId,
         type: "2",
         content: that.textarea
       };
       dealRemarks(query).then(res => {
-          that.textarea = "";
+        that.textarea = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-        this.$emit("handleListData");
       });
     }
   }
@@ -72,6 +78,7 @@ export default {
 
 <style lang="scss">
 .remarks {
+  height: 360px;
   .dialog-footer {
     color: #ffffff;
     display: flex;

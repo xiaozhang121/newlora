@@ -374,7 +374,7 @@ export default {
         & > div {
           float: left;
           width: calc(50% - 20px);
-          margin-right: 20px;
+          margin-right: 19px;
           .reportTable {
             height: 425px;
             img {
