@@ -40,7 +40,7 @@
         ></el-option>
       </el-select>
       <span slot="footer" class="dialog-footer">
-        <button-custom class="button" @click.native="handlecancle" title="取消" />
+        <button-custom class="button" @click.native="handleClose" title="取消" />
         <button-custom class="button" @click.native="handleSubmit" title="确定" />
       </span>
     </el-dialog>
@@ -107,11 +107,7 @@ export default {
   },
   computed: {},
   methods: {
-    handleClose() {
-      this.$emit("on-close");
-    },
     handleSubmit() {
-      this.dialogVisible = false;
       this.$emit("on-close");
       let url = "/lenovo-alarm/api/alarm/result/change";
       let query;
@@ -138,15 +134,12 @@ export default {
         this.$emit("on-alter");
       });
     },
-    handlecancle() {
-      this.dialogVisible = false;
+    handleClose() {
       this.formData.input = this.dataList.input;
       this.formData.inputT = this.dataList.inputT;
       this.formData.select = this.dataList.select;
-      console.log(this.formData);
       this.$emit("on-close");
     },
-
     handlerSelectFour(item) {
       this.fourValue = item;
       this.formData.input = "";

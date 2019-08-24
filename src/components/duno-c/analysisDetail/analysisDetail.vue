@@ -16,23 +16,6 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <!-- <div class="dateChose">
-          <el-date-picker
-            unlink-panels
-            v-model="value"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            @change="onChangeTime"
-          ></el-date-picker>
-        </div>
-        <div>
-          <div @click="clickExcel" class="clickBtn">
-            <i class="iconfont icon-daochu1"></i>
-            导出表格
-          </div>
-        </div>-->
       </div>
     </div>
     <duno-main class="dunoMain">
@@ -122,11 +105,8 @@ export default {
       serious: false,
       commonly: false,
       danger: false,
-      //   value: "",
       queryForm: {},
       titleType: "按设备筛选",
-      //   titleTypeC: "所有报表",
-      //   titleTypeR: "所有类型",
       columns: [
         {
           title: "序号",
@@ -397,8 +377,7 @@ export default {
       typeList: [],
       regionList: [],
       statusList: [],
-      popData: {},
-      clcikQueryData: {}
+      popData: {}
     };
   },
   mounted() {
@@ -465,26 +444,9 @@ export default {
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
-      //   if (item.title == "titleType") {
-      //     this.clcikQueryData.areaId = item.monitorDeviceType;
-      //   } else if (item.title == "titleTypeC") {
-      //     this.clcikQueryData.status = item.monitorDeviceType;
-      //   } else if (item.title == "titleTypeR") {
-      //     this.clcikQueryData.source = item.monitorDeviceType;
-      //   }
-      this.clickQuery(this.clcikQueryData);
+      let query = {};
+      this.clickQuery(query);
     },
-    // onChangeTime(data) {
-    //   let startTime = "";
-    //   let endTime = "";
-    //   if (data) {
-    //     startTime = moment(data[0]).format("YYYY-MM-DD");
-    //     endTime = moment(data[1]).format("YYYY-MM-DD");
-    //   }
-    //   this.clcikQueryData.startTime = startTime;
-    //   this.clcikQueryData.endTime = endTime;
-    //   this.clickQuery(this.clcikQueryData);
-    // },
     handleClose() {
       this.popData = {};
       this.visible = false;
@@ -503,12 +465,6 @@ export default {
         this.$message.success(res.msg);
       });
     },
-    // clickExcel() {
-    //   const that = this;
-    //   that.queryForm.planId = that.$route.query.planId;
-    //   that.queryForm.monitorDeviceType = that.monitorDeviceType;
-    //   that.exportHandle();
-    // },
     getRegion() {
       const that = this;
       const url = "/lenovo-plan/api/plan/power/select-list";
@@ -804,66 +760,6 @@ export default {
           }
         }
       }
-      // & > div:nth-child(5) {
-      //   & > div {
-      //     width: 140px;
-      //     line-height: 40px;
-      //     text-align: center;
-      //     background-color: #192f41;
-      //     cursor: pointer;
-      //   }
-      // }
-      //   .clickBtn {
-      //     line-height: 40px;
-      //     width: 139px;
-      //     background-image: url(../../../assets/images/btn/moreBtn.png);
-      //     text-align: center;
-      //     font-size: 18px;
-      //     cursor: pointer;
-      //     color: #ffffff;
-      //     @media screen and (min-width: 3500px) {
-      //       background-size: 100% 100%;
-      //       font-size: 14px;
-      //       line-height: 34px;
-      //       width: 120px;
-      //     }
-      //   }
-      //   .dateChose {
-      //     .el-date-editor {
-      //       background-color: #192f41;
-      //       border: none;
-      //       .el-range-input {
-      //         background-color: rgba(81, 89, 112, 0);
-      //       }
-      //       .el-range-separator {
-      //         font-size: 20px;
-      //         color: #fff;
-      //         @media screen and (min-width: 3500px) {
-      //           font-size: 14px;
-      //         }
-      //       }
-      //       .el-range-input {
-      //         color: #fff;
-      //       }
-      //     }
-      //     .el-range-editor--small.el-input__inner {
-      //       height: 40px !important;
-      //       @media screen and (min-width: 3500px) {
-      //         height: 35px !important;
-      //         width: 250px;
-      //       }
-      //     }
-      //     .el-range-editor--small .el-range__icon,
-      //     .el-range-editor--small .el-range__close-icon {
-      //       line-height: 35px;
-      //     }
-      //     .el-range-editor--small .el-range-input {
-      //       font-size: 16px;
-      //       @media screen and (min-width: 3500px) {
-      //         font-size: 14px;
-      //       }
-      //     }
-      //   }
     }
   }
   .icon-xiala {

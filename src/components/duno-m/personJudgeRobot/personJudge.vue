@@ -1,19 +1,20 @@
 <template>
-    <div class="personJudge" >
-        <el-dialog
-                v-dialogDrag
-                title="人工判断"
-                :visible.sync="dialogVisible"
-                width="30%"
-                :before-close="handleClose">
-            <el-input class="itemInput" v-model="dataTyped" placeholder="数据类型"></el-input>
-            <el-input class="itemInput" v-model="analysisResultd" placeholder="分析结果"></el-input>
-            <span slot="footer" class="dialog-footer">
-                <button-custom class="button" @click.native="handleClose"  title="取消" />
-                <button-custom @click.native="submit" class="button"  title="确定" />
-            </span>
-        </el-dialog>
-    </div>
+  <div class="personJudge">
+    <el-dialog
+      v-dialogDrag
+      title="人工判断"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <el-input class="itemInput" v-model="dataTyped" placeholder="数据类型"></el-input>
+      <el-input class="itemInput" v-model="analysisResultd" placeholder="分析结果"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <button-custom class="button" @click.native="handleClose" title="取消" />
+        <button-custom @click.native="submit" class="button" title="确定" />
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -114,53 +115,53 @@
 </script>
 
 <style lang="scss">
-    .personJudge {
-        .itemInput {
-            margin-bottom: 20px;
-            width: 100%;
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-        .dialog-footer {
-            display: flex;
-            justify-content: center;
-            color: #ffffff;
-            .button {
-                height: 37px;
-                line-height: 31px;
-                font-size: 14px;
-                &:first-child {
-                    margin-right: 30px;
-                }
-            }
-        }
-        .el-dialog__title {
-            font-size: 22px;
-            color: #333;
-        }
-        .el-input__inner {
-            background-color: #ffffff;
-            border: solid 2px #bcbcbc;
-        }
-        .el-input__inner::placeholder {
-            color: #707070;
-        }
-        .el-select .el-input.is-focus .el-input__inner {
-            background-color: #ffffff;
-            border: solid 2px #bcbcbc;
-        }
-        .el-select .el-input__inner:focus {
-            background-color: #ffffff;
-            border: solid 2px #bcbcbc;
-        }
-        .el-select-dropdown {
-            width: 100%;
-            min-width: 100% !important;
-        }
+.personJudge {
+  .itemInput {
+    margin-bottom: 20px;
+    width: 100%;
+    &:last-child {
+      margin-bottom: 0;
     }
-    .warningDialog .el-dialog__header {
-        text-align: center !important;
+  }
+  .dialog-footer {
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
+    .button {
+      height: 37px;
+      line-height: 31px;
+      font-size: 14px;
+      &:first-child {
+        margin-right: 30px;
+      }
     }
+  }
+  .el-dialog__title {
+    font-size: 22px;
+    color: #333;
+  }
+  .el-input__inner {
+    background-color: #ffffff;
+    border: solid 2px #bcbcbc;
+  }
+  .el-input__inner::placeholder {
+    color: #707070;
+  }
+  .el-select .el-input.is-focus .el-input__inner {
+    background-color: #ffffff;
+    border: solid 2px #bcbcbc;
+  }
+  .el-select .el-input__inner:focus {
+    background-color: #ffffff;
+    border: solid 2px #bcbcbc;
+  }
+  .el-select-dropdown {
+    width: 100%;
+    min-width: 100% !important;
+  }
+}
+.warningDialog .el-dialog__header {
+  text-align: center !important;
+}
 </style>
 

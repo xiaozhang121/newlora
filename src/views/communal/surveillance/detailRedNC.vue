@@ -250,10 +250,14 @@ export default {
       columns: [
         {
           title: "时间",
-          key: "alarmTime",
+          key: "executeTime",
           minWidth: 100,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let timeDay = params.row.executeTime.slice(5);
+            return h("div", timeDay);
+          }
         },
         {
           title: "对象",
@@ -264,14 +268,14 @@ export default {
         },
         {
           title: "部件/相别",
-          key: "alarmPart",
+          key: "part",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "描述",
-          key: "alarmContent",
+          key: "content",
           minWidth: 90,
           align: "center",
           tooltip: true
@@ -285,6 +289,92 @@ export default {
           render: (h, params) => {
             const that = this;
             let newArr = [];
+            if (params.row.isAlarm == "1") {
+              newArr.push(
+                h(
+                  "i-dropdown",
+                  {
+                    props: { trigger: "click", placement: "bottom-start" },
+                    style: { marginLeft: "5px" },
+                    on: {
+                      "on-click": value => {
+                        console.log(value);
+                      }
+                    }
+                  },
+                  [
+                    h("div", { class: { member_operate_div: true } }, [
+                      h(
+                        "div",
+                        {
+                          class: {
+                            table_select: true,
+                            serious: params.row.alarmLevel === "2",
+                            commonly: params.row.alarmLevel === "1",
+                            danger: params.row.alarmLevel === "3"
+                          }
+                        },
+                        [
+                          h("span", this.cutOut(params.row.alarmLevelName), {
+                            class: { member_operate_div: true }
+                          }),
+                          h("i", {
+                            style: { marginLeft: "5px" },
+                            class: { "iconfont icon-xiala": true }
+                          })
+                        ]
+                      )
+                    ]),
+                    h("i-dropdownMenu", { slot: "list" }, [
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "一般", "1");
+                              }
+                            }
+                          },
+                          "一般"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "严重", "2");
+                              }
+                            }
+                          },
+                          "严重"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "危急", "3");
+                              }
+                            }
+                          },
+                          "危急"
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              );
+            } else {
+              newArr.push("div", "/");
+            }
             newArr.push(
               h(
                 "i-dropdown",
@@ -389,7 +479,7 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: params.row.pic },
                   draggable: false,
                   on: {
                     click: () => {
@@ -403,7 +493,7 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: params.row.pic },
                   draggable: false,
                   on: {
                     click: () => {
