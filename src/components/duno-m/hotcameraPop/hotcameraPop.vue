@@ -48,10 +48,6 @@
                     {
                         label: "历史数据",
                         name: "fifth"
-                    },
-                    {
-                        label: "历史文件",
-                        name: "sixth"
                     }
                 ],
                 cameraFlag: 'first',
