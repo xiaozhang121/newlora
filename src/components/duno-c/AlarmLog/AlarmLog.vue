@@ -49,7 +49,7 @@
       </div>
     </div>
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-    <wraning  :popData="remarkData" :visible="visible" @handleClose="handleClose" />
+    <wraning :isAlarmLog="true"  :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 

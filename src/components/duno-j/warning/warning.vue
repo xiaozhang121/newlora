@@ -158,6 +158,12 @@ export default {
     };
   },
   props: {
+    isAlarmLog:{
+        type: Boolean,
+        default: () => {
+            return false;
+        }
+    },
     top: {
       type: String || Number,
       default: () => {
@@ -247,6 +253,10 @@ export default {
           // this.searchId = now["alarmId"];
           this.searchId = now["taskId"] + "," + now["batchId"];
           this.searchType = "alarmId";
+          if(this.isAlarmLog){
+              this.searchId = now['alarmId']
+              this.searchType = "alarmId"
+          }
         } else if ("taskId" in now && now["taskId"]) {
           this.searchId = now["taskId"] + "," + now["batchId"];
           this.searchType = "alarmId";
