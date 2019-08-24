@@ -73,7 +73,7 @@ class HttpRequest {
       if (code === 200) {
         const resData = body.data || body.result
         const data = JSON.parse(JSON.stringify(resData))
-        const msg = body.errorMessage
+        const msg = body.errorMessage || body.message
         return { data, code, msg }
       }
       if (code === 40101 || code == 40102) {
@@ -83,7 +83,7 @@ class HttpRequest {
       }
       if (code !== 200) {
         const data = body.data || body.result
-        const msg = body.errorMessage
+        const msg = body.errorMessage || body.message
         return { data, code, msg }
       }
     }, error => {
