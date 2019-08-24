@@ -50,6 +50,7 @@
     </div>
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     <wraning
+      detailsType="alarm"
       :isAlarmLog="true"
       :popData="remarkData"
       :visible="visible"
