@@ -48,7 +48,8 @@
       />
     </div>
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
-    <div class="remarks">
+    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <!-- <div class="remarks">
       <el-dialog
         title="备注"
         :center="true"
@@ -69,13 +70,14 @@
           <button-custom class="button" @click.native="clickRemarks" title="确定" />
         </span>
       </el-dialog>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
+import Remarks from "_c/duno-c/Remarks";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import buttonCustom from "_c/duno-m/buttonCustom";
@@ -94,7 +96,8 @@ export default {
     dunoBtnTop,
     DunoTablesTep,
     buttonCustom,
-    enlarge
+    enlarge,
+    Remarks
   },
   props: {
     areaId: {
@@ -276,7 +279,6 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      //   console.log(111);
                       this.dialogVisible = true;
                       this.alarmId = params.row.alarmId;
                     }
@@ -403,7 +405,7 @@ export default {
             path: "/surveillancePath/detailRedN",
             query: {
               monitorDeviceId: monitorDeviceId,
-                typeId: res.data["typeId"]
+              typeId: res.data["typeId"]
             }
           });
         } else if (monitorDeviceType == 3) {
@@ -431,29 +433,27 @@ export default {
         });
       }*/
     },
-    closeRemarks() {
-      this.dialogVisible = false;
-      this.textarea = "";
-    },
+    // closeRemarks() {
+    //   this.dialogVisible = false;
+    // },
     beforeClose() {
-      this.textarea = "";
       this.dialogVisible = false;
     },
-    clickRemarks() {
-      const that = this;
-      that.dialogVisible = false;
-      let query = {
-        alarmId: that.alarmId,
-        type: "2",
-        content: that.textarea
-      };
-      dealRemarks(query).then(res => {
-          that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        that.textarea = "";
-      });
-    },
+    // clickRemarks() {
+    //   const that = this;
+    //   that.dialogVisible = false;
+    //   let query = {
+    //     alarmId: that.alarmId,
+    //     type: "2",
+    //     content: that.textarea
+    //   };
+    //   dealRemarks(query).then(res => {
+    //     that.textarea = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     that.textarea = "";
+    //   });
+    // },
     dataListSelectionChangeHandle() {}
   },
   mounted() {
@@ -731,19 +731,19 @@ export default {
     }
   }
 }
-.remarks {
-  .dialog-footer {
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    .button {
-      height: 37px;
-      line-height: 31px;
-      font-size: 14px;
-      &:first-child {
-        margin-right: 30px;
-      }
-    }
-  }
-}
+// .remarks {
+//   .dialog-footer {
+//     color: #ffffff;
+//     display: flex;
+//     justify-content: center;
+//     .button {
+//       height: 37px;
+//       line-height: 31px;
+//       font-size: 14px;
+//       &:first-child {
+//         margin-right: 30px;
+//       }
+//     }
+//   }
+// }
 </style>

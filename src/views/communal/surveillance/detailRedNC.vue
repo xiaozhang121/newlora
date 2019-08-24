@@ -227,7 +227,7 @@ export default {
       disabled: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        getDataListURL: "/lenovo-plan/api/plan/history",
         exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       titleTypeL: "全部数据类型",
@@ -239,7 +239,7 @@ export default {
       echartTitle: "",
       srcData: [],
       dataForm: {},
-      queryForm:{},
+      queryForm: {},
       echartForm: {},
       echartData: [],
       value: "",
@@ -759,6 +759,7 @@ export default {
     this.dataForm.typeId = this.$route.query.typeId;
     this.initCamera();
     this.getEchasrts();
+    this.getDataList();
     if (this.dataForm.typeId == 3) {
       this.$store.state.app.isPic = true;
       this.picTurn();

@@ -310,7 +310,7 @@ export default {
     opacity: 0.8;
     padding: 21px 27px;
     overflow: hidden;
-    & > div:nth-child(odd) {
+    & > div:nth-child(even) {
       margin-left: 0 !important;
     }
   }
@@ -337,7 +337,7 @@ export default {
       flex-grow: 1;
     }
     .item:last-child {
-      margin-left: 20px;
+    //   margin-left: 20px;
     }
   }
 }

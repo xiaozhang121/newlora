@@ -108,7 +108,8 @@
           </div>
         </el-col>
       </el-row>
-      <div class="remarks">
+          <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+      <!-- <div class="remarks">
         <el-dialog
           title="备注"
           :center="true"
@@ -129,7 +130,7 @@
             <button-custom class="button" @click.native="clickRemarks" title="确定" />
           </span>
         </el-dialog>
-      </div>
+      </div> -->
     </div>
   </historical-documents>
 </template>
@@ -143,11 +144,12 @@ import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import { truncate } from "fs";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
+import Remarks from "_c/duno-c/Remarks";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 videojs.options.flash.swf = SWF_URL;
 export default {
   name: "popuponeinfo",
-  components: { HistoricalDocuments, videoPlayer, buttonCustom },
+  components: { HistoricalDocuments, videoPlayer, buttonCustom,Remarks },
   data() {
     return {
       itemData: {},
@@ -241,6 +243,7 @@ export default {
     restoration(type) {
       if (type == "0") {
         this.dialogVisible = true;
+        this.alarmId=this.itemData.alarmId
         return
       }
       this.$store.state.user.isAlarm = false;
@@ -281,31 +284,29 @@ export default {
     onClose(data) {
       this.$emit("onClose", data);
     },
-    closeRemarks() {
-      this.dialogVisible = false;
-      this.textarea = "";
-    },
+    // closeRemarks() {
+    //   this.dialogVisible = false;
+    // },
     beforeClose() {
-      this.textarea = "";
       this.dialogVisible = false;
     },
-    clickRemarks() {
-      const that = this;
-      that.dialogVisible = false;
-      this.$store.state.user.isAlarm = false;
-      let query = {
-        alarmId: this.itemData.alarmId,
-        type: "0",
-        content: that.inputValue
-      };
-      dealRemarks(query).then(res => {
-          that.textarea = "";
-          that.inputValue = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("handleListData");
-      });
-    }
+    // clickRemarks() {
+    //   const that = this;
+    //   that.dialogVisible = false;
+    //   this.$store.state.user.isAlarm = false;
+    //   let query = {
+    //     alarmId: this.itemData.alarmId,
+    //     type: "0",
+    //     content: that.inputValue
+    //   };
+    //   dealRemarks(query).then(res => {
+    //       that.textarea = "";
+    //       that.inputValue = "";
+    //     if (res.data.isSuccess) that.$message.success(res.msg);
+    //     else that.$message.error(res.msg);
+    //     this.$emit("handleListData");
+    //   });
+    // }
   }
 };
 </script>

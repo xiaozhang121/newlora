@@ -196,7 +196,7 @@ export default {
       },
       mixinViewModuleOptions: {
         // activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        getDataListURL: "/lenovo-plan/api/plan/history",
         exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       //   titleType: "选择对比设备",

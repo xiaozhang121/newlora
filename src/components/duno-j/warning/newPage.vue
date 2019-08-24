@@ -295,7 +295,8 @@
                         alarmId: that.searchId,
                         input: that.dataList.alarmDetailType,
                         inputT: that.dataList.alarmValue,
-                        select: that.dataList.alarmSuperDetailType
+                        select: that.dataList.alarmSuperDetailType,
+                        alarmDetailTypeCode: that.dataList.alarmDetailTypeCode
                     };
                 });
             },
