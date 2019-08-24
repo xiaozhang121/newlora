@@ -96,8 +96,9 @@
             </el-dialog>
             <personJudge
                     :dataList="formData"
-                    :isTemperture="isTemperture"
+                    :isTemperture="discriminate"
                     @on-close="onClose"
+                    @on-alter="initData"
                     :visible="visibleJudge"
             />
         </div>
@@ -268,28 +269,38 @@
             },
             initData() {
                 let that = this;
+                that.discriminate = false;
+                that.hasSelect = true;
                 let url = "/lenovo-plan/api/task-result/view";
                 if (this.detailsType == "alarm") {
                     url = "/lenovo-alarm/api/alarm/view";
                 }
                 getAxiosData(url, {
-                    [that.searchType]: that.searchId
+                    [that.searchType]: that.searchId,
+                    isPhaseAlarm: that.isPhaseAlarm
                 }).then(res => {
-                    that.handleList = []
+                    that.handleList = [];
                     that.dataList = res.data;
-                    let data = [];
                     (res.data.dealList || []).forEach(el => {
                         let obj = {};
                         obj.time = el.dealTime;
                         obj.info = el.dealType;
-                        data.push(obj)
+                        that.handleList.push(obj);
                     });
-                    that.handleList = data;
+                    console.log(that.handleList);
+                    if (that.handleList.length < 1) {
+                        that.isdeal = false;
+                    }
                     if (that.dataList.alarmTypeValue == "动态环境类") {
                         that.discriminate = true;
                     }
                     if (that.dataList.result == "温度正常") {
                         that.hasSelect = false;
+                    }
+                    if (isNaN(that.dataList.alarmValue)) {
+                        that.alarmValue = that.dataList.alarmValue;
+                    } else {
+                        that.alarmValue = that.dataList.alarmValue + "℃";
                     }
                     that.formData = {
                         alarmId: that.searchId,
@@ -298,6 +309,7 @@
                         select: that.dataList.alarmSuperDetailType,
                         alarmDetailTypeCode: that.dataList.alarmDetailTypeCode
                     };
+                    that.$forceUpdate();
                 });
             },
             selectItem(item, index) {
@@ -387,11 +399,7 @@
                 });
             },
             clickJudge() {
-                if (this.dataList.alarmValue == "") {
-                    this.isTemperture = false;
-                } else {
-                    this.isTemperture = true;
-                }
+                let that = this;
                 this.visibleJudge = true;
             },
             onClose() {
