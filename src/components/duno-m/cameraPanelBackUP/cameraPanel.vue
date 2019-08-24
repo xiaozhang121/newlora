@@ -715,11 +715,6 @@
                     }
                     let tempName = that.addPosInput
                     postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId}).then(res=>{
-                        if(res.status == 500){
-                            this.$message.fail(res.message)
-                        }else{
-                            this.$message.success(res.message)
-                        }
                         that.getListData()
                     })
                     that.addPosInput = ''
