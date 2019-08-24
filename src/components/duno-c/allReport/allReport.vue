@@ -16,7 +16,7 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <div>
+        <!-- <div>
           <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTo"
@@ -35,7 +35,7 @@
             :title="titleTypeR"
             :showBtnList="false"
           ></duno-btn-top>
-        </div>
+        </div>-->
         <div class="dateChose">
           <el-date-picker
             unlink-panels
@@ -321,7 +321,7 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.pic },
+                  attrs: { src: params.row.fileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -335,7 +335,7 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: params.row.fileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -481,7 +481,7 @@ export default {
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
-        this.clcikQueryData.areaId = item.monitorDeviceType;
+        this.clcikQueryData.powerDeviceId = item.monitorDeviceType;
       } else if (item.title == "titleTypeC") {
         this.clcikQueryData.status = item.monitorDeviceType;
       } else if (item.title == "titleTypeR") {
