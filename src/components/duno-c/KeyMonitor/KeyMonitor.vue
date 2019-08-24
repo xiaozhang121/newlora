@@ -46,7 +46,7 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span @click="videotape()" v-if="!isPic && !onlyCanel">
+          <span style="display: none" @click="videotape()" v-if="!isPic && !onlyCanel">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
