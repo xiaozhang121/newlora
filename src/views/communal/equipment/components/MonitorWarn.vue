@@ -105,8 +105,8 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.taskId},${now.batchId}`;
-        this.dealList = now.dealList;
-        this.handleDeal();
+        // this.dealList = now.dealList;
+        this.handleDeal(now.dealList);
       },
       deep: true,
       immediate: true
@@ -124,8 +124,8 @@ export default {
     };
   },
   methods: {
-    handleDeal() {
-      this.dealList.forEach(el => {
+    handleDeal(item) {
+      item.forEach(el => {
         let str = el.dealType + " (" + el.dealTime + ")";
         this.dealList.push(str);
       });

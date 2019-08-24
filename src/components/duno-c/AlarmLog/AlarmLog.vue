@@ -108,16 +108,15 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.alarmId}`;
-        this.dealList = now.dealList;
-        this.handleDeal();
+        this.handleDeal(now.dealList);
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    handleDeal() {
-      this.dealList.forEach(el => {
+    handleDeal(item) {
+      item.forEach(el => {
         let str = el.dealType + " (" + el.dealTime + ")";
         this.dealList.push(str);
       });
