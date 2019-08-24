@@ -96,7 +96,7 @@ export default {
           align: 'center',
           render: (h, params) => {
             let newArr = []
-            if (this.isView) {
+           /* if (this.isView) {
               newArr.push(h('Tooltip', {
                 props: { content: '查看' }
               }, [
@@ -105,7 +105,7 @@ export default {
                     on: { click: () => { this.clickView(params.row) } }
                   })
               ]))
-            }
+            }*/
             if (this.isEdit) {
               newArr.push(h('Tooltip', {
                 props: { content: '编辑' }
