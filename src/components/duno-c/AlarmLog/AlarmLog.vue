@@ -43,7 +43,7 @@
       </div>
     </div>
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-    <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
+    <wraning  :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -87,8 +87,12 @@ export default {
     };
   },
   watch: {
-    remarkData(now) {
-      this.alarmId = now.alarmId;
+    remarkData:{
+        handler(now){
+            this.alarmId = now.alarmId;
+        },
+        deep: true,
+        immediate: true
     }
   },
   methods: {
