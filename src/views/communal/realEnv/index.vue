@@ -8,7 +8,7 @@
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2 || isDiagram == 3"/>
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-else-if="isDiagram == 1"/>
           </div>
-          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;"/>
+          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;visibility: hidden"/>
           <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->
           <!-- <div v-for="(item, index) in deviceList" class="anchorPoint" :id="'anchor'+index" :key="index" >
                <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
