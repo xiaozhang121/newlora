@@ -115,7 +115,6 @@
           <div class="select">
             <div>
               <duno-btn-top
-                style="visibility: hidden"
                 @on-select="onSelect"
                 class="dunoBtnTo"
                 :isCheck="false"
@@ -126,7 +125,6 @@
             </div>
             <div>
               <duno-btn-top
-                style="visibility: hidden"
                 @on-select="onSelect"
                 class="dunoBtnTop"
                 :isCheck="false"
@@ -317,7 +315,7 @@ export default {
                           }
                         },
                         [
-                          h("span", this.cutOut(params.row.alarmLevel), {
+                          h("span", this.cutOut(params.row.alarmLevelName), {
                             class: { member_operate_div: true }
                           }),
                           h("i", {
@@ -526,14 +524,15 @@ export default {
       });
     },
     cutOut(data) {
-      if (data == "1") {
-        data = "一般";
-      } else if (data == "2") {
-        data = "严重";
-      } else if (data == "3") {
-        data = "危急";
+      if (data) {
+        const index = data.indexOf("缺陷");
+        if (index > -1) {
+          data = data.substring(0, index);
+        }
+        return data;
+      } else {
+        return "更多";
       }
-      return data;
     },
     onClickDropdown(row, type, No) {
       const index = row._index;
