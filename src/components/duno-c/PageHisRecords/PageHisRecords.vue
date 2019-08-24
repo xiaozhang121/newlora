@@ -121,11 +121,12 @@ export default {
       mixinViewModuleOptions: {
         activatedIsNeed: false,
         getDataListURL: "/lenovo-alarm/api/security/list",
-        exportURL: "/lenovo-alarm/api/alarm/history/export"
+        exportURL: "/lenovo-alarm/api/security/history/export"
       },
       value: "",
       titleType: "全部类型",
       dataForm: {},
+      queryForm: {},
       typeSelect: [],
       dialogVisible: false,
       textarea: "",
@@ -338,6 +339,7 @@ export default {
     },
     clickExcel() {
       const that = this;
+      that.queryForm.areaId = that.dataForm.areaId;
       that.exportHandle();
     },
     getAlarmType() {
