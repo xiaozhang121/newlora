@@ -105,6 +105,10 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.taskId},${now.batchId}`;
+        now.dealList.forEach(el => {
+          let str = el.dealType + " (" + el.dealTime + ")";
+          this.dealList.push(str);
+        });
       },
       deep: true,
       immediate: true
