@@ -409,44 +409,48 @@ export default {
       this.$emit("handleClose");
     },
     getJump() {
-      getAxiosData("/lenovo-device/api/preset/type", {
-        monitorDeviceId: this.popData.monitorDeviceId
-      }).then(res => {
-        let supportPreset = res.data["supportPreset"];
-        let monitorDeviceType = res.data["monitorDeviceType"];
-        if (monitorDeviceType == 1) {
-          if (supportPreset) {
+      if(!this.$route.meta.isMain){
+        getAxiosData("/lenovo-device/api/preset/type", {
+          monitorDeviceId: this.popData.monitorDeviceId
+        }).then(res => {
+          let supportPreset = res.data["supportPreset"];
+          let monitorDeviceType = res.data["monitorDeviceType"];
+          if (monitorDeviceType == 1) {
+            if (supportPreset) {
+              this.$router.push({
+                path: "/surveillancePath/detailLight",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId
+                }
+              });
+            } else {
+              this.$router.push({
+                path: "/surveillancePath/detailLightN",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId
+                }
+              });
+            }
+          } else if (monitorDeviceType == 2) {
             this.$router.push({
-              path: "/surveillancePath/detailLight",
+              path: "/surveillancePath/detailRedN",
               query: {
-                monitorDeviceId: this.popData.monitorDeviceId
+                monitorDeviceId: this.popData.monitorDeviceId,
+                typeId: res.data["typeId"]
               }
             });
-          } else {
+          } else if (monitorDeviceType == 3) {
             this.$router.push({
-              path: "/surveillancePath/detailLightN",
+              path: "/surveillancePath/detailEnv",
               query: {
                 monitorDeviceId: this.popData.monitorDeviceId
               }
             });
           }
-        } else if (monitorDeviceType == 2) {
-          this.$router.push({
-            path: "/surveillancePath/detailRedN",
-            query: {
-              monitorDeviceId: this.popData.monitorDeviceId,
-              typeId: res.data["typeId"]
-            }
-          });
-        } else if (monitorDeviceType == 3) {
-          this.$router.push({
-            path: "/surveillancePath/detailEnv",
-            query: {
-              monitorDeviceId: this.popData.monitorDeviceId
-            }
-          });
-        }
-      });
+        });
+      }else{
+          this.$message.info('已在当前页')
+      }
     },
     clickJudge() {
       let that = this;
