@@ -35,7 +35,7 @@
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
           <template v-if="!onlyCanel">
-            <div class="block" :class="{'hidden': isPic}" v-if="!isCamera">
+            <div style="visibility: hidden" class="block" :class="{'hidden': isPic}" v-if="!isCamera">
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
               <span class="nowNR">当前</span>
@@ -739,7 +739,7 @@ export default {
       padding-left: 10px;
       padding-right: 10px;
       width: 100%;
-      z-index: 0;
+      z-index: 1;
       span {
         display: flex;
         margin-left: 2%;
