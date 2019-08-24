@@ -41,7 +41,8 @@
                         <div v-if="!discriminate" class="temperature">
                             <p class="monitorTitle">{{dataList.result}}</p>
                             <p>
-                                {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }}
+                                {{alarmValue}}
+                                <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                                 <i-dropdown
                                         v-if="hasSelect && !discriminate  && popData['alarmLevel']"
                                         trigger="click"
@@ -114,6 +115,11 @@
         components: { personJudge, KeyMonitor },
         data() {
             return {
+                isPhaseAlarm: "",
+                isThree: false,
+                userNameD: '',
+                isdeal: true,
+                //   isTemperture: true,
                 hasSelect: true,
                 detailsType: '',
                 popData: null,
@@ -131,11 +137,13 @@
                 discriminate: false,
                 isImgVideo: true,
                 isTemperture: true,
-                formData: {}
+                formData: {},
+                alarmValue: null
             };
         },
         props: {
             detailsType:{},
+            userName:{},
             name: {
 
             },
@@ -207,25 +215,36 @@
         },
         computed: {},
         watch: {
-            popData(now) {
-                if ("alarmId" in now && now["alarmId"]) {
-                    // this.searchId = now["alarmId"];
-                    this.searchId = now["taskId"] + "," + now["batchId"];
-                    this.searchType = "alarmId";
-                } else if ("taskId" in now && now["taskId"]) {
-                    this.searchId = now["taskId"] + "," + now["batchId"];
-                    this.searchType = "alarmId";
-                } else {
-                    this.searchId = now["resultId"];
-                    this.searchType = "resultId";
-                }
-                if (this.detailsType == "alarm") {
-                    this.searchId = now["id"];
-                    this.searchType = "id";
-                }
-                if (this.searchId != "") {
-                    this.initData();
-                }
+            popData: {
+                handler(now) {
+                    this.isPhaseAlarm = now["isPhaseAlarm"];
+                    this.isThree = now["isPhaseAlarm"] == 1;
+                    this.isImgVideo = now["fileType"] == 1;
+                    if ("alarmId" in now && now["alarmId"]) {
+                        // this.searchId = now["alarmId"];
+                        this.searchId = now["taskId"] + "," + now["batchId"];
+                        this.searchType = "alarmId";
+                        if (this.isAlarmLog) {
+                            this.searchId = now["alarmId"];
+                            this.searchType = "alarmId";
+                        }
+                    } else if ("taskId" in now && now["taskId"]) {
+                        this.searchId = now["taskId"] + "," + now["batchId"];
+                        this.searchType = "alarmId";
+                    } else {
+                        this.searchId = now["resultId"];
+                        this.searchType = "resultId";
+                    }
+                    if (this.detailsType == "alarm") {
+                        this.searchId = now["id"];
+                        this.searchType = "id";
+                    }
+                    if (this.searchId != "") {
+                        this.initData();
+                    }
+                },
+                deep: true,
+                immediate: true
             },
             // handleNotes(now) {
             //   this.handleList = [];
@@ -339,7 +358,7 @@
                     alarmLevel: No,
                     oldLevel: oldLevel,
                     newLevel: newLevel,
-                    userName: this.$store.state.user.userName
+                    userName: this.userNameD
                 };
                 putAxiosData(url, query).then(
                     res => {
@@ -407,10 +426,13 @@
             }
         },
         mounted() {
+            debugger
             this.searchType = Base64.decode(this.name)
             this.searchId = Base64.decode(this.value)
             this.popData = JSON.parse(Base64.decode(this.info))
             this.detailsType = Base64.decode(this.detailsType)
+            this.userNameD = Base64.decode(this.userName)
+            this.$store.state.user.userName = this.userNameD
             // this.target = this.querySelectorAll('.warningDialog')[1]
             this.newVisible = this.visible;
         }

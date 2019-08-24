@@ -40,7 +40,7 @@ export default [{
         component: () => import('@/views/duno-default/login/login.vue')
     },
     {
-        path: '/newPage/:name/:value/:info/:detailsType',
+        path: '/newPage/:name/:value/:info/:detailsType/:userName',
         name: 'newPage',
         props: true,
         meta: {
@@ -64,7 +64,7 @@ export default [{
         component: () => import('@/components/duno-j/warning/newPageRobot.vue')
     },
     {
-        path: '/newPageT/:name/:value/:info/:detailsType',
+        path: '/newPageT/:name/:value/:info/:detailsType/:userName',
         name: 'newPageT',
         props: true,
         meta: {

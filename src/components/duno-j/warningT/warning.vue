@@ -81,6 +81,7 @@ export default {
   components: { personJudge, diffPanel },
   data() {
     return {
+      formData: {},
       isPhaseAlarm: '',
       visibleDiff: false,
       target: null,
@@ -94,6 +95,7 @@ export default {
       alarmLevelN: "",
       newMonitorUrl: "",
       dataList: {},
+      alarmValue: '',
       discriminate: false
     };
   },
@@ -237,7 +239,8 @@ export default {
                 name: Base64.encode(this.searchType),
                 value: Base64.encode(this.searchId),
                 info: Base64.encode(JSON.stringify(this.popData)),
-                detailsType: Base64.encode(this.detailsType)
+                detailsType: Base64.encode(this.detailsType),
+                userName: Base64.encode(this.$store.state.user.userName)
             }
         });
         window.open(routeData.href, "_blank");
@@ -252,6 +255,8 @@ export default {
     },
     initData() {
           let that = this;
+          that.discriminate = false;
+          that.hasSelect = true;
           let url = "/lenovo-plan/api/task-result/view";
           if (this.detailsType == "alarm") {
               url = "/lenovo-alarm/api/alarm/phase/view";
@@ -280,6 +285,11 @@ export default {
               if (that.dataList.result == "温度正常") {
                   that.hasSelect = false;
               }
+              if (isNaN(that.dataList.alarmValue)) {
+                  that.alarmValue = that.dataList.alarmValue;
+              } else {
+                  that.alarmValue = that.dataList.alarmValue + "℃";
+              }
               that.formData = {
                   alarmId: that.searchId,
                   input: that.dataList.alarmDetailType,
@@ -287,6 +297,7 @@ export default {
                   select: that.dataList.alarmSuperDetailType,
                   alarmDetailTypeCode: that.dataList.alarmDetailTypeCode
               };
+              that.$forceUpdate();
           });
     },
     selectItem(item, index) {

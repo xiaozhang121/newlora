@@ -65,6 +65,7 @@
                 :dataList="formData"
                 :isTemperture="discriminate"
                 @on-close="onClose"
+                @on-alter="initData"
                 :visible="visibleJudge"
         />
         <diff-panel :visible="visibleDiff" @on-close="closeDiff" />
@@ -79,6 +80,7 @@
         components: { personJudge, diffPanel },
         data() {
             return {
+                formData: {},
                 showVis: false,
                 visibleDiff: false,
                 target: null,
@@ -97,6 +99,7 @@
             };
         },
         props: {
+            userName:{},
             name:{},
             value:{},
             info:{},
@@ -234,6 +237,8 @@
             },
             initData() {
                 let that = this;
+                that.discriminate = false;
+                that.hasSelect = true;
                 let url = "/lenovo-plan/api/task-result/view";
                 if (this.detailsType == "alarm") {
                     url = "/lenovo-alarm/api/alarm/phase/view";
@@ -242,6 +247,8 @@
                     [that.searchType]: that.searchId
                 }).then(res => {
                     that.handleList = [];
+                    if(res.data['fileAddress'])
+                        res.data['alarmFileAddress'] =  res.data['fileAddress']
                     that.dataList = res.data;
                     that.showVis = true;
                     (res.data.dealList || []).forEach(el => {
@@ -328,6 +335,7 @@
             this.searchId = Base64.decode(this.value)
             this.popData = JSON.parse(Base64.decode(this.info))
             this.detailsType = Base64.decode(this.detailsType)
+            this.$store.state.user.userName  = Base64.decode(this.userName)
             this.newVisible = this.visible;
         }
     };

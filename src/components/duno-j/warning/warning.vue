@@ -298,13 +298,15 @@ export default {
   },
   methods: {
     openPage() {
+      debugger
       let routeData = this.$router.resolve({
         name: "newPage",
         params: {
           name: Base64.encode(this.searchType),
           value: Base64.encode(this.searchId),
           info: Base64.encode(JSON.stringify(this.popData)),
-          detailsType: Base64.encode(this.detailsType)
+          detailsType: Base64.encode(this.detailsType),
+          userName: Base64.encode(this.$store.state.user.userName)
         }
       });
       window.open(routeData.href, "_blank");
