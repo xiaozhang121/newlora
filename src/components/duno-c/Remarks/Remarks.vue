@@ -91,6 +91,13 @@ export default {
       }
     }
   }
+  .el-dialog {
+    background-color: #fff;
+    border: none;
+    .el-dialog__body {
+      background-color: #fff;
+    }
+  }
 }
 </style>
 
