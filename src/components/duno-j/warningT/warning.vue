@@ -247,6 +247,7 @@ export default {
     },
     onClose(){
         this.visibleJudge = false
+        this.initData()
         this.$emit('on-fresh')
     },
     initData() {
