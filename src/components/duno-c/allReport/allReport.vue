@@ -321,7 +321,11 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.fileAddress },
+                  attrs: {
+                    src: params.row.fileAddress
+                      ? params.row.fileAddress
+                      : params.row.pic
+                  },
                   draggable: false,
                   on: {
                     click: () => {
@@ -335,7 +339,11 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.fileAddress },
+                  attrs: {
+                    src: params.row.fileAddress
+                      ? params.row.fileAddress
+                      : params.row.pic
+                  },
                   draggable: false,
                   on: {
                     click: () => {
