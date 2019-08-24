@@ -373,7 +373,7 @@ export default {
                 )
               );
             } else {
-              newArr.push("div", "/");
+              newArr.push("/");
             }
             newArr.push(
               h(
@@ -841,12 +841,21 @@ export default {
           that.$store.state.app.picSrc = res.data;
         });
       }, 200);
+    },
+    getMonitorDeviceName() {
+      let url = "/lenovo-device/api/device-monitor/device";
+      let query = {
+        monitorDeviceId: this.$route.query.monitorDeviceId
+      };
+      getAxiosData(url, query).then(res => {
+        this.dataForm.monitorDeviceName = res.data.monitorDeviceName;
+      });
     }
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-    this.dataForm.monitorDeviceName = this.$route.query.monitorDeviceName;
     this.dataForm.typeId = this.$route.query.typeId;
+    this.getMonitorDeviceName();
     this.initCamera();
     this.getEchasrts();
     this.getDataList();

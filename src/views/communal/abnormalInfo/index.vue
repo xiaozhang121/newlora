@@ -633,7 +633,7 @@ export default {
             this.$router.push({
               path: "/surveillancePath/detailLight",
               query: {
-                monitorDeviceId: monitorDeviceId
+                monitorDeviceId: monitorDeviceId,
               }
             });
           } else {

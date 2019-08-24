@@ -444,7 +444,9 @@ export default {
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
-      let query = {};
+      let query = {
+        powerDeviceId: item.monitorDeviceType
+      };
       this.clickQuery(query);
     },
     handleClose() {
