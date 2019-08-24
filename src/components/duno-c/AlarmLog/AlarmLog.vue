@@ -49,7 +49,12 @@
       </div>
     </div>
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-    <wraning :isAlarmLog="true"  :popData="remarkData" :visible="visible" @handleClose="handleClose" />
+    <wraning
+      :isAlarmLog="true"
+      :popData="remarkData"
+      :visible="visible"
+      @handleClose="handleClose"
+    />
   </div>
 </template>
 
@@ -259,6 +264,14 @@ export default {
       }
       & > div:nth-child(2) {
         height: 36px;
+        p {
+          width: 88%;
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
       }
     }
     .btn {
