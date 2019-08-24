@@ -95,6 +95,7 @@
                 alarmLevelN: "",
                 newMonitorUrl: "",
                 dataList: [],
+                isPhaseAlarm: '',
                 hasSelect: false,
                 discriminate: false
             };
@@ -164,6 +165,7 @@
         computed: {},
         watch: {
             popData(now) {
+                this.isPhaseAlarm = now['isPhaseAlarm']
                 if ("alarmId" in now && now["alarmId"]) {
                     // this.searchId = now["alarmId"];
                     this.searchId = now["taskId"] + "," + now["batchId"];
@@ -239,7 +241,8 @@
                     url = "/lenovo-alarm/api/alarm/phase/view";
                 }
                 getAxiosData(url, {
-                    [that.searchType]: that.searchId
+                    [that.searchType]: that.searchId,
+                    'isPhaseAlarm': that.isPhaseAlarm
                 }).then(res => {
                     that.handleList = [];
                     if(res.data['fileAddress'])
