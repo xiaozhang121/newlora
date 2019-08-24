@@ -1,7 +1,13 @@
 <template>
   <div class="alarmLog">
     <div class="img">
+      <img
+          v-if="isImgVideo"
+          :src="remarkData.fileAddress?remarkData.fileAddress:remarkData.alarmFileAddress"
+          alt
+      />
       <KeyMonitor
+        v-else
         :streamAddr="remarkData.alarmFileAddress"
         :imgAdress="remarkData.pic"
         :monitorInfo="remarkData"
@@ -77,6 +83,7 @@ export default {
   },
   data() {
     return {
+      isImgVideo: true,
       address: "",
       isDisabled: true,
       dialogVisible: false,
@@ -90,6 +97,7 @@ export default {
   watch: {
     remarkData: {
       handler(now) {
+        this.isImgVideo = now["fileType"] == 1;
         if (now.isReturn == "1") {
           this.isReturn = false;
         }
@@ -196,7 +204,13 @@ export default {
   .img {
     width: 40%;
     height: 100%;
-    // position: relative;
+    position: relative;
+    img{
+      width: 100%;
+      height: 100%;
+      background: grey;
+      position: absolute;
+    }
     .keyMonitor {
       width: 100% !important;
     }
