@@ -17,9 +17,9 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                         <span @click="videotape()">
+                        <!-- <span @click="videotape()">
                                 <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
-                        </span>
+                        </span>-->
                         <span @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
@@ -68,9 +68,9 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                         <span @click="videotape()">
+                       <!--  <span @click="videotape()">
                                 <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
-                        </span>
+                        </span>-->
                         <span @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
@@ -122,9 +122,9 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                          <span @click="videotape()">
+                         <!-- <span @click="videotape()">
                                 <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
-                        </span>
+                        </span>-->
                         <span @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>

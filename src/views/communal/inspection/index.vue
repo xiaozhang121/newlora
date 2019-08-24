@@ -100,7 +100,7 @@
                 </div>
                 <div class="explain">
                   <span>全屏</span>
-                  <span>录像</span>
+                  <!--<span>录像</span>-->
                   <span>存图</span>
                 </div>
               </div>
@@ -110,7 +110,7 @@
                 </div>
                 <div class="explain">
                   <span>全屏</span>
-                  <span>录像</span>
+                  <!--<span>录像</span>-->
                   <span>存图</span>
                 </div>
               </div>
