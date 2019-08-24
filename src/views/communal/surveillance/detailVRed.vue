@@ -373,7 +373,7 @@ export default {
                 )
               );
             } else {
-              newArr.push("div", "/");
+              newArr.push("/");
             }
 
             return h("div", newArr);
