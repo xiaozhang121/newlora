@@ -35,7 +35,7 @@
               <p class="alarmType">
                 <span v-if="dataList['alarmContent']">{{ dataList['alarmContent'] }}</span>
                 <span class="from" @click="clickJudge()">结果修订</span>
-                <span class="from" @click="showDiff()">差值修订</span>
+                <span style="visibility: hidden" class="from" @click="showDiff()">差值修订</span>
               </p>
             </div>
           </div>
