@@ -78,7 +78,6 @@ export default {
 
 <style lang="scss">
 .remarks {
-  height: 360px;
   .dialog-footer {
     color: #ffffff;
     display: flex;
