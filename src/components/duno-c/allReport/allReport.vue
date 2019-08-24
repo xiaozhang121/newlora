@@ -119,6 +119,12 @@ export default {
       default: () => {
         return "";
       }
+    },
+    selectUrl: {
+      type: String,
+      default: () => {
+        return "";
+      }
     }
   },
   data() {
@@ -534,7 +540,7 @@ export default {
     },
     getRegion() {
       const that = this;
-      const url = "/lenovo-device/api/statistics/meter-data/select-list";
+      const url = that.selectUrl;
       getAxiosData(url).then(res => {
         const resData = res.data;
         const map = resData.map(item => {

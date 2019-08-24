@@ -108,6 +108,7 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.alarmId}`;
+        this.dealList = []
         this.handleDeal(now.dealList);
       },
       deep: true,
@@ -119,6 +120,7 @@ export default {
       item.forEach(el => {
         let str = el.dealType + " (" + el.dealTime + ")";
         this.dealList.push(str);
+        this.$forceUpdate
       });
     },
     openRemarks() {
@@ -199,10 +201,10 @@ export default {
     }
   },
   mounted() {
-    this.remarkData.dealList.forEach(el => {
-      let str = el.dealType + " (" + el.dealTime + ")";
-      this.dealList.push(str);
-    });
+    // this.remarkData.dealList.forEach(el => {
+    //   let str = el.dealType + " (" + el.dealTime + ")";
+    //   this.dealList.push(str);
+    // });
   }
 };
 </script>
