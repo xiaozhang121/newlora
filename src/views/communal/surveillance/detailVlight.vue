@@ -230,7 +230,7 @@ export default {
         },
         {
           title: "部件/相别",
-          key: "alarmPart",
+          key: "part",
           minWidth: 120,
           align: "center",
           tooltip: true
