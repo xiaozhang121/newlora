@@ -342,6 +342,7 @@ export default [{
                     name: 'surveillanceListLight',
                     meta: {
                         topNav: '3',
+                        isMain: true,
                         title: '可见光详情',
                         hideInMenu: true,
                         isDetails: true,
@@ -353,6 +354,7 @@ export default [{
                     name: 'surveillanceListRed',
                     meta: {
                         topNav: '3',
+                        isMain: true,
                         title: '红外监测',
                         hideInMenu: true,
                         isDetails: true,
@@ -364,6 +366,7 @@ export default [{
                     name: 'surveillanceListLightN',
                     meta: {
                         topNav: '3',
+                        isMain: true,
                         title: '红外监测',
                         hideInMenu: true,
                         isDetails: true,
@@ -375,6 +378,7 @@ export default [{
                     name: 'surveillanceListImportant',
                     meta: {
                         topNav: '3',
+                        isMain: true,
                         title: '重点监测区域',
                         hideInMenu: true,
                         isDetails: true,
