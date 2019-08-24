@@ -262,7 +262,8 @@ export default {
           this.initData();
         }
       },
-      deep: true
+      deep: true,
+      immediate: true
     },
     // handleNotes(now) {
     //   this.handleList = [];
