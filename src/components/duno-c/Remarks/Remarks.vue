@@ -94,7 +94,7 @@ export default {
     }
   }
   .el-dialog {
-    background-color: #fff;
+    background-color: #e0e0e0;
     border: none;
     .el-dialog__header {
       background-color: #e0e0e0;
