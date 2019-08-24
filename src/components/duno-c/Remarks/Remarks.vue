@@ -69,7 +69,9 @@ export default {
         that.textarea = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-        this.$emit("beforeClose");
+        setTimeout(() => {
+          this.$emit("beforeClose");
+        }, 5000);
       });
     }
   }

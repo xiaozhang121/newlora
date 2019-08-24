@@ -134,7 +134,9 @@ export default {
         else that.$message.error(res.msg);
         this.isReturn = false;
       });
-      this.$emit("handleListData");
+      setTimeout(() => {
+        this.$emit("handleListData");
+      }, 5000);
     },
     // closeRemarks() {
     //   this.dialogVisible = false;

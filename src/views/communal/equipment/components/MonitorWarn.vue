@@ -143,7 +143,9 @@ export default {
         else that.$message.error(res.msg);
         this.isReturn = false;
       });
-      this.$emit("handleListData");
+      setTimeout(() => {
+        this.$emit("beforeClose");
+      }, 5000);
     },
     // closeRemarks() {
     //   this.dialogVisible = false;
