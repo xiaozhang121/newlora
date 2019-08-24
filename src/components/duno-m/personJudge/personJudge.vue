@@ -94,15 +94,15 @@ export default {
     visible: {
       handler(now) {
         this.dialogVisible = now;
-        if(!now){
-            this.$emit('on-alter')
+        if (!now) {
+          this.$emit("on-alter");
         }
       },
       immediate: true
     },
     dataList: {
       handler(now) {
-        this.formData = now;
+        this.formData = JSON.parse(JSON.stringify(now));
       },
       deep: true,
       immediate: true

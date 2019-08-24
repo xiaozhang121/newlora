@@ -454,12 +454,6 @@ export default {
     },
     clickJudge() {
       let that = this;
-      that.formData = {
-        id: that.popData.id,
-        input: that.dataList.alarmDetailType,
-        inputT: that.dataList.alarmValue,
-        select: that.dataList.alarmSuperDetailType
-      };
       this.visibleJudge = true;
     },
     onClose() {
