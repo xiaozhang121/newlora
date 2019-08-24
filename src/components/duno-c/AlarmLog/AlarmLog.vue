@@ -108,12 +108,20 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.alarmId}`;
+        this.dealList = now.dealList;
+        this.handleDeal();
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
+    handleDeal() {
+      this.dealList.forEach(el => {
+        let str = el.dealType + " (" + el.dealTime + ")";
+        this.dealList.push(str);
+      });
+    },
     openRemarks() {
       this.alarmId = `${this.remarkData.alarmId}`;
       this.dialogVisible = true;

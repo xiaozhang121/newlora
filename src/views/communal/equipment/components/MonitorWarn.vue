@@ -105,6 +105,8 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.taskId},${now.batchId}`;
+        this.dealList = now.dealList;
+        this.handleDeal();
       },
       deep: true,
       immediate: true
@@ -122,6 +124,12 @@ export default {
     };
   },
   methods: {
+    handleDeal() {
+      this.dealList.forEach(el => {
+        let str = el.dealType + " (" + el.dealTime + ")";
+        this.dealList.push(str);
+      });
+    },
     openRemarks() {
       this.alarmId = `${this.remarkData.taskId},${this.remarkData.batchId}`;
       this.dialogVisible = true;
