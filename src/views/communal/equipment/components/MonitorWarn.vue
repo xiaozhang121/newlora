@@ -80,7 +80,7 @@ import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor, buttonCustom, wraning,Remarks },
+  components: { KeyMonitor, buttonCustom, wraning, Remarks },
   props: {
     isShow: {
       type: Boolean,
@@ -117,7 +117,7 @@ export default {
       dialogVisible: false,
       visible: false,
       isReturn: true,
-      alarmId:"",
+      alarmId: "",
       dealContent: []
     };
   },
@@ -150,6 +150,7 @@ export default {
     // },
     beforeClose() {
       this.dialogVisible = false;
+      this.$emit("handleListData");
     },
     // clickRemarks() {
     //   const that = this;

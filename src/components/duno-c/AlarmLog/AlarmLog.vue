@@ -2,9 +2,9 @@
   <div class="alarmLog">
     <div class="img">
       <img
-          v-if="isImgVideo"
-          :src="remarkData.fileAddress?remarkData.fileAddress:remarkData.alarmFileAddress"
-          alt
+        v-if="isImgVideo"
+        :src="remarkData.fileAddress?remarkData.fileAddress:remarkData.alarmFileAddress"
+        alt
       />
       <KeyMonitor
         v-else
@@ -136,6 +136,7 @@ export default {
     // },
     beforeClose() {
       this.dialogVisible = false;
+      this.$emit("handleListData");
     },
     // clickRemarks() {
     //   const that = this;
@@ -205,7 +206,7 @@ export default {
     width: 40%;
     height: 100%;
     position: relative;
-    img{
+    img {
       width: 100%;
       height: 100%;
       background: grey;

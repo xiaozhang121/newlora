@@ -60,7 +60,6 @@ export default {
     },
     clickRemarks() {
       const that = this;
-      that.$emit("beforeClose");
       let query = {
         alarmId: that.alarmId,
         type: "2",
@@ -70,6 +69,7 @@ export default {
         that.textarea = "";
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
+        this.$emit("beforeClose");
       });
     }
   }
@@ -94,8 +94,14 @@ export default {
   .el-dialog {
     background-color: #fff;
     border: none;
+    .el-dialog__header {
+      background-color: #e0e0e0;
+    }
     .el-dialog__body {
-      background-color: #fff;
+      background-color: #e0e0e0;
+    }
+    .el-dialog__footer {
+      background-color: #e0e0e0;
     }
   }
 }
