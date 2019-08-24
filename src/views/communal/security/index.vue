@@ -39,6 +39,7 @@
         </div>
         <div
           class="alarmLogIn"
+          :class="{'canelLoading': !loading}"
           v-loading="loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
           element-loading-text="加载中"
@@ -310,6 +311,9 @@ export default {
     opacity: 0.8;
     padding: 21px 27px;
     overflow: hidden;
+    &.canelLoading{
+      opacity: 1 !important;
+    }
     & > div:nth-child(even) {
       margin-left: 0 !important;
     }
