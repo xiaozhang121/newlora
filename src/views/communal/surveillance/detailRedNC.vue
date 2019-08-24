@@ -375,88 +375,90 @@ export default {
             } else {
               newArr.push("/");
             }
-            newArr.push(
-              h(
-                "i-dropdown",
-                {
-                  props: { trigger: "click", placement: "bottom-start" },
-                  style: { marginLeft: "5px" },
-                  on: {
-                    "on-click": value => {
-                      console.log(value);
-                    }
-                  }
-                },
-                [
-                  h("div", { class: { member_operate_div: true } }, [
+            if (params.row.isAlarm == "1") {
+                newArr.push(
                     h(
-                      "div",
-                      {
-                        class: {
-                          table_select: true,
-                          serious: params.row.alarmLevel === "2",
-                          commonly: params.row.alarmLevel === "1",
-                          danger: params.row.alarmLevel === "3"
-                        }
-                      },
-                      [
-                        h("span", this.cutOut(params.row.alarmLevelName), {
-                          class: { member_operate_div: true }
-                        }),
-                        h("i", {
-                          style: { marginLeft: "5px" },
-                          class: { "iconfont icon-xiala": true }
-                        })
-                      ]
+                        "i-dropdown",
+                        {
+                            props: {trigger: "click", placement: "bottom-start"},
+                            style: {marginLeft: "5px"},
+                            on: {
+                                "on-click": value => {
+                                    console.log(value);
+                                }
+                            }
+                        },
+                        [
+                            h("div", {class: {member_operate_div: true}}, [
+                                h(
+                                    "div",
+                                    {
+                                        class: {
+                                            table_select: true,
+                                            serious: params.row.alarmLevel === "2",
+                                            commonly: params.row.alarmLevel === "1",
+                                            danger: params.row.alarmLevel === "3"
+                                        }
+                                    },
+                                    [
+                                        h("span", this.cutOut(params.row.alarmLevelName), {
+                                            class: {member_operate_div: true}
+                                        }),
+                                        h("i", {
+                                            style: {marginLeft: "5px"},
+                                            class: {"iconfont icon-xiala": true}
+                                        })
+                                    ]
+                                )
+                            ]),
+                            h("i-dropdownMenu", {slot: "list"}, [
+                                h("i-dropdownItem", {}, [
+                                    h(
+                                        "div",
+                                        {
+                                            class: {alarmLevel: true},
+                                            on: {
+                                                click: () => {
+                                                    that.onClickDropdown(params.row, "一般", "1");
+                                                }
+                                            }
+                                        },
+                                        "一般"
+                                    )
+                                ]),
+                                h("i-dropdownItem", {}, [
+                                    h(
+                                        "div",
+                                        {
+                                            class: {alarmLevel: true},
+                                            on: {
+                                                click: () => {
+                                                    that.onClickDropdown(params.row, "严重", "2");
+                                                }
+                                            }
+                                        },
+                                        "严重"
+                                    )
+                                ]),
+                                h("i-dropdownItem", {}, [
+                                    h(
+                                        "div",
+                                        {
+                                            class: {alarmLevel: true},
+                                            on: {
+                                                click: () => {
+                                                    that.onClickDropdown(params.row, "危急", "3");
+                                                }
+                                            }
+                                        },
+                                        "危急"
+                                    )
+                                ])
+                            ])
+                        ]
                     )
-                  ]),
-                  h("i-dropdownMenu", { slot: "list" }, [
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "一般", "1");
-                            }
-                          }
-                        },
-                        "一般"
-                      )
-                    ]),
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "严重", "2");
-                            }
-                          }
-                        },
-                        "严重"
-                      )
-                    ]),
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "危急", "3");
-                            }
-                          }
-                        },
-                        "危急"
-                      )
-                    ])
-                  ])
-                ]
-              )
-            );
+                );
+            }
             return h("div", newArr);
           }
         },
