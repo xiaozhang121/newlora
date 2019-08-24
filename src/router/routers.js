@@ -805,10 +805,10 @@ export default [{
                         name: 'infrared-detail',
                         meta: {
                             topNav: '2',
-                            title: '可见光',
+                            title: '红外监测',
                             hideInMenu: true,
                             isDetails: true,
-                            active: 'visiblelightList'
+                            active: 'infraredList'
                         },
                         component: () => import('@/views/communal/equipment/allReportDetail.vue')
                     },
