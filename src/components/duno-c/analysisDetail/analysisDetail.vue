@@ -444,10 +444,8 @@ export default {
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
-      let query = {
-        powerDeviceId: item.monitorDeviceType
-      };
-      this.clickQuery(query);
+      this.dataForm.powerDeviceId = item.monitorDeviceType;
+      this.getDataList();
     },
     handleClose() {
       this.popData = {};
