@@ -319,7 +319,7 @@
                     this.handleColumns(columns)
                 }
             },
-            data (val) {
+            data (val, old) {
                 this.handleTableData()
                 clearTimeout(this.timer)
                 this.loadingOption = false

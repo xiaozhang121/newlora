@@ -79,7 +79,6 @@ export default {
     * */
     getDataList () {
       const that = this
-      that.dataList = []
       this.dataListSelections = []
       that.dataListLoading = true
       const url = that.mixinViewModuleOptions.getDataListURL
@@ -107,6 +106,7 @@ export default {
         if (that.mixinViewModuleOptions.isShowPage) {
             that.totalNum = res.data.total || res.data.pageParam.totalRows
         }
+        that.$forceUpdate()
       }, error => {
         that.dataListLoading = false
         // console.log(error)
