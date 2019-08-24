@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     openRemarks() {
-      this.alarmId = `${remarkData.taskId},${remarkData.batchId}`;
+      this.alarmId = `${this.remarkData.taskId},${this.remarkData.batchId}`;
       this.dialogVisible = true;
     },
     handleClose() {

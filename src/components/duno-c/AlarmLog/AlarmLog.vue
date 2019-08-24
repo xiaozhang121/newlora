@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     openRemarks() {
-      this.alarmId = `${remarkData.alarmId}`;
+      this.alarmId = `${this.remarkData.alarmId}`;
       this.dialogVisible = true;
     },
     handleClose() {
