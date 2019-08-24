@@ -158,11 +158,11 @@ export default {
     };
   },
   props: {
-    isAlarmLog:{
-        type: Boolean,
-        default: () => {
-            return false;
-        }
+    isAlarmLog: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
     },
     top: {
       type: String || Number,
@@ -253,9 +253,9 @@ export default {
           // this.searchId = now["alarmId"];
           this.searchId = now["taskId"] + "," + now["batchId"];
           this.searchType = "alarmId";
-          if(this.isAlarmLog){
-              this.searchId = now['alarmId']
-              this.searchType = "alarmId"
+          if (this.isAlarmLog) {
+            this.searchId = now["alarmId"];
+            this.searchType = "alarmId";
           }
         } else if ("taskId" in now && now["taskId"]) {
           this.searchId = now["taskId"] + "," + now["batchId"];
@@ -346,9 +346,9 @@ export default {
         if (that.dataList.result == "温度正常") {
           that.hasSelect = false;
         }
-        if (typeof that.dataList.alarmValue == 'string') {
+        if (isNaN(that.dataList.alarmValue)) {
           that.alarmValue = that.dataList.alarmValue;
-        } else if (typeof that.dataList.alarmValue == 'number') {
+        } else {
           that.alarmValue = that.dataList.alarmValue + "℃";
         }
         that.formData = {
