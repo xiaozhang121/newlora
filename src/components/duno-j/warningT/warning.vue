@@ -228,6 +228,7 @@ export default {
     },
     closeDiff(){
         this.visibleDiff = false
+        this.initData()
     },
     openPage(){
         let routeData = this.$router.resolve({
