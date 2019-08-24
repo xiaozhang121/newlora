@@ -231,7 +231,7 @@ export default {
         autoplay: true
       },
       mixinViewModuleOptions: {
-        getDataListURL: "/lenovo-plan/api/plan/history",
+        getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       titleType: "选择预置位",

@@ -227,7 +227,7 @@ export default {
       disabled: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-plan/api/plan/history",
+        getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       titleTypeL: "全部数据类型",

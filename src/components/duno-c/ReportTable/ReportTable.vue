@@ -97,7 +97,7 @@ export default {
     url: {
       type: String,
       default: () => {
-        return "";
+        return "/lenovo-plan/api/statistics/plan/download";
       }
     }
   },

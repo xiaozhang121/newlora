@@ -178,7 +178,7 @@ export default {
     enlarge
   },
   data() {
-    const that = this
+    const that = this;
     return {
       addOrEdit: "添加",
       disabled: false,
@@ -196,7 +196,7 @@ export default {
       },
       mixinViewModuleOptions: {
         // activatedIsNeed: true,
-        getDataListURL: "/lenovo-plan/api/plan/history",
+        getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       //   titleType: "选择对比设备",

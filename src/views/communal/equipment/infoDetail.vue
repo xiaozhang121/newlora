@@ -1,6 +1,6 @@
 <template>
   <div>
-    <patrolDetail :dataBread="dataBread" :downloadURL="downloadURL" />
+    <patrolDetail :dataBread="dataBread" :url="downloadURL" />
   </div>
 </template>
 

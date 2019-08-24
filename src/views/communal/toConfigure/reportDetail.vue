@@ -18,7 +18,7 @@ export default {
         { path: "/configuration/list", name: "任务配置" },
         { path: "", name: "查看报表" }
       ],
-      url: ""
+      url: "/lenovo-plan/api/statistics/plan/download"
     };
   },
   methods: {}

@@ -187,7 +187,7 @@ export default {
       addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
-        getDataListURL: "/lenovo-plan/api/plan/history",
+        getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-alarm/api/alarm/history/downLoad"
       },
       //   titleType: "选择预置位",
