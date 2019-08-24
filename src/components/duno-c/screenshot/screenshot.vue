@@ -294,7 +294,17 @@ export default {
           message: "标定成功",
           type: "success"
         });
+        this.clearCan();
       });
+    },
+    clearCan() {
+      this.imgsrc = "";
+      this.$refs.box.style.width = null;
+      this.$refs.box.style.height = null;
+      this.isCalibrat = true;
+      this.selectValue = "";
+      this.textarea = "";
+      this.props.lazyLoad = null;
     },
     getImgInfo() {
       let that = this;
@@ -316,6 +326,7 @@ export default {
     },
     close() {
       this.$emit("closeShot");
+      this.clearCan();
     },
     deletSubmit() {
       this.$emit("closeShot");
@@ -326,6 +337,7 @@ export default {
           message: "删除成功"
         });
       });
+      this.clearCan();
     }
   },
   mounted() {
