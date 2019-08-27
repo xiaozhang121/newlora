@@ -718,6 +718,7 @@ export default {
         endTime: that.endTime
       };
       getEchartsData(query).then(res => {
+        let that = this;
         const dataList = res.data;
         const legendData = [];
         const xAxisData = [];
