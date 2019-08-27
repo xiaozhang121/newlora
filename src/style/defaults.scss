@@ -70,3 +70,24 @@ html, body, #app {
 .ivu-poptip-popper {
   z-index: 3140 !important;
 }
+.el-picker-panel__footer {
+  border-top: 1px solid transparent !important;
+  padding: 4px;
+  text-align: right;
+  background-color: #152e3a !important;
+  position: relative;
+  font-size: 0;
+}
+.el-date-picker__time-header{
+  border-bottom: 1px solid transparent !important;
+}
+.el-button.is-plain:hover, .el-button.is-plain:focus{
+  background: #203944 !important;
+  color: white !important;
+}
+.el-year-table td .cell{
+  color: white !important;
+}
+.el-month-table td .cell{
+  color: white !important;
+}
