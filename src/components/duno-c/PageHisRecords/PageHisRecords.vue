@@ -47,6 +47,7 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
+    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
@@ -105,8 +106,10 @@ export default {
       titleType: "全部类型",
       dataForm: {},
       queryForm: {},
+      popData: {},
       typeSelect: [],
       dialogVisible: false,
+      visible: false,
       textarea: "",
       alarmId: "",
       isEnlarge: false,
@@ -268,6 +271,46 @@ export default {
             );
             return h("div", newArr);
           }
+        },
+        {
+          title: " ",
+          width: 90,
+          align: "center",
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "table_link",
+                  style: { marginRight: "20px" },
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
+                      that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
+                      that.visible = true;
+                      that.$forceUpdate();
+                    }
+                  }
+                },
+                "详情"
+              )
+            ]);
+            return h(
+              "div",
+              {
+                class: "flexPos"
+              },
+              newArr
+            );
+          }
         }
       ]
     };
@@ -286,6 +329,10 @@ export default {
     }
   },
   methods: {
+    handleClose() {
+      this.popData = {};
+      this.visible = false;
+    },
     addReturn(item) {
       const that = this;
       const query = {
@@ -561,6 +608,8 @@ export default {
     }
   }
   .table_link {
+    font-size: 16px;
+    text-align: center;
     color: #5fafff !important;
     text-decoration: underline;
     @media screen and (min-width: 3500px) {
@@ -640,8 +689,8 @@ export default {
       }
     }
   }
-  .el-button:hover{
-      color: #767676
+  .el-button:hover {
+    color: #767676;
   }
   .ivu-table-wrapper {
     tr {

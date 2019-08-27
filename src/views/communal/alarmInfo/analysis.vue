@@ -837,6 +837,13 @@ export default {
         });
       }
     },
+    initTime() {
+      let time = moment()
+        .day(0)
+        .format("YYYY-MM-DD");
+      this.endTime = `time 00:00:00`;
+      this.startTime = `time 23:59:59`;
+    },
     // getviewData(row) {
     //   console.log(row);
     //   let that = this;
@@ -853,6 +860,7 @@ export default {
   },
   mounted() {
     this.getAmmeterData();
+    this.initTime();
   },
   watch: {
     isChange: {
