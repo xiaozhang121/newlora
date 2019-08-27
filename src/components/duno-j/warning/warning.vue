@@ -324,7 +324,7 @@ export default {
       that.hasSelect = true;
       let url = "/lenovo-plan/api/task-result/view";
       if (this.detailsType == "alarm") {
-        url = "/lenovo-alarm/api/alarm/view";
+        url = "/lenovo-alarm/api/alarm/phase/view";
       }
       getAxiosData(url, {
         [that.searchType]: that.searchId,

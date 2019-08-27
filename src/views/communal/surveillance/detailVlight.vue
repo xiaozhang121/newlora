@@ -112,7 +112,6 @@
           :pageSize="pageRows"
           :current="pageIndex"
           :border="true"
-          :isShowPage="false"
           :showSizer="true"
           @on-select="dataListSelectionChangeHandle"
           @clickPage="pageCurrentChangeHandle"
