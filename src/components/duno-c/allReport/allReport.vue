@@ -506,7 +506,7 @@ export default {
     },
     onSelectType(item, index) {
       this[item.title] = item["describeName"];
-      this.dataForm.planType = item.monitorDeviceType;
+      this.dataForm.planType = item.monitorType;
       this.getDataList();
     },
     onChangeTime(data) {
