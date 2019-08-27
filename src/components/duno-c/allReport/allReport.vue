@@ -25,7 +25,7 @@
             :title="titleTypeC"
             :showBtnList="false"
           ></duno-btn-top>
-        </div>
+        </div>-->
         <div>
           <duno-btn-top
             @on-select="onSelect"
@@ -35,7 +35,7 @@
             :title="titleTypeR"
             :showBtnList="false"
           ></duno-btn-top>
-        </div>-->
+        </div>
         <div class="dateChose">
           <el-date-picker
             unlink-panels
@@ -125,8 +125,7 @@ export default {
       default: () => {
         return "";
       }
-    },
-
+    }
   },
   data() {
     const that = this;
@@ -542,10 +541,10 @@ export default {
     getRegion() {
       const that = this;
       const url = that.selectUrl;
-      let query={
-          monitorDeviceType:this.monitorDeviceType
-      }
-      getAxiosData(url,query).then(res => {
+      let query = {
+        monitorDeviceType: this.monitorDeviceType
+      };
+      getAxiosData(url, query).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {
@@ -585,22 +584,39 @@ export default {
       });
     },
     getType() {
-      const that = this;
-      const url = "/lenovo-plan/api/list/monitor-device-type";
+      //   const that = this;
+      const url = "/lenovo-plan/api/list/plan-type";
+      //   postAxiosData(url).then(res => {
+      //     const resData = res.data;
+      //     let mapList = resData.filter(item => item.label != "请选择");
+      //     const map = mapList.map(item => {
+      //       const obj = {
+      //         describeName: item.label,
+      //         monitorDeviceType: item.value,
+      //         title: "titleTypeR"
+      //       };
+      //       return obj;
+      //     });
+      //     map.unshift({
+      //       describeName: "全部类型",
+      //       monitorDeviceType: "",
+      //       title: "titleTypeR"
+      //     });
+      //     this.typeList = map;
+      //   });
       postAxiosData(url).then(res => {
         const resData = res.data;
-        let mapList = resData.filter(item => item.label != "请选择");
-        const map = mapList.map(item => {
+        const map = resData.map(item => {
           const obj = {
             describeName: item.label,
-            monitorDeviceType: item.value,
+            monitorType: item.value,
             title: "titleTypeR"
           };
           return obj;
         });
         map.unshift({
-          describeName: "全部类型",
-          monitorDeviceType: "",
+          describeName: "所有类型",
+          monitorType: "",
           title: "titleTypeR"
         });
         this.typeList = map;

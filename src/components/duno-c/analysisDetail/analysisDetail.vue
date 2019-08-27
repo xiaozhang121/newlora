@@ -283,11 +283,15 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
+            let sic =
+              params.row.pic ||
+              params.row.fileAddress ||
+              params.row.fileAddress;
             if (params.row.fileType == "1") {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.pic },
+                  attrs: { src: sic },
                   draggable: false,
                   on: {
                     click: () => {
@@ -301,7 +305,7 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: sic },
                   draggable: false,
                   on: {
                     click: () => {
@@ -670,7 +674,7 @@ export default {
   }
   .ivu-table-small td {
     background: black;
-  } 
+  }
   //------------------
   .el-button--text {
     border-color: transparent !important;
