@@ -860,7 +860,7 @@ export default {
   },
   mounted() {
     this.getAmmeterData();
-    this.initTime();
+    // this.initTime();
   },
   watch: {
     isChange: {
