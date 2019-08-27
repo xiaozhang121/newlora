@@ -670,7 +670,7 @@ export default {
   }
   .ivu-table-small td {
     background: black;
-  }
+  } 
   //------------------
   .el-button--text {
     border-color: transparent !important;
