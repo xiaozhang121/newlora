@@ -5,6 +5,7 @@
       @close="close"
       :visible.sync="isShow"
       width="500px"
+      :top="top"
       :modal="false"
       :center="true"
     >
@@ -33,32 +34,6 @@
             <el-input type="textarea" :rows="2" placeholder="人工备注（选填）" v-model="textarea"></el-input>
           </div>
         </div>
-        <!--
-        <div v-if="!isCalibrat" class="shotInput">
-          <div>
-            <el-cascader
-              placeholder="选择设备-部件-类型"
-              @getCheckedNodes="getCheckedNodes"
-              v-model="cascadeValue"
-              :options="platOptions"
-              @change="handleChange"    
-            ></el-cascader>
-          </div>
-          <div>
-            <el-select v-model="selectValue" placeholder="选择识别结果">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
-          <div>
-            <el-input type="textarea" :rows="2" placeholder="人工备注（选填）" v-model="textarea"></el-input>
-          </div>
-        </div>
-        -->
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="deletSubmit">取消并删除图像</el-button>
@@ -115,6 +90,12 @@ export default {
       type: String,
       default: () => {
         return "";
+      }
+    },
+    top: {
+      type: String,
+      default: () => {
+        return "15vh";
       }
     }
   },

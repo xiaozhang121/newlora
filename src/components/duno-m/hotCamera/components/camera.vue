@@ -23,6 +23,7 @@
                 :shotData="shotData"
                 @closeShot="closeShot"
                 :monitorInfo="monitorInfo"
+                top="5vh"
         />
     </div>
 </template>
