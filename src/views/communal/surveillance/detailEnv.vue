@@ -223,7 +223,6 @@ export default {
       queryForm: {},
       echartForm: {},
       echartData: [],
-      //   typeList: [],
       srcData: [],
       value: "",
       textarea: "",
