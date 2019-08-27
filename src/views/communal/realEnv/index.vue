@@ -348,6 +348,7 @@
             <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
       </duno-main>
+      <!--<create-task :visible="true"></create-task>-->
       <div v-for="(item,index) of modeList" style="position: absolute; top: 0" :key="index" class="model" :id="item['id']" ref="modelRef">
         <popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="index==modeList.length-1 && visible" @onClose="alarmClose" :visible="visible"></popup-one-info>
         <!--弹窗必须传index  -->
@@ -376,6 +377,7 @@
     import cameraPopBackUP from '_c/duno-m/cameraPopBackUP'
     import hotcameraPop from '_c/duno-m/hotcameraPop'                 // 可见光
     import hotCamera from '_c/duno-m/hotCamera'                       // 红外
+    import createTask from '_c/duno-m/createTask'
     import { popupinfo, popupOneInfo, popupinfod } from '_c/popupinfo'
     import { deviceLocation, deviceList, lastDeviceList } from '@/api/currency/currency.js'
     import { mapState } from 'vuex'
@@ -397,7 +399,8 @@
             cameraPop,
             hotcameraPop,
             gisMap,
-            cameraPopBackUP
+            cameraPopBackUP,
+            createTask
         },
         computed:{
             ...mapState([
