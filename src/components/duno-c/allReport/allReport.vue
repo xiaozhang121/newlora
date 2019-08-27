@@ -28,7 +28,7 @@
         </div>-->
         <div>
           <duno-btn-top
-            @on-select="onSelect"
+            @on-select="onSelectType"
             class="dunoBtnTo"
             :isCheck="false"
             :dataList="typeList"
@@ -425,8 +425,8 @@ export default {
       typeList: [],
       regionList: [],
       statusList: [],
-      popData: {},
-    //   clcikQueryData: {}
+      popData: {}
+      //   clcikQueryData: {}
     };
   },
   mounted() {
@@ -494,14 +494,19 @@ export default {
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
-      if (item.title == "titleTypeL") {
-        this.dataForm.powerDeviceId = item.monitorDeviceType;
-      } else if (item.title == "titleTypeC") {
-        this.dataForm.status = item.monitorDeviceType;
-      } else if (item.title == "titleTypeR") {
-        this.dataForm.planType = item.monitorDeviceType;
-      }
-      //   this.clickQuery(this.clcikQueryData);
+      this.dataForm.powerDeviceId = item.monitorDeviceType;
+      //   if (item.title == "titleTypeL") {
+      //     this.dataForm.powerDeviceId = item.monitorDeviceType;
+      //   } else if (item.title == "titleTypeC") {
+      //     this.dataForm.status = item.monitorDeviceType;
+      //   } else if (item.title == "titleTypeR") {
+      //     this.dataForm.planType = item.monitorDeviceType;
+      //   }
+      this.getDataList();
+    },
+    onSelectType(item, index) {
+      this[item.title] = item["describeName"];
+      this.dataForm.planType = item.monitorDeviceType;
       this.getDataList();
     },
     onChangeTime(data) {
@@ -513,7 +518,6 @@ export default {
       }
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
-      //   this.clickQuery(this.clcikQueryData);
       this.getDataList();
     },
     handleClose() {
