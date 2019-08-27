@@ -56,14 +56,39 @@
           </el-col>
           <el-col :span="24">
             <p class="itemTitle">
-              缺陷评估：
-              <span
+              内容：
+              <span>{{ itemData.alarmContent }}</span>
+              <i-dropdown
+                      class="iDropDown"
+                      trigger="click"
+                      placement="bottom-start"
+              >
+                <div
+                        class="table_select"
+                        :class="[{'serious': itemData.alarmLevel == 2},{'commonly': itemData.alarmLevel == 1},{'danger': itemData.alarmLevel == 3}]"
+                >
+                      <span class="member_operate_div" v-if="itemData.alarmLevelName">
+                        <span>{{ alarmLevelName }}</span>
+                      </span>
+                  <i class="iconfont icon-xiala" v-if="itemData.alarmLevelName"></i>
+                </div>
+                <i-dropdownMenu slot="list">
+                  <i-dropdownItem
+                          v-for="(item, index) in selectList"
+                          :key="index"
+                          @click.native="selectItem(itemData, index)"
+                  >
+                    <div class="alarmLevel">{{ item }}</div>
+                  </i-dropdownItem>
+                </i-dropdownMenu>
+              </i-dropdown>
+             <!-- <span
                 :class="[itemData.alarmLevel == '1'?'general':(itemData.alarmLevel == '2'?'warning':'alarm')]"
-              >{{itemData.alarmLevelName}}</span>
+              >{{itemData.alarmLevelName}}</span>-->
             </p>
           </el-col>
           <el-col :span="12">
-            <p class="itemTitle">
+            <p class="itemTitle alarmTime">
               <span>{{itemData.alarmTime}}</span>
             </p>
           </el-col>
@@ -122,7 +147,7 @@
 import HistoricalDocuments from "_c/duno-c/HistoricalDocuments";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import videojs from "video.js";
-import { getAxiosData, postAxiosData } from "@/api/axiosType";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import "video.js/dist/video-js.css";
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
@@ -136,6 +161,7 @@ export default {
   components: { HistoricalDocuments, videoPlayer, buttonCustom, Remarks },
   data() {
     return {
+      selectList: ["一般", "严重", "危急"],
       itemData: {},
       alarmId: "",
       inputValue: "",
@@ -153,6 +179,14 @@ export default {
         return false;
       }
     }
+  },
+  computed:{
+      alarmLevelName(){
+          if(this.itemData.alarmLevelName.indexOf('缺陷')>-1)
+            return this.itemData.alarmLevelName.substring(0,2)
+          else
+            return this.itemData.alarmLevelName
+      }
   },
   watch: {
     itemDataOption: {
@@ -175,6 +209,48 @@ export default {
     // if (this.visible) this.getData()
   },
   methods: {
+    selectItem(item, index) {
+        this.psotAlarmData(item, index + 1);
+    },
+    psotAlarmData(row, No) {
+          const that = this;
+          const url = "/lenovo-alarm/api/alarm/level-edit";
+          let oldLevel;
+          let newLevel;
+          if (No == "1") {
+              newLevel = "一般";
+          } else if (No == "2") {
+              newLevel = "严重";
+          } else {
+              newLevel = "危急";
+          }
+          if (row.alarmLevel == "1") {
+              oldLevel = "一般";
+          } else if (row.alarmLevel == "2") {
+              oldLevel = "严重";
+          } else {
+              oldLevel = "危急";
+          }
+          const query = {
+              id: row.id,
+              alarmLevel: No,
+              oldLevel: oldLevel,
+              newLevel: newLevel,
+              userName: this.$store.state.user.userName
+          };
+          putAxiosData(url, query).then(
+              res => {
+                  this.$message({
+                      type: "success",
+                      message: "修改成功"
+                  });
+                  this.itemData.alarmLevelName = newLevel
+                  this.itemData.alarmLevel = No
+                  //   this.$emit("updateData");
+              },
+              error => {}
+          );
+    },
     getJump() {
       if ("monitorDeviceId" in this.itemData) {
         getAxiosData("/lenovo-device/api/preset/type", {
@@ -271,6 +347,65 @@ export default {
 .popuponeinfo {
   font-size: 20px;
   font-weight: normal;
+  .alarmTime{
+    color: #95989b !important;
+    font-size: 16px !important;
+  }
+  .iDropDown{
+    margin-left: 15px;
+  }
+  .iconfont.icon-xiala {
+    color: white;
+    font-size: 10px;
+    margin-left: 3px;
+  }
+  .table_select {
+    cursor: pointer;
+    color: #1d1f26;
+    .member_operate_div {
+      span {
+        font-size: 14px !important;
+      }
+    }
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 47px !important;
+      height: 24px !important;
+      border-radius: 20px;
+    }
+    &.serious {
+      span {
+        background: #f4a723;
+      }
+    }
+    &.commonly {
+      span {
+        background: #5eb0fc;
+      }
+    }
+    &.danger {
+      span {
+        background: #d0011b;
+      }
+    }
+  }
+  .serious {
+    span {
+      background: #f4a723;
+    }
+  }
+  .commonly {
+    span {
+      background: #5eb0fc;
+    }
+  }
+  .danger {
+    span {
+      background: #d0011b;
+    }
+  }
   .red {
     color: red;
   }
