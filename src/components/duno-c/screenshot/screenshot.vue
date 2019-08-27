@@ -353,9 +353,11 @@ export default {
     background-color: #e0e0e0;
     box-shadow: 8px 8px 20px 0px rgba(0, 0, 0, 0.4);
     border-radius: 5px;
+    border: none;
     .el-dialog__body {
       padding-top: 0;
       padding-bottom: 20px;
+      background-color: #e0e0e0;
     }
     .dialog-content {
       position: relative;
@@ -400,6 +402,7 @@ export default {
         .el-input--small .el-input__inner {
           height: 40px;
           line-height: 40px;
+          background-color: #fff;
         }
         .el-select {
           width: 100%;

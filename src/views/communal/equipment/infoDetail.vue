@@ -27,7 +27,7 @@ export default {
             { path: "/visiblelight/list", name: "可见光" },
             { path: "", name: "可见光巡检报告" }
           ];
-          this.downloadURL = "/lenovo-plan/api/plan/visible-report/downLoad";
+          this.downloadURL = "/lenovo-plan/api/plan/visible-report/download";
           break;
         case "infrared-info":
           this.dataBread = [

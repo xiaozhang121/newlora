@@ -178,57 +178,32 @@ export default {
     enlarge
   },
   props: {
-    legendData: {
-      type: Array,
-      default: () => {
-        return ["4号主变1000千伏侧压变B相", "4号主变1000千伏侧压变C相"];
-      }
-    },
-    xAxisData: {
-      type: Array,
-      default: () => {
-        return [
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "10",
-          "11",
-          "12",
-          "13",
-          "14",
-          "15",
-          "16",
-          "17",
-          "18",
-          "19",
-          "20",
-          "21",
-          "22",
-          "23",
-          "24"
-        ];
-      }
-    },
-    yMax: {
-      type: Number,
-      default: 100
-    },
-    yMin: {
-      type: Number,
-      default: 0
-    },
-    seriesData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
+    // legendData: {
+    //   type: Array,
+    //   default: () => {
+    //     return ["4号主变1000千伏侧压变B相", "4号主变1000千伏侧压变C相"];
+    //   }
+    // },
+    // xAxisData: {
+    //   type: Array,
+    //   default: () => {
+    //     return [];
+    //   }
+    // },
+    // yMax: {
+    //   type: Number,
+    //   default: 100
+    // },
+    // yMin: {
+    //   type: Number,
+    //   default: 0
+    // },
+    // seriesData: {
+    //   type: Array,
+    //   default: () => {
+    //     return [];
+    //   }
+    // },
     isChange: {
       type: Boolean,
       default: () => {
@@ -323,7 +298,7 @@ export default {
         textStyle: {
           color: "#fff"
         },
-        data: that.legendData
+        data: []
       },
       gridOption: {
         top: "80"
@@ -348,13 +323,13 @@ export default {
         axisTick: {
           show: false
         },
-        data: that.xAxisData
+        data: []
       },
       yAxisOption: {
         type: "value",
         name: "(温度℃)",
-        max: that.yMax,
-        min: that.yMin,
+        max: 100,
+        min: 0,
         splitNumber: 5,
         // boundaryGap: ["0", "2"],
         axisLine: {
@@ -375,7 +350,7 @@ export default {
           show: false
         }
       },
-      seriesOption: that.seriesData,
+      seriesOption: [],
       columns: [
         {
           title: "时间",
@@ -743,16 +718,19 @@ export default {
         endTime: that.endTime
       };
       getEchartsData(query).then(res => {
-        const dataList = res.data[0];
+        const dataList = res.data;
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
+        const yMax = [];
+        const yMin = [];
         for (let i = 0; i < dataList.length; i++) {
-          console.log(i, dataList[i]);
-          legendData.push(dataList[i].deviceName);
-          const itemDataList = dataList[i].dataList;
+          legendData.push(dataList[i][0].deviceName);
+          const itemDataList = dataList[i][0].dataList;
+          yMax.push(Number(dataList[i][0].maxData));
+          yMin.push(Number(dataList[i][0].minData));
           const obj = {
-            name: dataList[i].deviceName,
+            name: dataList[i][0].deviceName,
             type: "line",
             data: []
           };
@@ -764,11 +742,13 @@ export default {
           }
           seriesData.push(obj);
         }
-        that.legendData.push(...legendData);
-        that.seriesData.push(...seriesData);
+        that.yAxisOption.max = Math.ceil(yMax.sort((a, b) => b - a)[0]);
+        that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
+        that.legendOption.data.push(...legendData);
+        that.seriesOption.push(...seriesData);
+        that.xAxisOption.data = [];
+        that.xAxisOption.data.push(...xAxisData);
         that.$forceUpdate();
-        console.log(that.legendData);
-        console.log(that.seriesData);
         that.isChangeFlag = !that.isChangeFlag;
       });
     },
@@ -871,7 +851,6 @@ export default {
     pageSizeChangeHandle() {}
   },
   mounted() {
-    // this.getEcharts();
     this.getAmmeterData();
   },
   watch: {
@@ -880,48 +859,48 @@ export default {
         this.isChangeFlag = now;
       },
       immediate: true
-    },
-    legendData: {
-      handler(now) {
-        let arr = [];
-        if (now && now.length) {
-          arr = now;
-        }
-        this.legendOption.data = arr;
-      },
-      deep: true
-    },
-    xAxisData: {
-      handler(now) {
-        let arr = [];
-        if (now && now.length) {
-          arr = now;
-        }
-      },
-      deep: true
-    },
-    yName(now) {
-      this.yAxisOption.yName = now;
-    },
-    yMax(now) {
-      this.yAxisOption.yMax = now;
-    },
-    yMin(now) {
-      this.yAxisOption.yMin = now;
-    },
-    ySplitNumber(now) {
-      this.yAxisOption.ySplitNumber = now;
-    },
-    seriesData: {
-      handler(now) {
-        let arr = [];
-        if (now && now.length) {
-          arr = now;
-        }
-        this.seriesOption = arr;
-      },
-      deep: true
     }
+    // legendData: {
+    //   handler(now) {
+    //     let arr = [];
+    //     if (now && now.length) {
+    //       arr = now;
+    //     }
+    //     this.legendOption.data = arr;
+    //   },
+    //   deep: true
+    // },
+    // xAxisData: {
+    //   handler(now) {
+    //     let arr = [];
+    //     if (now && now.length) {
+    //       arr = now;
+    //     }
+    //   },
+    //   deep: true
+    // },
+    // yName(now) {
+    //   this.yAxisOption.yName = now;
+    // },
+    // yMax(now) {
+    //   this.yAxisOption.yMax = now;
+    // },
+    // yMin(now) {
+    //   this.yAxisOption.yMin = now;
+    // },
+    // ySplitNumber(now) {
+    //   this.yAxisOption.ySplitNumber = now;
+    // },
+    // seriesData: {
+    //   handler(now) {
+    //     let arr = [];
+    //     if (now && now.length) {
+    //       arr = now;
+    //     }
+    //     this.seriesOption = arr;
+    //   },
+    //   deep: true
+    // }
   }
 };
 </script>

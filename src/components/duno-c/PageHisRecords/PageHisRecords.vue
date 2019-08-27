@@ -49,28 +49,6 @@
     </div>
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-    <!-- <div class="remarks">
-      <el-dialog
-        title="备注"
-        :center="true"
-        top="20vh"
-        :visible.sync="dialogVisible"
-        :modal="false"
-        width="500px"
-         :before-close="beforeClose"
-      >
-        <el-input
-          type="textarea"
-          placeholder="请输入备注内容"
-          :autosize="{ minRows: 3}"
-          v-model="textarea"
-        ></el-input>
-        <span slot="footer" class="dialog-footer">
-          <button-custom class="button" @click.native="closeRemarks" title="取消" />
-          <button-custom class="button" @click.native="clickRemarks" title="确定" />
-        </span>
-      </el-dialog>
-    </div>-->
   </div>
 </template>
 
@@ -317,7 +295,8 @@ export default {
       dealRemarks(query).then(res => {
         if (res.data.isSuccess) that.$message.success(res.msg);
         else that.$message.error(res.msg);
-        this.showReturn = false;
+        // this.showReturn = false;
+        this.getDataList();
       });
       that.getDataList();
     },
@@ -419,43 +398,11 @@ export default {
           });
         }
       });
-      /* if (row.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      } else if (row.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      }*/
     },
-    // closeRemarks() {
-    //   this.dialogVisible = false;
-    // },
     beforeClose() {
       this.dialogVisible = false;
+      this.getDataList();
     },
-    // clickRemarks() {
-    //   const that = this;
-    //   that.dialogVisible = false;
-    //   let query = {
-    //     alarmId: that.alarmId,
-    //     type: "2",
-    //     content: that.textarea
-    //   };
-    //   dealRemarks(query).then(res => {
-    //     that.textarea = "";
-    //     if (res.data.isSuccess) that.$message.success(res.msg);
-    //     else that.$message.error(res.msg);
-    //     that.textarea = "";
-    //   });
-    // },
     dataListSelectionChangeHandle() {}
   },
   mounted() {
@@ -737,19 +684,4 @@ export default {
     }
   }
 }
-// .remarks {
-//   .dialog-footer {
-//     color: #ffffff;
-//     display: flex;
-//     justify-content: center;
-//     .button {
-//       height: 37px;
-//       line-height: 31px;
-//       font-size: 14px;
-//       &:first-child {
-//         margin-right: 30px;
-//       }
-//     }
-//   }
-// }
 </style>

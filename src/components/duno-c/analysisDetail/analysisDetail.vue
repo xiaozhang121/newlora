@@ -670,11 +670,14 @@ export default {
   }
   .ivu-table-small td {
     background: black;
-  }
+  } 
   //------------------
   .el-button--text {
     border-color: transparent !important;
     background: transparent;
+  }
+  .el-button:hover {
+    background-color: rgba(0, 0, 0, 0);
   }
   .flexPos {
     display: flex;
