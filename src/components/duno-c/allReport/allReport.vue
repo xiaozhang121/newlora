@@ -499,7 +499,7 @@ export default {
       } else if (item.title == "titleTypeC") {
         this.clcikQueryData.status = item.monitorDeviceType;
       } else if (item.title == "titleTypeR") {
-        this.clcikQueryData.source = item.monitorDeviceType;
+        this.clcikQueryData.planType = item.monitorDeviceType;
       }
       this.clickQuery(this.clcikQueryData);
     },
