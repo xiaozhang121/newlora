@@ -676,6 +676,9 @@ export default {
     border-color: transparent !important;
     background: transparent;
   }
+  .el-button:hover {
+    background-color: rgba(0, 0, 0, 0);
+  }
   .flexPos {
     display: flex;
     align-items: center;
