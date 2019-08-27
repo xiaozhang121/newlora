@@ -298,7 +298,7 @@ export default {
   },
   methods: {
     openPage() {
-      debugger
+      debugger;
       let routeData = this.$router.resolve({
         name: "newPage",
         params: {
@@ -358,7 +358,8 @@ export default {
           input: that.dataList.alarmDetailType,
           inputT: that.dataList.alarmValue,
           select: that.dataList.alarmSuperDetailType,
-          alarmDetailTypeCode: that.dataList.alarmDetailTypeCode
+          alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
+          result: that.dataList.result
         };
         that.$forceUpdate();
       });
@@ -411,7 +412,7 @@ export default {
       this.$emit("handleClose");
     },
     getJump() {
-      if(!this.$route.meta.isMain){
+      if (!this.$route.meta.isMain) {
         getAxiosData("/lenovo-device/api/preset/type", {
           monitorDeviceId: this.popData.monitorDeviceId
         }).then(res => {
@@ -450,8 +451,8 @@ export default {
             });
           }
         });
-      }else{
-          this.$message.info('已在当前页')
+      } else {
+        this.$message.info("已在当前页");
       }
     },
     clickJudge() {

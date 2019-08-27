@@ -326,7 +326,8 @@
                         input: that.dataList.alarmDetailType,
                         inputT: that.dataList.alarmValue,
                         select: that.dataList.alarmSuperDetailType,
-                        alarmDetailTypeCode: that.dataList.alarmDetailTypeCode
+                        alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
+                        result: that.dataList.result
                     };
                     that.$forceUpdate();
                 });
