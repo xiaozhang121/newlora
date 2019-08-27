@@ -61,6 +61,7 @@ import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import enlarge from "_c/duno-c/enlarge";
+import wraning from "_c/duno-j/warning";
 import moment from "moment";
 import {
   alarmType,
@@ -76,7 +77,8 @@ export default {
     DunoTablesTep,
     buttonCustom,
     enlarge,
-    Remarks
+    Remarks,
+    wraning
   },
   props: {
     areaId: {
@@ -689,7 +691,13 @@ export default {
       }
     }
   }
+  .el-button {
+    background: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+  }
   .el-button:hover {
+    background: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
     color: #767676;
   }
   .ivu-table-wrapper {
