@@ -203,10 +203,6 @@ export default {
       this.visible = false;
       this.$emit("handleClose");
       this.initData();
-      this.$message({
-        message: "修改失败",
-        type: "warning"
-      });
     },
     submitForm(formName) {
       const that = this;
