@@ -640,6 +640,9 @@ export default {
       }
     }
   }
+  .el-button:hover{
+      color: #767676
+  }
   .ivu-table-wrapper {
     tr {
       border-bottom: 1px solid #2b5272;

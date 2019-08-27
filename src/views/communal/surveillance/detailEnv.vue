@@ -220,6 +220,7 @@ export default {
       isEnlarge: false,
       dialogVisible: false,
       dataForm: {},
+      queryForm: {},
       echartForm: {},
       echartData: [],
       //   typeList: [],
@@ -438,8 +439,6 @@ export default {
         autoplay: true
       },
       presetName: "",
-      //   allDataKind: [],
-      //   allDataLevel: [],
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }]
     };
@@ -454,21 +453,6 @@ export default {
     beforeClose() {
       this.dialogVisible = false;
     },
-    // clickRemarks() {
-    //   const that = this;
-    //   that.isShowRemarks = false;
-    //   let query = {
-    //     alarmId: that.alarmId,
-    //     type: "2",
-    //     content: that.textarea
-    //   };
-    //   dealRemarks(query).then(res => {
-    //     that.textarea = "";
-    //     if (res.data.isSuccess) that.$message.success(res.msg);
-    //     else that.$message.error(res.msg);
-    //     this.$emit("handleListData");
-    //   });
-    // },
     closeEnlarge() {
       this.isEnlarge = false;
     },
@@ -590,6 +574,7 @@ export default {
     },
     clickExcel() {
       const that = this;
+      this.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
       that.exportHandle();
     },
     getEchasrts() {
@@ -695,21 +680,6 @@ export default {
       }
     }
   }
-  //   .remarks {
-  //     .dialog-footer {
-  //       color: #ffffff;
-  //       display: flex;
-  //       justify-content: center;
-  //       .button {
-  //         height: 37px;
-  //         line-height: 31px;
-  //         font-size: 14px;
-  //         &:first-child {
-  //           margin-right: 30px;
-  //         }
-  //       }
-  //     }
-  //   }
 }
 .detailEnv {
   width: 100%;
