@@ -726,12 +726,12 @@ export default {
         const yMax = [];
         const yMin = [];
         for (let i = 0; i < dataList.length; i++) {
-          legendData.push(dataList[i][0].deviceName);
-          const itemDataList = dataList[i][0].dataList;
-          yMax.push(Number(dataList[i][0].maxData));
-          yMin.push(Number(dataList[i][0].minData));
+          legendData.push(dataList[i].deviceName);
+          const itemDataList = dataList[i].dataList;
+          yMax.push(Number(dataList[i].maxValue));
+          yMin.push(Number(dataList[i].minValue));
           const obj = {
-            name: dataList[i][0].deviceName,
+            name: dataList[i].deviceName,
             type: "line",
             data: []
           };
