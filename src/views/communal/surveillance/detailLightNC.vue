@@ -32,15 +32,17 @@
             <div class="top not-print">
               <div>历史数据</div>
               <div class="btn">
-                <!-- <div>
-                  <duno-btn-top
-                    @on-active="onSelect"
-                    class="dunoBtnTop"
-                    :dataList="typeList"
-                    :title="titleType"
-                    :showBtnList="false"
-                  ></duno-btn-top>
-                </div>-->
+                 <div>
+                   <duno-btn-top
+                           @on-select="onSelect"
+                           :zIndex="1"
+                           class="dunoBtnTo"
+                           :isCheck="false"
+                           :dataList="allDataK"
+                           :title="titleTypeK"
+                           :showBtnList="false"
+                   ></duno-btn-top>
+                </div>
                 <div class="dateChose">
                   <el-date-picker
                     unlink-panels
@@ -55,7 +57,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <echarts :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
+              <echarts :echartsKind="echartsKind" :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
             </div>
           </div>
         </div>
@@ -71,7 +73,7 @@
                 class="dunoBtnTo"
                 :isCheck="false"
                 :dataList="allDataKind"
-                :title="titleTypeL"
+                :title="titleType"
                 :showBtnList="false"
               ></duno-btn-top>
             </div>
@@ -181,6 +183,7 @@ export default {
   data() {
     const that = this;
     return {
+      echartsKind: 0,
       addOrEdit: "添加",
       disabled: false,
       echartTitle: "",
@@ -202,6 +205,7 @@ export default {
       },
       //   titleType: "选择对比设备",
       titleTypeL: "全部数据类型",
+      titleTypeK: '全部识别类型',
       titleTypeR: "全部异常类型",
       dataForm: {},
       queryForm: {},
@@ -439,6 +443,7 @@ export default {
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
+      allDataK:[],
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }]
     };
@@ -537,6 +542,9 @@ export default {
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
         this.getDataList();
+      }else if(item.title == "titleTypeK"){
+        this.echartForm.getEchasrts = item.monitorDeviceType;
+        this.getEchasrts();
       }
     },
     onChangeHis(data) {
@@ -588,6 +596,23 @@ export default {
         });
         this.allDataKind = map;
       });
+      getAxiosData('/lenovo-device/api/recognize-type/select-list',{monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
+          const resData = res.data;
+          const map = resData.map(item => {
+              const obj = {
+                  describeName: item.label,
+                  monitorDeviceType: item.value,
+                  title: "titleTypeK"
+              };
+              return obj;
+          });
+          map.unshift({
+              describeName: "全部识别类型",
+              monitorDeviceType: "",
+              title: "titleTypeK"
+          });
+          this.allDataK = map;
+      })
     },
     getSelcetGrade() {
       getRedGrade().then(res => {
@@ -628,6 +653,7 @@ export default {
     // },
     getEchasrts() {
       let query = {
+        recognizeType: this.echartForm.getEchasrts,
         startTime: this.echartForm.startTime,
         endTime: this.echartForm.endTime,
         deviceType: "2",
@@ -636,6 +662,7 @@ export default {
       };
       getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
         this.echartData = res.data.dataList;
+        this.echartsKind = res.data.flag
       });
     },
     handleClose() {

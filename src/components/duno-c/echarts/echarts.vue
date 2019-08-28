@@ -20,6 +20,9 @@ export default {
     DunoCharts
   },
   props: {
+    echartsKind:{
+
+    },
     dataAllList: {
       type: Array,
       default: () => {
@@ -141,11 +144,14 @@ export default {
         const itemDataList = that.dataList[i].itemDataList;
         yMax.push(Number(that.dataList[i].maxData));
         yMin.push(Number(that.dataList[i].minData));
-        const obj = {
+        let obj = {
           name: that.dataList[i].itemName,
           type: "line",
           data: []
         };
+        if(this.echartsKind){
+            obj['step'] = 'start'
+        }
         for (let item in itemDataList) {
           if (i == 0) {
             xAxisData.push(itemDataList[item].time);
