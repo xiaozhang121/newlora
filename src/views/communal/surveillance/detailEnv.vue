@@ -559,7 +559,7 @@ export default {
       this.dataForm.endTime = endTime;
       this.getDataList();
     },
-    onChangeTime() {
+    onChangeTime(data) {
       let startTime = "";
       let endTime = "";
       if (data) {
