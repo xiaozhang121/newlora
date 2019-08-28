@@ -68,7 +68,7 @@
               <report-table
                       :taskCurreny="taskCurreny"
                       path="report"
-                      :url="{downloadUrl: '/lenovo-plan/api/statistics/plan/download'}"
+                      url="/lenovo-plan/api/statistics/plan/download"
                       kind="robot"
                       :reportData="newsReport[index]"
                       v-if="newsReport[index]"
