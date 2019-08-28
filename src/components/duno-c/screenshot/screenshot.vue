@@ -342,10 +342,11 @@ export default {
     }
     .dialog-content {
       position: relative;
-
       .shotImg {
         width: 100%;
-        height: 225px;
+        padding-bottom: 56.25%;
+        height: 0;
+        position: relative;
         background: #fff;
         img {
           width: 100%;
@@ -356,7 +357,7 @@ export default {
       .calibrat,
       .clearCalibrat {
         position: absolute;
-        top: 185px;
+        top: 48%;
         right: 10px;
         text-align: center;
         color: #fff;

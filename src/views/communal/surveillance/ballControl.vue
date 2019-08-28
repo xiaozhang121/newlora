@@ -49,7 +49,15 @@
             </div>
           </div>
         </div>
-        <div class="right nr contain">待定</div>
+        <div class="right nr contain">
+          <div class="areaTitle">
+            <span>区域设定</span>
+            <i class="iconfont icon-weibiaoti-"></i>
+          </div>
+          <div class="calibration">
+            <p>没有图片，请先拍照在设定区域</p>
+          </div>
+        </div>
       </div>
       <div class="middle_table">
         <div class="top not-print">
@@ -66,17 +74,21 @@
           </div>
         </div>
         <div class="video">
-          <div class="videoItem" v-for="(item,index) in videoList" :key="index">
-            <key-monitor
-              :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
-              paddingBottom="56%"
-              class="monitor"
-              :autoplay="playerOptions.autoplay"
-              :streamAddr="playerOptions.streamAddr"
-              :showBtmOption="false"
-              :Initialization="true"
-            ></key-monitor>
+          <div>
+            <div class="videoItem" v-for="(item,index) in videoList" :key="index">
+              <key-monitor
+                :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+                paddingBottom="56%"
+                class="monitor"
+                width="100%"
+                :autoplay="playerOptions.autoplay"
+                :streamAddr="playerOptions.streamAddr"
+                :showBtmOption="false"
+                :Initialization="true"
+              ></key-monitor>
+            </div>
           </div>
+          <el-pagination layout="prev, pager, next" :page-size="pageSizeVideo" :total="50"></el-pagination>
         </div>
       </div>
       <div class="middle_table">
@@ -193,12 +205,14 @@ export default {
         getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-plan/api/task/result/list/export"
       },
+      videoList: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       isControl: "1",
       currentTime: 10,
       timeOut: null,
       srcData: [],
+      pageSizeVideo: "8",
       echartTitle: "",
       alarmId: "",
       isEnlarge: false,
@@ -810,8 +824,34 @@ export default {
     }
     .right {
       width: 25%;
+      padding: 20px;
       margin-left: 20px;
       background: #132838;
+    }
+    .areaTitle {
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      i {
+        cursor: pointer;
+      }
+      i:hover {
+        color: #5fafff;
+      }
+    }
+    .calibration {
+      margin-top: 10%;
+      width: 100%;
+      background-color: #000;
+      padding-bottom: 56.25%;
+      height: 0;
+      position: relative;
+      p {
+        padding-top: 20%;
+        color: #fff;
+        font-size: 14px;
+        text-align: center;
+      }
     }
   }
   .middle_table {
@@ -896,16 +936,38 @@ export default {
           .el-range-editor--small .el-range-input {
             font-size: 16px;
           }
-          .el-date-range-picker .el-picker-panel__body {
-            background: #192f41;
-            border: none;
-          }
         }
       }
     }
     .video {
       background: #132838;
       min-height: 400px;
+      padding: 20px 0 20px 20px;
+      & > div:first-child {
+        overflow: hidden;
+      }
+      .videoItem {
+        float: left;
+        width: calc(20% - 20px);
+        margin-right: 20px;
+        margin-bottom: 20px;
+      }
+      .el-pagination {
+        text-align: center;
+      }
+      .el-pager li {
+        background: rgba(0, 0, 0, 0);
+        color: #fff;
+      }
+      .el-pager li.active {
+        color: #5fafff;
+        border-bottom: 1px solid #2d8cf0;
+      }
+      .el-pagination .btn-prev,
+      .el-pagination .btn-next {
+        background-color: rgba(0, 0, 0, 0);
+        color: #ffffff;
+      }
     }
   }
   .btn_pre {
@@ -993,6 +1055,10 @@ export default {
   //------------------
 }
 .el-popper[x-placement^="bottom"] {
+  background: #192f41;
+  border: none;
+}
+.el-popper[x-placement^="top"] {
   background: #192f41;
   border: none;
 }
