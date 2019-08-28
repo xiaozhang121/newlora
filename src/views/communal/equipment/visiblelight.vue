@@ -166,7 +166,7 @@ export default {
     handleClick() {
       //错的 暂时这样写
       this.$router.push({
-        name: "light-report",
+        name: "allReport-detail",
         query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list"

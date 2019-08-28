@@ -182,7 +182,7 @@ export default {
     handleClick() {
       //错误跳转 以后改
       this.$router.push({
-        name: "infrared-report",
+        name: "allReport-detail",
         query: {
           title: "红外监测记录信息",
           url: "/lenovo-plan/api/task/iir-result/list"
