@@ -725,13 +725,16 @@ export default {
         const seriesData = [];
         const yMax = [];
         const yMin = [];
+        that.legendOption.data = [];
+        that.seriesOption = [];
+        that.xAxisOption.data = [];
         for (let i = 0; i < dataList.length; i++) {
-          legendData.push(dataList[i][0].deviceName);
-          const itemDataList = dataList[i][0].dataList;
-          yMax.push(Number(dataList[i][0].maxData));
-          yMin.push(Number(dataList[i][0].minData));
+          legendData.push(dataList[i].deviceName);
+          const itemDataList = dataList[i].dataList;
+          yMax.push(Number(dataList[i].maxValue));
+          yMin.push(Number(dataList[i].minValue));
           const obj = {
-            name: dataList[i][0].deviceName,
+            name: dataList[i].deviceName,
             type: "line",
             data: []
           };
@@ -747,7 +750,6 @@ export default {
         that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
         that.legendOption.data.push(...legendData);
         that.seriesOption.push(...seriesData);
-        that.xAxisOption.data = [];
         that.xAxisOption.data.push(...xAxisData);
         that.$forceUpdate();
         that.isChangeFlag = !that.isChangeFlag;
@@ -837,6 +839,13 @@ export default {
         });
       }
     },
+    initTime() {
+      let time = moment()
+        .day(0)
+        .format("YYYY-MM-DD");
+      this.endTime = `${time} 00:00:00`;
+      this.startTime = `${time} 23:59:59`;
+    },
     // getviewData(row) {
     //   console.log(row);
     //   let that = this;
@@ -853,6 +862,7 @@ export default {
   },
   mounted() {
     this.getAmmeterData();
+    // this.initTime();
   },
   watch: {
     isChange: {

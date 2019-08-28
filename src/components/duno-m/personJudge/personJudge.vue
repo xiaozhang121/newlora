@@ -111,10 +111,11 @@ export default {
   computed: {},
   methods: {
     handleSubmit() {
+      let url;
       if (this.formData.result == "正常") {
-        let url = "/lenovo-plan/api/task_result/change";
+        url = "/lenovo-plan/api/task_result/change";
       } else {
-        let url = "/lenovo-alarm/api/alarm/result/change";
+        url = "/lenovo-alarm/api/alarm/result/change";
       }
       let query;
       if (this.isChange) {

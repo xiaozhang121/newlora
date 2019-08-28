@@ -28,7 +28,7 @@
         </div>-->
         <div>
           <duno-btn-top
-            @on-select="onSelect"
+            @on-select="onSelectType"
             class="dunoBtnTo"
             :isCheck="false"
             :dataList="typeList"
@@ -425,16 +425,16 @@ export default {
       typeList: [],
       regionList: [],
       statusList: [],
-      popData: {},
-      clcikQueryData: {}
+      popData: {}
+      //   clcikQueryData: {}
     };
   },
   mounted() {
     this.getDataList();
   },
   created() {
-    this.dataForm.planId = this.$route.query.planId;
-    this.dataForm.planType = this.$route.query.planType;
+    // this.dataForm.planId = this.$route.query.planId;
+    // this.dataForm.planType = this.$route.query.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;
     this.queryForm.monitorDeviceType = this.monitorDeviceType;
@@ -494,14 +494,20 @@ export default {
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
-      if (item.title == "titleTypeL") {
-        this.clcikQueryData.powerDeviceId = item.monitorDeviceType;
-      } else if (item.title == "titleTypeC") {
-        this.clcikQueryData.status = item.monitorDeviceType;
-      } else if (item.title == "titleTypeR") {
-        this.clcikQueryData.planType = item.monitorDeviceType;
-      }
-      this.clickQuery(this.clcikQueryData);
+      this.dataForm.powerDeviceId = item.monitorDeviceType;
+      //   if (item.title == "titleTypeL") {
+      //     this.dataForm.powerDeviceId = item.monitorDeviceType;
+      //   } else if (item.title == "titleTypeC") {
+      //     this.dataForm.status = item.monitorDeviceType;
+      //   } else if (item.title == "titleTypeR") {
+      //     this.dataForm.planType = item.monitorDeviceType;
+      //   }
+      this.getDataList();
+    },
+    onSelectType(item, index) {
+      this[item.title] = item["describeName"];
+      this.dataForm.planType = item.monitorType;
+      this.getDataList();
     },
     onChangeTime(data) {
       let startTime = "";
@@ -510,9 +516,9 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
-      this.clcikQueryData.startTime = startTime;
-      this.clcikQueryData.endTime = endTime;
-      this.clickQuery(this.clcikQueryData);
+      this.dataForm.startTime = startTime;
+      this.dataForm.endTime = endTime;
+      this.getDataList();
     },
     handleClose() {
       this.popData = {};

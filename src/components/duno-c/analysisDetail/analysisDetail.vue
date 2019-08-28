@@ -126,7 +126,13 @@ export default {
           key: "part",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            return h(
+              "div",
+              params.row.part ? params.row.part : params.row.phase
+            );
+          }
         },
         {
           title: "描述",
