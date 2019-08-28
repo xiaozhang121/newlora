@@ -53,10 +53,24 @@
         <div class="right nr contain">
           <div class="areaTitle">
             <span>区域设定</span>
+          </div>
+          <div class="iconControl">
+            <i class="iconfont icon-shanchu"></i>
+            <span>清空</span>
             <i class="iconfont icon-weibiaoti-"></i>
+            <span>设定区域</span>
           </div>
           <div class="calibration">
-            <p>没有图片，请先拍照在设定区域</p>
+            <p>未设定区域</p>
+            <p>请先调整左边视频再点击下方按钮拍照取图</p>
+          </div>
+          <div v-if="isCamera" class="buttonC">
+            <span>拍照</span>
+          </div>
+          <div v-else class="buttonC">
+            <span>重新拍摄</span>
+            <span v-if="isMonitor">开始监控</span>
+            <span v-else>停止监控</span>
           </div>
         </div>
       </div>
@@ -211,6 +225,8 @@ export default {
       titleTypeR: "全部异常类型",
       isControl: "1",
       currentTime: 10,
+      isCamera: true,
+      isMonitor: true,
       timeOut: null,
       srcData: [],
       pageSizeVideo: "8",
@@ -840,6 +856,18 @@ export default {
         color: #5fafff;
       }
     }
+    .iconControl {
+      float: right;
+      color: #fff;
+      font-size: 14px;
+      i {
+        padding-left: 20px;
+      }
+      span {
+        cursor: pointer;
+        padding-left: 5px;
+      }
+    }
     .calibration {
       margin-top: 10%;
       width: 100%;
@@ -852,6 +880,23 @@ export default {
         color: #fff;
         font-size: 14px;
         text-align: center;
+      }
+      & > p:nth-child(2) {
+        padding-top: 0;
+      }
+    }
+    .buttonC {
+      display: flex;
+      justify-content: center;
+      span {
+        margin: 20px 10px 0;
+        cursor: pointer;
+        display: block;
+        line-height: 40px;
+        width: 139px;
+        color: #fff;
+        text-align: center;
+        background-image: url(../../../assets/images/btn/moreBtn.png);
       }
     }
   }
