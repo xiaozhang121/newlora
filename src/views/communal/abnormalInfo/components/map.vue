@@ -25,6 +25,7 @@
             return {
                 dom: null,
                 geoCoordMap: require('@/views/communal/abnormalInfo/components/geoCoordMap.json'),
+                world: require('@/views/communal/abnormalInfo/components/world.json'),
                 BJData: [
                     [{name:'北京'}, {name:'上海公司', info:'dsfsdfsdf',value:95}],
                 ],
@@ -53,8 +54,8 @@
                 let res = [];
                 for (let i = 0; i < data.length; i++) {
                     let dataItem = data[i];
-                    let fromCoord = geoCoordMap[dataItem[0].name];
-                    let toCoord = geoCoordMap[dataItem[1].name];
+                    let fromCoord = this.geoCoordMap[dataItem[0].name];
+                    let toCoord = this.geoCoordMap[dataItem[1].name];
                     if (fromCoord && toCoord) {
                         res.push({
                             fromName: dataItem[0].name,
@@ -67,7 +68,9 @@
             },
             initData(){
                 const that = this
-                [['28456465', that.BJData, '213123']].forEach(function (item, i) {
+                let BJData = that.BJData
+                let data = [['28456465', BJData, '213123']]
+                data.forEach((item, i)=>{
                     that.series.push({
                             name: item[0],
                             type: 'lines',
@@ -81,7 +84,7 @@
                             },
                             lineStyle: {
                                 normal: {
-                                    color: color[i],
+                                    color: that.color[i],
                                     width: 0,
                                     curveness: 0
                                 }
@@ -94,7 +97,7 @@
 
                             lineStyle: {
                                 normal: {
-                                    color: color[i],
+                                    color: that.color[i],
                                     width: 1,
                                     opacity: 0.6,
                                     curveness: 0
@@ -122,13 +125,13 @@
                             },
                             itemStyle: {
                                 normal: {
-                                    color: color[i]
+                                    color: that.color[i]
                                 }
                             },
                             data: that.SHData.map(function (dataItem) {
                                 return {
                                     name: dataItem[1].name,
-                                    value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                                    value: that.geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
                                 };
                             })
                         },
@@ -160,13 +163,13 @@
 
                             itemStyle: {
                                 normal: {
-                                    color: color[i]
+                                    color: that.color[i]
                                 }
                             },
                             data: item[1].map(function (dataItem) {
                                 return {
                                     name: dataItem[1].name,
-                                    value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value]),
+                                    value: that.geoCoordMap[dataItem[1].name].concat([dataItem[1].value]),
                                     info: dataItem[1].info
                                 };
                             })
@@ -177,44 +180,53 @@
         mounted(){
             const that = this
             that.dom = echarts.init(that.$refs.dom)
-            that.initData()
-            that.option = {
-                backgroundColor: '#00263b',
-                title : {
+            echarts.registerMap('world', that.world)
+            that.$nextTick(() => {
+                that.initData()
+                that.option = {
+                    backgroundColor: '#00263b',
+                    title : {
 
-                    left: 'center',
-                    textStyle : {
-                        color: '#fff'
-                    }
-                },
-                tooltip : {
-                    trigger: 'item'
-                },
-                legend: {
-                    show: false
-                },
-                geo: {
-                    map: 'world',
-                    center: [115.97, 29.71],
-                    zoom: 3,
-                    label: {
-                        emphasis: {
-                            show: false
+                        left: 'center',
+                        textStyle : {
+                            color: '#fff'
                         }
                     },
-                    roam: true,
-                    itemStyle: {
-                        normal: {
-                            areaColor: '#00192e',
-                            borderColor: '#404a59'
+                    tooltip : {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        show: false
+                    },
+                    geo: {
+                        map: 'world',
+                        center: [115.97, 29.71],
+                        zoom: 3,
+                        label: {
+                            emphasis: {
+                                show: false
+                            }
                         },
-                        emphasis: {
-                            areaColor: '#2a333d'
+                        roam: true,
+                        itemStyle: {
+                            normal: {
+                                areaColor: '#00192e',
+                                borderColor: '#404a59'
+                            },
+                            emphasis: {
+                                areaColor: '#2a333d'
+                            }
                         }
-                    }
-                },
-                series: that.series
-            }
+                    },
+                    series: that.series
+                }
+                that.dom.clear()
+                that.dom.setOption(that.option)
+                that.dom.resize()
+                window.addEventListener('resize', function () {
+                    that.dom.resize()
+                })
+            })
         }
     };
 </script>
@@ -222,6 +234,14 @@
 <style lang="scss">
     @import "@/style/tableStyle.scss";
     .echartMap{
-
+        width: 100%;
+        height: 0;
+        position: relative;
+        padding-bottom: 45%;
+        .charts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
     }
 </style>

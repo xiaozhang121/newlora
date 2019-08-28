@@ -462,7 +462,7 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/abnormalInfo/reportDetail.vue')
-                },
+                }/*,
                 {
                     path: 'algoInd',
                     name: 'algoIndList',
@@ -473,7 +473,7 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/abnormalInfo/algoInd.vue')
-                }
+                }*/
             ]
         }]
     },

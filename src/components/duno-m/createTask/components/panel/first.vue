@@ -39,18 +39,14 @@
                   taskKind: '',
                 },
                 dataList: [],
-                taskKindList:[
-                    {
-                        value: '巡检类型',
-                        label: '巡检类型'
-                    }
-                ]
+                taskKindList:[]
             }
         },
         methods: {
             initData(){
                 postAxiosData('/lenovo-plan/api/list/plan-type').then(res=>{
                     this.taskKindList = res.data
+                    this.form.taskKind = res.data[0].value
                     this.$forceUpdate()
                 })
                 getAxiosData('/lenovo-plan/api/device/multi', {pageIndex: 1, pageRows:888888}).then(res=>{

@@ -47,26 +47,8 @@
         data() {
             return {
                 dataList: [],
-                lightList:[
-                    {
-                        isCheck: false,
-                        title: '4号主变'
-                    },
-                    {
-                        isCheck: false,
-                        title: '4号主变'
-                    }
-                ],
-                redList: [
-                    {
-                        isCheck: false,
-                        title: '4号主变'
-                    },
-                    {
-                        isCheck: false,
-                        title: '4号主变'
-                    }
-                ]
+                lightList:[],
+                redList: []
             }
         },
         methods: {

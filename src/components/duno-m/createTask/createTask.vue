@@ -1,5 +1,5 @@
 <template>
-    <div class="createTask">
+    <div class="createTask" v-if="visibleOption">
         <el-dialog v-dialogDrag :model="true"  class="elDialogClass" :visible="visibleOption" width="700px" center @close="handleClose">
             <div slot="title">
                 创建新的任务配置
@@ -45,7 +45,7 @@ export default {
                 '1':[],
                 '2':[]
             },
-            visibleOption: true,
+            visibleOption: false,
             stepValue: 1
         }
     },
@@ -71,15 +71,47 @@ export default {
     },
     methods:{
         toSubmit(){
-            
-            postAxiosData('/lenovo-plan/api/plan/create')
-            this.$message.info('提交')
+            let obj = {}
+            let data = []
+            obj['planDate'] = {
+                ['planCycle']:this.$refs['panel[2]'].$data.value,
+                ['value']:[{'startTime': new Date(this.$refs['panel[2]'].$data.value3).getHours()+':'+new Date(this.$refs['panel[2]'].$data.value3).getMinutes()+':'+new Date(this.$refs['panel[2]'].$data.value3).getSeconds()}]
+            }
+            obj['planType'] = this.$refs['panel[0]'].$data.form.taskKind
+            obj['deviceJson'] = []
+            data = this.$refs['panel[1]'].$data.dataList
+            for(let i=0; i<data.length; i++){
+                data[i]['monitorDevices'].forEach(item=>{
+                    if(item['isCheck']){
+                        obj['deviceJson'].push({
+                            deviceType: data[i]['deviceType'],
+                            deviceId: data[i]['powerDeviceId'],
+                            deviceName: data[i]['powerDeviceName'],
+                            monitorDeviceId: item['monitorDeviceId'],
+                            monitorDeviceType: item['monitorDeviceType'],
+                            roiId: item['roiId']
+                        })
+                    }
+                })
+            }
+            obj['startnow'] = 2
+            obj['planName'] = this.$refs['panel[0]'].$data.form.taskName
+            obj['startTime'] =  new Date(this.$refs['panel[2]'].$data.value3).getFullYear()+'-'+(new Date(this.$refs['panel[2]'].$data.value3).getMonth()*1+1)+'-'+new Date(this.$refs['panel[2]'].$data.value3).getDate()
+            postAxiosData('/lenovo-plan/api/plan/create', obj).then(res=>{
+                if(res.data.isSuccess){
+                    this.$message.success('创建成功')
+                    this.$emit('on-fresh')
+                    this.handleClose()
+                }else{
+                    this.$message.fail('创建失败')
+                }
+            })
         },
         toPre(){
             this.stepValue--
         },
         handleClose(){
-
+            this.$emit('on-close')
         },
         cancel(){},
         toNext(){

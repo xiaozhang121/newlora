@@ -13,20 +13,24 @@
         :title="titleTwo"
       />
       <Patrol
+        @add-task="addTask"
         :columns="columnsData"
         :dataList="specialInspectList"
         :title="title"
+        :isShowBtn="true"
         :titleCon="titleCon"
         planType="特殊巡视"
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
+    <create-task :visible="taskVisible" @on-close="onClose" @on-fresh="onFresh"/>
   </div>
 </template>
 
 <script>
 import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import createTask from '_c/duno-m/createTask'
 import Patrol from "_c/duno-c/Patrol";
 import alert from "_c/duno-j/statistics/components/alert";
 import {
@@ -39,10 +43,12 @@ export default {
     Breadcrumb,
     dunoMain,
     Patrol,
-    alert
+    alert,
+    createTask
   },
   data() {
     return {
+      taskVisible: false,
       title: "",
       titleTwo: "熄灯巡视",
       titleCon: "",
@@ -233,6 +239,15 @@ export default {
     };
   },
   methods: {
+    onFresh(){
+      this.getDataList()
+    },
+    addTask(){
+      this.taskVisible = true
+    },
+    onClose(){
+      this.taskVisible = false
+    },
     closeDia() {
       this.visible = false;
     },

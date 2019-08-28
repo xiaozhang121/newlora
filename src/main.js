@@ -7,6 +7,8 @@ import config from '@/config'
 import ElementUI from 'element-ui'
 import 'iview/dist/styles/iview.css'
 import './style/theme/index.css'
+import 'echarts/map/js/world'
+import 'echarts/map/js/china'
 import VueI18n from 'vue-i18n'
 import Print from 'vue-print-nb'
 Vue.use(Print);  //注册

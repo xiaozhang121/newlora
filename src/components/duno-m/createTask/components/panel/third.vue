@@ -61,13 +61,7 @@
             return {
                 radio: '1',
                 value3: '',
-                options: [{
-                    value: '每两周',
-                    label: '每两周'
-                }, {
-                    value: '每一周',
-                    label: '每一周'
-                }],
+                options: [],
                 value: ''
             }
         },
@@ -75,6 +69,7 @@
             initData(){
                 postAxiosData('/lenovo-plan/api/list/plan-cycle').then(res=>{
                     this.options = res.data
+                    this.value = res.data[0].value
                 })
             }
         },
