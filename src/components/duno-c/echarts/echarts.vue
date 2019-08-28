@@ -20,6 +20,7 @@ export default {
     DunoCharts
   },
   props: {
+    unit: {},
     echartsKind:{
 
     },
@@ -118,6 +119,13 @@ export default {
     };
   },
   watch: {
+    unit:{
+        handler(now){
+            if(now)
+              this.yAxisOption['name'] = now
+        },
+        immediate: true
+    },
     dataAllList(now) {
       this.dataList = now;
       this.changeType();
