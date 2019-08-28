@@ -668,6 +668,7 @@ export default {
     border-radius: 5px;
     width: 100%;
     line-height: 40px;
+    color: #fff;
     height: 40px;
     border: none;
     background-color: #192f41;
@@ -895,11 +896,7 @@ export default {
           .el-range-editor--small .el-range-input {
             font-size: 16px;
           }
-          .el-picker-panel {
-            background: #192f41;
-            border: none;
-          }
-          .el-date-picker {
+          .el-date-range-picker .el-picker-panel__body {
             background: #192f41;
             border: none;
           }
@@ -994,9 +991,9 @@ export default {
     background: black;
   }
   //------------------
-  //   .el-popper[x-placement^="bottom"] {
-  //     background: #192f41;
-  //     border: none;
-  //   }
+}
+.el-popper[x-placement^="bottom"] {
+  background: #192f41;
+  border: none;
 }
 </style>
