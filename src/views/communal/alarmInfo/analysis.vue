@@ -719,6 +719,12 @@ export default {
       };
       getEchartsData(query).then(res => {
         let that = this;
+        if (res.data[0] == null) {
+          that.legendOption.data = [];
+          that.seriesOption = [];
+          that.xAxisOption.data = [];
+          return;
+        }
         const dataList = res.data;
         const legendData = [];
         const xAxisData = [];

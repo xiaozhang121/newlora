@@ -133,6 +133,9 @@ export default {
       const seriesData = [];
       const yMax = [];
       const yMin = [];
+      that.seriesOption = [];
+      that.legendOption.data = [];
+      that.xAxisOption.data = [];
       for (let i = 0; i < that.dataList.length; i++) {
         legendData.push(that.dataList[i].itemName);
         const itemDataList = that.dataList[i].itemDataList;
@@ -155,7 +158,6 @@ export default {
       that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
       that.legendOption.data.push(...legendData);
       that.seriesOption.push(...seriesData);
-      that.xAxisOption.data = [];
       that.xAxisOption.data.push(...xAxisData);
       that.$forceUpdate();
       that.isChangeFlag = !that.isChangeFlag;

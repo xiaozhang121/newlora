@@ -5,6 +5,7 @@
     </div>
     <div class="controlTitle">
       <div>{{ dataForm.monitorDeviceName }}</div>
+      <div>布控球</div>
     </div>
     <div class="Main_contain">
       <div class="content">
