@@ -1,6 +1,5 @@
 import Main from '@/views/duno-default/main'
 import parentView from '@/components/parent-view'
-import parentAlarm from '@/components/duno-c/parent-alarm'
 // import parentVideo from '@/components/duno-c/parent-video'
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -107,10 +106,6 @@ export default [{
         name: '_realEnv',
         redirect: 'realEnv/list',
         component: Main,
-        // components:{
-        //     default:Main,
-        //     alarm:parentAlarm
-        // },
         meta: {
             notCache: true,
             title: '全站总览'
@@ -406,7 +401,18 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/surveillance/areaVideo.vue')
-                }
+                },
+                {
+                    path: 'ballControl',
+                    name: 'surveillanceList',
+                    meta: {
+                        topNav: '3',
+                        title: '布控球详情',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/surveillance/ballControl.vue')
+                },
             ]
         }]
     },
