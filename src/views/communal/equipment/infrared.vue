@@ -384,19 +384,22 @@ export default {
     .right {
       .inspection {
         height: 910px;
-        padding: 20px 0 0 20px;
+        padding: 20px 20px 0 20px;
         background-color: #142838;
         overflow: hidden;
         & > div {
           float: left;
-          width: calc(50% - 20px);
-          margin-right: 19px;
+          width: calc(50% - 10px);
+          margin-right: 20px;
           .reportTable {
             height: 425px;
             img {
               height: 100%;
             }
           }
+        }
+        & > div:nth-child(2n + 1) {
+          margin-right: 0;
         }
       }
     }
