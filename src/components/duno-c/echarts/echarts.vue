@@ -131,8 +131,7 @@ export default {
       this.changeType();
     },
     title(now) {
-      this.titleOption.text = now + "油温数据";
-      this.changeType();
+      this.titleOption.text = now;
     }
   },
   methods: {
