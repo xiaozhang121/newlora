@@ -77,7 +77,9 @@
             },
             dataListOption: {
                 type: Array,
-                default: []
+                default: ()=>{
+                    return []
+                }
             }
         },
         watch:{

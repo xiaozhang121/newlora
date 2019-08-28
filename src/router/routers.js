@@ -468,6 +468,17 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/abnormalInfo/reportDetail.vue')
+                },
+                {
+                    path: 'algoInd',
+                    name: 'algoIndList',
+                    meta: {
+                        topNav: '1',
+                        title: '算法指标',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/algoInd.vue')
                 }
             ]
         }]
