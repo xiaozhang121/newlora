@@ -190,7 +190,7 @@ export default {
                           }
                         },
                         [
-                          h("span", this.cutOut(params.row.alarmLevelName), {
+                          h("span", that.cutOut(params.row.alarmLevelName), {
                             class: { member_operate_div: true }
                           }),
                           h("i", {
