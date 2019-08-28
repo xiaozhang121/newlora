@@ -666,6 +666,7 @@ export default {
     },
     clearChart() {
       let that = this;
+      debugger;
       that.legendOption.data = [];
       that.seriesOption = [];
       that.xAxisOption.data = [];
@@ -727,7 +728,7 @@ export default {
       };
       getEchartsData(query).then(res => {
         let that = this;
-        if (res.data == [null]) {
+        if (res.data[0] == "null") {
           that.legendOption.data = [];
           that.seriesOption = [];
           that.xAxisOption.data = [];
@@ -739,6 +740,7 @@ export default {
         const seriesData = [];
         const yMax = [];
         const yMin = [];
+        this.clearChart();
         that.legendOption.data = [];
         that.seriesOption = [];
         that.xAxisOption.data = [];
