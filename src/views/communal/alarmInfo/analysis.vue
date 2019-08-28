@@ -671,6 +671,7 @@ export default {
       that.seriesOption = [];
       that.xAxisOption.data = [];
       that.$forceUpdate();
+      that.isChangeFlag = !that.isChangeFlag;
     },
     onSelectAmmeter(item) {
       this.titleAmmeter = item["describeName"];
@@ -729,23 +730,26 @@ export default {
       };
       getEchartsData(query).then(res => {
         let that = this;
-        if (res.data[0] == null) {
-          that.legendOption.data = [];
-          that.seriesOption = [];
-          that.xAxisOption.data = [];
-          return;
-        }
+        // if (res.data[0] == null) {
+        //   that.legendOption.data = [];
+        //   that.seriesOption = [];
+        //   that.xAxisOption.data = [];
+        //   return;
+        // }
         const dataList = res.data;
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
         const yMax = [];
         const yMin = [];
-        this.clearChart();
         that.legendOption.data = [];
         that.seriesOption = [];
         that.xAxisOption.data = [];
         for (let i = 0; i < dataList.length; i++) {
+          if (!dataList[i].deviceName) {
+            this.clearChart();
+            return;
+          }
           legendData.push(dataList[i].deviceName);
           const itemDataList = dataList[i].dataList;
           yMax.push(Number(dataList[i].maxValue));
@@ -863,17 +867,6 @@ export default {
       this.endTime = `${time} 00:00:00`;
       this.startTime = `${time} 23:59:59`;
     },
-    // getviewData(row) {
-    //   console.log(row);
-    //   let that = this;
-    //   that.visible = true;
-    //   let query = {
-    //     planId: row.planId
-    //   };
-    //   getviewDetail(query).then(res => {
-    //     this.popData = res.data;
-    //   });
-    // },
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}
   },
@@ -888,47 +881,6 @@ export default {
       },
       immediate: true
     }
-    // legendData: {
-    //   handler(now) {
-    //     let arr = [];
-    //     if (now && now.length) {
-    //       arr = now;
-    //     }
-    //     this.legendOption.data = arr;
-    //   },
-    //   deep: true
-    // },
-    // xAxisData: {
-    //   handler(now) {
-    //     let arr = [];
-    //     if (now && now.length) {
-    //       arr = now;
-    //     }
-    //   },
-    //   deep: true
-    // },
-    // yName(now) {
-    //   this.yAxisOption.yName = now;
-    // },
-    // yMax(now) {
-    //   this.yAxisOption.yMax = now;
-    // },
-    // yMin(now) {
-    //   this.yAxisOption.yMin = now;
-    // },
-    // ySplitNumber(now) {
-    //   this.yAxisOption.ySplitNumber = now;
-    // },
-    // seriesData: {
-    //   handler(now) {
-    //     let arr = [];
-    //     if (now && now.length) {
-    //       arr = now;
-    //     }
-    //     this.seriesOption = arr;
-    //   },
-    //   deep: true
-    // }
   }
 };
 </script>
@@ -994,10 +946,6 @@ export default {
         display: inline-flex;
         padding-bottom: 0;
         height: 40px;
-        .icon-xiala {
-          /*  width: 13px !important;
-          height: 14px !important;*/
-        }
         .btnList {
           top: inherit !important;
           width: 185px;
