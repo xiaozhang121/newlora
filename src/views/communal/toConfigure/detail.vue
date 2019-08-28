@@ -17,7 +17,7 @@
         :columns="columnsData"
         :dataList="specialInspectList"
         :title="title"
-        :isShowBtn="true"
+        :isShowBtn="false"
         :titleCon="titleCon"
         planType="特殊巡视"
       />
