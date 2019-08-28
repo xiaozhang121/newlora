@@ -139,7 +139,7 @@ export default {
       let that = this;
       that.dataList = that.dataAllList;
       const legendData = [];
-      const xAxisData = [];
+      let xAxisData = [];
       const seriesData = [];
       const yMax = [];
       const yMin = [];
@@ -151,6 +151,7 @@ export default {
         const itemDataList = that.dataList[i].itemDataList;
         yMax.push(Number(that.dataList[i].maxData));
         yMin.push(Number(that.dataList[i].minData));
+        xAxisData = []
         let obj = {
           name: that.dataList[i].itemName,
           type: "line",
@@ -160,9 +161,7 @@ export default {
             obj['step'] = 'start'
         }
         for (let item in itemDataList) {
-          if (i == 0) {
-            xAxisData.push(itemDataList[item].time);
-          }
+          xAxisData.push(itemDataList[item].time);
           obj.data.push(Number(itemDataList[item].data));
         }
         seriesData.push(obj);
