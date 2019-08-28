@@ -82,6 +82,12 @@ export default {
     };
   },
   props: {
+    taskStatus: {
+        type: Object,
+        default: () => {
+            return {};
+        }
+    },
     taskCurreny: {},
     path: {
       type: String,
@@ -107,6 +113,9 @@ export default {
     },
     clickExcel() {
       const that = this;
+      if('taskRunHisId' in this.taskStatus){
+          that.queryForm.taskRunHisId = this.taskStatus['taskRunHisId']
+      }
       that.queryForm.planId = that.reportData.planId;
       that.exportHandle();
     },
