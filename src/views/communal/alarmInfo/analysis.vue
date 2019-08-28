@@ -725,6 +725,9 @@ export default {
         const seriesData = [];
         const yMax = [];
         const yMin = [];
+        that.legendOption.data = [];
+        that.seriesOption = [];
+        that.xAxisOption.data = [];
         for (let i = 0; i < dataList.length; i++) {
           legendData.push(dataList[i].deviceName);
           const itemDataList = dataList[i].dataList;
@@ -745,11 +748,8 @@ export default {
         }
         that.yAxisOption.max = Math.ceil(yMax.sort((a, b) => b - a)[0]);
         that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
-        that.legendOption.data = [];
         that.legendOption.data.push(...legendData);
-        that.seriesOption = [];
         that.seriesOption.push(...seriesData);
-        that.xAxisOption.data = [];
         that.xAxisOption.data.push(...xAxisData);
         that.$forceUpdate();
         that.isChangeFlag = !that.isChangeFlag;
