@@ -727,13 +727,13 @@ export default {
         startTime: that.startTime,
         endTime: that.endTime
       };
+      if (query.monitorDeviceId == "") {
+        this.clearChart();
+        return;
+      }
       getEchartsData(query).then(res => {
         let that = this;
         const dataList = res.data;
-        if (dataList == null) {
-          this.clearChart();
-          return;
-        }
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
