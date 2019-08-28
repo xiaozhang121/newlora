@@ -670,6 +670,7 @@ export default {
       that.legendOption.data = [];
       that.seriesOption = [];
       that.xAxisOption.data = [];
+      that.$forceUpdate();
     },
     onSelectAmmeter(item) {
       this.titleAmmeter = item["describeName"];
@@ -728,7 +729,7 @@ export default {
       };
       getEchartsData(query).then(res => {
         let that = this;
-        if (res.data[0] == "null") {
+        if (res.data[0] == null) {
           that.legendOption.data = [];
           that.seriesOption = [];
           that.xAxisOption.data = [];
