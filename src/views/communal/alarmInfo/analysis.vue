@@ -665,6 +665,7 @@ export default {
       this.visible = false;
     },
     clearChart() {
+      let that = this;
       that.legendOption.data = [];
       that.seriesOption = [];
       that.xAxisOption.data = [];
