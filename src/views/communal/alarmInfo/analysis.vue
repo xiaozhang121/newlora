@@ -729,23 +729,26 @@ export default {
       };
       getEchartsData(query).then(res => {
         let that = this;
-        if (res.data[0] == null) {
-          that.legendOption.data = [];
-          that.seriesOption = [];
-          that.xAxisOption.data = [];
-          return;
-        }
+        // if (res.data[0] == null) {
+        //   that.legendOption.data = [];
+        //   that.seriesOption = [];
+        //   that.xAxisOption.data = [];
+        //   return;
+        // }
         const dataList = res.data;
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
         const yMax = [];
         const yMin = [];
-        this.clearChart();
         that.legendOption.data = [];
         that.seriesOption = [];
         that.xAxisOption.data = [];
         for (let i = 0; i < dataList.length; i++) {
+          if (!dataList[i].deviceName) {
+            this.clearChart();
+            return;
+          }
           legendData.push(dataList[i].deviceName);
           const itemDataList = dataList[i].dataList;
           yMax.push(Number(dataList[i].maxValue));
