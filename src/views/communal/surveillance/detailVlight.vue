@@ -192,7 +192,6 @@ export default {
         getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-plan/api/task/result/list/export"
       },
-      //   titleType: "选择预置位",
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       isControl: "1",
@@ -557,7 +556,7 @@ export default {
       this.dataForm.endTime = endTime;
       this.getDataList();
     },
-    onChangeTime() {
+    onChangeTime(data) {
       let startTime = "";
       let endTime = "";
       if (data) {
@@ -702,7 +701,7 @@ export default {
     this.getEchasrts();
   },
   mounted() {
-    this.getInit();
+    // this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();
@@ -1135,5 +1134,9 @@ export default {
       }
     }
   }
+}
+.el-popper[x-placement^="bottom"] {
+  background: #192f41;
+  border: none;
 }
 </style>
