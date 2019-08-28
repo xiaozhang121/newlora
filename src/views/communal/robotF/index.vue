@@ -66,7 +66,7 @@
           <template v-for="(item, index) in newsReportLength">
             <div class="item" :key="index">
               <report-table
-                      :taskStatus="taskStatus"
+                      :taskRunHisId="newsReport[index].ID"
                       :taskCurreny="taskCurreny"
                       path="report"
                       url="/lenovo-robot/rest/reportDownload"
