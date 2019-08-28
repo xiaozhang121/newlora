@@ -664,8 +664,14 @@ export default {
       this.popData = {};
       this.visible = false;
     },
+    clearChart() {
+      that.legendOption.data = [];
+      that.seriesOption = [];
+      that.xAxisOption.data = [];
+    },
     onSelectAmmeter(item) {
       this.titleAmmeter = item["describeName"];
+      this.clearChart();
       this.valueParts = [];
       this.valuePhase = [];
       let query = {
@@ -675,6 +681,7 @@ export default {
     },
     selectParts(item) {
       this.titleParts = item["describeName"];
+      this.clearChart();
       let query = {
         part: this.valueParts.join(",")
       };
@@ -719,7 +726,7 @@ export default {
       };
       getEchartsData(query).then(res => {
         let that = this;
-        if (res.data[0] == null) {
+        if (res.data == [null]) {
           that.legendOption.data = [];
           that.seriesOption = [];
           that.xAxisOption.data = [];
