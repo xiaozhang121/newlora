@@ -266,7 +266,6 @@ export default {
       }
     }
     .milldle {
-      margin-top: 10px;
       div {
         font-size: 13px;
         color: #ffffff;

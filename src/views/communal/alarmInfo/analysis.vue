@@ -745,7 +745,9 @@ export default {
         }
         that.yAxisOption.max = Math.ceil(yMax.sort((a, b) => b - a)[0]);
         that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
+        that.legendOption.data = [];
         that.legendOption.data.push(...legendData);
+        that.seriesOption = [];
         that.seriesOption.push(...seriesData);
         that.xAxisOption.data = [];
         that.xAxisOption.data.push(...xAxisData);
