@@ -404,6 +404,17 @@ export default {
     this.getType();
   },
   methods: {
+    cutOut(data) {
+        if (data) {
+            const index = data.indexOf("缺陷");
+            if (index > -1) {
+                data = data.substring(0, index);
+            }
+            return data;
+        } else {
+            return "更多";
+        }
+    },
     closeEnlarge() {
       this.isEnlarge = false;
     },
