@@ -8,9 +8,9 @@
                <div class="steps">
                    <steps :step="stepValue"/>
                </div>
-              <first-panel v-show="stepValue == 1" class="panel"/>
-              <second-panel v-show="stepValue == 2" class="panel"/>
-              <third-panel v-show="stepValue == 3" class="panel"/>
+              <first-panel  ref="panel[0]" v-show="stepValue == 1" class="panel"/>
+              <second-panel :list="dataObjList['0']" ref="panel[1]" v-show="stepValue == 2" class="panel"/>
+              <third-panel :list="dataObjList['1']" ref="panel[2]" v-show="stepValue == 3" class="panel"/>
             </div>
             <span slot="footer" class="dialog-footer">
                 <button-custom v-if="stepValue == 1" class="button" @click.native="cancel" title="取消" />
@@ -40,6 +40,11 @@ export default {
     },
     data() {
         return {
+            dataObjList: {
+                '0':[],
+                '1':[],
+                '2':[]
+            },
             visibleOption: true,
             stepValue: 1
         }
@@ -47,6 +52,10 @@ export default {
     watch:{
         visible(now){
             this.visibleOption = now
+        },
+        stepValue(now, old){
+            this.dataObjList[old-1] = this.$refs[`panel[${old-1}]`].$data
+            this.$forceUpdate()
         }
     },
     props: {
@@ -62,6 +71,8 @@ export default {
     },
     methods:{
         toSubmit(){
+            
+            postAxiosData('/lenovo-plan/api/plan/create')
             this.$message.info('提交')
         },
         toPre(){

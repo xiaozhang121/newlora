@@ -348,6 +348,9 @@
             <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
       </duno-main>
+     <!-- <div style="position: relative; width: 30%; height: 800px; background: white">
+        <area-setting />
+      </div>-->
       <!--<create-task :visible="true"></create-task>-->
       <div v-for="(item,index) of modeList" style="position: absolute; top: 0" :key="index" class="model" :id="item['id']" ref="modelRef">
         <popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="index==modeList.length-1 && visible" @onClose="alarmClose" :visible="visible"></popup-one-info>
@@ -363,6 +366,7 @@
 </template>
 
 <script>
+    import areaSetting  from '_c/duno-m/areaSetting'
     import DunoHeadSearch from '_c/duno-head-search'
     import screenfull from 'screenfull'
     import mixinViewModule from '@/mixins/view-module'
@@ -400,7 +404,8 @@
             hotcameraPop,
             gisMap,
             cameraPopBackUP,
-            createTask
+            createTask,
+            areaSetting
         },
         computed:{
             ...mapState([
