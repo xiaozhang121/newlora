@@ -147,7 +147,7 @@
           </div>
         </div>
         <div class="con-chart">
-          <echarts :echartsKind="echartsKind" :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
+          <echarts :echartsKind="echartsKind" :dataAllList="echartData" :title="echartTitle" :unit="unit" gridOptionTop="120" />
         </div>
       </div>
     </div>
@@ -455,6 +455,7 @@ export default {
         streamAddr: "",
         autoplay: true
       },
+      unit: '',
       echartsKind: 0,
       presetName: "",
       allDataKind: [],
@@ -580,10 +581,10 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
-      this.echartTitle =
+     /* this.echartTitle =
         moment(data[0]).format("YYYY/MM/DD") +
         "-" +
-        moment(data[1]).format("YYYY/MM/DD");
+        moment(data[1]).format("YYYY/MM/DD");*/
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
@@ -675,6 +676,8 @@ export default {
       getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
         this.echartData = res.data.dataList;
         this.echartsKind = res.data.flag
+        this.echartTitle = res.data.title
+        this.unit = res.data.unit
       });
     },
     handleClose() {
@@ -690,9 +693,9 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
-      this.echartTitle = moment()
+     /* this.echartTitle = moment()
         .add(-1, "days")
-        .format("YYYY/MM/DD");
+        .format("YYYY/MM/DD");*/
     },
     getControl() {
       if (this.isControl == "1") {
