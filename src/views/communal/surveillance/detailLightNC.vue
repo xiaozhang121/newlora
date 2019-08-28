@@ -653,6 +653,7 @@ export default {
     //   });
     // },
     getEchasrts() {
+      const that = this
       let query = {
         recognizeType: this.echartForm.getEchasrts,
         startTime: this.echartForm.startTime,
@@ -662,10 +663,10 @@ export default {
         monitorDeviceId: this.$route.query.monitorDeviceId
       };
       getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-        this.echartData = res.data.dataList;
-        this.echartsKind = res.data.flag
-        this.echartTitle = res.data.title
-        this.unit = res.data.unit
+          that.echartData = res.data.dataList;
+          that.echartsKind = res.data.flag;
+          that.echartTitle = res.data.title;
+          that.unit = res.data.unit
       });
     },
     handleClose() {
