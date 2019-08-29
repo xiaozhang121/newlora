@@ -17,7 +17,6 @@
           @mouseup="getEndCode"
           @mousemove="getCircle"
         >
-          <!-- <img :src="imgsrc" ref="image" alt /> -->
           <div v-if="isCalibrat" ref="box" id="box1"></div>
         </div>
         <div v-show="!isCalibrat" class="calibrat" @click="addTag">手动标定</div>
@@ -45,6 +44,7 @@
         <el-button @click="deletSubmit">取消并删除图像</el-button>
         <el-button type="primary" @click="getImgInfo">保 存</el-button>
       </span>
+      <img :src="imgsrc" ref="image" alt style="{display: 'none'}" />
     </el-dialog>
   </div>
 </template>
@@ -260,8 +260,8 @@ export default {
       this.$emit("closeShot");
       let img = new Image();
       img.src = this.imgsrc;
-      this.picWigth = img.width;
-      this.picHeigh = img.height;
+      this.picWigth = img.naturalWidth;
+      this.picHeigh = img.naturalHeight;
       //   this.picWigth = this.$refs.image.naturalWidth;
       //   this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
