@@ -82,8 +82,7 @@ export default {
     };
   },
   props: {
-    taskRunHisId: {
-    },
+    taskRunHisId: {},
     taskCurreny: {},
     path: {
       type: String,
@@ -109,8 +108,8 @@ export default {
     },
     clickExcel() {
       const that = this;
-      if(this.taskRunHisId){
-          that.queryForm.taskRunHisId = this.taskRunHisId
+      if (this.taskRunHisId) {
+        that.queryForm.taskRunHisId = this.taskRunHisId;
       }
       that.queryForm.planId = that.reportData.planId;
       that.exportHandle();
@@ -167,6 +166,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
+            batchId: this.reportData.batchId,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });

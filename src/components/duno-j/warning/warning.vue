@@ -351,7 +351,7 @@ export default {
         if (isNaN(that.dataList.alarmValue)) {
           that.alarmValue = that.dataList.alarmValue;
         } else {
-          that.alarmValue = that.dataList.alarmValue + "℃";
+          that.alarmValue = that.dataList.alarmValue + that.dataList.unit;
         }
         that.formData = {
           alarmId: that.searchId,
