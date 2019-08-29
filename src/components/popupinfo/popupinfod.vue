@@ -29,6 +29,7 @@
         />
         <polygonal
           @onChange="setTime"
+          :yName="yName"
           :legendData="legendData"
           :xAxisData="xAxisData"
           :seriesData="seriesData"
@@ -52,6 +53,7 @@ export default {
   components: { HistoricalDocuments, realtime, historicalwarning, Polygonal },
   data() {
     return {
+      yName: '',
       monitorDeviceType: '',
       pointList:[],
       mainTitle: '',
@@ -201,17 +203,21 @@ export default {
       };
       getPlanHistory(queryT).then(res => {
         const dataList = res.data.dataList;
+        that.yName = res.data.unit
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
         for (let i = 0; i < dataList.length; i++) {
           legendData.push(dataList[i].itemName);
           const itemDataList = dataList[i].itemDataList;
-          const obj = {
+          let obj = {
             name: dataList[i].itemName,
             type: "line",
             data: []
           };
+          if(res.data.flag){
+              obj['step'] = 'start'
+          }
           for (let item in itemDataList) {
             if (i == 0) {
               xAxisData.push(itemDataList[item].time);
