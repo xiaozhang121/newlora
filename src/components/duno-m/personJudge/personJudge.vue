@@ -97,8 +97,7 @@ export default {
         if (!now) {
           this.$emit("on-alter");
         }
-      },
-      immediate: true
+      }
     },
     dataList: {
       handler(now) {
