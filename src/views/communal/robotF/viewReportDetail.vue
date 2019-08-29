@@ -280,6 +280,7 @@ export default {
                 on: {
                   click: () => {
                     that.isEnlarge = true;
+                    params.row.fileType = "1";
                     that.srcData = params.row;
                   }
                 }

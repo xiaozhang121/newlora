@@ -3,10 +3,12 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="controlTitle">
+    <div class="topTitle">
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
       <div>布控球</div>
-      
+      <div class="Battery">
+        <pattery />
+      </div>
     </div>
     <div class="Main_contain">
       <div class="content">
@@ -192,6 +194,7 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
+import pattery from "_c/duno-m/pattery";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import wraning from "_c/duno-j/warning";
@@ -218,7 +221,8 @@ export default {
     echarts,
     wraning,
     enlarge,
-    Remarks
+    Remarks,
+    pattery
   },
   data() {
     const that = this;
@@ -239,6 +243,14 @@ export default {
       isDraw: false,
       isCanvas: true,
       clickFlage: 0,
+      startPointX: null,
+      endPointX: null,
+      startPointY: null,
+      endPointY: null,
+      x0: null,
+      y0: null,
+      x1: null,
+      y1: null,
       imgsrc: "",
       timeOut: null,
       srcData: [],
@@ -680,6 +692,13 @@ export default {
     },
     changeDate() {},
     handleCamare() {
+      let url = "/lenovo-device/api/stream/snapshoot";
+      let query = {
+        rtmpUrl: this.streamAddr
+      };
+      postAxiosData(url, query).then(res => {
+        this.shotData = res.data;
+      });
       this.isCamera = false;
     },
     changeCamare() {
@@ -840,6 +859,17 @@ export default {
         background: #d0011b;
         color: #1d1f26;
       }
+    }
+  }
+  .topTitle {
+    overflow: hidden;
+    line-height: 40px;
+    & > div {
+      color: #fff;
+      float: left;
+    }
+    .Battery {
+      margin-left: 44%;
     }
   }
   .content {

@@ -12,10 +12,10 @@
       <div class="dialog-content">
         <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
           <img :src="this.imgsrc" ref="image" alt />
-          <div ref="box" id="box1"></div>
+          <div v-if="isCalibrat" ref="box" id="box1"></div>
         </div>
-        <div v-show="isCalibrat" class="calibrat" @click="addTag">手动标定</div>
-        <div v-show="!isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
+        <div v-show="!isCalibrat" class="calibrat" @click="addTag">手动标定</div>
+        <div v-show="isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
         <div class="shotInput">
           <div>
             <el-cascader placeholder="选择设备-部件-类型" @change="handleChange" :props="props"></el-cascader>
@@ -122,7 +122,7 @@ export default {
       picHeigh: "",
       picSize: "",
       powerDeviceId: "",
-      isCalibrat: true,
+      isCalibrat: false,
       startPointX: null,
       endPointX: null,
       startPointY: null,
@@ -159,6 +159,7 @@ export default {
     },
     getCircle(e) {
       if (this.clickFlage == 1) {
+        console.log(e.offsetX, e.offsetY);
         let width = Math.abs(e.offsetX - this.startPointX);
         let height = Math.abs(e.offsetY - this.startPointY);
         if (e.offsetY - this.startPointY <= 0) {
@@ -195,11 +196,13 @@ export default {
     },
     //手动标定
     addTag() {
-      this.isCalibrat = false;
+      this.isCalibrat = true;
     },
     //清除标定
     delTag() {
-      this.isCalibrat = true;
+      //   this.isCalibrat = false;
+      this.$refs.box.style.width = null;
+      this.$refs.box.style.height = null;
     },
     getSelect(node, resolve) {
       const { level, root, data } = node;
