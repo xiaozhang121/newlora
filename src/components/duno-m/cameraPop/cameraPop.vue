@@ -99,8 +99,8 @@
                 }
             },
             onChange (data) {
-                const startTime = moment(arr[0]).format('YYYY-MM-DD')
-                const endTime = moment(arr[1]).format('YYYY-MM-DD')
+                const startTime = moment(data[0]).format('YYYY-MM-DD')
+                const endTime = moment(data[1]).format('YYYY-MM-DD')
                 this.startTime = JSON.parse(JSON.stringify(startTime))
                 this.endTime = JSON.parse(JSON.stringify(endTime))
                 this.isGetData = true
