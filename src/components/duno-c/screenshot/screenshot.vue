@@ -44,7 +44,7 @@
         <el-button @click="deletSubmit">取消并删除图像</el-button>
         <el-button type="primary" @click="getImgInfo">保 存</el-button>
       </span>
-      <img :src="imgsrc" ref="image" alt style="{display: 'none'}" />
+      <img :src="imgsrc" ref="image" alt class="hiddle" />
     </el-dialog>
   </div>
 </template>
@@ -258,12 +258,12 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
-      let img = new Image();
-      img.src = this.imgsrc;
-      this.picWigth = img.naturalWidth;
-      this.picHeigh = img.naturalHeight;
-      //   this.picWigth = this.$refs.image.naturalWidth;
-      //   this.picHeigh = this.$refs.image.naturalHeight;
+      //   let img = new Image();
+      //   img.src = this.imgsrc;
+      //   this.picWigth = img.naturalWidth;
+      //   this.picHeigh = img.naturalHeight;
+      this.picWigth = this.$refs.image.naturalWidth;
+      this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorDeviceId,
@@ -431,6 +431,9 @@ export default {
   }
   .el-cascader-node:hover {
     background-color: #eee;
+  }
+  .hiddle {
+    display: none;
   }
 }
 
