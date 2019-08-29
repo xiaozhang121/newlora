@@ -3,7 +3,10 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="top not-print">任务配置</div>
+    <div class="top not-print">
+      <dir>任务配置</dir>
+      <div @click="addTask()">+新建特殊巡视</div>
+    </div>
     <duno-main class="dunoMain">
       <Patrol :dataList="allInspectList" planType="全面巡视" />
       <Patrol
@@ -13,7 +16,6 @@
         :title="titleTwo"
       />
       <Patrol
-        @add-task="addTask"
         :columns="columnsData"
         :dataList="specialInspectList"
         :title="title"
@@ -23,14 +25,14 @@
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
-    <create-task :visible="taskVisible" @on-close="onClose" @on-fresh="onFresh"/>
+    <create-task :visible="taskVisible" @on-close="onClose" @on-fresh="onFresh" />
   </div>
 </template>
 
 <script>
 import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-import createTask from '_c/duno-m/createTask'
+import createTask from "_c/duno-m/createTask";
 import Patrol from "_c/duno-c/Patrol";
 import alert from "_c/duno-j/statistics/components/alert";
 import {
@@ -222,8 +224,8 @@ export default {
                         name: "configure-report",
                         query: {
                           planId: params.row.planId,
-                          planType: params.row.planType,
-                        //   url: ""
+                          planType: params.row.planType
+                          //   url: ""
                         }
                       });
                     }
@@ -239,14 +241,14 @@ export default {
     };
   },
   methods: {
-    onFresh(){
-      this.getDataList()
+    onFresh() {
+      this.getDataList();
     },
-    addTask(){
-      this.taskVisible = true
+    addTask() {
+      this.taskVisible = true;
     },
-    onClose(){
-      this.taskVisible = false
+    onClose() {
+      this.taskVisible = false;
     },
     closeDia() {
       this.visible = false;
@@ -293,6 +295,15 @@ export default {
     margin: 10px 0;
     line-height: 40px;
     font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    & > div:nth-child(2) {
+      visibility: hidden;
+      text-align: center;
+      cursor: pointer;
+      width: 176px;
+      background-image: url(../../../assets/images/btn/createTask.png);
+    }
   }
   .table_link {
     color: #5fafff !important;
