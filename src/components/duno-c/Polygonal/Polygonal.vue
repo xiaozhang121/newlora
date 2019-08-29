@@ -221,16 +221,20 @@ export default {
         }
         getAxiosData(url, query).then( res => {
             const dataList = res.data.dataList
+            that.yAxisOption['name'] = res.data.unit
             const legendData = []
             let xAxisData = []
             const seriesData = []
             for (let i = 0; i < dataList.length; i++) {
                 legendData.push(dataList[i].itemName)
                 const itemDataList = dataList[i].itemDataList
-                const obj = {
+                let obj = {
                     name: dataList[i].itemName,
                     type:'line',
                     data: []
+                }
+                if(res.data.flag){
+                    obj['step'] = 'start'
                 }
                 xAxisData = []
                 for (let item in itemDataList) {

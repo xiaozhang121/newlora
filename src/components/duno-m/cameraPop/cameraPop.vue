@@ -2,7 +2,7 @@
     <div class="cameraPope" >
         <historical-documents :itemId="itemId" width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
             <camera-panel @on-alarm="onAlarm" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel>
-            <polygonal :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal>
+            <polygonal :yName="yName" :title="title" @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal>
             <historyfile :title="title" :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth :title="title" :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"/>
         </historical-documents>
@@ -28,6 +28,7 @@
         },
         data() {
             return {
+                yName: '',
                 cameraFlag: 'first',
                 title: '',
                 monitorDeviceType: '',
@@ -116,16 +117,20 @@
                 }
                 getAxiosData(url, query).then( res => {
                     const dataList = res.data.dataList
+                    that.yName = res.data.unit
                     const legendData = []
                     let xAxisData = []
                     const seriesData = []
                     for (let i = 0; i < dataList.length; i++) {
                         legendData.push(dataList[i].itemName)
                         const itemDataList = dataList[i].itemDataList
-                        const obj = {
+                        let obj = {
                             name: dataList[i].itemName,
                             type:'line',
                             data: []
+                        }
+                        if(res.data.flag){
+                            obj['step'] = 'start'
                         }
                         xAxisData = []
                         for (let item in itemDataList) {
