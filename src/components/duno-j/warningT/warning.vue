@@ -194,7 +194,7 @@ export default {
             this.searchId = now["id"];
             this.searchType = "id";
         }
-        if (this.searchId != "") {
+        if (this.searchId != "" && this.isThree) {
             this.initData();
         }
     },
@@ -225,7 +225,8 @@ export default {
     },
     closeDiff(){
         this.visibleDiff = false
-        this.initData()
+        if(this.isThree)
+          this.initData()
     },
     openPage(){
         let routeData = this.$router.resolve({
@@ -245,7 +246,8 @@ export default {
     },
     onClose(){
         this.visibleJudge = false
-        this.initData()
+        if(this.isThree)
+          this.initData()
         this.$emit('on-fresh')
     },
     initData() {

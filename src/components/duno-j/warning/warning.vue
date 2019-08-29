@@ -268,7 +268,7 @@ export default {
           this.searchId = now["id"];
           this.searchType = "id";
         }
-        if (this.searchId != "") {
+        if (this.searchId != "" && !this.isThree) {
           this.initData();
         }
       },

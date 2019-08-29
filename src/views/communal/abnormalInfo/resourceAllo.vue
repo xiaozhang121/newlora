@@ -72,7 +72,7 @@
                 console.log(this.yValue)
                 document.querySelector('.aaaaaaaaa').style.left=this.xValue+'px'
                 document.querySelector('.aaaaaaaaa').style.top=this.yValue+'px'
-                document.querySelector('.aaaaaaaaa').style.width = window.innerWidth*0.5817958179581796-this.xValue+'px'
+                document.querySelector('.aaaaaaaaa').style.width = document.querySelector('.line').getBoundingClientRect().left-this.xValue+'px'
             })
         }
     };
