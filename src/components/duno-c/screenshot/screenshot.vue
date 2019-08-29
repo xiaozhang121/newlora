@@ -364,6 +364,7 @@ export default {
         color: #fff;
         line-height: 32px;
         opacity: 0.5;
+        z-index: 99;
         cursor: pointer;
       }
       .calibrat {
