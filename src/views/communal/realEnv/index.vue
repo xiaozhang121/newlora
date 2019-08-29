@@ -360,12 +360,14 @@
         <popupinfod   :showClassify="true"  :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose"  :index="index" :monitorDeviceType="item['isShowClassifyVisble']"  v-if="item['isShowClassifyVisble']" :visible="item['isShowClassifyVisble']"></popupinfod>
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
+        <!--<camera-power :visible="true" title="demo" v-if="index==modeList.length-1" />-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+    import cameraPower from '_c/duno-m/cameraPower'
     import areaSetting  from '_c/duno-m/areaSetting'
     import DunoHeadSearch from '_c/duno-head-search'
     import screenfull from 'screenfull'
@@ -405,7 +407,8 @@
             gisMap,
             cameraPopBackUP,
             createTask,
-            areaSetting
+            areaSetting,
+            cameraPower
         },
         computed:{
             ...mapState([

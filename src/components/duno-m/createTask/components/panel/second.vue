@@ -31,7 +31,7 @@
                             query.push(item)
                         }
                     })
-                    getAxiosData('/lenovo-plan/api/devicemonitor/select-list',{deviceId: query.join(',')}).then(res=>{
+                    getAxiosData('/lenovo-plan/api/devicemonitor/select-list',{deviceIds: query.join(',')}).then(res=>{
                         for(let i=0; i<res.data.length; i++){
                             res.data[i]['monitorDevices'].map(item=>{
                                 item['isCheck'] = false
