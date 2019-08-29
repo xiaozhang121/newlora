@@ -12,7 +12,7 @@
       <div class="dialog-content">
         <div
           class="shotImg"
-          :style="{backgroundImage: 'url(' + imgsrc + ')'}"
+          :style="{backgroundImage: 'url(' + imgsrc + ')', backgroundSize: '100%'}"
           @mousedown="getFirstCode"
           @mouseup="getEndCode"
           @mousemove="getCircle"
@@ -357,7 +357,6 @@ export default {
       position: relative;
       .shotImg {
         width: 100%;
-        background-size: 100% 100%;
         padding-bottom: 56.25%;
         height: 0;
         position: relative;
