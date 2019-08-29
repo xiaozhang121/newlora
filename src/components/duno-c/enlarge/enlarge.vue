@@ -9,7 +9,7 @@
       :before-close="handleLarge"
     >
       <img
-        v-if="srcData.fileType=='1'"
+        v-if="srcData.fileType=='1' ||fileType=='1'"
         :src="srcData.alarmFileAddress || srcData.pic  ||srcData.fileAddress||srcData.taskDeviceImg"
         alt
       />
@@ -41,6 +41,12 @@ export default {
       type: [Object, Array],
       default: () => {
         return {};
+      }
+    },
+    fileType: {
+      type: String,
+      default: () => {
+        return "";
       }
     }
   },

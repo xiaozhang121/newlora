@@ -50,7 +50,7 @@
       :popData="popData"
       @handleClose="handleClose"
     />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" fileType="1" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
