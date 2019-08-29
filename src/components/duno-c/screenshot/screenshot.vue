@@ -44,7 +44,7 @@
         <el-button @click="deletSubmit">取消并删除图像</el-button>
         <el-button type="primary" @click="getImgInfo">保 存</el-button>
       </span>
-      <img :src="imgsrc" ref="image" alt class="hiddle" />
+      <img :src="imgsrc" ref="image" alt :style="{display:'none'}" />
     </el-dialog>
   </div>
 </template>
@@ -365,7 +365,7 @@ export default {
           width: 100%;
           height: 100%;
           position: absolute;
-          display: block;
+          //   display: block;
         }
       }
       .calibrat,
@@ -431,9 +431,6 @@ export default {
   }
   .el-cascader-node:hover {
     background-color: #eee;
-  }
-  .hiddle {
-    display: none;
   }
 }
 
