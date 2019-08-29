@@ -258,8 +258,12 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
-      this.picWigth = this.$refs.image.naturalWidth;
-      this.picHeigh = this.$refs.image.naturalHeight;
+      let img = new Image();
+      img.src = this.imgsrc;
+      this.picWigth = img.width;
+      this.picHeigh = img.height;
+      //   this.picWigth = this.$refs.image.naturalWidth;
+      //   this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorDeviceId,
@@ -353,6 +357,7 @@ export default {
       position: relative;
       .shotImg {
         width: 100%;
+        background-size: 100% 100%;
         padding-bottom: 56.25%;
         height: 0;
         position: relative;
