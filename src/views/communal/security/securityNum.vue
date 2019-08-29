@@ -50,7 +50,6 @@ export default {
     routeName(now) {
       this.getAreaData();
       this.getRouteName(now);
-      console.log(this.titleData);
     }
   },
   methods: {
@@ -145,6 +144,7 @@ export default {
     },
     getAreaData() {
       let that = this;
+      debugger;
       getAreaList().then(res => {
         that.areaData = res.data.areaList;
         switch (that.routeName) {
@@ -168,6 +168,7 @@ export default {
             break;
           default:
         }
+        console.log(that.areaId);
         circleMonth({ areaId: that.areaId }).then(res => {
           that.circleData = res.data;
         });
