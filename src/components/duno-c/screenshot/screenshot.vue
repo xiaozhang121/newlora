@@ -10,8 +10,14 @@
       :center="true"
     >
       <div class="dialog-content">
-        <div class="shotImg" @mousedown="getFirstCode" @mouseup="getEndCode" @mousemove="getCircle">
-          <img :src="this.imgsrc" ref="image" alt />
+        <div
+          class="shotImg"
+          :style="{backgroundImage: 'url(' + imgsrc + ')', backgroundSize: '100%'}"
+          @mousedown="getFirstCode"
+          @mouseup="getEndCode"
+          @mousemove="getCircle"
+        >
+          <!-- <img :src="imgsrc" ref="image" alt /> -->
           <div v-if="isCalibrat" ref="box" id="box1"></div>
         </div>
         <div v-show="!isCalibrat" class="calibrat" @click="addTag">手动标定</div>
@@ -252,8 +258,12 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
-      this.picWigth = this.$refs.image.naturalWidth;
-      this.picHeigh = this.$refs.image.naturalHeight;
+      let img = new Image();
+      img.src = this.imgsrc;
+      this.picWigth = img.width;
+      this.picHeigh = img.height;
+      //   this.picWigth = this.$refs.image.naturalWidth;
+      //   this.picHeigh = this.$refs.image.naturalHeight;
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorDeviceId,
