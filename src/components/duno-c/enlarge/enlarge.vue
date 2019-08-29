@@ -11,8 +11,6 @@
       <img
         v-if="srcData.fileType=='1'"
         :src="srcData.alarmFileAddress || srcData.pic  ||srcData.fileAddress"
-        preview
-        preview-text="描述文字"
         alt
       />
       <KeyMonitor
@@ -27,8 +25,6 @@
 
 <script>
 import KeyMonitor from "_c/duno-c/KeyMonitor";
-// import preview from "vue-photo-preview";
-// import "vue-photo-preview/dist/skin.css";
 export default {
   name: "enlarge",
   components: {
@@ -42,7 +38,7 @@ export default {
       }
     },
     srcData: {
-      type: Object || Array,
+      type: [Object, Array],
       default: () => {
         return {};
       }

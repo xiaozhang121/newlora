@@ -61,8 +61,20 @@
             <span>设定区域</span>
           </div>
           <div class="calibration">
-            <p>未设定区域</p>
-            <p>请先调整左边视频再点击下方按钮拍照取图</p>
+            <div v-if="isCanvas" class="textCon">
+              <p>未设定区域</p>
+              <p>请先调整左边视频再点击下方按钮拍照取图</p>
+            </div>
+            <div
+              v-else
+              class="shotImg"
+              @mousedown="getFirstCode"
+              @mouseup="getEndCode"
+              @mousemove="getCircle"
+            >
+              <img :src="this.imgsrc" ref="image" alt />
+              <div ref="box" id="boxImg"></div>
+            </div>
           </div>
           <div v-if="isCamera" class="buttonC">
             <span>拍照</span>
@@ -101,6 +113,7 @@
                 :showBtmOption="false"
                 :Initialization="true"
               ></key-monitor>
+              <p>2019.8.29-2019.9.1数据</p>
             </div>
           </div>
           <el-pagination layout="prev, pager, next" :page-size="pageSizeVideo" :total="50"></el-pagination>
@@ -227,6 +240,9 @@ export default {
       currentTime: 10,
       isCamera: true,
       isMonitor: true,
+      isCanvas: true,
+      clickFlage: 0,
+      imgsrc: "",
       timeOut: null,
       srcData: [],
       pageSizeVideo: "8",
@@ -665,7 +681,52 @@ export default {
         this.dataForm.monitorDeviceName = res.data.deviceName;
       });
     },
-    changeDate() {}
+    changeDate() {},
+    clearCan() {
+      this.imgsrc = "";
+      this.$refs.box.style.width = null;
+      this.$refs.box.style.height = null;
+      this.isCalibrat = true;
+      this.selectValue = "";
+      this.textarea = "";
+      this.props.lazyLoad = null;
+    },
+    getFirstCode(e) {
+      if (this.clickFlage == 0 && this.isMonitor) {
+        this.$refs.box.style.width = null;
+        this.$refs.box.style.height = null;
+        this.startPointX = e.offsetX;
+        this.startPointY = e.offsetY;
+        this.$refs.box.style.left = this.startPointX + "px";
+        this.$refs.box.style.top = this.startPointY + "px";
+        this.clickFlage = 1;
+      }
+    },
+    getEndCode(e) {
+      if (this.clickFlage == 1) {
+        this.endPointY = e.offsetY;
+        this.endPointX = e.offsetX;
+        this.clickFlage = 0;
+      }
+    },
+    getCircle(e) {
+      if (this.clickFlage == 1) {
+        let width = Math.abs(e.offsetX - this.startPointX);
+        let height = Math.abs(e.offsetY - this.startPointY);
+        if (e.offsetY - this.startPointY <= 0) {
+          this.$refs.box.style.top = e.offsetY + "px";
+        } else {
+          this.$refs.box.style.top = this.startPointY + "px";
+        }
+        if (e.offsetX - this.startPointX <= 0) {
+          this.$refs.box.style.left = e.offsetX + "px";
+        } else {
+          this.$refs.box.style.left = this.startPointX + "px";
+        }
+        this.$refs.box.style.width = width + "px";
+        this.$refs.box.style.height = height + "px";
+      }
+    }
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
@@ -875,14 +936,20 @@ export default {
       padding-bottom: 56.25%;
       height: 0;
       position: relative;
-      p {
+      .textCon {
         padding-top: 20%;
         color: #fff;
         font-size: 14px;
         text-align: center;
       }
-      & > p:nth-child(2) {
-        padding-top: 0;
+      .shotImg {
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
       }
     }
     .buttonC {
@@ -997,6 +1064,11 @@ export default {
         width: calc(20% - 20px);
         margin-right: 20px;
         margin-bottom: 20px;
+        p {
+          margin-top: 5px;
+          color: #fff;
+          text-align: center;
+        }
       }
       .el-pagination {
         text-align: center;
@@ -1107,5 +1179,10 @@ export default {
 .el-popper[x-placement^="top"] {
   background: #192f41;
   border: none;
+}
+.boxImg {
+  position: absolute;
+  background: none;
+  border: 1px solid red;
 }
 </style>

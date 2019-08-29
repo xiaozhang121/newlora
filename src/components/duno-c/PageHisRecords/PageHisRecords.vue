@@ -320,6 +320,7 @@ export default {
   watch: {
     areaId(now) {
       this.dataForm.areaId = now;
+      this.queryForm.areaId = now;
       this.getDataList();
     },
     titleCode(now) {

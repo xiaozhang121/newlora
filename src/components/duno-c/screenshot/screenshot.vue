@@ -81,7 +81,7 @@ export default {
       }
     },
     shotData: {
-      type: Object,
+      type: [Object, Array],
       default: () => {
         return {};
       }
