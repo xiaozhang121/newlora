@@ -366,13 +366,15 @@ export default {
     }
     .right {
       .inspection {
-        position: relative;
         height: 910px;
         padding: 20px 20px 0 20px;
         background-color: #142838;
-        overflow: hidden;
+        // overflow: hidden;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
         & > div {
-          float: left;
+          //   float: left;
           width: calc(50% - 10px);
           margin-right: 20px;
           .reportTable {

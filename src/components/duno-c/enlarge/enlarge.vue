@@ -10,7 +10,7 @@
     >
       <img
         v-if="srcData.fileType=='1'"
-        :src="srcData.alarmFileAddress || srcData.pic  ||srcData.fileAddress"
+        :src="srcData.alarmFileAddress || srcData.pic  ||srcData.fileAddress||srcData.taskDeviceImg"
         alt
       />
       <KeyMonitor
