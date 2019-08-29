@@ -396,6 +396,7 @@ export default {
   created() {
     this.dataForm.planId = this.$route.query.planId;
     this.dataForm.planType = this.$route.query.planType;
+    this.dataForm.batchId = this.$route.query.batchId;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;
     this.queryForm.monitorDeviceType = this.monitorDeviceType;
@@ -405,15 +406,15 @@ export default {
   },
   methods: {
     cutOut(data) {
-        if (data) {
-            const index = data.indexOf("缺陷");
-            if (index > -1) {
-                data = data.substring(0, index);
-            }
-            return data;
-        } else {
-            return "更多";
+      if (data) {
+        const index = data.indexOf("缺陷");
+        if (index > -1) {
+          data = data.substring(0, index);
         }
+        return data;
+      } else {
+        return "更多";
+      }
     },
     closeEnlarge() {
       this.isEnlarge = false;

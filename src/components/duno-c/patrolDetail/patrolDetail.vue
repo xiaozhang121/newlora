@@ -84,7 +84,7 @@ export default {
       loadingOption: false,
       timer: null,
       mixinViewModuleOptions: {
-        getDataListURL: "/lenovo-plan/api/statistics/plan/list"
+        getDataListURL: "/lenovo-plan/api/statistics/plan/report/list"
       },
       titleValue: "所有巡检报表",
       value: "",
