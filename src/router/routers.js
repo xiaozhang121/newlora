@@ -468,18 +468,18 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/abnormalInfo/reportDetail.vue')
-                }/*,
+                },
                 {
-                    path: 'algoInd',
-                    name: 'algoIndList',
+                    path: 'resourceAllo',
+                    name: 'resourceAlloList',
                     meta: {
                         topNav: '1',
-                        title: '算法指标',
+                        title: '资源布置图',
                         hideInMenu: true,
                         isDetails: true
                     },
-                    component: () => import('@/views/communal/abnormalInfo/algoInd.vue')
-                }*/
+                    component: () => import('@/views/communal/abnormalInfo/resourceAllo.vue')
+                }
             ]
         }]
     },
