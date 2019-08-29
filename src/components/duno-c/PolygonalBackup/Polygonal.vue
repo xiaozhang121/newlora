@@ -248,19 +248,19 @@ export default {
     onChangeRadio(data) {
       this.radio = data;
       let date = null
-    //   let arr = []
+      let arr = []
       if(data == 1){
         date = moment()
       }else{
         date = moment().subtract(1, 'days')
       }
-    //   arr.push(date,date)
-      const startTime = moment(data[0]).format('YYYY-MM-DD')
-      const endTime = moment(data[1]).format('YYYY-MM-DD')
+      arr.push(date,date)
+      const startTime = moment(arr[0]).format('YYYY-MM-DD')
+      const endTime = moment(arr[1]).format('YYYY-MM-DD')
       this.startTime = JSON.parse(JSON.stringify(startTime))
       this.endTime = JSON.parse(JSON.stringify(endTime))
       $('#moveTarget').find('img').remove()
-      this.$emit("onChange", data);
+      this.$emit("onChange", arr);
     },
     onChangeTime(data) {
       $('#moveTarget').find('img').remove()
