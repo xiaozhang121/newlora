@@ -50,6 +50,7 @@
       :popData="popData"
       @handleClose="handleClose"
     />
+    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
@@ -57,6 +58,7 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
+import enlarge from "_c/duno-c/enlarge";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
@@ -74,7 +76,8 @@ export default {
     dunoMain,
     DunoTablesTep,
     warningSetting,
-    wraning
+    wraning,
+    enlarge
   },
   data() {
     const that = this;
@@ -90,6 +93,8 @@ export default {
       selectInfo: "更多",
       popData: {},
       dataForm: {},
+      srcData: [],
+      isEnlarge: false,
       serious: false,
       commonly: false,
       danger: false,
@@ -271,7 +276,13 @@ export default {
             newArr.push([
               h("img", {
                 attrs: { src: params.row.taskDeviceImg },
-                class: "imgShow"
+                class: "imgShow",
+                on: {
+                  click: () => {
+                    that.isEnlarge = true;
+                    that.srcData = params.row;
+                  }
+                }
               })
             ]);
             return h("div", newArr);
@@ -363,6 +374,9 @@ export default {
       }).then(res => {
         this.warnData = res.data;
       });
+    },
+    closeEnlarge() {
+      this.isEnlarge = false;
     },
     cutOut(data) {
       if (data) {

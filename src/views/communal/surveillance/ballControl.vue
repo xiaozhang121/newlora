@@ -4,8 +4,9 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="controlTitle">
-      <div>{{ dataForm.monitorDeviceName }}</div>
+      <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
       <div>布控球</div>
+      
     </div>
     <div class="Main_contain">
       <div class="content">
@@ -54,35 +55,30 @@
           <div class="areaTitle">
             <span>区域设定</span>
           </div>
-          <div class="iconControl">
+          <div class="iconControl" v-if="!isCamera">
             <i class="iconfont icon-shanchu"></i>
             <span>清空</span>
             <i class="iconfont icon-weibiaoti-"></i>
-            <span>设定区域</span>
+            <span @click="handleDraw">设定区域</span>
           </div>
-          <div class="calibration">
-            <div v-if="isCanvas" class="textCon">
-              <p>未设定区域</p>
-              <p>请先调整左边视频再点击下方按钮拍照取图</p>
-            </div>
-            <div
-              v-else
-              class="shotImg"
-              @mousedown="getFirstCode"
-              @mouseup="getEndCode"
-              @mousemove="getCircle"
-            >
-              <img :src="this.imgsrc" ref="image" alt />
-              <div ref="box" id="boxImg"></div>
-            </div>
+          <div
+            class="calibration"
+            @mousedown="getFirstCode"
+            @mouseup="getEndCode"
+            @mousemove="getCircle"
+          >
+            <p v-if="isCamera">未设定区域</p>
+            <p v-if="isCamera">请先调整左边视频再点击下方按钮拍照取图</p>
+            <img v-if="!isCamera" :src="this.imgsrc" ref="image" alt />
+            <div v-if="!isCamera" ref="box" id="boxImg"></div>
           </div>
           <div v-if="isCamera" class="buttonC">
-            <span>拍照</span>
+            <span @click="handleCamare">拍照</span>
           </div>
           <div v-else class="buttonC">
-            <span>重新拍摄</span>
-            <span v-if="isMonitor">开始监控</span>
-            <span v-else>停止监控</span>
+            <span @click="changeCamare">重新拍摄</span>
+            <span v-if="isMonitor" @click="handleStart">开始监控</span>
+            <span v-else @click="handleEnd">停止监控</span>
           </div>
         </div>
       </div>
@@ -240,6 +236,7 @@ export default {
       currentTime: 10,
       isCamera: true,
       isMonitor: true,
+      isDraw: false,
       isCanvas: true,
       clickFlage: 0,
       imgsrc: "",
@@ -682,6 +679,23 @@ export default {
       });
     },
     changeDate() {},
+    handleCamare() {
+      this.isCamera = false;
+    },
+    changeCamare() {
+      this.isCamera = true;
+    },
+    handleDraw() {
+      this.isDraw = true;
+    },
+    handleStart() {
+      this.isDraw = false;
+      this.isMonitor = false;
+    },
+    handleEnd() {
+      this.isDraw = true;
+      this.isMonitor = true;
+    },
     clearCan() {
       this.imgsrc = "";
       this.$refs.box.style.width = null;
@@ -692,7 +706,7 @@ export default {
       this.props.lazyLoad = null;
     },
     getFirstCode(e) {
-      if (this.clickFlage == 0 && this.isMonitor) {
+      if (this.clickFlage == 0 && this.isDraw) {
         this.$refs.box.style.width = null;
         this.$refs.box.style.height = null;
         this.startPointX = e.offsetX;
@@ -936,21 +950,30 @@ export default {
       padding-bottom: 56.25%;
       height: 0;
       position: relative;
-      .textCon {
+      p {
         padding-top: 20%;
         color: #fff;
         font-size: 14px;
         text-align: center;
       }
-      .shotImg {
+      & > p:nth-child(2) {
+        padding-top: 0;
+      }
+      img {
         width: 100%;
         height: 100%;
-        img {
-          width: 100%;
-          height: 100%;
-          display: block;
-        }
+        position: absolute;
+        display: block;
       }
+      //   .shotImg {
+      //     width: 100%;
+      //     height: 100%;
+      //     img {
+      //       width: 100%;
+      //       height: 100%;
+      //       display: block;
+      //     }
+      //   }
     }
     .buttonC {
       display: flex;
@@ -1180,7 +1203,7 @@ export default {
   background: #192f41;
   border: none;
 }
-.boxImg {
+#boxImg {
   position: absolute;
   background: none;
   border: 1px solid red;
