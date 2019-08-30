@@ -154,6 +154,9 @@ export default {
     },
     getDataList() {
       let url = "/lenovo-plan/api/statistics/plan/report/list";
+      if (this.$route.query.url) {
+        url = this.$route.query.url;
+      }
       let query = {
         pageIndex: this.pageIndex,
         pageRows: 10,
