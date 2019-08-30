@@ -7,7 +7,7 @@
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
       <div>布控球</div>
       <div class="Battery">
-        <div v-show="!isMonitor">正在巡视中</div>
+        <div :style="{visibility: isMonitor?'hidden':'visible'}">正在巡视中</div>
         <pattery />
       </div>
     </div>
@@ -31,7 +31,7 @@
             <div class="control">
               <div class="controBtnContain">
                 <contro-btn
-                  :controlAble="true"
+                  :controlAble="controlAble"
                   url="/lenovo-device/api/monitor/ptz/direction-adjust/{id}/{cmd}/{step}/{flag}"
                   :disabledOption="disabled"
                   ref="controBtnRef"
@@ -60,7 +60,7 @@
           <div class="areaTitle">
             <span>区域设定</span>
           </div>
-          <div class="iconControl" v-if="!isCamera">
+          <div class="iconControl" v-if="!isCamera&&isMonitor">
             <i class="iconfont icon-shanchu"></i>
             <span @click="clearDraw">清空</span>
             <i class="iconfont icon-weibiaoti-"></i>
@@ -118,7 +118,12 @@
               <p>2019.8.29-2019.9.1数据</p>
             </div>
           </div>
-          <el-pagination layout="prev, pager, next" :page-size="pageSizeVideo" :total="50"></el-pagination>
+          <el-pagination
+            :current-page="currentPage"
+            layout="pager"
+            :total="totalRows"
+            @current-change="sizeChange"
+          ></el-pagination>
         </div>
       </div>
       <div class="middle_table">
@@ -247,11 +252,12 @@ export default {
       titleTypeR: "全部异常类型",
       isControl: "1",
       currentTime: 10,
-      isCamera: true,
-      isShowBox: false,
-      isMonitor: true,
-      isDraw: false,
-      isCanvas: true,
+      isCamera: true, //是否点击拍照
+      isShowBox: false, //框选div是否显示
+      isMonitor: true, //是否开始监控
+      isDraw: false, //是否允许画div
+      isStart: false, //是否框选div了
+      controlAble: true, //左侧按钮是否可控
       clickFlage: 0,
       startPointX: null,
       endPointX: null,
@@ -261,6 +267,8 @@ export default {
       y0: null,
       x1: null,
       y1: null,
+      currentPage: 1,
+      totalRows: 20,
       shotData: [],
       imgsrc: "",
       timeOut: null,
@@ -699,6 +707,10 @@ export default {
         }, 1000 * 60 * 5);
       }
     },
+    sizeChange(item) {
+      this.pageIndex = item;
+      this.getDataList();
+    },
     getMonitorDeviceName() {
       let url = "/lenovo-device/api/device-monitor/device";
       let query = {
@@ -720,9 +732,13 @@ export default {
         that.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`;
       });
       that.isCamera = false;
+      that.controlAble = false;
     },
     changeCamare() {
       this.isCamera = true;
+      this.isMonitor = true;
+      this.controlAble = true;
+      this.clearDraw();
       let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       deleteDataId(url).then(res => {
         this.$message({
@@ -738,12 +754,15 @@ export default {
     clearDraw() {
       this.isDraw = false;
       this.isShowBox = false;
+      this.isStart = false;
       this.$refs.box.style.width = null;
       this.$refs.box.style.height = null;
     },
     handleStart() {
       let that = this;
-      if (!that.isShowBox) {
+      //   debugger;
+      console.log(!that.isShowBox, !that.isStart);
+      if (!that.isStart) {
         this.$message({
           message: "请先设定区域",
           type: "warning"
@@ -798,7 +817,16 @@ export default {
       this.props.lazyLoad = null;
     },
     getFirstCode(e) {
+      if (this.clickFlage == 0 && !this.isDraw) {
+        this.$message({
+          type: "warning",
+          message: "请先点击设定区域"
+        });
+      }
+      //   debugger;
       if (this.clickFlage == 0 && this.isDraw) {
+        this.isShowBox = true;
+        this.isStart = true;
         this.$refs.box.style.width = null;
         this.$refs.box.style.height = null;
         this.startPointX = e.offsetX;
