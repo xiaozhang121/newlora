@@ -7,7 +7,7 @@
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
       <div>布控球</div>
       <div class="Battery">
-        <div>正在巡视中</div>
+        <div v-show="!isMonitor">正在巡视中</div>
         <pattery />
       </div>
     </div>
@@ -942,7 +942,11 @@ export default {
       float: left;
     }
     .Battery {
-      margin-left: 44%;
+      margin-left: 38%;
+      display: flex;
+      & > div {
+        margin-left: 10px;
+      }
     }
   }
   .content {
