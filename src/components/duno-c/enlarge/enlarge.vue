@@ -4,7 +4,7 @@
       :visible.sync="isShow"
       :show-close="false"
       :modal="true"
-      width="80%"
+      :width="width"
       top="5vh"
       :before-close="handleLarge"
     >
@@ -51,11 +51,18 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      width: "80%"
+    };
   },
   methods: {
     handleLarge() {
       this.$emit("closeEnlarge");
+    }
+  },
+  mounted() {
+    if (document.documentElement.clientWidth > 3000) {
+      this.width = "45%";
     }
   }
 };

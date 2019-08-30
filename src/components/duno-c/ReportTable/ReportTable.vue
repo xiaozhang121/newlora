@@ -293,6 +293,7 @@ export default {
     bottom: 0;
     width: 100%;
     & > div {
+      white-space: nowrap;
       cursor: pointer;
       box-sizing: border-box;
       float: left;

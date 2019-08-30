@@ -44,9 +44,9 @@
         />
       </div>
       <el-pagination
-        :current-page="pageIndex"
         layout="pager"
         :total="totalRows"
+        :page-count="totalPages"
         @current-change="sizeChange"
       ></el-pagination>
     </duno-main>
@@ -91,7 +91,8 @@ export default {
       value: "",
       title: "",
       pageIndex: 1,
-      totalRows: null,
+      totalRows: 10,
+      totalPages: 1,
       dataList: [],
       dataForm: {},
       inspectionData: []
@@ -158,6 +159,7 @@ export default {
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
         this.totalRows = res.data.pageParam.totalRows;
+        this.totalPages = res.data.pageParam.totalPages;
         this.loadingOption = false;
       });
     },

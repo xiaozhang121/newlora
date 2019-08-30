@@ -119,7 +119,7 @@
             </div>
           </div>
           <el-pagination
-            :current-page="currentPage"
+            :current-page="pageCurrent"
             layout="pager"
             :total="totalRows"
             @current-change="sizeChange"
@@ -267,7 +267,7 @@ export default {
       y0: null,
       x1: null,
       y1: null,
-      currentPage: 1,
+      pageCurrent: 1,
       totalRows: 20,
       shotData: [],
       imgsrc: "",
@@ -708,7 +708,7 @@ export default {
       }
     },
     sizeChange(item) {
-      this.pageIndex = item;
+      this.pageCurrent = item;
       this.getDataList();
     },
     getMonitorDeviceName() {
