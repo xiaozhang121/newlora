@@ -61,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    if (document.documentElement.clientWidth < 1366) {
+    if (document.documentElement.clientWidth > 3000) {
       this.width = "45%";
     }
   }

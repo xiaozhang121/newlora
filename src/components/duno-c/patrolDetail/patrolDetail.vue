@@ -91,7 +91,7 @@ export default {
       value: "",
       title: "",
       pageIndex: 1,
-      totalRows: null,
+      totalRows: 10,
       dataList: [],
       dataForm: {},
       inspectionData: []

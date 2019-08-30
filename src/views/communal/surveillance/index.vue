@@ -504,9 +504,9 @@ export default {
     }
   }
   .oltagevMainBig {
-    height: 300px;
+    height: 218px;
     width: 100%;
-    zoom: 1;
+    // zoom: 1;
     // display: flex;
     // justify-content: space-around;
     // .swiper-button-prev,
@@ -528,9 +528,9 @@ export default {
     // .swiper-button-next {
     //   margin-right: 10px;
     // }
-    .swiper-container {
-      width: 93%;
-    }
+    // .swiper-container {
+    //   width: 93%;
+    // }
   }
   .oltagevMain {
     height: 400px;
