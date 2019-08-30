@@ -153,6 +153,7 @@ export default {
       });
     },
     getDataList() {
+      debugger;
       let url = "/lenovo-plan/api/statistics/plan/report/list";
       if (this.$route.query.url) {
         url = this.$route.query.url;
@@ -160,7 +161,7 @@ export default {
       let query = {
         pageIndex: this.pageIndex,
         pageRows: 10,
-        ...dataForm
+        ...this.dataForm
       };
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
