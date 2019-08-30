@@ -45,8 +45,7 @@
       </div>
       <!-- <el-pagination layout="prev, pager, next" :page-size="pageSizeVideo" :total="50"></el-pagination> -->
       <el-pagination
-        :page-size="dataList.pageParam.pageRows"
-        :current-page="dataList.pageParam.pageIndex"
+        :current-page="pageIndex"
         layout="prev, pager, next"
         :total="dataList.pageParam.totalRows"
         @prev-click="sizeChange"
@@ -67,7 +66,7 @@ import moment from "moment";
 import { getPlayType } from "@/api/configuration/configuration.js";
 import { getAxiosData } from "@/api/axiosType";
 export default {
-//   mixins: [mixinViewModule],
+  //   mixins: [mixinViewModule],
   name: "ReportFrom",
   components: {
     Breadcrumb,
