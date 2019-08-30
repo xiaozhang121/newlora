@@ -45,10 +45,9 @@
       </div>
       <!-- <el-pagination layout="prev, pager, next" :page-size="pageSizeVideo" :total="50"></el-pagination> -->
       <el-pagination
-        :page-size="dataList.pageParam.pageRows"
-        :current-page="dataList.pageParam.pageIndex"
+        :current-page="pageIndex"
         layout="prev, pager, next"
-        :total="dataList.pageParam.totalRows"
+        :total="totalRows"
         @prev-click="sizeChange"
         @next-click="sizeChange"
         @current-change="sizeChange"
@@ -67,7 +66,7 @@ import moment from "moment";
 import { getPlayType } from "@/api/configuration/configuration.js";
 import { getAxiosData } from "@/api/axiosType";
 export default {
-//   mixins: [mixinViewModule],
+  //   mixins: [mixinViewModule],
   name: "ReportFrom",
   components: {
     Breadcrumb,
@@ -100,6 +99,7 @@ export default {
       value: "",
       title: "",
       pageIndex: 1,
+      totalRows: null,
       dataList: [],
       dataForm: {},
       inspectionData: []
@@ -153,20 +153,25 @@ export default {
         this.inspectionData = map;
       });
     },
-    initData() {
+    getDataList() {
       let url = "/lenovo-plan/api/statistics/plan/report/list";
+      if (this.$route.query.url) {
+        url = this.$route.query.url;
+      }
       let query = {
         pageIndex: this.pageIndex,
         pageRows: 10,
-        ...dataForm
+        ...this.dataForm
       };
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
+        this.totalRows = res.data.pageParam.totalRows;
+        this.loadingOption = false;
       });
     },
     sizeChange(item) {
       this.pageIndex = item;
-      this.initData();
+      this.getDataList();
     }
   },
   mounted() {
