@@ -7,6 +7,7 @@
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
       <div>布控球</div>
       <div class="Battery">
+        <div>正在巡视中</div>
         <pattery />
       </div>
     </div>
@@ -35,7 +36,7 @@
                   :deviceId="dataForm.monitorDeviceId"
                 />
               </div>
-              <div class="controlTitle">
+              <!-- <div class="controlTitle">
                 <div v-if="isControl =='1'" class="controlT">
                   <span>云台控制中</span>
                   <span @click="getControl">获取控制权</span>
@@ -49,7 +50,7 @@
                   <i>{{ currentTime }} s</i>
                   <span @click="getControl">结束控制</span>
                 </div>
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -59,7 +60,7 @@
           </div>
           <div class="iconControl" v-if="!isCamera">
             <i class="iconfont icon-shanchu"></i>
-            <span>清空</span>
+            <span @click="clearDraw">清空</span>
             <i class="iconfont icon-weibiaoti-"></i>
             <span @click="handleDraw">设定区域</span>
           </div>
@@ -68,11 +69,12 @@
             @mousedown="getFirstCode"
             @mouseup="getEndCode"
             @mousemove="getCircle"
+            :style="{backgroundImage: 'url(' + imgsrc + ')', backgroundSize: '100%'}"
           >
             <p v-if="isCamera">未设定区域</p>
             <p v-if="isCamera">请先调整左边视频再点击下方按钮拍照取图</p>
-            <img v-if="!isCamera" :src="this.imgsrc" ref="image" alt />
-            <div v-if="!isCamera" ref="box" id="boxImg"></div>
+            <img v-if="!isCamera" :src="imgsrc" ref="image" alt :style="{display:'none'}" />
+            <div v-if="isShowBox" ref="box" id="boxImg"></div>
           </div>
           <div v-if="isCamera" class="buttonC">
             <span @click="handleCamare">拍照</span>
@@ -199,7 +201,12 @@ import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import wraning from "_c/duno-j/warning";
 import Remarks from "_c/duno-c/Remarks";
-import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import {
+  getAxiosData,
+  postAxiosData,
+  putAxiosData,
+  deleteDataId
+} from "@/api/axiosType";
 import moment from "moment";
 import {
   getVLIght,
@@ -230,8 +237,8 @@ export default {
       addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
-        getDataListURL: "/lenovo-plan/api/task/result/list",
-        exportURL: "/lenovo-plan/api/task/result/list/export"
+        getDataListURL: "/lenovo-alarm/api/security/list",
+        exportURL: "/lenovo-alarm/api/security/history/export"
       },
       videoList: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
       titleTypeL: "全部数据类型",
@@ -239,6 +246,7 @@ export default {
       isControl: "1",
       currentTime: 10,
       isCamera: true,
+      isShowBox: false,
       isMonitor: true,
       isDraw: false,
       isCanvas: true,
@@ -251,6 +259,7 @@ export default {
       y0: null,
       x1: null,
       y1: null,
+      shotData: [],
       imgsrc: "",
       timeOut: null,
       srcData: [],
@@ -270,35 +279,42 @@ export default {
       columns: [
         {
           title: "拍摄时间",
-          key: "executeTime",
+          key: "alarmTime",
           minWidth: 100,
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let timeDay = params.row.executeTime.slice(5);
+            let timeDay = params.row.alarmTime.slice(5);
             return h("div", timeDay);
           }
         },
         {
           title: "告警类型",
-          key: "monitorDeviceName",
+          key: "alarmDetailType",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "处理记录",
-          key: "part",
+          key: "dealType",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            return h("div", params.row.dealList[0].dealType);
+          }
         },
         {
           title: "处理时间",
-          key: "content",
+          key: "dealTime",
           minWidth: 90,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let timeDay = params.row.dealList[0].dealTime.slice(5);
+            return h("div", timeDay);
+          }
         },
         {
           title: "视频/图片",
@@ -692,28 +708,83 @@ export default {
     },
     changeDate() {},
     handleCamare() {
+      let that = this;
       let url = "/lenovo-device/api/stream/snapshoot";
       let query = {
-        rtmpUrl: this.streamAddr
+        rtmpUrl: that.playerOptions.streamAddr
       };
       postAxiosData(url, query).then(res => {
-        this.shotData = res.data;
+        that.shotData = res.data;
+        that.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`;
       });
-      this.isCamera = false;
+      that.isCamera = false;
     },
     changeCamare() {
       this.isCamera = true;
+      let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+      deleteDataId(url).then(res => {
+        this.$message({
+          type: "success",
+          message: "删除成功"
+        });
+      });
     },
     handleDraw() {
       this.isDraw = true;
+      this.isShowBox = true;
+    },
+    clearDraw() {
+      this.isDraw = false;
+      this.isShowBox = false;
+      this.$refs.box.style.width = null;
+      this.$refs.box.style.height = null;
     },
     handleStart() {
-      this.isDraw = false;
-      this.isMonitor = false;
+      let that = this;
+      if (!that.isShowBox) {
+        this.$message({
+          message: "请先设定区域",
+          type: "warning"
+        });
+        return;
+      }
+      that.isDraw = false;
+      that.isMonitor = false;
+      let url = "/lenovo-device/api/monitor/ball-control/start";
+      let query = {
+        monitorDeviceId: that.$route.query.monitorDeviceId,
+        fileName: that.shotData.cephFileName,
+        bucketName: that.shotData.cephBucket,
+        x0: that.startPointX,
+        y0: that.startPointY,
+        x1: that.endPointX,
+        y1: that.endPointY
+      };
+      postAxiosData(url, query).then(res => {
+        if (res.data.isSuccess) {
+          this.$message({
+            type: "success",
+            message: "开始监控标定区域"
+          });
+        }
+      });
     },
     handleEnd() {
-      this.isDraw = true;
-      this.isMonitor = true;
+      let that = this;
+      that.isDraw = true;
+      that.isMonitor = true;
+      let url = "/lenovo-device/api/monitor/ball-control/end";
+      let query = {
+        monitorDeviceId: that.$route.query.monitorDeviceId
+      };
+      postAxiosData(url, query).then(res => {
+        if (res.data.isSuccess) {
+          this.$message({
+            type: "success",
+            message: "结束监控"
+          });
+        }
+      });
     },
     clearCan() {
       this.imgsrc = "";
