@@ -76,9 +76,8 @@
 
                         this.$forceUpdate()
                         if(that.rowDataLength){
-                            that.form['taskName'] = that.rowData['statusName']
-                            that.form['taskKind'] = that.rowData['planId']
-                            debugger
+                            that.form['taskName'] = that.rowData['planName']
+                            that.form['taskKind'] = that.rowData['planType']
                             let data = that.rowData['devicemonitor']
                             for(let i=0; i<data.length; i++){
                                 for(let j=0; j<info.length; j++){
@@ -88,9 +87,8 @@
                                     }
                                 }
                             }
-                            this.dataList = info
-                        }else
-                            this.dataList = info
+                        }
+                        this.dataList = info
                     })
                 })
             }
