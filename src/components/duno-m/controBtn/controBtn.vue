@@ -44,7 +44,7 @@ export default {
         xjBtnClick: require('@/assets/camera/xjBtnClick.png'),
         squera: require('@/assets/camera/squera.png'),
         squeraClick: require('@/assets/camera/squeraClick.png'),
-        activeNum: '',
+        activeNum: '-1',
         operateUrl: {
             play: '/lenovo-visible/api/visible-equipment/stable/play/{deviceId}',// 视频播放
             pause: '/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}',// 暂停
@@ -54,14 +54,40 @@ export default {
     }
     },
     watch:{
+        controlAble:{
+            handler(now){
+                if(now){
+                   this.disabled = !now
+                }
+            },
+            immediate: true
+        },
         disabledOption:{
             handler(now){
                 this.disabled = now
             },
             immediate: true
+        },
+        url:{
+            handler(now){
+                if(now){
+                    this.operateUrl.ptzSet = now
+                }
+            },
+            immediate: true
         }
     },
     props: {
+        controlAble: {
+            type: Boolean,
+            default: () => {
+                return true
+            }
+        },
+        url:{
+            type: String,
+            default: ''
+        },
         deviceId:{
             type: [String, Number],
             default: ''
@@ -78,6 +104,10 @@ export default {
     },
     methods:{
         viewCamera(command, flag){
+            if(!this.controlAble){
+                this.activeNum = '-1'
+                return
+            }
             if(!flag)
                 this.activeNum = command
             let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
@@ -111,7 +141,10 @@ export default {
                 this.viewCamera(5, false).then(res=>{
                     setTimeout(()=>{
                         this.viewCamera(5, true).then(res=>{
-                            that.disabled = false
+                            if(this.controlAble)
+                                that.disabled = false
+                            else
+                                that.disabled = true
                         })
                     },Math.abs(now-old)*timeSeed)
                 })
@@ -119,7 +152,10 @@ export default {
                 this.viewCamera(4, false).then(res=>{
                     setTimeout(()=>{
                         this.viewCamera(4, true).then(res=>{
-                            that.disabled = false
+                            if(this.controlAble)
+                                that.disabled = false
+                            else
+                                that.disabled = true
                         })
                     },Math.abs(now-old)*timeSeed)
                 })
