@@ -36,14 +36,21 @@
       element-loading-text="加载中"
     >
       <div class="task">
-        <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
+        <ReportTable
+          v-for="(item,index) in dataList.tableData"
+          :url="url"
+          :key="index"
+          :reportData="item"
+        />
       </div>
-      <!-- <el-pagination
-        :page-size="dataList.pageParam.pageSize"
+      <!-- <el-pagination layout="prev, pager, next" :page-size="pageSizeVideo" :total="50"></el-pagination> -->
+      <el-pagination
+        :page-size="dataList.pageParam.pageRows"
         :current-page="dataList.pageParam.pageIndex"
         layout="prev, pager, next"
         :total="dataList.pageParam.totalRows"
-      ></el-pagination>-->
+        @size-change="sizeChange"
+      ></el-pagination>
     </duno-main>
   </div>
 </template>
@@ -53,9 +60,11 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoMain from "_c/duno-m/duno-main";
 import ReportTable from "_c/duno-c/ReportTable";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
-import mixinViewModule from "@/mixins/view-module";
+// import mixinViewModule from "@/mixins/view-module";
 import moment from "moment";
 import { getPlayType } from "@/api/configuration/configuration.js";
+import { getAxiosData } from "@/api/axiosType";
+import { threadId } from "worker_threads";
 export default {
   mixins: [mixinViewModule],
   name: "ReportFrom",
@@ -83,12 +92,14 @@ export default {
     return {
       loadingOption: false,
       timer: null,
-      mixinViewModuleOptions: {
-        getDataListURL: "/lenovo-plan/api/statistics/plan/report/list"
-      },
+      //   mixinViewModuleOptions: {
+      //     getDataListURL: "/lenovo-plan/api/statistics/plan/report/list"
+      //   },
       titleValue: "所有巡检报表",
       value: "",
       title: "",
+      pageIndex: 1,
+      dataList: [],
       dataForm: {},
       inspectionData: []
     };
@@ -140,6 +151,21 @@ export default {
         });
         this.inspectionData = map;
       });
+    },
+    initData() {
+      let url = "/lenovo-plan/api/statistics/plan/report/list";
+      let query = {
+        pageIndex: this.pageIndex,
+        pageRows: 10,
+        ...dataForm
+      };
+      getAxiosData(url, query).then(res => {
+        this.dataList = res.data;
+      });
+    },
+    sizeChange(item) {
+      this.pageIndex = item;
+      this.initData();
     }
   },
   mounted() {
@@ -153,9 +179,9 @@ export default {
       this.loadingOption = false;
     }, 1000000000);
     this.title = this.$route.query.title;
-    if (this.$route.query.url) {
-      this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
-    }
+    // if (this.$route.query.url) {
+    //   this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
+    // }
     this.dataForm = { planId: this.$route.query.planId };
   }
 };
