@@ -44,9 +44,9 @@
         />
       </div>
       <el-pagination
-        :current-page="pageIndex"
         layout="pager"
         :total="totalRows"
+        :page-count="totalPages"
         @current-change="sizeChange"
       ></el-pagination>
     </duno-main>

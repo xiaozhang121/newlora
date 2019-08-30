@@ -528,9 +528,9 @@ export default {
     // .swiper-button-next {
     //   margin-right: 10px;
     // }
-    // .swiper-container {
-    //   width: 93%;
-    // }
+    .swiper-container {
+      height: 218px;
+    }
   }
   .oltagevMain {
     height: 400px;
