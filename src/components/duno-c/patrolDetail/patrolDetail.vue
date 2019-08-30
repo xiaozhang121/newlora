@@ -153,7 +153,7 @@ export default {
         this.inspectionData = map;
       });
     },
-    initData() {
+    getDataList() {
       let url = "/lenovo-plan/api/statistics/plan/report/list";
       let query = {
         pageIndex: this.pageIndex,
@@ -166,7 +166,7 @@ export default {
     },
     sizeChange(item) {
       this.pageIndex = item;
-      this.initData();
+      this.getDataList();
     }
   },
   mounted() {
