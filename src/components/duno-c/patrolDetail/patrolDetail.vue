@@ -43,13 +43,10 @@
           :reportData="item"
         />
       </div>
-      <!-- <el-pagination layout="prev, pager, next" :page-size="pageSizeVideo" :total="50"></el-pagination> -->
       <el-pagination
         :current-page="pageIndex"
-        layout="prev, pager, next"
+        layout="pager"
         :total="totalRows"
-        @prev-click="sizeChange"
-        @next-click="sizeChange"
         @current-change="sizeChange"
       ></el-pagination>
     </duno-main>
@@ -61,12 +58,10 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoMain from "_c/duno-m/duno-main";
 import ReportTable from "_c/duno-c/ReportTable";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
-// import mixinViewModule from "@/mixins/view-module";
 import moment from "moment";
 import { getPlayType } from "@/api/configuration/configuration.js";
 import { getAxiosData } from "@/api/axiosType";
 export default {
-  //   mixins: [mixinViewModule],
   name: "ReportFrom",
   components: {
     Breadcrumb,
@@ -92,9 +87,6 @@ export default {
     return {
       loadingOption: false,
       timer: null,
-      //   mixinViewModuleOptions: {
-      //     getDataListURL: "/lenovo-plan/api/statistics/plan/report/list"
-      //   },
       titleValue: "所有巡检报表",
       value: "",
       title: "",
@@ -185,9 +177,6 @@ export default {
       this.loadingOption = false;
     }, 1000000000);
     this.title = this.$route.query.title;
-    // if (this.$route.query.url) {
-    //   this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
-    // }
     this.dataForm = { planId: this.$route.query.planId };
   }
 };

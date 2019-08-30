@@ -4,6 +4,7 @@
                 v-dialogDrag
                 :visible.sync="dialogVisible"
                 width="30%"
+                :close-on-click-modal='false'
                 :before-close="handleClose">
             <span slot="title">
                 <div class="title">
