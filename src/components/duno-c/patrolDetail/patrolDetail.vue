@@ -67,7 +67,7 @@ import moment from "moment";
 import { getPlayType } from "@/api/configuration/configuration.js";
 import { getAxiosData } from "@/api/axiosType";
 export default {
-  mixins: [mixinViewModule],
+//   mixins: [mixinViewModule],
   name: "ReportFrom",
   components: {
     Breadcrumb,
