@@ -5,7 +5,7 @@
                 <el-input v-model="form.taskName"></el-input>
             </el-form-item>
             <el-form-item label="任务类型">
-                <el-select v-model="form.taskKind">
+                <el-select v-model="form.taskKind" @change="onChange">
                     <el-option v-for="(item, index) in taskKindList" :key="index" :label="item['label']" :value="item['value']"></el-option>
                 </el-select>
             </el-form-item>
@@ -54,6 +54,27 @@
             }
         },
         methods: {
+            onChange(value){
+                const that = this
+                let query = {pageIndex: 1, pageRows:888888}
+                query['planType'] = value
+                getAxiosData('/lenovo-plan/api/device/multi', query).then(res=>{
+                    let data = res.data.tableData
+                    let info = data.map(item=>{
+                        let obj = {
+                            title: item['deviceName'],
+                            deviceId: item['deviceId'],
+                            deviceTypeId: item['deviceTypeId'],
+                            deviceType: item['deviceType'],
+                            isCheck: false
+                        }
+                        return obj
+                    })
+                    this.$forceUpdate()
+                    this.rowData['isChange'] = true
+                    this.dataList = info
+                })
+            },
             initData(){
                 const that = this
                 postAxiosData('/lenovo-plan/api/list/plan-type').then(res=>{
@@ -61,7 +82,9 @@
                     if(!this.rowDataLength)
                         that.form.taskKind = res.data[0].value
                     this.$forceUpdate()
-                    getAxiosData('/lenovo-plan/api/device/multi', {pageIndex: 1, pageRows:888888}).then(res=>{
+                    let query = {pageIndex: 1, pageRows:888888}
+                    query['planType'] = that.form.taskKind
+                    getAxiosData('/lenovo-plan/api/device/multi', query).then(res=>{
                         let data = res.data.tableData
                         let info = data.map(item=>{
                             let obj = {

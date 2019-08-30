@@ -82,8 +82,15 @@
                     this.options = res.data
                     this.value = res.data[0].value
                     if(this.rowDataLength){
-                        this.value = this.rowData['planCycle']
-                        this.value3 = new Date(`${this.rowData['date']} ${this.rowData['time']}`)
+                        if(this.rowData['planCycle']){
+                            this.value = this.rowData['planCycle']
+                            this.rowData['planCycle'] = ''
+                        }
+                        if(this.rowData['date']){
+                            this.value3 = new Date(`${this.rowData['date']} ${this.rowData['time']}`)
+                            this.rowData['date'] = ''
+                            this.rowData['time'] = ''
+                        }
                     }
                 })
             }

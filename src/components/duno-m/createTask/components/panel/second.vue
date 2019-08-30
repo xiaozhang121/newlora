@@ -50,7 +50,7 @@
                             })
                         }
                         let data = res.data
-                        if(this.rowDataLength){
+                        if(this.rowDataLength && !this.rowData['isChange']){
                             let arr = this.rowData['devicemonitor']
                             for(let i=0; i<arr.length; i++){
                                 for(let j=0; j<data.length; j++){
