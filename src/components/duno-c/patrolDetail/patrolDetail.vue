@@ -256,6 +256,22 @@ export default {
   }
   .dunoMain {
     height: inherit !important;
+    .el-pagination {
+      text-align: center;
+    }
+    .el-pager li {
+      background: rgba(0, 0, 0, 0);
+      color: #fff;
+    }
+    .el-pager li.active {
+      color: #5fafff;
+      border-bottom: 1px solid #2d8cf0;
+    }
+    .el-pagination .btn-prev,
+    .el-pagination .btn-next {
+      background-color: rgba(0, 0, 0, 0);
+      color: #ffffff;
+    }
   }
   .task {
     padding: 20px 0 20px 20px;
