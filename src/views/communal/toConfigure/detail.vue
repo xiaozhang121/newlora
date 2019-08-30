@@ -25,7 +25,7 @@
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
-    <create-task :visible="taskVisible" @on-close="onClose" @on-fresh="onFresh" />
+    <create-task :rowData="rowData" :visible="taskVisible" @on-close="onClose" @on-fresh="onFresh" />
   </div>
 </template>
 
@@ -49,7 +49,9 @@ export default {
     createTask
   },
   data() {
+    const that = this
     return {
+      rowData: {},
       taskVisible: false,
       title: "",
       titleTwo: "熄灯巡视",
@@ -160,6 +162,23 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
+            /*newArr.push(
+                h(
+                    "el-button",
+                    {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: { type: "text", content: "编辑" },
+                        on: {
+                            click: () => {
+                                that.rowData = params.row
+                                that.taskVisible = true
+                            }
+                        }
+                    },
+                    "编辑"
+                )
+            );*/
             /*
             newArr.push(
               h(

@@ -15,7 +15,18 @@
             chosenList
         },
         props:{
+            rowData:{
+                type: Object,
+                default: () => {
+                    return {};
+                }
+            },
             list:{}
+        },
+        computed: {
+            rowDataLength(){
+                return Object.keys(this.rowData).length
+            }
         },
         watch:{
             list:{
@@ -38,7 +49,22 @@
                                 item['title'] = item['monitorDeviceName']
                             })
                         }
-                        this.dataList = res.data
+                        let data = res.data
+                        if(this.rowDataLength){
+                            let arr = this.rowData['devicemonitor']
+                            for(let i=0; i<arr.length; i++){
+                                for(let j=0; j<data.length; j++){
+                                    if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
+                                        for(let z=0; z<data[j]['monitorDevices'].length; z++){
+                                            if(arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])>-1){
+                                                data[j]['monitorDevices'][z]['isCheck'] = true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        this.dataList = data
                     })
                 },
                 deep: true

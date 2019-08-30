@@ -41,7 +41,18 @@
             chosenList
         },
         props:{
+            rowData:{
+                type: Object,
+                default: () => {
+                    return {};
+                }
+            },
             list:{}
+        },
+        computed: {
+            rowDataLength(){
+                return Object.keys(this.rowData).length
+            }
         },
         watch:{
             radio(now){
@@ -70,12 +81,18 @@
                 postAxiosData('/lenovo-plan/api/list/plan-cycle').then(res=>{
                     this.options = res.data
                     this.value = res.data[0].value
+                    if(this.rowDataLength){
+                        this.value = this.rowData['planCycle']
+                        this.value3 = new Date(`${this.rowData['date']} ${this.rowData['time']}`)
+                    }
                 })
             }
         },
         mounted(){
+            if(!this.rowDataLength) {
+                this.value3 = new Date()
+            }
             this.initData()
-            this.value3 =  new Date()
         }
     }
 </script>
