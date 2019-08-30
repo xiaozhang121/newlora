@@ -80,9 +80,9 @@ export default {
     },
     methods:{
         toEdit(){
-
+            this.toSubmit('/lenovo-plan/api/plan/edit')
         },
-        toSubmit(){
+        toSubmit(url){
             let obj = {}
             let data = []
             obj['planDate'] = {
@@ -109,7 +109,13 @@ export default {
             obj['startnow'] = 2
             obj['planName'] = this.$refs['panel[0]'].$data.form.taskName
             obj['startTime'] =  new Date(this.$refs['panel[2]'].$data.value3).getFullYear()+'-'+(new Date(this.$refs['panel[2]'].$data.value3).getMonth()*1+1)+'-'+new Date(this.$refs['panel[2]'].$data.value3).getDate()
-            postAxiosData('/lenovo-plan/api/plan/create', obj).then(res=>{
+            let urlD = ''
+            if(url){
+                urlD = url
+            }else{
+                urlD = '/lenovo-plan/api/plan/create'
+            }
+            postAxiosData(urlD, obj).then(res=>{
                 if(res.data.isSuccess){
                     this.$message.success('创建成功')
                     this.$emit('on-fresh')
