@@ -92,6 +92,7 @@ export default {
       title: "",
       pageIndex: 1,
       totalRows: 10,
+      totalPages: 1,
       dataList: [],
       dataForm: {},
       inspectionData: []
@@ -158,6 +159,7 @@ export default {
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
         this.totalRows = res.data.pageParam.totalRows;
+        this.totalPages = res.data.pageParam.totalPages;
         this.loadingOption = false;
       });
     },
