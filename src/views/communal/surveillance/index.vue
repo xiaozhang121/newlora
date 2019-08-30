@@ -152,9 +152,9 @@
       </div>
     </div>
     <div v-else class="oltagevMainBig">
-      <div class="swiper-button-prev" slot="button-prev">
+      <!-- <div class="swiper-button-prev" slot="button-prev">
         <i class="el-icon-arrow-left"></i>
-      </div>
+      </div>-->
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
           <key-monitor
@@ -169,11 +169,14 @@
             class="monitorM child"
           ></key-monitor>
         </swiper-slide>
+        <div class="swiper-button-prev" slot="button-prev"></div>
+        <div class="swiper-button-next" slot="button-next"></div>
       </swiper>
-      <div class="swiper-button-next" slot="button-next">
+      <!-- <div class="swiper-button-next" slot="button-next">
         <i class="el-icon-arrow-right"></i>
-      </div>
+      </div>-->
     </div>
+    <div class="test"></div>
   </div>
 </template>
 
@@ -286,7 +289,7 @@ export default {
     isPush: {
       handler(now) {
         if (now) {
-          this.cameraList = this.$store.state.app.pushData
+          this.cameraList = this.$store.state.app.pushData;
           this.$forceUpdate();
           this.$store.state.app.isPush = false;
         }
@@ -297,7 +300,7 @@ export default {
   },
   data() {
     return {
-      socketUrl: '10.0.0.164:8081',
+      socketUrl: "10.0.0.164:8081",
       activeAreaId: "",
       dataForm: {},
       titleLayout: "切换布局",
@@ -424,10 +427,10 @@ export default {
 
 <style lang="scss">
 .surveillance {
-  .icon-xiala {
-    /* width: 12px;
-    height: 15px;*/
-  }
+  //   .icon-xiala {
+  //     /* width: 12px;
+  //     height: 15px;*/
+  //   }
   .noMarginRight {
     margin-right: 0 !important;
   }
@@ -504,27 +507,27 @@ export default {
     height: 300px;
     width: 100%;
     zoom: 1;
-    display: flex;
-    justify-content: space-around;
-    .swiper-button-prev,
-    .swiper-button-next {
-      margin-top: 170px;
-      width: 30px;
-      color: #fff;
-      height: 24%;
-      text-align: center;
-      font-size: 20px;
-      background: #333;
-      i {
-        padding-top: 115px;
-      }
-    }
-    .swiper-button-prev {
-      margin-left: 10px;
-    }
-    .swiper-button-next {
-      margin-right: 10px;
-    }
+    // display: flex;
+    // justify-content: space-around;
+    // .swiper-button-prev,
+    // .swiper-button-next {
+    //   margin-top: 170px;
+    //   width: 30px;
+    //   color: #fff;
+    //   height: 24%;
+    //   text-align: center;
+    //   font-size: 20px;
+    //   background: #333;
+    //   i {
+    //     padding-top: 115px;
+    //   }
+    // }
+    // .swiper-button-prev {
+    //   margin-left: 10px;
+    // }
+    // .swiper-button-next {
+    //   margin-right: 10px;
+    // }
     .swiper-container {
       width: 93%;
     }
@@ -564,8 +567,8 @@ export default {
         }
       }
     }
-    .item_main:nth-last-child(3n-1) {
-    }
+    // .item_main:nth-last-child(3n-1) {
+    // }
   }
 
   .monitorM.child {
