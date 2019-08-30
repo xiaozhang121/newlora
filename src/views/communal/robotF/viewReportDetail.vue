@@ -562,7 +562,7 @@ export default {
     right: 20px;
   }
   .imgShow {
-    width: 189px;
+    /*width: 189px;*/
     padding: 10px 10px;
     height: 62px;
   }
