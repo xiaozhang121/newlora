@@ -47,7 +47,7 @@
       <el-pagination
         :current-page="pageIndex"
         layout="prev, pager, next"
-        :total="dataList.pageParam.totalRows"
+        :total="totalRows"
         @prev-click="sizeChange"
         @next-click="sizeChange"
         @current-change="sizeChange"
@@ -99,6 +99,7 @@ export default {
       value: "",
       title: "",
       pageIndex: 1,
+      totalRows: null,
       dataList: [],
       dataForm: {},
       inspectionData: []
@@ -153,7 +154,6 @@ export default {
       });
     },
     getDataList() {
-      debugger;
       let url = "/lenovo-plan/api/statistics/plan/report/list";
       if (this.$route.query.url) {
         url = this.$route.query.url;
@@ -165,6 +165,7 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
+        this.totalRows = res.data.pageParam.totalRows;
         this.loadingOption = false;
       });
     },
