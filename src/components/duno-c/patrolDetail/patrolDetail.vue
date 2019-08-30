@@ -49,7 +49,9 @@
         :current-page="dataList.pageParam.pageIndex"
         layout="prev, pager, next"
         :total="dataList.pageParam.totalRows"
-        @size-change="sizeChange"
+        @prev-click="sizeChange"
+        @next-click="sizeChange"
+        @current-change="sizeChange"
       ></el-pagination>
     </duno-main>
   </div>
@@ -64,7 +66,6 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import moment from "moment";
 import { getPlayType } from "@/api/configuration/configuration.js";
 import { getAxiosData } from "@/api/axiosType";
-import { threadId } from "worker_threads";
 export default {
   mixins: [mixinViewModule],
   name: "ReportFrom",
