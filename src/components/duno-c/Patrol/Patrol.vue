@@ -5,7 +5,7 @@
         <span>{{title}}</span>
         <span>{{titleCon}}</span>
       </div>
-      <!-- <div v-if="isShowBtn" @click="createTask()">+新建特殊巡视</div> -->
+      <div v-if="isShowBtn" @click="createTask()">+新建特殊巡视</div>
     </div>
     <div class="con">
       <duno-tables-tep
@@ -166,9 +166,9 @@ export default {
     }
   },
   methods: {
-    // createTask() {
-    //   this.$emit("add-task");
-    // },
+    createTask() {
+      this.$emit("add-task");
+    },
     getJump(row) {
       if (this.$route.name == "reportList") {
         this.$router.push({
