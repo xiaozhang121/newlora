@@ -60,7 +60,7 @@
           <div class="from">
             <span class="origin">
               来源：
-              <a href="javascript:;" @click="getJump">{{ dataBread[2].name }}</a>
+              <a href="javascript:;" @click="getJump">机器人</a>
             </span>
           </div>
         </div>

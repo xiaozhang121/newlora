@@ -344,11 +344,11 @@ export default {
       this.routeName = to.name;
     },
     routeName(now) {
-      if (now == "robot-twoList") {
-        this.$set(this.dataBread, 2, { name: "机器人二", path: "" });
+    /*  if (now == "robot-twoList") {
+        this.$set(this.dataBread, 2, { name: "机器人", path: "" });
       } else {
-        this.$set(this.dataBread, 2, { name: "机器人一", path: "" });
-      }
+        this.$set(this.dataBread, 2, { name: "机器人", path: "" });
+      }*/
     }
   },
   created() {
