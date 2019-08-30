@@ -165,6 +165,7 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
+        this.loadingOption = false;
       });
     },
     sizeChange(item) {
