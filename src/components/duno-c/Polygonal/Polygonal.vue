@@ -325,7 +325,7 @@ export default {
       deep: true
     },
     yName(now) {
-      this.yAxisOption.yName = now
+      this.yAxisOption['name'] = now
     },
     yMax(now) {
       this.yAxisOption.yMax = now
