@@ -8,15 +8,16 @@
                <div class="steps">
                    <steps :step="stepValue"/>
                </div>
-              <first-panel  ref="panel[0]" v-show="stepValue == 1" class="panel"/>
-              <second-panel :list="dataObjList['0']" ref="panel[1]" v-show="stepValue == 2" class="panel"/>
-              <third-panel :list="dataObjList['1']" ref="panel[2]" v-show="stepValue == 3" class="panel"/>
+              <first-panel :rowData="rowData"  ref="panel[0]" v-show="stepValue == 1" class="panel"/>
+              <second-panel :rowData="rowData" :list="dataObjList['0']" ref="panel[1]" v-show="stepValue == 2" class="panel"/>
+              <third-panel :rowData="rowData" :list="dataObjList['1']" ref="panel[2]" v-show="stepValue == 3" class="panel"/>
             </div>
             <span slot="footer" class="dialog-footer">
                 <button-custom v-if="stepValue == 1" class="button" @click.native="cancel" title="取消" />
                 <button-custom v-else="stepValue != 1" class="button" @click.native="toPre" title="上一步" />
                 <button-custom v-if="stepValue!=3" class="button" @click.native="toNext" title="下一步" />
-                <button-custom v-else class="button" @click.native="toSubmit" title="确认" />
+                <button-custom v-if="rowDataLength == 0 && stepValue == 3" class="button" @click.native="toSubmit" title="确认" />
+                <button-custom v-if="rowDataLength != 0 && stepValue == 3" class="button" @click.native="toEdit" title="编辑" />
             </span>
         </el-dialog>
     </div>
@@ -59,6 +60,12 @@ export default {
         }
     },
     props: {
+        rowData:{
+           type: Object,
+           default: () => {
+               return {};
+           }
+        },
         visible:{
            type: Boolean,
            default:()=>{
@@ -67,9 +74,14 @@ export default {
         }
     },
     computed: {
-
+        rowDataLength(){
+            return Object.keys(this.rowData).length
+        }
     },
     methods:{
+        toEdit(){
+
+        },
         toSubmit(){
             let obj = {}
             let data = []
@@ -113,7 +125,9 @@ export default {
         handleClose(){
             this.$emit('on-close')
         },
-        cancel(){},
+        cancel(){
+            this.$emit('on-close')
+        },
         toNext(){
             this.stepValue++
         }

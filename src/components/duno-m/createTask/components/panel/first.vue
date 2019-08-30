@@ -22,7 +22,18 @@
             chosenList
         },
         props:{
+            rowData:{
+                type: Object,
+                default: () => {
+                    return {};
+                }
+            },
             list:{}
+        },
+        computed: {
+            rowDataLength(){
+                return Object.keys(this.rowData).length
+            }
         },
         watch:{
             list:{
@@ -44,25 +55,43 @@
         },
         methods: {
             initData(){
+                const that = this
                 postAxiosData('/lenovo-plan/api/list/plan-type').then(res=>{
                     this.taskKindList = res.data
-                    this.form.taskKind = res.data[0].value
+                    if(!this.rowDataLength)
+                        that.form.taskKind = res.data[0].value
                     this.$forceUpdate()
-                })
-                getAxiosData('/lenovo-plan/api/device/multi', {pageIndex: 1, pageRows:888888}).then(res=>{
-                    let data = res.data.tableData
-                    const info = data.map(item=>{
-                        let obj = {
-                            title: item['deviceName'],
-                            deviceId: item['deviceId'],
-                            deviceTypeId: item['deviceTypeId'],
-                            deviceType: item['deviceType'],
-                            isCheck: false
-                        }
-                        return obj
+                    getAxiosData('/lenovo-plan/api/device/multi', {pageIndex: 1, pageRows:888888}).then(res=>{
+                        let data = res.data.tableData
+                        let info = data.map(item=>{
+                            let obj = {
+                                title: item['deviceName'],
+                                deviceId: item['deviceId'],
+                                deviceTypeId: item['deviceTypeId'],
+                                deviceType: item['deviceType'],
+                                isCheck: false
+                            }
+                            return obj
+                        })
+
+                        this.$forceUpdate()
+                        if(that.rowDataLength){
+                            that.form['taskName'] = that.rowData['statusName']
+                            that.form['taskKind'] = that.rowData['planId']
+                            debugger
+                            let data = that.rowData['devicemonitor']
+                            for(let i=0; i<data.length; i++){
+                                for(let j=0; j<info.length; j++){
+                                    if(data[i]['powerDeviceId']  == info[j]['deviceId']){
+                                        info['isCheck'] = true
+                                        break;
+                                    }
+                                }
+                            }
+                            this.dataList = info
+                        }else
+                            this.dataList = info
                     })
-                    this.dataList = info
-                    this.$forceUpdate()
                 })
             }
         },

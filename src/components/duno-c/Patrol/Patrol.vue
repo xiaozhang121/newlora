@@ -131,6 +131,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
+            newArr.push(
+              /*  h(
+                    "el-button",
+                    {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: { type: "text", content: "编辑" },
+                        on: {
+                            click: () => {
+                                console.log(111);
+                            }
+                        }
+                    },
+                    "编辑"
+                )*/
+            );
             newArr.push([
               h(
                 "el-button",
