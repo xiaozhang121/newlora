@@ -546,18 +546,19 @@ export default {
       const that = this;
       const url = that.selectUrl;
       let query = {
-        monitorDeviceType: this.monitorDeviceType
-        // parentDeviceId: this.$route.query.parentDeviceId
+        monitorDeviceType: this.monitorDeviceType,
+        parentDeviceId: this.$route.query.parentDeviceId
       };
       getAxiosData(url, query).then(res => {
         const resData = res.data;
-        if (this.$route.query.parentDeviceId) {
-          for (let item of resData) {
-            if (this.$route.query.parentDeviceId == item.value) {
-              this.titleTypeL = item.label;
-            }
-          }
-        }
+        // if (this.$route.query.parentDeviceId) {
+        //   for (let item of resData) {
+        //     if (this.$route.query.parentDeviceId == item.value) {
+        //       this.titleTypeL = item.label;
+        //       console.log(this.titleTypeL, item.label);
+        //     }
+        //   }
+        // }
         const map = resData.map(item => {
           const obj = {
             describeName: item.label,
