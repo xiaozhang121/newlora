@@ -169,7 +169,7 @@ export default {
         query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list",
-          parentDeviceId: item.deviceIdStr
+          powerDeviceId: item.deviceIdStr
         }
       });
     },
