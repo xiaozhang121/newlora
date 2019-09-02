@@ -49,7 +49,7 @@
       <div>所有记录</div>
       <div>
         <div @click="handleClick" v-for="(item,index) in dataList" :key="index">
-          <img :src="item.deviceIdStr" alt />
+          <img :src="item.pic" alt />
         </div>
       </div>
     </div>
@@ -196,11 +196,11 @@ export default {
       this.getDataList();
     },
     initImg() {
-      let query = {
-        pageIndex: 1,
-        pageRows: 8
-      };
-      mainDevice(query).then(res => {
+      //   let query = {
+      //     pageIndex: 1,
+      //     pageRows: 8
+      //   };
+      mainDevice().then(res => {
         this.dataList = res.data;
       });
     },
