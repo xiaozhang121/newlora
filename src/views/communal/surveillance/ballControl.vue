@@ -8,7 +8,7 @@
       <div>布控球</div>
       <div class="Battery">
         <div :style="{visibility: isMonitor?'hidden':'visible'}">正在巡视中</div>
-        <pattery />
+        <pattery/>
       </div>
     </div>
     <div class="Main_contain">
@@ -748,8 +748,7 @@ export default {
       });
     },
     handleDraw() {
-      this.isDraw = true;
-      this.isShowBox = true;
+        this.isDraw = true;
     },
     clearDraw() {
       this.isDraw = false;
@@ -823,17 +822,25 @@ export default {
           message: "请先点击设定区域"
         });
       }
-      //   debugger;
+      if(this.isShowBox){
+          this.$message({
+              type: "warning",
+              message: "清空后再绘制"
+          });
+          return
+      }
       if (this.clickFlage == 0 && this.isDraw) {
         this.isShowBox = true;
         this.isStart = true;
-        this.$refs.box.style.width = null;
-        this.$refs.box.style.height = null;
-        this.startPointX = e.offsetX;
-        this.startPointY = e.offsetY;
-        this.$refs.box.style.left = this.startPointX + "px";
-        this.$refs.box.style.top = this.startPointY + "px";
-        this.clickFlage = 1;
+        this.$nextTick(()=>{
+            this.$refs.box.style.width = null;
+            this.$refs.box.style.height = null;
+            this.startPointX = e.offsetX;
+            this.startPointY = e.offsetY;
+            this.$refs.box.style.left = this.startPointX + "px";
+            this.$refs.box.style.top = this.startPointY + "px";
+            this.clickFlage = 1;
+        })
       }
     },
     getEndCode(e) {
@@ -1342,5 +1349,6 @@ export default {
   position: absolute;
   background: none;
   border: 1px solid red;
+  pointer-events: none;
 }
 </style>

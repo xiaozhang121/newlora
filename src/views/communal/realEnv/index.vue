@@ -1,6 +1,13 @@
 <template>
   <div class="realEnv">
     <duno-btn-top :zIndex="100" ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
+   <!-- <el-date-picker
+            v-model="value2"
+            align="right"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions1">
+    </el-date-picker>-->
     <div class="mainList" v-if="mainlistShow">
       <duno-main   v-if="kilovoltKind == 'all'" :class="{'dunoMainContain': isDiagram==1}">
         <div class="main_ctx" ref="firstElE">
@@ -472,6 +479,14 @@
         data () {
             const that = this
             return {
+                value2: '',
+                pickerOptions1: {
+                    disabledDate(time) {
+                        debugger
+                        let date = new Date(time.getFullYear()+'-'+ ((time.getMonth()*1+1)<10?'0'+(time.getMonth()*1+1):(time.getMonth()*1+1)) + '-' + (time.getDate()<10?'0'+time.getDate():time.getDate())).getTime()
+                        return [new Date('2019-09-02').getTime(), new Date('2019-09-03').getTime(), new Date('2019-09-20').getTime()].indexOf(date)>-1;
+                    }
+                },
                 showWeather: false,
                 disgramList: [],
                 alarmId: '',
