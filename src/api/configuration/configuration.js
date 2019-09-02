@@ -103,6 +103,9 @@ export const mainDevice = (data) => {
     return axios.request({
         url: '/lenovo-device/api/main-device/list',
         method: 'get',
+        params: {
+            ...data
+        }
     })
 }
 

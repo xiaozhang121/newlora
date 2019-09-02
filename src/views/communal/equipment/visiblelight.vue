@@ -196,7 +196,11 @@ export default {
       this.getDataList();
     },
     initImg() {
-      mainDevice().then(res => {
+      let query = {
+        pageIndex: 1,
+        pageRows: 8
+      };
+      mainDevice(query).then(res => {
         this.dataList = res.data;
       });
     },
