@@ -152,7 +152,7 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
-        this.totalRows = res.data.pageParam.totalRows;
+        this.totalRows = Number(res.data.pageParam.totalRows);
         console.log("121212", this.totalRows);
         this.loadingOption = false;
         this.$forceUpdate();
