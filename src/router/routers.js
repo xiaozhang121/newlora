@@ -479,6 +479,28 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/abnormalInfo/resourceAllo.vue')
+                },
+                {
+                    path: 'intellLock',
+                    name: 'intellLockList',
+                    meta: {
+                        topNav: '1',
+                        title: '智能锁具',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/intellLock.vue')
+                },
+                {
+                    path: 'deviceStatus',
+                    name: 'deviceStatusList',
+                    meta: {
+                        topNav: '1',
+                        title: '监测设备状态表',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/deviceStatus.vue')
                 }
             ]
         }]
