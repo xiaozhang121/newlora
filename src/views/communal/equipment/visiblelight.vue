@@ -48,7 +48,7 @@
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div @click="handleClick" v-for="(item,index) in dataList" :key="index">
+        <div @click="handleClick(item)" v-for="(item,index) in dataList" :key="index">
           <img :src="item.pic" alt />
         </div>
       </div>
@@ -163,13 +163,13 @@ export default {
     };
   },
   methods: {
-    handleClick() {
-      //错的 暂时这样写
+    handleClick(item) {
       this.$router.push({
         name: "allReport-detail",
         query: {
           title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list"
+          url: "/lenovo-plan/api/task/visible-result/list",
+          parentDeviceId: item.parentDeviceId
         }
       });
     },
@@ -196,10 +196,6 @@ export default {
       this.getDataList();
     },
     initImg() {
-      //   let query = {
-      //     pageIndex: 1,
-      //     pageRows: 8
-      //   };
       mainDevice().then(res => {
         this.dataList = res.data;
       });
