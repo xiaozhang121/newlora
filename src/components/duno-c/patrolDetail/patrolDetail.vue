@@ -150,11 +150,11 @@ export default {
         pageRows: 10,
         ...this.dataForm
       };
-      debugger
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
-        this.totalRows = dataList.pageParam.totalRows;
+        this.totalRows = res.data.pageParam.totalRows;
         this.loadingOption = false;
+        that.$forceUpdate();
       });
     },
     sizeChange(item) {
