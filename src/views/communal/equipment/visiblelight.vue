@@ -92,28 +92,28 @@ export default {
       // },
       dataList: [
         {
-          fileAddress: require("../../../assets/demo/001.png")
+          pic: require("../../../assets/demo/001.png")
         },
         {
-          fileAddress: require("../../../assets/demo/002.png")
+          pic: require("../../../assets/demo/002.png")
         },
         {
-          fileAddress: require("../../../assets/demo/003.png")
+          pic: require("../../../assets/demo/003.png")
         },
         {
-          fileAddress: require("../../../assets/demo/004.png")
+          pic: require("../../../assets/demo/004.png")
         },
         {
-          fileAddress: require("../../../assets/demo/005.png")
+          pic: require("../../../assets/demo/005.png")
         },
         {
-          fileAddress: require("../../../assets/demo/006.png")
+          pic: require("../../../assets/demo/006.png")
         },
         {
-          fileAddress: require("../../../assets/demo/007.png")
+          pic: require("../../../assets/demo/007.png")
         },
         {
-          fileAddress: require("../../../assets/demo/008.png")
+          pic: require("../../../assets/demo/008.png")
         }
       ],
       isCenter: false,
@@ -169,7 +169,7 @@ export default {
         query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list",
-          parentDeviceId: item.parentDeviceId
+          parentDeviceId: item.deviceIdStr
         }
       });
     },
