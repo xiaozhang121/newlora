@@ -433,8 +433,6 @@ export default {
     this.getDataList();
   },
   created() {
-    // this.dataForm.planId = this.$route.query.planId;
-    // this.dataForm.planType = this.$route.query.planType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;
     this.queryForm.monitorDeviceType = this.monitorDeviceType;
@@ -549,7 +547,7 @@ export default {
       const url = that.selectUrl;
       let query = {
         monitorDeviceType: this.monitorDeviceType,
-        parentDeviceId: this.$route.name.parentDeviceId
+        parentDeviceId: this.$route.query.parentDeviceId
       };
       getAxiosData(url, query).then(res => {
         const resData = res.data;

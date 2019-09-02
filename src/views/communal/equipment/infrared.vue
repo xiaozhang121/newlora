@@ -79,7 +79,8 @@ import MonitorWarn from "./components/MonitorWarn";
 import MonitorWarnT from "./components/MonitorWarnT";
 import {
   infraNewReport,
-  infraNewInformation
+  infraNewInformation,
+  mainDevice
 } from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
