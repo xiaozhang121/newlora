@@ -43,12 +43,7 @@
           :reportData="item"
         />
       </div>
-      <el-pagination
-        layout="pager"
-        :total="totalRows"
-        :page-count="totalPages"
-        @current-change="sizeChange"
-      ></el-pagination>
+      <el-pagination layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
     </duno-main>
   </div>
 </template>
@@ -91,8 +86,7 @@ export default {
       value: "",
       title: "",
       pageIndex: 1,
-      totalRows: 10,
-      totalPages: 1,
+      totalRows: 1,
       dataList: [],
       dataForm: {},
       inspectionData: []
@@ -156,10 +150,10 @@ export default {
         pageRows: 10,
         ...this.dataForm
       };
+      debugger
       getAxiosData(url, query).then(res => {
         this.dataList = res.data;
-        this.totalRows = res.data.pageParam.totalRows;
-        this.totalPages = res.data.pageParam.totalPages;
+        this.totalRows = dataList.pageParam.totalRows;
         this.loadingOption = false;
       });
     },
