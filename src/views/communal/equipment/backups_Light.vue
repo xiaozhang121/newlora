@@ -3,53 +3,52 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div>
-      <KeyErea configType="1" />
-    </div>
+    <div class="titleLight">可见光</div>
     <div class="reportRecode">
-      <div class="right not-print">
-        <div class="report">
-          <div>最新生成的巡检报告</div>
-          <div @click="getMoreReport">查看更多 ></div>
+      <div class="report">
+        <div>最新生成的巡检报告</div>
+        <div @click="getMoreReport">查看更多 ></div>
+      </div>
+      <div
+        class="inspection"
+        v-loading="loadingOptionF"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        element-loading-text="加载中"
+      >
+        <div v-for="(item,index) in inspecReport" :key="index">
+          <ReportTable :url="url" :reportData="item" />
         </div>
-        <div
-          class="inspection"
-          v-loading="loadingOptionF"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
-          element-loading-text="加载中"
-        >
-          <div v-for="(item,index) in inspecReport" :key="index">
-            <ReportTable :url="url" :reportData="item" />
-          </div>
+        <div v-for="(item,index) in inspecReport" :key="index">
+          <ReportTable :url="url" :reportData="item" />
         </div>
       </div>
-      <div class="left">
-        <div class="recode">
-          <div>最新24小时记录信息</div>
-          <div @click="getMore">查看更多 ></div>
-        </div>
-        <div
-          class="hours"
-          v-loading="loadingOptionS"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
-          element-loading-text="加载中"
-        >
-          <MonitorWarn
-            v-for="(item,index) in lightInformation"
-            :remarkData="lightInformation[index]"
-            :time="item.alarmTime"
-            :remarks="item.dealRecord"
-            :key="index"
-            @handleListData="handleData"
-          />
-        </div>
+    </div>
+    <div class="reportRecode">
+      <div class="recode">
+        <div>最新24小时记录信息</div>
+        <div @click="getMore">查看更多 ></div>
+      </div>
+      <div
+        class="hours"
+        v-loading="loadingOptionS"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        element-loading-text="加载中"
+      >
+        <MonitorWarn
+          v-for="(item,index) in lightInformation"
+          :remarkData="lightInformation[index]"
+          :time="item.alarmTime"
+          :remarks="item.dealRecord"
+          :key="index"
+          @handleListData="handleData"
+        />
       </div>
     </div>
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div @click="handleClick" v-for="(item,index) in dataList" :key="index">
-          <img :src="item.pic" alt />
+        <div @click="handleClick" v-for="(item,index) in dataList.slice(0,8)" :key="index">
+          <img :src="item.fileAddress" alt />
         </div>
       </div>
     </div>
@@ -57,27 +56,18 @@
 </template>
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-import dunoBtnTop from "_c/duno-m/duno-btn-top";
-import KeyMonitor from "_c/duno-c/KeyMonitor";
 import ReportTable from "_c/duno-c/ReportTable";
-import KeyErea from "_c/duno-c/KeyErea";
-import mixinViewModule from "@/mixins/view-module";
 import MonitorWarn from "./components/MonitorWarn";
 import {
   lightNewReport,
-  lightNewInformation,
-  mainDevice
+  lightNewInformation
 } from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
-  mixins: [mixinViewModule],
   name: "visiblelight",
   components: {
     Breadcrumb,
-    dunoBtnTop,
-    KeyMonitor,
     ReportTable,
-    KeyErea,
     MonitorWarn
   },
   data() {
@@ -86,10 +76,6 @@ export default {
       timerF: null,
       loadingOptionS: false,
       timerS: null,
-      // mixinViewModuleOptions: {
-      //   activatedIsNeed: true,
-      //   getDataListURL: "/lenovo-device/api/main-device/list"
-      // },
       dataList: [
         {
           fileAddress: require("../../../assets/demo/001.png")
@@ -123,43 +109,12 @@ export default {
       timeQueryData: {},
       inspecReport: [],
       lightInformation: [],
-      titleValueR: "监控摄像头选择",
       titleValueL: "四个摄像头",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/visiblelight/list", name: "设备监测" },
         { path: "", name: "可见光" }
       ]
-      //   numberCameras: [
-      //     {
-      //       circleColor: "#00B4FF",
-      //       describeName: "两个摄像头",
-      //       widthType: 2,
-      //       count: 2,
-      //       isActive: true
-      //     },
-      //     {
-      //       circleColor: "#FF5EB9",
-      //       describeName: "四个摄像头",
-      //       widthType: 2,
-      //       count: 4,
-      //       isActive: true
-      //     },
-      //     {
-      //       circleColor: "#4FF2B7",
-      //       describeName: "六个摄像头",
-      //       count: 6,
-      //       widthType: 3,
-      //       isActive: true
-      //     },
-      //     {
-      //       circleColor: "#FF9000",
-      //       describeName: "八个摄像头",
-      //       count: 8,
-      //       widthType: 4,
-      //       isActive: true
-      //     }
-      //   ]
     };
   },
   methods: {
@@ -195,50 +150,6 @@ export default {
     handleData() {
       this.getDataList();
     },
-    initImg() {
-      //   let query = {
-      //     pageIndex: 1,
-      //     pageRows: 8
-      //   };
-      mainDevice().then(res => {
-        this.dataList = res.data;
-      });
-    },
-    // selectData(value) {
-    //   const that = this;
-    //   securityMonitor({ monitorDeviceId: value }).then(res => {
-    //     that.titleValueL = "监控摄像头数量";
-    //     that.dataMonitor = res.data;
-    //     that.videoWidth = "calc(50%)";
-    //     that.active = 1;
-    //     that.isCenter = true;
-    //   });
-    // },
-    // onSelect(item) {
-    //   this.titleValueL = item["describeName"];
-    //   this.dataMonitor = this.dataMonitorAll.slice(item["count"]);
-    //   this.valueSelect = "";
-    //   switch (item.widthType) {
-    //     case 2:
-    //       this.videoWidth = "calc(50% - 10px)";
-    //       this.active = 2;
-    //       this.isCenter = false;
-    //       break;
-    //     case 3:
-    //       this.videoWidth = "calc(100%/3 - 14px)";
-    //       this.active = 3;
-    //       this.isCenter = false;
-    //       break;
-    //     case 4:
-    //       this.videoWidth = "calc(25% - 15px)";
-    //       this.active = 4;
-    //       this.isCenter = false;
-    //       break;
-    //     default:
-    //       this.active = 4;
-    //       this.isCenter = false;
-    //   }
-    // },
     getlightData() {
       this.loadingOptionF = true;
       this.loadingOptionS = true;
@@ -283,7 +194,6 @@ export default {
   },
   mounted() {
     this.getlightData();
-    this.initImg();
   },
   created() {
     this.getInit();
@@ -315,10 +225,6 @@ export default {
   .el-loading-text {
     color: #969696 !important;
   }
-  .icon-xiala {
-    /* width: 12px;
-    height: 15px;*/
-  }
   .selectSearch {
     .el-input--small .el-input__inner {
       background: #1a2f42;
@@ -343,75 +249,66 @@ export default {
       font-size: 16px;
     }
   }
+  .titleLight {
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: -20px;
+  }
   .reportRecode {
     width: 100%;
+    min-height: 425px;
     margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    & > div {
-      width: calc(50% - 10px);
-    }
-    .right,
-    .left {
-      .report,
-      .recode {
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        & > div:first-child {
-          line-height: 40px;
-          color: #ffffff;
-          font-size: 20px;
-        }
-        & > div:nth-child(2) {
-          line-height: 40px;
-          width: 139px;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          text-align: center;
-          font-size: 18px;
-          cursor: pointer;
-          color: #ffffff;
-        }
+    .report,
+    .recode {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      & > div:first-child {
+        line-height: 40px;
+        color: #ffffff;
+        font-size: 20px;
+      }
+      & > div:nth-child(2) {
+        line-height: 40px;
+        width: 139px;
+        background-image: url(../../../assets/images/btn/moreBtn.png);
+        text-align: center;
+        font-size: 18px;
+        cursor: pointer;
+        color: #ffffff;
       }
     }
-    .right {
-      .inspection {
-        height: 910px;
-        padding: 20px 20px 0 20px;
-        background-color: #142838;
-        // overflow: hidden;
-        display: flex;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        & > div {
-          //   float: left;
-          width: calc(50% - 10px);
-          margin-right: 20px;
-          .reportTable {
-            height: 425px;
-            img {
-              height: 100%;
-            }
+    .inspection {
+      padding: 20px 20px 0 20px;
+      background-color: #142838;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      & > div {
+        width: calc(20% - 16px);
+        margin-right: 20px;
+        .reportTable {
+          height: 425px;
+          img {
+            height: 100%;
           }
         }
-        & > div:nth-child(2n + 1) {
-          margin-right: 0;
-        }
+      }
+      & > div:nth-child(5n + 1) {
+        margin-right: 0;
       }
     }
-    .left {
-      .hours {
-        width: 100%;
-        height: 910px;
-        // padding: 20px 20px 20px 0;
-        padding: 20px 20px 14px 20px;
-        overflow: hidden;
-        background-color: #142838;
-        .alarmLog {
-          margin-left: 0;
-          box-sizing: border-box;
-          width: 100%;
-        }
+    .hours {
+      width: 100%;
+      padding: 20px 20px 14px 20px;
+      background-color: #142838;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .alarmLog {
+        margin-left: 0;
+        box-sizing: border-box;
+        width: calc(50% - 10px);
       }
     }
   }
@@ -432,7 +329,6 @@ export default {
         img {
           display: block;
           width: 100%;
-          // height: 100px;
         }
         p {
           text-align: center;
