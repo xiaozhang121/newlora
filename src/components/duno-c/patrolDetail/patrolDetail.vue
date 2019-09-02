@@ -155,7 +155,7 @@ export default {
         this.totalRows = res.data.pageParam.totalRows;
         console.log("121212", this.totalRows);
         this.loadingOption = false;
-        that.$forceUpdate();
+        this.$forceUpdate();
       });
     },
     sizeChange(item) {

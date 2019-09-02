@@ -426,7 +426,6 @@ export default {
       regionList: [],
       statusList: [],
       popData: {}
-      //   clcikQueryData: {}
     };
   },
   mounted() {
@@ -436,6 +435,7 @@ export default {
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;
     this.queryForm.monitorDeviceType = this.monitorDeviceType;
+    this.queryForm.powerDeviceId = this.$route.query.powerDeviceId;
     this.title = this.$route.query.title;
     this.getRegion();
     this.getStart();
@@ -546,11 +546,18 @@ export default {
       const that = this;
       const url = that.selectUrl;
       let query = {
-        monitorDeviceType: this.monitorDeviceType,
-        parentDeviceId: this.$route.query.parentDeviceId
+        monitorDeviceType: this.monitorDeviceType
+        // parentDeviceId: this.$route.query.parentDeviceId
       };
       getAxiosData(url, query).then(res => {
         const resData = res.data;
+        if (this.$route.query.parentDeviceId) {
+          for (let item of resData) {
+            if (this.$route.query.parentDeviceId == item.value) {
+              this.titleTypeL = item.label;
+            }
+          }
+        }
         const map = resData.map(item => {
           const obj = {
             describeName: item.label,
@@ -589,26 +596,7 @@ export default {
       });
     },
     getType() {
-      //   const that = this;
       const url = "/lenovo-plan/api/list/plan-type";
-      //   postAxiosData(url).then(res => {
-      //     const resData = res.data;
-      //     let mapList = resData.filter(item => item.label != "请选择");
-      //     const map = mapList.map(item => {
-      //       const obj = {
-      //         describeName: item.label,
-      //         monitorDeviceType: item.value,
-      //         title: "titleTypeR"
-      //       };
-      //       return obj;
-      //     });
-      //     map.unshift({
-      //       describeName: "全部类型",
-      //       monitorDeviceType: "",
-      //       title: "titleTypeR"
-      //     });
-      //     this.typeList = map;
-      //   });
       postAxiosData(url).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
