@@ -98,6 +98,13 @@ export const infraNewInformation = (data) => {
         }
     })
 }
+//设备监测-所有记录
+export const mainDevice = (data) => {
+    return axios.request({
+        url: '/lenovo-device/api/main-device/list',
+        method: 'get',
+    })
+}
 
 //配置管理-任务配置-列表
 export const infrInformation = (data) => {
