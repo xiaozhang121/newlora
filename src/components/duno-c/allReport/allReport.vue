@@ -498,13 +498,6 @@ export default {
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       this.dataForm.powerDeviceId = item.monitorDeviceType;
-      //   if (item.title == "titleTypeL") {
-      //     this.dataForm.powerDeviceId = item.monitorDeviceType;
-      //   } else if (item.title == "titleTypeC") {
-      //     this.dataForm.status = item.monitorDeviceType;
-      //   } else if (item.title == "titleTypeR") {
-      //     this.dataForm.planType = item.monitorDeviceType;
-      //   }
       this.getDataList();
     },
     onSelectType(item, index) {
@@ -556,14 +549,6 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         const resData = res.data;
-        // if (this.$route.query.parentDeviceId) {
-        //   for (let item of resData) {
-        //     if (this.$route.query.parentDeviceId == item.value) {
-        //       this.titleTypeL = item.label;
-        //       console.log(this.titleTypeL, item.label);
-        //     }
-        //   }
-        // }
         const map = resData.map(item => {
           const obj = {
             describeName: item.label,
