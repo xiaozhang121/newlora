@@ -118,36 +118,33 @@
             <img src="../../../assets/iconFunction/icon_space.png" alt />
             泛在盒子
           </div>
-          <div class="icondev">
-            <!-- <img src="../../../assets/iconFunction/img_developing.png" alt />
-            <p>功能开发中</p>-->
+          <div class="gauge" id="mountNode"></div>
+          <div class="gauge">
+            <div class="gauge_top">
+              <p>70%</p>
+              <span>当前湿度</span>
+            </div>
+            <div class="gauge_btm">
+              <p>0.2m/h</p>
+              <span>当前风速</span>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="conter iconcen">
-        <div class="iconTop">
-          <img src="../../../assets/iconFunction/icon_lock.png" alt />
-          智能锁具
-        </div>
-        <div class="icondev">
-          <img src="../../../assets/iconFunction/img_developing.png" alt />
-          <p>功能开发中</p>
         </div>
       </div>
       <div class="right iconcen">
         <div class="iconTop">
-          <img src="../../../assets/iconFunction/icon_system.png" alt />
-          平台状态
+          <img src="../../../assets/iconFunction/icon_lock.png" alt />
+          智能锁具
         </div>
         <div>
           <duno-chart-pie-loop
             :value="[
-                {value:25, name:'25%', itemStyle: {
+                {value:75, name:'75%', itemStyle: {
                 normal: {
                     color: '#53cbc3'
                 }
             }},
-                {value:75, name:'75%', itemStyle: {
+                {value:25, name:'25%', itemStyle: {
                 normal: {
                     color: '#1b6697'
                 }
@@ -161,6 +158,13 @@
             :legendOption="legendOption"
           />
         </div>
+      </div>
+      <div class="conter iconcen">
+        <div class="iconTop">
+          <img src="../../../assets/iconFunction/icon_system.png" alt />
+          平台状态
+        </div>
+        <div class="echartsBar" id="echartsBar"></div>
       </div>
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
@@ -176,6 +180,7 @@
 </template>
 
 <script>
+import G2 from "@antv/g2";
 import Scroller from "_c/duno-m/Scroller";
 import dunoMain from "_c/duno-m/duno-main";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -444,9 +449,9 @@ export default {
         },
         formatter: function(name) {
           if (name == "25%") {
-            return "未占用：" + name;
+            return "解锁：" + name + " (1)";
           } else {
-            return "已占用：" + name;
+            return "闭锁：" + name + " (3)";
           }
         },
         data: ["25%", "75%"]
@@ -457,6 +462,9 @@ export default {
     this.getRecodeList();
     this.getData();
     this.getMockData();
+    this.$nextTick(() => {
+      this.init();
+    });
   },
   methods: {
     getMockData() {
@@ -553,6 +561,112 @@ export default {
       this.$router.push({
         path: "/abnormalInfoPath/list"
       });
+    },
+    init() {
+      let Shape = G2.Shape;
+      // 自定义Shape 部分
+      Shape.registerShape("point", "pointer", {
+        drawShape: function drawShape(cfg, group) {
+          let center = this.parsePoint({
+            // 获取极坐标系下画布中心点
+            x: 0,
+            y: 0
+          });
+          // 绘制指针
+          group.addShape("line", {
+            attrs: {
+              x1: center.x,
+              y1: center.y,
+              x2: cfg.x,
+              y2: cfg.y,
+              stroke: cfg.color,
+              lineWidth: 3,
+              lineCap: "round"
+            }
+          });
+          return group.addShape("circle", {
+            attrs: {
+              x: center.x,
+              y: center.y,
+              r: 9.75,
+              stroke: cfg.color,
+              lineWidth: 3,
+              fill: "#fff"
+            }
+          });
+        }
+      });
+
+      let data = [
+        {
+          type: "正常",
+          value: 5.6
+        }
+      ];
+      let chart = new G2.Chart({
+        container: "mountNode",
+        forceFit: true,
+        height: "198",
+        padding: "auto"
+      });
+      chart.source(data);
+
+      chart.coord("polar", {
+        startAngle: (-10 / 8) * Math.PI,
+        endAngle: (2 / 8) * Math.PI,
+        radius: 0.75
+      });
+      chart.scale("value", {
+        min: 0,
+        max: 1,
+        tickInterval: 1,
+        nice: false
+      });
+
+      chart.axis(false);
+      chart.legend(false);
+      chart
+        .point()
+        .position("value*1")
+        .shape("pointer")
+        .color("#53cbc3")
+        .active(false);
+
+      // 绘制仪表盘背景
+      chart.guide().arc({
+        zIndex: 0,
+        top: false,
+        start: [0, 0.945],
+        end: [9, 0.945],
+        style: {
+          // 底灰色
+          stroke: "#cccccc",
+          lineWidth: 5
+        }
+      });
+      // 绘制指标
+      chart.guide().arc({
+        zIndex: 1,
+        start: [0, 0.945],
+        end: [data[0].value, 0.945],
+        style: {
+          stroke: "#53cbc3",
+          lineWidth: 5
+        }
+      });
+      // 绘制指标数字
+      chart.guide().html({
+        position: ["50%", "95%"],
+        html:
+          '<div style="width: 300px;text-align: center;">' +
+          '<p style="font-size: 16px; color: #545454;margin: 0;">正常</p>' +
+          '<p style="font-size: 20px;color: #545454;margin: 0;">' +
+          data[0].value * 10 +
+          "%</p>" +
+          "</div> "
+      });
+
+      chart.render();
     }
   }
 };
@@ -733,6 +847,7 @@ export default {
         background-image: url("../../../assets/iconFunction/img_bg_weather.jpg");
       }
       & > div:nth-child(2) {
+        height: 100%;
         width: 45%;
         background-color: rgba(32, 62, 82, 0.8);
       }
@@ -799,6 +914,23 @@ export default {
     padding: 20px;
     .icondev {
       text-align: center;
+    }
+    .gauge {
+      float: left;
+      height: 198px;
+      width: 50%;
+      .gauge_top,
+      .gauge_btm {
+        height: 50%;
+        padding-left: 50%;
+        padding-top: 15%;
+        p {
+          color: #fff;
+        }
+        span {
+          color: #8f9598;
+        }
+      }
     }
   }
   .table_select {
