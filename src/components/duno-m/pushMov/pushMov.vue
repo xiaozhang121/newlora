@@ -69,6 +69,15 @@
                         </div>
                     </div>
                 </div>
+                <div v-else-if="$store.state.user.configInfo['displayType'] == 3" class="third">
+                    <div v-for="(item, index) in thirdList" :key="index" class="item">
+                        <div class="cameraItem" @click="pushInfo(index+1, $event)" :style="'background:url('+ cameraPic01 +')'">
+                        <span class="explain">
+                            选择推送至此区域
+                        </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </el-dialog>
     </div>
@@ -91,7 +100,8 @@
         },
         data() {
             return {
-                dialogVisible: false
+                dialogVisible: false,
+                thirdList:[{},{},{},{},{},{},{},{}]
             }
         },
         props: {
@@ -160,6 +170,8 @@
                      return '600px'
                  }else if(this.$store.state.user.configInfo['displayType']  == 2){
                      return '500px'
+                 }if(this.$store.state.user.configInfo['displayType']  == 3){
+                     return '800px !important'
                  }
             }
         },
@@ -286,6 +298,23 @@
                 .cameraItem:hover{
                     border: 1.5px solid #4ca7ac;
                     color: #4ca7ac;
+                }
+            }
+            .third{
+                display: flex;
+                flex-wrap: wrap;
+                .item{
+                    width: 24%;
+                    margin-right: 9px;
+                    &:nth-child(4n){
+                        margin-right: 0;
+                    }
+                    &:nth-last-child(-n+4){
+                        margin-top: 11px;
+                    }
+                }
+                .cameraItem:hover{
+                    border: 1.5px solid #4ca7ac;
                 }
             }
         }
