@@ -62,11 +62,11 @@
           </duno-main>
         </div>
       </div>
-      <!-- <div class="ARRange">
+      <!--  <div class="ARRange">
         <div class="iconcen">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_remote.png" alt />
-            AR远程协作
+            机柜
           </div>
           <div class="icondev">
             <img src="../../../assets/iconFunction/img_developing.png" alt />
@@ -76,7 +76,7 @@
         <div class="iconcen">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_ar.png" alt />
-            AR辅助操作
+            算法指标
           </div>
           <div class="icondev">
             <img src="../../../assets/iconFunction/img_developing.png" alt />
@@ -85,7 +85,7 @@
         </div>
       </div>-->
     </div>
-    <!-- <div class="bottom">
+    <div class="bottom">
       <div class="left">
         <div class="iconcen">
           <div class="iconTop">
@@ -119,8 +119,8 @@
             泛在盒子
           </div>
           <div class="icondev">
-            <img src="../../../assets/iconFunction/img_developing.png" alt />
-            <p>功能开发中</p>
+            <!-- <img src="../../../assets/iconFunction/img_developing.png" alt />
+            <p>功能开发中</p>-->
           </div>
         </div>
       </div>
@@ -162,9 +162,15 @@
           />
         </div>
       </div>
-    </div>-->
+    </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning @on-fresh="getDataList" :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <wraning
+      @on-fresh="getDataList"
+      :popData="popData"
+      detailsType="alarm"
+      :visible="visible"
+      @handleClose="handleClose"
+    />
     <!--<wraning-t :popData="popData" detailsType="alarm" :visible="true" @handleClose="handleClose"></wraning-t>-->
   </div>
 </template>
@@ -244,16 +250,14 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-              let newArr = [];
-              newArr.push([
-                  h(
-                      "div",
-                      params.row.mainDevice == null
-                          ? "/"
-                          : params.row.mainDevice
-                  )
-              ]);
-              return h("div", newArr);
+            let newArr = [];
+            newArr.push([
+              h(
+                "div",
+                params.row.mainDevice == null ? "/" : params.row.mainDevice
+              )
+            ]);
+            return h("div", newArr);
           }
         },
         {
@@ -590,7 +594,7 @@ export default {
       float: left;
     }
     .abnormalInfo {
-      width: calc(60% - 10px);
+      width: calc(60% - 20px);
       margin-right: 20px;
       position: relative;
       // height: 557px;
@@ -631,7 +635,7 @@ export default {
     .reportForm {
       position: relative;
       width: calc(40% - 10px);
-      // margin-right: 20px;
+      //   margin-right: 20px;
       padding: 2px;
       height: 100%;
       background-color: rgba(20, 40, 56, 0.8);
@@ -708,6 +712,7 @@ export default {
   }
   .bottom {
     margin-top: 20px;
+    margin-bottom: 20px;
     overflow: hidden;
     width: 100%;
     & > div {
