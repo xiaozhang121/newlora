@@ -7,24 +7,24 @@
       <div>24小时监测记录</div>
       <div class="btn">
         <div>
-          <el-date-picker v-model="chosenDate" type="date" placeholder="全部日期"></el-date-picker>
-          <!-- <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTo"
-            :isCheck="false"
-            :dataList="regionList"
-            :title="titleTypeL"
-            :showBtnList="false"
-          ></duno-btn-top>-->
+          <!--<el-date-picker v-model="chosenDate" type="date" placeholder="全部日期"></el-date-picker>-->
+           <duno-btn-top
+           ref="btnTopRef"
+           :showBtnList="false"
+           :dataList="regionList"
+           :title="titleTypeL"
+           :keyChange="true"
+           @on-active="timeHandle"
+          ></duno-btn-top>
         </div>
         <div>
           <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="true"
+            ref="btnTopRefD"
+            :showBtnList="false"
             :dataList="typeList"
             :title="titleTypeR"
-            :showBtnList="false"
+            :keyChange="true"
+            @on-active="deviceHandle"
           ></duno-btn-top>
         </div>
         <!--     <div class="dateChose">
@@ -47,47 +47,25 @@
       </div>
     </div>
     <duno-main class="dunoMain">
-      <div class="record_item">
-        <div class="title">{{'2019年8月13日'}}&nbsp;&nbsp;{{diffTime('2019年8月13日')}}</div>
+      <div v-for="(item, index) in dataList" :key="index" class="record_item">
+        <div class="title">{{ item['date'] }}&nbsp;&nbsp;{{diffTime(item['date'])}}</div>
         <div class="monitorContain">
           <div
             class="monitorItem"
             :class="{marginRight: (index+1)%4 != 0}"
-            v-for="(item, index) in demoList"
-            :key="index"
+            v-for="(nr, i) in item['data']"
+            :key="i"
           >
             <key-monitor
               class="monitorRecord"
               :showBtmOption="true"
               :noButton="false"
               configType="2"
-              imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
-              streamAddr="rtmp://10.0.10.39/rtsp59/stream"
-              kilovolt="摄像头名称"
-              patrol="20190813"
-            />
-          </div>
-          <div style="clear: both"></div>
-        </div>
-      </div>
-      <div class="record_item">
-        <div class="title">{{'2019年8月7日'}}&nbsp;&nbsp;{{diffTime('2019年8月7日')}}</div>
-        <div class="monitorContain">
-          <div
-            class="monitorItem"
-            :class="{marginRight: (index+1)%4 != 0}"
-            v-for="(item, index) in demoList"
-            :key="index"
-          >
-            <key-monitor
-              class="monitorRecord"
-              :showBtmOption="true"
-              :noButton="false"
-              configType="2"
-              imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
-              streamAddr="rtmp://10.0.10.39/rtsp59/stream"
-              kilovolt="摄像头名称"
-              patrol="20190813"
+              :imgAdress="nr['pic']"
+              :monitorInfo="nr"
+              :streamAddr="nr['streamAddr']"
+              :kilovolt="nr['monitorDeviceName']"
+              :patrol="nr['monitorDeviceId']"
             />
           </div>
           <div style="clear: both"></div>
@@ -123,6 +101,9 @@
 </template>
 
 <script>
+import {
+    getMonitorSelect
+} from "@/api/currency/currency.js";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
@@ -386,14 +367,58 @@ export default {
       regionList: [],
       statusList: [],
       popData: {},
-      clcikQueryData: {}
+      clcikQueryData: {},
+      sevenDates: '',
+      sevenIds: '',
+      isBack: true,
+      dataList:[],
+      count: 1
     };
   },
+  watch:{
+
+  },
   created() {
+    this.sevenData()
     this.getRegion();
     this.getType();
   },
   methods: {
+    timeHandle(arr){
+      let data = this.deviceShowHandle(arr)
+      this.sevenDates = data.join(',')
+      this.count ++
+      if(this.count > 3)
+        this.sevenData()
+    },
+    deviceHandle(arr){
+     let data = this.deviceShowHandle(arr)
+     this.sevenIds =  data.join(',')
+     this.count ++
+     if(this.count > 3)
+        this.getRegion(true)
+    },
+    sevenData(){
+        if(this.isBack){
+            this.isBack = false
+            getAxiosData('/lenovo-alarm/alarm/security/record/videos/seven-days',{date: this.sevenDates, monitorDeviceId: this.sevenIds}).then(res=>{
+                this.dataList = res.data
+                this.isBack = true
+                this.count ++
+            })
+        }
+    },
+    deviceShowHandle(arr){
+        const that = this
+        let target = arr.filter(item=>{
+            return item['isActive'] == true
+        })
+        let data = []
+        target.forEach(item=>{
+            data.push(item['monitorDeviceId'])
+        })
+        return data
+    },
     diffTime(time) {
       let date = "";
       if (time.indexOf("年") > -1) {
@@ -459,46 +484,73 @@ export default {
       const that = this;
       that.exportHandle();
     },
-    getRegion() {
+    getRegion(flag) {
       const that = this;
-      getRegionData().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeL"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有区域",
-          monitorDeviceType: "",
-          title: "titleTypeL"
-        });
-        this.regionList = map;
-      });
+      getAxiosData('/lenovo-alarm/alarm/security/record/date/select-list',{monitorDeviceId: this.sevenIds}).then(res=>{
+          const resData = res.data;
+          let arr = []
+          const map = resData.map(item => {
+              const obj = {
+                  describeName: item.label,
+                  monitorDeviceType: item.value,
+                  monitorDeviceId: item.value,
+                  isActive: true,
+                  title: "titleTypeL"
+              };
+              arr.push(obj['monitorDeviceId'])
+              return obj;
+          });
+          this.$refs.btnTopRef.checkedCities = arr
+          this.$refs.btnTopRef.checkAll = true
+          this.sevenDates = arr.join(',')
+          this.regionList = map;
+          if(flag)
+            this.sevenData()
+      })
     },
     getType() {
       const that = this;
-      getTypeData().then(res => {
-        const resData = res.data;
-        let mapList = resData.filter(item => item.label != "请选择");
-        const map = mapList.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
+        getMonitorSelect({
+            configType: '3',
+            userId: this.$store.state.user.userId
+        }).then(res => {
+            if (res.data) {
+                // let data = res.data;
+             /*   data = data.filter(item => {
+                    return item["isSelected"] == true || item["isSelected"] == 1;
+                });*/
+               /* if (data.length) {
+                    let arr = [];
+                    data.forEach(item => {
+                        if (item["monitorDeviceId"] != null)
+                            arr.push(item["monitorDeviceId"]);
+                    });
+                    that.$nextTick(()=> {
+                        that.$refs.btnTopRef.checkedCities = arr
+                    })
+                    // that.valueSelect = arr;
+                    // that.getCameraInfo(data)
+                } else {
+                    that.$nextTick(()=>{
+                        that.$refs.btnTopRef.checkedCities = []
+                    })
+                    // that.valueSelect = [];
+                }*/
+                let dataB = res.data
+                dataB.map(item=>{
+                   /* if(item['isSelected'] == true || item["isSelected"] == 1)
+                        item['isActive'] = true*/
+                    item['describeName'] = item['monitorDeviceName']
+                })
+                let arr = []
+                dataB.forEach(item=>{
+                    arr.push(item['monitorDeviceId'])
+                })
+                that.$refs.btnTopRefD.checkedCities = arr
+                that.sevenIds = arr.join(',')
+                that.typeList = dataB;
+            }
         });
-        map.unshift({
-          describeName: "所有来源",
-          monitorDeviceType: "",
-          title: "titleTypeR"
-        });
-        this.typeList = map;
-      });
     },
     getJump(row) {
       let monitorDeviceId =
@@ -585,6 +637,9 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail-record {
   width: 100%;
+  .keyMonitor .camera .explain .text{
+    display: flex;
+  }
   ::-webkit-input-placeholder {
     /* WebKit browsers */
     color: white;
