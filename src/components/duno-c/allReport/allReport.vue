@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>所有信息</div>
+      <div>{{ title }}</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -432,16 +432,21 @@ export default {
     this.getDataList();
   },
   created() {
-    this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
-    this.mixinViewModuleOptions.exportURL = this.downloadURL;
-    this.queryForm.monitorDeviceType = this.monitorDeviceType;
-    this.queryForm.powerDeviceId = this.$route.query.powerDeviceId;
-    this.title = this.$route.query.title;
+    this.init();
     this.getRegion();
     this.getStart();
     this.getType();
   },
   methods: {
+    init() {
+      this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
+      this.mixinViewModuleOptions.exportURL = this.downloadURL;
+      this.queryForm.monitorDeviceType = this.monitorDeviceType;
+      this.queryForm.powerDeviceId = this.$route.query.powerDeviceId;
+      if (this.$route.query.deviceName) {
+        this.title = this.$route.query.deviceName;
+      }
+    },
     closeEnlarge() {
       this.isEnlarge = false;
     },

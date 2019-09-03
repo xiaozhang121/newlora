@@ -86,10 +86,6 @@ export default {
       timerF: null,
       loadingOptionS: false,
       timerS: null,
-      // mixinViewModuleOptions: {
-      //   activatedIsNeed: true,
-      //   getDataListURL: "/lenovo-device/api/main-device/list"
-      // },
       dataList: [
         {
           pic: require("../../../assets/demo/001.png")
@@ -130,36 +126,6 @@ export default {
         { path: "/visiblelight/list", name: "设备监测" },
         { path: "", name: "可见光" }
       ]
-      //   numberCameras: [
-      //     {
-      //       circleColor: "#00B4FF",
-      //       describeName: "两个摄像头",
-      //       widthType: 2,
-      //       count: 2,
-      //       isActive: true
-      //     },
-      //     {
-      //       circleColor: "#FF5EB9",
-      //       describeName: "四个摄像头",
-      //       widthType: 2,
-      //       count: 4,
-      //       isActive: true
-      //     },
-      //     {
-      //       circleColor: "#4FF2B7",
-      //       describeName: "六个摄像头",
-      //       count: 6,
-      //       widthType: 3,
-      //       isActive: true
-      //     },
-      //     {
-      //       circleColor: "#FF9000",
-      //       describeName: "八个摄像头",
-      //       count: 8,
-      //       widthType: 4,
-      //       isActive: true
-      //     }
-      //   ]
     };
   },
   methods: {
@@ -169,7 +135,8 @@ export default {
         query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/task/visible-result/list",
-          powerDeviceId: item.deviceIdStr
+          powerDeviceId: item.deviceIdStr,
+          deviceName: item.deviceName
         }
       });
     },
@@ -200,41 +167,6 @@ export default {
         this.dataList = res.data;
       });
     },
-    // selectData(value) {
-    //   const that = this;
-    //   securityMonitor({ monitorDeviceId: value }).then(res => {
-    //     that.titleValueL = "监控摄像头数量";
-    //     that.dataMonitor = res.data;
-    //     that.videoWidth = "calc(50%)";
-    //     that.active = 1;
-    //     that.isCenter = true;
-    //   });
-    // },
-    // onSelect(item) {
-    //   this.titleValueL = item["describeName"];
-    //   this.dataMonitor = this.dataMonitorAll.slice(item["count"]);
-    //   this.valueSelect = "";
-    //   switch (item.widthType) {
-    //     case 2:
-    //       this.videoWidth = "calc(50% - 10px)";
-    //       this.active = 2;
-    //       this.isCenter = false;
-    //       break;
-    //     case 3:
-    //       this.videoWidth = "calc(100%/3 - 14px)";
-    //       this.active = 3;
-    //       this.isCenter = false;
-    //       break;
-    //     case 4:
-    //       this.videoWidth = "calc(25% - 15px)";
-    //       this.active = 4;
-    //       this.isCenter = false;
-    //       break;
-    //     default:
-    //       this.active = 4;
-    //       this.isCenter = false;
-    //   }
-    // },
     getlightData() {
       this.loadingOptionF = true;
       this.loadingOptionS = true;
