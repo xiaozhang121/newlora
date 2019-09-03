@@ -1,13 +1,13 @@
 <template>
-    <div class="videoList" @click="onPlay" :class="{'active': false}">
+    <div class="videoList" @click="onPlay" :class="{'active': isPlay}">
         <div class="pic">
-            <img :src="demoPic"/>
+            <img :src="picImg"/>
             <i class="iconfont icon-bofang"></i>
         </div>
         <div class="main">
-            <div class="title">记录日期：2019-08-04 08:00:00 至 2019-08-05 08:00:00</div>
-            <div class="play">点击播放</div>
-            <!--<div class="play blue">正在播放……</div>-->
+            <div class="title">记录日期：{{ startTime }} 至 {{ endTime }}</div>
+            <div v-if="isPlay" class="play blue">正在播放……</div>
+            <div v-else class="play">点击播放</div>
         </div>
     </div>
 </template>
@@ -20,6 +20,30 @@ export default {
     components: {
 
     },
+    computed:{
+        picImg(){
+            return this.dataInfo['pic']?this.dataInfo['pic']:''
+        },
+        startTime(){
+            return this.dataInfo['startTime']?this.dataInfo['startTime']:''
+        },
+        endTime(){
+            return this.dataInfo['endTime']?this.dataInfo['endTime']:''
+        },
+        isPlay(){
+            return this.dataInfo['isPlay']?this.dataInfo['isPlay']:false
+        }
+    },
+    props:{
+        videoList:{},
+        index:{},
+        dataInfo:{
+            type: Object,
+            default: ()=>{
+                return {}
+            }
+        }
+    },
     data() {
         return {
             demoPic: require('@/assets/camera.png'),
@@ -28,7 +52,9 @@ export default {
     },
     methods: {
         onPlay(){
-            this.$emit('on-play')
+            this.$emit('on-play', this.index)
+            // this.$set(this.dataInfo, 'isPlay', true)
+            this.$forceUpdate()
         },
         change() {}
     }

@@ -683,7 +683,7 @@ export default {
       top: 10px;
     }
     .monitorContain {
-      background: rgba(20, 40, 56, 0.8);
+      /*background: rgba(20, 40, 56, 0.8);*/
       padding: 20px;
       padding-bottom: 0;
     }

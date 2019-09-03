@@ -4,7 +4,10 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="controlTitle">
-      <div>{{ dataForm.monitorDeviceName }}</div>
+      <div>
+        <span>{{ dataForm.monitorDeviceName }}</span>
+        <span class="isEqual" v-if="isEqual">切换至实时视频</span>
+      </div>
     </div>
     <div class="Main_contain">
       <div class="content">
@@ -25,28 +28,31 @@
             </div>
           </div>
         </div>
-        <!--  <div class="left nr">
+          <div class="left nr">
           <div class="item" style="background: transparent">
             <div class="camera_surveillanceDetail">
               <div class="contain color">
                   <div class="main_add">
                     <div class="title_add">
                       <span>24小时监测记录</span>
-                      <el-date-picker
-                              style="width: 156px"
-                              v-model="chosenDate"
-                              type="date"
-                              placeholder="全部日期">
-                      </el-date-picker>
+                      <duno-btn-top
+                              @on-select="onSelect"
+                              :zIndex="1"
+                              class="timeSelect"
+                              :isCheck="false"
+                              :dataList="timeList"
+                              :title="timeValue"
+                              :showBtnList="false"
+                      ></duno-btn-top>
                     </div>
                     <div class="contain_add">
-                      <video-list class="videoList" v-for="(item, index) in videoList" :key="index" />
+                      <video-list class="videoList" :index="index" v-for="(item, index) in videoList"  :dataInfo="item" :key="index" @on-play="onPlay" />
                     </div>
                   </div>
               </div>
             </div>
           </div>
-        </div>-->
+        </div>
       </div>
       <div class="middle_table">
         <div class="top not-print">
@@ -200,6 +206,8 @@ export default {
   data() {
     const that = this;
     return {
+      timeList: [],
+      timeValue: '全部日期',
       videoList: [{}, {}, {}, {}, {}, {}],
       chosenDate: "",
       addOrEdit: "添加",
@@ -436,10 +444,16 @@ export default {
         streamAddr: "",
         autoplay: true
       },
+      backUPAddr: '',
       presetName: "",
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }]
     };
+  },
+  computed:{
+      isEqual(){
+          return (this.backUPAddr == this.playerOptions.streamAddr)
+      }
   },
   props: {
     deviceId: {
@@ -448,6 +462,47 @@ export default {
     }
   },
   methods: {
+    onPlay(index){
+        let data = JSON.parse(JSON.stringify(this.videoList))
+        data.map((item, i)=>{
+            if(index == i){
+              item['isPlay'] = true
+            }else
+              item['isPlay'] = false
+        })
+        this.videoList = data
+        this.playerOptions.streamAddr = this.videoList[index]['streamAddr']
+        console.log(this.videoList[index]['streamAddr'])
+        this.$forceUpdate()
+    },
+    getVideo(date){
+        getAxiosData('/lenovo-alarm/alarm/security/record/videos', {pageIndex: 1, pageRows: 99999, date: date,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
+            let data = res.data.tableData
+            data.map(item=>{
+                item['isPlay'] = false
+            })
+            this.videoList = data
+        })
+    },
+    initTime(){
+        getAxiosData('/lenovo-alarm/alarm/security/record/date/select-list',{ monitorDeviceId: this.dataForm.monitorDeviceId }).then(res=>{
+            const resData = res.data;
+            const map = resData.map(item => {
+                const obj = {
+                    describeName: item.label,
+                    monitorDeviceType: item.value,
+                    title: "timeValue"
+                };
+                return obj;
+            });
+            map.unshift({
+                describeName: "全部日期",
+                monitorDeviceType: "",
+                title: "timeValue"
+            });
+            this.timeList = map;
+        })
+    },
     beforeClose() {
       this.dialogVisible = false;
     },
@@ -488,6 +543,7 @@ export default {
         this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data;
+        that.backUPAddr = res.data
       });
     },
     cutOut(data) {
@@ -546,6 +602,8 @@ export default {
       } else if (item.title == "titleType") {
         this.echartForm.source = item.monitorDeviceType;
         this.getEchasrts();
+      } else if(item.title == 'timeValue'){
+        this.getVideo(item['monitorDeviceType'])
       }
     },
     onChangeHis(data) {
@@ -646,6 +704,7 @@ export default {
     this.getDataList();
     this.initCamera();
     this.getEchasrts();
+    this.initTime()
   },
   mounted() {
     this.getInit();
@@ -679,6 +738,13 @@ export default {
     }
   }
 }
+  .timeSelect.dunoBtnTop .btnList{
+    right: 0;
+    top: 0;
+    & .btn_main .btnItem{
+      text-align: left;
+    }
+  }
 .detailEnv {
   width: 100%;
   min-height: 100%;
@@ -1157,7 +1223,17 @@ export default {
     }
     & > div:first-child {
       font-size: 20px;
-      width: 52%;
+      width: 49.3%;
+    }
+    .isEqual{
+      cursor: pointer;
+      font-size: 14px;
+      float: right;
+      position: relative;
+      top: 0px;
+      border: 1px solid white;
+      padding: 6px;
+      border-radius: 4px;
     }
     .control {
       font-size: 18px;
