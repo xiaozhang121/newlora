@@ -7,7 +7,7 @@
       <KeyErea />
     </div>
     <div class="mainContamin">
-      <!-- <div class="item">
+       <div class="item">
         <div class="alarmTitle">
           <div>24小时监测记录</div>
           <div>
@@ -15,22 +15,23 @@
           </div>
         </div>
         <div class="monitorContain">
-            <div class="monitorItem" :class="{marginRight: index%2 == 0}" v-for="(item, index) in demoList"  :key="index">
+            <div class="monitorItem" :class="{marginRight: index%2 == 0}" v-for="(item, index) in safeList"  :key="index">
               <key-monitor
                   class="monitorRecord"
                   :showBtmOption="true"
                   :noButton="false"
                   configType="2"
-                  imgAdress="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
-                  streamAddr="rtmp://10.0.10.39/rtsp59/stream"
-                  kilovolt="摄像头名称"
-                  patrol="20190813"
+                  :monitorInfo="item"
+                  :imgAdress="item['pic']"
+                  :streamAddr="item['streamAddr']"
+                  :kilovolt="item['monitorDeviceName']"
+                  :patrol="item['monitorDeviceId']"
               />
             </div>
             <div style="clear: both"></div>
         </div>
-      </div>-->
-      <div class="item" style="margin-left: 0">
+      </div>
+       <div class="item">
         <div class="alarmTitle">
           <div>3天内动态环境异常记录</div>
           <div>
@@ -84,7 +85,7 @@ export default {
   },
   data() {
     return {
-      demoList: [{}, {}, {}, {}, {}, {}],
+      safeList: [{}, {}, {}, {}, {}, {}],
       timer: null,
       loading: false,
       mixinViewModuleOptions: {
@@ -156,6 +157,24 @@ export default {
     }
   },
   methods: {
+    oneDayAgo(){
+        let curDate = new Date();
+        let preDate = new Date(curDate.getTime() - 24*60*60*1000); //前一天
+        return preDate
+    },
+    initData(){
+        let date = this.oneDayAgo()
+        let query = {
+            pageIndex: 1,
+            pageRows: 6,
+            startTime: moment(date).format('YYYY-MM-DD HH:mm:ss'),
+            endTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        }
+        getAxiosData('/lenovo-alarm/alarm/security/record/videos',query).then(res=>{
+            this.safeList = res.data.tableData
+            this.safeList = [{},{},{}]
+        })
+    },
     handleData() {
       this.getDataList();
     },
@@ -181,6 +200,7 @@ export default {
   },
   created() {
     this.getTime();
+    this.initData();
     this.loading = true;
     this.timer = setTimeout(() => {
       this.loading = false;
@@ -311,6 +331,11 @@ export default {
     opacity: 0.8;
     padding: 21px 27px;
     overflow: hidden;
+    .alarmLog{
+        width: 100%;
+        margin-left: 0;
+        height: inherit;
+    }
     &.canelLoading{
       opacity: 1 !important;
     }
@@ -320,6 +345,9 @@ export default {
   }
   .mainContamin {
     display: flex;
+    .keyMonitor .camera .explain .text{
+      display: flex;
+    }
     .monitorContain {
       background: rgba(20, 40, 56, 0.8);
       padding: 20px;
@@ -339,9 +367,10 @@ export default {
     }
     .item {
       flex-grow: 1;
+      flex-basis: 0;
     }
     .item:last-child {
-    //   margin-left: 20px;
+      margin-left: 20px;
     }
   }
 }
