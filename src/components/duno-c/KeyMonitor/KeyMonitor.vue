@@ -347,7 +347,8 @@ export default {
         notSupportedMessage: "此视频暂无法播放，请稍后再试"
         /*  poster:
           "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"*/
-      }
+      },
+      maxSecond: 0
     };
   },
   computed: {
@@ -384,6 +385,10 @@ export default {
         let times = new Date().getTime() - this.timeSeed;
         this.passTime += 1000;
         this.timeIncreateD = this.formatDuring(times);
+        let rest = times / 1000
+        if(rest >= this.maxSecond){
+            this.videotape()
+        }
       }, 1000);
     },
     formatDuring(mss) {
@@ -406,10 +411,13 @@ export default {
         // 开始录像
         this.timeIncreate();
         postAxiosData("/lenovo-device/api/stream/startRecord", {
-          rtmpUrl: this.playerOptions["sources"][0]["src"]
+          rtmpUrl: this.playerOptions["sources"][0]["src"],
+          monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+          type: '1'
         }).then(res => {
           this.$message.info(res.msg);
           this.taskId = res.data.taskId;
+          this.maxSecond = res.data.maxRecordTime
         });
       } else {
         // 结束录像

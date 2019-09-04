@@ -260,7 +260,8 @@
                 offsetX: '',
                 offsetY: '',
                 xxxx: '',
-                timerObj: null
+                timerObj: null,
+                maxSecond: 0,
             }
         },
         watch: {
@@ -389,6 +390,10 @@
                     let times = new Date().getTime() - this.timeSeed
                     this.passTime += 1000
                     this.timeIncreateD = this.formatDuring(times)
+                    let rest = times / 1000
+                    if(rest >= this.maxSecond){
+                        this.videotape()
+                    }
                 },1000)
             },
             formatDuring(mss) {
@@ -404,9 +409,10 @@
                 if(this.isCamera){
                     // 开始录像
                     this.timeIncreate()
-                    postAxiosData('/lenovo-device/api/stream/startRecord',{'rtmpUrl': this.options["sources"][0]["src"]}).then(res=>{
+                    postAxiosData('/lenovo-device/api/stream/startRecord',{'rtmpUrl': this.options["sources"][0]["src"], 'monitorDeviceId': this.deviceId, 'type': '1'}).then(res=>{
                         this.$message.info(res.msg)
                         this.taskId = res.data.taskId
+                        this.maxSecond = res.data.maxRecordTime
                     })
                 }else{
                     // 结束录像
