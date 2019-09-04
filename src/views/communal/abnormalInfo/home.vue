@@ -7,9 +7,21 @@
       <div class="abnormalInfo">
         <div class="contain borderTX">
           <duno-main :controlOver="true" class="main_contain">
-            <div class="iconTop pointer" @click="getIn">
-              <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
-              异常信息
+            <div class="iconTop topTitle">
+              <div class="pointer" @click="getIn">
+                <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
+                异常信息
+              </div>
+              <div>
+                <duno-btn-top
+                  @on-select="onSelect"
+                  class="dunoBtnTo"
+                  :isCheck="false"
+                  :dataList="regionList"
+                  :title="titleType"
+                  :showBtnList="false"
+                ></duno-btn-top>
+              </div>
             </div>
             <div>
               <duno-tables-tep
@@ -87,7 +99,7 @@
     </div>
     <div class="bottom">
       <div class="left">
-        <div class="iconcen">
+        <div class="iconcen" @click="handleJump(1)">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_weather.png" alt />
             微气象环境
@@ -132,7 +144,7 @@
             </div>-->
           </div>
         </div>
-        <div class="iconcen">
+        <div class="iconcen" @click="handleJump(2)">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_space.png" alt />
             泛在盒子
@@ -152,7 +164,7 @@
           </div>
         </div>
       </div>
-      <div class="right iconcen">
+      <div class="right iconcen" @click="handleJump(3)">
         <div class="iconTop">
           <img src="../../../assets/iconFunction/icon_lock.png" alt />
           智能锁具
@@ -173,6 +185,11 @@
             ]"
             radiusOption="80%"
             paddingBottom="45%"
+            text="锁具状态"
+            titlePosition="right"
+            :textStyle="textStyle"
+            titleTop='50'
+            titleLeft="60%"
             :centerOption="['30%', '50%']"
             :isChange="isChange"
             :isItemEchart="isItemEchart"
@@ -180,7 +197,7 @@
           />
         </div>
       </div>
-      <div class="conter iconcen">
+      <div class="conter iconcen" @click="handleJump(4)">
         <div class="iconTop">
           <img src="../../../assets/iconFunction/icon_system.png" alt />
           平台状态
@@ -205,6 +222,7 @@ import echarts from "echarts";
 import G2 from "@antv/g2";
 import Scroller from "_c/duno-m/Scroller";
 import dunoMain from "_c/duno-m/duno-main";
+import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
@@ -219,6 +237,7 @@ export default {
   name: "abnormalInfo",
   components: {
     Scroller,
+    dunoBtnTop,
     dunoMain,
     DunoTablesTep,
     ReportTable,
@@ -258,7 +277,10 @@ export default {
       visible: false,
       isItemEchart: true,
       isChange: true,
+      dataForm:{},
       alarmLevel: "",
+      regionList: [],
+      titleType: "全部告警类别",
       messageList: [],
       handleNotes: [],
       alarmType: "",
@@ -296,7 +318,7 @@ export default {
           tooltip: true
         },
         {
-          title: "警告级别",
+          title: "缺陷等级",
           key: "alarmLevelName",
           minWidth: 120,
           align: "center",
@@ -462,13 +484,13 @@ export default {
       ],
       legendOption: {
         orient: "vertical",
-        top: "40%",
+        top: "50%",
         right: "7%",
-        itemGap: 40,
+        itemGap: 10,
         textStyle: {
           color: "white",
-          fontSize: 15,
-          padding: [0, 0, 0, 4]
+          fontSize: 15
+          //   padding: [0, 0, 0, 4]
         },
         formatter: function(name) {
           if (name == "25%") {
@@ -478,6 +500,10 @@ export default {
           }
         },
         data: ["25%", "75%"]
+      },
+      textStyle: {
+        color: "#fff",
+        paddingRight:'20px'
       }
     };
   },
@@ -485,12 +511,52 @@ export default {
     this.getRecodeList();
     this.getData();
     this.getMockData();
+    this.getLevel();
     this.$nextTick(() => {
       this.init();
       this.initBar();
     });
   },
   methods: {
+    onSelect(item) {
+      this.titleType = item["describeName"];
+      this.dataForm.alarmLevel = item["monitorDeviceType"];
+      this.getDataList();
+    },
+    getLevel() {
+      postAxiosData("/lenovo-alarm/api/alarm/level").then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleType"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "全部告警类型",
+          monitorDeviceType: "",
+          title: "titleType"
+        });
+        this.regionList = map;
+      });
+    },
+    handleJump(item) {
+      let route;
+      if (item == 1) {
+        route = "meteorological";
+      } else if (item == 2) {
+        route = "box";
+      } else if (item == 3) {
+        route = "intellLock";
+      } else {
+        route = "state";
+      }
+      this.$router.push({
+        path: route
+      });
+    },
     getMockData() {
       let url = "/lenovo-plan/api/statistics/plan/list";
       let query = {
@@ -773,8 +839,6 @@ export default {
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
   }
-  .borderTX {
-  }
   .main_contain {
     position: absolute;
     left: 0;
@@ -979,13 +1043,13 @@ export default {
     .conter {
       width: calc(25% - 10px);
       height: 267px;
-      background-color: rgba(32, 62, 82, 0.8);
+      background-color: rgba(0, 70, 101, 0.8);
     }
     .right {
       height: 267px;
       width: calc(25% - 10px);
       margin-right: 20px;
-      background-color: rgba(0, 70, 101, 0.8);
+      background-color: rgba(32, 62, 82, 0.8);
       & > div:nth-child(2) {
         width: 100%;
         height: 88%;
@@ -998,6 +1062,15 @@ export default {
     line-height: 30px;
     img {
       vertical-align: top;
+    }
+  }
+  .topTitle {
+    display: flex;
+    justify-content: space-between;
+    & > div:nth-child(2) {
+      .dunoBtnTop {
+        width: 200px;
+      }
     }
   }
   .iconcen {

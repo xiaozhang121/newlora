@@ -114,7 +114,7 @@ export default {
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
       dataBread: [
-        { path: "/abnormalInfoPath/home", name: "卡片功能" },
+        { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "/abnormalInfoPath/list", name: "异常信息" }
       ],
       isFileType: false,
@@ -190,14 +190,14 @@ export default {
           tooltip: true
         },
         {
-          title: "报警内容",
+          title: "描述",
           key: "alarmContent",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
-          title: "警告级别",
+          title: "缺陷等级",
           key: "alarmLevelName",
           minWidth: 120,
           align: "center",
