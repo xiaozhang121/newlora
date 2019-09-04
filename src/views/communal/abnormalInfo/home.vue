@@ -185,6 +185,11 @@
             ]"
             radiusOption="80%"
             paddingBottom="45%"
+            text="锁具状态"
+            titlePosition="right"
+            :textStyle="textStyle"
+            titleTop='50'
+            titleLeft="60%"
             :centerOption="['30%', '50%']"
             :isChange="isChange"
             :isItemEchart="isItemEchart"
@@ -478,13 +483,13 @@ export default {
       ],
       legendOption: {
         orient: "vertical",
-        top: "40%",
+        top: "50%",
         right: "7%",
-        itemGap: 40,
+        itemGap: 10,
         textStyle: {
           color: "white",
-          fontSize: 15,
-          padding: [0, 0, 0, 4]
+          fontSize: 15
+          //   padding: [0, 0, 0, 4]
         },
         formatter: function(name) {
           if (name == "25%") {
@@ -494,6 +499,10 @@ export default {
           }
         },
         data: ["25%", "75%"]
+      },
+      textStyle: {
+        color: "#fff",
+        paddingRight:'20px'
       }
     };
   },
@@ -1033,13 +1042,13 @@ export default {
     .conter {
       width: calc(25% - 10px);
       height: 267px;
-      background-color: rgba(32, 62, 82, 0.8);
+      background-color: rgba(0, 70, 101, 0.8);
     }
     .right {
       height: 267px;
       width: calc(25% - 10px);
       margin-right: 20px;
-      background-color: rgba(0, 70, 101, 0.8);
+      background-color: rgba(32, 62, 82, 0.8);
       & > div:nth-child(2) {
         width: 100%;
         height: 88%;

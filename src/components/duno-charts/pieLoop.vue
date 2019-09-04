@@ -71,6 +71,33 @@ export default {
         }
       }
     },
+    /*
+    * title样式选项：方法参考echarts API
+    * */
+    textStyle:{
+      type: Object,
+      default () {
+          return {}
+      }
+    },
+    /*
+    * title距离顶部选项：方法参考echarts API
+    * */
+    titleTop:{
+        type:[String,Number],
+        default() {
+            return 'auto'
+        }
+    },
+    /*
+    * title距离左边选项：方法参考echarts API
+    * */
+    titleLeft:{
+        type:[String,Number],
+        default() {
+            return 'auto'
+        }
+    },
     isPie: {
       type: Boolean,
       default: true
@@ -155,7 +182,10 @@ export default {
           show: that.isShowTitle,
           text: that.text,
           subtext: that.subtext,
-          x: that.titlePosition
+          x: that.titlePosition,
+          textStyle:that.textStyle,
+          top:that.titleTop,
+          left:that.titleLeft
         },
         tooltip: that.tooltipOption,
         legend: that.legendOption,
