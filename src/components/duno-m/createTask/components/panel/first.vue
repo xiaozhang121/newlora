@@ -61,7 +61,6 @@
             },
             list:{
                 handler(now){
-                    debugger
                 },
                 deep: true
             }
@@ -101,7 +100,6 @@
             initData(){
                 const that = this
                 postAxiosData('/lenovo-plan/api/list/plan-type').then(res=>{
-                    debugger
                     this.taskKindList = res.data
                     if(!this.rowDataLength)
                         that.form.taskKind = res.data[0].value

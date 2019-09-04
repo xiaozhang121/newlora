@@ -57,17 +57,24 @@
                             let arr = this.rowData['devicemonitors']
                             for(let i=0; i<arr.length; i++){
                                 for(let j=0; j<data.length; j++){
-                                    debugger
                                     if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
                                         for(let z=0; z<data[j]['monitorDevices'].length; z++){
-                                            if(arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])>-1){
+                                            let indexx = arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                            if(indexx > -1){
                                                 data[j]['monitorDevices'][z]['isCheck'] = true
+                                                if(data[j]['monitorDevices'][z]['monitorDeviceType'] == 1){
+                                                    if(arr[i]['analyseTypes'][indexx] == '')
+                                                        data[j]['monitorDevices'][z]['analyseType'] = 1
+                                                    else
+                                                        data[j]['monitorDevices'][z]['analyseType'] = arr[i]['analyseTypes'][indexx]
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
                         }
+                        debugger
                         this.dataList = data
                     })
                 },
