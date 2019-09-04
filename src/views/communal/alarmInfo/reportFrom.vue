@@ -156,10 +156,6 @@ export default {
   .el-loading-text {
     color: #969696 !important;
   }
-  .icon-xiala {
-    /*width: 12px ;
-    height: 16px;*/
-  }
   .dunoDrap {
     display: flex;
     justify-content: space-between;
