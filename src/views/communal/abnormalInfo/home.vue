@@ -93,7 +93,26 @@
             微气象环境
           </div>
           <div class="weater">
-            <div>
+            <div class="gauge">
+              <p>7月20日 周六</p>
+              <div>
+                <i class="iconfont icon-wendu"></i>
+                <span>32℃</span>
+              </div>
+            </div>
+            <div class="gauge">
+              <div class="gauge_top">
+                <i class="iconfont icon-shidu1"></i>
+                <p>70%</p>
+                <span>当前湿度</span>
+              </div>
+              <div class="gauge_btm">
+                <i class="iconfont icon-fengsu"></i>
+                <p>0.2m/h</p>
+                <span>当前风速</span>
+              </div>
+            </div>
+            <!-- <div>
               <p>7月20日 周六</p>
               <p>多云 32℃/21℃</p>
             </div>
@@ -110,7 +129,7 @@
             <div>
               <img src="../../../assets/iconFunction/icon_wind.png" alt />
               <span>西北风 二级</span>
-            </div>
+            </div>-->
           </div>
         </div>
         <div class="iconcen">
@@ -121,11 +140,13 @@
           <div class="gauge" id="mountNode"></div>
           <div class="gauge">
             <div class="gauge_top">
-              <p>70%</p>
+              <i class="iconfont icon-wendu1"></i>
+              <p>20.6%</p>
               <span>当前湿度</span>
             </div>
             <div class="gauge_btm">
-              <p>0.2m/h</p>
+              <i class="iconfont icon-shidu"></i>
+              <p>41.4%RH</p>
               <span>当前风速</span>
             </div>
           </div>
@@ -180,6 +201,7 @@
 </template>
 
 <script>
+import echarts from "echarts";
 import G2 from "@antv/g2";
 import Scroller from "_c/duno-m/Scroller";
 import dunoMain from "_c/duno-m/duno-main";
@@ -189,7 +211,7 @@ import ReportTable from "_c/duno-c/ReportTable";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraningT from "_c/duno-j/warningT";
 import wraning from "_c/duno-j/warning";
-import { DunoChartPieLoop } from "_c/duno-charts/index";
+import { DunoChartPieLoop, DunoChartBarLine } from "_c/duno-charts/index";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { getRecode } from "@/api/configuration/configuration.js";
 export default {
@@ -201,6 +223,7 @@ export default {
     DunoTablesTep,
     ReportTable,
     DunoChartPieLoop,
+    DunoChartBarLine,
     warningSetting,
     wraning,
     wraningT
@@ -464,6 +487,7 @@ export default {
     this.getMockData();
     this.$nextTick(() => {
       this.init();
+      this.initBar();
     });
   },
   methods: {
@@ -659,14 +683,77 @@ export default {
         position: ["50%", "95%"],
         html:
           '<div style="width: 300px;text-align: center;">' +
-          '<p style="font-size: 16px; color: #545454;margin: 0;">正常</p>' +
-          '<p style="font-size: 20px;color: #545454;margin: 0;">' +
+          '<p class="gaugeClass">正常</p>' +
+          '<p class="gaugeClass1">' +
           data[0].value * 10 +
           "%</p>" +
           "</div> "
       });
 
       chart.render();
+    },
+    initBar() {
+      let myChart = echarts.init(document.getElementById("echartsBar"));
+      let option = {
+        color: ["#53cbc3", "#4c9fc1"],
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          }
+        },
+        calculable: true,
+        grid: {
+          top: "20px",
+          bottom: "20px"
+        },
+        xAxis: [
+          {
+            type: "category",
+            axisTick: { show: false },
+            data: ["处理器", "内存", "磁盘"],
+            axisLine: {
+              lineStyle: {
+                color: "#678a99" // X轴及其文字颜色
+              }
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: "value",
+            data: [0, 20, 40, 60, 80, 100],
+            axisLine: {
+              lineStyle: {
+                color: "#678a99" // X轴及其文字颜色
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#134b63",
+                type: "dashed"
+              }
+            }
+          }
+        ],
+        series: [
+          {
+            name: "已占用",
+            type: "bar",
+            barGap: 0,
+            barWidth: 20,
+            data: [20, 52, 69]
+          },
+          {
+            name: "未占用",
+            type: "bar",
+            barWidth: 20,
+            data: [90, 80, 30]
+          }
+        ]
+      };
+      myChart.setOption(option);
     }
   }
 };
@@ -843,8 +930,9 @@ export default {
       & > div:first-child {
         width: calc(55% - 20px);
         margin-right: 20px;
-        background-size: 100% 100%;
-        background-image: url("../../../assets/iconFunction/img_bg_weather.jpg");
+        background-color: rgba(0, 70, 101, 0.8);
+        // background-size: 100% 100%;
+        // background-image: url("../../../assets/iconFunction/img_bg_weather.jpg");
       }
       & > div:nth-child(2) {
         height: 100%;
@@ -852,19 +940,21 @@ export default {
         background-color: rgba(32, 62, 82, 0.8);
       }
       .weater {
-        display: flex;
-        justify-content: space-between;
         & > div:first-child {
-          opacity: 0.8;
-          color: #ffffff;
-          margin-left: 30px;
-          margin-top: 50px;
-        }
-        & > div:nth-child(2) {
-          color: #fff;
-          font-size: 30px;
-          img {
-            vertical-align: bottom;
+          padding-top: 36px;
+          p {
+            padding-left: 30px;
+            font-size: 18px;
+            color: #aaa;
+          }
+          div {
+            color: #fff;
+            i {
+              font-size: 100px;
+            }
+            span {
+              font-size: 36px;
+            }
           }
         }
       }
@@ -888,13 +978,13 @@ export default {
     }
     .conter {
       width: calc(25% - 10px);
-      margin-right: 20px;
       height: 267px;
       background-color: rgba(32, 62, 82, 0.8);
     }
     .right {
       height: 267px;
       width: calc(25% - 10px);
+      margin-right: 20px;
       background-color: rgba(0, 70, 101, 0.8);
       & > div:nth-child(2) {
         width: 100%;
@@ -911,6 +1001,7 @@ export default {
     }
   }
   .iconcen {
+    cursor: pointer;
     padding: 20px;
     .icondev {
       text-align: center;
@@ -924,13 +1015,36 @@ export default {
         height: 50%;
         padding-left: 50%;
         padding-top: 15%;
+        position: relative;
         p {
+          font-size: 20px;
           color: #fff;
         }
         span {
+          font-size: 18px;
           color: #8f9598;
         }
+        i {
+          color: #fff;
+          font-size: 30px;
+          position: absolute;
+          top: 36%;
+          left: 30%;
+        }
       }
+    }
+    .echartsBar {
+      height: 198px;
+    }
+    .gaugeClass {
+      font-size: 14px;
+      color: #ffffff;
+      margin: 0;
+    }
+    .gaugeClass1 {
+      font-size: 20px;
+      color: #fff;
+      margin: 0;
     }
   }
   .table_select {
