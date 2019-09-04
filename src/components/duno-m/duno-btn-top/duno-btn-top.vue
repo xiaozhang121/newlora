@@ -329,7 +329,8 @@ export default {
     font-size: 24px;
     cursor: pointer;
   }
-  .icon-zuoyoubuju{
+  .icon-zuoyoubuju,
+  .icon-shangxiabuju{
       font-size: 16px;
       position: absolute;
       left: 10px;
