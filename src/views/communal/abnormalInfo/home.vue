@@ -277,6 +277,7 @@ export default {
       visible: false,
       isItemEchart: true,
       isChange: true,
+      dataForm:{},
       alarmLevel: "",
       regionList: [],
       titleType: "全部告警类别",
@@ -317,7 +318,7 @@ export default {
           tooltip: true
         },
         {
-          title: "警告级别",
+          title: "缺陷等级",
           key: "alarmLevelName",
           minWidth: 120,
           align: "center",

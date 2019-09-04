@@ -7,7 +7,7 @@
         <i class="iconfont icon-shangxiabuju" v-else></i>
         <span class="nr">{{ layoutTypeName }}</span>
       </div>
-      <div>
+      <div class="btnSelect">
         <duno-btn-top
           @on-select="onSelect"
           class="dunoBtnTop"
@@ -604,17 +604,19 @@ export default {
       font-size: 16px;
       margin-right: 10px;
     }
-    & > div {
-      //   float: right;
-      .dunoBtnTop {
-        width: 225px;
-        display: inline-flex;
-        padding-bottom: 0;
-        .btnList {
-          top: inherit !important;
+    .btnSelect {
+      & > div:nth-child(2) {
+        margin-left: 20px;
+        .dunoBtnTop {
           width: 225px;
-          .title {
-            font-size: 15px;
+          display: inline-flex;
+          padding-bottom: 0;
+          .btnList {
+            top: inherit !important;
+            width: 225px;
+            .title {
+              font-size: 15px;
+            }
           }
         }
       }
