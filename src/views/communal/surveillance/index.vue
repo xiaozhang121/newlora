@@ -584,12 +584,12 @@ export default {
     padding-bottom: 34% !important;
   }
   .dunoBtnTop {
-    width: 170px;
+    width: 155px;
     display: inline-flex;
     padding-bottom: 0;
     .btnList {
       top: inherit !important;
-      width: 170px;
+      width: 155px;
       .title {
         font-size: 15px;
       }
