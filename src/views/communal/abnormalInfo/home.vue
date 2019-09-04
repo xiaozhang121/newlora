@@ -7,9 +7,21 @@
       <div class="abnormalInfo">
         <div class="contain borderTX">
           <duno-main :controlOver="true" class="main_contain">
-            <div class="iconTop pointer" @click="getIn">
-              <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
-              异常信息
+            <div class="iconTop topTitle">
+              <div class="pointer" @click="getIn">
+                <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
+                异常信息
+              </div>
+              <div>
+                <duno-btn-top
+                  @on-select="onSelect"
+                  class="dunoBtnTo"
+                  :isCheck="false"
+                  :dataList="regionList"
+                  :title="titleType"
+                  :showBtnList="false"
+                ></duno-btn-top>
+              </div>
             </div>
             <div>
               <duno-tables-tep
@@ -205,6 +217,7 @@ import echarts from "echarts";
 import G2 from "@antv/g2";
 import Scroller from "_c/duno-m/Scroller";
 import dunoMain from "_c/duno-m/duno-main";
+import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
@@ -219,6 +232,7 @@ export default {
   name: "abnormalInfo",
   components: {
     Scroller,
+    dunoBtnTop,
     dunoMain,
     DunoTablesTep,
     ReportTable,
@@ -259,6 +273,8 @@ export default {
       isItemEchart: true,
       isChange: true,
       alarmLevel: "",
+      regionList: [],
+      titleType: "全部告警类别",
       messageList: [],
       handleNotes: [],
       alarmType: "",
@@ -485,12 +501,37 @@ export default {
     this.getRecodeList();
     this.getData();
     this.getMockData();
+    this.getLevel();
     this.$nextTick(() => {
       this.init();
       this.initBar();
     });
   },
   methods: {
+    onSelect(item) {
+      this.titleType = item["describeName"];
+      this.dataForm.alarmLevel = item["monitorDeviceType"];
+      this.getDataList();
+    },
+    getLevel() {
+      postAxiosData("/lenovo-alarm/api/alarm/level").then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleType"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "全部告警类型",
+          monitorDeviceType: "",
+          title: "titleType"
+        });
+        this.regionList = map;
+      });
+    },
     handleJump(item) {
       let route;
       if (item == 1) {
@@ -788,8 +829,6 @@ export default {
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
   }
-  .borderTX {
-  }
   .main_contain {
     position: absolute;
     left: 0;
@@ -1013,6 +1052,15 @@ export default {
     line-height: 30px;
     img {
       vertical-align: top;
+    }
+  }
+  .topTitle {
+    display: flex;
+    justify-content: space-between;
+    & > div:nth-child(2) {
+      .dunoBtnTop {
+        width: 200px;
+      }
     }
   }
   .iconcen {
