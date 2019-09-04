@@ -503,7 +503,7 @@ export default {
         route = "state";
       }
       this.$router.push({
-        name: route
+        path: route
       });
     },
     getMockData() {
