@@ -2,9 +2,11 @@
   <div class="surveillance">
     <div class="title" style="margin-bottom: 15px">
       <!-- <span>视频监控</span> -->
-      <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
-      <i class="iconfont icon-shangxiabuju" v-else></i>
-      <span class="nr">{{ layoutTypeName }}</span>
+      <div>
+        <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
+        <i class="iconfont icon-shangxiabuju" v-else></i>
+        <span class="nr">{{ layoutTypeName }}</span>
+      </div>
       <div>
         <duno-btn-top
           @on-select="onSelect"
@@ -591,7 +593,8 @@ export default {
   .title {
     color: white;
     display: flex;
-    align-items: center;
+    // align-items: center;
+    justify-content: space-between;
     .icon-zuoyoubuju,
     .icon-shangxiabuju {
       font-size: 18px;
@@ -602,7 +605,19 @@ export default {
       margin-right: 10px;
     }
     & > div {
-      float: right;
+      //   float: right;
+      .dunoBtnTop {
+        width: 225px;
+        display: inline-flex;
+        padding-bottom: 0;
+        .btnList {
+          top: inherit !important;
+          width: 225px;
+          .title {
+            font-size: 15px;
+          }
+        }
+      }
     }
   }
   .main {

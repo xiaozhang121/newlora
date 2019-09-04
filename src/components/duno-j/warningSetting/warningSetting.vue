@@ -262,10 +262,10 @@ export default {
       color: #fff;
     }
     .judgeClose {
-      left: 85px;
+      left: 89px;
     }
     .judgeCheck {
-      left: 72px;
+      left: 69px;
     }
   }
 }
