@@ -73,8 +73,8 @@
                                     }
                                 }
                             }
+                            this.rowData['isChange'] = true
                         }
-                        debugger
                         this.dataList = data
                     })
                 },
