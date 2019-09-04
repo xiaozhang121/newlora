@@ -33,9 +33,32 @@
         computed: {
             rowDataLength(){
                 return Object.keys(this.rowData).length
+            },
+            Ids(){
+                let arr = []
+                this.rowData['devicemonitors'].forEach((item, index)=>{
+                    arr.push(item['powerDeviceId'])
+                })
+                return arr
             }
         },
         watch:{
+            dataList:{
+                handler(now){
+                    if(this.rowDataLength && !('isChange' in this.rowData)){
+                        now.forEach((item, index)=>{
+                            if(!item['isCheck'] && this.Ids.indexOf(item['powerDeviceId'])>-1){
+                                this.rowData['devicemonitors'].map((_item, _index)=>{
+                                    if(_item['powerDeviceId'] == item['powerDeviceId']){
+                                        _item['powerDeviceId'] = ''
+                                    }
+                                })
+                            }
+                        })
+                    }
+                },
+                deep: true
+            },
             list:{
                 handler(now){
                     debugger
@@ -78,6 +101,7 @@
             initData(){
                 const that = this
                 postAxiosData('/lenovo-plan/api/list/plan-type').then(res=>{
+                    debugger
                     this.taskKindList = res.data
                     if(!this.rowDataLength)
                         that.form.taskKind = res.data[0].value
@@ -98,14 +122,14 @@
                         })
 
                         this.$forceUpdate()
-                        if(that.rowDataLength){
+                        if(that.rowDataLength && !('isChange' in this.rowData)){
                             that.form['taskName'] = that.rowData['planName']
                             that.form['taskKind'] = that.rowData['planType']
-                            let data = that.rowData['devicemonitor']
-                            for(let i=0; i<data.length; i++){
+                            let arrd = that.rowData['devicemonitors']
+                            for(let i=0; i<arrd.length; i++){
                                 for(let j=0; j<info.length; j++){
-                                    if(data[i]['powerDeviceId']  == info[j]['deviceId']){
-                                        info['isCheck'] = true
+                                    if(arrd[i]['powerDeviceId']  == info[j]['deviceId']){
+                                        info[j]['isCheck'] = true
                                         break;
                                     }
                                 }

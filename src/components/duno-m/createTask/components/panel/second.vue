@@ -47,13 +47,17 @@
                             res.data[i]['monitorDevices'].map(item=>{
                                 item['isCheck'] = false
                                 item['title'] = item['monitorDeviceName']
+                                if(item['monitorDeviceType'] == 1){
+                                    item['analyseType'] = '1'
+                                }
                             })
                         }
                         let data = res.data
                         if(this.rowDataLength && !this.rowData['isChange']){
-                            let arr = this.rowData['devicemonitor']
+                            let arr = this.rowData['devicemonitors']
                             for(let i=0; i<arr.length; i++){
                                 for(let j=0; j<data.length; j++){
+                                    debugger
                                     if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
                                         for(let z=0; z<data[j]['monitorDevices'].length; z++){
                                             if(arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])>-1){

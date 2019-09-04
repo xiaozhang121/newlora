@@ -79,8 +79,6 @@
         methods: {
             initData(){
                 postAxiosData('/lenovo-plan/api/list/plan-cycle').then(res=>{
-                    this.options = res.data
-                    this.value = res.data[0].value
                     if(this.rowDataLength){
                         if(this.rowData['planCycle']){
                             this.value = this.rowData['planCycle']
@@ -91,6 +89,9 @@
                             this.rowData['date'] = ''
                             this.rowData['time'] = ''
                         }
+                    }else{
+                        this.options = res.data
+                        this.value = res.data[0].value
                     }
                 })
             }
@@ -100,10 +101,19 @@
                 this.value3 = new Date()
             }
             this.initData()
+        },
+        beforeDestroy(){
+            let dom = document.querySelector('.el-picker-panel')
+            dom.style.background = '#ffffff'
+            dom.style.border = '1px solid #E4E7ED'
         }
     }
 </script>
 <style lang="scss">
+    .el-picker-panel  {
+        background: #152e3a !important;
+        border: none !important;
+    }
     .taskPanelT{
         .tip{
             color: #999999;
