@@ -87,7 +87,7 @@
     </div>
     <div class="bottom">
       <div class="left">
-        <div class="iconcen">
+        <div class="iconcen" @click="handleJump(1)">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_weather.png" alt />
             微气象环境
@@ -132,7 +132,7 @@
             </div>-->
           </div>
         </div>
-        <div class="iconcen">
+        <div class="iconcen" @click="handleJump(2)">
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_space.png" alt />
             泛在盒子
@@ -152,7 +152,7 @@
           </div>
         </div>
       </div>
-      <div class="right iconcen">
+      <div class="right iconcen" @click="handleJump(3)">
         <div class="iconTop">
           <img src="../../../assets/iconFunction/icon_lock.png" alt />
           智能锁具
@@ -180,7 +180,7 @@
           />
         </div>
       </div>
-      <div class="conter iconcen">
+      <div class="conter iconcen" @click="handleJump(4)">
         <div class="iconTop">
           <img src="../../../assets/iconFunction/icon_system.png" alt />
           平台状态
@@ -491,6 +491,21 @@ export default {
     });
   },
   methods: {
+    handleJump(item) {
+      let route;
+      if (item == 1) {
+        route = "meteorological";
+      } else if (item == 2) {
+        route = "box";
+      } else if (item == 3) {
+        route = "intellLock";
+      } else {
+        route = "state";
+      }
+      this.$router.push({
+        name: route
+      });
+    },
     getMockData() {
       let url = "/lenovo-plan/api/statistics/plan/list";
       let query = {
