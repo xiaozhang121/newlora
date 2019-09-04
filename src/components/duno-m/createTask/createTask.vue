@@ -1,6 +1,6 @@
 <template>
     <div class="createTask" v-if="visibleOption">
-        <el-dialog v-dialogDrag :model="true"  class="elDialogClass" :visible="visibleOption" width="700px" center @close="handleClose">
+        <el-dialog v-dialogDrag :model="true"  class="elDialogClass" :visible.sync="visibleOption" width="700px" center @close="handleClose">
             <div slot="title">
                 创建新的任务配置
             </div>
@@ -53,6 +53,7 @@ export default {
     watch:{
         visible(now){
             this.visibleOption = now
+            this.stepValue = 1
         },
         stepValue(now, old){
             this.dataObjList[old-1] = this.$refs[`panel[${old-1}]`].$data
@@ -95,13 +96,21 @@ export default {
             for(let i=0; i<data.length; i++){
                 data[i]['monitorDevices'].forEach(item=>{
                     if(item['isCheck']){
+                        let analyseType = ''
+                        let roiId = ''
+                        if(item['monitorDeviceType'] == 2){
+                            roiId = item['roiId']
+                        }else if(item['monitorDeviceType'] == 1){
+                            analyseType = item['analyseType']
+                        }
                         obj['deviceJson'].push({
-                            deviceType: data[i]['deviceType'],
+                            deviceType: data[i]['powerDeviceType'],
                             deviceId: data[i]['powerDeviceId'],
                             deviceName: data[i]['powerDeviceName'],
                             monitorDeviceId: item['monitorDeviceId'],
                             monitorDeviceType: item['monitorDeviceType'],
-                            roiId: item['roiId']
+                            roiId: roiId,
+                            analyseType: analyseType
                         })
                     }
                 })
@@ -115,6 +124,7 @@ export default {
             }else{
                 urlD = '/lenovo-plan/api/plan/create'
             }
+            debugger
             postAxiosData(urlD, obj).then(res=>{
                 if(res.data.isSuccess){
                     this.$message.success('创建成功')

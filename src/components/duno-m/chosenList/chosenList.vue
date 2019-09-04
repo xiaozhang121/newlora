@@ -5,10 +5,20 @@
             <span class="last" v-if="control" @click="toHide()">收起<i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i></span>
         </div>
         <el-collapse-transition>
-            <div class="contain" :class="{'overShow': dataList.length>6}" v-show="collapse">
-                <div class="item" v-for="(item, index) in dataList" :key="index" :class="{'grey': (index+1)%2!=0}">
-                    <el-checkbox v-model="item['isCheck']">{{ item['title'] }}</el-checkbox>
-                </div>
+            <div class="contain" :class="{'overShow': dataLength>6}" v-show="collapse">
+                <template v-for="(item, index) in dataList">
+                    <div class="item" :key="index">
+                        <el-checkbox v-model="item['isCheck']">{{ item['title'] }}</el-checkbox>
+                    </div>
+                    <template v-if="'monitorDeviceType' in item && item['monitorDeviceType'] == 1">
+                        <div class="item child" v-show="item['isCheck']">
+                            <el-radio v-model="item['analyseType']" label="1">外观类</el-radio>
+                        </div>
+                        <div class="item child" v-show="item['isCheck']">
+                            <el-radio v-model="item['analyseType']" label="0">表计类/状态类</el-radio>
+                        </div>
+                    </template>
+                </template>
             </div>
         </el-collapse-transition>
     </div>
@@ -64,6 +74,20 @@
                 immediate: true
             }
         },
+        computed:{
+            dataLength(){
+                let count = 0
+                this.dataList.forEach((item, index)=>{
+                    if(item['monitorDeviceType'] == 1 && item['isCheck']){
+                        count+=3
+                    }else{
+                        count++
+                    }
+                })
+                debugger
+                return count
+            }
+        },
         methods: {
             toHide(){
                 this.collapse = !this.collapse
@@ -114,9 +138,17 @@
             border-radius: 10px;
             background: #e0e0e0 !important;
         }
+        .contain{
+            .item:nth-child(2n+1){
+                background: #c7c7c7;
+            }
+        }
         .item{
             padding: 0 10px;
             height: 43px;
+            &.child{
+                padding-left: 34px;
+            }
         }
         .grey{
             background: #c7c7c7;

@@ -162,7 +162,7 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            /*newArr.push(
+            newArr.push(
                 h(
                     "el-button",
                     {
@@ -178,7 +178,7 @@ export default {
                     },
                     "编辑"
                 )
-            );*/
+            );
             /*
             newArr.push(
               h(
@@ -258,6 +258,13 @@ export default {
         }
       ]
     };
+  },
+  watch:{
+      taskVisible(now){
+          if(!now){
+              this.rowData = {}
+          }
+      }
   },
   methods: {
     onFresh() {
