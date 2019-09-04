@@ -5,7 +5,10 @@
     <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" :style="'position: absolute; z-index:' + zIndex">
       <div class="title dropSelf"  @click="showListFlag = !showListFlag">
           <!-- 全部固定监控设备 -->
-          <input class="selfInput" @blur="hiddenDrapdown()" readonly :value="title" />
+          <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
+          <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
+          <i class="iconfont icon-zuoyoubuju" v-if="displayType=='3'"></i>
+          <input class="selfInput" :class="{iconLayout:isLayout}" @blur="hiddenDrapdown()" readonly :value="title" />
           <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
@@ -134,10 +137,20 @@ export default {
         type: Boolean,
         default: true
     },
+    isLayout:{
+        type:Boolean,
+        default:false
+    },
     title:{
       type:String,
       default:()=>{
         return "全部固定监控设备"
+      }
+    },
+    displayType:{
+      type:String,
+      default:()=>{
+        return ""
       }
     },
     isSingleDrop:{
@@ -316,6 +329,12 @@ export default {
     font-size: 24px;
     cursor: pointer;
   }
+  .icon-zuoyoubuju{
+      font-size: 16px;
+      position: absolute;
+      left: 10px;
+      top: 8px;
+  }
   .icon-xiala{
     font-size: 9px;
     position: absolute;
@@ -364,6 +383,9 @@ export default {
         color: white;
         width: 100%;
         padding: 8px 11px;
+      }
+      .iconLayout{
+          padding-left: 30px;
       }
     }
     .btn_main{

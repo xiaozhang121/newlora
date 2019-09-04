@@ -3,9 +3,10 @@
     <div class="title" style="margin-bottom: 15px">
       <!-- <span>视频监控</span> -->
       <div>
-        <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
-        <i class="iconfont icon-shangxiabuju" v-else></i>
-        <span class="nr">{{ layoutTypeName }}</span>
+        <span>视频监控</span>
+        <!-- <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
+        <i class="iconfont icon-shangxiabuju" v-else></i>-->
+        <span class="nr">( {{ layoutTypeName }} )</span>
       </div>
       <div class="btnSelect">
         <duno-btn-top
@@ -13,6 +14,8 @@
           class="dunoBtnTop"
           :isCheck="false"
           :dataList="dataList"
+          :isLayout="true"
+          :displayType="displayType"
           title="切换布局"
           :showBtnList="false"
         ></duno-btn-top>
@@ -40,6 +43,7 @@
             class="monitorM second"
           ></key-monitor>
         </div>
+        <!--
         <div class="third" v-else-if="displayType == '3'">
           <div class="item_main">
             <div class="item">
@@ -146,6 +150,7 @@
             </div>
           </div>
         </div>
+        -->
         <div class="left" v-else>
           <key-monitor
             :monitorInfo="monitorInfo01"

@@ -39,12 +39,7 @@
       <div class="task">
         <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
       </div>
-      <!-- <el-pagination
-        :page-size="dataList.pageParam.pageSize"
-        :current-page="dataList.pageParam.pageIndex"
-        layout="prev, pager, next"
-        :total="dataList.pageParam.totalRows"
-      ></el-pagination>-->
+      <el-pagination layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
     </duno-main>
   </div>
 </template>
@@ -70,6 +65,8 @@ export default {
     return {
       timer: null,
       loading: false,
+      pageIndex: 1,
+      totalRows: 1,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-plan/api/statistics/plan/list"
@@ -99,6 +96,10 @@ export default {
     }
   },
   methods: {
+    sizeChange(item) {
+      this.pageIndex = item;
+      this.getDataList();
+    },
     onSelect(item) {
       this.titleValue = item["describeName"];
       this.dataForm.planType = item["monitorType"];
