@@ -188,7 +188,7 @@
             text="锁具状态"
             titlePosition="right"
             :textStyle="textStyle"
-            titleTop='50'
+            titleTop="50"
             titleLeft="60%"
             :centerOption="['30%', '50%']"
             :isChange="isChange"
@@ -277,7 +277,7 @@ export default {
       visible: false,
       isItemEchart: true,
       isChange: true,
-      dataForm:{},
+      dataForm: {},
       alarmLevel: "",
       regionList: [],
       titleType: "全部告警类别",
@@ -503,7 +503,7 @@ export default {
       },
       textStyle: {
         color: "#fff",
-        paddingRight:'20px'
+        paddingRight: "20px"
       }
     };
   },
@@ -788,6 +788,7 @@ export default {
         yAxis: [
           {
             type: "value",
+            name: "(%)",
             data: [0, 20, 40, 60, 80, 100],
             axisLine: {
               lineStyle: {
