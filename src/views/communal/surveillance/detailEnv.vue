@@ -476,7 +476,7 @@ export default {
         this.$forceUpdate()
     },
     getVideo(date){
-        getAxiosData('/lenovo-alarm/alarm/security/record/videos', {pageIndex: 1, pageRows: 99999, date: date,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
+        getAxiosData('/lenovo-device/device/video/record/videos', {pageIndex: 1, pageRows: 99999, date: date,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
             let data = res.data.tableData
             data.map(item=>{
                 item['isPlay'] = false
@@ -485,7 +485,7 @@ export default {
         })
     },
     initTime(){
-        getAxiosData('/lenovo-alarm/alarm/security/record/date/select-list',{ monitorDeviceId: this.dataForm.monitorDeviceId }).then(res=>{
+        getAxiosData('/lenovo-device/device/video/record/date/select-list',{ monitorDeviceId: this.dataForm.monitorDeviceId }).then(res=>{
             const resData = res.data;
             const map = resData.map(item => {
                 const obj = {
