@@ -452,12 +452,12 @@ export default {
           describeName: "布局二",
           format: 2,
           isActive: false
+        },
+        {
+          describeName: "布局三",
+          format: 3,
+          isActive: false
         }
-        // {
-        //   describeName: "布局三",
-        //   format: 3,
-        //   isActive: false
-        // }
       ],
       areaCameraList: [],
       oltagevLevelList: [
@@ -607,18 +607,18 @@ export default {
     .btnSelect {
       & > div:nth-child(2) {
         margin-left: 20px;
-        .dunoBtnTop {
+        // .dunoBtnTop {
+        width: 225px;
+        display: inline-flex;
+        padding-bottom: 0;
+        .btnList {
+          top: inherit !important;
           width: 225px;
-          display: inline-flex;
-          padding-bottom: 0;
-          .btnList {
-            top: inherit !important;
-            width: 225px;
-            .title {
-              font-size: 15px;
-            }
+          .title {
+            font-size: 15px;
           }
         }
+        // }
       }
     }
   }
