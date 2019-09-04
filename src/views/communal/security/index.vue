@@ -170,7 +170,7 @@ export default {
             startTime: moment(date).format('YYYY-MM-DD HH:mm:ss'),
             endTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         }
-        getAxiosData('/lenovo-alarm/alarm/security/record/videos',query).then(res=>{
+        getAxiosData('/lenovo-device/device/video/record/videos',query).then(res=>{
             this.safeList = res.data.tableData
             this.safeList = [{},{},{}]
         })

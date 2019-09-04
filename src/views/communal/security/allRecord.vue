@@ -401,7 +401,7 @@ export default {
     sevenData(){
         if(this.isBack){
             this.isBack = false
-            getAxiosData('/lenovo-alarm/alarm/security/record/videos/seven-days',{date: this.sevenDates, monitorDeviceId: this.sevenIds}).then(res=>{
+            getAxiosData('/lenovo-device/device/video/record/videos/seven-days',{date: this.sevenDates, monitorDeviceId: this.sevenIds}).then(res=>{
                 this.dataList = res.data
                 this.isBack = true
                 this.count ++
@@ -486,7 +486,7 @@ export default {
     },
     getRegion(flag) {
       const that = this;
-      getAxiosData('/lenovo-alarm/alarm/security/record/date/select-list',{monitorDeviceId: this.sevenIds}).then(res=>{
+      getAxiosData('/lenovo-device/device/video/record/date/select-list',{monitorDeviceId: this.sevenIds}).then(res=>{
           const resData = res.data;
           let arr = []
           const map = resData.map(item => {
