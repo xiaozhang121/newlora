@@ -106,22 +106,23 @@
           <div>
             <div class="videoItem" v-for="(item,index) in videoList" :key="index">
               <key-monitor
-                :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+                :monitorInfo="item"
                 paddingBottom="56%"
                 class="monitor"
                 width="100%"
-                :autoplay="playerOptions.autoplay"
-                :streamAddr="playerOptions.streamAddr"
+                :autoplay="false"
+                :imgAdress="item['pic']"
+                :streamAddr="item['streamAddr']"
                 :showBtmOption="false"
                 :Initialization="true"
               ></key-monitor>
-              <p>2019.8.29-2019.9.1数据</p>
+              <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>
             </div>
           </div>
           <el-pagination
-            :current-page="pageCurrent"
+            :current-page="pageParam['pageIndex']"
             layout="pager"
-            :total="totalRows"
+            :total="pageParam['totalRows']"
             @current-change="sizeChange"
           ></el-pagination>
         </div>
@@ -479,13 +480,17 @@ export default {
       ],
       playerOptions: {
         streamAddr: "",
-        autoplay: true
+        autoplay: false
       },
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
-      dataBread: [{ name: "摄像头详情" }]
+      dataBread: [{ name: "摄像头详情" }],
+      pageParam: {
+          pageIndex: 1,
+          totalRows: 1
+      }
     };
   },
   props: {
@@ -495,6 +500,17 @@ export default {
     }
   },
   methods: {
+    getVideo(pageIndex){
+        let index = 1
+        if(pageIndex){
+            index = pageIndex
+        }
+        getAxiosData('/lenovo-device/device/video/record/videos', {pageIndex: index, pageRows: 10,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
+            let data = res.data.tableData
+            this.videoList = data
+            this.pageParam = res.data.pageParam
+        })
+    },
     closeEnlarge() {
       this.isEnlarge = false;
     },
@@ -708,8 +724,8 @@ export default {
       }
     },
     sizeChange(item) {
-      this.pageCurrent = item;
-      this.getDataList();
+      this.getVideo(item);
+      // this.getDataList();
     },
     getMonitorDeviceName() {
       let url = "/lenovo-device/api/device-monitor/device";
@@ -769,7 +785,6 @@ export default {
         return;
       }
       that.isDraw = false;
-      that.isMonitor = false;
       let url = "/lenovo-device/api/monitor/ball-control/start";
       let query = {
         monitorDeviceId: that.$route.query.monitorDeviceId,
@@ -782,6 +797,7 @@ export default {
       };
       postAxiosData(url, query).then(res => {
         if (res.data.isSuccess) {
+          that.isMonitor = false;
           this.$message({
             type: "success",
             message: "开始监控标定区域"
@@ -874,6 +890,7 @@ export default {
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
+    this.getVideo()
   },
   mounted() {
     this.getInit();
