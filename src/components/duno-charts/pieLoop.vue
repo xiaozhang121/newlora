@@ -119,6 +119,17 @@ export default {
       }
     },
     /*
+    * 是否显示指线
+    * */
+    labelOption:{
+        type:Object,
+        default(){
+            return {
+               show: false,
+            }
+        }
+    },
+    /*
     * 当环形图时的选项
     * */
     seriesLabelOption: {
@@ -197,6 +208,7 @@ export default {
             center: that.centerOption,
             data: that.value,
             avoidLabelOverlap: false,
+            label:that.labelOption,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,

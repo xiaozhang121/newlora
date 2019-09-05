@@ -169,7 +169,7 @@
           <img src="../../../assets/iconFunction/icon_lock.png" alt />
           智能锁具
         </div>
-        <div>
+        <div :class="{echartBox:isShowEchart}">
           <duno-chart-pie-loop
             :value="[
                 {value:75, name:'75%', itemStyle: {
@@ -183,14 +183,14 @@
                 }
             }},
             ]"
-            radiusOption="80%"
+            :radiusOption="radiusOption"
             paddingBottom="45%"
             text="锁具状态"
             titlePosition="right"
             :textStyle="textStyle"
-            titleTop="50"
+            titleTop="30"
             titleLeft="60%"
-            :centerOption="['30%', '50%']"
+            :centerOption="centerOption"
             :isChange="isChange"
             :isItemEchart="isItemEchart"
             :legendOption="legendOption"
@@ -284,6 +284,7 @@ export default {
       messageList: [],
       handleNotes: [],
       alarmType: "",
+      isShowEchart: false,
       mockData: [],
       columns: [
         {
@@ -489,7 +490,7 @@ export default {
         itemGap: 10,
         textStyle: {
           color: "white",
-          fontSize: 15
+          fontSize: 16
           //   padding: [0, 0, 0, 4]
         },
         formatter: function(name) {
@@ -504,7 +505,9 @@ export default {
       textStyle: {
         color: "#fff",
         paddingRight: "20px"
-      }
+      },
+      radiusOption: "80%",
+      centerOption: ["30%", "50%"]
     };
   },
   created() {
@@ -512,12 +515,25 @@ export default {
     this.getData();
     this.getMockData();
     this.getLevel();
+    this.isScreen();
     this.$nextTick(() => {
       this.init();
       this.initBar();
     });
   },
   methods: {
+    isScreen() {
+      let distinguish = document.documentElement.clientWidth;
+      let that = this;
+      if (distinguish < 1366) {
+        let legendOption = that.legendOption;
+        that.radiusOption = "60%";
+        legendOption.right = "-2%";
+        legendOption.textStyle.fontSize = 12;
+        that.isShowEchart = true;
+        // that.$forceUpdate();
+      }
+    },
     onSelect(item) {
       this.titleType = item["describeName"];
       this.dataForm.alarmLevel = item["monitorDeviceType"];
@@ -770,7 +786,7 @@ export default {
         },
         calculable: true,
         grid: {
-          top: "20px",
+          top: "40px",
           bottom: "20px"
         },
         xAxis: [
@@ -901,7 +917,6 @@ export default {
     .reportForm {
       position: relative;
       width: calc(40% - 10px);
-      //   margin-right: 20px;
       padding: 2px;
       height: 100%;
       background-color: rgba(20, 40, 56, 0.8);
@@ -925,7 +940,6 @@ export default {
         }
         .reportTable {
           float: left;
-          // height: 270px;
           height: 100%;
           margin-right: 20px;
           width: calc(50% - 10px);
@@ -1011,14 +1025,26 @@ export default {
             padding-left: 30px;
             font-size: 18px;
             color: #aaa;
+            @media screen and (max-width: 1366px) {
+              padding-left: 20px;
+            }
           }
           div {
             color: #fff;
+            @media screen and (max-width: 1366px) {
+              margin-left: -10px;
+            }
             i {
               font-size: 100px;
+              @media screen and (max-width: 1366px) {
+                font-size: 90px;
+              }
             }
             span {
               font-size: 36px;
+              @media screen and (max-width: 1366px) {
+                font-size: 30px;
+              }
             }
           }
         }
@@ -1054,6 +1080,9 @@ export default {
       & > div:nth-child(2) {
         width: 100%;
         height: 88%;
+      }
+      .echartBox {
+        padding-top: 30px;
       }
     }
   }
@@ -1093,10 +1122,18 @@ export default {
         p {
           font-size: 20px;
           color: #fff;
+          white-space: nowrap;
+          @media screen and (max-width: 1366px) {
+            font-size: 16px;
+          }
         }
         span {
           font-size: 18px;
           color: #8f9598;
+          white-space: nowrap;
+          @media screen and (max-width: 1366px) {
+            font-size: 14px;
+          }
         }
         i {
           color: #fff;
@@ -1104,6 +1141,11 @@ export default {
           position: absolute;
           top: 36%;
           left: 30%;
+          @media screen and (max-width: 1366px) {
+            font-size: 25px;
+            left: 20%;
+            top: 20%;
+          }
         }
       }
     }
@@ -1114,11 +1156,18 @@ export default {
       font-size: 14px;
       color: #ffffff;
       margin: 0;
+      @media screen and (max-width: 1366px) {
+        font-size: 12px;
+        margin-top: -20px;
+      }
     }
     .gaugeClass1 {
       font-size: 20px;
       color: #fff;
       margin: 0;
+      @media screen and (max-width: 1366px) {
+        font-size: 16px;
+      }
     }
   }
   .table_select {
