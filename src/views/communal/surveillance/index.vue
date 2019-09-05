@@ -276,9 +276,6 @@
       </div>
     </div>
     <div v-else class="oltagevMainBig">
-      <!-- <div class="swiper-button-prev" slot="button-prev">
-        <i class="el-icon-arrow-left"></i>
-      </div>-->
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
           <key-monitor
@@ -293,12 +290,13 @@
             class="monitorM child"
           ></key-monitor>
         </swiper-slide>
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
+        <div class="swiper-button-prev" slot="button-prev">
+          <i class="el-icon-arrow-left"></i>
+        </div>
+        <div class="swiper-button-next" slot="button-next">
+          <i class="el-icon-arrow-right"></i>
+        </div>
       </swiper>
-      <!-- <div class="swiper-button-next" slot="button-next">
-        <i class="el-icon-arrow-right"></i>
-      </div>-->
     </div>
     <div class="test"></div>
   </div>
@@ -657,7 +655,7 @@ export default {
     }
   }
   .oltagevMain {
-    height: 400px;
+    // height: 400px;
     width: 100%;
     zoom: 1;
     &:after {
@@ -721,6 +719,14 @@ export default {
     .vjs-fluid {
       padding-top: 56%;
     }
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    height: 50px;
+    width: 50px;
+    background-color: rgba(42, 56, 63, 0.8);
+    color: #fff;
+    font-size: 30px;
   }
 }
 </style>
