@@ -132,7 +132,7 @@ export default {
           render: (h, params) => {
             let newArr = [];
             newArr.push(
-              /*  h(
+                h(
                     "el-button",
                     {
                         class: "btn_pre",
@@ -140,12 +140,12 @@ export default {
                         props: { type: "text", content: "编辑" },
                         on: {
                             click: () => {
-                                console.log(111);
+                                that.$emit('to-edit', params.row)
                             }
                         }
                     },
                     "编辑"
-                )*/
+                )
             );
             newArr.push([
               h(
