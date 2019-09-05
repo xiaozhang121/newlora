@@ -199,7 +199,7 @@ import { swiper, swiperSlide } from "vue-awesome-swiper";
 import { initConfigure } from "@/api/user";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
-import { getAxiosData } from "@/api/axiosType";
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import mixinViewModule from "@/mixins/view-module";
 import { editConfig, getAreaList } from "@/api/currency/currency.js";
 import { mapState } from "vuex";
@@ -320,7 +320,7 @@ export default {
       titleLayout: "切换布局",
       titleValue: "按电压等级",
       cameraList: [],
-      TypeData:[],
+      TypeData: [],
       isSwiper: true,
       swiperOption: {
         slidesPerView: 3,
@@ -347,6 +347,11 @@ export default {
           describeName: "布局二",
           format: 2,
           isActive: false
+        },
+        {
+          describeName: "布局三",
+          format: 3,
+          isActive: false
         }
       ],
       areaCameraList: [],
@@ -365,6 +370,21 @@ export default {
     };
   },
   methods: {
+    getCameraType() {
+      let url = "/lenovo-device/api/device/data/type";
+      postAxiosData(url).then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleType"
+          };
+          return obj;
+        });
+        this.TypeData = res.data;
+      });
+    },
     initConfigure() {
       const that = this;
       initConfigure({ userId: this.$store.state.user.userId, type: "2" }).then(
@@ -625,6 +645,14 @@ export default {
     .vjs-fluid {
       padding-top: 56%;
     }
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    height: 50px;
+    width: 50px;
+    background-color: rgba(42, 56, 63, 0.8);
+    color: #fff;
+    font-size: 30px;
   }
 }
 </style>
