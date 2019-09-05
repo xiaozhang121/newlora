@@ -1,17 +1,30 @@
 <template>
   <div class="surveillance">
     <div class="title" style="margin-bottom: 15px">
-      <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
-      <i class="iconfont icon-shangxiabuju" v-else></i>
-      <span class="nr">{{ layoutTypeName }}</span>
-      <duno-btn-top
-        @on-select="onSelect"
-        class="dunoBtnTop"
-        :isCheck="false"
-        :dataList="dataList"
-        title="切换布局"
-        :showBtnList="false"
-      ></duno-btn-top>
+      <div>
+        <span>视频监控</span>
+        <span class="nr">( {{ layoutTypeName }} )</span>
+      </div>
+      <div class="btnSelect">
+        <duno-btn-top
+          @on-select="onSelect"
+          class="dunoBtnTop"
+          :isCheck="false"
+          :dataList="dataList"
+          :isLayout="true"
+          :displayType="displayType"
+          title="切换布局"
+          :showBtnList="false"
+        ></duno-btn-top>
+        <duno-btn-top
+          @on-select="onSelectType"
+          class="dunoBtnTop"
+          :isCheck="false"
+          :dataList="TypeData"
+          :title="titleType"
+          :showBtnList="false"
+        ></duno-btn-top>
+      </div>
     </div>
     <div class="main" :class="{widthA : displayType == '2'}">
       <div class="left_main" :class="{widthA : displayType == '2'}">
@@ -303,6 +316,7 @@ export default {
       socketUrl: "10.0.0.164:8081",
       activeAreaId: "",
       dataForm: {},
+      titleType: "选择摄像头显示来源",
       titleLayout: "切换布局",
       titleValue: "按电压等级",
       cameraList: [],
@@ -398,6 +412,9 @@ export default {
       this.titleValue = item["describeName"];
       this.getCamera(item["areaId"]);
     },
+    onSelectType() {
+      this[item.title] = item["describeName"];
+    },
     getCamera(areaId) {
       const that = this;
       let query = {};
@@ -455,12 +472,12 @@ export default {
     padding-bottom: 34% !important;
   }
   .dunoBtnTop {
-    width: 134px;
+    width: 155px;
     display: inline-flex;
     padding-bottom: 0;
     .btnList {
       top: inherit !important;
-      width: 134px;
+      width: 155px;
       .title {
         font-size: 15px;
       }
@@ -469,8 +486,8 @@ export default {
   .title {
     color: white;
     display: flex;
-    align-items: center;
-
+    // align-items: center;
+    justify-content: space-between;
     .icon-zuoyoubuju,
     .icon-shangxiabuju {
       font-size: 18px;
@@ -479,6 +496,23 @@ export default {
     .nr {
       font-size: 16px;
       margin-right: 10px;
+    }
+    .btnSelect {
+      & > div:nth-child(2) {
+        margin-left: 20px;
+        // .dunoBtnTop {
+        width: 225px;
+        display: inline-flex;
+        padding-bottom: 0;
+        .btnList {
+          top: inherit !important;
+          width: 225px;
+          .title {
+            font-size: 15px;
+          }
+        }
+        // }
+      }
     }
   }
   .main {
