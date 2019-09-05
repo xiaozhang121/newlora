@@ -482,7 +482,6 @@
                 value2: '',
                 pickerOptions1: {
                     disabledDate(time) {
-                        debugger
                         let date = new Date(time.getFullYear()+'-'+ ((time.getMonth()*1+1)<10?'0'+(time.getMonth()*1+1):(time.getMonth()*1+1)) + '-' + (time.getDate()<10?'0'+time.getDate():time.getDate())).getTime()
                         return [new Date('2019-09-02').getTime(), new Date('2019-09-03').getTime(), new Date('2019-09-20').getTime()].indexOf(date)>-1;
                     }

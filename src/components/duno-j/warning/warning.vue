@@ -298,7 +298,6 @@ export default {
   },
   methods: {
     openPage() {
-      debugger;
       let routeData = this.$router.resolve({
         name: "newPage",
         params: {

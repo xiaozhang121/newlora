@@ -125,7 +125,6 @@ export default {
         reSize(){
             let mycanvas = document.getElementById('can')
             let ctx = mycanvas.getContext('2d')
-            debugger
             ctx.canvas.width  = $('.areaSetting').offsetWidth;
             ctx.canvas.height = $('.areaSetting').offsetHeight;
             mycanvas = document.getElementById('tt')

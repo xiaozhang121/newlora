@@ -144,7 +144,6 @@ export default {
     },
     getAreaData() {
       let that = this;
-      debugger;
       getAreaList().then(res => {
         that.areaData = res.data.areaList;
         switch (that.routeName) {

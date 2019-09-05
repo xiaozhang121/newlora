@@ -427,7 +427,6 @@
             }
         },
         mounted() {
-            debugger
             this.searchType = Base64.decode(this.name)
             this.searchId = Base64.decode(this.value)
             this.popData = JSON.parse(Base64.decode(this.info))

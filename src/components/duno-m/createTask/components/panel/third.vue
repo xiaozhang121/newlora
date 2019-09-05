@@ -63,7 +63,6 @@
             },
             list:{
                 handler(now){
-                    debugger
                 },
                 deep: true
             }

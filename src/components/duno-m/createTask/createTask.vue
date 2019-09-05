@@ -124,7 +124,6 @@ export default {
             }else{
                 urlD = '/lenovo-plan/api/plan/create'
             }
-            debugger
             postAxiosData(urlD, obj).then(res=>{
                 if(res.data.isSuccess){
                     this.$message.success('创建成功')
