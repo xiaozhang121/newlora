@@ -8,8 +8,9 @@
       <div @click="addTask()">+新建特殊巡视</div>
     </div>
     <duno-main class="dunoMain">
-      <Patrol :dataList="allInspectList" planType="全面巡视" />
+      <Patrol :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit"/>
       <Patrol
+        @to-edit="toEdit"
         :dataList="nightInspectList"
         planType="熄灯巡视"
         :titleCon="titleNight"
@@ -267,6 +268,11 @@ export default {
       }
   },
   methods: {
+    toEdit(row){
+        const that = this
+        that.rowData = row
+        that.taskVisible = true
+    },
     onFresh() {
       this.getDataList();
     },
@@ -324,7 +330,7 @@ export default {
     display: flex;
     justify-content: space-between;
     & > div:nth-child(2) {
-      visibility: hidden;
+      /*visibility: hidden;*/
       text-align: center;
       cursor: pointer;
       width: 176px;
