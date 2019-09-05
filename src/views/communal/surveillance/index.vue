@@ -40,6 +40,114 @@
             class="monitorM second"
           ></key-monitor>
         </div>
+        <!--
+        <div class="third" v-else-if="displayType == '3'">
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo02"
+                :kilovolt="$store.state.user.configInfo['camera02Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr02"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo03"
+                :kilovolt="$store.state.user.configInfo['camera03Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr03"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo04"
+                :kilovolt="$store.state.user.configInfo['camera04Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr04"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo02"
+                :kilovolt="$store.state.user.configInfo['camera02Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr02"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo03"
+                :kilovolt="$store.state.user.configInfo['camera03Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr03"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo04"
+                :kilovolt="$store.state.user.configInfo['camera04Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr04"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo02"
+                :kilovolt="$store.state.user.configInfo['camera02Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr02"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+          <div class="item_main">
+            <div class="item">
+              <key-monitor
+                :monitorInfo="monitorInfo03"
+                :kilovolt="$store.state.user.configInfo['camera03Name']"
+                :autoplay="true"
+                imgAdress
+                :streamAddr="streamAddr03"
+                :showBtmOption="true"
+                class="monitorM"
+              ></key-monitor>
+            </div>
+          </div>
+        </div>
+        -->
         <div class="left" v-else>
           <key-monitor
             :monitorInfo="monitorInfo01"
@@ -182,8 +290,12 @@
             class="monitorM child"
           ></key-monitor>
         </swiper-slide>
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
+        <div class="swiper-button-prev" slot="button-prev">
+          <i class="el-icon-arrow-left"></i>
+        </div>
+        <div class="swiper-button-next" slot="button-next">
+          <i class="el-icon-arrow-right"></i>
+        </div>
       </swiper>
       <!-- <div class="swiper-button-next" slot="button-next">
         <i class="el-icon-arrow-right"></i>
@@ -561,28 +673,6 @@ export default {
   .oltagevMainBig {
     height: 218px;
     width: 100%;
-    // zoom: 1;
-    // display: flex;
-    // justify-content: space-around;
-    // .swiper-button-prev,
-    // .swiper-button-next {
-    //   margin-top: 170px;
-    //   width: 30px;
-    //   color: #fff;
-    //   height: 24%;
-    //   text-align: center;
-    //   font-size: 20px;
-    //   background: #333;
-    //   i {
-    //     padding-top: 115px;
-    //   }
-    // }
-    // .swiper-button-prev {
-    //   margin-left: 10px;
-    // }
-    // .swiper-button-next {
-    //   margin-right: 10px;
-    // }
     .swiper-container {
       height: 218px;
     }
@@ -625,6 +715,15 @@ export default {
     // .item_main:nth-last-child(3n-1) {
     // }
   }
+  .third {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    .item_main {
+      width: calc(25% - 15px);
+      margin-right: 20px;
+    }
+  }
 
   .monitorM.child {
     .vjs-fluid {
@@ -650,9 +749,11 @@ export default {
   .swiper-button-next {
     height: 50px;
     width: 50px;
+    border-radius: 50%;
     background-color: rgba(42, 56, 63, 0.8);
     color: #fff;
     font-size: 30px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'%3E%3Cpath d='M27 22L5 44l-2.1-2.1L22.8 22 2.9 2.1 5 0l22 22z' fill='%23ffffff'/%3E%3C/svg%3E");
   }
 }
 </style>
