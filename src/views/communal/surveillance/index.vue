@@ -273,9 +273,6 @@
       </div>
     </div>
     <div v-else class="oltagevMainBig">
-      <!-- <div class="swiper-button-prev" slot="button-prev">
-        <i class="el-icon-arrow-left"></i>
-      </div>-->
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
           <key-monitor
@@ -293,9 +290,6 @@
         <div class="swiper-button-prev" slot="button-prev"></div>
         <div class="swiper-button-next" slot="button-next"></div>
       </swiper>
-      <!-- <div class="swiper-button-next" slot="button-next">
-        <i class="el-icon-arrow-right"></i>
-      </div>-->
     </div>
     <div class="test"></div>
   </div>
@@ -479,7 +473,7 @@ export default {
   },
   methods: {
     getCameraType() {
-      let url = "/lenovo-device/api/device/data/type";
+      let url = "";
       postAxiosData(url).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
