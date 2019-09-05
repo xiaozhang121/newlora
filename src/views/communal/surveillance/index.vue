@@ -320,6 +320,7 @@ export default {
       titleLayout: "切换布局",
       titleValue: "按电压等级",
       cameraList: [],
+      TypeData:[],
       isSwiper: true,
       swiperOption: {
         slidesPerView: 3,
