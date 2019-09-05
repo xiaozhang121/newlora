@@ -1,33 +1,17 @@
 <template>
   <div class="surveillance">
     <div class="title" style="margin-bottom: 15px">
-      <!-- <span>视频监控</span> -->
-      <div>
-        <span>视频监控</span>
-        <!-- <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
-        <i class="iconfont icon-shangxiabuju" v-else></i>-->
-        <span class="nr">( {{ layoutTypeName }} )</span>
-      </div>
-      <div class="btnSelect">
-        <duno-btn-top
-          @on-select="onSelect"
-          class="dunoBtnTop"
-          :isCheck="false"
-          :dataList="dataList"
-          :isLayout="true"
-          :displayType="displayType"
-          title="切换布局"
-          :showBtnList="false"
-        ></duno-btn-top>
-        <duno-btn-top
-          @on-select="onSelectType"
-          class="dunoBtnTop"
-          :isCheck="false"
-          :dataList="TypeData"
-          :title="titleType"
-          :showBtnList="false"
-        ></duno-btn-top>
-      </div>
+      <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
+      <i class="iconfont icon-shangxiabuju" v-else></i>
+      <span class="nr">{{ layoutTypeName }}</span>
+      <duno-btn-top
+        @on-select="onSelect"
+        class="dunoBtnTop"
+        :isCheck="false"
+        :dataList="dataList"
+        title="切换布局"
+        :showBtnList="false"
+      ></duno-btn-top>
     </div>
     <div class="main" :class="{widthA : displayType == '2'}">
       <div class="left_main" :class="{widthA : displayType == '2'}">
@@ -43,114 +27,6 @@
             class="monitorM second"
           ></key-monitor>
         </div>
-        <!--
-        <div class="third" v-else-if="displayType == '3'">
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo02"
-                :kilovolt="$store.state.user.configInfo['camera02Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr02"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo03"
-                :kilovolt="$store.state.user.configInfo['camera03Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr03"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo04"
-                :kilovolt="$store.state.user.configInfo['camera04Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr04"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo02"
-                :kilovolt="$store.state.user.configInfo['camera02Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr02"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo03"
-                :kilovolt="$store.state.user.configInfo['camera03Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr03"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo04"
-                :kilovolt="$store.state.user.configInfo['camera04Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr04"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo02"
-                :kilovolt="$store.state.user.configInfo['camera02Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr02"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo03"
-                :kilovolt="$store.state.user.configInfo['camera03Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr03"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-        </div>
-        -->
         <div class="left" v-else>
           <key-monitor
             :monitorInfo="monitorInfo01"
@@ -276,6 +152,9 @@
       </div>
     </div>
     <div v-else class="oltagevMainBig">
+      <!-- <div class="swiper-button-prev" slot="button-prev">
+        <i class="el-icon-arrow-left"></i>
+      </div>-->
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
           <key-monitor
@@ -290,13 +169,12 @@
             class="monitorM child"
           ></key-monitor>
         </swiper-slide>
-        <div class="swiper-button-prev" slot="button-prev">
-          <i class="el-icon-arrow-left"></i>
-        </div>
-        <div class="swiper-button-next" slot="button-next">
-          <i class="el-icon-arrow-right"></i>
-        </div>
+        <div class="swiper-button-prev" slot="button-prev"></div>
+        <div class="swiper-button-next" slot="button-next"></div>
       </swiper>
+      <!-- <div class="swiper-button-next" slot="button-next">
+        <i class="el-icon-arrow-right"></i>
+      </div>-->
     </div>
     <div class="test"></div>
   </div>
@@ -425,7 +303,6 @@ export default {
       socketUrl: "10.0.0.164:8081",
       activeAreaId: "",
       dataForm: {},
-      titleType: "选择摄像头显示来源",
       titleLayout: "切换布局",
       titleValue: "按电压等级",
       cameraList: [],
@@ -454,11 +331,6 @@ export default {
         {
           describeName: "布局二",
           format: 2,
-          isActive: false
-        },
-        {
-          describeName: "布局三",
-          format: 3,
           isActive: false
         }
       ],
@@ -526,9 +398,6 @@ export default {
       this.titleValue = item["describeName"];
       this.getCamera(item["areaId"]);
     },
-    onSelectType() {
-      this[item.title] = item["describeName"];
-    },
     getCamera(areaId) {
       const that = this;
       let query = {};
@@ -558,6 +427,10 @@ export default {
 
 <style lang="scss">
 .surveillance {
+  //   .icon-xiala {
+  //     /* width: 12px;
+  //     height: 15px;*/
+  //   }
   .noMarginRight {
     margin-right: 0 !important;
   }
@@ -582,12 +455,12 @@ export default {
     padding-bottom: 34% !important;
   }
   .dunoBtnTop {
-    width: 155px;
+    width: 134px;
     display: inline-flex;
     padding-bottom: 0;
     .btnList {
       top: inherit !important;
-      width: 155px;
+      width: 134px;
       .title {
         font-size: 15px;
       }
@@ -596,8 +469,8 @@ export default {
   .title {
     color: white;
     display: flex;
-    // align-items: center;
-    justify-content: space-between;
+    align-items: center;
+
     .icon-zuoyoubuju,
     .icon-shangxiabuju {
       font-size: 18px;
@@ -606,23 +479,6 @@ export default {
     .nr {
       font-size: 16px;
       margin-right: 10px;
-    }
-    .btnSelect {
-      & > div:nth-child(2) {
-        margin-left: 20px;
-        // .dunoBtnTop {
-        width: 225px;
-        display: inline-flex;
-        padding-bottom: 0;
-        .btnList {
-          top: inherit !important;
-          width: 225px;
-          .title {
-            font-size: 15px;
-          }
-        }
-        // }
-      }
     }
   }
   .main {
@@ -650,12 +506,34 @@ export default {
   .oltagevMainBig {
     height: 218px;
     width: 100%;
+    // zoom: 1;
+    // display: flex;
+    // justify-content: space-around;
+    // .swiper-button-prev,
+    // .swiper-button-next {
+    //   margin-top: 170px;
+    //   width: 30px;
+    //   color: #fff;
+    //   height: 24%;
+    //   text-align: center;
+    //   font-size: 20px;
+    //   background: #333;
+    //   i {
+    //     padding-top: 115px;
+    //   }
+    // }
+    // .swiper-button-prev {
+    //   margin-left: 10px;
+    // }
+    // .swiper-button-next {
+    //   margin-right: 10px;
+    // }
     .swiper-container {
       height: 218px;
     }
   }
   .oltagevMain {
-    // height: 400px;
+    height: 400px;
     width: 100%;
     zoom: 1;
     &:after {
@@ -689,15 +567,8 @@ export default {
         }
       }
     }
-  }
-  .third {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    .item_main {
-      width: calc(25% - 15px);
-      margin-right: 20px;
-    }
+    // .item_main:nth-last-child(3n-1) {
+    // }
   }
 
   .monitorM.child {
@@ -719,14 +590,6 @@ export default {
     .vjs-fluid {
       padding-top: 56%;
     }
-  }
-  .swiper-button-prev,
-  .swiper-button-next {
-    height: 50px;
-    width: 50px;
-    background-color: rgba(42, 56, 63, 0.8);
-    color: #fff;
-    font-size: 30px;
   }
 }
 </style>
