@@ -805,6 +805,9 @@ export default {
           {
             type: "value",
             name: "(%)",
+            nameTextStyle: {
+              padding: [0, 30, 0, 0]
+            },
             data: [0, 20, 40, 60, 80, 100],
             axisLine: {
               lineStyle: {
@@ -899,6 +902,7 @@ export default {
         }
         .pointer {
           cursor: pointer;
+          flex: 1;
         }
         .table_abnormalInfo {
           margin-top: 20px;

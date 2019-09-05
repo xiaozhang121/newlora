@@ -181,6 +181,7 @@ export default {
 <style lang="scss">
 .duno-reportFrom {
   width: 100%;
+  //   min-height: 100%;
   height: 100%;
   .el-loading-mask {
     width: 100% !important;
@@ -245,10 +246,12 @@ export default {
     }
   }
   .dunoMain {
+    // min-height: 100%;
     height: inherit !important;
     margin-bottom: 20px;
     .el-pagination {
       text-align: center;
+      margin-bottom: 20px;
     }
     .el-pager li {
       background: rgba(0, 0, 0, 0);
