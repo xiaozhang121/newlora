@@ -445,6 +445,7 @@ export default [{
                         hideInMenu: true,
                         isDetails: true
                     },
+                    
                     component: () => import('@/views/communal/abnormalInfo/home.vue')
                 },
                 {
