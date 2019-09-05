@@ -1,11 +1,8 @@
 <template>
   <div class="surveillance">
     <div class="title" style="margin-bottom: 15px">
-      <!-- <span>视频监控</span> -->
       <div>
         <span>视频监控</span>
-        <!-- <i class="iconfont icon-zuoyoubuju" v-if="displayType == '1'"></i>
-        <i class="iconfont icon-shangxiabuju" v-else></i>-->
         <span class="nr">( {{ layoutTypeName }} )</span>
       </div>
       <div class="btnSelect">
@@ -43,114 +40,6 @@
             class="monitorM second"
           ></key-monitor>
         </div>
-        <!--
-        <div class="third" v-else-if="displayType == '3'">
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo02"
-                :kilovolt="$store.state.user.configInfo['camera02Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr02"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo03"
-                :kilovolt="$store.state.user.configInfo['camera03Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr03"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo04"
-                :kilovolt="$store.state.user.configInfo['camera04Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr04"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo02"
-                :kilovolt="$store.state.user.configInfo['camera02Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr02"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo03"
-                :kilovolt="$store.state.user.configInfo['camera03Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr03"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo04"
-                :kilovolt="$store.state.user.configInfo['camera04Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr04"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo02"
-                :kilovolt="$store.state.user.configInfo['camera02Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr02"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-          <div class="item_main">
-            <div class="item">
-              <key-monitor
-                :monitorInfo="monitorInfo03"
-                :kilovolt="$store.state.user.configInfo['camera03Name']"
-                :autoplay="true"
-                imgAdress
-                :streamAddr="streamAddr03"
-                :showBtmOption="true"
-                class="monitorM"
-              ></key-monitor>
-            </div>
-          </div>
-        </div>
-        -->
         <div class="left" v-else>
           <key-monitor
             :monitorInfo="monitorInfo01"
@@ -431,6 +320,7 @@ export default {
       titleLayout: "切换布局",
       titleValue: "按电压等级",
       cameraList: [],
+      TypeData:[],
       isSwiper: true,
       swiperOption: {
         slidesPerView: 3,
@@ -456,11 +346,6 @@ export default {
         {
           describeName: "布局二",
           format: 2,
-          isActive: false
-        },
-        {
-          describeName: "布局三",
-          format: 3,
           isActive: false
         }
       ],
@@ -560,6 +445,10 @@ export default {
 
 <style lang="scss">
 .surveillance {
+  //   .icon-xiala {
+  //     /* width: 12px;
+  //     height: 15px;*/
+  //   }
   .noMarginRight {
     margin-right: 0 !important;
   }
@@ -652,6 +541,28 @@ export default {
   .oltagevMainBig {
     height: 218px;
     width: 100%;
+    // zoom: 1;
+    // display: flex;
+    // justify-content: space-around;
+    // .swiper-button-prev,
+    // .swiper-button-next {
+    //   margin-top: 170px;
+    //   width: 30px;
+    //   color: #fff;
+    //   height: 24%;
+    //   text-align: center;
+    //   font-size: 20px;
+    //   background: #333;
+    //   i {
+    //     padding-top: 115px;
+    //   }
+    // }
+    // .swiper-button-prev {
+    //   margin-left: 10px;
+    // }
+    // .swiper-button-next {
+    //   margin-right: 10px;
+    // }
     .swiper-container {
       height: 218px;
     }
@@ -691,15 +602,8 @@ export default {
         }
       }
     }
-  }
-  .third {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    .item_main {
-      width: calc(25% - 15px);
-      margin-right: 20px;
-    }
+    // .item_main:nth-last-child(3n-1) {
+    // }
   }
 
   .monitorM.child {
