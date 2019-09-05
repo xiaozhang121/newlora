@@ -140,7 +140,7 @@ export default {
                         props: { type: "text", content: "编辑" },
                         on: {
                             click: () => {
-                                that.$emit('to-edit', params.row)
+                                that.$emit('to-edit', JSON.parse(JSON.stringify(params.row)))
                             }
                         }
                     },

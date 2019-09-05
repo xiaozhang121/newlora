@@ -89,9 +89,9 @@
                             this.rowData['time'] = ''
                         }
                     }else{
-                        this.options = res.data
                         this.value = res.data[0].value
                     }
+                    this.options = res.data
                 })
             }
         },

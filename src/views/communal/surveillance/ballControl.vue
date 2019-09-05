@@ -490,8 +490,19 @@ export default {
       pageParam: {
           pageIndex: 1,
           totalRows: 1
-      }
+      },
+      isLock: 0
     };
+  },
+  watch:{
+      isLock(now){
+          if(now){
+              this.controlAble = true
+              this.isMonitor =  false
+              this.isShowBox =  true
+              this.isCamera = false
+          }
+      }
   },
   props: {
     deviceId: {
@@ -500,6 +511,15 @@ export default {
     }
   },
   methods: {
+    getCoordinate(flag, w0, w1, h0, h1, x0, y0, x1, y1){
+        // 原始-->页面
+        if(flag){
+
+        }else{
+        // 页面-->原始
+
+        }
+    },
     getVideo(pageIndex){
         let index = 1
         if(pageIndex){
@@ -734,6 +754,8 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
+        this.isLock = Number(res.data.isLock)
+        this.imgsrc = res.data.imgAddress
       });
     },
     changeDate() {},
@@ -788,8 +810,9 @@ export default {
       let url = "/lenovo-device/api/monitor/ball-control/start";
       let query = {
         monitorDeviceId: that.$route.query.monitorDeviceId,
-        fileName: that.shotData.cephFileName,
-        bucketName: that.shotData.cephBucket,
+   /*     fileName: that.shotData.cephFileName,
+        bucketName: that.shotData.cephBucket,*/
+        imgAddress: that.imgsrc,
         x0: that.startPointX,
         y0: that.startPointY,
         x1: that.endPointX,
@@ -900,6 +923,12 @@ export default {
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
+    /*setTimeout(()=>{
+        this.controlAble = true
+        this.isMonitor =  false
+        this.isShowBox =  true
+        this.isCamera = false
+    },4000)*/
   },
   beforeDestroy() {
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";

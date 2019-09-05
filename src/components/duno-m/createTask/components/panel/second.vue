@@ -14,6 +14,11 @@
         components: {
             chosenList
         },
+        data() {
+            return {
+                init: true
+            }
+        },
         props:{
             rowData:{
                 type: Object,
@@ -29,8 +34,104 @@
             }
         },
         watch:{
+            dataList:{
+                handler(now){
+                  if(now.length){
+                      let data = now
+                      let arr = this.rowData['devicemonitors']
+                     /* for(let j=0; j<data.length; j++){
+                          for(let z=0; z<data[j]['monitorDevices'].length; z++){
+                              debugger
+                              if(data[j]['monitorDevices'][z]['isCheck']){
+                                  let i=0
+                                  for(i=0; i<arr.length; i++){
+                                      if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
+                                          let indexx = arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                          if(indexx < 0){
+                                              arr[i]['monitorDeviceId'].push(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                          }
+                                      }
+                                  }
+                                  if(i == arr.length){
+                                      let obj = {
+                                          powerDeviceId: data[j]['powerDeviceId'],
+                                          monitorDeviceId: [data[j]['monitorDevices'][z]['monitorDeviceId']],
+                                      }
+                                      if(data[j]['monitorDevices'][z]['monitorDeviceType'] == 1)
+                                          obj['analyseType'] = [data[j]['monitorDevices'][z]['analyseType']]
+                                      arr.push(obj)
+                                  }
+                              }else{
+                                  if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
+                                      let indexx = arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                      if(indexx > -1){
+                                          arr[i]['monitorDeviceId'].splice(indexx, 1)
+                                      }
+                                  }
+                              }
+                          }
+                      }*/
+                      for(let i=0; i<arr.length; i++){
+                          for(let j=0; j<data.length; j++){
+                                  for(let z=0; z<data[j]['monitorDevices'].length; z++){
+                                      let indexx = arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                      if(indexx > -1){
+                                          if(data[j]['powerDeviceId'] == arr[i]['powerDeviceId']){
+                                              debugger
+                                              if(!data[j]['monitorDevices'][z]['isCheck'])
+                                                  arr[i]['monitorDeviceId'].splice(indexx, 1)
+                                              if(data[j]['monitorDevices'][z]['monitorDeviceType'] == 1){
+                                                  arr[i]['analyseTypes'][indexx] = data[j]['monitorDevices'][z]['analyseType']
+                                              }
+                                          }
+                                      }else if(data[j]['monitorDevices'][z]['isCheck']){
+                                          if(data[j]['powerDeviceId'] == arr[i]['powerDeviceId']){
+                                              debugger
+                                              arr[i]['monitorDeviceId'].push(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                          }
+                                      }
+                                  }
+                          }
+                      }
+                       for(let j=0; j<data.length; j++){
+                         for(let z=0; z<data[j]['monitorDevices'].length; z++){
+                             debugger
+                             if(data[j]['monitorDevices'][z]['isCheck']){
+                                 let i=0
+                                 for(i=0; i<arr.length; i++){
+                                     if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
+                                         let indexx = arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                         if(indexx < 0){
+                                             arr[i]['monitorDeviceId'].push(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                         }
+                                     }
+                                 }
+                                 if(i == arr.length){
+                                     let obj = {
+                                         powerDeviceId: data[j]['powerDeviceId'],
+                                         monitorDeviceId: [data[j]['monitorDevices'][z]['monitorDeviceId']],
+                                     }
+                                     if(data[j]['monitorDevices'][z]['monitorDeviceType'] == 1)
+                                         obj['analyseType'] = [data[j]['monitorDevices'][z]['analyseType']]
+                                     arr.push(obj)
+                                 }
+                             }else{
+                                 if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
+                                     let indexx = arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])
+                                     if(indexx > -1){
+                                         arr[i]['monitorDeviceId'].splice(indexx, 1)
+                                     }
+                                 }
+                             }
+                         }
+                     }
+                  }
+                },
+                deep: true
+            },
             list:{
                 handler(now){
+                    debugger
                     let data = now.dataList.map(item=>{
                         if(item['isCheck']){
                             return item['deviceId']
@@ -53,7 +154,10 @@
                             })
                         }
                         let data = res.data
+                        console.log(this.rowDataLength)
+                        console.log(!this.rowData['isChange'])
                         if(this.rowDataLength && !this.rowData['isChange']){
+                            // debugger
                             let arr = this.rowData['devicemonitors']
                             for(let i=0; i<arr.length; i++){
                                 for(let j=0; j<data.length; j++){
@@ -63,17 +167,19 @@
                                             if(indexx > -1){
                                                 data[j]['monitorDevices'][z]['isCheck'] = true
                                                 if(data[j]['monitorDevices'][z]['monitorDeviceType'] == 1){
-                                                    if(arr[i]['analyseTypes'][indexx] == '')
-                                                        data[j]['monitorDevices'][z]['analyseType'] = 1
-                                                    else
-                                                        data[j]['monitorDevices'][z]['analyseType'] = arr[i]['analyseTypes'][indexx]
+                                                    debugger
+                                                    if(arr[i]['analyseTypes'][indexx] == ''){
+                                                        data[j]['monitorDevices'][z]['analyseType'] = '1'
+                                                    }
+                                                    else{
+                                                        data[j]['monitorDevices'][z]['analyseType'] = arr[i]['analyseTypes'][indexx].toString()
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                            this.rowData['isChange'] = true
                         }
                         this.dataList = data
                     })

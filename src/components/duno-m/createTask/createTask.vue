@@ -16,7 +16,7 @@
                 <button-custom v-if="stepValue == 1" class="button" @click.native="cancel" title="取消" />
                 <button-custom v-else="stepValue != 1" class="button" @click.native="toPre" title="上一步" />
                 <button-custom v-if="stepValue!=3" class="button" @click.native="toNext" title="下一步" />
-                <button-custom v-if="rowDataLength == 0 && stepValue == 3" class="button" @click.native="toSubmit" title="确认" />
+                <button-custom v-if="rowDataLength == 0 && stepValue == 3" class="button" @click.native="toSubmit()" title="确认" />
                 <button-custom v-if="rowDataLength != 0 && stepValue == 3" class="button" @click.native="toEdit" title="编辑" />
             </span>
         </el-dialog>
@@ -84,6 +84,7 @@ export default {
             this.toSubmit('/lenovo-plan/api/plan/edit')
         },
         toSubmit(url){
+            debugger
             let obj = {}
             let data = []
             obj['planDate'] = {
@@ -121,18 +122,29 @@ export default {
             let urlD = ''
             if(url){
                 urlD = url
+                obj['planId'] = this.rowData['planId']
+                putAxiosData(urlD, obj).then(res=>{
+                    if(res.data.isSuccess){
+                        this.$message.success('编辑成功')
+                        this.$emit('on-fresh')
+                        this.handleClose()
+                    }else{
+                        this.$message.fail('编辑失败')
+                    }
+                })
             }else{
                 urlD = '/lenovo-plan/api/plan/create'
+                postAxiosData(urlD, obj).then(res=>{
+                    if(res.data.isSuccess){
+                        this.$message.success('创建成功')
+                        this.$emit('on-fresh')
+                        this.handleClose()
+                    }else{
+                        this.$message.fail('创建失败')
+                    }
+                })
             }
-            postAxiosData(urlD, obj).then(res=>{
-                if(res.data.isSuccess){
-                    this.$message.success('创建成功')
-                    this.$emit('on-fresh')
-                    this.handleClose()
-                }else{
-                    this.$message.fail('创建失败')
-                }
-            })
+
         },
         toPre(){
             this.stepValue--

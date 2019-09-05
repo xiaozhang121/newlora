@@ -172,7 +172,7 @@ export default {
                         props: { type: "text", content: "编辑" },
                         on: {
                             click: () => {
-                                that.rowData = params.row
+                                that.rowData = JSON.parse(JSON.stringify(params.row))
                                 that.taskVisible = true
                             }
                         }

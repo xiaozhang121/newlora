@@ -172,7 +172,7 @@ export default {
         }
         getAxiosData('/lenovo-device/device/video/record/videos',query).then(res=>{
             this.safeList = res.data.tableData
-            this.safeList = [{},{},{}]
+            // this.safeList = [{},{},{}]
         })
     },
     handleData() {
