@@ -290,12 +290,8 @@
             class="monitorM child"
           ></key-monitor>
         </swiper-slide>
-        <div class="swiper-button-prev" slot="button-prev">
-          <i class="el-icon-arrow-left"></i>
-        </div>
-        <div class="swiper-button-next" slot="button-next">
-          <i class="el-icon-arrow-right"></i>
-        </div>
+        <div class="swiper-button-prev" slot="button-prev"></div>
+        <div class="swiper-button-next" slot="button-next"></div>
       </swiper>
       <!-- <div class="swiper-button-next" slot="button-next">
         <i class="el-icon-arrow-right"></i>
@@ -678,7 +674,7 @@ export default {
     }
   }
   .oltagevMain {
-    height: 400px;
+    // height: 400px;
     width: 100%;
     zoom: 1;
     &:after {
@@ -751,8 +747,10 @@ export default {
     width: 50px;
     border-radius: 50%;
     background-color: rgba(42, 56, 63, 0.8);
-    color: #fff;
+    // color: #fff;
     font-size: 30px;
+  }
+  .swiper-button-next {
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'%3E%3Cpath d='M27 22L5 44l-2.1-2.1L22.8 22 2.9 2.1 5 0l22 22z' fill='%23ffffff'/%3E%3C/svg%3E");
   }
 }
