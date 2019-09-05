@@ -8,7 +8,7 @@
       <div>布控球</div>
       <div class="Battery">
         <div :style="{visibility: isMonitor?'hidden':'visible'}">正在巡视中</div>
-        <pattery/>
+        <pattery />
       </div>
     </div>
     <div class="Main_contain">
@@ -191,7 +191,7 @@
         />
       </div>
     </div>
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning :popData="popData" :visible="visible" detailsType="alarm" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
@@ -786,7 +786,7 @@ export default {
       });
     },
     handleDraw() {
-        this.isDraw = true;
+      this.isDraw = true;
     },
     clearDraw() {
       this.isDraw = false;
@@ -861,25 +861,25 @@ export default {
           message: "请先点击设定区域"
         });
       }
-      if(this.isShowBox){
-          this.$message({
-              type: "warning",
-              message: "清空后再绘制"
-          });
-          return
+      if (this.isShowBox) {
+        this.$message({
+          type: "warning",
+          message: "清空后再绘制"
+        });
+        return;
       }
       if (this.clickFlage == 0 && this.isDraw) {
         this.isShowBox = true;
         this.isStart = true;
-        this.$nextTick(()=>{
-            this.$refs.box.style.width = null;
-            this.$refs.box.style.height = null;
-            this.startPointX = e.offsetX;
-            this.startPointY = e.offsetY;
-            this.$refs.box.style.left = this.startPointX + "px";
-            this.$refs.box.style.top = this.startPointY + "px";
-            this.clickFlage = 1;
-        })
+        this.$nextTick(() => {
+          this.$refs.box.style.width = null;
+          this.$refs.box.style.height = null;
+          this.startPointX = e.offsetX;
+          this.startPointY = e.offsetY;
+          this.$refs.box.style.left = this.startPointX + "px";
+          this.$refs.box.style.top = this.startPointY + "px";
+          this.clickFlage = 1;
+        });
       }
     },
     getEndCode(e) {
@@ -913,7 +913,7 @@ export default {
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
-    this.getVideo()
+    this.getVideo();
   },
   mounted() {
     this.getInit();
