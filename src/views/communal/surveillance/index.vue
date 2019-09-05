@@ -567,6 +567,7 @@ export default {
     this.getArea();
     this.initData();
     this.initConfigure();
+    this.getCameraType();
   }
 };
 </script>
@@ -752,6 +753,9 @@ export default {
   }
   .swiper-button-next {
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'%3E%3Cpath d='M27 22L5 44l-2.1-2.1L22.8 22 2.9 2.1 5 0l22 22z' fill='%23ffffff'/%3E%3C/svg%3E");
+  }
+  .swiper-button-prev {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'%3E%3Cpath d='M0 22L22 0l2.1 2.1L4.2 22l19.9 19.9L22 44 0 22z' fill='%23ffffff'/%3E%3C/svg%3E");
   }
 }
 </style>
