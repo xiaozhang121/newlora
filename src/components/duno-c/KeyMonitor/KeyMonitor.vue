@@ -46,7 +46,7 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span style="display: none" @click="videotape()" v-if="!isPic && !onlyCanel">
+          <span  @click="videotape()" v-if="!isPic && !onlyCanel">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
@@ -409,7 +409,6 @@ export default {
       this.isCamera = !this.isCamera;
       if (this.isCamera) {
         // 开始录像
-        this.timeIncreate();
         postAxiosData("/lenovo-device/api/stream/startRecord", {
           rtmpUrl: this.playerOptions["sources"][0]["src"],
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
@@ -418,6 +417,7 @@ export default {
           this.$message.info(res.msg);
           this.taskId = res.data.taskId;
           this.maxSecond = res.data.maxRecordTime
+          this.timeIncreate();
         });
       } else {
         // 结束录像
@@ -425,10 +425,11 @@ export default {
           rtmpUrl: this.playerOptions["sources"][0]["src"],
           taskId: this.taskId
         }).then(res => {
+          clearInterval(this.timerTime);
+          this.timeIncreateD = "0:00:00";
           this.$message.info(res.msg);
         });
-        clearInterval(this.timerTime);
-        this.timeIncreateD = "0:00:00";
+
       }
     },
     webFullScreen() {
