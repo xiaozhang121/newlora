@@ -32,7 +32,7 @@
             <div class="top not-print">
               <div>历史数据</div>
               <div class="btn">
-                 <div>
+                <!-- <div>
                    <duno-btn-top
                            @on-select="onSelect"
                            :zIndex="1"
@@ -42,7 +42,7 @@
                            :title="titleTypeK"
                            :showBtnList="false"
                    ></duno-btn-top>
-                </div>
+                </div>-->
                 <div class="dateChose">
                   <el-date-picker
                     unlink-panels

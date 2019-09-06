@@ -102,9 +102,13 @@
             this.initData()
         },
         beforeDestroy(){
+            try{
             let dom = document.querySelector('.el-picker-panel')
             dom.style.background = '#ffffff'
             dom.style.border = '1px solid #E4E7ED'
+            }catch (e) {
+                
+            }
         }
     }
 </script>
