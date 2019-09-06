@@ -19,6 +19,7 @@
               <key-monitor
                   class="monitorRecord"
                   :showBtmOption="true"
+                  :pushCamera="false"
                   :noButton="false"
                   configType="2"
                   :monitorInfo="item"
