@@ -511,14 +511,18 @@ export default {
     }
   },
   methods: {
-    getCoordinate(flag, w0, w1, h0, h1, x0, y0, x1, y1){
+    getCoordinate(type, w0, w1, h0, h1, x0, y0){
+        let obj = {x: 0, y: 0}
         // 原始-->页面
-        if(flag){
-
+        if(type){
+            obj['x'] = (w0/w1) * x0
+            obj['y'] = (h0/h1) * y0
         }else{
         // 页面-->原始
-
+            obj['x'] = (w1/w0) * x0
+            obj['y'] = (h1/h0) * y0
         }
+        return obj
     },
     getVideo(pageIndex){
         let index = 1
@@ -756,6 +760,24 @@ export default {
         this.dataForm.monitorDeviceName = res.data.deviceName;
         this.isLock = Number(res.data.isLock)
         this.imgsrc = res.data.imgAddress
+        let img = new Image()
+        img.src = this.imgsrc
+        let w1 = 0
+        let h1 = 0
+        img.onload = function () {
+            w1 = img.width
+            h1 = img.height
+            let w0 = document.querySelector('.calibration').offsetWidth
+            let h0 = document.querySelector('.calibration').offsetHeight
+            let ww1 =  Math.abs(res.data.x0 -  res.data.x1)
+            let hh1 =  Math.abs(res.data.y0 -  res.data.y1)
+            let point = this.getCoordinate(1, w0, w1, h0, h1, res.data.x0, res.data.y0)
+            let whData = this.getCoordinate(1, w0, w1, h0, h1, ww1, hh1)
+            document.querySelector('#boxImg').style.left = point.x
+            document.querySelector('#boxImg').style.top = point.y
+            document.querySelector('#boxImg').style.width = whData.x
+            document.querySelector('#boxImg').style.height = whData.y
+        }  
       });
     },
     changeDate() {},
@@ -808,25 +830,37 @@ export default {
       }
       that.isDraw = false;
       let url = "/lenovo-device/api/monitor/ball-control/start";
-      let query = {
-        monitorDeviceId: that.$route.query.monitorDeviceId,
-   /*     fileName: that.shotData.cephFileName,
-        bucketName: that.shotData.cephBucket,*/
-        imgAddress: that.imgsrc,
-        x0: that.startPointX,
-        y0: that.startPointY,
-        x1: that.endPointX,
-        y1: that.endPointY
-      };
-      postAxiosData(url, query).then(res => {
-        if (res.data.isSuccess) {
-          that.isMonitor = false;
-          this.$message({
-            type: "success",
-            message: "开始监控标定区域"
+      let img = new Image()
+      img.src = this.imgsrc
+      let w1 = 0
+      let h1 = 0
+      img.onload = function () {
+          w1 = img.width
+          h1 = img.height
+          let w0 = document.querySelector('.calibration').offsetWidth
+          let h0 = document.querySelector('.calibration').offsetHeight
+          let startPoint = this.getCoordinate(0, w0, w1, h0, h1, that.startPointX, that.startPointY)
+          let endPoint = this.getCoordinate(0, w0, w1, h0, h1, that.endPointX, that.endPointY)
+          let query = {
+              monitorDeviceId: that.$route.query.monitorDeviceId,
+              /*     fileName: that.shotData.cephFileName,
+                   bucketName: that.shotData.cephBucket,*/
+              imgAddress: that.imgsrc,
+              x0: startPoint.x,
+              y0: startPoint.y,
+              x1: endPoint.x,
+              y1: endPoint.y
+          };
+          postAxiosData(url, query).then(res => {
+              if (res.data.isSuccess) {
+                  that.isMonitor = false;
+                  this.$message({
+                      type: "success",
+                      message: "开始监控标定区域"
+                  });
+              }
           });
-        }
-      });
+      }
     },
     handleEnd() {
       let that = this;
@@ -923,7 +957,7 @@ export default {
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
-    /*setTimeout(()=>{
+   /* setTimeout(()=>{
         this.controlAble = true
         this.isMonitor =  false
         this.isShowBox =  true
