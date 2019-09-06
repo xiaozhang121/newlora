@@ -25,7 +25,7 @@
                   :imgAdress="item['pic']"
                   :streamAddr="item['streamAddr']"
                   :kilovolt="item['monitorDeviceName']"
-                  :patrol="item['monitorDeviceId']"
+                  :patrol="`${item['startTime']}至${item['endTime']}`"
               />
             </div>
             <div style="clear: both"></div>

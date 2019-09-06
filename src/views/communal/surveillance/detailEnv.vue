@@ -705,6 +705,7 @@ export default {
     this.initCamera();
     this.getEchasrts();
     this.initTime()
+    this.getVideo()
   },
   mounted() {
     this.getInit();
