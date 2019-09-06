@@ -55,7 +55,7 @@
                 dataForm: {},
                 radio: "1",
                 value: "",
-                totalNum: 500,
+                totalNum: 10,
                 titleTypeL: "所有监测设备",
                 titleTypeC: "所有电压等级",
                 titleTypeR: "所有状态",

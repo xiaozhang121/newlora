@@ -121,7 +121,7 @@ export default {
       visibleSettingOption: false,
       visible: false,
       isEnlarge: false,
-      totalNum: 500,
+      totalNum: 20,
       pageRows: 20,
       selectInfo: "更多",
       serious: false,

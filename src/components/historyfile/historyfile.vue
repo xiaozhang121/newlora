@@ -38,7 +38,7 @@ export default {
     return {
       pageIndex: 1,
       pageRows: 10,
-      totalNum: 123,
+      totalNum: 10,
       dataList: [],
       copyDataList: [],
       visible: false,

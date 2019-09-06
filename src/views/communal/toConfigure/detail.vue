@@ -5,7 +5,7 @@
     </div>
     <div class="top not-print">
       <dir>任务配置</dir>
-      <div @click="addTask()">+新建特殊巡视</div>
+      <div @click="addTask()">+创建新的任务配置</div>
     </div>
     <duno-main class="dunoMain">
       <Patrol :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit"/>
@@ -331,6 +331,7 @@ export default {
     justify-content: space-between;
     & > div:nth-child(2) {
       /*visibility: hidden;*/
+      font-size: 16px;
       text-align: center;
       cursor: pointer;
       width: 176px;
