@@ -80,7 +80,7 @@
             <div class="top not-print">
               <div>历史数据</div>
               <div class="btn">
-                <div>
+                <!--<div>
                   <duno-btn-top
                     @on-select="onSelect"
                     class="dunoBtnTop"
@@ -89,7 +89,7 @@
                     :title="titleType"
                     :showBtnList="false"
                   ></duno-btn-top>
-                </div>
+                </div>-->
                 <div class="dateChose">
                   <el-date-picker
                     unlink-panels
@@ -104,7 +104,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <echarts :dataAllList="echartData" />
+              <echarts :dataAllList="echartData"  :title="echartTitle" gridOptionTop="120" />
             </div>
           </div>
         </div>
@@ -149,7 +149,7 @@
               ></el-date-picker>
             </div>
             <div>
-              <div class="exportExcel">
+              <div @click="clickExcel" class="exportExcel">
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
               </div>
@@ -218,6 +218,7 @@ export default {
   data() {
     const that = this;
     return {
+      echartTitle: '',
       addOrEdit: "添加",
       disabled: false,
       isControl: "1",
@@ -598,15 +599,20 @@ export default {
       let startTime = "";
       let endTime = "";
       if (data) {
-        startTime = moment(data[0]).format("YYYY-MM-DD HH:mm:ss");
-        endTime = moment(data[1]).format("YYYY-MM-DD HH:mm:ss");
+          startTime = moment(data[0]).format("YYYY-MM-DD");
+          endTime = moment(data[1]).format("YYYY-MM-DD");
       }
+      this.echartTitle =
+          moment(data[0]).format("YYYY/MM/DD") +
+          "-" +
+          moment(data[1]).format("YYYY/MM/DD");
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
     },
     clickExcel() {
       const that = this;
+      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
       that.exportHandle();
     },
     getSelectType() {
@@ -662,19 +668,16 @@ export default {
       });
     },
     getEchasrts() {
-      getPosition().then(res => {
-        let presetId = res.data[0].value;
-        this.echartForm = {
-          startTime: this.echartForm.startTime,
-          endTime: this.echartForm.endTime,
-          deviceType: "2",
-          monitorDeviceId: this.$route.params.monitorDeviceId,
-          presetIds: presetId
+        let query = {
+            startTime: this.echartForm.startTime,
+            endTime: this.echartForm.endTime,
+            deviceType: "2",
+            powerDeviceId: this.echartForm.sources,
+            monitorDeviceId: this.$route.query.monitorDeviceId
         };
-        getRedEcharts(this.echartForm).then(res => {
-          this.echartData = res.data.itemDataList;
+        getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
+            this.echartData = res.data.dataList;
         });
-      });
     },
     handleClose() {
       this.popData = {};
@@ -689,6 +692,9 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
+      this.echartTitle = moment()
+          .add(-1, "days")
+          .format("YYYY/MM/DD");
     },
     getControl() {
       if (this.isControl == "1") {
