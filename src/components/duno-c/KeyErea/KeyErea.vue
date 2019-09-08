@@ -59,6 +59,8 @@
                 :isAlarm="item['isAlarm']"
                 :imgAdress="item['pic']"
                 :streamAddr="item['streamAddress']"
+                :picCut="item['isScreenShotNeed'] != 1"
+                :isRecord="item['isScreenShotNeed'] != 1"
                 :monitorInfo="item"
                 :width="videoWidth"
                 :showBtmOption="true"

@@ -46,11 +46,11 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span  @click="videotape()" v-if="!isPic && !onlyCanel">
+          <span  @click="videotape()" v-if="!isPic && !onlyCanel && isRecord">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
-          <span @click="isSample()" v-if="!onlyCanel">
+          <span @click="isSample()" v-if="!onlyCanel && picCut">
             <i class="iconfont icon-jietu"></i>截图
           </span>
           <!--  <span @click="fullScreen()">
@@ -120,6 +120,18 @@ export default {
     screenshot
   },
   props: {
+    isRecord:{
+        type: Boolean,
+        default: () => {
+            return true;
+        }
+    },
+    picCut: {
+        type: Boolean,
+        default: () => {
+            return true;
+        }
+    },
     pushCamera:{
         type: Boolean,
         default: () => {

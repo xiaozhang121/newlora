@@ -480,7 +480,7 @@ export default {
       ],
       playerOptions: {
         streamAddr: "",
-        autoplay: false
+        autoplay: true
       },
       presetName: "",
       allDataKind: [],
@@ -570,9 +570,12 @@ export default {
         that.playerOptions.streamAddr = res.data;
         that.$nextTick(() => {
           setTimeout(() => {
+            debugger
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
               setTimeout(() => {
+                debugger
                 this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+                  debugger
                   that.disabled = false;
                 });
               }, 5000);
@@ -752,6 +755,7 @@ export default {
       // this.getDataList();
     },
     getMonitorDeviceName() {
+      const that = this
       let url = "/lenovo-device/api/device-monitor/device";
       let query = {
         monitorDeviceId: this.$route.query.monitorDeviceId
@@ -771,8 +775,8 @@ export default {
             let h0 = document.querySelector('.calibration').offsetHeight
             let ww1 =  Math.abs(res.data.x0 -  res.data.x1)
             let hh1 =  Math.abs(res.data.y0 -  res.data.y1)
-            let point = this.getCoordinate(1, w0, w1, h0, h1, res.data.x0, res.data.y0)
-            let whData = this.getCoordinate(1, w0, w1, h0, h1, ww1, hh1)
+            let point = that.getCoordinate(1, w0, w1, h0, h1, res.data.x0, res.data.y0)
+            let whData = that.getCoordinate(1, w0, w1, h0, h1, ww1, hh1)
             document.querySelector('#boxImg').style.left = point.x
             document.querySelector('#boxImg').style.top = point.y
             document.querySelector('#boxImg').style.width = whData.x
@@ -798,6 +802,7 @@ export default {
       this.isCamera = true;
       this.isMonitor = true;
       this.controlAble = true;
+      this.imgsrc = ""
       this.clearDraw();
       let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       deleteDataId(url).then(res => {
@@ -839,8 +844,8 @@ export default {
           h1 = img.height
           let w0 = document.querySelector('.calibration').offsetWidth
           let h0 = document.querySelector('.calibration').offsetHeight
-          let startPoint = this.getCoordinate(0, w0, w1, h0, h1, that.startPointX, that.startPointY)
-          let endPoint = this.getCoordinate(0, w0, w1, h0, h1, that.endPointX, that.endPointY)
+          let startPoint = that.getCoordinate(0, w0, w1, h0, h1, that.startPointX, that.startPointY)
+          let endPoint = that.getCoordinate(0, w0, w1, h0, h1, that.endPointX, that.endPointY)
           let query = {
               monitorDeviceId: that.$route.query.monitorDeviceId,
               /*     fileName: that.shotData.cephFileName,

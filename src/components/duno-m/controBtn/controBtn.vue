@@ -104,6 +104,7 @@ export default {
     },
     methods:{
         viewCamera(command, flag){
+            const that = this
             if(!this.controlAble){
                 this.activeNum = '-1'
                 return

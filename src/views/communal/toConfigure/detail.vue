@@ -79,7 +79,7 @@ export default {
       columnsData: [
         {
           title: "巡视名称",
-          key: "inspectName",
+          key: "planName",
           minWidth: 50,
           align: "center",
           tooltip: true

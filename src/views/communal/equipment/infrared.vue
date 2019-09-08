@@ -154,7 +154,8 @@ export default {
         name: "allReport-detail",
         query: {
           title: "红外监测记录信息",
-          url: "/lenovo-plan/api/task/iir-result/list",
+          url: "/lenovo-plan/api/statistics/meter-data/list",
+          // url: "/lenovo-plan/api/task/iir-result/list",
           parentDeviceId: item.deviceIdStr,
           deviceName: item.deviceName
         }
