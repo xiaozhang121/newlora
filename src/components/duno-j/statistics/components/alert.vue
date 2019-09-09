@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible="visible" @close="handleClose">
+  <el-dialog :close-on-click-modal="false" :visible="visible" @close="handleClose">
     <el-form :model="form" ref="form">
       <el-form-item prop="type">
         <el-radio-group v-model="form.type">

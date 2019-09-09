@@ -1,6 +1,7 @@
 <template>
   <div class="screenshot">
     <el-dialog
+      :close-on-click-modal="false"
       :show-close="false"
       @close="close"
       :visible.sync="isShow"

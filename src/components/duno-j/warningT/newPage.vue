@@ -1,6 +1,6 @@
 <template>
     <div class="warningDialog three warningT TnewPage" v-if="showVis">
-        <el-dialog  class="elDialogClass" :visible="true" width="900px" center @close="handleClose">
+        <el-dialog :close-on-click-modal="false"  class="elDialogClass" :visible="true" width="900px" center @close="handleClose">
             <div slot="title">
                 <div class="title_top">
           <span>

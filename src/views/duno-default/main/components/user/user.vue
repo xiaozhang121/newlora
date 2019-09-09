@@ -9,6 +9,7 @@
         <!-- <el-dropdown-item command="personal">个人中心</el-dropdown-item> -->
         <!-- <el-dropdown-item command="advise" divided>意见反馈</el-dropdown-item> -->
         <el-dropdown-item command="password">修改密码</el-dropdown-item>
+        <el-dropdown-item command="feedBack" divided>问题反馈</el-dropdown-item>
         <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -50,6 +51,7 @@
         <el-button @click="isShow = false" :disabled="dataListLoading">取 消</el-button>
       </div>
     </el-dialog>
+    <feed-back :visible="feedBackVisible" @on-close="onClose"></feed-back>
   </div>
 </template>
 
@@ -59,14 +61,15 @@ import { mapActions } from 'vuex'
 import { postAxiosData } from '@/api/axiosType.js'
 import { InputTep } from '_c/Form'
 import debounce from 'lodash/debounce'
-
+import feedBack from "_c/duno-m/feedBack";
 export default {
   name: 'User',
-  components: { InputTep },
+  components: { InputTep, feedBack },
   data () {
     return {
       isShow: false,
       dataListLoading: false,
+      feedBackVisible: false,
       formData: {
         oldPassword: '',
         newPassword: '',
@@ -139,6 +142,9 @@ export default {
     ...mapActions([
       'handleLogOut'
     ]),
+    onClose(){
+        this.feedBackVisible = false
+    },
     goToLogin () {
       this.handleLogOut().then(() => {
         this.getLogOutData()
@@ -173,6 +179,9 @@ export default {
           break
         case 'password': 
           this.isShow = true
+          break
+        case 'feedBack':
+          this.feedBackVisible = true
           break
       }
     },

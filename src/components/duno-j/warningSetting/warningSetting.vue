@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    :close-on-click-modal="false"
     v-dialogDrag
     custom-class="myDia"
     title="告警提示设置"

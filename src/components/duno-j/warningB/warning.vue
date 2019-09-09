@@ -1,6 +1,6 @@
 <template>
   <div class="warningDialog robot">
-    <el-dialog  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
+    <el-dialog :close-on-click-modal="false"  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">
           <span>{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</span>

@@ -1,6 +1,6 @@
 <template>
     <div class="createTask" v-if="visibleOption">
-        <el-dialog v-dialogDrag :model="true"  class="elDialogClass" :visible.sync="visibleOption" width="700px" center @close="handleClose">
+        <el-dialog :close-on-click-modal="false" v-dialogDrag :model="true"  class="elDialogClass" :visible.sync="visibleOption" width="700px" center @close="handleClose">
             <div slot="title" v-if="!rowDataLength">
                 创建新的任务配置
             </div>

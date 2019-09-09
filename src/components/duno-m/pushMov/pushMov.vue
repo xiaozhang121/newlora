@@ -4,6 +4,7 @@
                 style="z-index: 99"
                 v-dialogDrag
                 title="提示"
+                :close-on-click-modal="false"
                 :visible.sync="dialogVisible"
                 :width="widthSet"
                 :modal="false"

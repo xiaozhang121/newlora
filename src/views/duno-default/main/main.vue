@@ -122,6 +122,7 @@
       :visible="visible"
     ></popup-one-info>
     <el-dialog
+      :close-on-click-modal="false"
       v-if="visibleCamera"
       class="dialogMain"
       :visible.sync="visibleCamera"

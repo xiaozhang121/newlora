@@ -1,6 +1,6 @@
 <template>
   <div class="warningDialog three warningT" v-if="newVisible && isThree && Object.keys(dataList).length">
-    <el-dialog destroy-on-close  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
+    <el-dialog destroy-on-close :close-on-click-modal="false"  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">
           <span>

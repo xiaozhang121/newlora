@@ -3,6 +3,7 @@
     <el-dialog
       v-dialogDrag
       title="人工判断"
+      :close-on-click-modal="false"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose"

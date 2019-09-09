@@ -1,6 +1,7 @@
 <template>
   <div class="enlarge">
     <el-dialog
+      :close-on-click-modal="false"
       :visible.sync="isShow"
       :show-close="false"
       :modal="true"

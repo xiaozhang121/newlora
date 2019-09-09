@@ -1,6 +1,7 @@
 <template>
   <div class="remarks">
     <el-dialog
+      :close-on-click-modal="false"
       title="备注"
       :center="true"
       top="20vh"

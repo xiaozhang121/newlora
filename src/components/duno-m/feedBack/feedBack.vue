@@ -1,25 +1,31 @@
 <template>
-    <div class="diffPanel">
-        <el-dialog :close-on-click-modal="false" :model="true"  class="elDialogClass" :visible="visibleOption" width="450px" center @close="handleClose">
+    <div class="feedBack">
+        <el-dialog :model="true" :close-on-click-modal="false"  class="elDialogClass" :visible.sync="visibleOption" width="450px" center @close="handleClose">
             <div slot="title">
-                差值修订
+                问题反馈
             </div>
-            <div class="main">
-                <p>
-                   当前差值&nbsp;&nbsp;≥&nbsp;&nbsp;10℃
-                </p>
-                <p>
-                    修改差值
-                    <el-input
-                        class="itemInput"
-                        v-model="diffValue"
-                        placeholder="差值"
-                ></el-input>
-                </p>
-            </div>
+            <el-form ref="form" :model="form" label-width="80px">
+                <div class="main">
+                    <p>
+                        <el-input
+                                type="textarea"
+                                :rows="5"
+                                placeholder="请将您的问题反馈给我们,我们会尽快回复"
+                                v-model="form.textInfo">
+                        </el-input>
+                    </p>
+                    <p>
+                        <el-input
+                            class="itemInput"
+                            v-model="form.email"
+                            placeholder="输入您的邮箱地址"
+                    ></el-input>
+                    </p>
+                </div>
+            </el-form>
             <span slot="footer" class="dialog-footer">
-                <button-custom class="button" @click.native="handleClose" title="取消" />
-                <button-custom class="button" @click.native="handleSubmit" title="确定" />
+                    <button-custom class="button" @click.native="handleClose" title="取消" />
+                    <button-custom class="button" @click.native="handleSubmit" title="确定" />
             </span>
         </el-dialog>
     </div>
@@ -29,12 +35,16 @@
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
-    name: 'diffPanel',
+    name: 'feedBack',
     components: {
         buttonCustom
     },
     data() {
     return {
+        form: {
+            textInfo:'',
+            email: ''
+        },
         visibleOption: false,
         diffValue: '',
         sliderValueold: 1,
@@ -58,6 +68,8 @@ export default {
             this.diffValue = now
         },
         visible(now){
+            this.form.textInfo = ''
+            this.form.email = ''
             this.visibleOption = now
         },
         disabledOption:{
@@ -94,8 +106,23 @@ export default {
     },
     methods:{
         handleSubmit(){
-            this.$message.info('修改成功')
-            this.handleClose()
+            if(this.form.textInfo == ''){
+                this.$message.error('反馈内容不能为空！')
+                return;
+            }
+            let reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+            if(!reg.test(this.form.email)){
+                this.$message.error('邮箱格式不正确，请重新输入！')
+                return;
+            }
+            postAxiosData('/lenovo-user/api/advice-feedback/add', {userId: this.$store.state.user.userId, content: this.form.textInfo, email: this.form.email}).then(res=>{
+                if(res.errorCode == '200'){
+                    this.$message.success(res.errorMessage)
+                    this.handleClose()
+                }else{
+                    this.$message.error(res.errorMessage)
+                }
+            })
         },
         handleClose(){
             this.$emit('on-close')
@@ -152,9 +179,15 @@ export default {
 </script>
 
 <style lang="scss">
-    .diffPanel{
+    .feedBack{
+        .el-dialog__close{
+            font-size: 26px;
+        }
+        .el-dialog--center{
+            background: #e0e0e0;
+        }
         .el-input--small .el-input__inner{
-            text-align: center;
+            /*text-align: center;*/
         }
         .dialog-footer {
             display: flex;
@@ -181,8 +214,11 @@ export default {
             margin-top: -15px;
         }
         .main{
-            padding: 0 47px;
+            /*padding: 0 47px;*/
             line-height: 44px;
+            & > p:first-child{
+                margin-bottom: 10px;
+            }
             p{
                 font-size: 16px;
                 color: #707070;
@@ -191,8 +227,6 @@ export default {
                     align-items: center;
                 }
                 .el-input--small{
-                    width: 71%;
-                    margin-left: 20px;
                 }
             }
         }

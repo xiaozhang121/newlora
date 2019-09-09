@@ -3,6 +3,7 @@
     <section v-if="!isThree && newVisible" class="warningDialog mainDialog">
       <div>
         <el-dialog
+          :close-on-click-modal="false"
           destroy-on-close
           class="elDialogClass"
           :visible="newVisible"
