@@ -18,9 +18,6 @@
         <div v-for="(item,index) in inspecReport" :key="index">
           <ReportTable :url="url" :reportData="item" />
         </div>
-        <div v-for="(item,index) in inspecReport" :key="index">
-          <ReportTable :url="url" :reportData="item" />
-        </div>
       </div>
     </div>
     <div class="reportRecode">
@@ -258,6 +255,8 @@ export default {
     width: 100%;
     min-height: 425px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
     .report,
     .recode {
       margin-bottom: 10px;
@@ -281,6 +280,7 @@ export default {
     .inspection {
       padding: 20px 20px 0 20px;
       background-color: #142838;
+      min-height: 465px;
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
@@ -305,6 +305,7 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
+      min-height: 425px;
       .alarmLog {
         margin-left: 0;
         box-sizing: border-box;
@@ -340,5 +341,8 @@ export default {
       }
     }
   }
+}
+.visiblelight .reportRecode > div{
+  width: 100% !important;
 }
 </style>

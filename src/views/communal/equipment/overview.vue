@@ -1,5 +1,5 @@
 <template>
-  <div class="visiblelight">
+  <div class="visiblelightT">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
@@ -70,7 +70,7 @@ import {
 import moment from "moment";
 export default {
   mixins: [mixinViewModule],
-  name: "visiblelight",
+  name: "visiblelightT",
   components: {
     Breadcrumb,
     dunoBtnTop,
@@ -299,7 +299,7 @@ export default {
   position: relative;
   top: -5px;
 }
-.visiblelight {
+.visiblelightT {
   .el-loading-mask {
     width: 100% !important;
   }

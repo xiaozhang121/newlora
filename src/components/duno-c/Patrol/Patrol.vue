@@ -147,8 +147,8 @@ export default {
                 {
                   class: {
                     table_select: true,
-                    interval: params.row.status === "0",
-                    patrol: params.row.status === "1"
+                    interval: params.row.status == "1",
+                    patrol: params.row.status == "0"
                   }
                 },
                 params.row.statusName

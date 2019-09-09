@@ -209,7 +209,7 @@
     <wraning
       @on-fresh="getDataList"
       :popData="popData"
-      detailsType="alarm"
+      :detailsType="detailsType"
       :visible="visible"
       @handleClose="handleClose"
     />
@@ -253,6 +253,11 @@ export default {
     }
   },
   watch: {
+    visible(now){
+        if(!now){
+            this.detailsType = 'alarm'
+        }
+    },
     isAlarm: {
       handler(now) {
         this.getData();
@@ -264,6 +269,7 @@ export default {
   data() {
     const that = this;
     return {
+      detailsType: 'alarm',
       loadingOption: true,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
@@ -481,6 +487,49 @@ export default {
           minWidth: 90,
           align: "center",
           tooltip: true
+        },
+        {
+            title: " ",
+            key: "id",
+            width: 90,
+            align: "center",
+            render: (h, params) => {
+                const that = this;
+                let newArr = [];
+                newArr.push([
+                    h(
+                        "el-button",
+                        {
+                            class: "detail_main",
+                            style: { marginRight: "20px" },
+                            props: { type: "text" },
+                            on: {
+                                click: () => {
+                                    that.handleNotes = [];
+                                    that.handleNotes.push({
+                                        dealTime: params.row.dealTime,
+                                        dealType: params.row.dealRecord
+                                    });
+                                    that.alarmType = params.row.alarmType;
+                                    that.popData = params.row;
+                                    that.alarmLevel = params.row.alarmLevel;
+                                    that.visible = true;
+                                    that.detailsType = 'task'
+                                    that.$forceUpdate();
+                                }
+                            }
+                        },
+                        "详情"
+                    )
+                ]);
+                return h(
+                    "div",
+                    {
+                        class: "flexPos"
+                    },
+                    newArr
+                );
+            }
         }
       ],
       legendOption: {
@@ -577,7 +626,7 @@ export default {
       let url = "/lenovo-plan/api/statistics/plan/list";
       let query = {
         pageIndex: 1,
-        pageRows: 2
+        pageRows: 3
       };
       getAxiosData(url, query).then(res => {
         this.mockData = res.data.tableData;
@@ -660,6 +709,7 @@ export default {
     },
     getRecodeList() {
       getRecode().then(res => {
+        debugger
         this.RecodeList = res.data.tableData.slice(0, 3);
       });
     },
@@ -782,6 +832,14 @@ export default {
           trigger: "axis",
           axisPointer: {
             type: "shadow"
+          },
+          formatter:function(params)
+          {
+              let relVal = params[0].name;
+              for (let i = 0, l = params.length; i < l; i++) {
+                  relVal += '<br/>'+ params[i]['marker'] + params[i].seriesName + ' : ' + params[i].value+"%";
+              }
+              return relVal;
           }
         },
         calculable: true,
@@ -849,6 +907,10 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
+  .detail_main{
+    color: #539ce3;
+    text-decoration: underline;
+  }
   .el-loading-text {
     color: #969696 !important;
   }
@@ -945,8 +1007,8 @@ export default {
         .reportTable {
           float: left;
           height: 100%;
-          margin-right: 20px;
-          width: calc(50% - 10px);
+          margin-right: 2%;
+          width: calc(32%);
           .content {
             padding: 10px;
             h3 {

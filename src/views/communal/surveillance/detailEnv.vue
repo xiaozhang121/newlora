@@ -6,7 +6,7 @@
     <div class="controlTitle">
       <div>
         <span>{{ dataForm.monitorDeviceName }}</span>
-        <span class="isEqual" v-if="!isEqual" @click="toReal">切换至实时视频</span>
+        <span class="isEqual" :class="{'hidden': isEqual}"  @click="toReal">切换至实时视频</span>
       </div>
     </div>
     <div class="Main_contain">
@@ -464,6 +464,11 @@ export default {
   methods: {
     toReal(){
         this.playerOptions.streamAddr = this.backUPAddr
+        let data = this.videoList
+        data.map(item=>{
+            item['isPlay'] = false
+        })
+        this.videoList = data
     },
     onPlay(index){
         let data = JSON.parse(JSON.stringify(this.videoList))
@@ -735,6 +740,9 @@ export default {
 @import "@/style/tableStyle.scss";
 .mainAside {
   /*min-height: 100%;*/
+}
+.hidden{
+  visibility: hidden;
 }
 .el-picker-panel {
   background-color: rgba(27, 59, 71, 0.7) !important;
