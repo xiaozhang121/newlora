@@ -907,6 +907,28 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
+  .reportTable{
+    & > div:first-child{
+      padding-bottom: 100%;
+      height: inherit;
+      position: relative;
+      img {
+        height: 100% !important;
+        width: 100%;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+    .content {
+      padding: 10px 20px 10px 20px;
+      margin-bottom: 45px;
+    }
+  }
+  .dunoMain_nr{
+    overflow-y: auto;
+  }
   .detail_main{
     color: #539ce3;
     text-decoration: underline;
@@ -1000,7 +1022,7 @@ export default {
       .re-middle {
         overflow: hidden;
         margin-top: 20px;
-        height: 380px;
+        /*height: 380px;*/
         & > div:last-child {
           margin-right: 0;
         }
