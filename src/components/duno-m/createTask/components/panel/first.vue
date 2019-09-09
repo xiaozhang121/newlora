@@ -9,6 +9,7 @@
                     <el-option v-for="(item, index) in taskKindList" :key="index" :label="item['label']" :value="item['value']"></el-option>
                 </el-select>
             </el-form-item>
+            <a href="javascript:void(0)" class="chosenAlld" @click="chosenAll">全选</a>
             <chosen-list :dataListOption="dataList"/>
         </el-form>
     </div>
@@ -76,6 +77,14 @@
             }
         },
         methods: {
+            chosenAll(){
+                let data = JSON.parse(JSON.stringify(this.dataList))
+                data.map(item=>{
+                    item['isCheck'] = true
+                })
+                this.dataList = data
+                this.$forceUpdate()
+            },
             onChange(value){
                 const that = this
                 let query = {pageIndex: 1, pageRows:888888}
@@ -145,6 +154,11 @@
 </script>
 <style lang="scss">
     .taskPanel{
+        .chosenAlld{
+            position: absolute;
+            top: 231px;
+            right: 27px;
+        }
         .el-select{
             width: 100%;
         }
