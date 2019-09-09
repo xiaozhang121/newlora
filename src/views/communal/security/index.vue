@@ -68,7 +68,7 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import KeyErea from "_c/duno-c/KeyErea";
 import AlarmLog from "_c/duno-c/AlarmLog";
 import mixinViewModule from "@/mixins/view-module";
-import { getAxiosData } from "@/api/axiosType";
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import moment from "moment";
 import {
   getMonitorSelect,
@@ -86,7 +86,7 @@ export default {
   },
   data() {
     return {
-      safeList: [{}, {}, {}, {}, {}, {}],
+      safeList: [],
       timer: null,
       loading: false,
       mixinViewModuleOptions: {
@@ -164,6 +164,7 @@ export default {
         return preDate
     },
     initData(){
+        const that = this
         let date = this.oneDayAgo()
         let query = {
             pageIndex: 1,
@@ -173,6 +174,13 @@ export default {
         }
         getAxiosData('/lenovo-device/device/video/record/videos',query).then(res=>{
             this.safeList = res.data.tableData
+            for(let i=0; i<this.safeList.length; i++){
+                postAxiosData("/lenovo-device/device/video/record/video/pic",{positionIndex: i, videoPath: res.data.tableData[i]['streamAddr']}).then(res=>{
+                    let data = res.data
+                    that.$set(that.safeList[data['positionIndex']],'pic',data['pic'])
+                    that.$forceUpdate()
+                })
+            }
             // this.safeList = [{},{},{}]
         })
     },

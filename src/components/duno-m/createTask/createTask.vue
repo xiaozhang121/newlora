@@ -1,8 +1,11 @@
 <template>
     <div class="createTask" v-if="visibleOption">
         <el-dialog v-dialogDrag :model="true"  class="elDialogClass" :visible.sync="visibleOption" width="700px" center @close="handleClose">
-            <div slot="title">
+            <div slot="title" v-if="!rowDataLength">
                 创建新的任务配置
+            </div>
+            <div slot="title" v-else>
+                编辑巡视任务
             </div>
             <div class="main">
                <div class="steps">
@@ -61,6 +64,12 @@ export default {
         }
     },
     props: {
+        isEdit: {
+            type: Boolean,
+            default:()=>{
+                return false
+            }
+        },
         rowData:{
            type: Object,
            default: () => {
@@ -89,7 +98,7 @@ export default {
             let data = []
             obj['planDate'] = {
                 ['planCycle']:this.$refs['panel[2]'].$data.value,
-                ['value']:[{'startTime': new Date(this.$refs['panel[2]'].$data.value3).getHours()+':'+new Date(this.$refs['panel[2]'].$data.value3).getMinutes()+':'+new Date(this.$refs['panel[2]'].$data.value3).getSeconds()}]
+                ['value']:[{'startTime': (new Date(this.$refs['panel[2]'].$data.value3).getHours()<10?'0'+new Date(this.$refs['panel[2]'].$data.value3).getHours():new Date(this.$refs['panel[2]'].$data.value3).getHours())+':'+(new Date(this.$refs['panel[2]'].$data.value3).getMinutes()<10?'0'+new Date(this.$refs['panel[2]'].$data.value3).getMinutes():new Date(this.$refs['panel[2]'].$data.value3).getMinutes())+':'+ (new Date(this.$refs['panel[2]'].$data.value3).getSeconds()<10?'0'+new Date(this.$refs['panel[2]'].$data.value3).getSeconds():new Date(this.$refs['panel[2]'].$data.value3).getSeconds())}]
             }
             obj['planType'] = this.$refs['panel[0]'].$data.form.taskKind
             obj['deviceJson'] = []
@@ -118,29 +127,29 @@ export default {
             }
             obj['startnow'] = 2
             obj['planName'] = this.$refs['panel[0]'].$data.form.taskName
-            obj['startTime'] =  new Date(this.$refs['panel[2]'].$data.value3).getFullYear()+'-'+(new Date(this.$refs['panel[2]'].$data.value3).getMonth()*1+1)+'-'+new Date(this.$refs['panel[2]'].$data.value3).getDate()
+            obj['startTime'] =  new Date(this.$refs['panel[2]'].$data.value3).getFullYear()+'-'+((new Date(this.$refs['panel[2]'].$data.value3).getMonth()*1+1)<10?'0'+(new Date(this.$refs['panel[2]'].$data.value3).getMonth()*1+1):(new Date(this.$refs['panel[2]'].$data.value3).getMonth()*1+1))+'-'+(new Date(this.$refs['panel[2]'].$data.value3).getDate()<10?'0'+new Date(this.$refs['panel[2]'].$data.value3).getDate():new Date(this.$refs['panel[2]'].$data.value3).getDate())
             let urlD = ''
             if(url){
                 urlD = url
                 obj['planId'] = this.rowData['planId']
                 putAxiosData(urlD, obj).then(res=>{
-                    if(res.data.isSuccess){
-                        this.$message.success('编辑成功')
+                    if(res.data){
+                        this.$message.success(res.msg)
                         this.$emit('on-fresh')
                         this.handleClose()
                     }else{
-                        this.$message.fail('编辑失败')
+                        this.$message.fail(res.msg)
                     }
                 })
             }else{
                 urlD = '/lenovo-plan/api/plan/create'
                 postAxiosData(urlD, obj).then(res=>{
-                    if(res.data.isSuccess){
-                        this.$message.success('创建成功')
+                    if(res.data){
+                        this.$message.success(res.msg)
                         this.$emit('on-fresh')
                         this.handleClose()
                     }else{
-                        this.$message.fail('创建失败')
+                        this.$message.error(res.msg)
                     }
                 })
             }

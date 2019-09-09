@@ -72,26 +72,60 @@ export default {
       patrol: false,
       columnsData: [
         {
-          title: "总步骤",
-          key: "stepNum",
-          minWidth: 50,
-          align: "center",
-          tooltip: true
+            title: "巡视名称",
+            key: "planName",
+            minWidth: 50,
+            align: "center",
+            tooltip: true
         },
         {
-          title: "监测设备",
-          key: "monitorDeviceName",
-          minWidth: 50,
-          align: "center",
-          tooltip: true
+            title: "巡视步骤",
+            key: "stepNum",
+            minWidth: 50,
+            align: "center",
+            tooltip: true
         },
         {
-          title: "巡视间隔",
-          key: "interval",
-          minWidth: 50,
-          align: "center",
-          tooltip: true
+            title: "监测设备",
+            key: "monitorDeviceName",
+            minWidth: 50,
+            align: "center",
+            tooltip: true
         },
+        {
+              title: "巡视间隔",
+              key: "interval",
+              minWidth: 50,
+              align: "center",
+              tooltip: true/*,
+              render: (h, params) => {
+                  let newArr = [];
+                  newArr.push([
+                      h(
+                          "a",
+                          {
+                              class: "table_link",
+                              props: { type: "text" },
+                              on: {
+                                  click: () => {
+                                      this.visible = true;
+                                  }
+                              }
+                          },
+                          params.row.interval
+                      )
+                  ]);
+                  return h(
+                      "div",
+                      {
+                          class: {
+                              member_operate_div: true
+                          }
+                      },
+                      newArr
+                  );
+              }*/
+          },
         {
           title: "已巡视次数",
           key: "inspectNum",

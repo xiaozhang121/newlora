@@ -32,6 +32,7 @@
           <span @click="changeinit">初始化</span>
         </p>-->
       </div>
+      <img />
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
           <template v-if="!onlyCanel">
@@ -356,9 +357,8 @@ export default {
         techOrder: ["flash"],
         autoplay: false,
         controls: true,
-        notSupportedMessage: "此视频暂无法播放，请稍后再试"
-        /*  poster:
-          "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"*/
+        notSupportedMessage: "此视频暂无法播放，请稍后再试",
+        poster: ""
       },
       maxSecond: 0
     };

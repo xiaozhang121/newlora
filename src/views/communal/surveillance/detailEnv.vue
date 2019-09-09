@@ -6,7 +6,7 @@
     <div class="controlTitle">
       <div>
         <span>{{ dataForm.monitorDeviceName }}</span>
-        <span class="isEqual" v-if="isEqual">切换至实时视频</span>
+        <span class="isEqual" v-if="!isEqual" @click="toReal">切换至实时视频</span>
       </div>
     </div>
     <div class="Main_contain">
@@ -208,7 +208,7 @@ export default {
     return {
       timeList: [],
       timeValue: '全部日期',
-      videoList: [{}, {}, {}, {}, {}, {}],
+      videoList: [],
       chosenDate: "",
       addOrEdit: "添加",
       disabled: false,
@@ -462,6 +462,9 @@ export default {
     }
   },
   methods: {
+    toReal(){
+        this.playerOptions.streamAddr = this.backUPAddr
+    },
     onPlay(index){
         let data = JSON.parse(JSON.stringify(this.videoList))
         data.map((item, i)=>{
@@ -476,12 +479,20 @@ export default {
         this.$forceUpdate()
     },
     getVideo(date){
+        const that = this
         getAxiosData('/lenovo-device/device/video/record/videos', {pageIndex: 1, pageRows: 99999, date: date,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
             let data = res.data.tableData
             data.map(item=>{
                 item['isPlay'] = false
             })
             this.videoList = data
+            for(let i=0; i<data.length; i++){
+                postAxiosData("/lenovo-device/device/video/record/video/pic",{positionIndex: i, videoPath: data[i]['streamAddr']}).then(res=>{
+                    let data = res.data
+                    that.$set(that.videoList[data['positionIndex']],'pic',data['pic'])
+                    that.$forceUpdate()
+                })
+            }
         })
     },
     initTime(){

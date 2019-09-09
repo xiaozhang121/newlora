@@ -47,7 +47,7 @@
       </div>
     </div>
     <duno-main class="dunoMain">
-      <div v-for="(item, index) in dataList" :key="index" class="record_item">
+      <div v-for="(item, index) in sevenValue" :key="index" class="record_item">
         <div class="title">{{ item['date'] }}&nbsp;&nbsp;{{diffTime(item['date'])}}</div>
         <div class="monitorContain">
           <div
@@ -372,6 +372,7 @@ export default {
       sevenIds: '',
       isBack: true,
       dataList:[],
+      sevenValue: [],
       count: 1
     };
   },
@@ -399,10 +400,21 @@ export default {
         this.getRegion(true)
     },
     sevenData(){
+        const that = this
         if(this.isBack){
             this.isBack = false
             getAxiosData('/lenovo-device/device/video/record/videos/seven-days',{date: this.sevenDates, monitorDeviceId: this.sevenIds}).then(res=>{
-                this.dataList = res.data
+                this.sevenValue = res.data
+                let data = res.data
+                for(let i=0; i<data.length; i++){
+                    for(let j=0; j<data[i]['data'].length; j++){
+                        postAxiosData("/lenovo-device/device/video/record/video/pic",{positionIndex: i+','+j, videoPath: data[i]['data'][j]['streamAddr']}).then(res=>{
+                            let info = res.data
+                            that.$set(that.sevenValue[info['positionIndex'].split(',')[0]]['data'][info['positionIndex'].split(',')[1]],'pic',info['pic'])
+                            that.$forceUpdate()
+                        })
+                    }
+                }
                 this.isBack = true
                 this.count ++
             })
