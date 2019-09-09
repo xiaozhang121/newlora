@@ -258,7 +258,7 @@ export default {
                     }
                   }
                 },
-                "查看报表>"
+                "查看报告>"
               )
             ]);
             return h("div", newArr);
