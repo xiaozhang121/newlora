@@ -381,6 +381,18 @@ export default [{
                     component: () => import('@/views/communal/surveillance/detailEnv.vue')
                 },
                 {
+                    path: 'detailEnvC',
+                    name: 'surveillanceListImportantC',
+                    meta: {
+                        topNav: '3',
+                        isMain: true,
+                        title: '重点监测区域',
+                        hideInMenu: true,
+                        isDetails: true,
+                    },
+                    component: () => import('@/views/communal/surveillance/detailEnvC.vue')
+                },
+                {
                     path: 'detailLightN',
                     name: 'surveillanceListRedN',
                     meta: {
@@ -714,30 +726,30 @@ export default [{
             notCache: true
         },
         children: [
-            // {
-            //     path: 'overview',
-            //     name: 'overview',
-            //     meta: {
-            //         topNav: '2',
-            //         title: '信息总览',
-            //         notCache: true,
-            //         toListName: 'overviewList',
-            //         btnArr: []
-            //     },
-            //     component: parentView,
-            //     children: [{
-            //         path: 'list',
-            //         name: 'overviewList',
-            //         meta: {
-            //             topNav: '2',
-            //             title: '列表',
-            //             hideInMenu: true,
-            //             isDetails: true
-            //         },
-            //         component: () => import('@/views/communal/equipment/overview.vue')
+            {
+                path: 'overview',
+                name: 'overview',
+                meta: {
+                    topNav: '2',
+                    title: '信息总览',
+                    notCache: true,
+                    toListName: 'overviewList',
+                    btnArr: []
+                },
+                component: parentView,
+                children: [{
+                    path: 'list',
+                    name: 'overviewList',
+                    meta: {
+                        topNav: '2',
+                        title: '列表',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/equipment/overview.vue')
 
-            //     }]
-            // },
+                }]
+            },
             {
                 path: 'visiblelight',
                 name: 'visiblelight',
@@ -758,7 +770,7 @@ export default [{
                             hideInMenu: true,
                             isDetails: true
                         },
-                        component: () => import('@/views/communal/equipment/visiblelight.vue')
+                        component: () => import('@/views/communal/equipment/backups_Light.vue')
                     },
                     {
                         path: 'light-report',
@@ -818,7 +830,7 @@ export default [{
                             hideInMenu: true,
                             isDetails: true
                         },
-                        component: () => import('@/views/communal/equipment/infrared.vue')
+                        component: () => import('@/views/communal/equipment/backups_infrared.vue')
                     },
                     {
                         path: 'infrared-report',
