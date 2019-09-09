@@ -570,12 +570,9 @@ export default {
         that.playerOptions.streamAddr = res.data;
         that.$nextTick(() => {
           setTimeout(() => {
-            debugger
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
               setTimeout(() => {
-                debugger
                 this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                  debugger
                   that.disabled = false;
                 });
               }, 5000);

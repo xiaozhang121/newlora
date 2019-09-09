@@ -52,7 +52,7 @@
         <div class="monitorContain">
           <div
             class="monitorItem"
-            :class="{marginRight: (index+1)%4 != 0}"
+            :class="{marginRight: (i+1)%4 != 0}"
             v-for="(nr, i) in item['data']"
             :key="i"
           >
@@ -698,12 +698,14 @@ export default {
       /*background: rgba(20, 40, 56, 0.8);*/
       padding: 20px;
       padding-bottom: 0;
+      display: flex;
+      justify-content: space-between;
     }
     .monitorItem {
       width: 24%;
       float: left;
       &.marginRight {
-        margin-right: 1.3%;
+        margin-right: 1%;
       }
       .monitorRecord {
         width: 100% !important;

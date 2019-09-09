@@ -69,9 +69,9 @@ export default {
   },
   data() {
     return {
-      loadingOptionF: false,
+      loadingOptionF: true,
       timerF: null,
-      loadingOptionS: false,
+      loadingOptionS: true,
       timerS: null,
       dataList: [
         {
@@ -148,8 +148,6 @@ export default {
       this.getDataList();
     },
     getlightData() {
-      this.loadingOptionF = true;
-      this.loadingOptionS = true;
       this.timerF = setTimeout(() => {
         this.loadingOptionF = false;
       }, 1000000000);
@@ -163,8 +161,8 @@ export default {
       };
       infraNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
-        clearTimeout(this.timerS);
-        this.loadingOptionS = false;
+          clearTimeout(this.timerF);
+          this.loadingOptionF = false;
       });
       let data = {
         ...this.timeQueryData,
@@ -173,8 +171,9 @@ export default {
       };
       infraNewInformation(data).then(res => {
         this.lightInformation = res.data.tableData;
-        clearTimeout(this.timerF);
-        this.loadingOptionF = false;
+
+          clearTimeout(this.timerS);
+          this.loadingOptionS = false;
       });
     },
     getInit() {

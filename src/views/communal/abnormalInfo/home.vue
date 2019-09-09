@@ -709,7 +709,6 @@ export default {
     },
     getRecodeList() {
       getRecode().then(res => {
-        debugger
         this.RecodeList = res.data.tableData.slice(0, 3);
       });
     },

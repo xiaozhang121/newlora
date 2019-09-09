@@ -20,7 +20,7 @@
                 <button-custom v-else="stepValue != 1" class="button" @click.native="toPre" title="上一步" />
                 <button-custom v-if="stepValue!=3" class="button" @click.native="toNext" title="下一步" />
                 <button-custom v-if="rowDataLength == 0 && stepValue == 3" class="button" @click.native="toSubmit()" title="确认" />
-                <button-custom v-if="rowDataLength != 0 && stepValue == 3" class="button" @click.native="toEdit" title="编辑" />
+                <button-custom v-if="rowDataLength != 0 && stepValue == 3" class="button" @click.native="toEdit" title="确认" />
             </span>
         </el-dialog>
     </div>
@@ -93,7 +93,6 @@ export default {
             this.toSubmit('/lenovo-plan/api/plan/edit')
         },
         toSubmit(url){
-            debugger
             let obj = {}
             let data = []
             obj['planDate'] = {
