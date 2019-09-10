@@ -31,7 +31,9 @@
       <div class="btn">
         <p>
           拍摄来源:
-          <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
+          <el-tooltip :content="remarkData.monitorDeviceName" placement="top">
+            <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
+          </el-tooltip>
         </p>
         <p v-if="remarkData.isAlarm==1">
           <i @click.stop="openRemarks">备注</i>
@@ -300,6 +302,9 @@ export default {
         // padding-top: 10px;
         font-size: 14px;
         color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         span {
           cursor: pointer;
           color: #3baddf;
@@ -327,6 +332,7 @@ export default {
       }
       & > p:nth-child(2) {
         line-height: 32px;
+        margin-top: 18px;
       }
     }
   }

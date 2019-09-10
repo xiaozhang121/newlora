@@ -577,8 +577,8 @@ export default {
     },
     getListData() {
       const that = this;
-      let url = "/lenovo-iir/manager/device/preset/list";
-      getAxiosData(url, { deviceId: that.deviceId }).then(res => {
+      let url = "/lenovo-iir/manager/preset/list/" + that.deviceId;
+      getAxiosData(url, { pageNo: 1, pageSize: 9999999 }).then(res => {
         let data = res.data;
         data.map(item => {
           item["flag"] = "play";
@@ -595,10 +595,8 @@ export default {
     checkPostion(pid) {
       const that = this;
       putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move/" +
-          that.deviceId +
-          "/" +
-          pid
+          "​/lenovo-iir​/device​/operate​/set​/ptz​/" +
+          that.deviceId, {cmd: 10, value: pid}
       );
     },
     editTableData(params) {
@@ -628,8 +626,8 @@ export default {
         }
         let tempName = that.addPosInput;
         postAxiosData(
-          "/lenovo-iir/manager/device/preset/add",
-          { presetName: that.addPosInput, deviceId: that.deviceId }
+          "​/lenovo-iir​/manager​/preset​/add",
+          { name: that.addPosInput, deviceId: that.deviceId }
         ).then(res => {
           that.getListData();
         });
@@ -640,10 +638,10 @@ export default {
         this.$forceUpdate();
         that.addPosInput = "";
         that.isEdit = !that.isEdit;
-        putAxiosData("/lenovo-iir/manager/device/preset/update", {
+        putAxiosData("/lenovo-iir/manager/preset/update", {
           deviceId: that.deviceId.toString(),
           id: that.temparams.row.id.toString(),
-          presetName: temp
+          name: temp
         }).then(res => {
           that.getListData();
         });
@@ -770,13 +768,10 @@ export default {
     },
     viewCamera(command, flag) {
       this.activeNum = command;
-      let url = this.operateUrl.ptzSet
-        .replace("{cmd}", command)
-        .replace("{id}", this.deviceId)
-        .replace("{step}", 8)
-        .replace("{flag}", Number(flag));
+      let value = 20
+      let url = "/lenovo-iir/device/operate/ptz"
       return new Promise((resolve, reject) => {
-        putAxiosData(url).then(
+        putAxiosData(url, {deviceId:this.deviceId ,cmd: command, value: value}).then(
           res => {
             resolve(res);
           },

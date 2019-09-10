@@ -16,14 +16,14 @@
           title="切换布局"
           :showBtnList="false"
         ></duno-btn-top>
-        <duno-btn-top
+        <!--<duno-btn-top
           @on-select="onSelectType"
           class="dunoBtnTop"
           :isCheck="false"
           :dataList="TypeData"
           :title="titleType"
           :showBtnList="false"
-        ></duno-btn-top>
+        ></duno-btn-top>-->
       </div>
     </div>
     <div class="main" :class="{widthA : displayType == '2'}">

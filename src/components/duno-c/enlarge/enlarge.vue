@@ -1,7 +1,6 @@
 <template>
   <div class="enlarge">
     <el-dialog
-      :close-on-click-modal="false"
       :visible.sync="isShow"
       :show-close="false"
       :modal="true"
@@ -10,6 +9,8 @@
       :before-close="handleLarge"
     >
       <img
+        :class="{'offsetImg': true}"
+        class="enlargeImg"
         v-if="srcData.fileType=='1' ||fileType=='1'"
         :src="srcData.alarmFileAddress || srcData.pic  ||srcData.fileAddress||srcData.taskDeviceImg"
         alt
@@ -30,6 +31,11 @@ export default {
   name: "enlarge",
   components: {
     KeyMonitor
+  },
+  data() {
+      return {
+          isMax: false
+      }
   },
   props: {
     isShow: {
@@ -63,8 +69,11 @@ export default {
   },
   mounted() {
     if (document.documentElement.clientWidth > 3000) {
-      this.width = "45%";
+     /* this.width = "45%";*/
+        this.isMax = true
+        document.querySelector('.enlarge .el-dialog__wrapper').children[0].style.height = window.outerHeight* 0.826412614980289 + 'px'
     }
+      document.querySelector('.enlarge .el-dialog__wrapper').children[0].style.height = window.outerHeight* 0.826412614980289 + 'px'
   }
 };
 </script>
@@ -74,6 +83,12 @@ export default {
   img {
     width: 100%;
     display: block;
+  }
+  .offsetImg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
   }
   .el-dialog__header,
   .el-dialog__body {

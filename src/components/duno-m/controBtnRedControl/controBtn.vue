@@ -19,7 +19,7 @@
                 <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
                 <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
             </div>
-            <div class="control_slider">
+            <div class="control_slider" style="visibility: hidden">
                 <i class="iconfont icon-suoxiao1"></i>
                 <el-slider class="elSlider" :disabled="disabled" @change="cameraSF" v-model="sliderValue" :min="1" :max="20"></el-slider>
                 <i class="iconfont icon-fangda1"></i>
@@ -113,9 +113,13 @@ export default {
             }
             if(!flag)
                 this.activeNum = command
-            let url = "/lenovo-iir/device/operate/ptz"
+            if(flag) {
+                cmd = 0
+                value = 0
+            }
+            let url = "​/lenovo-iir​/device​/operate​/set​/ptz​/"+this.deviceId
             return new Promise((resolve, reject)=>{
-                putAxiosData(url,{deviceId:this.deviceId ,cmd: cmd, value: value}).then(res => {
+                putAxiosData(url,{cmd: cmd, value: value}).then(res => {
                     if(!res.data.flag){
                         putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/0`).then(res=>{
                             putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/1`).then(res=>{})

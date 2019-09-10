@@ -63,6 +63,8 @@
               configType="2"
               :imgAdress="nr['pic']"
               :monitorInfo="nr"
+              :pushCamera="false"
+              :isRecord="false"
               :streamAddr="nr['streamAddr']"
               :kilovolt="nr['monitorDeviceName']"
               :patrol="nr['monitorDeviceId']"
