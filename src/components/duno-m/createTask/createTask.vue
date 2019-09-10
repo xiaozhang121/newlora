@@ -107,12 +107,13 @@ export default {
                     if(item['isCheck']){
                         let analyseType = ''
                         let roiId = ''
+                        let presetId = ''
                         if(item['monitorDeviceType'] == 2){
                             roiId = item['roiId']
                         }else if(item['monitorDeviceType'] == 1){
                             analyseType = item['analyseType']
                         }
-                        obj['deviceJson'].push({
+                        let query = {
                             deviceType: data[i]['powerDeviceType'],
                             deviceId: data[i]['powerDeviceId'],
                             deviceName: data[i]['powerDeviceName'],
@@ -120,7 +121,11 @@ export default {
                             monitorDeviceType: item['monitorDeviceType'],
                             roiId: roiId,
                             analyseType: analyseType
-                        })
+                        }
+                        if(item['presetId']){
+                            query['presetId'] = item['presetId']
+                        }
+                        obj['deviceJson'].push(query)
                     }
                 })
             }
