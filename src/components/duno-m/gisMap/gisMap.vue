@@ -1251,6 +1251,9 @@
                     that.isClick = true
                     // console.log(that.pointListObj)
                 });
+                this.mapTarget.on('click', function (evt) {
+                    alert('x:' + evt.coordinate[0] + '  '+ 'y: '+ evt.coordinate[1])
+                })
                 this.addInteraction()
                 setTimeout(()=>{
                     // this.dropOverlay()
