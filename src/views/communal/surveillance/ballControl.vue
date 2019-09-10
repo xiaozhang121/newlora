@@ -766,6 +766,7 @@ export default {
         let w1 = 0
         let h1 = 0
         img.onload = function () {
+            debugger
             w1 = img.width
             h1 = img.height
             let w0 = document.querySelector('.calibration').offsetWidth
@@ -774,10 +775,10 @@ export default {
             let hh1 =  Math.abs(res.data.y0 -  res.data.y1)
             let point = that.getCoordinate(1, w0, w1, h0, h1, res.data.x0, res.data.y0)
             let whData = that.getCoordinate(1, w0, w1, h0, h1, ww1, hh1)
-            document.querySelector('#boxImg').style.left = point.x
-            document.querySelector('#boxImg').style.top = point.y
-            document.querySelector('#boxImg').style.width = whData.x
-            document.querySelector('#boxImg').style.height = whData.y
+            document.querySelector('#boxImg').style.left = point.x + 'px'
+            document.querySelector('#boxImg').style.top = point.y + 'px'
+            document.querySelector('#boxImg').style.width = whData.x + 'px'
+            document.querySelector('#boxImg').style.height = whData.y + 'px'
         }  
       });
     },
@@ -837,6 +838,7 @@ export default {
       let w1 = 0
       let h1 = 0
       img.onload = function () {
+          debugger
           w1 = img.width
           h1 = img.height
           let w0 = document.querySelector('.calibration').offsetWidth
