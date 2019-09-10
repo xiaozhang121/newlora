@@ -161,6 +161,7 @@
 
 <script>
 import videoList from "./components/videoList";
+import axios from 'axios'
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
@@ -447,7 +448,8 @@ export default {
       backUPAddr: '',
       presetName: "",
       dataTime: "",
-      dataBread: [{ name: "摄像头详情" }]
+      dataBread: [{ name: "摄像头详情" }],
+      cancelList: []
     };
   },
   computed:{
@@ -483,6 +485,13 @@ export default {
         console.log(this.videoList[index]['streamAddr'])
         this.$forceUpdate()
     },
+    clearRequest(){
+        const that = this
+        for (let p in that.cancelList) {
+            that.cancelList[p].cancel('demo111')
+        }
+        that.cancelList = []
+    },
     getVideo(date){
         const that = this
         getAxiosData('/lenovo-device/device/video/record/videos', {pageIndex: 1, pageRows: 99999, date: date,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
@@ -492,7 +501,8 @@ export default {
             })
             this.videoList = data
             for(let i=0; i<data.length; i++){
-                postAxiosData("/lenovo-device/device/video/record/video/pic",{positionIndex: i, videoPath: data[i]['streamAddr']}).then(res=>{
+                this.cancelList.push(axios.CancelToken.source())
+                postAxiosData("/lenovo-device/device/video/record/video/pic",{cancelToken: this.cancelList[i].token ,positionIndex: i, videoPath: data[i]['streamAddr']}).then(res=>{
                     let data = res.data
                     that.$set(that.videoList[data['positionIndex']],'pic',data['pic'])
                     that.$forceUpdate()
@@ -619,6 +629,7 @@ export default {
         this.echartForm.source = item.monitorDeviceType;
         this.getEchasrts();
       } else if(item.title == 'timeValue'){
+        this.clearRequest()
         this.getVideo(item['monitorDeviceType'])
       }
     },

@@ -106,21 +106,23 @@
           </div>
           <div class="weater">
             <div class="gauge">
-              <p>7月20日 周六</p>
+              <p>
+                <span style='white-space:pre;'>{{ toDay }}</span>
+              </p>
               <div>
                 <i class="iconfont icon-wendu"></i>
-                <span>32℃</span>
+                <span>{{ tempEnv['envTemp'] }}</span>
               </div>
             </div>
             <div class="gauge">
               <div class="gauge_top">
                 <i class="iconfont icon-shidu1"></i>
-                <p>70%</p>
+                <p>{{ tempEnv['humidity'] }}</p>
                 <span>当前湿度</span>
               </div>
               <div class="gauge_btm">
                 <i class="iconfont icon-fengsu"></i>
-                <p>0.2m/h</p>
+                <p>{{ tempEnv['windSpeed'] }}</p>
                 <span>当前风速</span>
               </div>
             </div>
@@ -232,6 +234,8 @@ import wraning from "_c/duno-j/warning";
 import { DunoChartPieLoop, DunoChartBarLine } from "_c/duno-charts/index";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { getRecode } from "@/api/configuration/configuration.js";
+import moment from "moment";
+import 'moment/locale/zh-cn'
 export default {
   mixins: [mixinViewModule],
   name: "abnormalInfo",
@@ -250,6 +254,9 @@ export default {
   computed: {
     isAlarm() {
       return this.$store.state.user.isAlarm;
+    },
+    toDay(){
+         return moment().format("MM月DD日") + ' ' + moment().format('dddd')
     }
   },
   watch: {
@@ -556,7 +563,8 @@ export default {
         paddingRight: "20px"
       },
       radiusOption: "80%",
-      centerOption: ["30%", "50%"]
+      centerOption: ["30%", "50%"],
+      tempEnv: {envTemp: 0, humidity: 0, resConf: 0, windSpeed: 0, resInfo: 0}
     };
   },
   created() {
@@ -565,12 +573,23 @@ export default {
     this.getMockData();
     this.getLevel();
     this.isScreen();
+    this.getEnv()
     this.$nextTick(() => {
       this.init();
       this.initBar();
     });
   },
   methods: {
+    getEnv(){
+        getAxiosData('/lenovo-robot/rest/envTemp/substation/1/robot/1').then(res=>{
+            let data = res.data
+            for(let i=0; i<Object.keys(data).length; i++){
+                data[Object.keys(data)[i]] = Number(data[Object.keys(data)[i]]).toFixed(2)
+            }
+            this.tempEnv = data
+            this.$forceUpdate()
+        })
+    },
     isScreen() {
       let distinguish = document.documentElement.clientWidth;
       let that = this;
