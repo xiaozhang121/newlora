@@ -20,7 +20,6 @@
              :showBtnList="false"
              :dataList="optionsList"
              :showAll="false"
-             :keyChange="true"
              @on-disabled="onDisabled"
              @on-active="deviceShowHandle"
           >

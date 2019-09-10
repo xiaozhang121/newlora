@@ -23,7 +23,6 @@
             :showBtnList="false"
             :dataList="typeList"
             :title="titleTypeR"
-            :keyChange="true"
             @on-active="deviceHandle"
           ></duno-btn-top>
         </div>
@@ -387,6 +386,20 @@ export default {
     this.getType();
   },
   methods: {
+    sevenRIds(){
+        let now = this.sevenIds
+        let data = now.split(',')
+        let arr = []
+        for(let i=0; i<data.length; i++){
+            for(let j=0; j<this.typeList.length; j++){
+                if(data[i] == this.typeList[j]['describeName']){
+                    arr.push(this.typeList[j]['monitorDeviceId'])
+                    break
+                }
+            }
+        }
+        return arr.join(',')
+    },
     timeHandle(arr){
       let data = this.deviceShowHandle(arr)
       this.sevenDates = data.join(',')
@@ -395,7 +408,7 @@ export default {
         this.sevenData()
     },
     deviceHandle(arr){
-     let data = this.deviceShowHandle(arr)
+     let data = this.deviceShowHandle(arr, true)
      this.sevenIds =  data.join(',')
      this.count ++
      if(this.count > 3)
@@ -405,7 +418,7 @@ export default {
         const that = this
         if(this.isBack){
             this.isBack = false
-            getAxiosData('/lenovo-device/device/video/record/videos/seven-days',{date: this.sevenDates, monitorDeviceId: this.sevenIds}).then(res=>{
+            getAxiosData('/lenovo-device/device/video/record/videos/seven-days',{date: this.sevenDates, monitorDeviceId: this.sevenRIds()}).then(res=>{
                 this.sevenValue = res.data
                 let data = res.data
                 for(let i=0; i<data.length; i++){
@@ -422,15 +435,22 @@ export default {
             })
         }
     },
-    deviceShowHandle(arr){
+    deviceShowHandle(arr, flag){
         const that = this
         let target = arr.filter(item=>{
             return item['isActive'] == true
         })
         let data = []
-        target.forEach(item=>{
-            data.push(item['monitorDeviceId'])
-        })
+        if(!flag){
+            target.forEach(item=>{
+                data.push(item['monitorDeviceId'])
+            })
+        }else{
+            target.forEach(item=>{
+                data.push(item['describeName'])
+            })
+        }
+
         return data
     },
     diffTime(time) {
@@ -500,7 +520,7 @@ export default {
     },
     getRegion(flag) {
       const that = this;
-      getAxiosData('/lenovo-device/device/video/record/date/select-list',{monitorDeviceId: this.sevenIds}).then(res=>{
+      getAxiosData('/lenovo-device/device/video/record/date/select-list',{monitorDeviceId: this.sevenRIds()}).then(res=>{
           const resData = res.data;
           let arr = []
           const map = resData.map(item => {
@@ -551,16 +571,17 @@ export default {
                     // that.valueSelect = [];
                 }*/
                 let dataB = res.data
+                let arr = []
                 dataB.map(item=>{
                    /* if(item['isSelected'] == true || item["isSelected"] == 1)
                         item['isActive'] = true*/
                     item['describeName'] = item['monitorDeviceName']
-                })
-                let arr = []
-                dataB.forEach(item=>{
-                    arr.push(item['monitorDeviceId'])
+                    item['isActive'] = true
+                    item['title'] = 'titleTypeR'
+                    arr.push(item['describeName'])
                 })
                 that.$refs.btnTopRefD.checkedCities = arr
+                that.$refs.btnTopRefD.checkAll = true
                 that.sevenIds = arr.join(',')
                 that.typeList = dataB;
             }
@@ -701,7 +722,7 @@ export default {
       padding: 20px;
       padding-bottom: 0;
       display: flex;
-      justify-content: space-between;
+      /*justify-content: space-between;*/
     }
     .monitorItem {
       width: 24%;

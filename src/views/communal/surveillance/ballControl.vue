@@ -766,7 +766,6 @@ export default {
         let w1 = 0
         let h1 = 0
         img.onload = function () {
-            debugger
             w1 = img.width
             h1 = img.height
             let w0 = document.querySelector('.calibration').offsetWidth
@@ -838,7 +837,6 @@ export default {
       let w1 = 0
       let h1 = 0
       img.onload = function () {
-          debugger
           w1 = img.width
           h1 = img.height
           let w0 = document.querySelector('.calibration').offsetWidth

@@ -123,6 +123,10 @@ class HttpRequest {
       options.data = data
     }
     options = Object.assign(this.getInsideConfig(), options)
+    if('data' in options && 'cancelToken' in options.data){
+        options['cancelToken'] = options.data['cancelToken']
+        delete  options['data']['cancelToken']
+    }
     this.interceptors(instance, options.url)
     return instance(options)
   }
