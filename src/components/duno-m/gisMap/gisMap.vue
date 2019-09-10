@@ -1252,7 +1252,8 @@
                     // console.log(that.pointListObj)
                 });
                 this.mapTarget.on('click', function (evt) {
-                    alert('x:' + evt.coordinate[0] + '  '+ 'y: '+ evt.coordinate[1])
+
+                    alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
                 })
                 this.addInteraction()
                 setTimeout(()=>{
