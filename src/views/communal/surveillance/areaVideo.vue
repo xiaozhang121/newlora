@@ -56,7 +56,9 @@ export default {
     getList() {
       const that = this;
       let query = {
-        areaId: this.$route.query.areaId
+        areaId: this.$route.query.areaId,
+        showType: this.$route.query.showType,
+        powerDeviceId: this.$route.query.powerDeviceId,
       };
       getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
         if (res.code == 200) {

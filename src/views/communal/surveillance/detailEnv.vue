@@ -207,6 +207,7 @@ export default {
   data() {
     const that = this;
     return {
+      pageIndexD: 1,
       timeList: [],
       timeValue: '全部日期',
       videoList: [],
@@ -449,7 +450,8 @@ export default {
       presetName: "",
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }],
-      cancelList: []
+      cancelList: [],
+      isRequest: false
     };
   },
   computed:{
@@ -494,21 +496,41 @@ export default {
     },
     getVideo(date){
         const that = this
-        getAxiosData('/lenovo-device/device/video/record/videos', {pageIndex: 1, pageRows: 99999, date: date,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
-            let data = res.data.tableData
-            data.map(item=>{
-                item['isPlay'] = false
-            })
-            this.videoList = data
-            for(let i=0; i<data.length; i++){
-                this.cancelList.push(axios.CancelToken.source())
-                postAxiosData("/lenovo-device/device/video/record/video/pic",{cancelToken: this.cancelList[i].token ,positionIndex: i, videoPath: data[i]['streamAddr']}).then(res=>{
-                    let data = res.data
-                    that.$set(that.videoList[data['positionIndex']],'pic',data['pic'])
-                    that.$forceUpdate()
+        if(!this.isRequest) {
+            this.isRequest = true
+            getAxiosData('/lenovo-device/device/video/record/videos', {
+                pageIndex: this.pageIndexD,
+                pageRows: 7,
+                date: date,
+                monitorDeviceId: this.dataForm.monitorDeviceId
+            }).then(res => {
+                let data = res.data.tableData
+                let indexX = 0
+                indexX = this.videoList.length
+                data.map(item => {
+                    item['isPlay'] = false
                 })
-            }
-        })
+                if (that.pageIndexD != 1) {
+                    that.videoList = that.videoList.concat(data)
+                } else {
+                    that.videoList = data
+                }
+                that.$forceUpdate()
+                that.isRequest = false
+                for (let i = indexX; i < that.videoList.length; i++) {
+                    that.cancelList.push(axios.CancelToken.source())
+                     postAxiosData("/lenovo-device/device/video/record/video/pic", {
+                        cancelToken: that.cancelList[that.cancelList.length-1].token,
+                        positionIndex: i,
+                        videoPath: that.videoList[i]['streamAddr']
+                    }).then(res => {
+                        let data = res.data
+                        that.$set(that.videoList[data['positionIndex']], 'pic', data['pic'])
+                        that.$forceUpdate()
+                    })
+                }
+            })
+        }
     },
     initTime(){
         getAxiosData('/lenovo-device/device/video/record/date/select-list',{ monitorDeviceId: this.dataForm.monitorDeviceId }).then(res=>{
@@ -630,6 +652,7 @@ export default {
         this.getEchasrts();
       } else if(item.title == 'timeValue'){
         this.clearRequest()
+        this.pageIndexD = 1
         this.getVideo(item['monitorDeviceType'])
       }
     },
@@ -735,10 +758,28 @@ export default {
     this.getVideo()
   },
   mounted() {
+    const that = this
     this.getInit();
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
+    $(".contain_add").scroll(function () {
+        let $this = $(this),
+            viewH = $(this).height(),//可见高度
+            contentH = $(this).get(0).scrollHeight,//内容高度
+            scrollTop = $(this).scrollTop();//滚动高度
+        console.log('viewH', viewH);
+        console.log('contentH', contentH);
+        console.log('scrollTop', scrollTop);
+        //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
+        console.log(scrollTop / (contentH - viewH))
+        if (scrollTop / (contentH - viewH) >= 0.9) { //到达底部100px时,加载新内容
+           if(!that.isRequest){
+               that.pageIndexD++
+               that.getVideo()
+           }
+        }
+    })
   },
   beforeDestroy() {
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";

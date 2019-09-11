@@ -213,6 +213,7 @@ export default {
     padding: 10px 10px;
     display: block;
     background: rgba(50, 95, 125, 0.8);
+    padding-right: 36px;
   }
   .el-dialog {
     // box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;

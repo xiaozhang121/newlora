@@ -238,7 +238,7 @@
     <div class="title" style="margin: 15px 0">
       <span>{{ oltagevLevel }}</span>
       <!-- 隐藏功  能 -->
-      <!-- <duno-btn-top
+       <duno-btn-top
         @on-select="onSelectVol"
         class="dunoBtnTop"
         :isCheck="false"
@@ -246,7 +246,7 @@
         :dataList="oltagevLevelList"
         :title="titleValue"
         :showBtnList="false"
-      ></duno-btn-top>-->
+      ></duno-btn-top>
     </div>
     <div v-if="isSwiper" class="oltagevMain">
       <div
@@ -263,6 +263,8 @@
             :imgAdress="item['pic']"
             :kilovolt="item['areaName']"
             :areaId="item['areaId']"
+            :showType="activeAreaId"
+            :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
             class="monitorM child"
@@ -280,6 +282,8 @@
             :imgAdress="item['pic']"
             :kilovolt="item['areaName']"
             :areaId="item['areaId']"
+            :showType="activeAreaId"
+            :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
             class="monitorM child"
@@ -418,7 +422,7 @@ export default {
       dataForm: {},
       titleType: "选择摄像头显示来源",
       titleLayout: "切换布局",
-      titleValue: "按电压等级",
+      titleValue: "按电源回路",
       cameraList: [],
       TypeData: [],
       isSwiper: true,
@@ -456,14 +460,7 @@ export default {
       ],
       areaCameraList: [],
       oltagevLevelList: [
-        {
-          describeName: "电压一",
-          isActive: true
-        },
-        {
-          describeName: "电压二",
-          isActive: false
-        }
+
       ],
       oltagevLevel: "所有电器回路",
       layoutType: 1
@@ -494,7 +491,22 @@ export default {
       );
     },
     getArea() {
-      getAreaList().then(res => {
+      getAxiosData('/lenovo-device/api/area-circuit/select-list').then(res=>{
+          let data = res.data
+          let arr = []
+          data.forEach(item => {
+              arr.push({
+                  describeName: item["label"],
+                  areaId: item["value"],
+                  id: item["value"]
+              });
+          });
+          this.oltagevLevelList = arr;
+          this.titleValue = arr[0]['describeName']
+          this.getCamera(arr[0]['areaId'])
+          this.$forceUpdate();
+      })
+     /* getAreaList().then(res => {
         let data = res.data.areaList;
         let arr = [];
         data.forEach(item => {
@@ -506,7 +518,7 @@ export default {
         });
         this.oltagevLevelList = arr;
         this.$forceUpdate();
-      });
+      });*/
     },
     initData() {
       const that = this;
@@ -540,7 +552,7 @@ export default {
       const that = this;
       let query = {};
       if (areaId) {
-        query["areaId"] = areaId;
+        query["showType"] = areaId;
       }
       getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
         if (res.code == 200) {
@@ -555,7 +567,6 @@ export default {
     if (document.documentElement.clientWidth < 1366) {
       this.isSwiper = false;
     }
-    this.getCamera();
     this.getArea();
     this.initData();
     this.initConfigure();

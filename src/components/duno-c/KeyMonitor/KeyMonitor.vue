@@ -121,6 +121,8 @@ export default {
     screenshot
   },
   props: {
+    showType:{},
+    powerDeviceId:{},
     isRecord:{
         type: Boolean,
         default: () => {
@@ -513,7 +515,9 @@ export default {
         this.$router.push({
           path: "/surveillancePath/areaVideo",
           query: {
-            areaId: this.areaId
+            areaId: this.areaId,
+            showType: this.showType,
+            powerDeviceId: this.powerDeviceId
           }
         });
         return;
