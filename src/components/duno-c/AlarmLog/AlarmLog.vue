@@ -14,7 +14,7 @@
         :isNav="false"
       />
     </div>
-    <div class="content" @click="handleWain">
+    <div class="contentMain" @click="handleWain">
       <div class="top">
         <p>
           机器判断:
@@ -243,10 +243,14 @@ export default {
     //   color: #ffffff;
     // }
   }
-  .content {
+  .contentMain {
     cursor: pointer;
     width: 60%;
-    padding: 20px 10px;
+    /*padding: 20px 10px;*/
+    padding: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     .top {
       p {
         font-size: 16px;

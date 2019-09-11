@@ -70,6 +70,7 @@
                   :autoplay="playerOptionsd.autoplay"
                   :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
+                  :Initialization="true"
                 ></key-monitor>
               </div>
             </div>
@@ -507,7 +508,7 @@ export default {
         "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data.data;
-        that.$nextTick(() => {
+      /*  that.$nextTick(() => {
           setTimeout(() => {
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
               setTimeout(() => {
@@ -517,12 +518,12 @@ export default {
               }, 5000);
             });
           }, 500);
-        });
+        });*/
       });
       const urld =
         "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(urld, {}).then(res => {
-        that.playerOptionsd.sources[0].src = res.data.data;
+        that.playerOptionsd.streamAddr = res.data.data;
         that.$forceUpdate();
       });
     },
@@ -764,6 +765,9 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
+  .video-js.vjs-fluid{
+    padding-top: 56%;
+  }
   .icon-xiala {
     /* width: 12px;
     height: 15px;*/

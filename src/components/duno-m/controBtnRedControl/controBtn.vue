@@ -5,19 +5,19 @@
                 调整镜头
             </div>
             <div class="row">
-                <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                <div class="btn" :class="{'active':activeNum == 6}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
+                <div class="btn" :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"  @mouseup="viewCamera(3, true)"></div>
+                <div class="btn"  :class="{'active':activeNum == 5}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(5, false)"   @mouseup="viewCamera(5, true)"></div>
             </div>
             <div class="row">
                 <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
                 <div class="btn" style="visibility: hidden"></div>
-                <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                <div class="btn"  :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
             </div>
             <div class="row">
-                <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                <div class="btn"  :class="{'active':activeNum == 8}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
+                <div class="btn" :class="{'actived':activeNum == 4}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
+                <div class="btn" :class="{'active':activeNum == 7}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
             </div>
             <div class="control_slider" style="visibility: hidden">
                 <i class="iconfont icon-suoxiao1"></i>
@@ -106,7 +106,7 @@ export default {
         viewCamera(command, flag){
             const that = this
             let cmd = Number(command)
-            let value = 20
+            let value = 50
             if(!this.controlAble){
                 this.activeNum = '-1'
                 return
@@ -117,9 +117,9 @@ export default {
                 cmd = 0
                 value = 0
             }
-            let url = "​/lenovo-iir​/device​/operate​/set​/ptz​/"+this.deviceId
+            let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value
             return new Promise((resolve, reject)=>{
-                putAxiosData(url,{cmd: cmd, value: value}).then(res => {
+                putAxiosData(url).then(res => {
                     if(!res.data.flag){
                      /*   putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/0`).then(res=>{
                             putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/1`).then(res=>{})

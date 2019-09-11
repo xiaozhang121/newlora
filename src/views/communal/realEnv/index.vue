@@ -768,6 +768,7 @@
                 const that = this
                 deviceLocation().then(res=>{
                     let data = res.data
+                    debugger
                     data.map((item, index)=>{
                         if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
                             if (item.deviceMessage.supportPreset) {
@@ -781,6 +782,8 @@
                             }else{
                                 item['src'] = that.redLight
                             }
+                        }else if(item['monitorDeviceType'] == 5){
+                                item['src'] = that.lightD
                         }
                         item['show'] = true
                         item['isShow'] = true

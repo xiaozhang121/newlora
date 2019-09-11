@@ -925,9 +925,12 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
+  .reportTable .btn > div:first-child{
+    border-right: 2px solid #203E52;
+  }
   .reportTable{
     & > div:first-child{
-      padding-bottom: 100%;
+      padding-bottom: 56%;
       height: inherit;
       position: relative;
       img {

@@ -60,6 +60,7 @@ export default {
       controlBall: require('@/assets/buttonPng/controlBall.png'),
       handRed: require('@/assets/buttonPng/handRed.png'),
       intelLock: require('@/assets/buttonPng/intelLock.png'),
+      lightD: require('@/assets/buttonPng/lightD.png'),
       redLight: require('@/assets/buttonPng/redLight.png'),
       redLightCamera: require('@/assets/buttonPng/redLightNCamera.png'),
       robot: require('@/assets/buttonPng/robot.png'),

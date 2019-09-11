@@ -11,7 +11,7 @@
                 <el-option
                   v-for="(item, index) in dataList[0]['dataList']"
                   :key="index"
-                  :label="item.presetName"
+                  :label="item.name"
                   :value="index"
                 ></el-option>
               </el-select>
@@ -135,7 +135,7 @@ export default {
         },
         {
           title: "预置位名称",
-          key: "presetName",
+          key: "name",
           align: "center",
           minWidth: 100,
           tooltip: true
@@ -172,7 +172,7 @@ export default {
                       },
                       on: {
                         click: () => {
-                          this.checkPostion(params.row.psIndex);
+                          this.checkPostion(params.row);
                         }
                       }
                     })
@@ -247,7 +247,7 @@ export default {
       dataList: [
         {
           dataList: [
-            {
+          /*  {
               flag: "play",
               ago: false,
               name: "预置位名称A",
@@ -270,7 +270,7 @@ export default {
               ago: false,
               name: "预置位名称D",
               deal: "删除"
-            }
+            }*/
           ]
         }
       ],
@@ -285,7 +285,7 @@ export default {
         },
         {
           title: "预置位名称",
-          key: "presetName",
+          key: "name",
           align: "center",
           minWidth: 100,
           tooltip: true
@@ -310,7 +310,7 @@ export default {
                     style: { backgroundImage: "url(" + this.play + ")" },
                     on: {
                       click: () => {
-                        this.checkPostion(params.row.psIndex);
+                        this.checkPostion(params.row);
                       }
                     }
                   })
@@ -487,12 +487,7 @@ export default {
       const that = this;
       // alert(now)
       console.log(now);
-      putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move/" +
-          that.deviceId +
-          "/" +
-          this.dataList[0]["dataList"][now]["psIndex"]
-      );
+      putAxiosData('/lenovo-iir/device/operate/set/ptz/'+that.deviceId+'?cmd='+10+'&value='+this.dataList[0]['dataList'][now]['number'])
       this.dataList[0]["dataList"][now]["ago"] = true;
       this.dataList[0]["dataList"][now]["flag"] = "orangePointP";
       that.lightTimer = setInterval(() => {
@@ -577,9 +572,9 @@ export default {
     },
     getListData() {
       const that = this;
-      let url = "/lenovo-iir/manager/preset/list/" + that.deviceId;
+      let url = '/lenovo-iir/manager/preset/list?='+ that.deviceId
       getAxiosData(url, { pageNo: 1, pageSize: 9999999 }).then(res => {
-        let data = res.data;
+        let data = res.data.data.records
         data.map(item => {
           item["flag"] = "play";
         });
@@ -592,29 +587,27 @@ export default {
         .getElementsByClassName("vjs-fullscreen-control")[0]
         .click();
     },
-    checkPostion(pid) {
+    checkPostion(data) {
       const that = this;
-      putAxiosData(
-          "​/lenovo-iir​/device​/operate​/set​/ptz​/" +
-          that.deviceId, {cmd: 10, value: pid}
-      );
+      let pid = data.number
+      let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+10+'&value='+pid
+      putAxiosData(url)
     },
     editTableData(params) {
       const that = this;
       that.editIndex = params.index;
-      that.addPosInput = params.row.presetName;
+      that.addPosInput = params.row.name;
       that.temparams = params;
       that.isEdit = true;
       that.$emit("on-edit", that.addPosInput);
     },
     delTableData(params) {
-      const that = this;
-      deleteDataId(
-        "/lenovo-iir/manager/device/preset/delete",
-        { id: params.row.id }
-      ).then(res => {
-        that.getListData();
-      });
+        const that = this;
+        deleteDataId(
+            '/lenovo-iir/manager/preset/delete/'+params.row.id
+        ).then(res => {
+            that.getListData();
+        });
     },
     addPosition() {
       const that = this;
@@ -625,12 +618,9 @@ export default {
           return;
         }
         let tempName = that.addPosInput;
-        postAxiosData(
-          "​/lenovo-iir​/manager​/preset​/add",
-          { name: that.addPosInput, deviceId: that.deviceId }
-        ).then(res => {
-          that.getListData();
-        });
+        postAxiosData('/lenovo-iir/manager/preset/add',{'deviceId': that.deviceId, 'name':that.addPosInput}).then(res=>{
+            that.getListData()
+        })
         that.addPosInput = "";
       } else {
         // 修改
@@ -638,13 +628,9 @@ export default {
         this.$forceUpdate();
         that.addPosInput = "";
         that.isEdit = !that.isEdit;
-        putAxiosData("/lenovo-iir/manager/preset/update", {
-          deviceId: that.deviceId.toString(),
-          id: that.temparams.row.id.toString(),
-          name: temp
-        }).then(res => {
-          that.getListData();
-        });
+        putAxiosData('/lenovo-iir/manager/preset/update', { deviceId: that.deviceId, id: that.temparams.row.id.toString(), name:temp }).then(res=>{
+            that.getListData()
+        })
       }
     },
     startBoat() {

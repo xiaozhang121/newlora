@@ -42,14 +42,14 @@
                         label: "实时监控",
                         name: "first"
                     },
-                 /*   {
+                    {
                         label: "巡航",
                         name: "second"
                     },
                     {
                         label: "预置位",
                         name: "third"
-                    },*/
+                    },
                     {
                         label: "历史告警",
                         name: "fourth"
