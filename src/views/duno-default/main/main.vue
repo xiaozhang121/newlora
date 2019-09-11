@@ -485,6 +485,7 @@ body .el-menu {
   background: url("../../../assets/images/mian-bg.png") no-repeat top left;
   background-size: cover;
   padding-top: 1em;
+  overflow-y: auto;
 }
 .lineTitle {
   color: #3a81a1;
