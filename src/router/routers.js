@@ -514,6 +514,17 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/abnormalInfo/deviceStatus.vue')
+                },
+                {
+                    path: 'platformMonitor',
+                    name: 'platformMonitorList',
+                    meta: {
+                        topNav: '1',
+                        title: '平台监控',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/platformMonitor.vue')
                 }
             ]
         }]
