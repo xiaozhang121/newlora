@@ -16,55 +16,54 @@
         </div>
         <div>
           <duno-btn-top
-             ref="btnTopRef"
-             :showBtnList="false"
-             :dataList="optionsList"
-             :showAll="false"
-             @on-disabled="onDisabled"
-             @on-active="deviceShowHandle"
+                  ref="btnTopRef"
+                  :showBtnList="false"
+                  :dataList="optionsList"
+                  :showAll="false"
+                  :keyChange="true"
+                  @on-disabled="onDisabled"
+                  @on-active="deviceShowHandle"
           >
           </duno-btn-top>
-     <!--     <el-select
-                  @change="selectData"
-                  class="selectSearch"
-                  multiple
-                  collapse-tags
-                  :multiple-limit="selectCount"
-                  v-model="valueSelect"
-                  filterable
-                  :placeholder="titleValueR"
-          >
-            <el-option
-                    v-for="item in optionsList"
-                    :key="item.monitorDeviceId"
-                    :label="item.serialNo"
-                    :value="item.monitorDeviceId"
-            ></el-option>
-          </el-select>-->
+          <!--     <el-select
+                       @change="selectData"
+                       class="selectSearch"
+                       multiple
+                       collapse-tags
+                       :multiple-limit="selectCount"
+                       v-model="valueSelect"
+                       filterable
+                       :placeholder="titleValueR"
+               >
+                 <el-option
+                         v-for="item in optionsList"
+                         :key="item.monitorDeviceId"
+                         :label="item.serialNo"
+                         :value="item.monitorDeviceId"
+                 ></el-option>
+               </el-select>-->
         </div>
       </div>
     </div>
     <div class="monitorArea" :class="{'center': isCenter}">
       <!--@on-push="onPush"-->
-        <KeyMonitor
-                class="monitorN"
-                style="margin-bottom: 47px"
-                :routeName="routeNamed"
-                :configType="configType"
-                v-for="(item,index) in dataMonitor"
-                :autoplay="true"
-                :class="{'noMargin': (index+1) % active == 0}"
-                :key="index"
-                :isAlarm="item['isAlarm']"
-                :imgAdress="item['pic']"
-                :streamAddr="item['streamAddress']"
-                :picCut="item['isScreenShotNeed'] != 1"
-                :isRecord="item['isScreenShotNeed'] != 1"
-                :monitorInfo="item"
-                :width="videoWidth"
-                :showBtmOption="true"
-                :kilovolt="item['monitorDeviceName']"
-        />
+      <KeyMonitor
+              class="monitorN"
+              style="margin-bottom: 47px"
+              :routeName="routeNamed"
+              :configType="configType"
+              v-for="(item,index) in dataMonitor"
+              :autoplay="true"
+              :class="{'noMargin': (index+1) % active == 0}"
+              :key="index"
+              :isAlarm="item['isAlarm']"
+              :imgAdress="item['pic']"
+              :streamAddr="item['streamAddress']"
+              :monitorInfo="item"
+              :width="videoWidth"
+              :showBtmOption="true"
+              :kilovolt="item['monitorDeviceName']"
+      />
     </div>
     <!--:patrol="item['monitorDeviceId']"-->
     <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->
@@ -162,19 +161,19 @@
         watch: {
             isAlarmF: {
                 handler(now) {
-                   if(now && this.configType == '3'){
-                       let monitorDeviceId = this.$store.state.user.alarmInfo['monitorDeviceId']
-                       let data = JSON.parse(JSON.stringify(this.dataMonitor))
-                       data.map(item=>{
-                           if(item['monitorDeviceId'] == monitorDeviceId){
+                    if(now && this.configType == '3'){
+                        let monitorDeviceId = this.$store.state.user.alarmInfo['monitorDeviceId']
+                        let data = JSON.parse(JSON.stringify(this.dataMonitor))
+                        data.map(item=>{
+                            if(item['monitorDeviceId'] == monitorDeviceId){
                                 item['isAlarm'] = true
-                           }else{
+                            }else{
                                 item['isAlarm'] = false
-                           }
-                       })
-                       this.dataMonitor = data
-                       this.$forceUpdate()
-                   }
+                            }
+                        })
+                        this.dataMonitor = data
+                        this.$forceUpdate()
+                    }
                 },
                 deep: true,
                 immediate: true
@@ -245,7 +244,7 @@
                     that.dataMonitor = res.data.tableData;
                     that.$forceUpdate();
                     if(that.selectCount)
-                      that.saveCamera();
+                        that.saveCamera();
                     // that.videoWidth = "calc(50%)";
                     // that.active = 1;
                     // that.isCenter = true;
@@ -315,7 +314,7 @@
                                 that.$refs.btnTopRef.checkedCities = arr
                                 that.onDisabled(arr)
                             })
-                                // that.valueSelect = arr;
+                            // that.valueSelect = arr;
                             // that.getCameraInfo(data)
                         } else {
                             that.$nextTick(()=>{
@@ -326,7 +325,7 @@
                         let dataB = res.data
                         dataB.map(item=>{
                             if(item['isSelected'] == true || item["isSelected"] == 1)
-                              item['isActive'] = true
+                                item['isActive'] = true
                             item['describeName'] = item['monitorDeviceName']
                         })
                         that.optionsList = dataB;
@@ -424,14 +423,14 @@
                 this.onDisabled(this.$refs.btnTopRef.checkedCities)
             },
             beforeunload(e) {
-             /*   const that = this;
-                console.log("保存相关操作");
-                console.log("I want to cancel");
-                // Cancel the event
-                e.preventDefault();
-                // that.saveCamera()
-                // Chrome requires returnValue to be set
-                e.returnValue = "hello";*/
+                /*   const that = this;
+                   console.log("保存相关操作");
+                   console.log("I want to cancel");
+                   // Cancel the event
+                   e.preventDefault();
+                   // that.saveCamera()
+                   // Chrome requires returnValue to be set
+                   e.returnValue = "hello";*/
             }
         },
         beforeDestroy() {
@@ -497,7 +496,7 @@
               color: white;
             }
             .el-checkbox__label{
-                margin-left: 0;
+              margin-left: 0;
             }
           }
         }
