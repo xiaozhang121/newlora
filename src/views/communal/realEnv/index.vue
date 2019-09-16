@@ -671,9 +671,9 @@
                     let data = JSON.parse(JSON.stringify(that.tempDeviceList))
                     if(monitorDeviceType == -1){
                         that.deviceList = data
-                    }else if(monitorDeviceType == 1 || monitorDeviceType == 99){
+                    }else if(monitorDeviceType == 1 || monitorDeviceType == 99 || monitorDeviceType == 5){
                         data= data.filter(item=>{
-                            return item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99
+                            return item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99  || monitorDeviceType == 5
                         })
                     }
                     that.deviceList = data
@@ -778,11 +778,14 @@
                 deviceLocation().then(res=>{
                     let data = res.data
                     data.map((item, index)=>{
-                        if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
+                        if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99 || item['monitorDeviceType'] == 5){
                             if (item.deviceMessage.supportPreset) {
                                 item['src'] = that.light
                             }else{
                                 item['src'] = that.lightNoCamera
+                            }
+                            if(item['monitorDeviceType'] == 5){
+                                item['src'] = that.lightD
                             }
                         }else if(item['monitorDeviceType'] == 2){
                             if(item.deviceMessage.supportPreset){
@@ -790,8 +793,6 @@
                             }else{
                                 item['src'] = that.redLight
                             }
-                        }else if(item['monitorDeviceType'] == 5){
-                                item['src'] = that.lightD
                         }
                         item['show'] = true
                         item['isShow'] = true
@@ -833,7 +834,7 @@
             },
             visableHandle(item, flag, modelIndex){
                 if ('deviceMessage' in item && item.deviceMessage.supportPreset) {
-                    if(item.monitorDeviceType == '1')       // 可见光
+                    if(item.monitorDeviceType == '1' || item.monitorDeviceType == '5')       // 可见光
                         this.modeList[modelIndex].cameraFlagVisible = flag
                     else if(item.monitorDeviceType == '99'){
                         this.modeList[modelIndex].cameraFlagVisibled = flag
@@ -845,7 +846,7 @@
                         // debugger
                         this.modeList[modelIndex].isShowClassifyVisble = flag
                     }
-                    if(item.monitorDeviceType == '1'){
+                    if(item.monitorDeviceType == '1' || item.monitorDeviceType == '5'){
                         this.modeList[modelIndex].popupinfoVisable = flag
                     }else if(item.monitorDeviceType == '2'){
                         this.modeList[modelIndex].popupinfoVisable = flag
