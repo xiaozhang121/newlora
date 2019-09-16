@@ -16,7 +16,7 @@
           title="切换布局"
           :showBtnList="false"
         ></duno-btn-top>
-        <duno-btn-top
+        <!-- <duno-btn-top
           ref="btnTopRef"
           class="dunoBtnTop"
           :dataList="TypeData"
@@ -25,7 +25,7 @@
           :showBtnList="false"
           @on-disabled="onDisabled"
           @on-active="deviceShowHandle"
-        ></duno-btn-top>
+        ></duno-btn-top> -->
       </div>
     </div>
     <div class="main" :class="{widthA : displayType == '2'}">
