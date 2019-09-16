@@ -213,13 +213,13 @@ export default {
     this.endTime = moment().format('YYYY-MM-DD')
     console.log(
       "设备类型：",
-      this.itemData.monitorDeviceType == "1"
+      this.itemData.monitorDeviceType == "1" || this.itemData.monitorDeviceType == "5"
         ? "可见光"
         : this.itemData.monitorDeviceType == "2"
         ? "红外"
         : "参数没对上"
     );
-    if (this.itemData.monitorDeviceType == "1") {
+    if (this.itemData.monitorDeviceType == "1" || this.itemData.monitorDeviceType == "5") {
       this.mainTitle = this.itemData.deviceMessage.cameraName;
     } else if (this.itemData.monitorDeviceType == "2") {
       this.mainTitle = this.itemData.deviceMessage.name;
@@ -227,7 +227,7 @@ export default {
     if (
       this.itemData &&
       this.itemData.monitorDeviceType &&
-      this.itemData.monitorDeviceType == "1" &&
+        (this.itemData.monitorDeviceType == "1" || this.itemData.monitorDeviceType == "5") &&
       this.isDiagram == 1
     ) {
       this.isShowClassify = true;

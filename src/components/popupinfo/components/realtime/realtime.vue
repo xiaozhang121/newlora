@@ -2,8 +2,8 @@
   <div class="realtime">
     <h3 class="title">{{title}}</h3>
     <el-row :gutter="20">
-      <el-col :span="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)?24:12" :class="{'lightPanel': (isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)}">
-        <div class="itemImgBox" v-if="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)">
+      <el-col :span="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3 || monitorDeviceType == 5)?24:12" :class="{'lightPanel': (isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)}">
+        <div class="itemImgBox" v-if="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3  || monitorDeviceType == 5)">
           <video-player
                   @mousemove.native="pointerPos($event)"
                   @mouseout.native="clearTimer()"
@@ -21,7 +21,7 @@
           <!--<img style="width: 100%; height: 100%" :src="demoImage">-->
         </div>
       </el-col>
-      <el-col :span="12" v-if="monitorDeviceType != 1 && monitorDeviceType != 3 && !isShowClassify">
+      <el-col :span="12" v-if="monitorDeviceType != 1 && monitorDeviceType != 3  && monitorDeviceType != 5 && !isShowClassify">
         <div class="itemImgBox"
              style="width: 228px; height: 150px"
         >
@@ -231,13 +231,13 @@
                 })
                 return
             }
-            if(this.monitorDeviceType==1){
+            if(this.monitorDeviceType==1 || this.monitorDeviceType == 5){
                 getAxiosData('/lenovo-plan/api/yinshi/device/real-data',{'monitorDeviceId': that.deviceId}).then(res=>{
                     this.templateList = res.data
                     this.$forceUpdate()
                 })
             }
-            if (this.monitorDeviceType == 1 || this.monitorDeviceType == 3) {
+            if (this.monitorDeviceType == 1 || this.monitorDeviceType == 3 || this.monitorDeviceType == 5) {
                 const url =
                     '/lenovo-visible/api/visible-equipment/sdk/rtmp/' + that.deviceId;
                 getAxiosData(url, {}).then(res => {
