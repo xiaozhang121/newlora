@@ -94,7 +94,7 @@ export default {
       }
     },
     monitorDeviceId: {
-      type: String,
+      type: [String, Number],
       default: () => {
         return "";
       }

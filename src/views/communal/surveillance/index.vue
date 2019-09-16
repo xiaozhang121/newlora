@@ -16,14 +16,17 @@
           title="切换布局"
           :showBtnList="false"
         ></duno-btn-top>
-        <!--<duno-btn-top
+        <duno-btn-top
+          ref="btnTopRef"
           @on-select="onSelectType"
           class="dunoBtnTop"
-          :isCheck="false"
           :dataList="TypeData"
           :title="titleType"
+          :showAll="false"
           :showBtnList="false"
-        ></duno-btn-top>-->
+          @on-disabled="onDisabled"
+          @on-active="deviceShowHandle"
+        ></duno-btn-top>
       </div>
     </div>
     <div class="main" :class="{widthA : displayType == '2'}">
@@ -52,7 +55,11 @@
           ></key-monitor>
         </div>
       </div>
-      <div class="right_main" v-if="displayType != '2' && displayType != '3'" :class="{hidden : displayType == '2' || displayType == '3'}">
+      <div
+        class="right_main"
+        v-if="displayType != '2' && displayType != '3'"
+        :class="{hidden : displayType == '2' || displayType == '3'}"
+      >
         <div class="right">
           <key-monitor
             :monitorInfo="monitorInfo02"
@@ -133,104 +140,104 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo02"
-                  :kilovolt="$store.state.user.configInfo['camera02Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr02"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo02"
+            :kilovolt="$store.state.user.configInfo['camera02Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr02"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo03"
-                  :kilovolt="$store.state.user.configInfo['camera03Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr03"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo03"
+            :kilovolt="$store.state.user.configInfo['camera03Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr03"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo04"
-                  :kilovolt="$store.state.user.configInfo['camera04Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr04"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo04"
+            :kilovolt="$store.state.user.configInfo['camera04Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr04"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo02"
-                  :kilovolt="$store.state.user.configInfo['camera02Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr02"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo02"
+            :kilovolt="$store.state.user.configInfo['camera02Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr02"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo03"
-                  :kilovolt="$store.state.user.configInfo['camera03Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr03"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo03"
+            :kilovolt="$store.state.user.configInfo['camera03Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr03"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo04"
-                  :kilovolt="$store.state.user.configInfo['camera04Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr04"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo04"
+            :kilovolt="$store.state.user.configInfo['camera04Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr04"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo02"
-                  :kilovolt="$store.state.user.configInfo['camera02Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr02"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo02"
+            :kilovolt="$store.state.user.configInfo['camera02Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr02"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
       <div class="item_main">
         <div class="item">
           <key-monitor
-                  :monitorInfo="monitorInfo03"
-                  :kilovolt="$store.state.user.configInfo['camera03Name']"
-                  :autoplay="true"
-                  imgAdress
-                  :streamAddr="streamAddr03"
-                  :showBtmOption="true"
-                  class="monitorM"
+            :monitorInfo="monitorInfo03"
+            :kilovolt="$store.state.user.configInfo['camera03Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr03"
+            :showBtmOption="true"
+            class="monitorM"
           ></key-monitor>
         </div>
       </div>
@@ -238,7 +245,7 @@
     <div class="title" style="margin: 15px 0">
       <span>{{ oltagevLevel }}</span>
       <!-- 隐藏功  能 -->
-       <duno-btn-top
+      <duno-btn-top
         @on-select="onSelectVol"
         class="dunoBtnTop"
         :isCheck="false"
@@ -258,7 +265,7 @@
         <div class="item">
           <key-monitor
             :autoplay="true"
-            aggregate="true"
+            :aggregate="true"
             :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
             :imgAdress="item['pic']"
             :kilovolt="item['areaName']"
@@ -277,7 +284,7 @@
         <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
           <key-monitor
             :autoplay="true"
-            aggregate="true"
+            :aggregate="true"
             :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
             :imgAdress="item['pic']"
             :kilovolt="item['areaName']"
@@ -459,27 +466,43 @@ export default {
         }
       ],
       areaCameraList: [],
-      oltagevLevelList: [
-
-      ],
+      oltagevLevelList: [],
       oltagevLevel: "所有电器回路",
       layoutType: 1
     };
   },
   methods: {
-    getCameraType() {
-      let url = "";
-      postAxiosData(url).then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleType"
-          };
-          return obj;
-        });
-        this.TypeData = res.data;
+    onDisabled(now) {
+      if (this.selectCount != 0 && now.length == this.selectCount) {
+        this.$refs.btnTopRef.disabled = true;
+      } else {
+        this.$refs.btnTopRef.disabled = false;
+      }
+    },
+    deviceShowHandle(arr) {
+      if (this.selectCount) {
+        this.$refs.btnTopRef.disabled = false;
+      }
+      const that = this;
+      let target = arr.filter(item => {
+        return item["isActive"] == true;
+      });
+      let data = [];
+      target.forEach(item => {
+        data.push(item["monitorDeviceId"]);
+      });
+      securityMonitor({
+        monitorDeviceId: data.join(","),
+        configType: that.configType,
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        // that.titleValueL = "监控摄像头数量";
+        that.dataMonitor = res.data.tableData;
+        that.$forceUpdate();
+        if (that.selectCount) that.saveCamera();
+        // that.videoWidth = "calc(50%)";
+        // that.active = 1;
+        // that.isCenter = true;
       });
     },
     initConfigure() {
@@ -491,22 +514,22 @@ export default {
       );
     },
     getArea() {
-      getAxiosData('/lenovo-device/api/area-circuit/select-list').then(res=>{
-          let data = res.data
-          let arr = []
-          data.forEach(item => {
-              arr.push({
-                  describeName: item["label"],
-                  areaId: item["value"],
-                  id: item["value"]
-              });
+      getAxiosData("/lenovo-device/api/area-circuit/select-list").then(res => {
+        let data = res.data;
+        let arr = [];
+        data.forEach(item => {
+          arr.push({
+            describeName: item["label"],
+            areaId: item["value"],
+            id: item["value"]
           });
-          this.oltagevLevelList = arr;
-          this.titleValue = arr[0]['describeName']
-          this.getCamera(arr[0]['areaId'])
-          this.$forceUpdate();
-      })
-     /* getAreaList().then(res => {
+        });
+        this.oltagevLevelList = arr;
+        this.titleValue = arr[0]["describeName"];
+        this.getCamera(arr[0]["areaId"]);
+        this.$forceUpdate();
+      });
+      /* getAreaList().then(res => {
         let data = res.data.areaList;
         let arr = [];
         data.forEach(item => {
@@ -547,6 +570,24 @@ export default {
     },
     onSelectType() {
       this[item.title] = item["describeName"];
+    },
+    getCameraType() {
+      let url = "/lenovo-device/api/monitor/all/select-list";
+      let query = {
+        userId: this.$store.state.user.configInfo["userId"]
+      };
+      getAxiosData(url, query).then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.monitorDeviceName,
+            monitorDeviceType: item.monitorDeviceId,
+            title: "titleType"
+          };
+          return obj;
+        });
+        this.TypeData = map;
+      });
     },
     getCamera(areaId) {
       const that = this;
@@ -723,9 +764,9 @@ export default {
       width: calc(25% - 15px);
       position: relative;
       margin-bottom: 60px;
-      .item{
+      .item {
         position: relative;
-         .monitorM{
+        .monitorM {
           position: relative !important;
         }
       }

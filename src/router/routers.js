@@ -525,7 +525,18 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/abnormalInfo/platformMonitor.vue')
-                }
+                },
+                {
+                    path: 'networkDevice',
+                    name: 'networkDeviceList',
+                    meta: {
+                        topNav: '1',
+                        title: '平台监控',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/networkDevice.vue')
+                },
             ]
         }]
     },
