@@ -66,7 +66,9 @@ export default {
       robot: require('@/assets/buttonPng/robot.png'),
       light: require('@/assets/buttonPng/lightCamera.png'),
       lightNoCamera: require('@/assets/buttonPng/light.svg'),
-      weatherCheck: require('@/assets/SVG/weatherCheck.svg')
+      weatherCheck: require('@/assets/SVG/weatherCheck.svg'),
+      pad: require('@/assets/runDevice/pad.png'),
+      ball: require('@/assets/runDevice/ball.png'),
     }
   },
   computed: {
