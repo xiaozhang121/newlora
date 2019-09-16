@@ -467,7 +467,7 @@ export default {
       ],
       areaCameraList: [],
       oltagevLevelList: [],
-      oltagevLevel: "所有电器回路",
+      oltagevLevel: "所有电压等级",
       layoutType: 1
     };
   },
