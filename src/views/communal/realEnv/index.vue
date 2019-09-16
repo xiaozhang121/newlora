@@ -370,6 +370,7 @@
         <!--<camera-power :visible="true" title="demo" v-if="index==modeList.length-1" />-->
       </div>
     </div>
+    <i class="iconfont icon-bukongqiu" @click="handeControl" :style="{position:'fixed',bottom:'5%',right:'5%',fontSize:'30px',color:'#4b9bc1',cursor:'pointer'}"></i>
   </div>
 </template>
 
@@ -561,6 +562,14 @@
             }
         },
         methods: {
+          handeControl(){
+            this.$router.push({
+              path:'/surveillancePath/ballControl',
+              query:{
+                monitorDeviceId:'118'
+              }
+            })
+          },
             initDisgram(){
                 const that = this
                 getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
@@ -768,7 +777,6 @@
                 const that = this
                 deviceLocation().then(res=>{
                     let data = res.data
-                    debugger
                     data.map((item, index)=>{
                         if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99){
                             if (item.deviceMessage.supportPreset) {
