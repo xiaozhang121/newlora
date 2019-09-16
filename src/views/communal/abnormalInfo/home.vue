@@ -107,7 +107,7 @@
           <div class="weater">
             <div class="gauge">
               <p>
-                <span style='white-space:pre;'>{{ toDay }}</span>
+                <span style="white-space:pre;">{{ toDay }}</span>
               </p>
               <div>
                 <i class="iconfont icon-wendu"></i>
@@ -235,7 +235,7 @@ import { DunoChartPieLoop, DunoChartBarLine } from "_c/duno-charts/index";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { getRecode } from "@/api/configuration/configuration.js";
 import moment from "moment";
-import 'moment/locale/zh-cn'
+import "moment/locale/zh-cn";
 export default {
   mixins: [mixinViewModule],
   name: "abnormalInfo",
@@ -255,15 +255,15 @@ export default {
     isAlarm() {
       return this.$store.state.user.isAlarm;
     },
-    toDay(){
-         return moment().format("MM月DD日") + ' ' + moment().format('dddd')
+    toDay() {
+      return moment().format("MM月DD日") + " " + moment().format("dddd");
     }
   },
   watch: {
-    visible(now){
-        if(!now){
-            this.detailsType = 'alarm'
-        }
+    visible(now) {
+      if (!now) {
+        this.detailsType = "alarm";
+      }
     },
     isAlarm: {
       handler(now) {
@@ -276,7 +276,7 @@ export default {
   data() {
     const that = this;
     return {
-      detailsType: 'alarm',
+      detailsType: "alarm",
       loadingOption: true,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
@@ -496,47 +496,47 @@ export default {
           tooltip: true
         },
         {
-            title: " ",
-            key: "id",
-            width: 90,
-            align: "center",
-            render: (h, params) => {
-                const that = this;
-                let newArr = [];
-                newArr.push([
-                    h(
-                        "el-button",
-                        {
-                            class: "detail_main",
-                            style: { marginRight: "20px" },
-                            props: { type: "text" },
-                            on: {
-                                click: () => {
-                                    that.handleNotes = [];
-                                    that.handleNotes.push({
-                                        dealTime: params.row.dealTime,
-                                        dealType: params.row.dealRecord
-                                    });
-                                    that.alarmType = params.row.alarmType;
-                                    that.popData = params.row;
-                                    that.alarmLevel = params.row.alarmLevel;
-                                    that.visible = true;
-                                    that.detailsType = 'task'
-                                    that.$forceUpdate();
-                                }
-                            }
-                        },
-                        "详情"
-                    )
-                ]);
-                return h(
-                    "div",
-                    {
-                        class: "flexPos"
-                    },
-                    newArr
-                );
-            }
+          title: " ",
+          key: "id",
+          width: 90,
+          align: "center",
+          render: (h, params) => {
+            const that = this;
+            let newArr = [];
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "detail_main",
+                  style: { marginRight: "20px" },
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
+                      that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
+                      that.visible = true;
+                      that.detailsType = "task";
+                      that.$forceUpdate();
+                    }
+                  }
+                },
+                "详情"
+              )
+            ]);
+            return h(
+              "div",
+              {
+                class: "flexPos"
+              },
+              newArr
+            );
+          }
         }
       ],
       legendOption: {
@@ -564,7 +564,7 @@ export default {
       },
       radiusOption: "80%",
       centerOption: ["30%", "50%"],
-      tempEnv: {envTemp: 0, humidity: 0, resConf: 0, windSpeed: 0, resInfo: 0}
+      tempEnv: { envTemp: 0, humidity: 0, resConf: 0, windSpeed: 0, resInfo: 0 }
     };
   },
   created() {
@@ -573,22 +573,26 @@ export default {
     this.getMockData();
     this.getLevel();
     this.isScreen();
-    this.getEnv()
+    this.getEnv();
     this.$nextTick(() => {
       this.init();
       this.initBar();
     });
   },
   methods: {
-    getEnv(){
-        getAxiosData('/lenovo-robot/rest/envTemp/substation/1/robot/1').then(res=>{
-            let data = res.data
-            for(let i=0; i<Object.keys(data).length; i++){
-                data[Object.keys(data)[i]] = Number(data[Object.keys(data)[i]]).toFixed(2)
-            }
-            this.tempEnv = data
-            this.$forceUpdate()
-        })
+    getEnv() {
+      getAxiosData("/lenovo-robot/rest/envTemp/substation/1/robot/1").then(
+        res => {
+          let data = res.data;
+          for (let i = 0; i < Object.keys(data).length; i++) {
+            data[Object.keys(data)[i]] = Number(
+              data[Object.keys(data)[i]]
+            ).toFixed(2);
+          }
+          this.tempEnv = data;
+          this.$forceUpdate();
+        }
+      );
     },
     isScreen() {
       let distinguish = document.documentElement.clientWidth;
@@ -633,7 +637,8 @@ export default {
       } else if (item == 2) {
         route = "box";
       } else if (item == 3) {
-        route = "intellLock";
+        // route = "intellLock";
+        return;
       } else {
         route = "state";
       }
@@ -851,13 +856,18 @@ export default {
           axisPointer: {
             type: "shadow"
           },
-          formatter:function(params)
-          {
-              let relVal = params[0].name;
-              for (let i = 0, l = params.length; i < l; i++) {
-                  relVal += '<br/>'+ params[i]['marker'] + params[i].seriesName + ' : ' + params[i].value+"%";
-              }
-              return relVal;
+          formatter: function(params) {
+            let relVal = params[0].name;
+            for (let i = 0, l = params.length; i < l; i++) {
+              relVal +=
+                "<br/>" +
+                params[i]["marker"] +
+                params[i].seriesName +
+                " : " +
+                params[i].value +
+                "%";
+            }
+            return relVal;
           }
         },
         calculable: true,
@@ -925,11 +935,11 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
   height: 80%;
-  .reportTable .btn > div:first-child{
-    border-right: 2px solid #203E52;
+  .reportTable .btn > div:first-child {
+    border-right: 2px solid #203e52;
   }
-  .reportTable{
-    & > div:first-child{
+  .reportTable {
+    & > div:first-child {
       padding-bottom: 56%;
       height: inherit;
       position: relative;
@@ -947,10 +957,10 @@ export default {
       margin-bottom: 45px;
     }
   }
-  .dunoMain_nr{
+  .dunoMain_nr {
     overflow-y: auto;
   }
-  .detail_main{
+  .detail_main {
     color: #539ce3;
     text-decoration: underline;
   }

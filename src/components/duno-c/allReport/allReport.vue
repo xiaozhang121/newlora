@@ -443,6 +443,7 @@ export default {
       this.mixinViewModuleOptions.exportURL = this.downloadURL;
       this.queryForm.monitorDeviceType = this.monitorDeviceType;
       this.queryForm.powerDeviceId = this.$route.query.powerDeviceId;
+      this.queryForm.flag = this.$route.query.flag;
       if (this.$route.query.deviceName) {
         this.title = this.$route.query.deviceName;
       }

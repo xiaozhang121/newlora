@@ -18,7 +18,6 @@
         ></duno-btn-top>
         <duno-btn-top
           ref="btnTopRef"
-          @on-select="onSelectType"
           class="dunoBtnTop"
           :dataList="TypeData"
           :title="titleType"
@@ -140,37 +139,11 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
-            :monitorInfo="monitorInfo02"
-            :kilovolt="$store.state.user.configInfo['camera02Name']"
+            :monitorInfo="monitorInfo01"
+            :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
             imgAdress
-            :streamAddr="streamAddr02"
-            :showBtmOption="true"
-            class="monitorM"
-          ></key-monitor>
-        </div>
-      </div>
-      <div class="item_main">
-        <div class="item">
-          <key-monitor
-            :monitorInfo="monitorInfo03"
-            :kilovolt="$store.state.user.configInfo['camera03Name']"
-            :autoplay="true"
-            imgAdress
-            :streamAddr="streamAddr03"
-            :showBtmOption="true"
-            class="monitorM"
-          ></key-monitor>
-        </div>
-      </div>
-      <div class="item_main">
-        <div class="item">
-          <key-monitor
-            :monitorInfo="monitorInfo04"
-            :kilovolt="$store.state.user.configInfo['camera04Name']"
-            :autoplay="true"
-            imgAdress
-            :streamAddr="streamAddr04"
+            :streamAddr="streamAddr01"
             :showBtmOption="true"
             class="monitorM"
           ></key-monitor>
@@ -218,11 +191,11 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
-            :monitorInfo="monitorInfo02"
-            :kilovolt="$store.state.user.configInfo['camera02Name']"
+            :monitorInfo="monitorInfo05"
+            :kilovolt="$store.state.user.configInfo['camera05Name']"
             :autoplay="true"
             imgAdress
-            :streamAddr="streamAddr02"
+            :streamAddr="streamAddr05"
             :showBtmOption="true"
             class="monitorM"
           ></key-monitor>
@@ -231,11 +204,37 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
-            :monitorInfo="monitorInfo03"
-            :kilovolt="$store.state.user.configInfo['camera03Name']"
+            :monitorInfo="monitorInfo06"
+            :kilovolt="$store.state.user.configInfo['camera06Name']"
             :autoplay="true"
             imgAdress
-            :streamAddr="streamAddr03"
+            :streamAddr="streamAddr06"
+            :showBtmOption="true"
+            class="monitorM"
+          ></key-monitor>
+        </div>
+      </div>
+      <div class="item_main">
+        <div class="item">
+          <key-monitor
+            :monitorInfo="monitorInfo07"
+            :kilovolt="$store.state.user.configInfo['camera07Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr07"
+            :showBtmOption="true"
+            class="monitorM"
+          ></key-monitor>
+        </div>
+      </div>
+      <div class="item_main">
+        <div class="item">
+          <key-monitor
+            :monitorInfo="monitorInfo08"
+            :kilovolt="$store.state.user.configInfo['camera08Name']"
+            :autoplay="true"
+            imgAdress
+            :streamAddr="streamAddr08"
             :showBtmOption="true"
             class="monitorM"
           ></key-monitor>
@@ -432,6 +431,7 @@ export default {
       titleValue: "按电源回路",
       cameraList: [],
       TypeData: [],
+      lastSelect: [],
       isSwiper: true,
       swiperOption: {
         slidesPerView: 3,
@@ -473,17 +473,19 @@ export default {
   },
   methods: {
     onDisabled(now) {
-      if (this.selectCount != 0 && now.length == this.selectCount) {
-        this.$refs.btnTopRef.disabled = true;
-      } else {
-        this.$refs.btnTopRef.disabled = false;
-      }
+      let type = this.$store.state.user.configInfo["displayType"];
+      let length = this.lastSelect.length;
+      let lengthNow = now.length;
+      // if ((type == 1 || type == 2) && now.length < 4) {
+      // } else if (type == 3 && now.length < 8) {
+      // } else {
+      // }
+      this.lastSelect = now;
     },
     deviceShowHandle(arr) {
-      if (this.selectCount) {
-        this.$refs.btnTopRef.disabled = false;
-      }
       const that = this;
+      let i = null;
+      let type = this.$store.state.user.configInfo["displayType"];
       let target = arr.filter(item => {
         return item["isActive"] == true;
       });
@@ -491,19 +493,28 @@ export default {
       target.forEach(item => {
         data.push(item["monitorDeviceId"]);
       });
-      securityMonitor({
-        monitorDeviceId: data.join(","),
-        configType: that.configType,
-        userId: this.$store.state.user.userId
-      }).then(res => {
-        // that.titleValueL = "监控摄像头数量";
-        that.dataMonitor = res.data.tableData;
-        that.$forceUpdate();
-        if (that.selectCount) that.saveCamera();
-        // that.videoWidth = "calc(50%)";
-        // that.active = 1;
-        // that.isCenter = true;
-      });
+      if ((type == 1 || type == 2) && data.length > 3) {
+        this.$refs.btnTopRef.disabled = true;
+      } else if (type == 3 && data.length > 7) {
+        this.$refs.btnTopRef.disabled = true;
+      } else {
+        this.$refs.btnTopRef.disabled = false;
+      }
+      // if (data.length > 4) {
+      // } else {
+      //   i = 0;
+      // }
+      // let index = 1;
+      // let query = {
+      //   ["cameraPos0" + index]: data[i],
+      //   userId: this.$store.state.user.configInfo["userId"],
+      //   id: this.$store.state.user.configInfo.id
+      // };
+      // editConfig(query).then(res => {
+      //   if (res.data.isSuccess) {
+      //     that.$forceUpdate();
+      //   } else that.$message.error(res.msg);
+      // });
     },
     initConfigure() {
       const that = this;
@@ -550,6 +561,10 @@ export default {
       }).then(res => {
         that.cameraList = res.data;
         that.$forceUpdate();
+        let Array = [];
+        that.cameraList.forEach(el => {
+          Array.push(el.monitorDeviceId);
+        });
       });
     },
     onSelect(item, index) {
@@ -566,27 +581,48 @@ export default {
     onSelectVol(item) {
       this.activeAreaId = item["areaId"];
       this.titleValue = item["describeName"];
+      if (this.titleValue == "按电压等级") {
+        this.oltagevLevel = "所有电压等级";
+      } else {
+        this.oltagevLevel = "所有电器回路";
+      }
       this.getCamera(item["areaId"]);
     },
-    onSelectType() {
-      this[item.title] = item["describeName"];
-    },
     getCameraType() {
+      let that = this;
       let url = "/lenovo-device/api/monitor/all/select-list";
       let query = {
         userId: this.$store.state.user.configInfo["userId"]
       };
       getAxiosData(url, query).then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.monitorDeviceName,
-            monitorDeviceType: item.monitorDeviceId,
-            title: "titleType"
-          };
-          return obj;
-        });
-        this.TypeData = map;
+        if (res.data) {
+          let data = res.data;
+          data = data.filter(item => {
+            return item["isSelected"] == true || item["isSelected"] == 1;
+          });
+          if (data.length) {
+            let arr = [];
+            data.forEach(item => {
+              if (item["monitorDeviceName"] != null)
+                arr.push(item["monitorDeviceName"]);
+            });
+            that.$nextTick(() => {
+              that.$refs.btnTopRef.checkedCities = arr;
+              that.onDisabled(arr);
+            });
+          } else {
+            that.$nextTick(() => {
+              that.$refs.btnTopRef.checkedCities = [];
+            });
+          }
+          let dataB = res.data;
+          dataB.map(item => {
+            if (item["isSelected"] == true || item["isSelected"] == 1)
+              item["isActive"] = true;
+            item["describeName"] = item["monitorDeviceName"];
+          });
+          that.TypeData = dataB;
+        }
       });
     },
     getCamera(areaId) {

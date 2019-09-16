@@ -157,7 +157,8 @@ export default {
           url: "/lenovo-plan/api/statistics/meter-data/list",
           // url: "/lenovo-plan/api/task/iir-result/list",
           parentDeviceId: item.deviceIdStr,
-          deviceName: item.deviceName
+          deviceName: item.deviceName,
+          flag:0
         }
       });
     },

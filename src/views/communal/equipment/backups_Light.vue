@@ -44,8 +44,8 @@
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div @click="handleClick" v-for="(item,index) in dataList.slice(0,8)" :key="index">
-          <img :src="item.fileAddress" alt />
+        <div @click="handleClick(item)" v-for="(item,index) in dataList.slice(0,8)" :key="index">
+          <img :src="item.pic" alt />
         </div>
       </div>
     </div>
@@ -57,7 +57,8 @@ import ReportTable from "_c/duno-c/ReportTable";
 import MonitorWarn from "./components/MonitorWarn";
 import {
   lightNewReport,
-  lightNewInformation
+  lightNewInformation,
+  mainDevice
 } from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
@@ -75,28 +76,28 @@ export default {
       timerS: null,
       dataList: [
         {
-          fileAddress: require("../../../assets/demo/001.png")
+          pic: require("../../../assets/demo/001.png")
         },
         {
-          fileAddress: require("../../../assets/demo/002.png")
+          pic: require("../../../assets/demo/002.png")
         },
         {
-          fileAddress: require("../../../assets/demo/003.png")
+          pic: require("../../../assets/demo/003.png")
         },
         {
-          fileAddress: require("../../../assets/demo/004.png")
+          pic: require("../../../assets/demo/004.png")
         },
         {
-          fileAddress: require("../../../assets/demo/005.png")
+          pic: require("../../../assets/demo/005.png")
         },
         {
-          fileAddress: require("../../../assets/demo/006.png")
+          pic: require("../../../assets/demo/006.png")
         },
         {
-          fileAddress: require("../../../assets/demo/007.png")
+          pic: require("../../../assets/demo/007.png")
         },
         {
-          fileAddress: require("../../../assets/demo/008.png")
+          pic: require("../../../assets/demo/008.png")
         }
       ],
       isCenter: false,
@@ -115,13 +116,16 @@ export default {
     };
   },
   methods: {
-    handleClick() {
+    handleClick(item) {
       //错的 暂时这样写
       this.$router.push({
         name: "allReport-detail",
         query: {
           title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list"
+          url: "/lenovo-plan/api/task/visible-result/list",
+          powerDeviceId: item.deviceIdStr,
+          deviceName: item.deviceName,
+          flag: 0
         }
       });
     },
@@ -147,6 +151,11 @@ export default {
     handleData() {
       this.getDataList();
     },
+    initImg() {
+      mainDevice().then(res => {
+        this.dataList = res.data;
+      });
+    },
     getlightData() {
       this.timerF = setTimeout(() => {
         this.loadingOptionF = false;
@@ -161,8 +170,8 @@ export default {
       };
       lightNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
-          clearTimeout(this.timerF);
-          this.loadingOptionF = false;
+        clearTimeout(this.timerF);
+        this.loadingOptionF = false;
       });
       let data = {
         ...this.timeQueryData,
@@ -171,8 +180,8 @@ export default {
       };
       lightNewInformation(data).then(res => {
         this.lightInformation = res.data.tableData;
-          clearTimeout(this.timerS);
-          this.loadingOptionS = false;
+        clearTimeout(this.timerS);
+        this.loadingOptionS = false;
       });
     },
     getInit() {
@@ -189,6 +198,7 @@ export default {
   },
   mounted() {
     this.getlightData();
+    this.initImg();
   },
   created() {
     this.getInit();
@@ -340,7 +350,7 @@ export default {
     }
   }
 }
-.visiblelight .reportRecode > div{
+.visiblelight .reportRecode > div {
   width: 100% !important;
 }
 </style>

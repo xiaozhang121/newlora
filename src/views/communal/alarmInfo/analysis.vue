@@ -773,7 +773,8 @@ export default {
       this.$router.push({
         name: "allReport-detail",
         query: {
-          url: "/lenovo-plan/api/statistics/meter-data/list"
+          url: "/lenovo-plan/api/statistics/meter-data/list",
+          flag: 1
         }
       });
     },
