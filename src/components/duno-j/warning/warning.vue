@@ -137,6 +137,7 @@ export default {
   data() {
     return {
       isPhaseAlarm: "",
+      isRobot:'',
       isThree: false,
       target: null,
       searchId: "",
@@ -248,6 +249,8 @@ export default {
     popData: {
       handler(now) {
         this.isPhaseAlarm = now["isPhaseAlarm"];
+        this.isRobot = now["isRobot"];
+        debugger
         this.isThree = now["isPhaseAlarm"] == 1;
         this.isImgVideo = now["fileType"] == 1;
         if ("alarmId" in now && now["alarmId"]) {
