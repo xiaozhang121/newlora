@@ -39,6 +39,24 @@
           :key="index"
           @handleListData="handleData"
         />
+        <template v-for="(item,index) in lightInformation">
+            <MonitorWarn
+              v-if="item['isPhaseAlarm']!= 1"
+              :remarkData="lightInformation[index]"
+              :time="item.alarmTime"
+              :remarks="item.dealList"
+              :key="index"
+              @handleListData="handleListData"
+            />
+            <monitor-warn-t
+              v-else
+              :remarkData="lightInformation[index]"
+              :time="item.alarmTime"
+              :remarks="item.dealList"
+              :key="index"
+              @handleListData="handleListData"
+            />
+          </template>
       </div>
     </div>
     <div class="allRecodes">
@@ -55,6 +73,7 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import ReportTable from "_c/duno-c/ReportTable";
 import MonitorWarn from "./components/MonitorWarn";
+import MonitorWarnT from "./components/MonitorWarnT";
 import {
   lightNewReport,
   lightNewInformation,
@@ -66,7 +85,8 @@ export default {
   components: {
     Breadcrumb,
     ReportTable,
-    MonitorWarn
+    MonitorWarn,
+    MonitorWarnT
   },
   data() {
     return {
@@ -117,7 +137,6 @@ export default {
   },
   methods: {
     handleClick(item) {
-      //错的 暂时这样写
       this.$router.push({
         name: "allReport-detail",
         query: {
@@ -148,7 +167,7 @@ export default {
         }
       });
     },
-    handleData() {
+    handleListData() {
       this.getDataList();
     },
     initImg() {

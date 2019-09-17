@@ -16,7 +16,7 @@
           title="切换布局"
           :showBtnList="false"
         ></duno-btn-top>
-        <!-- <duno-btn-top
+        <duno-btn-top
           ref="btnTopRef"
           class="dunoBtnTop"
           :dataList="TypeData"
@@ -25,7 +25,7 @@
           :showBtnList="false"
           @on-disabled="onDisabled"
           @on-active="deviceShowHandle"
-        ></duno-btn-top> -->
+        ></duno-btn-top>
       </div>
     </div>
     <div class="main" :class="{widthA : displayType == '2'}">
@@ -548,15 +548,17 @@ export default {
       let type = this.$store.state.user.configInfo["displayType"];
       let length = this.lastSelect.length;
       let lengthNow = now.length;
-      // if ((type == 1 || type == 2) && now.length < 4) {
-      // } else if (type == 3 && now.length < 8) {
-      // } else {
-      // }
+      if ((type == 1 || type == 2) && now.length > 3) {
+        this.$refs.btnTopRef.disabled = true;
+      } else if (type == 3 && now.length > 7) {
+        this.$refs.btnTopRef.disabled = true;
+      } else {
+        this.$refs.btnTopRef.disabled = false;
+      }
       this.lastSelect = now;
     },
     deviceShowHandle(arr) {
       const that = this;
-      let i = null;
       let type = this.$store.state.user.configInfo["displayType"];
       let target = arr.filter(item => {
         return item["isActive"] == true;
@@ -572,21 +574,21 @@ export default {
       } else {
         this.$refs.btnTopRef.disabled = false;
       }
-      // if (data.length > 4) {
-      // } else {
-      //   i = 0;
-      // }
-      // let index = 1;
-      // let query = {
-      //   ["cameraPos0" + index]: data[i],
-      //   userId: this.$store.state.user.configInfo["userId"],
-      //   id: this.$store.state.user.configInfo.id
-      // };
-      // editConfig(query).then(res => {
-      //   if (res.data.isSuccess) {
-      //     that.$forceUpdate();
-      //   } else that.$message.error(res.msg);
-      // });
+      let cameraPos0 = null;
+      let obj = {};
+      for (let i = 0; i < data.length; i++) {
+        obj["cameraPos0" + i] = data[i];
+      }
+      let query = {
+        ...obj,
+        userId: this.$store.state.user.configInfo["userId"],
+        id: this.$store.state.user.configInfo.id
+      };
+      editConfig(query).then(res => {
+        if (res.data.isSuccess) {
+          that.$forceUpdate();
+        } else that.$message.error(res.msg);
+      });
     },
     initConfigure() {
       const that = this;
@@ -648,6 +650,17 @@ export default {
       }).then(res => {
         sessionStorage.setItem("format", item["format"]);
         this.layoutType = item["format"];
+        if (this.layoutType == 3 && this.lastSelect.length < 8) {
+          this.$refs.btnTopRef.disabled = false;
+        } else if (
+          (this.layoutType == 1 || this.layoutType == 2) &&
+          this.lastSelect.length < 4
+        ) {
+          this.$refs.btnTopRef.disabled = false;
+        } else {
+          this.$refs.btnTopRef.disabled = true;
+        }
+        this.getCameraType();
       });
     },
     onSelectVol(item) {
@@ -662,6 +675,7 @@ export default {
     },
     getCameraType() {
       let that = this;
+      let type = this.$store.state.user.configInfo["displayType"];
       let url = "/lenovo-device/api/monitor/all/select-list";
       let query = {
         userId: this.$store.state.user.configInfo["userId"]
@@ -672,9 +686,16 @@ export default {
           data = data.filter(item => {
             return item["isSelected"] == true || item["isSelected"] == 1;
           });
-          if (data.length) {
+          console.log(data);
+          let dataA;
+          if ((type == 1 || type == 2) && data.length > 4) {
+            dataA = data.slice(0, 3);
+          } else {
+            dataA = data;
+          }
+          if (dataA.length) {
             let arr = [];
-            data.forEach(item => {
+            dataA.forEach(item => {
               if (item["monitorDeviceName"] != null)
                 arr.push(item["monitorDeviceName"]);
             });

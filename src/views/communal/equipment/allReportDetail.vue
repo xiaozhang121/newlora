@@ -49,6 +49,17 @@ export default {
           this.selectUrl = "/lenovo-device/api/power/monitor";
           this.monitorDeviceType = "2";
           break;
+        case "overview-detail":
+          this.dataBread = [
+            { path: "/realEnv/list", name: "操作中台" },
+            { path: "/overview/list", name: "设备监测" },
+            { path: "/overview/list", name: "信息总览" },
+            { path: "", name: "信息总览记录信息" }
+          ];
+          this.downloadURL = "/lenovo-plan/api/task/result/list/downLoad";
+          this.selectUrl = "/lenovo-device/api/power/monitor";
+          this.monitorDeviceType = "1";
+          break;
       }
     }
   },

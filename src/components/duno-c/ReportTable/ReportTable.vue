@@ -179,6 +179,18 @@ export default {
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
+      } else if (
+        this.$route.name == "overviewList" ||
+        this.$route.name == "overview-info"
+      ) {
+        this.$router.push({
+          name: "overview-report",
+          query: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            url: "/lenovo-plan/api/plan/visible-report/view/detail"
+          }
+        });
       }
     },
     getJump(item) {

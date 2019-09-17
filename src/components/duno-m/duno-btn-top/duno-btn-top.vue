@@ -7,7 +7,7 @@
           <!-- 全部固定监控设备 -->
           <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
           <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
-          <i class="iconfont icon-zuoyoubuju" v-if="displayType=='3'"></i>
+          <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
           <input class="selfInput" :class="{iconLayout:isLayout}" @blur="hiddenDrapdown()" readonly :value="title" />
           <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
@@ -148,7 +148,7 @@ export default {
       }
     },
     displayType:{
-      type:String,
+      type:[String,Number],
       default:()=>{
         return ""
       }
@@ -330,6 +330,7 @@ export default {
     cursor: pointer;
   }
   .icon-zuoyoubuju,
+  .icon-buju,
   .icon-shangxiabuju{
       font-size: 16px;
       position: absolute;

@@ -43,6 +43,15 @@ export default {
           ];
           //   this.downloadURL = "/lenovo-plan/api/plan/iir-report/download";
           break;
+        case "overview-report":
+          this.dataBread = [
+            { path: "/realEnv/list", name: "操作中台" },
+            { path: "/overview/list", name: "设备监测" },
+            { path: "/overview/list", name: "信息总览" },
+            { path: "", name: "信息总览记录信息" }
+          ];
+          //   this.downloadURL = "/lenovo-plan/api/plan/visible-report/download";
+          break;
       }
     }
   },

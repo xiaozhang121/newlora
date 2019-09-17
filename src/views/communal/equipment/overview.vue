@@ -1,5 +1,5 @@
 <template>
-  <div class="visiblelightT">
+  <div class="overvoew">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
@@ -34,22 +34,32 @@
           element-loading-background="rgba(0, 0, 0, 0.8)"
           element-loading-text="加载中"
         >
-          <MonitorWarn
-            v-for="(item,index) in lightInformation"
-            :remarkData="lightInformation[index]"
-            :time="item.alarmTime"
-            :remarks="item.dealRecord"
-            :key="index"
-            @handleListData="handleData"
-          />
+          <template v-for="(item,index) in lightInformation">
+            <MonitorWarn
+              v-if="item['isPhaseAlarm']!= 1"
+              :remarkData="lightInformation[index]"
+              :time="item.alarmTime"
+              :remarks="item.dealList"
+              :key="index"
+              @handleListData="handleListData"
+            />
+            <monitor-warn-t
+              v-else
+              :remarkData="lightInformation[index]"
+              :time="item.alarmTime"
+              :remarks="item.dealList"
+              :key="index"
+              @handleListData="handleListData"
+            />
+          </template>
         </div>
       </div>
     </div>
     <div class="allRecodes">
       <div>所有记录</div>
       <div>
-        <div @click="handleClick" v-for="(item,index) in dataList.slice(0,8)" :key="index">
-          <img :src="item.fileAddress" alt />
+        <div @click="handleClick(item)" v-for="(item,index) in dataList.slice(0,8)" :key="index">
+          <img :src="item.pic" alt />
         </div>
       </div>
     </div>
@@ -63,21 +73,24 @@ import ReportTable from "_c/duno-c/ReportTable";
 import KeyErea from "_c/duno-c/KeyErea";
 import mixinViewModule from "@/mixins/view-module";
 import MonitorWarn from "./components/MonitorWarn";
+import MonitorWarnT from "./components/MonitorWarnT";
 import {
   lightNewReport,
-  lightNewInformation
+  lightNewInformation,
+  mainDevice
 } from "@/api/configuration/configuration.js";
 import moment from "moment";
 export default {
   mixins: [mixinViewModule],
-  name: "visiblelightT",
+  name: "overvoew",
   components: {
     Breadcrumb,
     dunoBtnTop,
     KeyMonitor,
     ReportTable,
     KeyErea,
-    MonitorWarn
+    MonitorWarn,
+    MonitorWarnT
   },
   data() {
     return {
@@ -85,43 +98,36 @@ export default {
       timerF: null,
       loadingOptionS: true,
       timerS: null,
-      // mixinViewModuleOptions: {
-      //   activatedIsNeed: true,
-      //   getDataListURL: "/lenovo-device/api/main-device/list"
-      // },
       dataList: [
         {
-          fileAddress: require("../../../assets/demo/001.png")
+          pic: require("../../../assets/demo/001.png")
         },
         {
-          fileAddress: require("../../../assets/demo/002.png")
+          pic: require("../../../assets/demo/002.png")
         },
         {
-          fileAddress: require("../../../assets/demo/003.png")
+          pic: require("../../../assets/demo/003.png")
         },
         {
-          fileAddress: require("../../../assets/demo/004.png")
+          pic: require("../../../assets/demo/004.png")
         },
         {
-          fileAddress: require("../../../assets/demo/005.png")
+          pic: require("../../../assets/demo/005.png")
         },
         {
-          fileAddress: require("../../../assets/demo/006.png")
+          pic: require("../../../assets/demo/006.png")
         },
         {
-          fileAddress: require("../../../assets/demo/007.png")
+          pic: require("../../../assets/demo/007.png")
         },
         {
-          fileAddress: require("../../../assets/demo/008.png")
+          pic: require("../../../assets/demo/008.png")
         }
       ],
       isCenter: false,
       valueSelect: "",
       dataMonitor: [],
-      url: {
-        downloadUrl: "/lenovo-plan/api/plan/visible-report/download",
-        viewUrl: "/lenovo-plan/api/statistics/plan/view"
-      },
+      url: "/lenovo-plan/api/plan/visible-report/download",
       timeQueryData: {},
       inspecReport: [],
       lightInformation: [],
@@ -131,70 +137,47 @@ export default {
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/visiblelight/list", name: "设备监测" },
         { path: "", name: "信息总览" }
-      ],
-      numberCameras: [
-        {
-          circleColor: "#00B4FF",
-          describeName: "两个摄像头",
-          widthType: 2,
-          count: 2,
-          isActive: true
-        },
-        {
-          circleColor: "#FF5EB9",
-          describeName: "四个摄像头",
-          widthType: 2,
-          count: 4,
-          isActive: true
-        },
-        {
-          circleColor: "#4FF2B7",
-          describeName: "六个摄像头",
-          count: 6,
-          widthType: 3,
-          isActive: true
-        },
-        {
-          circleColor: "#FF9000",
-          describeName: "八个摄像头",
-          count: 8,
-          widthType: 4,
-          isActive: true
-        }
       ]
     };
   },
   methods: {
-    handleClick() {
-      //错的 暂时这样写
+    handleClick(item) {
       this.$router.push({
-        name: "light-report",
+        name: "allReport-detail",
         query: {
-          title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list"
+          title: "信息总览记录信息",
+          url: "/lenovo-plan/api/statistics/meter-data/list",
+          powerDeviceId: item.deviceIdStr,
+          deviceName: item.deviceName,
+          flag: 0
         }
       });
     },
     getMore() {
       this.$router.push({
-        name: "light-report",
+        name: "overview-report",
         query: {
-          title: "可见光监测记录信息",
+          title: "信息总览记录信息",
           url: "/lenovo-plan/api/task/visible-result/list"
         }
       });
     },
     getMoreReport() {
       this.$router.push({
-        name: "light-info",
+        name: "overview-info",
         query: {
-          title: "可见光巡检报告",
+          title: "信息总览巡检报告",
           planType: "1",
           url: "/lenovo-plan/api/plan/visible-report/list"
         }
       });
     },
-    handleData() {
+    initImg() {
+      mainDevice().then(res => {
+        this.dataList = res.data;
+      });
+    },
+    handleListData() {
       this.getDataList();
     },
     selectData(value) {
@@ -246,8 +229,8 @@ export default {
       };
       lightNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
-          clearTimeout(this.timerF);
-          this.loadingOptionF = false;
+        clearTimeout(this.timerF);
+        this.loadingOptionF = false;
       });
       let data = {
         pageIndex: 1,
@@ -255,8 +238,8 @@ export default {
       };
       lightNewInformation(data).then(res => {
         this.lightInformation = res.data.tableData;
-          clearTimeout(this.timerS);
-          this.loadingOptionS = false;
+        clearTimeout(this.timerS);
+        this.loadingOptionS = false;
       });
     },
     getInit() {
@@ -273,6 +256,7 @@ export default {
   },
   mounted() {
     this.getlightData();
+    this.initImg();
   },
   created() {
     this.getInit();
@@ -297,7 +281,7 @@ export default {
   position: relative;
   top: -5px;
 }
-.visiblelightT {
+.overvoew {
   .el-loading-mask {
     width: 100% !important;
   }

@@ -31,14 +31,24 @@
         element-loading-background="rgba(0, 0, 0, 0.8)"
         element-loading-text="加载中"
       >
-        <MonitorWarn
-          v-for="(item,index) in lightInformation"
-          :remarkData="lightInformation[index]"
-          :time="item.alarmTime"
-          :remarks="item.dealRecord"
-          :key="index"
-          @handleListData="handleData"
-        />
+        <template v-for="(item,index) in lightInformation">
+          <MonitorWarn
+            v-if="item['isPhaseAlarm']!= 1"
+            :remarkData="lightInformation[index]"
+            :time="item.alarmTime"
+            :remarks="item.dealList"
+            :key="index"
+            @handleListData="handleListData"
+          />
+          <monitor-warn-t
+            v-else
+            :remarkData="lightInformation[index]"
+            :time="item.alarmTime"
+            :remarks="item.dealList"
+            :key="index"
+            @handleListData="handleListData"
+          />
+        </template>
       </div>
     </div>
     <div class="allRecodes">
@@ -55,6 +65,7 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import ReportTable from "_c/duno-c/ReportTable";
 import MonitorWarn from "./components/MonitorWarn";
+import MonitorWarnT from "./components/MonitorWarnT";
 import {
   infraNewReport,
   infraNewInformation,
@@ -66,7 +77,8 @@ export default {
   components: {
     Breadcrumb,
     ReportTable,
-    MonitorWarn
+    MonitorWarn,
+    MonitorWarnT
   },
   data() {
     return {
@@ -111,18 +123,17 @@ export default {
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/visiblelight/list", name: "设备监测" },
-        { path: "", name: "可见光" }
+        { path: "", name: "红外测温" }
       ]
     };
   },
   methods: {
     handleClick(item) {
-      //错的 暂时这样写
       this.$router.push({
         name: "allReport-detail",
         query: {
-          title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list",
+          title: "红外监测记录信息",
+          url: "/lenovo-plan/api/statistics/meter-data/list",
           powerDeviceId: item.deviceIdStr,
           deviceName: item.deviceName,
           flag: 0
@@ -131,24 +142,24 @@ export default {
     },
     getMore() {
       this.$router.push({
-        name: "light-detail",
+        name: "infrared-detail",
         query: {
-          title: "可见光监测记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list"
+          title: "红外监测记录信息",
+          url: "/lenovo-plan/api/task/iir-result/list"
         }
       });
     },
     getMoreReport() {
       this.$router.push({
-        name: "light-info",
+        name: "infrared-info",
         query: {
-          title: "可见光巡检报告",
-          planType: "1",
-          url: "/lenovo-plan/api/plan/visible-report/list"
+          title: "红外监测巡检报告",
+          url: "/lenovo-plan/api/plan/iir-report/list",
+          planType: "2"
         }
       });
     },
-    handleData() {
+    handleListData() {
       this.getDataList();
     },
     getlightData() {

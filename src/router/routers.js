@@ -769,8 +769,44 @@ export default [{
                         isDetails: true
                     },
                     component: () => import('@/views/communal/equipment/overview.vue')
-
-                }]
+                },
+                {
+                    path: 'overview-report',
+                    name: 'overview-report',
+                    meta: {
+                        topNav: '2',
+                        title: '信息总览',
+                        hideInMenu: true,
+                        isDetails: true,
+                        active: 'overviewList'
+                    },
+                    component: () => import('@/views/communal/equipment/reportDetail.vue')
+                },
+                {
+                    path: 'overview-info',
+                    name: 'overview-info',
+                    meta: {
+                        topNav: '2',
+                        title: '信息总览',
+                        hideInMenu: true,
+                        isDetails: true,
+                        active: 'overviewList'
+                    },
+                    component: () => import('@/views/communal/equipment/infoDetail.vue')
+                },
+                {
+                    path: 'overview-detail',
+                    name: 'overview-detail',
+                    meta: {
+                        topNav: '2',
+                        title: '信息总览',
+                        hideInMenu: true,
+                        isDetails: true,
+                        active: 'overviewList'
+                    },
+                    component: () => import('@/views/communal/equipment/allReportDetail.vue')
+                },
+            ]
             },
             {
                 path: 'visiblelight',

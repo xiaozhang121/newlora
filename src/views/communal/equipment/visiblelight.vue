@@ -135,7 +135,6 @@ export default {
         query: {
           title: "可见光监测记录信息",
           url: "/lenovo-plan/api/statistics/meter-data/list",
-          // url: "/lenovo-plan/api/task/visible-result/list",
           powerDeviceId: item.deviceIdStr,
           deviceName: item.deviceName,
           flag: 0
