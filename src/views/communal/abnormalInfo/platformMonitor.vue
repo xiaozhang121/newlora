@@ -14,12 +14,14 @@
                 </div>
             </div>
         </duno-main>
-        <platform-line></platform-line>
+        <!--<platform-line></platform-line>-->
+        <platform-box></platform-box>
     </div>
 </template>
 
 <script>
     import platformLine from "_c/duno-m/platformLine"
+    import platformBox from "_c/duno-m/platformBox"
     import Breadcrumb from "_c/duno-c/Breadcrumb";
     import moment from "moment";
     import gisMap from '_c/duno-m/gisMap'
@@ -32,7 +34,8 @@
             Breadcrumb,
             dunoMain,
             powerPop,
-            gisMap
+            gisMap,
+            platformBox
         },
         data() {
             const that = this;
