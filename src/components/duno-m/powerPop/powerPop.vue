@@ -213,8 +213,10 @@
                 </div>
             </div>
         </div>
-        <div class="pushB">
-
+        <div class="pushB" @click="visibleHandle()">
+            <div class="btn">
+                <img :src="close"/>
+            </div>
         </div>
     </div>
 </template>
@@ -234,7 +236,7 @@
         },
         data() {
             return {
-
+                close: require('@/assets/runDevice/close.png')
             }
         },
         props: {
@@ -247,6 +249,9 @@
 
         },
         methods:{
+            visibleHandle(){
+                this.$emit('on-visible')
+            },
             eventFn(){
                 let height = window.innerHeight
                 $('.powerPop .allHealthStatus .warning').css({'bottom':'-32px'})
@@ -288,6 +293,19 @@
             position: absolute;
             left: -19px;
             top: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .btn{
+                width: 10px;
+                height: 20px;
+                /*background: pink;*/
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
         }
         .line_split{
             border-bottom: 2px dashed #0d3a43;

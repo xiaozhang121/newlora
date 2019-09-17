@@ -8,12 +8,13 @@
         </div>
         <duno-main class="mainContain">
             <div class="main">
-                <div class="popContain">
-                    <power-pop />
+                <gis-map kind="self" fillColor="rgba(44,65,60, 0.9)" :polygonData="[[[13215083.164681694,3776589.774776549],[13232568.13490193,3776476.9846436675],[13232549.02564486,3765992.1290807393],[13215025.83691048,3766037.2056559767],[13215083.164681694,3776589.77477654]]]" isDiagram="3" mapUrl="http://10.0.10.45:8202" />
+                <div class="popContain" :class="{'hide': isHide}">
+                    <power-pop @on-visible="onVisible"/>
                 </div>
             </div>
         </duno-main>
-        <!--<platform-line></platform-line>-->
+        <platform-line></platform-line>
     </div>
 </template>
 
@@ -21,6 +22,7 @@
     import platformLine from "_c/duno-m/platformLine"
     import Breadcrumb from "_c/duno-c/Breadcrumb";
     import moment from "moment";
+    import gisMap from '_c/duno-m/gisMap'
     import powerPop from '_c/duno-m/powerPop'
     import dunoMain  from '_c/duno-m/duno-main'
     export default {
@@ -29,11 +31,13 @@
             platformLine,
             Breadcrumb,
             dunoMain,
-            powerPop
+            powerPop,
+            gisMap
         },
         data() {
             const that = this;
             return {
+                isHide: false,
                 dataBread: [
                     { path: "/abnormalInfoPath/home", name: "功能卡片" },
                     { path: "", name: "平台监控" },
@@ -41,7 +45,9 @@
             };
         },
         methods: {
-
+            onVisible(){
+                this.isHide = !this.isHide
+            }
         },
         created(){
 
@@ -61,6 +67,13 @@
         position: absolute;
         top: -6px;
         width: calc(100% - 44px);
+        .el-dialog__headerbtn .el-dialog__close{
+            display: none;
+        }
+        .el-dialog__wrapper{
+            width: 0;
+            height: 0;
+        }
         .breadcrumb{
 
         }
@@ -72,8 +85,24 @@
             height: calc(100vh - 143px);
             width: 100%;
             position: relative;
+            .ol-control button{
+                color: #495f6f;
+                background-color: white;
+            }
+            .ol-zoom{
+                top: 1.5em;
+                left: 1.5em;
+            }
+            .ol-zoom .ol-zoom-in{
+                margin-bottom: 10px;
+            }
+            .ol-control{
+                background-color: transparent;
+            }
+            .gisMap #map{
+                height: 100% !important;
+            }
             .main{
-                background: grey;
                 width: 100%;
                 height: 100%;
             }
@@ -83,6 +112,10 @@
                 position: absolute;
                 right: 0;
                 top: 0;
+                transition: right .5s;
+                &.hide{
+                    right: -607px
+                }
             }
         }
     }
