@@ -314,12 +314,18 @@ export default {
       text-align: center;
       font-size: 16px;
       background-color: #2b516f;
+      @media screen and (min-width: 3500px) {
+        font-size: 14px;
+      }
       span {
         padding-left: 5px;
       }
     }
     & > div:first-child {
       border-right: 2px solid #ffffff;
+      @media screen and (min-width: 3500px) {
+        border-right: 1px solid #ffffff;
+      }
     }
   }
 }

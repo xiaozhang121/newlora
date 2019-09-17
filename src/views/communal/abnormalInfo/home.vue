@@ -990,6 +990,9 @@ export default {
     margin-top: 20px;
     overflow: hidden;
     height: 100%;
+    @media screen and (max-width: 1366px) {
+      height: 70%;
+    }
     & > div {
       float: left;
     }

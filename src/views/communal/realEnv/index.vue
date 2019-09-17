@@ -370,7 +370,7 @@
         <!--<camera-power :visible="true" title="demo" v-if="index==modeList.length-1" />-->
       </div>
     </div>
-    <i class="iconfont icon-bukongqiu" @click="handeControl" :style="{position:'fixed',bottom:'5%',right:'5%',fontSize:'30px',color:'#4b9bc1',cursor:'pointer'}"></i>
+    <i class="iconfont icon-bukongqiu" @click="handeControl"></i>
   </div>
 </template>
 
@@ -1037,6 +1037,17 @@
       left: 50%;
       transform: translate(-50%, -50%);
       position: absolute;
+    }
+    .icon-bukongqiu{
+      position:fixed;
+      bottom:5%;
+      right:5%;
+      font-size:30px;
+      color:#4b9bc1;
+      cursor:pointer;
+       @media screen and (min-width: 3500px) {
+      right:36%;
+    }
     }
   }
 </style>

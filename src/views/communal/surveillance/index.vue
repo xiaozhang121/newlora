@@ -928,7 +928,7 @@ export default {
     width: 50px;
     border-radius: 50%;
     background-color: rgba(42, 56, 63, 0.8);
-    // color: #fff;
+    background-size: 50% 50%;
     font-size: 30px;
   }
   .swiper-button-next {

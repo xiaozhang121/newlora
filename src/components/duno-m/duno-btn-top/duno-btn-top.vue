@@ -425,6 +425,9 @@ export default {
     color: #949594;
     &.bigLeft{
       left: 27% !important;
+      @media screen and (min-width: 3500px) {
+      left: 15% !important;
+    }
     }
     .btn{
       cursor: pointer;
