@@ -116,8 +116,12 @@ export default {
                 return;
             }
             postAxiosData('/lenovo-user/api/advice-feedback/add', {userId: this.$store.state.user.userId, content: this.form.textInfo, email: this.form.email}).then(res=>{
-                if(res.errorCode == '200'){
-                    this.$message.success(res.errorMessage)
+                if(res.code == '200'){
+                    // this.$message.success(res.errorMessage)
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    })
                     this.handleClose()
                 }else{
                     this.$message.error(res.errorMessage)

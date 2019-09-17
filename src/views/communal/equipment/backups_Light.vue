@@ -40,23 +40,23 @@
           @handleListData="handleData"
         />
         <template v-for="(item,index) in lightInformation">
-            <MonitorWarn
-              v-if="item['isPhaseAlarm']!= 1"
-              :remarkData="lightInformation[index]"
-              :time="item.alarmTime"
-              :remarks="item.dealList"
-              :key="index"
-              @handleListData="handleListData"
-            />
-            <monitor-warn-t
-              v-else
-              :remarkData="lightInformation[index]"
-              :time="item.alarmTime"
-              :remarks="item.dealList"
-              :key="index"
-              @handleListData="handleListData"
-            />
-          </template>
+          <MonitorWarn
+            v-if="item['isPhaseAlarm']!= 1"
+            :remarkData="lightInformation[index]"
+            :time="item.alarmTime"
+            :remarks="item.dealList"
+            :key="index"
+            @handleListData="handleListData"
+          />
+          <monitor-warn-t
+            v-else
+            :remarkData="lightInformation[index]"
+            :time="item.alarmTime"
+            :remarks="item.dealList"
+            :key="index"
+            @handleListData="handleListData"
+          />
+        </template>
       </div>
     </div>
     <div class="allRecodes">
@@ -144,6 +144,7 @@ export default {
           url: "/lenovo-plan/api/statistics/meter-data/list",
           powerDeviceId: item.deviceIdStr,
           deviceName: item.deviceName,
+          monitorDeviceType: 1,
           flag: 0
         }
       });

@@ -122,7 +122,7 @@
               </div>
               <div class="gauge_btm">
                 <i class="iconfont icon-fengsu"></i>
-                <p>{{ tempEnv['windSpeed'] }}RH</p>
+                <p>{{ tempEnv['windSpeed'] }}m/s)</p>
                 <span>当前风速</span>
               </div>
             </div>
