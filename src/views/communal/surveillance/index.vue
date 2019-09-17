@@ -366,6 +366,42 @@ export default {
         }
       } catch (e) {}
     },
+    monitorInfo05() {
+      try {
+        if (this.cameraList[4]["monitorDeviceId"])
+          return { monitorDeviceId: this.cameraList[4]["monitorDeviceId"] };
+        else {
+          return {};
+        }
+      } catch (e) {}
+    },
+    monitorInfo06() {
+      try {
+        if (this.cameraList[5]["monitorDeviceId"])
+          return { monitorDeviceId: this.cameraList[5]["monitorDeviceId"] };
+        else {
+          return {};
+        }
+      } catch (e) {}
+    },
+    monitorInfo07() {
+      try {
+        if (this.cameraList[6]["monitorDeviceId"])
+          return { monitorDeviceId: this.cameraList[6]["monitorDeviceId"] };
+        else {
+          return {};
+        }
+      } catch (e) {}
+    },
+    monitorInfo08() {
+      try {
+        if (this.cameraList[7]["monitorDeviceId"])
+          return { monitorDeviceId: this.cameraList[7]["monitorDeviceId"] };
+        else {
+          return {};
+        }
+      } catch (e) {}
+    },
     streamAddr01() {
       try {
         if (this.cameraList[0]["streamAddr"])
@@ -397,6 +433,42 @@ export default {
       try {
         if (this.cameraList[3]["streamAddr"])
           return this.cameraList[3]["streamAddr"];
+        else {
+          return "";
+        }
+      } catch (e) {}
+    },
+    streamAddr05() {
+      try {
+        if (this.cameraList[4]["streamAddr"])
+          return this.cameraList[4]["streamAddr"];
+        else {
+          return "";
+        }
+      } catch (e) {}
+    },
+    streamAddr06() {
+      try {
+        if (this.cameraList[5]["streamAddr"])
+          return this.cameraList[5]["streamAddr"];
+        else {
+          return "";
+        }
+      } catch (e) {}
+    },
+    streamAddr07() {
+      try {
+        if (this.cameraList[6]["streamAddr"])
+          return this.cameraList[6]["streamAddr"];
+        else {
+          return "";
+        }
+      } catch (e) {}
+    },
+    streamAddr08() {
+      try {
+        if (this.cameraList[7]["streamAddr"])
+          return this.cameraList[7]["streamAddr"];
         else {
           return "";
         }
