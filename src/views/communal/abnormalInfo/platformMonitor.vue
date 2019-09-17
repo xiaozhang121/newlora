@@ -9,6 +9,7 @@
         <duno-main class="mainContain">
             <div class="main">
                 <gis-map kind="self" fillColor="rgba(14,27,38, 0.75)" :polygonData="[[[13215283.811880944,3776271.1453833655],[13232286.273360128,3776249.821483701],[13232286.273360128,3766246.2152650086],[13215280.527477384,3766246.919600075],[13215283.811880944,3776271.1453833655]]]" isDiagram="3" mapUrl="http://10.0.10.45:8202" />
+
                 <div class="popContain" :class="{'hide': isHide}">
                     <power-pop @on-visible="onVisible"/>
                 </div>
