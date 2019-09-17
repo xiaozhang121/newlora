@@ -71,6 +71,7 @@ export default {
       AP: require('@/assets/runDevice/AP.png'),
       pad: require('@/assets/runDevice/pad.png'),
       ball: require('@/assets/runDevice/ball.png'),
+      waterBox: require('@/assets/runDevice/waterBox.png'),
     }
   },
   computed: {
