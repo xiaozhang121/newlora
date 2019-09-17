@@ -66,11 +66,31 @@
                 <i class="iconfont icon-yichang"></i>
                 <span class="nr_main">内存占用量超过95%</span>
             </div>
+            <div class="noBack" style="height: 10px"></div>
+            <div class="pop_title">
+                <div>
+                <span class="line">
+                    <span class="block"></span>
+                    <span class="block"></span>
+                    <span class="block"></span>
+                </span>
+                    <span class="nr">
+                    机器人
+                </span>
+                </div>
+                <a class="" href="javascript:void(0)">详情>></a>
+            </div>
+            <div class="patteryContain">
+                <pattery rate="100" class="pattery"></pattery>
+                <div class="robotStauts green">充电中</div>
+            </div>
+            <div class="noBack lastB" style="height: 10px"></div>
         </historical-documents>
     </div>
 </template>
 
 <script>
+    import pattery from '_c/duno-m/pattery'
     import "swiper/dist/css/swiper.css";
     import { swiper, swiperSlide } from "vue-awesome-swiper";
     import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
@@ -79,7 +99,8 @@
         components: {
             HistoricalDocuments,
             swiperSlide,
-            swiper
+            swiper,
+            pattery
         },
         data() {
             return {
@@ -133,8 +154,25 @@
         .red{
             color: red;
         }
+        .green{
+            color: #47d4a5;
+        }
+        .noBack{
+            position: relative;
+            left: -11px;
+            width: 106%;
+            background: rgba(14, 30, 38, 0.5);
+        }
+        .lastB{
+            position: absolute;
+            bottom: 0;
+            height: 10px;
+            width: 96%;
+            left: 9px;
+        }
         .warning{
             width: 100%;
+            margin: 10px 0;
             .iconfont{
                 color: #f11134;
                 font-weight: bold;
@@ -230,6 +268,18 @@
             justify-content: space-between;
             .data{
                 font-weight: bold;
+            }
+        }
+        .patteryContain{
+            display: flex;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            margin-top: 17px;
+            .robotStauts{
+                margin-left: 25px;
+            }
+            .rouTineInspection{
+                
             }
         }
     }

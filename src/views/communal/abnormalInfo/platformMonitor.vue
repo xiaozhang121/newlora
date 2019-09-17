@@ -8,14 +8,14 @@
         </div>
         <duno-main class="mainContain">
             <div class="main">
-                <gis-map kind="self" fillColor="rgba(44,65,60, 0.9)" :polygonData="[[[13215083.164681694,3776589.774776549],[13232568.13490193,3776476.9846436675],[13232549.02564486,3765992.1290807393],[13215025.83691048,3766037.2056559767],[13215083.164681694,3776589.77477654]]]" isDiagram="3" mapUrl="http://10.0.10.45:8202" />
+                <gis-map kind="self" fillColor="rgba(14,27,38, 0.75)" :polygonData="[[[13215283.811880944,3776271.1453833655],[13232286.273360128,3776249.821483701],[13232286.273360128,3766246.2152650086],[13215280.527477384,3766246.919600075],[13215283.811880944,3776271.1453833655]]]" isDiagram="3" mapUrl="http://10.0.10.45:8202" />
                 <div class="popContain" :class="{'hide': isHide}">
                     <power-pop @on-visible="onVisible"/>
                 </div>
             </div>
         </duno-main>
         <!--<platform-line></platform-line>-->
-        <platform-box></platform-box>
+        <!--<platform-box></platform-box>-->
     </div>
 </template>
 
