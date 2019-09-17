@@ -188,7 +188,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
-            url: "/lenovo-plan/api/plan/visible-report/view/detail"
+            url: "/lenovo-plan/api/information/overview/plan/report/detail"
           }
         });
       }

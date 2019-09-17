@@ -37,7 +37,12 @@
       element-loading-text="加载中"
     >
       <div class="task">
-        <ReportTable v-for="(item,index) in dataList" :url="url" :key="index" :reportData="item" />
+        <ReportTable
+          v-for="(item,index) in dataList.tableData"
+          :url="url"
+          :key="index"
+          :reportData="item"
+        />
       </div>
       <el-pagination layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
     </duno-main>
@@ -49,11 +54,12 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoMain from "_c/duno-m/duno-main";
 import ReportTable from "_c/duno-c/ReportTable";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
-import mixinViewModule from "@/mixins/view-module";
+// import mixinViewModule from "@/mixins/view-module";
 import moment from "moment";
 import { getPlayType } from "@/api/configuration/configuration.js";
+import { getAxiosData } from "@/api/axiosType";
 export default {
-  mixins: [mixinViewModule],
+  // mixins: [mixinViewModule],
   name: "ReportFrom",
   components: {
     Breadcrumb,
@@ -67,10 +73,11 @@ export default {
       loading: false,
       pageIndex: 1,
       totalRows: 1,
-      mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-plan/api/statistics/plan/list"
-      },
+      dataList: [],
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/lenovo-plan/api/statistics/plan/list"
+      // },
       url: "/lenovo-plan/api/statistics/plan/download",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
@@ -96,9 +103,25 @@ export default {
     }
   },
   methods: {
+    init() {
+      let url = "/lenovo-plan/api/statistics/plan/list";
+      let query = {
+        pageIndex: this.pageIndex,
+        pageRows: 10,
+        ...this.dataForm
+      };
+      getAxiosData(url, query).then(res => {
+        this.dataList = res.data;
+        this.totalRows = Number(res.data.pageParam.totalRows);
+        this.loadingOption = false;
+        this.loading = false;
+        this.$forceUpdate();
+      });
+    },
     sizeChange(item) {
       this.pageIndex = item;
-      this.getDataList();
+      this.loading = true;
+      this.init();
     },
     onSelect(item) {
       this.titleValue = item["describeName"];
@@ -142,6 +165,7 @@ export default {
       this.loading = false;
     }, 1000000000);
     this.getPlayTypeData();
+    this.init();
   }
 };
 </script>

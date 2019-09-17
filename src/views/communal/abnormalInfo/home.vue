@@ -111,18 +111,18 @@
               </p>
               <div>
                 <i class="iconfont icon-wendu"></i>
-                <span>{{ tempEnv['envTemp'] }}</span>
+                <span>{{ tempEnv['envTemp'] }}℃</span>
               </div>
             </div>
             <div class="gauge">
               <div class="gauge_top">
                 <i class="iconfont icon-shidu1"></i>
-                <p>{{ tempEnv['humidity'] }}</p>
+                <p>{{ tempEnv['humidity'] }}%</p>
                 <span>当前湿度</span>
               </div>
               <div class="gauge_btm">
                 <i class="iconfont icon-fengsu"></i>
-                <p>{{ tempEnv['windSpeed'] }}</p>
+                <p>{{ tempEnv['windSpeed'] }}m/s)</p>
                 <span>当前风速</span>
               </div>
             </div>

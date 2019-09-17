@@ -441,9 +441,13 @@ export default {
     init() {
       this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
       this.mixinViewModuleOptions.exportURL = this.downloadURL;
-      this.queryForm.monitorDeviceType = this.monitorDeviceType;
       this.queryForm.powerDeviceId = this.$route.query.powerDeviceId;
       this.queryForm.flag = this.$route.query.flag;
+      if (this.monitorDeviceType == "") {
+        this.queryForm.monitorDeviceType = this.$route.query.monitorDeviceType;
+      } else {
+        this.queryForm.monitorDeviceType = this.monitorDeviceType;
+      }
       if (this.$route.query.deviceName) {
         this.title = this.$route.query.deviceName;
       }
