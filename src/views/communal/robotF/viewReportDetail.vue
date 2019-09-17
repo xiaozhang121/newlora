@@ -119,6 +119,7 @@ export default {
           width: 100,
           align: "center"
         },
+
         {
           title: "对象",
           key: "powerDeviceName",
@@ -139,16 +140,16 @@ export default {
             return h("div", params.row.linkName2 + params.row.linkName3);
           }
         },
-        /* {
+         {
           title: "描述",
-          key: "description",
+          key: "desc",
           minWidth: 90,
           align: "center",
           tooltip: true
-        },*/
-        /*  {
+        },
+          {
           title: "缺陷等级",
-          key: "alarmLevel",
+          key: "warnContent",
           minWidth: 120,
           align: "center",
           tooltip: true,
@@ -173,13 +174,13 @@ export default {
                       {
                         class: {
                           table_select: true,
-                          serious: params.row.alarmLevel === "2",
-                          commonly: params.row.alarmLevel === "1",
-                          danger: params.row.alarmLevel === "3"
+                          serious: params.row.warnLevel === "2",
+                          commonly: params.row.warnLevel === "1",
+                          danger: params.row.warnLevel === "3"
                         }
                       },
                       [
-                        h("span", this.cutOut(params.row.alarmLevelName), {
+                        h("span", this.cutOut(params.row.warnContent), {
                           class: { member_operate_div: true }
                         }),
                         h("i", {
@@ -236,9 +237,13 @@ export default {
                 ]
               )
             );
-            return h("div", newArr);
+            if(params.row.warnContent){
+                return h("div", newArr);
+            }else{
+                return h("div", '/');
+            }
           }
-        },*/
+        },
         /*   {
           title: "拍摄来源",
           key: "monitorDeviceName",
@@ -387,45 +392,42 @@ export default {
         }
         return data;
       } else {
-        return "更多";
+        return "/";
       }
     },
     onClickDropdown(row, type, No) {
       const index = row._index;
-      this.dataList[index].alarmLevelName = type;
-      this.dataList[index].alarmLevel = No;
+      this.dataList[index].warnContent = type;
+      this.dataList[index].warnLevel = No;
       this.psotAlarmData(row, type, No);
     },
     psotAlarmData(row, type, No) {
       const that = this;
-      const url = "/lenovo-alarm/api/alarm/level-edit";
+      const url = "/lenovo-robot/rest/manualJudge";
       let oldLevel;
-      if (row.alarmLevel == "1") {
+      if (row.warnLevel == "1") {
         oldLevel = "一般";
-      } else if (row.alarmLevel == "2") {
+      } else if (row.warnLevel == "2") {
         oldLevel = "严重";
       } else {
         oldLevel = "危急";
       }
       const query = {
-        id: row.id,
-        alarmLevel: No,
-        oldLevel: oldLevel,
-        newLevel: type,
-        userName: this.$store.state.user.userName
+        manualAlarmLevel: No,
+        taskDeviceId: row.id
       };
-      putAxiosData(url, query).then(
+        postAxiosData(url, query).then(
         res => {
-          if (res.code !== 200) {
-            this.dataList[index].alarmLevel = row.alarmLevel;
-            this.dataList[index].alarmLevelName = row.alarmLevelName;
+          if (res.code != 200) {
+            this.dataList[index].warnLevel = row.warnLevel;
+            this.dataList[index].warnContent = row.warnContent;
             return that.$message.error(res.msg);
           }
           that.$message.success(res.msg);
         },
         error => {
-          this.dataList[index].alarmLevel = row.alarmLevel;
-          this.dataList[index].alarmLevelName = row.alarmLevelName;
+            this.dataList[index].warnLevel = row.warnLevel;
+            this.dataList[index].warnContent = row.warnContent;
         }
       );
     },
@@ -664,7 +666,7 @@ export default {
   }
   .table_select {
     cursor: pointer;
-    color: #1d1f26;
+    color: white;
     span {
       display: inline-flex;
       align-items: center;
