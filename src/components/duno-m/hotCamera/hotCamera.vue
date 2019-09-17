@@ -584,7 +584,6 @@
                     that.addPosInput = ''
                 }else{
                     // 修改
-                    debugger
                     let temp = that.addPosInput
                     this.$forceUpdate()
                     that.addPosInput = ''

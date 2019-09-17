@@ -171,11 +171,11 @@
             </div>
             <div class="child">
                 <charts-u :hiddenM="true"/>
-                <span class="childTitle"><i class="iconfont icon-fuwuqi1"></i>交换机</span>
+                <span class="childTitle"><img :src="switchPic"/>交换机</span>
             </div>
             <div class="child">
                 <charts-u :hiddenM="true"/>
-                <span class="childTitle"><i class="iconfont icon-xuniji"></i>AP</span>
+                <span class="childTitle"><img :src="AP"/>AP</span>
             </div>
         </div>
         <div class="line_split"></div>
@@ -213,6 +213,11 @@
                 </div>
             </div>
         </div>
+        <div class="pushB" @click="visibleHandle()">
+            <div class="btn">
+                <img :src="close"/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -231,7 +236,7 @@
         },
         data() {
             return {
-
+                close: require('@/assets/runDevice/close.png')
             }
         },
         props: {
@@ -244,6 +249,9 @@
 
         },
         methods:{
+            visibleHandle(){
+                this.$emit('on-visible')
+            },
             eventFn(){
                 let height = window.innerHeight
                 $('.powerPop .allHealthStatus .warning').css({'bottom':'-32px'})
@@ -278,6 +286,27 @@
         width: 618px;
         overflow-y: auto;
         margin-right: -10px;
+        .pushB{
+            background: rgba(17, 34, 51,0.7);
+            width: 20px;
+            height: 100%;
+            position: absolute;
+            left: -19px;
+            top: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .btn{
+                width: 10px;
+                height: 20px;
+                /*background: pink;*/
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
         .line_split{
             border-bottom: 2px dashed #0d3a43;
             width: 100%;
@@ -324,6 +353,13 @@
             &.T{
                 .mainCharts{
                     width: 54%;
+                }
+                .childTitle{
+                   img{
+                       margin-right: 4px;
+                       position: relative;
+                       top: 4px;
+                   }
                 }
                 .child{
                     margin-left: 0;

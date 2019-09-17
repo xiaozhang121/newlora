@@ -67,6 +67,8 @@ export default {
       light: require('@/assets/buttonPng/lightCamera.png'),
       lightNoCamera: require('@/assets/buttonPng/light.svg'),
       weatherCheck: require('@/assets/SVG/weatherCheck.svg'),
+      switchPic: require('@/assets/runDevice/switch.png'),
+      AP: require('@/assets/runDevice/AP.png'),
       pad: require('@/assets/runDevice/pad.png'),
       ball: require('@/assets/runDevice/ball.png'),
     }
