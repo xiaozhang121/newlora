@@ -577,7 +577,7 @@ export default {
       let cameraPos0 = null;
       let obj = {};
       for (let i = 0; i < data.length; i++) {
-        obj["cameraPos0" + i] = data[i];
+        obj["cameraPos0" + (i + 1)] = data[i];
       }
       let query = {
         ...obj,
@@ -843,8 +843,11 @@ export default {
   .oltagevMainBig {
     height: 218px;
     width: 100%;
+    @media screen and (min-width: 3500px) {
+      height: 250px;
+    }
     .swiper-container {
-      height: 218px;
+      height: 250px;
     }
   }
   .oltagevMain {

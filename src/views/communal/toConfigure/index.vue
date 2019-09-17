@@ -108,6 +108,11 @@ export default {
           align: "center"
         },
         {
+          key: "monitorDeviceName",
+          title: "设备名称",
+          align: "center"
+        },
+        {
           key: "monitorDeviceType",
           title: "设备类型",
           align: "center"

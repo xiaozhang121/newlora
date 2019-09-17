@@ -80,6 +80,7 @@ import {
   mainDevice
 } from "@/api/configuration/configuration.js";
 import moment from "moment";
+import { getAxiosData } from "../../../api/axiosType";
 export default {
   mixins: [mixinViewModule],
   name: "overvoew",
@@ -158,7 +159,7 @@ export default {
         name: "overview-report",
         query: {
           title: "信息总览记录信息",
-          url: "/lenovo-plan/api/task/visible-result/list"
+          url: "/lenovo-plan/api/task/result/list"
         }
       });
     },
@@ -167,8 +168,8 @@ export default {
         name: "overview-info",
         query: {
           title: "信息总览巡检报告",
-          planType: "1",
-          url: "/lenovo-plan/api/plan/visible-report/list"
+          // planType: "1",
+          url: "/lenovo-plan/api/information/overview/report/list"
         }
       });
     },
@@ -227,7 +228,8 @@ export default {
         pageIndex: 1,
         pageRows: 4
       };
-      lightNewReport(query).then(res => {
+      let url = "/lenovo-plan/api/information/overview/report/list";
+      getAxiosData(url, query).then(res => {
         this.inspecReport = res.data.tableData;
         clearTimeout(this.timerF);
         this.loadingOptionF = false;
@@ -236,7 +238,8 @@ export default {
         pageIndex: 1,
         pageRows: 4
       };
-      lightNewInformation(data).then(res => {
+      let url1 = "/lenovo-plan/api/task/result/list";
+      getAxiosData(url1, data).then(res => {
         this.lightInformation = res.data.tableData;
         clearTimeout(this.timerS);
         this.loadingOptionS = false;
