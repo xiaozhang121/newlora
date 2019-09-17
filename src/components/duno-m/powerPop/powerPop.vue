@@ -171,11 +171,11 @@
             </div>
             <div class="child">
                 <charts-u :hiddenM="true"/>
-                <span class="childTitle"><i class="iconfont icon-fuwuqi1"></i>交换机</span>
+                <span class="childTitle"><img :src="switchPic"/>交换机</span>
             </div>
             <div class="child">
                 <charts-u :hiddenM="true"/>
-                <span class="childTitle"><i class="iconfont icon-xuniji"></i>AP</span>
+                <span class="childTitle"><img :src="AP"/>AP</span>
             </div>
         </div>
         <div class="line_split"></div>
@@ -212,6 +212,9 @@
                     <span class="blueF">本月新增：32</span>
                 </div>
             </div>
+        </div>
+        <div class="pushB">
+
         </div>
     </div>
 </template>
@@ -278,6 +281,14 @@
         width: 618px;
         overflow-y: auto;
         margin-right: -10px;
+        .pushB{
+            background: rgba(17, 34, 51,0.7);
+            width: 20px;
+            height: 100%;
+            position: absolute;
+            left: -19px;
+            top: 0;
+        }
         .line_split{
             border-bottom: 2px dashed #0d3a43;
             width: 100%;
@@ -324,6 +335,13 @@
             &.T{
                 .mainCharts{
                     width: 54%;
+                }
+                .childTitle{
+                   img{
+                       margin-right: 4px;
+                       position: relative;
+                       top: 4px;
+                   }
                 }
                 .child{
                     margin-left: 0;
