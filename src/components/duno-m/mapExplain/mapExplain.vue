@@ -49,7 +49,31 @@
 
 <style lang="scss">
     .mapExplain{
+        width: 150px;
+        height: 100px;
+        background: #223333;
+        .infoD{
+            display: flex;
+            .item{
+                flex-grow: 1;
+                flex-basis: 0;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .titleE{
 
+                }
+                .showE{
+                   flex: 1;
+                    .line{
+                        background: white;
+                        height: 1px;
+                        width: 100%;
+                    }
+                }
+            }
+        }
     }
 </style>
 
