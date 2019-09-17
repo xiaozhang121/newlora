@@ -136,6 +136,7 @@ export default {
           url: "/lenovo-plan/api/statistics/meter-data/list",
           powerDeviceId: item.deviceIdStr,
           deviceName: item.deviceName,
+          monitorDeviceType: 1,
           flag: 0
         }
       });
