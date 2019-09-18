@@ -108,6 +108,11 @@ export default {
           align: "center"
         },
         {
+          key: "ip",
+          title: "IP地址",
+          align: "center"
+        },
+        {
           key: "monitorDeviceName",
           title: "设备名称",
           align: "center"

@@ -112,8 +112,11 @@ export default {
   methods: {
     handleSubmit() {
       let url;
+      let isRobot = this.$rout.query.detailsType;
       if (this.formData.result == "正常") {
         url = "/lenovo-plan/api/task_result/change";
+      } else if (isRobot == "robot") {
+        url = "/lenovo-plan/api/information/overview/change";
       } else {
         url = "/lenovo-alarm/api/alarm/result/change";
       }
@@ -123,14 +126,16 @@ export default {
           userName: this.$store.state.user.userName,
           alarmId: this.formData.alarmId,
           alarmDetailType: this.formData.input,
-          alarmValue: this.formData.inputT
+          alarmValue: this.formData.inputT,
+          isRobot: this.formData.isRobot
         };
       } else {
         query = {
           userName: this.$store.state.user.userName,
           alarmId: this.formData.alarmId,
           alarmDetailType: this.formData.alarmDetailTypeCode,
-          alarmValue: this.formData.inputT
+          alarmValue: this.formData.inputT,
+          isRobot: this.formData.isRobot
         };
       }
       postAxiosData(url, query).then(res => {

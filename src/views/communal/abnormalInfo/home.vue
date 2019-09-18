@@ -122,7 +122,7 @@
               </div>
               <div class="gauge_btm">
                 <i class="iconfont icon-fengsu"></i>
-                <p>{{ tempEnv['windSpeed'] }}m/s)</p>
+                <p>{{ tempEnv['windSpeed'] }}m/s</p>
                 <span>当前风速</span>
               </div>
             </div>
@@ -155,13 +155,13 @@
           <div class="gauge">
             <div class="gauge_top">
               <i class="iconfont icon-wendu1"></i>
-              <p>20.6%</p>
-              <span>当前湿度</span>
+              <p>20.6℃</p>
+              <span>当前温度</span>
             </div>
             <div class="gauge_btm">
               <i class="iconfont icon-shidu"></i>
               <p>41.4%RH</p>
-              <span>当前风速</span>
+              <span>当前湿度</span>
             </div>
           </div>
         </div>
@@ -296,6 +296,7 @@ export default {
       titleType: "全部告警类别",
       messageList: [],
       handleNotes: [],
+      ubiquitousData: [],
       alarmType: "",
       isShowEchart: false,
       mockData: [],
@@ -568,6 +569,7 @@ export default {
     };
   },
   created() {
+    // this.getUbiquitous();
     this.getRecodeList();
     this.getData();
     this.getMockData();
@@ -575,11 +577,19 @@ export default {
     this.isScreen();
     this.getEnv();
     this.$nextTick(() => {
-      this.init();
+      // this.init();
+      this.getUbiquitous();
       this.initBar();
     });
   },
   methods: {
+    getUbiquitous() {
+      let url = "/lenovo-mon/api/monitoring/zabbix/health-status";
+      getAxiosData(url).then(res => {
+        let ubiquitousData = res.data;
+        this.init();
+      });
+    },
     getEnv() {
       getAxiosData("/lenovo-robot/rest/envTemp/substation/1/robot/1").then(
         res => {

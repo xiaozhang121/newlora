@@ -159,7 +159,8 @@ export default {
         name: "overview-report",
         query: {
           title: "信息总览记录信息",
-          url: "/lenovo-plan/api/task/result/list"
+          url: "/lenovo-plan/api/task/result/list",
+          detailsType: "robot"
         }
       });
     },
@@ -168,7 +169,6 @@ export default {
         name: "overview-info",
         query: {
           title: "信息总览巡检报告",
-          // planType: "1",
           url: "/lenovo-plan/api/information/overview/report/list"
         }
       });
