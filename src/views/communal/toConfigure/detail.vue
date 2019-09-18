@@ -25,7 +25,7 @@
         planType="特殊巡视 "
       />
       <Patrol
-        :columns="columnsData"
+        :columns="columnsData1"
         :dataList="environmentInspectList"
         :title="title1"
         :isShowBtn="false"
@@ -310,7 +310,7 @@ export default {
           }
         }
       ],
-      columnsData: [
+      columnsData1: [
         {
           title: "巡视名称",
           key: "planName",
