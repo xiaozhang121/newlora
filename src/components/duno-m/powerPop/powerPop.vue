@@ -38,7 +38,7 @@
             </div>
             <div class="warning">
                 <i class="iconfont icon-yichang"></i>
-                <span class="nr_main">内存占用量超过95%</span>
+                <span class="nr_main">内存占用量超过{{ rateData }}%</span>
             </div>
         </div>
         <div class="line_split"></div>
@@ -174,7 +174,7 @@
                 <span class="childTitle"><img :src="switchPic"/>交换机</span>
             </div>
             <div class="child">
-                <charts-u :hiddenM="true"/>
+                <charts-u :chartsInfo="APData" :isChange="APDataV" :hiddenM="true"/>
                 <span class="childTitle"><img :src="AP"/>AP</span>
             </div>
         </div>
@@ -239,6 +239,8 @@
             return {
                 allPanel: '',
                 allPanelV: false,
+                APData: {normal: 1, total: 1},
+                APDataV: false,
                 server: {normal: 1, total: 1},
                 serverV: false,
                 virtual:{normal: 1, total: 1},
@@ -249,15 +251,16 @@
                 monitorV:false,
                 close: require('@/assets/runDevice/close.png'),
                 visibleCount: 0,
-                visibleCameraCount: 0,
-                visibleNarrow: 0,
+                visibleCameraCount: 7,
+                visibleNarrow: 9,
                 infrared: 0,
-                infraredCamera: 0,
-                controlBall: 0,
+                infraredCamera: 9,
+                controlBall: 2,
                 handInfrared: 0,
-                ARClass: 0,
-                PAD: 0,
-                rebortCount: 0
+                ARClass: 1,
+                PAD: 1,
+                rebortCount: 1,
+                rateData: 0
 
             }
         },
@@ -297,21 +300,28 @@
                     this.monitor =  { normal: data['normal'], total:  data['total'] }
                     this.monitorV = !this.monitorV
                 })
+                getAxiosData('/lenovo-mon/api/monitoring/memory/zabbix/countMemory').then(res=>{
+                    let data = res.data.rate
+                    this.rateData = Number(data*100).toFixed(0)
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
+                    this.visibleCount = res.data.total
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/thermal/count').then(res=>{
+                    this.infrared = res.data.total
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/ap/zabbix/getApStatus').then(res=>{
+                    let data = res.data
+                    this.APData =  { normal: data['icnt'], total:  data['total'] }
+                    this.APDataV = !this.APDataV
+                })
               /*
 
 
-                getAxiosData('/lenovo-mon/api/monitoring/memory/zabbix/countMemory').then(res=>{
-                    debugger
-                })
-                getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
-                    debugger
-                })
-                getAxiosData('/lenovo-mon/api/monitoring/thermal/count').then(res=>{
-                    debugger
-                })
-                getAxiosData('/lenovo-mon/api/monitoring/ap/zabbix/getApStatus').then(res=>{
-                    debugger
-                })*/
+
+
+
+               */
             },
             visibleHandle(){
                 this.$emit('on-visible')
@@ -454,6 +464,8 @@
             }
             .child{
                 height: 100%;
+                flex-basis: 0;
+                flex-grow: 1;
                 margin-left: 16px;
                 /*background: skyblue;*/
                 position: relative;
@@ -465,12 +477,13 @@
                 .childTitle{
                     text-align: center;
                     color: white;
-                    width: 100%;
+                    width: 110%;
                     position: absolute;
                     /*bottom: 19%;*/
                     bottom: 9%;
                     /*bottom: 0;*/
                     font-size: 14px;
+                    left: -5px;
                     .iconfont{
                         position: relative;
                         top: 2px;

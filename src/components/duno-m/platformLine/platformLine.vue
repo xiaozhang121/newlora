@@ -54,7 +54,7 @@
                 IP: '',
                 deviceType: '',
                 tabPaneData: [],
-                title: '24口万兆交换机',
+                title: '暂无名称',
                 visibleOption: false,
                 deviceList: [
                     {status: 'green', cameraName: '4号主变红外11号摄像头'},
@@ -84,6 +84,7 @@
                       let type = now['monitorDeviceType']
                       this.installTime = now['deviceMessage']['createTime']?now['deviceMessage']['createTime']:'/'
                       this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
+                      this.title = now['monitorDeviceName']
                       this.deviceType = '正常'
                       if(type == 1){
                           if (now.deviceMessage.supportPreset) {

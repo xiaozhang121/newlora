@@ -1,6 +1,6 @@
 <template>
     <div class="rouTineInspection" >
-        <div class="rouTineInspection_left">
+        <div class="rouTineInspection_left" :class="{'noWidth': hidden}">
             <div class="nr">
                 <div class="main">
                     <gis-map v-if="mapShow" :rebot="true" :deviceList="deviceList" :zoom="16"  ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
@@ -66,6 +66,14 @@
             }
         },
         props: {
+            type: {
+                type: String,
+                default: 'normal'
+            },
+            hidden:{
+                type: Boolean,
+                default: false
+            },
             isChange:{},
             robotId: {},
             substationId: {},
@@ -146,7 +154,11 @@
             },
             initData(){
                 const that = this
-                postAxiosData('/lenovo-robot/rest/taskMap',{taskId:this.taskStatus['taskId'],taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+                let url = '/lenovo-robot/rest/taskMap'
+                if(that.type == 'indoor'){
+                    url = url.replace('/lenovo-robot','/lenovo-robot-indoor')
+                }
+                postAxiosData(url,{taskId:this.taskStatus['taskId'],taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
                     let data = res.data.details
                     let arr = that.arrHandle(data)
                     let arrT = []
@@ -196,7 +208,11 @@
                 }else{
                     this.taskName = '开始任务'
                 }
-                postAxiosData('/lenovo-robot/rest/taskControl', {substationID: this.substationId, robotID: this.robotId, state: this.state, taskID: this.taskStatus['taskId']}).then(res=>{
+                let url = '/lenovo-robot/rest/taskControl'
+                if(this.type == 'indoor'){
+                    url = url.replace('/lenovo-robot','/lenovo-robot-indoor')
+                }
+                postAxiosData(url, {substationID: this.substationId, robotID: this.robotId, state: this.state, taskID: this.taskStatus['taskId']}).then(res=>{
                     this.$message.success('操作成功')
                 })
             },
@@ -238,6 +254,9 @@
             width: 49.5%;
             padding-bottom: 17%;
             position: relative;
+            &.noWidth{
+                width: 0;
+            }
             .nr{
                 width: 100%;
                 height: 100%;
