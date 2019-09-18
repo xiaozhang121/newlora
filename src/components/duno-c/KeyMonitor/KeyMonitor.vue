@@ -36,7 +36,12 @@
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
           <template v-if="!onlyCanel">
-            <div style="visibility: hidden" class="block" :class="{'hidden': isPic}" v-if="!isCamera">
+            <div
+              style="visibility: hidden"
+              class="block"
+              :class="{'hidden': isPic}"
+              v-if="!isCamera"
+            >
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
               <span class="nowNR">当前</span>
@@ -47,7 +52,7 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span  @click="videotape()" v-if="!isPic && !onlyCanel && isRecord">
+          <span @click="videotape()" v-if="!isPic && !onlyCanel && isRecord">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
@@ -57,7 +62,7 @@
           <!--  <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>-->
-          <span @click="webFullScreen()"  v-if="!onlyCanel">
+          <span @click="webFullScreen()" v-if="!onlyCanel">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
           <span @click="pushMov()" v-if="!isPic && !onlyCanel && pushCamera">
@@ -121,31 +126,31 @@ export default {
     screenshot
   },
   props: {
-    showType:{},
-    powerDeviceId:{},
-    isRecord:{
-        type: Boolean,
-        default: () => {
-            return true;
-        }
+    showType: {},
+    powerDeviceId: {},
+    isRecord: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
     },
     picCut: {
-        type: Boolean,
-        default: () => {
-            return true;
-        }
+      type: Boolean,
+      default: () => {
+        return true;
+      }
     },
-    pushCamera:{
-        type: Boolean,
-        default: () => {
-            return true;
-        }
+    pushCamera: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
     },
-    onlyCanel:{
-        type: Boolean,
-        default: () => {
-            return false;
-        }
+    onlyCanel: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
     },
     picUrl: {},
     isPic: {
@@ -282,10 +287,10 @@ export default {
     streamAddr: {
       handler(now) {
         if (now) {
-          if(now.indexOf('mp4')>-1){
-              this.playerOptions["sources"][0]["type"] = 'video/mp4'
-          }else{
-              this.playerOptions["sources"][0]["type"] = 'application/x-mpegURL'
+          if (now.indexOf("mp4") > -1) {
+            this.playerOptions["sources"][0]["type"] = "video/mp4";
+          } else {
+            this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
           }
           this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
@@ -347,7 +352,7 @@ export default {
           {
             type: "rtmp/flv",
             type: "application/x-mpegURL",
-           /* type: "video/ogg",
+            /* type: "video/ogg",
             type: "video/webm",
             type: "video/mp4",*/
             src: ""
@@ -355,7 +360,9 @@ export default {
             // src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
           }
         ],
+        aspectRatio: "16:9",
         fluid: true,
+        // width:document.getElementsById("videoPlayer").offsetWidth,
         techOrder: ["flash"],
         autoplay: false,
         controls: true,
@@ -375,8 +382,8 @@ export default {
     }
   },
   methods: {
-    toClose(){
-        this.$emit('on-close')
+    toClose() {
+      this.$emit("on-close");
     },
     toStop(flag) {
       this.isStop = flag;
@@ -399,9 +406,9 @@ export default {
         let times = new Date().getTime() - this.timeSeed;
         this.passTime += 1000;
         this.timeIncreateD = this.formatDuring(times);
-        let rest = times / 1000
-        if(rest >= this.maxSecond){
-            this.videotape()
+        let rest = times / 1000;
+        if (rest >= this.maxSecond) {
+          this.videotape();
         }
       }, 1000);
     },
@@ -426,11 +433,11 @@ export default {
         postAxiosData("/lenovo-device/api/stream/startRecord", {
           rtmpUrl: this.playerOptions["sources"][0]["src"],
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
-          type: '1'
+          type: "1"
         }).then(res => {
           this.$message.info(res.msg);
           this.taskId = res.data.taskId;
-          this.maxSecond = res.data.maxRecordTime
+          this.maxSecond = res.data.maxRecordTime;
           this.timeIncreate();
         });
       } else {
@@ -443,7 +450,6 @@ export default {
           this.timeIncreateD = "0:00:00";
           this.$message.info(res.msg);
         });
-
       }
     },
     webFullScreen() {
@@ -614,6 +620,7 @@ export default {
     }, 1000000000);
     this.isIniializa = this.Initialization;
     this.isNavbar = this.isNav;
+    // console.log(document.getElementsById("videoPlayer").offsetWidth);
   },
   beforeDestroy() {
     let flag =
@@ -638,13 +645,13 @@ export default {
 </script>
 
 <style lang="scss">
-.closeWeb{
+.closeWeb {
   width: 100%;
   display: flex;
   justify-content: flex-end;
   padding-right: 3%;
 }
-.pushMov{
+.pushMov {
   .el-dialog.el-dialog--center {
     margin-top: 15vh !important;
     width: 500px !important;

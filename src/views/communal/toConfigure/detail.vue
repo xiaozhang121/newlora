@@ -198,8 +198,8 @@ export default {
                 {
                   class: {
                     table_select: true,
-                    interval: params.row.status == "1",
-                    patrol: params.row.status == "0"
+                    interval: params.row.status == "0",
+                    patrol: params.row.status == "1"
                   }
                 },
                 params.row.statusName
@@ -346,8 +346,8 @@ export default {
                 {
                   class: {
                     table_select: true,
-                    interval: params.row.status == "1",
-                    patrol: params.row.status == "0"
+                    interval: params.row.status == "0",
+                    patrol: params.row.status == "1"
                   }
                 },
                 params.row.statusName
