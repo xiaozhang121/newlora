@@ -14,6 +14,7 @@ export default {
     }
   },
   props: {
+    allPanel: {},
     /* paddingBottom */
     paddingBottom: String,
     /*
@@ -302,10 +303,16 @@ export default {
     /* 绘制图表的方法 */
     setOption () {
       let that = this
-      let value1 = 80
+      let text = ''
+      let value1 = Number(that.allPanel*100).toFixed(1)
+      if(value1 >= 60)  {
+          text =  '健康'
+      }else{
+          text =  '异常'
+      }
       let option = {
           title: {
-              "text": '健康',
+              "text": text,
               "x": '47.2%',
               "y": '71%',
               textAlign: "center",
@@ -378,7 +385,7 @@ export default {
                       show: false
                   },
                   data: [{
-                      value: 20,
+                      value: value1,
                   }],
 
                   axisTick: {
