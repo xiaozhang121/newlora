@@ -2,8 +2,8 @@
   <div class="chartBox" :style="'padding-bottom:' + paddingBottom">
     <div ref="dom" class="charts"></div>
     <div class="center">
-      <div>40/40</div>
-      <div v-if="!hiddenM">正常</div>
+      <div>{{ chartsInfo['normal'] }}/{{ chartsInfo['total'] }}</div>
+      <div v-if="!hiddenM">{{ status }}</div>
     </div>
   </div>
 </template>
@@ -14,10 +14,17 @@ export default {
   components: {},
   data () {
     return {
-      dom: null
+      dom: null,
+      status: '正常'
     }
   },
   props: {
+    chartsInfo: {
+        type: Object,
+        default: ()=>{
+            return {normal: 1, total: 1}
+        }
+    },
     hiddenM:{
         type: Boolean,
         default: false
@@ -314,7 +321,12 @@ export default {
     /* 绘制图表的方法 */
     setOption () {
       let that = this
-      let value1 = 80
+      let value1 = Number(Number(that.chartsInfo['normal']/that.chartsInfo['total'] * 100).toFixed(0))
+      if(value1 >= 60){
+          that.status = '正常'
+      }  else{
+          that.status = '异常'
+      }
       let option = {
           title: {
 

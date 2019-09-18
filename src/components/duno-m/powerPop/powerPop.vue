@@ -15,25 +15,25 @@
         </div>
         <div class="allHealthStatus">
             <div class="mainCharts">
-                <charts />
+                <charts :allPanel="allPanel" :isChange="allPanelV"/>
                 <span class="chartsTitle">
                     平台整体
                 </span>
             </div>
             <div class="child">
-                <charts-u />
+                <charts-u :chartsInfo="server" :isChange="serverV"/>
                 <span class="childTitle"><i class="iconfont icon-fuwuqi1"></i>服务器</span>
             </div>
             <div class="child">
-                <charts-u />
+                <charts-u  :chartsInfo="virtual" :isChange="virtualV"/>
                 <span class="childTitle"><i class="iconfont icon-xuniji"></i>虚拟机</span>
             </div>
             <div class="child">
-                <charts-u />
+                <charts-u  :chartsInfo="service" :isChange="serviceV"/>
                 <span class="childTitle"><i class="iconfont icon-servise"></i>服务</span>
             </div>
             <div class="child">
-                <charts-u />
+                <charts-u  :chartsInfo="monitor" :isChange="monitorV"/>
                 <span class="childTitle"><i class="iconfont icon-jianceshebei"></i>监测设备</span>
             </div>
             <div class="warning">
@@ -60,7 +60,7 @@
                <div class="deviceItem">
                    <div class="topM">
                        <img :src="lightNoCamera"/>
-                       <span class="count">31</span>
+                       <span class="count">{{ visibleCount }}</span>
                    </div>
                    <div class="bottomM">
                        可见光
@@ -69,7 +69,7 @@
                <div class="deviceItem">
                    <div class="topM">
                        <img :src="light"/>
-                       <span class="count">31</span>
+                       <span class="count">{{ visibleCameraCount }}</span>
                    </div>
                    <div class="bottomM">
                        可见光(云台)
@@ -78,7 +78,7 @@
                <div class="deviceItem">
                    <div class="topM">
                        <img :src="lightD"/>
-                       <span class="count">31</span>
+                       <span class="count">{{ visibleNarrow }}</span>
                    </div>
                    <div class="bottomM">
                        可见光(窄道)
@@ -87,7 +87,7 @@
                <div class="deviceItem">
                    <div class="topM">
                        <img :src="redLight"/>
-                       <span class="count">31</span>
+                       <span class="count">{{  infrared }}</span>
                    </div>
                    <div class="bottomM">
                        红外测温
@@ -96,7 +96,7 @@
                <div class="deviceItem">
                    <div class="topM">
                        <img :src="redLightCamera"/>
-                       <span class="count">31</span>
+                       <span class="count">{{  infraredCamera }}</span>
                    </div>
                    <div class="bottomM">
                        红外测温(云台)
@@ -107,7 +107,7 @@
                 <div class="deviceItem">
                     <div class="topM">
                         <img :src="ball"/>
-                        <span class="count">31</span>
+                        <span class="count">{{   controlBall }}</span>
                     </div>
                     <div class="bottomM">
                         布控球
@@ -116,7 +116,7 @@
                 <div class="deviceItem">
                     <div class="topM">
                         <img :src="handRed"/>
-                        <span class="count">31</span>
+                        <span class="count">{{   handInfrared }}</span>
                     </div>
                     <div class="bottomM">
                         手持红外
@@ -125,7 +125,7 @@
                 <div class="deviceItem">
                     <div class="topM">
                         <img :src="ARGlass"/>
-                        <span class="count">31</span>
+                        <span class="count">{{   ARClass }}</span>
                     </div>
                     <div class="bottomM">
                         AR眼镜
@@ -134,7 +134,7 @@
                 <div class="deviceItem">
                     <div class="topM">
                         <img :src="pad"/>
-                        <span class="count">31</span>
+                        <span class="count">{{   PAD }}</span>
                     </div>
                     <div class="bottomM">
                         PAD
@@ -143,7 +143,7 @@
                 <div class="deviceItem">
                     <div class="topM">
                         <img :src="robot"/>
-                        <span class="count">31</span>
+                        <span class="count">{{   rebortCount }}</span>
                     </div>
                     <div class="bottomM">
                         机器人
@@ -170,7 +170,7 @@
                 <charts-line></charts-line>
             </div>
             <div class="child">
-                <charts-u :hiddenM="true"/>
+                <charts-u :hiddenM="true" mainColor="#00b3ff"/>
                 <span class="childTitle"><img :src="switchPic"/>交换机</span>
             </div>
             <div class="child">
@@ -226,6 +226,7 @@
     import chartsU from "_c/duno-m/chartsCircleU"
     import chartsLine from "_c/duno-m/chartsLine"
     import mixinViewModule from "@/mixins/view-module";
+    import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     export default {
         name: 'powerPop',
         mixins: [mixinViewModule],
@@ -236,7 +237,28 @@
         },
         data() {
             return {
-                close: require('@/assets/runDevice/close.png')
+                allPanel: '',
+                allPanelV: false,
+                server: {normal: 1, total: 1},
+                serverV: false,
+                virtual:{normal: 1, total: 1},
+                virtualV:false,
+                service:{normal: 1, total: 1},
+                serviceV:false,
+                monitor:{normal: 1, total: 1},
+                monitorV:false,
+                close: require('@/assets/runDevice/close.png'),
+                visibleCount: 0,
+                visibleCameraCount: 0,
+                visibleNarrow: 0,
+                infrared: 0,
+                infraredCamera: 0,
+                controlBall: 0,
+                handInfrared: 0,
+                ARClass: 0,
+                PAD: 0,
+                rebortCount: 0
+
             }
         },
         props: {
@@ -249,6 +271,48 @@
 
         },
         methods:{
+            initData(){
+                getAxiosData('/lenovo-mon/api/monitoring/zabbix/health-status').then(res=>{
+                    let data = res.data.data
+                    this.allPanel = data.hostData[0]/data.total
+                    this.allPanelV = !this.allPanelV
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/analyse/physics-machine').then(res=>{
+                    let data = res.data.data
+                    this.server =  { normal: data['normal'], total:  data['total'] }
+                    this.serverV = !this.serverV
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/analyse/virtual-machine').then(res=>{
+                    let data = res.data.data
+                    this.virtual =  { normal: data['normal'], total:  data['total'] }
+                    this.virtualV = !this.virtualV
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/analyse/services').then(res=>{
+                    let data = res.data.data
+                    this.service =  { normal: data['normal'], total:  data['total'] }
+                    this.serviceV = !this.serviceV
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/analyse/terminals').then(res=>{
+                    let data = res.data.data
+                    this.monitor =  { normal: data['normal'], total:  data['total'] }
+                    this.monitorV = !this.monitorV
+                })
+              /*
+
+
+                getAxiosData('/lenovo-mon/api/monitoring/memory/zabbix/countMemory').then(res=>{
+                    debugger
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
+                    debugger
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/thermal/count').then(res=>{
+                    debugger
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/ap/zabbix/getApStatus').then(res=>{
+                    debugger
+                })*/
+            },
             visibleHandle(){
                 this.$emit('on-visible')
             },
@@ -270,6 +334,7 @@
             }
         },
         created(){
+            this.initData()
         },
         mounted() {
             this.eventFn()
@@ -410,7 +475,7 @@
                         position: relative;
                         top: 2px;
                         font-size: 21px;
-                        margin-right: 6px;
+                        margin-right: 4px;
                     }
                 }
             }

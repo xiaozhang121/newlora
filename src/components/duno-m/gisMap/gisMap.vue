@@ -5,6 +5,7 @@
         <div v-for="(item, index) in powerPointList"  @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :src="item['src']" alt="示例锚点"/></div>
         <!--<el-button v-if="boxSelect" type="primary" style="position: absolute;z-index: 999; top: 0; left: 90px" @click="startDraw('Box')">四边形</el-button>-->
         <a v-if="boxSelect" class="boxSelect" @click="startDraw('Box')">框选区域</a>
+        <!--<div class="toolTip"></div>-->
     </div>
 </template>
 <script>
@@ -29,6 +30,7 @@
         data() {
             const that = this
             return {
+                lineColor: '#78cbff',
                 isIn:false,
                 rebotTimer: null,
                 coverList:[{vectorLayer: null},{vectorLayer: null}],                   // 机器人线路
@@ -148,7 +150,7 @@
                 }
             },
             isDiagram:{
-                type: Number,
+                type: [Number, String],
                 default: 1
             }
         },
@@ -167,13 +169,17 @@
                 this.mapTarget.removeOverlay(coverItem);
             },
             // 设置线条
-            setLine(arr, type) {
+            setLine(arr, type, lineColor, lineWidth, info) {
                 if (!arr || !arr.length) {
                     return;
                 }
                 let that = this;
                 //线要素
                 let lineFeature = new Feature(new LineString(arr));
+
+                lineFeature.set('lineInfo', info)
+                lineFeature.set('type', 'line')
+
                 //实例化一个矢量图层Vector作为绘制层
                 let source = new VectorSource({
                     features: [lineFeature]
@@ -187,12 +193,22 @@
                     }else{
                         width =  4
                     }
+                    if(lineColor){
+                        that.lineColor = lineColor
+                    }else{
+                        that.lineColor = '#78cbff'
+                    }
+
+                    if(lineWidth){
+                        width = lineWidth
+                    }
+
                     let styles = [
                         new Style({
                             // 线串的样式
                             stroke: new Stroke({
                                 lineDash: type,
-                                color: "#78cbff",
+                                color: that.lineColor,
                                 width: width
                             })
                         })
@@ -226,12 +242,13 @@
                 this.mapTarget.removeLayer(vectorLayer);
             },
             // 线条设置以及绘制操作
-            setDrawLine(vectorLayer, index, type) {
+            setDrawLine(vectorLayer, index, type, lineColor, lineWidth, info) {
                 vectorLayer.map((item, index)=>{
                     vectorLayer[index] = transform(item, 'EPSG:3857', 'EPSG:4326')
                 })
                 // 设置线条
-                vectorLayer = this.setLine(vectorLayer, type);
+                vectorLayer = this.setLine(vectorLayer, type, lineColor, lineWidth, info);
+
                 // 绘制线条
                 this.drawLine(vectorLayer);
                 // 保存线条对象
@@ -1238,6 +1255,23 @@
                     })
                 });
                 this.mapTarget.on('pointermove', function (event) {
+                    let pixel = that.mapTarget.getEventPixel(event.originalEvent)
+                    let feature = that.mapTarget.forEachFeatureAtPixel(pixel, function(feature) {
+                        return feature;
+                    });
+                        try{
+                        if(feature.get('type') == 'line'){
+                            $('.toolTip').css({
+                                left: (pixel[0] + 15 ) + 'px',
+                                top: (pixel[1] - 15 ) + 'px'
+                            })
+                            $('.toolTip').show()
+                            feature.get('lineInfo')
+                        }else{
+                            $('.toolTip').hide();
+                        }
+                    }catch (e) {}
+
                     if(that.isIn){
                        that.clearTextLabel()
                     }
@@ -1293,6 +1327,12 @@
         width: 100%;
         height: 100%;
         position: relative;
+        .toolTip{
+            width: 100px;
+            height: 100px;
+            background: pink;
+            position: absolute;
+        }
         .boxSelect{
             color: #e5e5e5;
             background: rgba(255, 144, 0, 0.5);

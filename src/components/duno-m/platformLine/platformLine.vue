@@ -1,25 +1,25 @@
 <template>
     <div class="platformLine" >
-        <historical-documents :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents  :tabPaneData="tabPaneData" :picSrc="picSrc" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="visibleOption" class="historical">
             <div class="mainPanel">
                 <div class="explain">
-                    <div class="p_title">型号：</div>
-                    <div class="nr">LS-6520-51QF-E1</div>
+                    <div class="p_title">安装时间：</div>
+                    <div class="nr">{{ installTime }}</div>
                 </div>
                 <div class="explain">
                     <div class="p_title">IP：</div>
-                    <div class="nr">171.12.12.165</div>
+                    <div class="nr">{{ IP }}</div>
                 </div>
                 <div class="status">
                     <div class="circle"></div>
                     <div class="nr">
-                        正常
+                        {{ deviceType }}
                     </div>
                     <div class="link">
-                        104m/s
+                        <!--104m/s-->
                     </div>
                 </div>
-                <div class="connectDevice">
+                <div class="connectDevice" v-if="showList">
                     <div class="titleD">
                         <span>连接的监测设备 (10/12)</span>
                         <a href="javascript:void(0)">详情>></a>
@@ -39,17 +39,23 @@
 </template>
 
 <script>
+    import mixinViewModule from "@/mixins/view-module";
     import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
     export default {
         name: 'platformLine',
+        mixins: [mixinViewModule],
         components: {
             HistoricalDocuments
         },
         data() {
             return {
+                picSrc: null,
+                installTime: '',
+                IP: '',
+                deviceType: '',
                 tabPaneData: [],
                 title: '24口万兆交换机',
-                visible: true,
+                visibleOption: false,
                 deviceList: [
                     {status: 'green', cameraName: '4号主变红外11号摄像头'},
                     {status: 'green', cameraName: '4号主变红外11号摄像头'},
@@ -61,10 +67,43 @@
             }
         },
         props: {
-
+            dataInfo:{},
+            showList: {
+                type: Boolean,
+                default: true
+            },
+            visible: {
+                type: Boolean,
+                default: false
+            }
         },
         watch: {
-
+            dataInfo:{
+                  handler(now){
+                      debugger
+                      let type = now['monitorDeviceType']
+                      this.installTime = now['deviceMessage']['createTime']?now['deviceMessage']['createTime']:'/'
+                      this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
+                      this.deviceType = '正常'
+                      if(type == 1){
+                          if (now.deviceMessage.supportPreset) {
+                              this.picSrc = this.light
+                          }else{
+                              this.picSrc = this.lightNoCamera
+                          }
+                      }else if(type == 2){
+                          if(now.deviceMessage.supportPreset){
+                              this.picSrc = this.redLightCamera
+                          }else{
+                              this.picSrc = this.redLight
+                          }
+                      }
+                  },
+                  deep: true
+            },
+            visible(now){
+                this.visibleOption = now
+            }
         },
         computed: {
             deviceLength(){
@@ -80,7 +119,8 @@
 
             },
             onClose(){
-
+                this.visibleOption = false
+                this.$emit('on-close')
             }
         },
         created(){
