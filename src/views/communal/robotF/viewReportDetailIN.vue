@@ -104,7 +104,7 @@ export default {
       titleType: "按设备筛选",
       dataBread: [
         {
-          path: "/robot-one/list",
+          path: "/robot-two/list",
           name: "机器人巡视"
         },
         {
@@ -130,7 +130,7 @@ export default {
             return h("div", params.row.linkArea + params.row.linkName1);
           }
         },
-        {
+        /*{
           title: "部件/相别",
           key: "part",
           minWidth: 120,
@@ -139,7 +139,7 @@ export default {
           render: (h, params) => {
             return h("div", params.row.linkName2 + params.row.linkName3);
           }
-        },
+        },*/
          {
           title: "描述",
           key: "desc",

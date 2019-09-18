@@ -115,8 +115,8 @@ export default {
       titleInspect: "例行巡视编号",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
-        { path: "/robot-one/list", name: "机器人巡视" },
-        { path: "/robot-one/list", name: "机器人" },
+        { path: "/robot-two/list", name: "机器人巡视" },
+        { path: "/robot-two/list", name: "机器人" },
         { path: "", name: "任务配置列表" }
       ],
       newColumns: [
