@@ -22,7 +22,7 @@
         :title="title"
         :isShowBtn="false"
         :titleCon="titleCon"
-        planType="特殊巡视"
+        planType="特殊巡视 "
       />
       <Patrol
         :columns="columnsData"
