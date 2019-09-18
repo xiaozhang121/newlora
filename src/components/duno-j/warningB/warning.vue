@@ -465,6 +465,12 @@ export default {
   }
   .title_top {
     font-weight: bold;
+    & > span:first-child{
+      width: 643px;
+      display: inline-block;
+      position: relative;
+      left: -41px;
+    }
     .iconList{
       position: absolute;
       right: 33px;

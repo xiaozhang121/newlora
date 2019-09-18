@@ -143,7 +143,7 @@
                 // dataBread: ['操作中台','机器人巡视','机器人一'],
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
-                    { path: "/robot-one/list", name: "机器人巡视" },
+                    { path: "/robot-two/list", name: "机器人巡视" },
                     { path: "", name: "机器人" }
                 ],
                 baseUrl:
@@ -174,13 +174,13 @@
                 if (now == "robot-twoList") {
                   /*  this.$set(this.dataBread, 2, "机器人二");
                     this.robotName = "机器人二";*/
-                    this.substationId = "6";
+                    this.substationId = "1";
                     this.robotId = "26";
                 } else {
                    /* this.dataBread[2] = "机器人一";
                     this.robotName = "机器人一";
                     this.$set(this.dataBread, 2, "机器人一");*/
-                    this.substationId = "6";
+                    this.substationId = "1";
                     this.robotId = "26";
                 }
                 try {
@@ -211,19 +211,19 @@
             },
             initData(){
                 const that = this
-                postAxiosData('/lenovo-robot-indoor/rest/taskStatus',{substationId: 6, robotId: 26}).then(res=>{
+                postAxiosData('/lenovo-robot-indoor/rest/taskStatus',{substationId: 1, robotId: 26}).then(res=>{
                     that.taskStatus = res.data
-                    postAxiosData('/lenovo-robot-indoor/rest/taskCurLink',{substationId: 6, robotId: 26,taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
+                    postAxiosData('/lenovo-robot-indoor/rest/taskCurLink',{substationId: 1, robotId: 26,taskRunHisId: that.taskStatus['taskRunHisId']}).then(res=>{
                         that.taskCurreny = res.data
                     })
                 })
-                postAxiosData('/lenovo-robot-indoor/rest/robotStatus',{substationId: 6, robotId: 26}).then(res=>{
+                postAxiosData('/lenovo-robot-indoor/rest/robotStatus',{substationId: 1, robotId: 26}).then(res=>{
                     that.robotStatus = res.data
                 })
             },
             initReport(){
                 const that = this
-                postAxiosData('/lenovo-robot-indoor/rest/reports',{substationId: 6, robotId: 26,length: 10}).then(res=>{
+                postAxiosData('/lenovo-robot-indoor/rest/reports',{substationId: 1, robotId: 26,length: 10}).then(res=>{
                     that.reportsList = res.data
                     let data = res.data
                     data = data.reportList
