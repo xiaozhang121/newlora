@@ -155,12 +155,12 @@
           <div class="gauge">
             <div class="gauge_top">
               <i class="iconfont icon-wendu1"></i>
-              <p>{{envData.temp}}℃</p>
+              <p>{{envData['temp']}}℃</p>
               <span>当前温度</span>
             </div>
             <div class="gauge_btm">
               <i class="iconfont icon-shidu"></i>
-              <p>{{envData.humid}}%RH</p>
+              <p>{{envData['humid']}}%RH</p>
               <span>当前湿度</span>
             </div>
           </div>
@@ -591,11 +591,11 @@ export default {
       let url = "/lenovo-mon/api/monitoring/zabbix/health-status";
       getAxiosData(url).then(res => {
         let ubiquitousData = res.data;
-        this.init();
+        this.init(ubiquitousData);
       });
       let url1 = "/lenovo-mon/api/monitoring/env/zabbix/env-status";
       getAxiosData(url1).then(res => {
-        this.envData = res.data;
+        this.envData = res.data.data;
       });
     },
     getEnv() {
@@ -759,7 +759,7 @@ export default {
         path: "/abnormalInfoPath/list"
       });
     },
-    init() {
+    init(ubiquitousData) {
       let Shape = G2.Shape;
       // 自定义Shape 部分
       Shape.registerShape("point", "pointer", {

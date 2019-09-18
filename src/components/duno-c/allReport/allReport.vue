@@ -463,7 +463,12 @@ export default {
     },
     psotAlarmData(row, type, No) {
       const that = this;
-      const url = "/lenovo-alarm/api/alarm/level-edit";
+      let url;
+      if (row.isRobot == "0" || row.isRobot == "1") {
+        url = "/lenovo-plan/api/information/overview/alarm/level/edit";
+      } else {
+        url = "/lenovo-alarm/api/alarm/level-edit";
+      }
       let oldLevel;
       if (row.alarmLevel == "1") {
         oldLevel = "一般";
@@ -474,6 +479,8 @@ export default {
       }
       const query = {
         id: row.id,
+        isRobot: row.isRobot,
+        isPhaseAlarm: row.isPhaseAlarm,
         alarmLevel: No,
         oldLevel: oldLevel,
         newLevel: type,

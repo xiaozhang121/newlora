@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div>
-      <KeyErea configType="1" />
+      <KeyErea configType="4" />
     </div>
     <div class="reportRecode">
       <div class="right">
@@ -40,6 +40,7 @@
               :remarkData="lightInformation[index]"
               :time="item.alarmTime"
               :remarks="item.dealList"
+              overview="overview"
               :key="index"
               @handleListData="handleListData"
             />
@@ -156,7 +157,7 @@ export default {
     },
     getMore() {
       this.$router.push({
-        name: "overview-report",
+        name: "overview-detail",
         query: {
           title: "信息总览记录信息",
           url: "/lenovo-plan/api/task/result/list",

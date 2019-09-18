@@ -337,7 +337,7 @@ export default {
       getAxiosData(url, {
         [that.searchType]: that.searchId,
         isPhaseAlarm: that.isPhaseAlarm,
-        isRobot:that.isRobot
+        isRobot: that.isRobot
       }).then(res => {
         that.handleList = [];
         that.dataList = res.data;
@@ -369,8 +369,9 @@ export default {
           select: that.dataList.alarmSuperDetailType,
           alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
           result: that.dataList.result,
-          isRobot: that.dataList.isRobot,
+          isRobot: that.isRobot
         };
+        console.log(that.formData);
         that.$forceUpdate();
       });
     },

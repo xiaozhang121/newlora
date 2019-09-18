@@ -112,11 +112,12 @@ export default {
   methods: {
     handleSubmit() {
       let url;
-      let isRobot = this.$rout.query.detailsType;
-      if (this.formData.result == "正常") {
-        url = "/lenovo-plan/api/task_result/change";
-      } else if (isRobot == "robot") {
+      console.log(this.formData);
+      let isRobot = this.formData.isRobot;
+      if (isRobot == "0" || isRobot == "1") {
         url = "/lenovo-plan/api/information/overview/change";
+      } else if (this.formData.result == "正常") {
+        url = "/lenovo-plan/api/task_result/change";
       } else {
         url = "/lenovo-alarm/api/alarm/result/change";
       }
