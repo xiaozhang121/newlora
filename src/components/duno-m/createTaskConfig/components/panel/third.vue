@@ -74,6 +74,7 @@
                 options: [],
                 value: ''
             }
+            
         },
         methods: {
             initData(){
