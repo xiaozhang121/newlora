@@ -8,7 +8,7 @@
       <div @click="addTask()">+创建新的任务配置</div>
     </div>
     <duno-main class="dunoMain">
-      <Patrol :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit"/>
+      <Patrol :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit" />
       <Patrol
         @to-edit="toEdit"
         :dataList="nightInspectList"
@@ -26,7 +26,25 @@
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
-    <create-task  :rowData="rowData" :visible="taskVisible" @on-close="onClose" @on-fresh="onFresh" />
+    <create-task
+      :rowData="rowData"
+      :visible="taskVisible"
+      @on-close="onClose"
+      @on-fresh="onFresh"
+      @gettype="getType"
+    />
+    <create-task2
+      :visible="taskVisible2"
+      @on-close="onClose"
+      @on-fresh="onFresh"
+      @gettype="getType"
+    />
+    <create-taskhw
+      :visible="taskVisible3"
+      @on-close="onClose"
+      @on-fresh="onFresh"
+      @gettype="getType"
+    />
   </div>
 </template>
 
@@ -34,12 +52,15 @@
 import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import createTask from "_c/duno-m/createTask";
+import createTask2 from "_c/duno-m/createTaskConfig";
+import createTaskhw from "_c/duno-m/createTask2";
 import Patrol from "_c/duno-c/Patrol";
 import alert from "_c/duno-j/statistics/components/alert";
 import {
   infrInformation,
   startPatrol
 } from "@/api/configuration/configuration.js";
+import { debuglog } from "util";
 export default {
   name: "configDetail",
   components: {
@@ -47,13 +68,17 @@ export default {
     dunoMain,
     Patrol,
     alert,
-    createTask
+    createTask2,
+    createTask,
+    createTaskhw
   },
   data() {
-    const that = this
+    const that = this;
     return {
       rowData: {},
       taskVisible: false,
+      taskVisible2: false,
+      taskVisible3: false,
       title: "",
       titleTwo: "熄灯巡视",
       titleCon: "",
@@ -171,21 +196,21 @@ export default {
           render: (h, params) => {
             let newArr = [];
             newArr.push(
-                h(
-                    "el-button",
-                    {
-                        class: "btn_pre",
-                        style: { background: "#305e83" },
-                        props: { type: "text", content: "编辑" },
-                        on: {
-                            click: () => {
-                                that.rowData = JSON.parse(JSON.stringify(params.row))
-                                that.taskVisible = true
-                            }
-                        }
-                    },
-                    "编辑"
-                )
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: { type: "text", content: "编辑" },
+                  on: {
+                    click: () => {
+                      that.rowData = JSON.parse(JSON.stringify(params.row));
+                      that.taskVisible = true;
+                    }
+                  }
+                },
+                "编辑"
+              )
             );
             /*
             newArr.push(
@@ -267,27 +292,48 @@ export default {
       ]
     };
   },
-  watch:{
-      taskVisible(now){
-          if(!now){
-              this.rowData = {}
-          }
+  watch: {
+    taskVisible(now) {
+      if (!now) {
+        this.rowData = {};
       }
+    }
   },
   methods: {
-    toEdit(row){
-        const that = this
-        that.rowData = row
-        that.taskVisible = true
+    getType(value) {
+      debugger;
+      console.log(value);
+      debugger
+      if (value == "4") {
+        this.taskVisible = false;
+        this.taskVisible3 = false;
+        this.taskVisible2 = true;
+      } else if (value == "5") {
+        this.taskVisible = false;
+        this.taskVisible2 = false;
+         this.taskVisible3 = true;
+      } else {
+        this.taskVisible = true;
+        this.taskVisible3 = false;
+        this.taskVisible2 = false;
+      }
+    },
+    toEdit(row) {
+      const that = this;
+      that.rowData = row;
+      that.taskVisible = true;
     },
     onFresh() {
       this.getDataList();
     },
     addTask() {
+      this.taskVisible2 = false;
       this.taskVisible = true;
     },
     onClose() {
       this.taskVisible = false;
+      this.taskVisible2 = false;
+      this.taskVisible3 = false;
     },
     closeDia() {
       this.visible = false;
