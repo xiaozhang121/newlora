@@ -70,7 +70,8 @@ export default {
       optionsData: [],
       options: [],
       dialogVisible: false,
-      isChange: false
+      isChange: false,
+      query: null
     };
   },
   props: {
@@ -121,9 +122,8 @@ export default {
       } else {
         url = "/lenovo-alarm/api/alarm/result/change";
       }
-      let query;
       if (this.isChange) {
-        query = {
+        this.query = {
           userName: this.$store.state.user.userName,
           alarmId: this.formData.alarmId,
           alarmDetailType: this.formData.input,
@@ -131,7 +131,7 @@ export default {
           isRobot: this.formData.isRobot
         };
       } else {
-        query = {
+        this.query = {
           userName: this.$store.state.user.userName,
           alarmId: this.formData.alarmId,
           alarmDetailType: this.formData.alarmDetailTypeCode,
@@ -139,7 +139,7 @@ export default {
           isRobot: this.formData.isRobot
         };
       }
-      postAxiosData(url, query).then(res => {
+      postAxiosData(url, this.query).then(res => {
         this.$message({
           type: "succsee",
           message: "修改成功"

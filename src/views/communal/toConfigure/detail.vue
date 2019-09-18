@@ -309,6 +309,103 @@ export default {
             return h("div", newArr);
           }
         }
+      ],
+      columnsData: [
+        {
+          title: "巡视名称",
+          key: "planName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "已巡视次数",
+          key: "inspectNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "状态",
+          key: "statusName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push(
+              h(
+                "div",
+                {
+                  class: {
+                    table_select: true,
+                    interval: params.row.status == "1",
+                    patrol: params.row.status == "0"
+                  }
+                },
+                params.row.statusName
+              )
+            );
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          minWidth: 150,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: { type: "text", content: "编辑" },
+                  on: {
+                    click: () => {
+                      that.rowData = JSON.parse(JSON.stringify(params.row));
+                      that.taskVisible = true;
+                    }
+                  }
+                },
+                "编辑"
+              )
+            );
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看报告>" },
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: "configure-report",
+                        query: {
+                          planId: params.row.planId,
+                          planType: params.row.planType
+                          //   url: ""
+                        }
+                      });
+                    }
+                  }
+                },
+                "查看报告>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        }
       ]
     };
   },

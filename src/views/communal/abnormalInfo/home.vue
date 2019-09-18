@@ -588,8 +588,9 @@ export default {
   },
   methods: {
     getUbiquitous() {
-      let url = "/lenovo-mon/api/monitoring/zabbix/health-status";
+      let url = "/lenovo-mon/api/monitoring/rack/zabbix/rack-health";
       getAxiosData(url).then(res => {
+        debugger;
         let ubiquitousData = res.data;
         this.init(ubiquitousData);
       });
