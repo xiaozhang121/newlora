@@ -160,7 +160,7 @@ export default {
         name: "overview-detail",
         query: {
           title: "信息总览记录信息",
-          url: "/lenovo-plan/api/task/result/list",
+          url: "/lenovo-plan/api/information/overview/result/one/day",
           detailsType: "robot"
         }
       });
