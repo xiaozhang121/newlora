@@ -8,38 +8,30 @@
       width="700px"
       center
       @close="handleClose"
+      
     >
-      <div slot="title">创建新的任务配置</div>
+      <div slot="title">创建新的任务配置23</div>
       <div class="main">
-        <div class="steps">
+        <!-- <div class="steps">
           <steps :step="stepValue" />
-        </div>
+        </div>-->
         <first-panel
           :rowData="rowData"
           ref="panel[0]"
           v-show="stepValue == 1"
           class="panel"
-           @getchoseType="choseType"
+          @getchoseType="choseType"
           :type="type"
         />
-        <template v-if="choseType!=3">
-            <second-panel
+
+        <second-panel
           :rowData="rowData"
           :list="dataObjList['0']"
           ref="panel[1]"
           v-show="stepValue == 2"
           class="panel"
         />
-        </template>
-          <template v-if="choseType==3">
-            <second-panelpro
-          :rowData="rowData"
-          :list="dataObjList['0']"
-          ref="panel[1]"
-          v-show="stepValue == 2"
-          class="panel"
-        />
-        </template>
+
         <third-panel
           :rowData="rowData"
           :list="dataObjList['1']"
@@ -71,10 +63,10 @@
 
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
-import firstPanel from "_c/duno-m/createTask/components/panel/first.vue";
-import secondPanel from "_c/duno-m/createTask/components/panel/second.vue";
-import secondPanelpro from "_c/duno-m/createTask/components/panel/second.vue";
-import thirdPanel from "_c/duno-m/createTask/components/panel/third.vue";
+import firstPanel from "_c/duno-m/createTask2/components/panel/first.vue";
+import secondPanel from "_c/duno-m/createTask2/components/panel/second.vue";
+import secondPanelpro from "_c/duno-m/createTask2/components/panel/second.vue";
+import thirdPanel from "_c/duno-m/createTask2/components/panel/third.vue";
 import steps from "_c/duno-m/steps";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
@@ -95,7 +87,7 @@ export default {
       },
       visibleOption: false,
       stepValue: 1,
-      type: 0
+      getType: 0
     };
   },
   watch: {
@@ -106,20 +98,9 @@ export default {
     stepValue(now, old) {
       this.dataObjList[old - 1] = this.$refs[`panel[${old - 1}]`].$data;
       this.$forceUpdate();
-    },
-    choseType:{
-        handler(now){
-            debugger
-        }
     }
   },
   props: {
-    choseType: {
-      type: [String, Number],
-      default: () => {
-        return false;
-      }
-    },
     rowData: {
       type: Object,
       default: () => {
@@ -139,93 +120,67 @@ export default {
     }
   },
   methods: {
-    choseType(value){
-      console.log(value)
-      this.getType=value
-      debugger
-      if(this.getType=='4'||this.getType=='5'){
-        this.$emit('gettype',this.getType)
-        return
+    Dateformate(fmt,date) {
+     let ret;
+    let opt = {
+        "Y+": date.getFullYear().toString(),        // 年
+        "m+": (date.getMonth() + 1).toString(),     // 月
+        "d+": date.getDate().toString(),            // 日
+        "H+": date.getHours().toString(),           // 时
+        "M+": date.getMinutes().toString(),         // 分
+        "S+": date.getSeconds().toString()          // 秒
+        // 有其他格式化字符需求可以继续添加，必须转化成字符串
+    };
+    for (let k in opt) {
+        ret = new RegExp("(" + k + ")").exec(fmt);
+        if (ret) {
+            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+        };
+    };
+    return fmt;
+    },
+    choseType(value) {
+      console.log(value);
+      this.getType = value;
+      if (this.getType != "5") {
+        this.$emit("gettype", this.getType);
+        return;
       }
     },
     toEdit() {
       this.toSubmit("/lenovo-plan/api/plan/edit");
     },
-    toSubmit(url) {
-      debugger;
-      let obj = {};
-      let data = [];
-      obj["planDate"] = {
-        ["planCycle"]: this.$refs["panel[2]"].$data.value,
-        ["value"]: [
-          {
-            startTime:
-              new Date(this.$refs["panel[2]"].$data.value3).getHours() +
-              ":" +
-              new Date(this.$refs["panel[2]"].$data.value3).getMinutes() +
-              ":" +
-              new Date(this.$refs["panel[2]"].$data.value3).getSeconds()
+    toSubmit() {
+      var deviceJson = [];
+      var datalist = this.$refs["panel[0]"].$data.dataList;
+      for (var i = 0; i <= datalist.length - 1; i++) {
+        for (var j = 0; j <= datalist[i].children.length - 1; j++) {
+          if (datalist[i].children[j].isCheck) {
+            deviceJson.push(datalist[i].children[j]);
           }
-        ]
+        }
+      }
+
+      var handheldInfraredDevices = [];
+      this.$refs["panel[1]"].dataList.map(res => {
+        handheldInfraredDevices.push(res.id);
+      });
+      var query = {
+        planDate:{
+          planCycle:this.$refs["panel[2]"].$data.value,
+          value: [{startTime:this.Dateformate('HH:MM:SS',this.$refs["panel[2]"].$data.value3)}],
+        },
+        planType: 5,
+        planName: this.$refs["panel[0]"].$data.form.taskName,
+        handheldInfraredDevices: handheldInfraredDevices.join(","),
+        deviceJson: deviceJson,
+        startTime:this.Dateformate('YYYY-mm-dd',this.$refs["panel[2]"].$data.value3)
       };
-      obj["planType"] = this.$refs["panel[0]"].$data.form.taskKind;
-      obj["deviceJson"] = [];
-      data = this.$refs["panel[1]"].$data.dataList;
-      for (let i = 0; i < data.length; i++) {
-        data[i]["monitorDevices"].forEach(item => {
-          if (item["isCheck"]) {
-            let analyseType = "";
-            let roiId = "";
-            if (item["monitorDeviceType"] == 2) {
-              roiId = item["roiId"];
-            } else if (item["monitorDeviceType"] == 1) {
-              analyseType = item["analyseType"];
-            }
-            obj["deviceJson"].push({
-              deviceType: data[i]["powerDeviceType"],
-              deviceId: data[i]["powerDeviceId"],
-              deviceName: data[i]["powerDeviceName"],
-              monitorDeviceId: item["monitorDeviceId"],
-              monitorDeviceType: item["monitorDeviceType"],
-              roiId: roiId,
-              analyseType: analyseType
-            });
-          }
-        });
-      }
-      obj["startnow"] = 2;
-      obj["planName"] = this.$refs["panel[0]"].$data.form.taskName;
-      obj["startTime"] =
-        new Date(this.$refs["panel[2]"].$data.value3).getFullYear() +
-        "-" +
-        (new Date(this.$refs["panel[2]"].$data.value3).getMonth() * 1 + 1) +
-        "-" +
-        new Date(this.$refs["panel[2]"].$data.value3).getDate();
-      let urlD = "";
-      if (url) {
-        urlD = url;
-        obj["planId"] = this.rowData["planId"];
-        putAxiosData(urlD, obj).then(res => {
-          if (res.data.isSuccess) {
-            this.$message.success("编辑成功");
-            this.$emit("on-fresh");
-            this.handleClose();
-          } else {
-            this.$message.fail("编辑失败");
-          }
-        });
-      } else {
-        urlD = "/lenovo-plan/api/plan/create";
-        postAxiosData(urlD, obj).then(res => {
-          if (res.data.isSuccess) {
-            this.$message.success("创建成功");
-            this.$emit("on-fresh");
-            this.handleClose();
-          } else {
-            this.$message.fail("创建失败");
-          }
-        });
-      }
+      debugger
+       postAxiosData("/lenovo-plan/api/handheldinfrared/planCreate",query).then(res=>{
+         debugger
+         console.log(res)
+       })
     },
     toPre() {
       this.stepValue--;
