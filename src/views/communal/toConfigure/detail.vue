@@ -187,7 +187,7 @@ export default {
         {
           title: "状态",
           key: "statusName",
-          minWidth: 150,
+          minWidth: 50,
           align: "center",
           tooltip: true,
           render: (h, params) => {
