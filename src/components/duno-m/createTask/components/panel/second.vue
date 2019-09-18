@@ -2,7 +2,6 @@
     <div class="taskPanel">
         <el-form  :model="form" label-width="80px">
             <div>确认执行巡检的设备</div>
-            <a href="javascript:void(0)" class="chosenAll" @click="chosenAll">全选</a>
             <chosen-list v-for="(item, index) in dataList" :key="index" :titleOption="item['powerDeviceName']" :controlOption="true" :dataListOption="item['monitorDevices']" />
         </el-form>
     </div>
@@ -127,16 +126,7 @@
             }
         },
         methods: {
-            chosenAll(){
-                let data = JSON.parse(JSON.stringify(this.dataList))
-                for(let i=0; i<data.length; i++){
-                    data[i]['monitorDevices'].map(item=>{
-                        item['isCheck'] = true
-                    })
-                }
-                this.dataList = data
-                this.$forceUpdate()
-            }
+
         },
         mounted(){
             const that = this
@@ -145,11 +135,6 @@
 </script>
 <style lang="scss">
     .taskPanel{
-        .chosenAll{
-            position: absolute;
-            top: 136px;
-            right: 27px;
-        }
         .el-select{
             width: 100%;
         }

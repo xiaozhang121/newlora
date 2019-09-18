@@ -22,6 +22,7 @@
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { dealRemarks } from "@/api/configuration/configuration.js";
+import { postAxiosData, getAxiosData } from "@/api/axiosType";
 export default {
   name: "Remarks",
   components: { buttonCustom },
@@ -37,6 +38,12 @@ export default {
       default: () => {
         return "";
       }
+    },
+    overview: {
+      type: String
+    },
+    isRobot: {
+      type: String
     }
   },
   data() {
@@ -64,14 +71,25 @@ export default {
       let query = {
         alarmId: that.alarmId,
         type: "2",
-        content: that.textarea
+        content: that.textarea,
+        isRobot: that.isRobot
       };
-      dealRemarks(query).then(res => {
-        that.textarea = "";
-        if (res.data.isSuccess) that.$message.success(res.msg);
-        else that.$message.error(res.msg);
-        this.$emit("beforeClose");
-      });
+      if (that.overview == "overview") {
+        let url = "/lenovo-plan/api/information/overview/result/one/day/deal";
+        getAxiosData(url).then(res => {
+          that.textarea = "";
+          if (res.data.isSuccess) that.$message.success(res.msg);
+          else that.$message.error(res.msg);
+          this.$emit("beforeClose");
+        });
+      } else {
+        dealRemarks(query).then(res => {
+          that.textarea = "";
+          if (res.data.isSuccess) that.$message.success(res.msg);
+          else that.$message.error(res.msg);
+          this.$emit("beforeClose");
+        });
+      }
     }
   }
 };

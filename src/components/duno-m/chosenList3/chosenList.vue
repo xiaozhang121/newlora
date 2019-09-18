@@ -1,7 +1,7 @@
 <template>
     <div class="chosenList">
         <div class="title">
-            <span>{{ title }}</span>
+            <span>{{ title }} </span>
             <span class="last" v-if="control" @click="toHide()">收起<i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i></span>
         </div>
         <el-collapse-transition>

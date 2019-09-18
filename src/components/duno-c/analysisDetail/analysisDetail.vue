@@ -34,7 +34,12 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning
+      :popData="popData"
+      :visible="visible"
+      :detailsType="detailsType"
+      @handleClose="handleClose"
+    />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
@@ -83,6 +88,12 @@ export default {
         return "";
       }
     }
+    // detailsType: {
+    //   type: String,
+    //   default: () => {
+    //     return "";
+    //   }
+    // }
   },
   data() {
     const that = this;
@@ -106,6 +117,7 @@ export default {
       commonly: false,
       danger: false,
       queryForm: {},
+      detailsType: "",
       titleType: "按设备筛选",
       columns: [
         {
@@ -397,6 +409,7 @@ export default {
     this.dataForm.planId = this.$route.query.planId;
     this.dataForm.planType = this.$route.query.planType;
     this.dataForm.batchId = this.$route.query.batchId;
+    this.detailsType = this.$route.query.detailsType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;
     this.queryForm.monitorDeviceType = this.monitorDeviceType;
@@ -427,7 +440,12 @@ export default {
     },
     psotAlarmData(row, type, No) {
       const that = this;
-      const url = "/lenovo-alarm/api/alarm/level-edit";
+      let url;
+      if (row.isRobot == "0" || row.isRobot == "1") {
+        url = "/lenovo-plan/api/information/overview/alarm/level/edit";
+      } else {
+        url = "/lenovo-alarm/api/alarm/level-edit";
+      }
       let oldLevel;
       if (row.alarmLevel == "1") {
         oldLevel = "一般";
@@ -438,6 +456,8 @@ export default {
       }
       const query = {
         id: row.id,
+        isRobot: row.isRobot,
+        isPhaseAlarm: row.isPhaseAlarm,
         alarmLevel: No,
         oldLevel: oldLevel,
         newLevel: type,

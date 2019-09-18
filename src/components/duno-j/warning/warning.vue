@@ -137,7 +137,7 @@ export default {
   data() {
     return {
       isPhaseAlarm: "",
-      isRobot:'',
+      isRobot: "",
       isThree: false,
       target: null,
       searchId: "",
@@ -250,7 +250,6 @@ export default {
       handler(now) {
         this.isPhaseAlarm = now["isPhaseAlarm"];
         this.isRobot = now["isRobot"];
-        debugger
         this.isThree = now["isPhaseAlarm"] == 1;
         this.isImgVideo = now["fileType"] == 1;
         if ("alarmId" in now && now["alarmId"]) {
@@ -274,6 +273,10 @@ export default {
         }
         if (this.searchId != "" && !this.isThree) {
           this.initData();
+        }
+        if ("isRobot" in now && now["isRobot"]) {
+          this.searchId = now["taskId"] + "," + now["batchId"];
+          this.searchType = "alarmId";
         }
       },
       deep: true,
@@ -328,10 +331,13 @@ export default {
       let url = "/lenovo-plan/api/task-result/view";
       if (this.detailsType == "alarm") {
         url = "/lenovo-alarm/api/alarm/phase/view";
+      } else if (this.detailsType == "robot") {
+        url = "/lenovo-plan/api/information/overview/frame/detail";
       }
       getAxiosData(url, {
         [that.searchType]: that.searchId,
-        isPhaseAlarm: that.isPhaseAlarm
+        isPhaseAlarm: that.isPhaseAlarm,
+        isRobot: that.isRobot
       }).then(res => {
         that.handleList = [];
         that.dataList = res.data;
@@ -362,8 +368,10 @@ export default {
           inputT: that.dataList.alarmValue,
           select: that.dataList.alarmSuperDetailType,
           alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
-          result: that.dataList.result
+          result: that.dataList.result,
+          isRobot: that.isRobot
         };
+        console.log(that.formData);
         that.$forceUpdate();
       });
     },

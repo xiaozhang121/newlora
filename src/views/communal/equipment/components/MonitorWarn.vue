@@ -67,7 +67,13 @@
         </span>
       </el-dialog>
     </div>-->
-    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <Remarks
+      :isShow="dialogVisible"
+      :overview="overview"
+      :alarmId="alarmId"
+      :isRobot="isRobot"
+      @beforeClose="beforeClose"
+    />
     <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
@@ -98,6 +104,9 @@ export default {
     },
     content: {
       type: String
+    },
+    overview: {
+      type: String
     }
   },
   watch: {
@@ -107,6 +116,7 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.taskId},${now.batchId}`;
+        this.isRobot = now.isRobot;
         // this.dealList = now.dealList;
         this.handleDeal(now.dealList);
       },
@@ -122,6 +132,7 @@ export default {
       visible: false,
       isReturn: true,
       alarmId: "",
+      isRobot: "",
       dealContent: []
     };
   },
