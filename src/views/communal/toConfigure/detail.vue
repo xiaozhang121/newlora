@@ -24,6 +24,22 @@
         :titleCon="titleCon"
         planType="特殊巡视"
       />
+      <Patrol
+        :columns="columnsData"
+        :dataList="environmentInspectList"
+        :title="title1"
+        :isShowBtn="false"
+        :titleCon="titleCon"
+        planType="动态环境巡视"
+      />
+      <Patrol
+        :columns="columnsData"
+        :dataList="handHeldInfraredPlanList"
+        :title="title2"
+        :isShowBtn="false"
+        :titleCon="titleCon"
+        planType="手持红外巡视"
+      />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
     <create-task
@@ -80,12 +96,16 @@ export default {
       taskVisible2: false,
       taskVisible3: false,
       title: "",
+      title1: "",
+      title2: "",
       titleTwo: "熄灯巡视",
       titleCon: "",
       visible: false,
       allInspectList: [],
       nightInspectList: [],
       specialInspectList: [],
+      environmentInspectList: [],
+      handHeldInfraredPlanList: [],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/configuration/list", name: "配置管理" },
@@ -103,32 +123,32 @@ export default {
       ],
       columnsData: [
         {
-            title: "巡视名称",
-            key: "planName",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
+          title: "巡视名称",
+          key: "planName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
         },
         {
-            title: "巡视步骤",
-            key: "stepNum",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
+          title: "巡视步骤",
+          key: "stepNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
         },
         {
-            title: "监测设备",
-            key: "monitorDeviceName",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
         },
         {
-            title: "巡视间隔",
-            key: "interval",
-            minWidth: 50,
-            align: "center",
-            tooltip: true/*,
+          title: "巡视间隔",
+          key: "interval",
+          minWidth: 50,
+          align: "center",
+          tooltip: true /*,
             render: (h, params) => {
                 let newArr = [];
                 newArr.push([
@@ -158,16 +178,16 @@ export default {
             }*/
         },
         {
-            title: "已巡视次数",
-            key: "inspectNum",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
+          title: "已巡视次数",
+          key: "inspectNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
         },
         {
           title: "状态",
           key: "statusName",
-          minWidth: 50,
+          minWidth: 150,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -246,7 +266,7 @@ export default {
               )
             );
             */
-          /*  newArr.push(
+            /*  newArr.push(
               h(
                 "el-button",
                 {
@@ -303,7 +323,7 @@ export default {
     getType(value) {
       debugger;
       console.log(value);
-      debugger
+      debugger;
       if (value == "4") {
         this.taskVisible = false;
         this.taskVisible3 = false;
@@ -311,7 +331,7 @@ export default {
       } else if (value == "5") {
         this.taskVisible = false;
         this.taskVisible2 = false;
-         this.taskVisible3 = true;
+        this.taskVisible3 = true;
       } else {
         this.taskVisible = true;
         this.taskVisible3 = false;
@@ -349,7 +369,11 @@ export default {
         that.allInspectList = res.data.allInspectList;
         that.nightInspectList = res.data.nightInspectList;
         that.specialInspectList = res.data.specialInspectList;
+        that.environmentInspectList = res.data.environmentInspectList;
+        that.handHeldInfraredPlanList = res.data.handHeldInfraredPlanList;
         that.title = `特殊巡视（${that.specialInspectList.length}）`;
+        that.title1 = `动态环境巡视（${that.environmentInspectList.length}）`;
+        that.title2 = `手持红外巡视（${that.handHeldInfraredPlanList.length}）`;
       });
     },
     getStart(row) {
