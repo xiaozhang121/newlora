@@ -368,7 +368,8 @@ export default {
           inputT: that.dataList.alarmValue,
           select: that.dataList.alarmSuperDetailType,
           alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
-          result: that.dataList.result
+          result: that.dataList.result,
+          isRobot: that.dataList.isRobot,
         };
         that.$forceUpdate();
       });

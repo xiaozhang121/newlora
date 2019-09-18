@@ -155,12 +155,12 @@
           <div class="gauge">
             <div class="gauge_top">
               <i class="iconfont icon-wendu1"></i>
-              <p>20.6℃</p>
+              <p>{{envData.temp}}℃</p>
               <span>当前温度</span>
             </div>
             <div class="gauge_btm">
               <i class="iconfont icon-shidu"></i>
-              <p>41.4%RH</p>
+              <p>{{envData.humid}}%RH</p>
               <span>当前湿度</span>
             </div>
           </div>
@@ -300,6 +300,10 @@ export default {
       alarmType: "",
       isShowEchart: false,
       mockData: [],
+      envData: {
+        temp: 0,
+        humid: 0
+      },
       columns: [
         {
           title: "时间",
@@ -588,6 +592,10 @@ export default {
       getAxiosData(url).then(res => {
         let ubiquitousData = res.data;
         this.init();
+      });
+      let url1 = "/lenovo-mon/api/monitoring/env/zabbix/env-status";
+      getAxiosData(url1).then(res => {
+        this.envData = res.data;
       });
     },
     getEnv() {
