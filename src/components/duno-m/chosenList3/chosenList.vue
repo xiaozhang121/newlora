@@ -69,7 +69,6 @@
             dataListOption:{
                 handler(now){
                     if(now.length)
-                    debugger
                       this.dataList = now
                 },
                 immediate: true

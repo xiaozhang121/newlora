@@ -109,7 +109,6 @@ export default {
     },
     choseType:{
         handler(now){
-            debugger
         }
     }
   },
@@ -142,7 +141,6 @@ export default {
     choseType(value){
       console.log(value)
       this.getType=value
-      debugger
       if(this.getType=='4'||this.getType=='5'){
         this.$emit('gettype',this.getType)
         return
@@ -152,7 +150,6 @@ export default {
       this.toSubmit("/lenovo-plan/api/plan/edit");
     },
     toSubmit(url) {
-      debugger;
       let obj = {};
       let data = [];
       obj["planDate"] = {

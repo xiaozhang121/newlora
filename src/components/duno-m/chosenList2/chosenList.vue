@@ -2,7 +2,7 @@
   <div class="chosenList">
     <div class="title">
       <span>{{ title }}</span>
-      <span class="last" v-if="control" @click="toHide()" >
+      <span class="last" v-if="control" @click="toHide()">
         收起
         <i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i>
       </span>
@@ -16,13 +16,11 @@
               <span class="datapick">
                 <el-time-picker
                   is-range
-                  width="300px"
-                  arrow-control
                   v-model="item['time']"
                   range-separator="-"
                   start-placeholder="开始时间"
                   end-placeholder="结束时间"
-                  value-format="HH:mm"
+                  value-format="HH:mm:ss"
                   placeholder="选择时间范围"
                 ></el-time-picker>
               </span>
@@ -31,7 +29,7 @@
           <div class="demo">
             <div v-for="(val,i) in item['listArr']" class="innerbox">
               <div class="item item2" :key="i">
-                <el-checkbox v-model="val['isCheck']" @change="change">{{ val['title'] }}</el-checkbox>
+                <el-checkbox v-model="val['isCheck']" @change="change(val,index)">{{ val['title'] }}</el-checkbox>
               </div>
             </div>
           </div>
@@ -77,12 +75,10 @@ export default {
     }
   },
   watch: {
-    dataList:{
-      handler(now) {
-        debugger
-      },
+    dataList: {
+      handler(now) {},
       immediate: true,
-      deep:true
+      deep: true
     },
     titleOption: {
       handler(now) {
@@ -122,7 +118,6 @@ export default {
         }
 
         // 这datalist有2个
-        debugger;
         this.$forceUpdate();
       },
       immediate: true
@@ -142,7 +137,18 @@ export default {
     }
   },
   methods: {
-    change() {
+    change(val, i) {
+      debugger;
+      if (val.value == 0) {
+        if (val.isCheck) {
+          this.dataList[i].listArr.map(res => {
+            res.isCheck = true;
+          });
+        }
+      }else{
+        this.dataList[i].listArr[0].isCheck=false;
+      }
+   
       this.$forceUpdate();
       this.$emit("change", this.dataList);
     },
@@ -150,11 +156,16 @@ export default {
       var that = this;
       postAxiosData("/lenovo-plan/api/list/person-alarm-type").then(res => {
         that.checkList = res.data;
+        that.checkList.unshift({
+          label: "全选",
+          value: "0",
+          selected: "0",
+          group: null
+        });
         for (var i = 0; i <= that.checkList.length - 1; i++) {
           that.checkList[i].title = that.checkList[i].label;
           that.checkList[i].isCheck = false;
         }
-        debugger;
       });
     },
 
@@ -169,7 +180,21 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" >
+.chosenList .contain .outBox:nth-of-type(2n) .item{
+  background: none;
+
+}
+.chosenList .contain .outBox:nth-of-type(2n) .innerbox:nth-of-type(2n+1){
+  background: #c7c7c7
+}
+.chosenList .contain .outBox:nth-of-type(2n+1) .innerbox:nth-of-type(2n+1) .item{
+  background: #e0e0e0
+}
+
+
+
 .datapick {
   float: right;
   input {
@@ -181,7 +206,7 @@ export default {
   .el-date-editor--timerange.el-input__inner {
     width: 170px;
   }
-  .el-range-editor--small .el-range-input{
+  .el-range-editor--small .el-range-input {
     width: 55px;
   }
   .el-input__inner {

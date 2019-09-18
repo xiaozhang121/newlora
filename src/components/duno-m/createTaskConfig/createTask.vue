@@ -120,6 +120,7 @@ export default {
       this.toSubmit("/lenovo-plan/api/plan/edit");
     },
     toSubmit() {
+  
       let obj = {};
       var taskName = this.$refs["panel[0]"].form.taskName;
       var oldList = this.$refs["panel[1]"].dataList2.length;
@@ -144,7 +145,6 @@ export default {
               arr.push(list[i].presets[j].listArr[t].value);
             }
           }
-          debugger;
           if (list[i].presets[j].isCheck) {
             if (
               list[i].presets[j].time == undefined ||
@@ -170,11 +170,13 @@ export default {
       try {
         postAxiosData("/lenovo-plan/api/environment/planCreate", query).then(
           res => {
-            if (res.code != 200) {
+            
+            if (res.errorCode!= 200) {
               this.$message(res.msg);
             } else {
               this.$message("创建成功");
               that.cancel();
+              
             }
           }
         );

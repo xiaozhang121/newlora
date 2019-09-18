@@ -5,11 +5,10 @@
     </div>
     <el-form :model="form" label-width="80px">
       <div>确认执行巡检的设备</div>
-      <!---->
       <chosen-list
         v-for="(item, index) in dataList2"
         :key="index"
-        @change='getDataList'
+        @change="getDataList"
         :titleOption="item['monitorDeviceName']"
         :controlOption="true"
         :dataListOption="item['presets']"
@@ -52,22 +51,21 @@ export default {
     dataList: {
       handler(now) {
         var data2 = now;
-        console.log(now)
-        var data=[]
+        console.log(now);
+        var data = [];
         for (var i = 0; i <= now.length - 1; i++) {
-         data.push({
-            deviceId:now[i].deviceId,
-          monitorDeviceId:now[i].monitorDeviceId,
-          monitorDeviceName:now[i].monitorDeviceName,
-          presets:now[i].presets,
-          title:now[i].title
-         })
+          data.push({
+            deviceId: now[i].deviceId,
+            monitorDeviceId: now[i].monitorDeviceId,
+            monitorDeviceName: now[i].monitorDeviceName,
+            presets: now[i].presets,
+            title: now[i].title
+          });
         }
-        this.obj=data
-    
+        this.obj = data;
         this.dataList2 = data;
       },
-       deep: true
+      deep: true
     },
     list: {
       handler(now) {
@@ -86,6 +84,12 @@ export default {
         var that = this;
         postAxiosData("/lenovo-plan/api/list/person-alarm-type").then(res => {
           that.preList = res.data;
+          that.preList.unshift({
+            label: "全选",
+            value: "0",
+            selected: "0",
+            group: null
+          });
           for (var i = 0; i <= that.preList.length - 1; i++) {
             that.preList.isCheck = false;
           }
@@ -103,7 +107,6 @@ export default {
               });
             }
             let data = res.data;
-
             that.dataList2 = data;
             for (var i = 0; i <= that.dataList2.length - 1; i++) {
               for (var j = 0; j <= that.dataList2[i].presets.length - 1; j++) {
@@ -127,11 +130,11 @@ export default {
       lightList: [],
       redList: [],
       stepValue: 1,
-      obj:{}
+      obj: {}
     };
   },
   methods: {
-    getDataList(val){
+    getDataList(val) {
       // this.obj
       // this.dataList2 =[]
       // this.dataList2 = val;
@@ -151,5 +154,4 @@ export default {
     width: 100%;
   }
 }
-
 </style>

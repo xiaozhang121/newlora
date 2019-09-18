@@ -85,7 +85,6 @@ export default {
     dataListOption: {
       handler(now) {
         //////错误内容///////////////
-        debugger
         if (now.length) this.dataList = now;
         var data = [];
 

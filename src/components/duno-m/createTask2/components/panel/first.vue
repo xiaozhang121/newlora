@@ -107,7 +107,6 @@ export default {
     initData() {
       const that = this;
       postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
-        debugger
         this.taskKindList = res.data;
         this.value=5
         // if (!this.rowDataLength) that.form.taskKind = res.data[0].value;

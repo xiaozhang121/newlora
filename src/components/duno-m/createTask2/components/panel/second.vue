@@ -83,7 +83,6 @@ export default {
   },
   methods: {},
   mounted() {
-    debugger;
     var that = this;
     getAxiosData("/lenovo-iir/manager/device-handle/all/list").then(res => {
       var dataList = [];
@@ -91,7 +90,6 @@ export default {
         dataList.push({ title: res.data.data[i].deviceName, id: res.data.data[i].id, children: [] });
       }
     
-      debugger;
       that.dataList = dataList;
       this.$forceUpdate();
     });

@@ -8,9 +8,8 @@
       width="700px"
       center
       @close="handleClose"
-      
     >
-      <div slot="title">创建新的任务配置23</div>
+      <div slot="title">创建新的任务配置</div>
       <div class="main">
         <!-- <div class="steps">
           <steps :step="stepValue" />
@@ -120,24 +119,27 @@ export default {
     }
   },
   methods: {
-    Dateformate(fmt,date) {
-     let ret;
-    let opt = {
-        "Y+": date.getFullYear().toString(),        // 年
-        "m+": (date.getMonth() + 1).toString(),     // 月
-        "d+": date.getDate().toString(),            // 日
-        "H+": date.getHours().toString(),           // 时
-        "M+": date.getMinutes().toString(),         // 分
-        "S+": date.getSeconds().toString()          // 秒
+    Dateformate(fmt, date) {
+      let ret;
+      let opt = {
+        "Y+": date.getFullYear().toString(), // 年
+        "m+": (date.getMonth() + 1).toString(), // 月
+        "d+": date.getDate().toString(), // 日
+        "H+": date.getHours().toString(), // 时
+        "M+": date.getMinutes().toString(), // 分
+        "S+": date.getSeconds().toString() // 秒
         // 有其他格式化字符需求可以继续添加，必须转化成字符串
-    };
-    for (let k in opt) {
+      };
+      for (let k in opt) {
         ret = new RegExp("(" + k + ")").exec(fmt);
         if (ret) {
-            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-        };
-    };
-    return fmt;
+          fmt = fmt.replace(
+            ret[1],
+            ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, "0")
+          );
+        }
+      }
+      return fmt;
     },
     choseType(value) {
       console.log(value);
@@ -166,21 +168,37 @@ export default {
         handheldInfraredDevices.push(res.id);
       });
       var query = {
-        planDate:{
-          planCycle:this.$refs["panel[2]"].$data.value,
-          value: [{startTime:this.Dateformate('HH:MM:SS',this.$refs["panel[2]"].$data.value3)}],
+        planDate: {
+          planCycle: this.$refs["panel[2]"].$data.value,
+          value: [
+            {
+              startTime: this.Dateformate(
+                "HH:MM:SS",
+                this.$refs["panel[2]"].$data.value3
+              )
+            }
+          ]
         },
         planType: 5,
         planName: this.$refs["panel[0]"].$data.form.taskName,
         handheldInfraredDevices: handheldInfraredDevices.join(","),
         deviceJson: deviceJson,
-        startTime:this.Dateformate('YYYY-mm-dd',this.$refs["panel[2]"].$data.value3)
+        startTime: this.Dateformate(
+          "YYYY-mm-dd",
+          this.$refs["panel[2]"].$data.value3
+        )
       };
-      debugger
-       postAxiosData("/lenovo-plan/api/handheldinfrared/planCreate",query).then(res=>{
-         debugger
-         console.log(res)
-       })
+      var that=this
+      postAxiosData("/lenovo-plan/api/handheldinfrared/planCreate", query).then(
+        res => {
+          debugger
+          console.log(res);
+          if (res.errorCode != 200||res.code!=200) {
+            this.$message(res.msg);
+              that.cancel();
+          }
+        }
+      );
     },
     toPre() {
       this.stepValue--;
