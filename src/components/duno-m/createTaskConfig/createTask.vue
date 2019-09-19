@@ -170,11 +170,10 @@ export default {
       try {
         postAxiosData("/lenovo-plan/api/environment/planCreate", query).then(
           res => {
-            
-            if (res.errorCode!= 200) {
+            if (res.code!= 200) {
               this.$message(res.msg);
             } else {
-              this.$message("创建成功");
+               this.$message(res.msg);
               that.cancel();
               
             }

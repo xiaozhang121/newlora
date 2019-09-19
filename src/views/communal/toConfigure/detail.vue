@@ -451,6 +451,7 @@ export default {
       this.taskVisible = false;
       this.taskVisible2 = false;
       this.taskVisible3 = false;
+      this.getDataList()
     },
     closeDia() {
       this.visible = false;

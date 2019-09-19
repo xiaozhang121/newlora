@@ -239,7 +239,7 @@ export default {
         pageIndex: 1,
         pageRows: 4
       };
-      let url1 = "/lenovo-plan/api/task/result/list";
+      let url1 = "/lenovo-plan/api/information/overview/result/one/day";
       getAxiosData(url1, data).then(res => {
         this.lightInformation = res.data.tableData;
         clearTimeout(this.timerS);

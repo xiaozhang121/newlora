@@ -193,9 +193,11 @@ export default {
         res => {
           debugger
           console.log(res);
-          if (res.errorCode != 200||res.code!=200) {
+          if (res.code!=200) {
+            this.$message(res.msg);           
+          }else{
             this.$message(res.msg);
-              that.cancel();
+            that.cancel();
           }
         }
       );
