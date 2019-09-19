@@ -94,7 +94,7 @@
           <div class="btn">
             <div class="dateChose">
               <el-date-picker
-                v-model="dataTime"
+                v-model="dataTimeD"
                 @change="changeDate"
                 type="date"
                 placeholder="选择日期"
@@ -486,12 +486,14 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
+      dataTimeD: "",
       dataBread: [{ name: "摄像头详情" }],
       pageParam: {
           pageIndex: 1,
           totalRows: 1
       },
-      isLock: 0
+      isLock: 0,
+      timeData: ''
     };
   },
   watch:{
@@ -529,7 +531,7 @@ export default {
         if(pageIndex){
             index = pageIndex
         }
-        getAxiosData('/lenovo-device/device/video/record/videos', {pageIndex: index, pageRows: 10,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
+        getAxiosData('/lenovo-device/device/video/record/videos', {startTime: this.timeData, endTime: this.timeData, pageIndex: index, pageRows: 10,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
             let data = res.data.tableData
             this.videoList = data
             this.pageParam = res.data.pageParam
@@ -781,7 +783,16 @@ export default {
         }  
       });
     },
-    changeDate() {},
+    changeDate(now) {
+        let data = ''
+        if(now){
+            data = moment(now).format("YYYY-MM-DD")
+        }else{
+            data = ''
+        }
+        this.timeData = data
+        this.getVideo()
+    },
     handleCamare() {
       let that = this;
       let url = "/lenovo-device/api/stream/snapshoot";
