@@ -158,7 +158,17 @@ export default {
       for (var i = 0; i <= datalist.length - 1; i++) {
         for (var j = 0; j <= datalist[i].children.length - 1; j++) {
           if (datalist[i].children[j].isCheck) {
-            deviceJson.push(datalist[i].children[j]);
+            var obj={
+              areaName:datalist[i].children[j].areaName,
+              deviceId:datalist[i].children[j].deviceId,
+               deviceName:datalist[i].children[j].deviceName,
+                deviceSeri:datalist[i].children[j].deviceSeri,
+                 mainDevice:datalist[i].children[j].mainDevice,
+              parentDeviceId:datalist[i].children[j].parentDeviceId,
+              part:datalist[i].children[j].part,
+              phase:datalist[i].children[j].phase,
+            }
+            deviceJson.push(obj);
           }
         }
       }
