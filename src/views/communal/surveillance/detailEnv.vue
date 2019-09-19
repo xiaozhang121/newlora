@@ -252,7 +252,7 @@ export default {
         },
         {
           title: "告警类型",
-          key: "alarmDetailType",
+          key: "alarmType",
           minWidth: 120,
           align: "center",
           tooltip: true

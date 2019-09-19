@@ -358,8 +358,11 @@ export default {
         padding: 20px 0 0 20px;
         background-color: #142838;
         overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
         & > div {
-          float: left;
+          // float: left;
           width: calc(50% - 20px);
           margin-right: 20px;
           .reportTable {

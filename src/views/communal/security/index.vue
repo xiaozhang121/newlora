@@ -7,7 +7,7 @@
       <KeyErea />
     </div>
     <div class="mainContamin">
-       <div class="item">
+      <div class="item">
         <div class="alarmTitle">
           <div>24小时监测记录</div>
           <div>
@@ -15,45 +15,52 @@
           </div>
         </div>
         <div class="monitorContain">
-            <div class="monitorItem" :class="{marginRight: index%2 == 0}" v-for="(item, index) in safeList"  :key="index">
-              <key-monitor
-                  class="monitorRecord"
-                  :showBtmOption="true"
-                  :pushCamera="false"
-                  :noButton="false"
-                  configType="2"
-                  :monitorInfo="item"
-                  :imgAdress="item['pic']"
-                  :streamAddr="item['streamAddr']"
-                  :kilovolt="item['monitorDeviceName']"
-                  :patrol="`${item['startTime']}至${item['endTime']}`"
-              />
-            </div>
-            <div style="clear: both"></div>
+          <div
+            class="monitorItem"
+            :class="{marginRight: index%2 == 0}"
+            v-for="(item, index) in safeList"
+            :key="index"
+          >
+            <key-monitor
+              class="monitorRecord"
+              :showBtmOption="true"
+              :pushCamera="false"
+              :noButton="false"
+              configType="2"
+              :monitorInfo="item"
+              :imgAdress="item['pic']"
+              :streamAddr="item['streamAddr']"
+              :kilovolt="item['monitorDeviceName']"
+              :patrol="`${item['startTime']}至${item['endTime']}`"
+            />
+          </div>
+          <div style="clear: both"></div>
         </div>
       </div>
-       <div class="item">
+      <div class="item">
         <div class="alarmTitle">
           <div>3天内动态环境异常记录</div>
           <div>
             <div @click="clickToDetail(2)">查看更多 ></div>
           </div>
         </div>
-        <div
-          class="alarmLogIn"
-          :class="{'canelLoading': !loading}"
-          v-loading="loading"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
-          element-loading-text="加载中"
-        >
-          <AlarmLog
-            v-for="(item,index) in dataList"
-            :remarkData="dataList[index]"
-            :time="item.alarmTime"
-            :remarks="item.dealList"
-            :key="index"
-            @handleListData="handleData"
-          />
+        <div class="item-cons">
+          <div
+            class="alarmLogIn"
+            :class="{'canelLoading': !loading}"
+            v-loading="loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            element-loading-text="加载中"
+          >
+            <AlarmLog
+              v-for="(item,index) in dataList"
+              :remarkData="dataList[index]"
+              :time="item.alarmTime"
+              :remarks="item.dealList"
+              :key="index"
+              @handleListData="handleData"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -158,31 +165,40 @@ export default {
     }
   },
   methods: {
-    oneDayAgo(){
-        let curDate = new Date();
-        let preDate = new Date(curDate.getTime() - 24*60*60*1000); //前一天
-        return preDate
+    oneDayAgo() {
+      let curDate = new Date();
+      let preDate = new Date(curDate.getTime() - 24 * 60 * 60 * 1000); //前一天
+      return preDate;
     },
-    initData(){
-        const that = this
-        let date = this.oneDayAgo()
-        let query = {
-            pageIndex: 1,
-            pageRows: 6,
-            startTime: moment(date).format('YYYY-MM-DD HH:mm:ss'),
-            endTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+    initData() {
+      const that = this;
+      let date = this.oneDayAgo();
+      let query = {
+        pageIndex: 1,
+        pageRows: 6,
+        startTime: moment(date).format("YYYY-MM-DD HH:mm:ss"),
+        endTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+      };
+      getAxiosData("/lenovo-device/device/video/record/videos", query).then(
+        res => {
+          this.safeList = res.data.tableData;
+          for (let i = 0; i < this.safeList.length; i++) {
+            postAxiosData("/lenovo-device/device/video/record/video/pic", {
+              positionIndex: i,
+              videoPath: res.data.tableData[i]["streamAddr"]
+            }).then(res => {
+              let data = res.data;
+              that.$set(
+                that.safeList[data["positionIndex"]],
+                "pic",
+                data["pic"]
+              );
+              that.$forceUpdate();
+            });
+          }
+          // this.safeList = [{},{},{}]
         }
-        getAxiosData('/lenovo-device/device/video/record/videos',query).then(res=>{
-            this.safeList = res.data.tableData
-            for(let i=0; i<this.safeList.length; i++){
-                postAxiosData("/lenovo-device/device/video/record/video/pic",{positionIndex: i, videoPath: res.data.tableData[i]['streamAddr']}).then(res=>{
-                    let data = res.data
-                    that.$set(that.safeList[data['positionIndex']],'pic',data['pic'])
-                    that.$forceUpdate()
-                })
-            }
-            // this.safeList = [{},{},{}]
-        })
+      );
     },
     handleData() {
       this.getDataList();
@@ -340,12 +356,12 @@ export default {
     opacity: 0.8;
     padding: 21px 27px;
     overflow: hidden;
-    .alarmLog{
-        width: 100%;
-        margin-left: 0;
-        height: inherit;
+    .alarmLog {
+      width: 100%;
+      margin-left: 0;
+      height: inherit;
     }
-    &.canelLoading{
+    &.canelLoading {
       opacity: 1 !important;
     }
     & > div:nth-child(even) {
@@ -353,11 +369,15 @@ export default {
     }
   }
   .mainContamin {
+    height: 560px;
+    overflow: hidden;
     display: flex;
-    .keyMonitor .camera .explain .text{
+    .keyMonitor .camera .explain .text {
       display: flex;
     }
     .monitorContain {
+      height: 100%;
+      overflow-y: auto;
       background: rgba(20, 40, 56, 0.8);
       padding: 20px;
       min-height: 491px;
@@ -373,6 +393,10 @@ export default {
         height: 100%;
         margin: 0 0px 50px 0;
       }
+    }
+    .item-cons {
+      height: 100%;
+      overflow-y: auto;
     }
     .item {
       flex-grow: 1;

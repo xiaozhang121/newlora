@@ -409,6 +409,7 @@ export default {
     this.dataForm.planId = this.$route.query.planId;
     this.dataForm.planType = this.$route.query.planType;
     this.dataForm.batchId = this.$route.query.batchId;
+    this.dataForm.isRobot = this.$route.query.isRobot;
     this.detailsType = this.$route.query.detailsType;
     this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
     this.mixinViewModuleOptions.exportURL = this.downloadURL;

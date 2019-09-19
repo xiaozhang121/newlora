@@ -78,7 +78,8 @@ export default {
     return {
       dataList: [],
       lightList: [],
-      redList: []
+      redList: [],
+      data
     };
   },
   methods: {},
@@ -90,7 +91,7 @@ export default {
       console.log(res)
       console.log('ttttttttttttttttt')
       for (var i = 0; i <= res.data.data.length - 1; i++) {
-        dataList.push({ title: res.data.data[i].deviceName, id: res.data.data[i].deviceNum, children: [] });
+        dataList.push({ title: res.data.data[i].deviceName, id: res.data.data[i].id, children: [],deviceNum:res.data.data[i].deviceNum});
       }
     
       that.dataList = dataList;

@@ -38,7 +38,7 @@
         <div>
           <el-select
             @change="selectPhase"
-            class="selectSearch"
+            class="selectSearch selectSea"
             multiple
             collapse-tags
             v-model="valuePhase"
@@ -919,6 +919,14 @@ export default {
       font-size: 16px;
     }
   }
+  .selectSea {
+    .el-input--small .el-input__inner {
+      width: 240px;
+    }
+  }
+  .el-select .el-tag {
+    margin: 30px 0 2px 6px;
+  }
   //--
   .dunoDrap {
     display: flex;
@@ -932,7 +940,7 @@ export default {
     .selectBtn {
       display: flex;
       justify-content: space-between;
-      width: 575px;
+      width: 635px;
       margin-top: 14px;
       height: 50px;
       .dunoBtnTop {

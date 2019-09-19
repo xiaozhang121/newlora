@@ -576,7 +576,10 @@ export default {
     },
     clickExcel() {
       const that = this;
-      that.queryForm.monitorDeviceId = that.$route.query.monitorDeviceId;
+      that.queryForm={
+        monitorDeviceId : that.$route.query.monitorDeviceId,
+        ...that.echartForm
+      }
       that.exportHandle();
     },
     getSelectType() {
@@ -928,6 +931,7 @@ export default {
           .clickBtn {
             line-height: 40px;
             width: 139px;
+            cursor: pointer;
             background-image: url(../../../assets/images/btn/moreBtn.png);
             text-align: center;
             font-size: 18px;
@@ -1062,6 +1066,7 @@ export default {
     .main {
       position: absolute;
       width: 100%;
+      overflow: hidden;
       height: 100%;
       .contain_nr {
         // background: #132838;

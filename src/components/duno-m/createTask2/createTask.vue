@@ -158,15 +158,28 @@ export default {
       for (var i = 0; i <= datalist.length - 1; i++) {
         for (var j = 0; j <= datalist[i].children.length - 1; j++) {
           if (datalist[i].children[j].isCheck) {
-            deviceJson.push(datalist[i].children[j]);
+            var obj = {
+              areaName: datalist[i].children[j].areaName,
+              deviceId: datalist[i].children[j].deviceId,
+              deviceName: datalist[i].children[j].deviceName,
+              deviceSeri: datalist[i].children[j].deviceSeri,
+              mainDevice: datalist[i].children[j].mainDevice,
+              parentDeviceId: datalist[i].children[j].parentDeviceId,
+              part: datalist[i].children[j].part,
+              phase: datalist[i].children[j].phase
+            };
+            deviceJson.push(obj);
           }
         }
       }
 
       var handheldInfraredDevices = [];
-      debugger
+      debugger;
+      var deviceNum=[];
       this.$refs["panel[1]"].dataList.map(res => {
         handheldInfraredDevices.push(res.id);
+        console.log(res)
+        deviceNum.push(res.deviceNum)
       });
       var query = {
         planDate: {
@@ -181,6 +194,7 @@ export default {
           ]
         },
         planType: 5,
+        deviceNum:deviceNum.join(','),
         planName: this.$refs["panel[0]"].$data.form.taskName,
         handheldInfraredDevices: handheldInfraredDevices.join(","),
         deviceJson: deviceJson,
@@ -189,14 +203,14 @@ export default {
           this.$refs["panel[2]"].$data.value3
         )
       };
-      var that=this
+      var that = this;
       postAxiosData("/lenovo-plan/api/handheldinfrared/planCreate", query).then(
         res => {
-          debugger
+          debugger;
           console.log(res);
-          if (res.code!=200) {
-            this.$message(res.msg);           
-          }else{
+          if (res.code != 200) {
+            this.$message(res.msg);
+          } else {
             this.$message(res.msg);
             that.cancel();
           }

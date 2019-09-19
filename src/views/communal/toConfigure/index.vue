@@ -40,27 +40,23 @@
       </div>
     </div>
     <duno-main class="dunoMain">
-      <div
-        class="alarmLogIn"
+      <duno-tables-tep
+        class="table_abnormalInfo alarmLogIn"
         :class="{'canelLoading': !loading}"
         v-loading="loading"
         element-loading-background="rgba(0, 0, 0, 0.8)"
         element-loading-text="加载中"
-      >
-        <duno-tables-tep
-          class="table_abnormalInfo"
-          :columns="infoColumns"
-          :data="dataList"
-          :totalNum="totalNum"
-          :pageSize="pageRows"
-          :current="pageIndex"
-          :border="true"
-          :showSizer="true"
-          @on-select="dataListSelectionChangeHandle"
-          @clickPage="pageCurrentChangeHandle"
-          @on-page-size-change="pageSizeChangeHandle"
-        />
-      </div>
+        :columns="infoColumns"
+        :data="dataList"
+        :totalNum="totalNum"
+        :pageSize="pageRows"
+        :current="pageIndex"
+        :border="true"
+        :showSizer="true"
+        @on-select="dataListSelectionChangeHandle"
+        @clickPage="pageCurrentChangeHandle"
+        @on-page-size-change="pageSizeChangeHandle"
+      />
     </duno-main>
   </div>
 </template>
@@ -488,6 +484,7 @@ export default {
   }
   .dunoMain {
     height: inherit;
+    width: 100%;
   }
   .circleStatus {
     width: 13px;
