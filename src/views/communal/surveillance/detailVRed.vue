@@ -1195,7 +1195,7 @@ export default {
 }
 .el-popper[x-placement^="top"],
 .el-popper[x-placement^="bottom"] {
-  background: #192f41;
+  /*background: #192f41;*/
   border: none;
 }
 </style>
