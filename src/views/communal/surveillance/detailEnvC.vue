@@ -61,7 +61,7 @@
           <div class="btn">
             <div class="dateChose">
               <el-date-picker
-                      v-model="dataTime"
+                      v-model="dataTimeEE"
                       @change="changeDate"
                       type="date"
                       placeholder="选择日期"
@@ -127,12 +127,12 @@
             <div class="dateChose">
               <el-date-picker
                       unlink-panels
-                      v-model="dataTime"
+                      v-model="dataTimed"
                       type="daterange"
                       range-separator="-"
                       start-placeholder="开始日期"
                       end-placeholder="结束日期"
-                      @change="onChangeHis"
+                      @change="onChangeSecond"
               ></el-date-picker>
             </div>
             <div>
@@ -173,7 +173,6 @@
             </div>
             <div>
               <duno-btn-top
-                      style="visibility: hidden"
                       @on-select="onSelect"
                       :zIndex="1"
                       class="dunoBtnTop"
@@ -266,6 +265,7 @@ export default {
   data() {
     const that = this;
     return {
+      dataTimeEE: '',
       alarmId: 0,
       dialogVisible: false,
       envPageIndex: 1,
@@ -489,6 +489,7 @@ export default {
       isEnlarge: false,
       queryForm: {},
       dataForm: {},
+      secondForm: {},
       echartForm: {},
       echartData: [],
       typeList: [],
@@ -735,11 +736,13 @@ export default {
       allDataKind: [],
       allDataLevel: [],
       dataTime: "",
+      dataTimed: "",
       pageParam: {
           pageIndex: 1,
           totalRows: 1
       },
-      dataBread: [{ name: "摄像头详情" }]
+      dataBread: [{ name: "摄像头详情" }],
+      timeData: ''
     };
   },
   props: {
@@ -749,6 +752,16 @@ export default {
     }
   },
   methods: {
+    changeDate(now) {
+        let data = ''
+        if(now){
+            data = moment(now).format("YYYY-MM-DD")
+        }else{
+            data = ''
+        }
+        this.timeData = data
+        this.getVideo()
+    },
     addReturn(row) {
           const that = this;
           const query = {
@@ -791,7 +804,7 @@ export default {
         if(pageIndex){
             index = pageIndex
         }
-        getAxiosData('/lenovo-device/device/video/record/videos', {pageIndex: index, pageRows: 10,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
+        getAxiosData('/lenovo-device/device/video/record/videos', {startTime: this.timeData, endTime: this.timeData, pageIndex: index, pageRows: 10,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
             let data = res.data.tableData
             this.videoList = data
             this.pageParam = res.data.pageParam
@@ -889,6 +902,17 @@ export default {
           this.getEchasrts();
       }
     },
+    onChangeSecond(data) {
+          let startTime = "";
+          let endTime = "";
+          if (data) {
+              startTime = moment(data[0]).format("YYYY-MM-DD");
+              endTime = moment(data[1]).format("YYYY-MM-DD");
+          }
+          this.secondForm.startTime = startTime;
+          this.secondForm.endTime = endTime;
+          this.getEnvData();
+      },
     onChangeHis(data) {
       let startTime = "";
       let endTime = "";
@@ -985,9 +1009,54 @@ export default {
         this.typeList = map;
       });
     },
+    createDownLoadClick(content, fileName) {
+       const link = document.createElement("a");
+       link.href = encodeURI(content);
+       link.download = fileName;
+       document.body.appendChild(link);
+       link.click();
+       document.body.removeChild(link);
+     },
+      // 判断是否IE浏览器
+    MyBrowserIsIE() {
+        let isIE = false;
+        if (
+            navigator.userAgent.indexOf("compatible") > -1 &&
+            navigator.userAgent.indexOf("MSIE") > -1
+        ) {
+            // ie浏览器
+            isIE = true;
+        }
+        if (navigator.userAgent.indexOf("Trident") > -1) {
+            // edge 浏览器
+            isIE = true;
+        }
+        return isIE;
+    },
     clickExcel() {
       const that = this;
       that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      /*getAxiosData(this.mixinViewModuleOptions.exportURL).then(res=>{
+          let bstr  = res.data,
+          n = bstr.length,
+          u8arr = new Uint8Array(n);
+          debugger
+          while (n--) {
+              u8arr[n] = bstr.charCodeAt(n);
+          }
+          debugger
+          let  blob = new Blob([u8arr], {
+              type: `application/pdf;charset-UTF-8`
+          });
+          if (this.MyBrowserIsIE()) {
+              let BOM = "\uFEFF";
+              navigator.msSaveBlob(blob, `demo.pdf`);
+          }else {
+              let content = window.URL.createObjectURL(blob);
+              this.createDownLoadClick(content, `demo.pdf`);
+          }
+
+      })*/
       that.exportHandle();
     },
     getEchasrts() {
@@ -1059,8 +1128,7 @@ export default {
       });
     },
     getEnvData(){
-        getAxiosData('/lenovo-alarm/api/security/list',{monitorDeviceId: this.$route.query.monitorDeviceId, pageIndex: this.envPageIndex, pageRows: this.pageRows}).then(res=>{
-            debugger
+        getAxiosData('/lenovo-alarm/api/security/list',{startTime:this.secondForm.startTime , endTime: this.secondForm.endTime, monitorDeviceId: this.$route.query.monitorDeviceId, pageIndex: this.envPageIndex, pageRows: this.pageRows}).then(res=>{
             this.envDataList = res.data.tableData
             this.envTotalNum = res.data.pageParam.totalRows
         })
@@ -1094,7 +1162,12 @@ export default {
 <style lang="scss">
 @import "@/style/tableStyle.scss";
 .el-popper[x-placement^="bottom"]{
-  background: white !important;
+  background: #192f41 !important;
+  border: none !important;
+}
+.el-popper[x-placement^="top"]{
+  background: #192f41 !important;
+  border: none !important;
 }
 .mainAside {
   /*min-height: 100%;*/
@@ -1107,33 +1180,17 @@ export default {
   .el-button:hover{
     background: transparent !important;
   }
-  .dateChose {
-    .el-date-editor {
-      background-color: #192f41;
+  .dateChose{
+    .el-input--small .el-input__inner {
+      border-radius: 5px;
+      width: 100%;
+      line-height: 40px;
+      color: #fff;
+      height: 40px;
       border: none;
-      .el-range-input {
-        background-color: rgba(81, 89, 112, 0);
-      }
-      .el-range-separator {
-        font-size: 20px;
-        color: #fff;
-      }
-      .el-range-input {
-        color: #fff;
-      }
-    }
-    .el-range-editor--small.el-input__inner {
-      height: 40px !important;
-    }
-    .el-range-editor--small .el-range__icon,
-    .el-range-editor--small .el-range__close-icon {
-      line-height: 35px;
-    }
-    .el-range-editor--small .el-range-input {
-      font-size: 16px;
+      background-color: #192f41;
     }
   }
-
   .icon-xiala {
     /* width: 12px;
     height: 15px;*/
@@ -1341,6 +1398,33 @@ export default {
           font-size: 18px;
           color: #ffffff;
         }
+        .dateChose {
+          .el-date-editor {
+            background-color: #192f41;
+            border: none;
+            .el-range-input {
+              background-color: rgba(81, 89, 112, 0);
+            }
+            .el-range-separator {
+              font-size: 20px;
+              color: #fff;
+            }
+            .el-range-input {
+              color: #fff;
+            }
+          }
+          .el-range-editor--small.el-input__inner {
+            height: 40px !important;
+          }
+          .el-range-editor--small .el-range__icon,
+          .el-range-editor--small .el-range__close-icon {
+            line-height: 35px;
+          }
+          .el-range-editor--small .el-range-input {
+            font-size: 16px;
+          }
+        }
+
       }
     }
     .video {

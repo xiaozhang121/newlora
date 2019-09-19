@@ -986,6 +986,19 @@ export default [{
                         active: "robot-oneList"
                     },
                     component: () => import('@/views/communal/robotF/detail.vue')
+                },
+                {
+                    path: 'reportList',
+                    name: 'robot-reportList',
+                    active: "robot-oneList",
+                    meta: {
+                        topNav: '2',
+                        title: '巡视报告列表',
+                        hideInMenu: true,
+                        isDetails: true,
+                        active: "robot-oneList"
+                    },
+                    component: () => import('@/views/communal/robotF/reportList.vue')
                 }
             ]
         },

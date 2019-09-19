@@ -1,93 +1,50 @@
 <template>
-  <div class="robotF">
+  <div class="robotReport">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="title">
-      <span>室外机器人</span>
-      <button-custom
-              class="moreTask"
-              title="更多任务>"
-              @click.native="$router.push({'path': 'detail',query: {substationId: substationId, robotId:robotId}})"
-      />
+      最新巡视报告
+     <!-- <el-date-picker
+              v-model="selectTime"
+              type="daterange"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              @change="onChangeTime"
+             >
+      </el-date-picker>-->
     </div>
-    <div class="content">
-      <div class="top not-print">
-        <div class="item">
-          <div class="nr">
-            <!--:streamAddr="cameraPath['rtspCDD']"-->
-            <KeyMonitor
-                    class="keyMonitor"
-                    :autoplay="true"
-                    :pushCamera="false"
-                    streamAddr="rtmp://10.0.10.39/rtsp59/stream"
-            />
-          </div>
-        </div>
-        <div class="item" style="overflow: hidden">
-          <div class="nr redCamera">
-            <!--:streamAddr="cameraPath['rtspINF']"-->
-            <KeyMonitor
-                    class="keyMonitor noLoading"
-                    :autoplay="true"
-                    :pushCamera="false"
-                    streamAddr="rtmp://10.0.10.39/rtsp60/stream"
-            />
+    <duno-main  v-loading="loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)"
+                element-loading-text="加载中">
+      <div class="content">
+        <div class="bottom">
+          <div class="main">
+            <template v-for="(item, index) in newsReportLength">
+              <div class="item" :key="index">
+                <report-table
+                        :taskRunHisId="newsReport[index].ID"
+                        :taskCurreny="taskCurreny"
+                        path="report"
+                        url="/lenovo-robot/rest/reportDownload"
+                        kind="robot"
+                        :reportData="newsReport[index]"
+                        v-if="newsReport[index]"
+                ></report-table>
+              </div>
+            </template>
           </div>
         </div>
       </div>
-      <div class="middle">
-        <rou-tine-inspection
-                @on-fresh="onFresh"
-                :isChange="ischange"
-                :robotId="robotId"
-                :substationId="substationId"
-                ref="rouTineInspection"
-                :taskStatus="taskStatus"
-                :robotStatus="robotStatus"
-        >
-          <div class="reportData">
-            <report-data
-                    v-if="('taskType' in taskStatus && taskStatus['taskType'])"
-                    :taskStatus="taskStatus"
-                    :imgData="taskCurreny['taskCurLinkImg']"
-                    :taskCurreny="taskCurreny"
-                    :analysisResult="taskCurreny['valueShow']"
-                    :dataType="taskCurreny['recognType']"
-                    :deviceName="taskCurreny['deviceName']"
-                    :stepCount="taskCurreny['doneStepsCnt']"
-            ></report-data>
-          </div>
-        </rou-tine-inspection>
-      </div>
-      <div class="bottom">
-        <div class="title">
-          <span>最新巡视报告</span>
-          <div class="moreInfo" @click="toMore()">查看更多</div>
-        </div>
-        <div class="main">
-          <template v-for="(item, index) in newsReportLength">
-            <div class="item" :key="index">
-              <report-table
-                      :taskRunHisId="newsReport[index].ID"
-                      :taskCurreny="taskCurreny"
-                      path="report"
-                      url="/lenovo-robot/rest/reportDownload"
-                      kind="robot"
-                      :reportData="newsReport[index]"
-                      v-if="newsReport[index]"
-              ></report-table>
-            </div>
-          </template>
-        </div>
-      </div>
-    </div>
+    </duno-main>
     <!--<popup-one-info  :itemDataOption="$store.state.user.alarmInfo" v-if="visible" @onClose="alarmClose" :visible="visible"></popup-one-info>-->
   </div>
 </template>
 
 <script>
+    import dunoMain  from '_c/duno-m/duno-main'
     import Breadcrumb from "_c/duno-c/Breadcrumb";
+    import moment from "moment";
     import mixinViewModule from "@/mixins/view-module";
     import KeyMonitor from "_c/duno-c/KeyMonitor";
     import cameraPanel from "_c/duno-m/cameraPanel";
@@ -111,7 +68,8 @@
             ReportTable,
             buttonCustom,
             reportData,
-            popupOneInfo
+            popupOneInfo,
+            dunoMain
         },
         computed: {
             ...mapState(["user"]),
@@ -130,6 +88,8 @@
         data() {
             const that = this;
             return {
+                selectTime: false,
+                loading: true,
                 noPic: require("@/assets/noPic.png"),
                 visible: false,
                 ischange: false,
@@ -178,14 +138,14 @@
                 } catch (e) {}
 
                 if (now == "robot-twoList") {
-                  /*  this.$set(this.dataBread, 2, "机器人二");
-                    this.robotName = "机器人二";*/
+                    /*  this.$set(this.dataBread, 2, "机器人二");
+                      this.robotName = "机器人二";*/
                     this.substationId = "1";
                     this.robotId = "9";
                 } else {
-                   /* this.dataBread[2] = "机器人一";
-                    this.robotName = "机器人一";
-                    this.$set(this.dataBread, 2, "机器人一");*/
+                    /* this.dataBread[2] = "机器人一";
+                     this.robotName = "机器人一";
+                     this.$set(this.dataBread, 2, "机器人一");*/
                     this.substationId = "1";
                     this.robotId = "1";
                 }
@@ -203,11 +163,22 @@
                 this.initData();
                 this.ischange = !this.ischange;
                 this.timer = setInterval(() => {
-                    this.initData();
+                    // this.initData();
                 }, 3000);
             }
         },
         methods: {
+            onChangeTime(data){
+                let startTime = "";
+                let endTime = "";
+                if (data) {
+                    startTime = moment(data[0]).format("YYYY-MM-DD");
+                    endTime = moment(data[1]).format("YYYY-MM-DD");
+                }
+                this.startDay = startTime;
+                this.endDay = endTime;
+                this.initReport()
+            },
             toMore(){
                 const that = this
                 this.$router.push({
@@ -239,7 +210,9 @@
             },
             initReport(){
                 const that = this
-                postAxiosData('/lenovo-robot/rest/reports',{substationId: that.substationId, robotId: that.robotId,length: 10}).then(res=>{
+                that.loading = true
+                that.newsReport = []
+                postAxiosData('/lenovo-robot/rest/reports',{startDay:that.startDay, endDay: that.endDay, substationId: that.substationId, robotId: that.robotId,length: 100}).then(res=>{
                     that.reportsList = res.data
                     let data = res.data
                     data = data.reportList
@@ -263,6 +236,7 @@
                         item['timeLong'] = item['timeLong']
                     })
                     that.newsReport = data
+                    that.loading = false
                 })
                 postAxiosData('/lenovo-robot/getRobotVedioPath',{stationID: that.substationId, robotID: that.robotId}).then(res=>{
                     that.cameraPath = res.data
@@ -275,7 +249,7 @@
         beforeDestroy() {
             clearInterval(this.$refs.rouTineInspection.timer);
             clearInterval(this.timer);
-            
+
         },
         mounted() {
             this.routeName = this.$route.name;
@@ -283,10 +257,36 @@
     };
 </script>
 <style lang="scss">
-  .robotF {
+  .robotReport {
     color: white;
     width: 100%;
     height: 100%;
+    .el-loading-text {
+      color: #969696 !important;
+    }
+    .el-date-editor .el-range__icon{
+      color: white;
+    }
+    .el-range-editor--small .el-range-separator{
+      color: white;
+    }
+    .el-range-editor--small.el-input__inner{
+      height: 32px;
+      width: 254px;
+      background: #1a2f42;
+      border: none;
+      input{
+        background: #1a2f42;
+        color: white;
+      }
+    }
+    .dunoMain{
+      height: auto;
+      .dunoMain_nr{
+        padding: 0 17px;
+        padding-top: 17px;
+      }
+    }
     .moreInfo{
       font-size: 16px;
       text-align: center;
@@ -363,6 +363,7 @@
           margin: 15px 0;
         }
         .main {
+          min-height: calc(100vh - 234px);
           .item {
             display: inline-block;
             margin-right: 1.5%;

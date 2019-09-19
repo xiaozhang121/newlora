@@ -46,6 +46,8 @@
                       ></duno-btn-top>
                     </div>
                     <div class="contain_add">
+                      <div class="loading" :class="{'zIndex': loading}"  v-loading="loading"  element-loading-background="rgba(0, 0, 0, 0.8)"
+                           element-loading-text="加载中"></div>
                       <video-list class="videoList" :index="index" v-for="(item, index) in videoList"  :dataInfo="item" :key="index" @on-play="onPlay" />
                     </div>
                   </div>
@@ -207,6 +209,7 @@ export default {
   data() {
     const that = this;
     return {
+      loading: false,
       pageIndexD: 1,
       timeList: [],
       timeValue: '全部日期',
@@ -496,6 +499,7 @@ export default {
     },
     getVideo(date){
         const that = this
+        that.loading = true
         if(!this.isRequest) {
             this.isRequest = true
             getAxiosData('/lenovo-device/device/video/record/videos', {
@@ -517,6 +521,8 @@ export default {
                 }
                 that.$forceUpdate()
                 that.isRequest = false
+                that.loading = false
+                debugger
                 for (let i = indexX; i < that.videoList.length; i++) {
                     that.cancelList.push(axios.CancelToken.source())
                      postAxiosData("/lenovo-device/device/video/record/video/pic", {
@@ -653,6 +659,7 @@ export default {
       } else if(item.title == 'timeValue'){
         this.clearRequest()
         this.pageIndexD = 1
+        this.videoList = []
         this.getVideo(item['monitorDeviceType'])
       }
     },
@@ -771,6 +778,7 @@ export default {
         console.log('viewH', viewH);
         console.log('contentH', contentH);
         console.log('scrollTop', scrollTop);
+        $('.loading').css({'top': scrollTop+'px'})
         //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
         console.log(scrollTop / (contentH - viewH))
         if (scrollTop / (contentH - viewH) >= 0.9) { //到达底部100px时,加载新内容
@@ -792,6 +800,9 @@ export default {
 @import "@/style/tableStyle.scss";
 .mainAside {
   /*min-height: 100%;*/
+}
+.el-loading-text {
+  color: #969696 !important;
 }
 .hidden{
   visibility: hidden;
@@ -821,6 +832,16 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .loading{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    &.zIndex{
+      z-index: 100;
+    }
+  }
   ::-webkit-input-placeholder {
     /* WebKit browsers */
     color: white;

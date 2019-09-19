@@ -97,7 +97,7 @@ export default {
             }
             .icon-bofang{
                 position: absolute;
-                z-index: 100;
+                z-index: 99;
                 color: white;
                 font-size: 32px;
             }
