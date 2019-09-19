@@ -161,7 +161,7 @@ export default {
         {
           title: " ",
           // key: "Presentation",
-          minWidth: 200,
+          minWidth: 240,
           align: "right",
           tooltip: true,
           render: (h, params) => {

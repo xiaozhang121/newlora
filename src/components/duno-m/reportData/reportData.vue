@@ -17,7 +17,9 @@
         <div :style="{visibility: taskCurreny['doneStepsCnt']?'visible':'hidden'}" class="last">
             <div class="item">
                 <div class="name">设备名：</div>
-                <div class="nr">{{ deviceName }}</div>
+                <el-tooltip  effect="dark" :content="deviceName" placement="top">
+                <div class="nr itemNr">{{ deviceName }}</div>
+                </el-tooltip>
             </div>
             <div class="item">
                 <div class="name">数据类型：</div>
@@ -133,6 +135,7 @@
 
 <style lang="scss">
     .reportData{
+        width: 100%;
         .serious {
             span {
                 background: #f4a723;
@@ -197,6 +200,11 @@
                     }
                 }
             }
+        }
+        .itemNr{
+            overflow:hidden; 
+            text-overflow:ellipsis; 
+            white-space:nowrap;
         }
     }
 </style>

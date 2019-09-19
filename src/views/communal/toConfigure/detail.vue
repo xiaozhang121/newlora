@@ -570,7 +570,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 200,
+          minWidth: 240,
           align: "right",
           tooltip: true,
           render: (h, params) => {
@@ -719,7 +719,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 200,
+          minWidth: 240,
           align: "right",
           tooltip: true,
           render: (h, params) => {

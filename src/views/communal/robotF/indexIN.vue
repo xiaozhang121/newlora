@@ -40,7 +40,7 @@
                       :taskStatus="taskStatus"
                       :robotStatus="robotStatus"
               >
-                <div class="reportData">
+                <div class="reportData1">
                   <report-data
                           v-if="('taskType' in taskStatus && taskStatus['taskType'])"
                           :taskStatus="taskStatus"
@@ -281,6 +281,7 @@
       display: none;
     }
     .rouTineInspection_last{
+      width: 100%;
       align-items: normal;
       justify-content: normal;
       .item{
@@ -353,10 +354,11 @@
           padding-bottom: 0 !important;
         }
         .rouTineInspection{
+          // width: 40%;
           height: 100%;
           padding-top: 6px;
         }
-        .reportData {
+        .reportData1 {
           margin-top: 5px;
           position: relative;
           margin-right: 50px;

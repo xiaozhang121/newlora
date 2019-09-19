@@ -271,7 +271,8 @@
             }
         }
         .rouTineInspection_right{
-            flex-grow: 1;
+            // flex-grow: 1;
+            flex: none;
             padding: 1%;
             padding-left: 1.5%;
             position: relative;
