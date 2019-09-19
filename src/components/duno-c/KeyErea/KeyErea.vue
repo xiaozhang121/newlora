@@ -479,18 +479,18 @@
       .selectBtn {
         display: flex;
         justify-content: space-between;
-        width: 889px !important;
+        width: 850px !important;
         margin-top: 14px;
         height: 50px;
 
         .dunoBtnTop {
-          width: 185px;
+          width: 150px;
           display: inline-flex;
           padding-bottom: 0;
           height: 40px;
           .btnList {
             top: inherit !important;
-            width: 185px;
+            width: 150px;
             .title {
               padding: 8px 20px;
             }
@@ -503,9 +503,9 @@
           }
         }
         .selectDevice{
-            width: 680px !important;
+            width: 660px !important;
           .btnList{
-            width: 680px !important;
+            width: 660px !important;
           }
         }
       }

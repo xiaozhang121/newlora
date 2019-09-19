@@ -8,7 +8,7 @@
       <div @click="addTask()">+创建新的任务配置</div>
     </div>
     <duno-main class="dunoMain">
-      <Patrol  @to-run="toRunTask" :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit" />
+      <Patrol @to-run="toRunTask" :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit" />
       <Patrol
         @to-edit="toEdit"
         @to-run="toRunTask"
@@ -216,24 +216,28 @@ export default {
           align: "right",
           tooltip: true,
           render: (h, params) => {
-            let self = that
+            let self = that;
             let newArr = [];
-              newArr.push(
-                  h(
-                      "el-button",
-                      {
-                          class: "btn_pre",
-                          style: { background: "#305e83" },
-                          props: { type: "text", content: "立即执行", loading:params.row.loading},
-                          on: {
-                              click: () => {
-                                  self.toRunTask(params)
-                              }
-                          }
-                      },
-                      "立即执行"
-                  )
-              );
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即执行",
+                    loading: params.row.loading
+                  },
+                  on: {
+                    click: () => {
+                      self.toRunTask(params);
+                    }
+                  }
+                },
+                "立即执行"
+              )
+            );
             newArr.push(
               h(
                 "el-button",
@@ -362,14 +366,44 @@ export default {
             newArr.push(
               h(
                 "div",
-                {
-                  class: {
-                    table_select: true,
-                    interval: params.row.status == "0",
-                    patrol: params.row.status == "1"
-                  }
-                },
-                params.row.statusName
+                [
+                  h(
+                    "span",
+                    {
+                      // style: {
+                      //   display: "inline-block",
+                      //   width: "100%",
+                      //   overflow: "hidden",
+                      //   textOverflow: "ellipsis",
+                      //   whiteSpace: "nowrap"
+                      // },
+                      class: {
+                        table_select: true,
+                        interval: params.row.status == "0",
+                        patrol: params.row.status == "1"
+                      },
+                      domProps: {
+                        title: params.row.statusName
+                      }
+                    },
+                    params.row.statusName
+                  )
+                ]
+                // {
+                //   style: {
+                //     display: "inline-block",
+                //     width: "100%",
+                //     overflow: "hidden",
+                //     textOverflow: "ellipsis",
+                //     whiteSpace: "nowrap"
+                //   },
+                //   class: {
+                //     table_select: true,
+                //     interval: params.row.status == "0",
+                //     patrol: params.row.status == "1"
+                //   }
+                // },
+                // params.row.statusName
               )
             );
             return h("div", newArr);
@@ -382,23 +416,27 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-              let self = that
-              newArr.push(
-                  h(
-                      "el-button",
-                      {
-                          class: "btn_pre",
-                          style: { background: "#305e83" },
-                          props: { type: "text", content: "立即执行", loading: params.row.loading},
-                          on: {
-                              click: () => {
-                                  self.toRunTask(params)
-                              }
-                          }
-                      },
-                      "立即执行"
-                  )
-              );
+            let self = that;
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即执行",
+                    loading: params.row.loading
+                  },
+                  on: {
+                    click: () => {
+                      self.toRunTask(params);
+                    }
+                  }
+                },
+                "立即执行"
+              )
+            );
             newArr.push(
               h(
                 "el-button",
@@ -444,33 +482,33 @@ export default {
         }
       ],
       columnsDataD: [
-          {
-              title: "巡视名称",
-              key: "planName",
-              minWidth: 50,
-              align: "center",
-              tooltip: true
-          },
-          {
-              title: "巡视步骤",
-              key: "stepNum",
-              minWidth: 50,
-              align: "center",
-              tooltip: true
-          },
-          {
-              title: "监测设备",
-              key: "monitorDeviceName",
-              minWidth: 50,
-              align: "center",
-              tooltip: true
-          },
-          {
-              title: "巡视间隔",
-              key: "interval",
-              minWidth: 50,
-              align: "center",
-              tooltip: true /*,
+        {
+          title: "巡视名称",
+          key: "planName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "巡视步骤",
+          key: "stepNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "巡视间隔",
+          key: "interval",
+          minWidth: 50,
+          align: "center",
+          tooltip: true /*,
           render: (h, params) => {
               let newArr = [];
               newArr.push([
@@ -498,64 +536,64 @@ export default {
                   newArr
               );
           }*/
-          },
-          {
-              title: "已巡视次数",
-              key: "inspectNum",
-              minWidth: 50,
-              align: "center",
-              tooltip: true
-          },
-          {
-              title: "状态",
-              key: "statusName",
-              minWidth: 50,
-              align: "center",
-              tooltip: true,
-              render: (h, params) => {
-                  let newArr = [];
-                  newArr.push(
-                      h(
-                          "div",
-                          {
-                              class: {
-                                  table_select: true,
-                                  interval: params.row.status == "0",
-                                  patrol: params.row.status == "1"
-                              }
-                          },
-                          params.row.statusNameW
-                      )
-                  );
-                  return h("div", newArr);
-              }
-          },
-          {
-              title: " ",
-              minWidth: 150,
-              align: "right",
-              tooltip: true,
-              render: (h, params) => {
-                  let self = that
-                  let newArr = [];
-                  newArr.push(
-                      h(
-                          "el-button",
-                          {
-                              class: "btn_pre",
-                              style: { background: "#305e83" },
-                              props: { type: "text", content: "编辑" },
-                              on: {
-                                  click: () => {
-                                      that.rowData = JSON.parse(JSON.stringify(params.row));
-                                      that.taskVisible = true;
-                                  }
-                              }
-                          },
-                          "编辑"
-                      )
-                  );
-                  /*
+        },
+        {
+          title: "已巡视次数",
+          key: "inspectNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "状态",
+          key: "statusName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push(
+              h(
+                "div",
+                {
+                  class: {
+                    table_select: true,
+                    interval: params.row.status == "0",
+                    patrol: params.row.status == "1"
+                  }
+                },
+                params.row.statusNameW
+              )
+            );
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          minWidth: 200,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let self = that;
+            let newArr = [];
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: { type: "text", content: "编辑" },
+                  on: {
+                    click: () => {
+                      that.rowData = JSON.parse(JSON.stringify(params.row));
+                      that.taskVisible = true;
+                    }
+                  }
+                },
+                "编辑"
+              )
+            );
+            /*
                   newArr.push(
                     h(
                       "el-button",
@@ -589,7 +627,7 @@ export default {
                     )
                   );
                   */
-                  /*  newArr.push(
+            /*  newArr.push(
                     h(
                       "el-button",
                       {
@@ -606,130 +644,130 @@ export default {
                       "开始巡视"
                     )
                   );*/
-                  newArr.push([
-                      h(
-                          "el-button",
-                          {
-                              class: "btn_pre",
-                              style: { background: "#3a81a1" },
-                              props: { type: "text", content: "查看报告>" },
-                              on: {
-                                  click: () => {
-                                      this.$router.push({
-                                          name: "configure-report",
-                                          query: {
-                                              planId: params.row.planId,
-                                              planType: params.row.planType
-                                              //   url: ""
-                                          }
-                                      });
-                                  }
-                              }
-                          },
-                          "查看报告>"
-                      )
-                  ]);
-                  return h("div", newArr);
-              }
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看报告>" },
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: "configure-report",
+                        query: {
+                          planId: params.row.planId,
+                          planType: params.row.planType
+                          //   url: ""
+                        }
+                      });
+                    }
+                  }
+                },
+                "查看报告>"
+              )
+            ]);
+            return h("div", newArr);
           }
+        }
       ],
       columnsData1D: [
-          {
-              title: "巡视名称",
-              key: "planName",
-              minWidth: 50,
-              align: "center",
-              tooltip: true
-          },
-          {
-              title: "监测设备",
-              key: "monitorDeviceName",
-              minWidth: 50,
-              align: "center",
-              tooltip: true
-          },
-          {
-              title: "已巡视次数",
-              key: "inspectNum",
-              minWidth: 50,
-              align: "center",
-              tooltip: true
-          },
-          {
-              title: "状态",
-              key: "statusName",
-              minWidth: 50,
-              align: "center",
-              tooltip: true,
-              render: (h, params) => {
-                  let newArr = [];
-                  newArr.push(
-                      h(
-                          "div",
-                          {
-                              class: {
-                                  table_select: true,
-                                  interval: params.row.status == "0",
-                                  patrol: params.row.status == "1"
-                              }
-                          },
-                          params.row.statusName
-                      )
-                  );
-                  return h("div", newArr);
-              }
-          },
-          {
-              title: " ",
-              minWidth: 150,
-              align: "right",
-              tooltip: true,
-              render: (h, params) => {
-                  let newArr = [];
-                  let self = that
-                  newArr.push(
-                      h(
-                          "el-button",
-                          {
-                              class: "btn_pre",
-                              style: { background: "#305e83" },
-                              props: { type: "text", content: "编辑" },
-                              on: {
-                                  click: () => {
-                                      that.rowData = JSON.parse(JSON.stringify(params.row));
-                                      that.taskVisible = true;
-                                  }
-                              }
-                          },
-                          "编辑"
-                      )
-                  );
-                  newArr.push([
-                      h(
-                          "el-button",
-                          {
-                              class: "btn_pre",
-                              style: { background: "#3a81a1" },
-                              props: { type: "text", content: "查看报告>" },
-                              on: {
-                                  click: () => {
-                                      this.$router.push({
-                                          name: "configure-report",
-                                          query: {
-                                              planId: params.row.planId,
-                                              planType: params.row.planType
-                                              //   url: ""
-                                          }
-                                      });
-                                  }
-                              }
-                          },
-                          "查看报告>"
-                      )
-                  ]);
-                  return h("div", newArr);
-              }
+        {
+          title: "巡视名称",
+          key: "planName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "已巡视次数",
+          key: "inspectNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "状态",
+          key: "statusName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push(
+              h(
+                "div",
+                {
+                  class: {
+                    table_select: true,
+                    interval: params.row.status == "0",
+                    patrol: params.row.status == "1"
+                  }
+                },
+                params.row.statusName
+              )
+            );
+            return h("div", newArr);
           }
+        },
+        {
+          title: " ",
+          minWidth: 200,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            let self = that;
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: { type: "text", content: "编辑" },
+                  on: {
+                    click: () => {
+                      that.rowData = JSON.parse(JSON.stringify(params.row));
+                      that.taskVisible = true;
+                    }
+                  }
+                },
+                "编辑"
+              )
+            );
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看报告>" },
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: "configure-report",
+                        query: {
+                          planId: params.row.planId,
+                          planType: params.row.planType
+                          //   url: ""
+                        }
+                      });
+                    }
+                  }
+                },
+                "查看报告>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        }
       ]
     };
   },
@@ -741,13 +779,15 @@ export default {
     }
   },
   methods: {
-    toRunTask(param){
-      let planId = param.row.planId
-      this[param.row.type][param.index]['loading'] = true
-      getAxiosData('/lenovo-plan/api/plan/run', {planId: planId}).then(res=>{
-          this[param.row.type][param.index]['loading'] = false
-          this.$message.success(res.msg)
-      })
+    toRunTask(param) {
+      let planId = param.row.planId;
+      this[param.row.type][param.index]["loading"] = true;
+      getAxiosData("/lenovo-plan/api/plan/run", { planId: planId }).then(
+        res => {
+          this[param.row.type][param.index]["loading"] = false;
+          this.$message.success(res.msg);
+        }
+      );
     },
     getType(value) {
       debugger;
@@ -783,7 +823,7 @@ export default {
       this.taskVisible = false;
       this.taskVisible2 = false;
       this.taskVisible3 = false;
-      this.getDataList()
+      this.getDataList();
     },
     closeDia() {
       this.visible = false;
@@ -796,31 +836,31 @@ export default {
     getDataList() {
       const that = this;
       infrInformation().then(res => {
-        res.data.allInspectList.map(item=>{
-            item['type'] = 'allInspectList'
-            item['loading'] = false
-        })
+        res.data.allInspectList.map(item => {
+          item["type"] = "allInspectList";
+          item["loading"] = false;
+        });
         that.allInspectList = res.data.allInspectList;
-          res.data.nightInspectList.map(item=>{
-              item['type'] = 'nightInspectList'
-              item['loading'] = false
-          })
-          that.nightInspectList = res.data.nightInspectList;
-          res.data.specialInspectList.map(item=>{
-              item['type'] = 'specialInspectList'
-              item['loading'] = false
-          })
-          that.specialInspectList = res.data.specialInspectList;
-          res.data.environmentInspectList.map(item=>{
-              item['type'] = 'environmentInspectList'
-              item['loading'] = false
-          })
-          that.environmentInspectList = res.data.environmentInspectList;
-          res.data.handHeldInfraredPlanList.map(item=>{
-              item['type'] = 'handHeldInfraredPlanList'
-              item['loading'] = false
-          })
-          that.handHeldInfraredPlanList = res.data.handHeldInfraredPlanList;
+        res.data.nightInspectList.map(item => {
+          item["type"] = "nightInspectList";
+          item["loading"] = false;
+        });
+        that.nightInspectList = res.data.nightInspectList;
+        res.data.specialInspectList.map(item => {
+          item["type"] = "specialInspectList";
+          item["loading"] = false;
+        });
+        that.specialInspectList = res.data.specialInspectList;
+        res.data.environmentInspectList.map(item => {
+          item["type"] = "environmentInspectList";
+          item["loading"] = false;
+        });
+        that.environmentInspectList = res.data.environmentInspectList;
+        res.data.handHeldInfraredPlanList.map(item => {
+          item["type"] = "handHeldInfraredPlanList";
+          item["loading"] = false;
+        });
+        that.handHeldInfraredPlanList = res.data.handHeldInfraredPlanList;
         that.title = `特殊巡视（${that.specialInspectList.length}）`;
         that.title1 = `动态环境巡视（${that.environmentInspectList.length}）`;
         that.title2 = `手持红外巡视（${that.handHeldInfraredPlanList.length}）`;
@@ -873,12 +913,21 @@ export default {
     height: inherit;
   }
   .table_select {
+    text-align: center;
+    display: inline-block;
+    // width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     &.interval {
       color: #ff9000;
     }
     &.patrol {
       color: #53fec0;
     }
+  }
+  .patrol {
+    margin: 0;
   }
 }
 </style>

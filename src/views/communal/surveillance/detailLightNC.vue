@@ -1062,14 +1062,13 @@ export default {
     padding-bottom: 28.6%;
     width: 48% !important;
     position: relative;
-    background: linear-gradient(transparent 10%, #132838 0%) !important;
+    background: linear-gradient(transparent 15%, #132838 0%) !important;
     .main {
       position: absolute;
       width: 100%;
       overflow: hidden;
       height: 100%;
       .contain_nr {
-        // background: #132838;
         position: absolute;
         left: 0;
         top: 50px;

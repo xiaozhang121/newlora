@@ -126,7 +126,7 @@ export default {
     onSelect(item) {
       this.titleValue = item["describeName"];
       this.dataForm.planType = item["monitorType"];
-      this.getDataList();
+      this.init();
     },
     onChangeTime(data) {
       let startTime = "";
@@ -137,7 +137,7 @@ export default {
       }
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
-      this.getDataList();
+      this.init();
     },
     getPlayTypeData() {
       getPlayType().then(res => {

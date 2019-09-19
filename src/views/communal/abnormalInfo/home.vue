@@ -1058,7 +1058,7 @@ export default {
       }
     }
     .reportLoad {
-      height: 450px;
+      height: 270px;
     }
     .reportForm {
       position: relative;

@@ -279,7 +279,7 @@ export default {
       & > div:nth-child(2) {
         height: 36px;
         i {
-          width: 54px;
+          width: 56px;
         }
         p {
           width: 88%;

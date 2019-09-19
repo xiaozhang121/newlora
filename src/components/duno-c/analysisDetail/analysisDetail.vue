@@ -165,6 +165,13 @@ export default {
           }
         },
         {
+          title: "巡检结果",
+          key: "result",
+          minWidth: 120,
+          align: "center",
+          tooltip: true
+        },
+        {
           title: "缺陷等级",
           key: "alarmLevel",
           minWidth: 120,

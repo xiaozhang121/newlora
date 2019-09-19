@@ -936,9 +936,23 @@ export default {
             }
           }
           @media screen and (min-width: 3500px) {
-            width: 140px;
+            width: 170px;
             .btnList {
-              width: 140px;
+              width: 170px;
+              .title {
+                font-size: 14px;
+                height: 35px;
+              }
+            }
+          }
+        }
+      }
+      & > div:nth-child(2) {
+        .dunoBtnTop {
+          @media screen and (min-width: 3500px) {
+            width: 290px;
+            .btnList {
+              width: 290px;
               .title {
                 font-size: 14px;
                 height: 35px;

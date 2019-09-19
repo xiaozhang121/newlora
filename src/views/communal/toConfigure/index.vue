@@ -41,11 +41,7 @@
     </div>
     <duno-main class="dunoMain">
       <duno-tables-tep
-        class="table_abnormalInfo alarmLogIn"
-        :class="{'canelLoading': !loading}"
-        v-loading="loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
-        element-loading-text="加载中"
+        class="table_abnormalInfo"
         :columns="infoColumns"
         :data="dataList"
         :totalNum="totalNum"
@@ -93,7 +89,6 @@ export default {
       radio: "1",
       value: "",
       totalNum: 10,
-      loading: false,
       titleTypeL: "所有监测设备",
       titleTypeC: "所有电压等级",
       titleTypeR: "所有状态",
@@ -465,12 +460,6 @@ export default {
     this.handleVoltage();
     this.getSelectStatus();
   },
-  created() {
-    this.loading = true;
-    this.timer = setTimeout(() => {
-      this.loading = false;
-    }, 5000);
-  }
 };
 </script>
 
@@ -547,26 +536,6 @@ export default {
       width: 60px;
       height: 22px;
       border-radius: 20px;
-    }
-  }
-  .alarmLogIn {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 491px;
-    background-color: #142838;
-    opacity: 0.8;
-    padding: 21px 27px;
-    overflow: hidden;
-    .alarmLog {
-      width: 100%;
-      margin-left: 0;
-      height: inherit;
-    }
-    &.canelLoading {
-      opacity: 1 !important;
-    }
-    & > div:nth-child(even) {
-      margin-left: 0 !important;
     }
   }
   .top {

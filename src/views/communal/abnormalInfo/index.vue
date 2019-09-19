@@ -366,13 +366,13 @@ export default {
             return h("div", newArr);
           }
         },
-        {
-          title: "处理记录",
-          key: "dealRecord",
-          width: 120,
-          align: "center",
-          tooltip: true
-        },
+        // {
+        //   title: "处理记录",
+        //   key: "dealRecord",
+        //   width: 120,
+        //   align: "center",
+        //   tooltip: true
+        // },
         {
           title: " ",
           key: "id",

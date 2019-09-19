@@ -902,7 +902,7 @@ export default {
       border: none;
       margin-left: 5px;
       border-radius: 0 !important;
-      width: 180px;
+      width: 240px;
       color: white;
       font-size: 16px;
     }
@@ -921,11 +921,11 @@ export default {
   }
   .selectSea {
     .el-input--small .el-input__inner {
-      width: 240px;
+      width: 270px;
     }
   }
   .el-select .el-tag {
-    margin: 30px 0 2px 6px;
+    margin: 8px 0 2px 6px;
   }
   //--
   .dunoDrap {
@@ -940,7 +940,7 @@ export default {
     .selectBtn {
       display: flex;
       justify-content: space-between;
-      width: 635px;
+      width: 725px;
       margin-top: 14px;
       height: 50px;
       .dunoBtnTop {
@@ -1213,7 +1213,7 @@ export default {
   //------------------
 }
 .el-select .el-tag:first-child {
-  margin-top: 33px;
+  margin-top: 8px;
 }
 .el-select-dropdown {
   background: linear-gradient(
@@ -1260,7 +1260,7 @@ export default {
   background: rgba(81, 89, 112, 0.7);
 }
 
-.el-select .el-tag:first-child {
-  margin-left: 9px;
-}
+// .el-select .el-tag:first-child {
+//   margin-left: 9px;
+// }
 </style>
