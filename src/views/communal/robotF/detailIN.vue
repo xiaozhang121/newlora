@@ -347,7 +347,7 @@ export default {
       this.$forceUpdate();
       postAxiosData("/lenovo-robot-indoor/rest/taskControl", {
         taskID: params.row.taskId,
-        substationID: substationId,
+        substationID: 6,
         robotID: robotId,
         state: state
       }).then(res => {

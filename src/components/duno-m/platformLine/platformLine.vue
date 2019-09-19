@@ -84,7 +84,6 @@
                       let type = now['monitorDeviceType']
                       this.installTime = now['deviceMessage']['createTime']?now['deviceMessage']['createTime']:'/'
                       this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
-                      this.title = now['monitorDeviceName']
                       this.deviceType = '正常'
                       if(type == 1){
                           if (now.deviceMessage.supportPreset) {
@@ -92,12 +91,14 @@
                           }else{
                               this.picSrc = this.lightNoCamera
                           }
+                          this.title = now['monitorDeviceName']
                       }else if(type == 2){
                           if(now.deviceMessage.supportPreset){
                               this.picSrc = this.redLightCamera
                           }else{
                               this.picSrc = this.redLight
                           }
+                          this.title = now['deviceMessage']['name']
                       }
                   },
                   deep: true
