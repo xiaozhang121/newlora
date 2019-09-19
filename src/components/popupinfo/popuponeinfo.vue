@@ -106,13 +106,7 @@
               :options="{
               width:160,
               height: 120,
-              sources: [{
-                type: 'rtmp/flv',
-                type: 'video/ogg',
-                type: 'video/webm',
-                type: 'video/mp4',
-                src: itemData['alarmFileAddress']
-              }],
+              sources: sources,
               techOrder: ['flash'],
               autoplay: true,
               controls: false
@@ -164,6 +158,10 @@ export default {
       selectList: ["一般", "严重", "危急"],
       itemData: {},
       alarmId: "",
+      sources: [{
+          src: '123',
+          type: 'video/mp4'
+      }],
       inputValue: "",
       dialogVisible: false
     };
@@ -192,6 +190,14 @@ export default {
     itemDataOption: {
       handler(now) {
         this.itemData = now;
+        if(itemData['alarmFileAddress']){
+            if (itemData['alarmFileAddress'].indexOf("mp4") > -1) {
+                this.sources[0]["type"] = "video/mp4";
+            } else {
+                this.sources[0]["type"] = "application/x-mpegURL";
+            }
+            this.sources[0]["src"] = itemData['alarmFileAddress'];
+        }
         this.$forceUpdate();
         /*  if(now){
                 this.getData()
