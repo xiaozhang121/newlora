@@ -4,7 +4,7 @@
       <steps :step="stepValue" />
     </div>
     <el-form :model="form" label-width="80px" >
-      <div>选择手持红外设备</div>
+      <div style="font-weight:700;font-size:18px">选择手持红外设备</div>
       <chosen-list :key="index" :controlOption="true" :dataListOption="dataList" />
     </el-form>
   </div>

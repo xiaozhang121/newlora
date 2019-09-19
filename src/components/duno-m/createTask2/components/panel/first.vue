@@ -17,7 +17,7 @@
       <div class="steps">
         <steps :step="stepValue" />
       </div>
-      <div>选择电力设备</div>
+      <div style="font-weight:700;font-size:18px">选择电力设备</div>
       <chosen-list :dataListOption="dataList" />
     </el-form>
   </div>

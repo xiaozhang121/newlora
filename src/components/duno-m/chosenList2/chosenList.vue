@@ -1,7 +1,7 @@
 <template>
   <div class="chosenList">
     <div class="title">
-      <span>{{ title }}</span>
+      <span style="font-weight:700;font-size:18px">{{ title }}</span>
       <span class="last" v-if="control" @click="toHide()">
         收起
         <i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i>
@@ -43,7 +43,7 @@ import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
   data() {
     return {
-      title: "选择电力设备",
+      title: "选择动态环境摄像头",
       control: false,
       dataList: [],
       collapse: true,
