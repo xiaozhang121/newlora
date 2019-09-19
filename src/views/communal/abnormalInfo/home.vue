@@ -659,7 +659,7 @@ export default {
         // route = "intellLock";
         return;
       } else {
-        route = "state";
+        route = "platformMonitor";
       }
       this.$router.push({
         path: route
