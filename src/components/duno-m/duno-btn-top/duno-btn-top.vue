@@ -100,7 +100,8 @@ export default {
         isDiagram: 2,
         isClick: false,
         dataBackup: [],
-        titleMain: ''
+        titleMain: '',
+        isNow: false
     }
   },
   watch: {
@@ -226,7 +227,11 @@ export default {
           if(now){
               $(this.$refs.showListRef).slideDown('normal')
           }else{
-              $(this.$refs.showListRef).slideUp('normal')
+              if(this.isCheck && !this.titleMain){
+                  $(this.$refs.showListRef).slideUp('normal')
+              }else if(!this.isCheck){
+                  $(this.$refs.showListRef).slideUp('normal')
+              }
           }
       }
   },
@@ -336,6 +341,7 @@ export default {
             }else{
                 this.$emit('on-active',this.dataList)
             }
+            this.isNow = true
             this.isClick = true
             setTimeout(()=>{
                 this.isClick = false
