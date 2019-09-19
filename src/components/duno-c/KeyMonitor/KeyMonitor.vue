@@ -560,7 +560,7 @@ export default {
               typeId: res.data["typeId"]
             }
           });
-        } else if (monitorDeviceType == 3) {
+        } else if (monitorDeviceType == 3 ||monitorDeviceType==6) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
             query: {
