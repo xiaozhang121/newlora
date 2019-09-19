@@ -119,7 +119,6 @@ export default {
         ).then(res => {
           debugger
           console.log(res)
-          console.log(11111111111111111111)
           var dataList = [];
           for (var i = 0; i <= res.data.length - 1; i++) {
             if (dataList.length != 0) {
@@ -158,6 +157,8 @@ export default {
             for (var i = 0; i <= allArr.length - 1; i++) {
               if (val.areaId == allArr[i].areaId) {
                 // dataList[i].id=val.parentDeviceId
+                debugger
+          
                 allArr[i].children.push({
                   title: val.deviceName,
                   deviceId: val.deviceId,
