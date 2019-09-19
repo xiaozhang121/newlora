@@ -86,8 +86,11 @@ export default {
     var that = this;
     getAxiosData("/lenovo-iir/manager/device-handle/all/list").then(res => {
       var dataList = [];
+      debugger
+      console.log(res)
+      console.log('ttttttttttttttttt')
       for (var i = 0; i <= res.data.data.length - 1; i++) {
-        dataList.push({ title: res.data.data[i].deviceName, id: res.data.data[i].id, children: [] });
+        dataList.push({ title: res.data.data[i].deviceName, id: res.data.data[i].deviceNum, children: [] });
       }
     
       that.dataList = dataList;

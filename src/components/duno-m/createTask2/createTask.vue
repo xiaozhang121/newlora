@@ -164,6 +164,7 @@ export default {
       }
 
       var handheldInfraredDevices = [];
+      debugger
       this.$refs["panel[1]"].dataList.map(res => {
         handheldInfraredDevices.push(res.id);
       });
