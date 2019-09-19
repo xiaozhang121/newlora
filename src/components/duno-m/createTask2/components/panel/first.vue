@@ -117,6 +117,9 @@ export default {
           "/lenovo-plan/api/handheldinfrared/list/device",
           query
         ).then(res => {
+          debugger
+          console.log(res)
+          console.log(11111111111111111111)
           var dataList = [];
           for (var i = 0; i <= res.data.length - 1; i++) {
             if (dataList.length != 0) {
