@@ -4,7 +4,7 @@
       <steps :step="stepValue" />
     </div>
     <el-form :model="form" label-width="80px">
-      <div>确认执行巡检的设备</div>
+      <div style="font-weight:700;font-size:18px">选择预置位和时间</div>
       <chosen-list
         v-for="(item, index) in dataList2"
         :key="index"
