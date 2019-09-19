@@ -8,7 +8,7 @@
           <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
           <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
           <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-          <input class="selfInput" :class="{iconLayout:isLayout}" @blur="hiddenDrapdown()" readonly :value="title" />
+          <input class="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown()" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
           <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
@@ -85,6 +85,7 @@ export default {
   name: 'dunoBtnTop',
   data (){
     return {
+        dataInput: '',
         disabled: false,
         isFullscreen: false,
         showListFlag: false,
@@ -98,6 +99,8 @@ export default {
         ],
         isDiagram: 2,
         isClick: false,
+        dataBackup: [],
+        titleMain: ''
     }
   },
   watch: {
@@ -198,6 +201,23 @@ export default {
     }
   },
   watch: {
+      dataList:{
+         handler(now){
+             if(this.isCheck && !this.showAll){
+               if(now.length && !this.dataBackup.length){
+                   this.dataBackup = now
+               }
+             }
+         },
+          deep: true
+      },
+      title(now){
+          if(this.isCheck){
+              this.titleMain = ''
+          }else{
+              this.titleMain = now
+          }
+      },
       isDiagram(now){
           this.$emit('on-diagram', now)
       },
@@ -213,13 +233,41 @@ export default {
   computed: {
       dataListName(){
           let data = []
-          this.dataList.forEach(item=>{
-              data.push(item['describeName'])
-          })
+          if(this.isCheck && !this.showAll){
+              this.dataBackup.forEach(item=>{
+                  data.push(item['describeName'])
+              })
+          }else{
+              this.dataList.forEach(item=>{
+                  data.push(item['describeName'])
+              })
+          }
+
           return data
       }
   },
   methods:{
+      onKeyup(event){
+          let value = this.titleMain
+          if(value != ''){
+              let data = this.dataBackup
+              let arr = []
+              data.forEach((item,index)=>{
+                  if(item['describeName'].indexOf(value)>-1){
+                      arr.push(item)
+                  }
+              })
+              this.dataList = arr
+          }else{
+              this.dataList = this.dataBackup
+          }
+      },
+      onFocus(){
+          const that = this
+         /* if(that.isCheck) {
+              $(that.$refs.showListRef).slideDown('normal')
+          }*/
+      },
       hiddenDrapdown(){
           const that = this
           if(that.isCheck){
@@ -267,16 +315,27 @@ export default {
           this.checkedCities = val ? this.dataListName : [];
           console.log(this.checkedCities.join(','))
           this.isIndeterminate = false;
-          this.$emit('on-active',this.dataList)
+          if(this.isCheck && !this.showAll){
+              this.$emit('on-active',this.dataBackup)
+          }else{
+              this.$emit('on-active',this.dataList)
+          }
+
       },
       handleActive(index,flag){
         if(flag){
             return
         }
+        debugger
         if(!this.isClick){
             this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
+            // this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']
             this.$forceUpdate();
-            this.$emit('on-active',this.dataList)
+            if(this.isCheck && !this.showAll){
+                this.$emit('on-active',this.dataBackup)
+            }else{
+                this.$emit('on-active',this.dataList)
+            }
             this.isClick = true
             setTimeout(()=>{
                 this.isClick = false
@@ -284,15 +343,29 @@ export default {
         }
       },
       chosenActive(){
-          this.dataList.map((item)=>{
-              item['isActive'] = true
-          })
+          if(this.isCheck && !this.showAll){
+              this.dataBackup.map((item)=>{
+                  item['isActive'] = true
+              })
+          }else {
+              this.dataList.map((item)=>{
+                  item['isActive'] = true
+              })
+          }
+
           this.$forceUpdate();
       },
       resetActive(){
-        this.dataList.map((item)=>{
-            item['isActive'] = false
-        })
+          if(this.isCheck && !this.showAll){
+              this.dataBackup.map((item)=>{
+                  item['isActive'] = false
+              })
+          }else{
+              this.dataList.map((item)=>{
+                  item['isActive'] = false
+              })
+          }
+
         this.$forceUpdate();
       }
   },
@@ -319,6 +392,17 @@ export default {
   display: flex;
   justify-content: space-between;
   padding-bottom: 13px;
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    color: white;
+  }
+
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: white;
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: white;
+  }
   .icon_img{
     width: 20px;
     height: 20px;

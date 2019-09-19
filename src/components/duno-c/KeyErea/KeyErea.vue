@@ -16,6 +16,7 @@
         </div>
         <div>
           <duno-btn-top
+                  class="selectDevice"
                   ref="btnTopRef"
                   :showBtnList="false"
                   :dataList="optionsList"
@@ -478,9 +479,10 @@
       .selectBtn {
         display: flex;
         justify-content: space-between;
-        width: 380px;
+        width: 889px !important;
         margin-top: 14px;
         height: 50px;
+
         .dunoBtnTop {
           width: 185px;
           display: inline-flex;
@@ -498,6 +500,12 @@
             .el-checkbox__label{
               margin-left: 0;
             }
+          }
+        }
+        .selectDevice{
+            width: 680px !important;
+          .btnList{
+            width: 680px !important;
           }
         }
       }

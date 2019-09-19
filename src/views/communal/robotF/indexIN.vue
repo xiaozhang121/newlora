@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="title">
-      <span>{{ robotName }}</span>
+      <span>轨道机器人</span>
       <button-custom
               class="moreTask"
               title="更多任务>"

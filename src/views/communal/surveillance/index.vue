@@ -801,6 +801,7 @@ export default {
       margin-right: 10px;
     }
     .btnSelect {
+      width: 551px;
       & > div:nth-child(2) {
         margin-left: 20px;
         // .dunoBtnTop {
@@ -809,7 +810,7 @@ export default {
         padding-bottom: 0;
         .btnList {
           top: inherit !important;
-          width: 225px;
+          width: 370px;
           .title {
             font-size: 15px;
           }

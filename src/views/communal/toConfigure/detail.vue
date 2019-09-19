@@ -8,9 +8,10 @@
       <div @click="addTask()">+创建新的任务配置</div>
     </div>
     <duno-main class="dunoMain">
-      <Patrol :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit" />
+      <Patrol  @to-run="toRunTask" :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit" />
       <Patrol
         @to-edit="toEdit"
+        @to-run="toRunTask"
         :dataList="nightInspectList"
         planType="熄灯巡视"
         :titleCon="titleNight"
@@ -65,6 +66,7 @@
 </template>
 
 <script>
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import createTask from "_c/duno-m/createTask";
@@ -202,7 +204,7 @@ export default {
                     patrol: params.row.status == "1"
                   }
                 },
-                params.row.statusName
+                params.row.statusNameW
               )
             );
             return h("div", newArr);
@@ -214,7 +216,24 @@ export default {
           align: "right",
           tooltip: true,
           render: (h, params) => {
+            let self = that
             let newArr = [];
+              newArr.push(
+                  h(
+                      "el-button",
+                      {
+                          class: "btn_pre",
+                          style: { background: "#305e83" },
+                          props: { type: "text", content: "立即执行", loading:params.row.loading},
+                          on: {
+                              click: () => {
+                                  self.toRunTask(params)
+                              }
+                          }
+                      },
+                      "立即执行"
+                  )
+              );
             newArr.push(
               h(
                 "el-button",
@@ -363,6 +382,23 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
+              let self = that
+              newArr.push(
+                  h(
+                      "el-button",
+                      {
+                          class: "btn_pre",
+                          style: { background: "#305e83" },
+                          props: { type: "text", content: "立即执行", loading: params.row.loading},
+                          on: {
+                              click: () => {
+                                  self.toRunTask(params)
+                              }
+                          }
+                      },
+                      "立即执行"
+                  )
+              );
             newArr.push(
               h(
                 "el-button",
@@ -417,6 +453,14 @@ export default {
     }
   },
   methods: {
+    toRunTask(param){
+      let planId = param.row.planId
+      this[param.row.type][param.index]['loading'] = true
+      getAxiosData('/lenovo-plan/api/plan/run', {planId: planId}).then(res=>{
+          this[param.row.type][param.index]['loading'] = false
+          this.$message.success(res.msg)
+      })
+    },
     getType(value) {
       debugger;
       console.log(value);
@@ -464,11 +508,31 @@ export default {
     getDataList() {
       const that = this;
       infrInformation().then(res => {
+        res.data.allInspectList.map(item=>{
+            item['type'] = 'allInspectList'
+            item['loading'] = false
+        })
         that.allInspectList = res.data.allInspectList;
-        that.nightInspectList = res.data.nightInspectList;
-        that.specialInspectList = res.data.specialInspectList;
-        that.environmentInspectList = res.data.environmentInspectList;
-        that.handHeldInfraredPlanList = res.data.handHeldInfraredPlanList;
+          res.data.nightInspectList.map(item=>{
+              item['type'] = 'nightInspectList'
+              item['loading'] = false
+          })
+          that.nightInspectList = res.data.nightInspectList;
+          res.data.specialInspectList.map(item=>{
+              item['type'] = 'specialInspectList'
+              item['loading'] = false
+          })
+          that.specialInspectList = res.data.specialInspectList;
+          res.data.environmentInspectList.map(item=>{
+              item['type'] = 'environmentInspectList'
+              item['loading'] = false
+          })
+          that.environmentInspectList = res.data.environmentInspectList;
+          res.data.handHeldInfraredPlanList.map(item=>{
+              item['type'] = 'handHeldInfraredPlanList'
+              item['loading'] = false
+          })
+          that.handHeldInfraredPlanList = res.data.handHeldInfraredPlanList;
         that.title = `特殊巡视（${that.specialInspectList.length}）`;
         that.title1 = `动态环境巡视（${that.environmentInspectList.length}）`;
         that.title2 = `手持红外巡视（${that.handHeldInfraredPlanList.length}）`;

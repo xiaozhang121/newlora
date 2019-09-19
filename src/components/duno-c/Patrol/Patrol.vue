@@ -23,6 +23,7 @@
 
 <script>
 import { DunoTablesTep } from "_c/duno-tables-tep";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
   name: "Patrol",
   components: {
@@ -164,7 +165,24 @@ export default {
           align: "right",
           tooltip: true,
           render: (h, params) => {
+            let self = that
             let newArr = [];
+              newArr.push(
+                  h(
+                      "el-button",
+                      {
+                          class: "btn_pre",
+                          style: { background: "#305e83" },
+                          props: { type: "text", content: "立即执行", loading:params.row.loading},
+                          on: {
+                              click: () => {
+                                  self.toRunTask(params)
+                              }
+                          }
+                      },
+                      "立即执行"
+                  )
+              );
             newArr.push(
                 h(
                     "el-button",
@@ -216,6 +234,10 @@ export default {
     }
   },
   methods: {
+    toRunTask(param){
+       debugger
+       this.$emit("to-run", param)
+    },
     createTask() {
       this.$emit("add-task");
     },
