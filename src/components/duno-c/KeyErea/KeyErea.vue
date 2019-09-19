@@ -223,6 +223,7 @@
                 }else{
                     this.$refs.btnTopRef.disabled = false
                 }
+                this.$refs.btnTopRef.onKeyup()
             },
             deviceShowHandle(arr){
                 if(this.selectCount){
@@ -236,6 +237,7 @@
                 target.forEach(item=>{
                     data.push(item['monitorDeviceId'])
                 })
+                this.$refs.btnTopRef.onKeyup()
                 securityMonitor({
                     monitorDeviceId: data.join(","),
                     configType: that.configType,
@@ -246,6 +248,7 @@
                     that.$forceUpdate();
                     if(that.selectCount)
                         that.saveCamera();
+                    this.$refs.btnTopRef.onKeyup()
                     // that.videoWidth = "calc(50%)";
                     // that.active = 1;
                     // that.isCenter = true;
@@ -364,7 +367,9 @@
                 query["userId"] = this.$store.state.user.userId;
                 query["configType"] = that.configType;
                 postAxiosData("/lenovo-device/api/camera/config/update", query).then(
-                    res => {}
+                    res => {
+                        this.$refs.btnTopRef.onKeyup()
+                    }
                 );
             },
             selectData(value) {
@@ -420,6 +425,7 @@
                         this.active = 4;
                         this.isCenter = false;
                 }
+                this.$refs.btnTopRef.onKeyup()
                 this.saveCamera();
                 this.onDisabled(this.$refs.btnTopRef.checkedCities)
             },
