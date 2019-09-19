@@ -37,7 +37,7 @@
         <div v-show="showBtm" class="explain iconList">
           <template v-if="!onlyCanel">
             <div
-              style="visibility: hidden"
+              :style="isShowNone"
               class="block"
               :class="{'hidden': isPic}"
               v-if="!isCamera"
@@ -318,6 +318,13 @@ export default {
         }
       },
       immediate: true
+    },
+    width(now) {
+      if (now == "calc(25% - 15px)") {
+        this.isShowNone = {
+          display: "none"
+        };
+      }
     }
   },
   data() {
@@ -346,6 +353,9 @@ export default {
       showBtm: false,
       shotData: [],
       //   isChange: true,
+      isShowNone: {
+        visibility: "hidden"
+      },
       isSecond: false,
       playerOptions: {
         sources: [
@@ -560,7 +570,7 @@ export default {
               typeId: res.data["typeId"]
             }
           });
-        } else if (monitorDeviceType == 3 ||monitorDeviceType==6) {
+        } else if (monitorDeviceType == 3 || monitorDeviceType == 6) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
             query: {

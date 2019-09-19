@@ -188,6 +188,8 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
+            isRobot: this.reportData.isRobot,
+            batchId: this.reportData.batchId,
             url: "/lenovo-plan/api/information/overview/plan/report/detail"
           }
         });
