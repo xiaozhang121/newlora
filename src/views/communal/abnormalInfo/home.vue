@@ -47,18 +47,20 @@
               <img src="../../../assets/iconFunction/icon_statement.png" alt />
               报表
             </div>
-            <div
-              class="re-middle"
-              v-loading="loadingOption"
-              element-loading-background="rgba(0, 0, 0, 0.8)"
-              element-loading-text="加载中"
-            >
-              <ReportTable
-                v-for="(item,index) in mockData"
-                :key="index"
-                :url="url"
-                :reportData="item"
-              />
+            <div class="reportLoad">
+              <div
+                class="re-middle"
+                v-loading="loadingOption"
+                element-loading-background="rgba(0, 0, 0, 0.8)"
+                element-loading-text="加载中"
+              >
+                <ReportTable
+                  v-for="(item,index) in mockData"
+                  :key="index"
+                  :url="url"
+                  :reportData="item"
+                />
+              </div>
             </div>
             <div class="re-table">
               <duno-tables-tep
@@ -1054,6 +1056,9 @@ export default {
           }
         }
       }
+    }
+    .reportLoad {
+      height: 450px;
     }
     .reportForm {
       position: relative;

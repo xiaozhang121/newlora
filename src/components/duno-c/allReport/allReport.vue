@@ -551,7 +551,7 @@ export default {
       that.queryForm = {
         planId: that.$route.query.planId,
         monitorDeviceType: that.monitorDeviceType,
-        ...dataForm
+        ...that.dataForm
       };
       that.exportHandle();
     },

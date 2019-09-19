@@ -40,13 +40,6 @@
       </div>
     </div>
     <duno-main class="dunoMain">
-      <!-- <div
-        class="alarmLogIn"
-        :class="{'canelLoading': !loading}"
-        v-loading="loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
-        element-loading-text="加载中"
-      >-->
       <duno-tables-tep
         class="table_abnormalInfo alarmLogIn"
         :class="{'canelLoading': !loading}"
@@ -64,7 +57,6 @@
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
       />
-      <!-- </div> -->
     </duno-main>
   </div>
 </template>
