@@ -29,6 +29,7 @@
             <!--:streamAddr="cameraPath['rtspINF']"-->
             <div class="middle">
               <rou-tine-inspection
+                      class="rouTine"
                       @on-fresh="onFresh"
                       :hidden="true"
                       type="indoor"
@@ -276,6 +277,21 @@
     color: white;
     width: 100%;
     height: 100%;
+    .buttonCustom{
+      display: none;
+    }
+    .rouTineInspection_last{
+      align-items: normal;
+      justify-content: normal;
+      .item{
+        .name{
+          flex-basis: 87px;
+        }
+        .nr{
+          flex: 1;
+        }
+      }
+    }
     .noLoading{
       /*.vjs-fluid {
         padding-top: 56%;
@@ -333,11 +349,15 @@
         /*margin-top: 1%;*/
         background: #142838;
         height: 100%;
+        .nr{
+          padding-bottom: 0 !important;
+        }
         .rouTineInspection{
           height: 100%;
           padding-top: 6px;
         }
         .reportData {
+          margin-top: 5px;
           position: relative;
           margin-right: 50px;
           margin-left: 44px;
