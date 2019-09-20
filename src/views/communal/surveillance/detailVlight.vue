@@ -122,7 +122,7 @@
         <div class="top not-print">
           <div>历史数据</div>
           <div class="btn">
-           <!-- <div>
+            <!-- <div>
               <duno-btn-top
                       @on-select="onSelect"
                       :zIndex="1"
@@ -147,7 +147,13 @@
           </div>
         </div>
         <div class="con-chart">
-          <echarts :echartsKind="echartsKind" :dataAllList="echartData" :title="echartTitle" :unit="unit" gridOptionTop="120" />
+          <echarts
+            :echartsKind="echartsKind"
+            :dataAllList="echartData"
+            :title="echartTitle"
+            :unit="unit"
+            gridOptionTop="120"
+          />
         </div>
       </div>
     </div>
@@ -197,9 +203,9 @@ export default {
   data() {
     const that = this;
     return {
-      allDataK:[],
+      allDataK: [],
       addOrEdit: "添加",
-      titleTypeK: '全部识别类型',
+      titleTypeK: "全部识别类型",
       disabled: false,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
@@ -232,7 +238,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.executeTime.slice(5);
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
@@ -455,7 +476,7 @@ export default {
         streamAddr: "",
         autoplay: true
       },
-      unit: '',
+      unit: "",
       echartsKind: 0,
       presetName: "",
       allDataKind: [],
@@ -558,9 +579,9 @@ export default {
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
         this.getDataList();
-      }else if(item.title == "titleTypeK"){
-          this.echartForm.getEchasrts = item.monitorDeviceType;
-          this.getEchasrts();
+      } else if (item.title == "titleTypeK") {
+        this.echartForm.getEchasrts = item.monitorDeviceType;
+        this.getEchasrts();
       }
     },
     onChangeHis(data) {
@@ -581,7 +602,7 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD");
         endTime = moment(data[1]).format("YYYY-MM-DD");
       }
-     /* this.echartTitle =
+      /* this.echartTitle =
         moment(data[0]).format("YYYY/MM/DD") +
         "-" +
         moment(data[1]).format("YYYY/MM/DD");*/
@@ -608,23 +629,25 @@ export default {
         this.allDataKind = map;
       });
 
-        getAxiosData('/lenovo-device/api/recognize-type/select-list',{monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
-            const resData = res.data;
-            const map = resData.map(item => {
-                const obj = {
-                    describeName: item.label,
-                    monitorDeviceType: item.value,
-                    title: "titleTypeK"
-                };
-                return obj;
-            });
-            map.unshift({
-                describeName: "全部识别类型",
-                monitorDeviceType: "",
-                title: "titleTypeK"
-            });
-            this.allDataK = map;
-        })
+      getAxiosData("/lenovo-device/api/recognize-type/select-list", {
+        monitorDeviceId: this.dataForm.monitorDeviceId
+      }).then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleTypeK"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "全部识别类型",
+          monitorDeviceType: "",
+          title: "titleTypeK"
+        });
+        this.allDataK = map;
+      });
     },
     getSelcetGrade() {
       getVGrade().then(res => {
@@ -675,9 +698,9 @@ export default {
       };
       getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
         this.echartData = res.data.dataList;
-        this.echartsKind = res.data.flag
-        this.echartTitle = res.data.title
-        this.unit = res.data.unit
+        this.echartsKind = res.data.flag;
+        this.echartTitle = res.data.title;
+        this.unit = res.data.unit;
       });
     },
     handleClose() {
@@ -693,7 +716,7 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
-     /* this.echartTitle = moment()
+      /* this.echartTitle = moment()
         .add(-1, "days")
         .format("YYYY/MM/DD");*/
     },

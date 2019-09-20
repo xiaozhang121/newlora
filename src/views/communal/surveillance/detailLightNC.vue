@@ -57,7 +57,13 @@
               </div>
             </div>
             <div class="contain_nr">
-              <echarts :echartsKind="echartsKind" :dataAllList="echartData" :title="echartTitle" :unit="unit" gridOptionTop="120" />
+              <echarts
+                :echartsKind="echartsKind"
+                :dataAllList="echartData"
+                :title="echartTitle"
+                :unit="unit"
+                gridOptionTop="120"
+              />
             </div>
           </div>
         </div>
@@ -183,7 +189,7 @@ export default {
   data() {
     const that = this;
     return {
-      unit: '',
+      unit: "",
       echartsKind: 0,
       addOrEdit: "添加",
       disabled: false,
@@ -206,7 +212,7 @@ export default {
       },
       //   titleType: "选择对比设备",
       titleTypeL: "全部数据类型",
-      titleTypeK: '全部识别类型',
+      titleTypeK: "全部识别类型",
       titleTypeR: "全部异常类型",
       dataForm: {},
       queryForm: {},
@@ -229,7 +235,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.executeTime.slice(5);
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
@@ -444,7 +465,7 @@ export default {
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
-      allDataK:[],
+      allDataK: [],
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }]
     };
@@ -543,7 +564,7 @@ export default {
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
         this.getDataList();
-      }else if(item.title == "titleTypeK"){
+      } else if (item.title == "titleTypeK") {
         this.echartForm.getEchasrts = item.monitorDeviceType;
         this.getEchasrts();
       }
@@ -566,7 +587,7 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD HH:mm:ss");
         endTime = moment(data[1]).format("YYYY-MM-DD HH:mm:ss");
       }
-     /* this.echartTitle =
+      /* this.echartTitle =
         moment(data[0]).format("YYYY/MM/DD") +
         "-" +
         moment(data[1]).format("YYYY/MM/DD");*/
@@ -576,10 +597,10 @@ export default {
     },
     clickExcel() {
       const that = this;
-      that.queryForm={
-        monitorDeviceId : that.$route.query.monitorDeviceId,
+      that.queryForm = {
+        monitorDeviceId: that.$route.query.monitorDeviceId,
         ...that.echartForm
-      }
+      };
       that.exportHandle();
     },
     getSelectType() {
@@ -600,23 +621,25 @@ export default {
         });
         this.allDataKind = map;
       });
-      getAxiosData('/lenovo-device/api/recognize-type/select-list',{monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
-          const resData = res.data;
-          const map = resData.map(item => {
-              const obj = {
-                  describeName: item.label,
-                  monitorDeviceType: item.value,
-                  title: "titleTypeK"
-              };
-              return obj;
-          });
-          map.unshift({
-              describeName: "全部识别类型",
-              monitorDeviceType: "",
-              title: "titleTypeK"
-          });
-          this.allDataK = map;
-      })
+      getAxiosData("/lenovo-device/api/recognize-type/select-list", {
+        monitorDeviceId: this.dataForm.monitorDeviceId
+      }).then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            title: "titleTypeK"
+          };
+          return obj;
+        });
+        map.unshift({
+          describeName: "全部识别类型",
+          monitorDeviceType: "",
+          title: "titleTypeK"
+        });
+        this.allDataK = map;
+      });
     },
     getSelcetGrade() {
       getRedGrade().then(res => {
@@ -656,7 +679,7 @@ export default {
     //   });
     // },
     getEchasrts() {
-      const that = this
+      const that = this;
       let query = {
         recognizeType: this.echartForm.getEchasrts,
         startTime: this.echartForm.startTime,
@@ -666,10 +689,10 @@ export default {
         monitorDeviceId: this.$route.query.monitorDeviceId
       };
       getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-          that.echartData = res.data.dataList;
-          that.echartsKind = res.data.flag;
-          that.echartTitle = res.data.title;
-          that.unit = res.data.unit
+        that.echartData = res.data.dataList;
+        that.echartsKind = res.data.flag;
+        that.echartTitle = res.data.title;
+        that.unit = res.data.unit;
       });
     },
     handleClose() {

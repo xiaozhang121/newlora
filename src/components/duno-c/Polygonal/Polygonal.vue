@@ -154,6 +154,7 @@ export default {
       yAxisOption: {
         type: "value",
         name: that.yName,
+        minInterval: 1,
         // max: that.yMax,
         // min: that.yMin,
         splitNumber: that.ySplitNumber,
