@@ -706,7 +706,7 @@
             viewCamera(command, flag){
                 this.activeNum = command
                 let cmd = Number(command)
-                let value = 50
+                let value = 150
                 if(flag) {
                     cmd = 0
                     value = 0

@@ -100,18 +100,34 @@
               :src="itemData.alarmFileAddress"
               style="width: 100% !important;"
             />
-            <video-player
-              v-else-if="itemData['alarmFileType'] == 2"
-              class="vjs-custom-skin realtime_video"
-              :options="{
-              width:160,
-              height: 120,
-              sources: sources,
-              techOrder: ['flash'],
-              autoplay: true,
-              controls: false
-              }"
-            ></video-player>
+            <el-tabs class="tabPanel" v-model="activeName2" type="card"    v-if="itemData['alarmFileType'] == 2">
+              <el-tab-pane label="实时视频" name="first">
+                <video-player
+                        class="vjs-custom-skin realtime_video"
+                        :options="{
+                  width:160,
+                  height: 120,
+                  sources: sourcesd,
+                  techOrder: ['flash'],
+                  autoplay: true,
+                  controls: false
+                  }"
+                ></video-player>
+              </el-tab-pane>
+              <el-tab-pane label="录像" name="second">
+                <video-player
+                        class="vjs-custom-skin realtime_video"
+                        :options="{
+                  width:160,
+                  height: 120,
+                  sources: sources,
+                  techOrder: ['flash'],
+                  autoplay: true,
+                  controls: false
+                  }"
+                ></video-player>
+              </el-tab-pane>
+            </el-tabs>
             <!--<p class="itemTitle itemBottomTitle">位置：{{itemData.deviceAddress}}</p>-->
           </div>
         </div>
@@ -155,13 +171,18 @@ export default {
   components: { HistoricalDocuments, videoPlayer, buttonCustom, Remarks },
   data() {
     return {
+      activeName2: 'first',
       selectList: ["一般", "严重", "危急"],
       itemData: {},
       alarmId: "",
-      sources: [{
-          src: '',
-          type: 'video/mp4'
-      }],
+        sources: [{
+            src: '',
+            type: 'video/mp4'
+        }],
+        sourcesd: [{
+            src: '',
+            type: 'application/x-mpegURL'
+        }],
       inputValue: "",
       dialogVisible: false
     };
@@ -187,24 +208,32 @@ export default {
       }
   },
   watch: {
-    itemDataOption: {
-      handler(now) {
-        this.itemData = now;
-        if(this.itemData['alarmFileAddress']){
-            if (this.itemData['alarmFileAddress'].indexOf("mp4") > -1 || this.itemData['alarmFileAddress'].indexOf("MP4") > -1) {
-                this.sources[0]["type"] = "video/mp4";
-            } else {
-                this.sources[0]["type"] = "application/x-mpegURL";
-            }
-            this.sources[0]["src"] = this.itemData['alarmFileAddress'];
-        }
-        this.$forceUpdate();
-        /*  if(now){
-                this.getData()
-            }*/
-      },
-      deep: true,
-      immediate: true
+      itemDataOption: {
+          handler(now) {
+              this.itemData = now;
+              if(this.itemData['alarmFileAddress']){
+                  if (this.itemData['alarmFileAddress'].indexOf("mp4") > -1 || this.itemData['alarmFileAddress'].indexOf("MP4") > -1) {
+                      this.sources[0]["type"] = "video/mp4";
+                  } else {
+                      this.sources[0]["type"] = "application/x-mpegURL";
+                  }
+                  this.sources[0]["src"] = this.itemData['alarmFileAddress'];
+              }
+              if(this.itemData['rtmpUrl']){
+                  if (this.itemData['rtmpUrl'].indexOf("mp4") > -1 || this.itemData['rtmpUrl'].indexOf("MP4") > -1) {
+                      this.sourcesd[0]["type"] = "video/mp4";
+                  } else {
+                      this.sourcesd[0]["type"] = "application/x-mpegURL";
+                  }
+                  this.sourcesd[0]["src"] = this.itemData['rtmpUrl'];
+              }
+              this.$forceUpdate();
+              /*  if(now){
+                      this.getData()
+                  }*/
+          },
+          deep: true,
+          immediate: true
     },
     visible(now) {
       /*  if (now)
@@ -349,143 +378,156 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+  .popuponeinfo{
+    .el-tabs__content{
+      height: 342px;
+    }
+    .el-tabs__header{
+      top: -2px !important;
+    }
+  }
+</style>
 <style lang="scss" scoped>
-.popuponeinfo {
-  font-size: 20px;
-  font-weight: normal;
-  .alarmTime{
-    color: #95989b !important;
-    font-size: 16px !important;
-  }
-  .iDropDown{
-    margin-left: 15px;
-  }
-  .iconfont.icon-xiala {
-    color: white;
-    font-size: 10px;
-    margin-left: 3px;
-  }
-  .table_select {
-    cursor: pointer;
-    color: #1d1f26;
-    .member_operate_div {
+  .popuponeinfo {
+    font-size: 20px;
+    font-weight: normal;
+    .tabPanel{
+      padding-top: 37px;
+    }
+    .alarmTime{
+      color: #95989b !important;
+      font-size: 16px !important;
+    }
+    .iDropDown{
+      margin-left: 15px;
+    }
+    .iconfont.icon-xiala {
+      color: white;
+      font-size: 10px;
+      margin-left: 3px;
+    }
+    .table_select {
+      cursor: pointer;
+      color: #1d1f26;
+      .member_operate_div {
+        span {
+          font-size: 14px !important;
+        }
+      }
       span {
-        font-size: 14px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 47px !important;
+        height: 24px !important;
+        border-radius: 20px;
+      }
+      &.serious {
+        span {
+          background: #f4a723;
+        }
+      }
+      &.commonly {
+        span {
+          background: #5eb0fc;
+        }
+      }
+      &.danger {
+        span {
+          background: #d0011b;
+        }
       }
     }
-    span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 47px !important;
-      height: 24px !important;
-      border-radius: 20px;
-    }
-    &.serious {
+    .serious {
       span {
         background: #f4a723;
       }
     }
-    &.commonly {
+    .commonly {
       span {
         background: #5eb0fc;
       }
     }
-    &.danger {
+    .danger {
       span {
         background: #d0011b;
       }
     }
-  }
-  .serious {
-    span {
-      background: #f4a723;
+    .red {
+      color: red;
     }
-  }
-  .commonly {
-    span {
-      background: #5eb0fc;
-    }
-  }
-  .danger {
-    span {
-      background: #d0011b;
-    }
-  }
-  .red {
-    color: red;
-  }
-  .itemTitle {
-    color: #fff;
-    font-size: 18px;
-    padding: 5px 0;
-    &.main {
-      display: flex;
-      align-items: center;
-      img {
-        width: 150px;
-        height: 85px;
-        margin-right: 20px;
+    .itemTitle {
+      color: #fff;
+      font-size: 18px;
+      padding: 5px 0;
+      &.main {
+        display: flex;
+        align-items: center;
+        img {
+          width: 150px;
+          height: 85px;
+          margin-right: 20px;
+        }
+      }
+
+      .alarm {
+        color: #d7203f;
+        font-size: 22px;
+      }
+      .warning {
+        color: #ff8300;
+        font-size: 22px;
+      }
+      .general {
+        color: #ffe828;
+        font-size: 22px;
       }
     }
-
-    .alarm {
-      color: #d7203f;
-      font-size: 22px;
-    }
-    .warning {
-      color: #ff8300;
-      font-size: 22px;
-    }
-    .general {
-      color: #ffe828;
-      font-size: 22px;
-    }
-  }
-  .itemBottomTitle {
-    font-size: 16px !important;
-    padding: 5px 10px;
-    background: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .time {
-    font-size: 16px;
-  }
-  .imgBox {
-    width: 100%;
-    height: 0;
-    margin: 20px auto;
-    padding-bottom: 100%;
-    position: relative;
-    &.isImg {
-      padding-bottom: 59% !important;
-    }
-    img {
-      width: 100%;
-      left: 0;
-      bottom: 0px;
+    .itemBottomTitle {
+      font-size: 16px !important;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.5);
       position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .time {
+      font-size: 16px;
+    }
+    .imgBox {
+      width: 100%;
+      height: 0;
+      margin: 20px auto;
+      padding-bottom: 100%;
+      position: relative;
+      &.isImg {
+        padding-bottom: 59% !important;
+      }
+      img {
+        width: 100%;
+        left: 0;
+        bottom: 0px;
+        position: absolute;
+      }
+    }
+    .buttonAll {
+      text-align: right;
     }
   }
-  .buttonAll {
-    text-align: right;
-  }
-}
 </style>
 <style lang="scss">
-.popuponeinfoBox {
-  .realtime_video > div {
-    transform: scale(2.2095, 2.8) !important;
-    transform-origin: left top;
+  .popuponeinfoBox {
+    .realtime_video > div {
+      transform: scale(2.2095, 2.8) !important;
+      transform-origin: left top;
+    }
   }
-}
-.popuponeinfoBox .el-dialog__body {
-  padding: 0 20px;
-}
+  .popuponeinfoBox .el-dialog__body {
+    padding: 0 20px;
+  }
 </style>
