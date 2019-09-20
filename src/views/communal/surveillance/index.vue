@@ -145,7 +145,7 @@
             imgAdress
             :streamAddr="streamAddr01"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -158,7 +158,7 @@
             imgAdress
             :streamAddr="streamAddr02"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -171,7 +171,7 @@
             imgAdress
             :streamAddr="streamAddr03"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -184,7 +184,7 @@
             imgAdress
             :streamAddr="streamAddr04"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -197,7 +197,7 @@
             imgAdress
             :streamAddr="streamAddr05"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -210,7 +210,7 @@
             imgAdress
             :streamAddr="streamAddr06"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -223,7 +223,7 @@
             imgAdress
             :streamAddr="streamAddr07"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -236,7 +236,7 @@
             imgAdress
             :streamAddr="streamAddr08"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
