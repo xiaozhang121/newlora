@@ -159,7 +159,7 @@ export default {
       itemData: {},
       alarmId: "",
       sources: [{
-          src: '123',
+          src: '',
           type: 'video/mp4'
       }],
       inputValue: "",
@@ -190,6 +190,7 @@ export default {
     itemDataOption: {
       handler(now) {
         this.itemData = now;
+        debugger
         if(itemData['alarmFileAddress']){
             if (itemData['alarmFileAddress'].indexOf("mp4") > -1 || itemData['alarmFileAddress'].indexOf("MP4") > -1) {
                 this.sources[0]["type"] = "video/mp4";
