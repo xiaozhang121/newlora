@@ -3,13 +3,21 @@
     <div class="placeHolder" v-if="showBtnList">
     </div>
     <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" :style="'position: absolute; z-index:' + zIndex">
-      <div class="title dropSelf"  @click="showListFlag = !showListFlag">
+      <div class="title dropSelf" v-if="isCheck" @click.stop="toShow()">
           <!-- 全部固定监控设备 -->
           <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
           <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
           <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-          <input class="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown()" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
-          <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
+          <input class="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown()" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+          <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}" @click="showListFlag = !showListFlag"></div>
+      </div>
+      <div class="title dropSelf" v-else @click="showListFlag = !showListFlag">
+        <!-- 全部固定监控设备 -->
+        <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
+        <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
+        <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
+        <input class="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown()" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+        <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
           <div v-if="showAll">
@@ -204,7 +212,7 @@ export default {
   watch: {
       dataList:{
          handler(now){
-             if(this.isCheck && !this.showAll){
+             if(this.isCheck){
                if(now.length && !this.dataBackup.length){
                    this.dataBackup = now
                }
@@ -230,7 +238,7 @@ export default {
           if(now){
               $(this.$refs.showListRef).slideDown('normal')
           }else{
-              if(this.isCheck && !this.titleMain){
+              if(this.isCheck){
                   $(this.$refs.showListRef).slideUp('normal')
               }else if(!this.isCheck){
                   $(this.$refs.showListRef).slideUp('normal')
@@ -241,7 +249,7 @@ export default {
   computed: {
       dataListName(){
           let data = []
-          if(this.isCheck && !this.showAll){
+          if(this.isCheck){
               this.dataBackup.forEach(item=>{
                   data.push(item['describeName'])
               })
@@ -255,6 +263,9 @@ export default {
       }
   },
   methods:{
+      toShow(){
+
+      },
       onKeyup(event){
           let value = this.titleMain
           if(value != ''){
@@ -270,8 +281,9 @@ export default {
               this.dataList = this.dataBackup
           }
       },
-      onFocus(){
+      onFocusd(){
           const that = this
+          this.showListFlag = true
          /* if(that.isCheck) {
               $(that.$refs.showListRef).slideDown('normal')
           }*/
@@ -323,7 +335,7 @@ export default {
           this.checkedCities = val ? this.dataListName : [];
           console.log(this.checkedCities.join(','))
           this.isIndeterminate = false;
-          if(this.isCheck && !this.showAll){
+          if(this.isCheck){
               this.$emit('on-active',this.dataBackup)
           }else{
               this.$emit('on-active',this.dataList)
@@ -339,7 +351,7 @@ export default {
             this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
             // this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']
             this.$forceUpdate();
-            if(this.isCheck && !this.showAll){
+            if(this.isCheck){
                 this.$emit('on-active',this.dataBackup)
             }else{
                 this.$emit('on-active',this.dataList)
@@ -352,7 +364,7 @@ export default {
         }
       },
       chosenActive(){
-          if(this.isCheck && !this.showAll){
+          if(this.isCheck){
               this.dataBackup.map((item)=>{
                   item['isActive'] = true
               })
@@ -365,7 +377,7 @@ export default {
           this.$forceUpdate();
       },
       resetActive(){
-          if(this.isCheck && !this.showAll){
+          if(this.isCheck ){
               this.dataBackup.map((item)=>{
                   item['isActive'] = false
               })
