@@ -312,6 +312,7 @@ export default {
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
+      flex-direction: row;
       & > div {
         width: calc(20% - 16px);
         margin-right: 20px;
