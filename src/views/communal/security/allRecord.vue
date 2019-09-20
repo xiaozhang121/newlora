@@ -5,7 +5,7 @@
     </div>
     <div class="top not-print">
       <div>24小时监测记录</div>
-      <div class="btn">
+      <div class="btn"  style="width: 532px">
         <div>
           <!--<el-date-picker v-model="chosenDate" type="date" placeholder="全部日期"></el-date-picker>-->
           <duno-btn-top
@@ -17,12 +17,14 @@
             @on-active="timeHandle"
           ></duno-btn-top>
         </div>
-        <div>
+        <div style="width: 332px">
           <duno-btn-top
             ref="btnTopRefD"
+            class="btnTopRefD"
             :showBtnList="false"
             :dataList="typeList"
             :title="titleTypeR"
+            style="width: 332px"
             @on-active="deviceHandle"
           ></duno-btn-top>
         </div>
@@ -680,6 +682,11 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail-record {
   width: 100%;
+  .btnTopRefD{
+    .btnList{
+      width: 332px !important;
+    }
+  }
   .keyMonitor .camera .explain .text {
     display: flex;
   }
