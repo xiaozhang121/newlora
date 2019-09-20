@@ -140,17 +140,36 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                "a",
+                "Tooltip",
                 {
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      this.getJump(params.row);
-                    }
+                  props: {
+                    placement: "top",
+                    content: params.row.monitorDeviceName,
+                    transfer: true
+                  },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
                   }
                 },
-                params.row.monitorDeviceName
+                [
+                  h(
+                    "a",
+                    {
+                      class: "table_link",
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          this.getJump(params.row);
+                        }
+                      }
+                    },
+                    params.row.monitorDeviceName
+                  )
+                ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
