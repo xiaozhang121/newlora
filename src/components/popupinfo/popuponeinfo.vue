@@ -191,7 +191,7 @@ export default {
       handler(now) {
         this.itemData = now;
         if(itemData['alarmFileAddress']){
-            if (itemData['alarmFileAddress'].indexOf("mp4") > -1) {
+            if (itemData['alarmFileAddress'].indexOf("mp4") > -1 || itemData['alarmFileAddress'].indexOf("MP4") > -1) {
                 this.sources[0]["type"] = "video/mp4";
             } else {
                 this.sources[0]["type"] = "application/x-mpegURL";
