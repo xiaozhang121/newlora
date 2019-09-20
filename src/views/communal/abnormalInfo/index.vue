@@ -141,7 +141,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.alarmTime.slice(5);
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
@@ -151,16 +166,14 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-              let newArr = [];
-              newArr.push([
-                  h(
-                      "div",
-                      params.row.mainDevice == null
-                          ? "/"
-                          : params.row.mainDevice
-                  )
-              ]);
-              return h("div", newArr);
+            let newArr = [];
+            newArr.push([
+              h(
+                "div",
+                params.row.mainDevice == null ? "/" : params.row.mainDevice
+              )
+            ]);
+            return h("div", newArr);
           }
         },
         {
@@ -173,11 +186,37 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                "div",
-                params.row.powerDeviceName == null
-                  ? "/"
-                  : params.row.powerDeviceName
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    content: params.row.powerDeviceName,
+                    transfer: true
+                  },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                [
+                  h(
+                    "div",
+                    params.row.powerDeviceName == null
+                      ? "/"
+                      : params.row.powerDeviceName
+                  )
+                ]
               )
+
+              // h(
+              //   "div",
+              //   params.row.powerDeviceName == null
+              //     ? "/"
+              //     : params.row.powerDeviceName
+              // )
             ]);
             return h("div", newArr);
           }
@@ -633,7 +672,7 @@ export default {
             this.$router.push({
               path: "/surveillancePath/detailLight",
               query: {
-                monitorDeviceId: monitorDeviceId,
+                monitorDeviceId: monitorDeviceId
               }
             });
           } else {

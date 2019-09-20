@@ -57,7 +57,7 @@
     </div>
     <div class="echarts not-print">
       <div class="title">
-        <div>泄露电流表24小时温度分析</div>
+        <div>{{titleAmmeter}}24小时温度分析</div>
         <div>
           <div>
             <duno-btn-top
@@ -360,7 +360,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.date.slice(5);
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
@@ -492,18 +507,37 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                "a",
+                "Tooltip",
                 {
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      console.log("摄像头ID：", params.row.monitorDeviceId);
-                      this.getJump(params.row);
-                    }
+                  props: {
+                    placement: "top",
+                    content: params.row.monitorDeviceName,
+                    transfer: true
+                  },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
                   }
                 },
-                params.row.monitorDeviceName
+                [
+                  h(
+                    "a",
+                    {
+                      class: "table_link",
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          console.log("摄像头ID：", params.row.monitorDeviceId);
+                          this.getJump(params.row);
+                        }
+                      }
+                    },
+                    params.row.monitorDeviceName
+                  )
+                ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
