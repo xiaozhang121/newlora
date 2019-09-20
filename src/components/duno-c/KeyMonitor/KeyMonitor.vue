@@ -32,7 +32,6 @@
           <span @click="changeinit">初始化</span>
         </p>-->
       </div>
-      <img />
       <transition v-if="isNavbar" name="el-zoom-in-bottom">
         <div v-show="showBtm" class="explain iconList">
           <template v-if="!onlyCanel">
