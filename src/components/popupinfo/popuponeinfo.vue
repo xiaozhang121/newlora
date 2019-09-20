@@ -190,13 +190,13 @@ export default {
     itemDataOption: {
       handler(now) {
         this.itemData = now;
-        if(itemData['alarmFileAddress']){
-            if (itemData['alarmFileAddress'].indexOf("mp4") > -1 || itemData['alarmFileAddress'].indexOf("MP4") > -1) {
+        if(this.itemData['alarmFileAddress']){
+            if (this.itemData['alarmFileAddress'].indexOf("mp4") > -1 || this.itemData['alarmFileAddress'].indexOf("MP4") > -1) {
                 this.sources[0]["type"] = "video/mp4";
             } else {
                 this.sources[0]["type"] = "application/x-mpegURL";
             }
-            this.sources[0]["src"] = itemData['alarmFileAddress'];
+            this.sources[0]["src"] = this.itemData['alarmFileAddress'];
         }
         this.$forceUpdate();
         /*  if(now){
