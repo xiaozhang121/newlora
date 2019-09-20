@@ -115,7 +115,29 @@ export default {
         {
           key: "monitorDeviceName",
           title: "设备名称",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    content: params.row.monitorDeviceName,
+                    transfer: true
+                  },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                params.row.monitorDeviceName
+              )
+            ]);
+          }
         },
         {
           key: "monitorDeviceType",
@@ -459,7 +481,7 @@ export default {
     this.handleDevice();
     this.handleVoltage();
     this.getSelectStatus();
-  },
+  }
 };
 </script>
 

@@ -124,13 +124,51 @@ export default {
           align: "center",
           render: (h, params) => {
             let timeDay = params.row.alarmTime.slice(5);
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
           key: "alarmDetailType",
           title: "告警类型",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            // let timeDay = params.row.alarmTime.slice(5);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    content: params.row.alarmDetailType,
+                    transfer: true
+                  },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                params.row.alarmDetailType
+              )
+            ]);
+          }
         },
         {
           key: "monitorDeviceName",
@@ -189,7 +227,22 @@ export default {
           align: "center",
           render: (h, params) => {
             let timeDay = params.row.dealList[0].dealTime.slice(5);
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
