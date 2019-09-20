@@ -1,6 +1,6 @@
 <template>
   <div class="realEnv">
-    <duno-btn-top :zIndex="100" ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
+    <duno-btn-top :isCheck="true" :zIndex="100" ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
    <!-- <el-date-picker
             v-model="value2"
             align="right"

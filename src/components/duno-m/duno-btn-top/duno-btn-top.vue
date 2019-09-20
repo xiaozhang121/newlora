@@ -249,7 +249,7 @@ export default {
   computed: {
       dataListName(){
           let data = []
-          if(this.isCheck){
+          if(this.isCheck && this.dataBackup.length){
               this.dataBackup.forEach(item=>{
                   data.push(item['describeName'])
               })
@@ -335,7 +335,7 @@ export default {
           this.checkedCities = val ? this.dataListName : [];
           console.log(this.checkedCities.join(','))
           this.isIndeterminate = false;
-          if(this.isCheck){
+          if(this.isCheck && this.dataBackup.length){
               this.$emit('on-active',this.dataBackup)
           }else{
               this.$emit('on-active',this.dataList)
@@ -351,7 +351,7 @@ export default {
             this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
             // this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']
             this.$forceUpdate();
-            if(this.isCheck){
+            if(this.isCheck && this.dataBackup.length){
                 this.$emit('on-active',this.dataBackup)
             }else{
                 this.$emit('on-active',this.dataList)
@@ -364,7 +364,7 @@ export default {
         }
       },
       chosenActive(){
-          if(this.isCheck){
+          if(this.isCheck && this.dataBackup.length){
               this.dataBackup.map((item)=>{
                   item['isActive'] = true
               })
@@ -377,7 +377,7 @@ export default {
           this.$forceUpdate();
       },
       resetActive(){
-          if(this.isCheck ){
+          if(this.isCheck  && this.dataBackup.length){
               this.dataBackup.map((item)=>{
                   item['isActive'] = false
               })
