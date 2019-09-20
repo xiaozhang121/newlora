@@ -159,6 +159,17 @@ export default {
         // min: that.yMin,
         splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
+        axisLabel:{
+          formatter: function(value) {
+              var texts = []
+              if (value === 0 || value === '0') {
+                texts.push('关')
+              } else if (value === 1 || value === '1') {
+                texts.push('开')
+              }
+              return texts
+          }
+        },
         axisLine: {
           show: true, //Y轴的线
           lineStyle: {
@@ -236,6 +247,7 @@ export default {
                 }
                 if(res.data.flag){
                     obj['step'] = 'start'
+                    that.yAxisOption.date=['关','开']
                 }
                 xAxisData = []
                 for (let item in itemDataList) {
