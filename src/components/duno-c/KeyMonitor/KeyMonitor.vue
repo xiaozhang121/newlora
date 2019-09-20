@@ -287,7 +287,7 @@ export default {
     streamAddr: {
       handler(now) {
         if (now) {
-          if (now.indexOf("mp4") > -1) {
+          if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
             this.playerOptions["sources"][0]["type"] = "video/mp4";
           } else {
             this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
