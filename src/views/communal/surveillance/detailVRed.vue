@@ -52,7 +52,11 @@
           </div>
         </div>
         <div class="right nr contain">
-          <inspection-red-control @on-edit="onEdit" ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection-red-control>
+          <inspection-red-control
+            @on-edit="onEdit"
+            ref="inspectionRef"
+            :deviceId="dataForm.monitorDeviceId"
+          ></inspection-red-control>
         </div>
       </div>
       <div class="content" style="margin-top: 15px; position: relative">
@@ -105,7 +109,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <echarts :dataAllList="echartData"  :title="echartTitle" gridOptionTop="120" />
+              <echarts :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
             </div>
           </div>
         </div>
@@ -219,7 +223,7 @@ export default {
   data() {
     const that = this;
     return {
-      echartTitle: '',
+      echartTitle: "",
       addOrEdit: "添加",
       disabled: false,
       isControl: "1",
@@ -260,7 +264,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.executeTime.slice(5);
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
@@ -508,7 +527,7 @@ export default {
         "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data.data;
-      /*  that.$nextTick(() => {
+        /*  that.$nextTick(() => {
           setTimeout(() => {
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
               setTimeout(() => {
@@ -600,13 +619,13 @@ export default {
       let startTime = "";
       let endTime = "";
       if (data) {
-          startTime = moment(data[0]).format("YYYY-MM-DD");
-          endTime = moment(data[1]).format("YYYY-MM-DD");
+        startTime = moment(data[0]).format("YYYY-MM-DD");
+        endTime = moment(data[1]).format("YYYY-MM-DD");
       }
       this.echartTitle =
-          moment(data[0]).format("YYYY/MM/DD") +
-          "-" +
-          moment(data[1]).format("YYYY/MM/DD");
+        moment(data[0]).format("YYYY/MM/DD") +
+        "-" +
+        moment(data[1]).format("YYYY/MM/DD");
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
@@ -669,16 +688,16 @@ export default {
       });
     },
     getEchasrts() {
-        let query = {
-            startTime: this.echartForm.startTime,
-            endTime: this.echartForm.endTime,
-            deviceType: "2",
-            powerDeviceId: this.echartForm.sources,
-            monitorDeviceId: this.$route.query.monitorDeviceId
-        };
-        getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-            this.echartData = res.data.dataList;
-        });
+      let query = {
+        startTime: this.echartForm.startTime,
+        endTime: this.echartForm.endTime,
+        deviceType: "2",
+        powerDeviceId: this.echartForm.sources,
+        monitorDeviceId: this.$route.query.monitorDeviceId
+      };
+      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
+        this.echartData = res.data.dataList;
+      });
     },
     handleClose() {
       this.popData = {};
@@ -694,8 +713,8 @@ export default {
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
       this.echartTitle = moment()
-          .add(-1, "days")
-          .format("YYYY/MM/DD");
+        .add(-1, "days")
+        .format("YYYY/MM/DD");
     },
     getControl() {
       if (this.isControl == "1") {
@@ -765,7 +784,7 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
-  .video-js.vjs-fluid{
+  .video-js.vjs-fluid {
     padding-top: 56%;
   }
   .icon-xiala {

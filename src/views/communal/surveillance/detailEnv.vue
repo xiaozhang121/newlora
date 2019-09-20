@@ -248,7 +248,29 @@ export default {
           key: "alarmTime",
           minWidth: 100,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    content: params.row.alarmTime,
+                    transfer: true
+                  },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                params.row.alarmTime
+              )
+            ]);
+          }
         },
         {
           title: "告警类型",
