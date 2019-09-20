@@ -171,7 +171,7 @@ export default {
   components: { HistoricalDocuments, videoPlayer, buttonCustom, Remarks },
   data() {
     return {
-      activeName2: '',
+      activeName2: 'first',
       selectList: ["一般", "严重", "危急"],
       itemData: {},
       alarmId: "",
