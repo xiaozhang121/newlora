@@ -10,6 +10,7 @@
           width="900px"
           center
           :top="top"
+          :modal="modal"
           @close="handleClose"
         >
           <div slot="title" style="text-align: left">
@@ -192,6 +193,12 @@ export default {
       type: Array,
       default: () => {
         return [];
+      }
+    },
+    modal: {
+      type: Boolean,
+      default: () => {
+        return true;
       }
     },
     // hasSelect: {

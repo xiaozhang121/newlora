@@ -77,6 +77,7 @@
       detailsType="alarm"
       :top="0"
       :visible="visible"
+      :modal='false'
       @handleClose="handleClose"
     />
   </div>
