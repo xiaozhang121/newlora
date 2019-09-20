@@ -208,6 +208,9 @@ export default {
                if(now.length && !this.dataBackup.length){
                    this.dataBackup = now
                }
+               if(now.length == this.dataBackup.length){
+                   this.onKeyup()
+               }
              }
          },
           deep: true
