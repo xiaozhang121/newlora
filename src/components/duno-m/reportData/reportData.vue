@@ -25,7 +25,7 @@
                 <div class="name">数据类型：</div>
                 <div class="nr">{{ dataType }}</div>
             </div>
-            <div class="item result">
+            <div class="item result" :style="{marginLeft:'0'}">
                 <div class="name">分析结果：</div>
                 <div class="nr">{{ analysisResult }}</div>
                <!-- <i-dropdown

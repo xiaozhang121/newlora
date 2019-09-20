@@ -283,8 +283,8 @@ export default {
     width: 100%;
     min-height: 425px;
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
     .report,
     .recode {
       margin-bottom: 10px;
