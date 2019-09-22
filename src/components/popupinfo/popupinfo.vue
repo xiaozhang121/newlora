@@ -31,6 +31,7 @@
           :yName="yName"
           :xAxisData="xAxisData"
           :seriesData="seriesData"
+          :flag="flag"
           :isChange="isChange"
           v-if="activeName == 'fifth'"
         />
@@ -50,7 +51,7 @@ export default {
   components: { HistoricalDocuments, realtime, historicalwarning, Polygonal },
   data() {
     return {
-      yName: '',
+      yName: "",
       mainTitle: "",
       alarmHistoryData: [],
       activeName: "first",
@@ -75,6 +76,7 @@ export default {
       legendData: [],
       xAxisData: [],
       seriesData: [],
+      flag: null,
       classifyData: "A"
     };
   },
@@ -173,7 +175,7 @@ export default {
       };
       getPlanHistory(queryT).then(res => {
         const dataList = res.data.dataList;
-        that.yName = res.data.unit
+        that.yName = res.data.unit;
         const legendData = [];
         const xAxisData = [];
         const seriesData = [];
@@ -185,8 +187,9 @@ export default {
             type: "line",
             data: []
           };
-          if(res.data.flag){
-              obj['step'] = 'start'
+          if (res.data.flag) {
+            obj["step"] = "start";
+            that.flag = 1;
           }
           for (let item in itemDataList) {
             if (i == 0) {
@@ -209,17 +212,21 @@ export default {
     }
   },
   created() {
-    this.startTime = moment().format('YYYY-MM-DD')
-    this.endTime = moment().format('YYYY-MM-DD')
+    this.startTime = moment().format("YYYY-MM-DD");
+    this.endTime = moment().format("YYYY-MM-DD");
     console.log(
       "设备类型：",
-      this.itemData.monitorDeviceType == "1" || this.itemData.monitorDeviceType == "5"
+      this.itemData.monitorDeviceType == "1" ||
+        this.itemData.monitorDeviceType == "5"
         ? "可见光"
         : this.itemData.monitorDeviceType == "2"
         ? "红外"
         : "参数没对上"
     );
-    if (this.itemData.monitorDeviceType == "1" || this.itemData.monitorDeviceType == "5") {
+    if (
+      this.itemData.monitorDeviceType == "1" ||
+      this.itemData.monitorDeviceType == "5"
+    ) {
       this.mainTitle = this.itemData.deviceMessage.cameraName;
     } else if (this.itemData.monitorDeviceType == "2") {
       this.mainTitle = this.itemData.deviceMessage.name;
@@ -227,7 +234,8 @@ export default {
     if (
       this.itemData &&
       this.itemData.monitorDeviceType &&
-        (this.itemData.monitorDeviceType == "1" || this.itemData.monitorDeviceType == "5") &&
+      (this.itemData.monitorDeviceType == "1" ||
+        this.itemData.monitorDeviceType == "5") &&
       this.isDiagram == 1
     ) {
       this.isShowClassify = true;

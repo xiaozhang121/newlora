@@ -30,15 +30,17 @@
         :seriesOption="seriesOption"
       />
     </div>
-    <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)"><span>你可拖拽设备图标至此处进行对比</span></p>
+    <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)">
+      <span>你可拖拽设备图标至此处进行对比</span>
+    </p>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
-import { getAxiosData } from '@/api/axiosType'
+import moment from "moment";
+import { getAxiosData } from "@/api/axiosType";
 import { DunoCharts } from "_c/duno-charts";
-import { constants } from 'crypto';
+import { constants } from "crypto";
 export default {
   name: "Polygonal",
   components: { DunoCharts },
@@ -88,19 +90,19 @@ export default {
     isChange: {
       type: Boolean,
       default: () => {
-        return true
+        return true;
       }
     },
     isItemEchart: {
       type: Boolean,
       default: () => {
-        return true
+        return true;
       }
     },
     title: {
       type: String,
       default: () => {
-        return ''
+        return "";
       }
     },
     itemId: {
@@ -109,19 +111,23 @@ export default {
     type: {
       type: String,
       default: () => {
-        return ''
+        return "";
       }
+    },
+    flag: {
+      type: Number
     }
   },
   data() {
-    const that = this
+    const that = this;
     return {
       isChangeFlag: false,
-      startTime: '',
-      endTime: '',
+      startTime: "",
+      endTime: "",
       radio: 1,
       value: "",
       datePeriod: "",
+      // formatter: null,
       legendOption: {
         icon: "circle",
         textStyle: {
@@ -157,18 +163,19 @@ export default {
         minInterval: 1,
         // max: that.yMax,
         // min: that.yMin,
+        data: ["关", "开"],
         splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
-        axisLabel:{
-          formatter: function(value) {
-              var texts = []
-              if (value === 0 || value === '0') {
-                texts.push('关')
-              } else if (value === 1 || value === '1') {
-                texts.push('开')
-              }
-              return texts
-          }
+        axisLabel: {
+          // formatter: function(value) {
+          //   var texts = [];
+          //   if (value === 0 || value === "0") {
+          //     texts.push("关");
+          //   } else if (value === 1 || value === "1") {
+          //     texts.push("开");
+          //   }
+          //   return texts;
+          // }
         },
         axisLine: {
           show: true, //Y轴的线
@@ -192,16 +199,16 @@ export default {
     };
   },
   methods: {
-    allowDrop(ev){
-        ev.preventDefault();
+    allowDrop(ev) {
+      ev.preventDefault();
     },
-    drop(ev){
-        const that = this
-        ev.preventDefault();
-        let data=JSON.parse(ev.dataTransfer.getData("itemData"));
-        $(ev.target).append(`<img src="${data.src}" />`);
-        if(data.name == 'weatherCheck'){
-         /*   that.legendData.push(...['微型气象站'])
+    drop(ev) {
+      const that = this;
+      ev.preventDefault();
+      let data = JSON.parse(ev.dataTransfer.getData("itemData"));
+      $(ev.target).append(`<img src="${data.src}" />`);
+      if (data.name == "weatherCheck") {
+        /*   that.legendData.push(...['微型气象站'])
             that.seriesData.push(...[{
                 data: [50, 70, 10, 0, 20, 80, 30, 10, 20, 1],
                 name: "微型气象站",
@@ -209,86 +216,105 @@ export default {
             }])
             that.$forceUpdate()
             that.isChangeFlag = !that.isChangeFlag*/
-        }else if(data.name == 'demoData'){
-            that.legendData.push(...['可见光设备'])
-            that.seriesData.push(...[{
-                data: [10, 90, 50, 0, 20, 0, 20, 40, 60, 5],
-                name: "可见光设备",
-                type: "line"
-            }])
-            that.$forceUpdate()
-            that.isChangeFlag = !that.isChangeFlag
-        }else
-          this.getHistoryData(data['monitorDeviceId'], data['monitorDeviceType'])
-    },
-    getHistoryData (monitorDeviceId, monitorDeviceType) {
-        this.isGetData = false
-        const that = this
-        const url = '/lenovo-plan/api/plan/history'
-        const query = {
-            monitorDeviceId: monitorDeviceId,
-            monitorDeviceType: monitorDeviceType,
-            startTime: `${this.startTime} 00:00:00`,
-            endTime: `${this.endTime} 23:59:59`,
-        }
-        getAxiosData(url, query).then( res => {
-            const dataList = res.data.dataList
-            that.yAxisOption['name'] = res.data.unit
-            const legendData = []
-            let xAxisData = []
-            const seriesData = []
-            for (let i = 0; i < dataList.length; i++) {
-                legendData.push(dataList[i].itemName)
-                const itemDataList = dataList[i].itemDataList
-                let obj = {
-                    name: dataList[i].itemName,
-                    type:'line',
-                    data: []
-                }
-                if(res.data.flag){
-                    obj['step'] = 'start'
-                    that.yAxisOption.date=['关','开']
-                }
-                xAxisData = []
-                for (let item in itemDataList) {
-                    xAxisData.push(itemDataList[item].time)
-                    obj.data.push(Number(itemDataList[item].data))
-                }
-                seriesData.push(obj)
+      } else if (data.name == "demoData") {
+        that.legendData.push(...["可见光设备"]);
+        that.seriesData.push(
+          ...[
+            {
+              data: [10, 90, 50, 0, 20, 0, 20, 40, 60, 5],
+              name: "可见光设备",
+              type: "line"
             }
-            that.legendData.push(...legendData)
-            that.seriesData.push(...seriesData)
-            that.$forceUpdate()
-            that.isChangeFlag = !that.isChangeFlag
-        })
+          ]
+        );
+        that.$forceUpdate();
+        that.isChangeFlag = !that.isChangeFlag;
+      } else
+        this.getHistoryData(data["monitorDeviceId"], data["monitorDeviceType"]);
+    },
+    getHistoryData(monitorDeviceId, monitorDeviceType) {
+      this.isGetData = false;
+      const that = this;
+      const url = "/lenovo-plan/api/plan/history";
+      const query = {
+        monitorDeviceId: monitorDeviceId,
+        monitorDeviceType: monitorDeviceType,
+        startTime: `${this.startTime} 00:00:00`,
+        endTime: `${this.endTime} 23:59:59`
+      };
+      getAxiosData(url, query).then(res => {
+        const dataList = res.data.dataList;
+        that.yAxisOption["name"] = res.data.unit;
+        const legendData = [];
+        let xAxisData = [];
+        const seriesData = [];
+        for (let i = 0; i < dataList.length; i++) {
+          legendData.push(dataList[i].itemName);
+          const itemDataList = dataList[i].itemDataList;
+          let obj = {
+            name: dataList[i].itemName,
+            type: "line",
+            data: []
+          };
+
+          if (res.data.flag) {
+            obj["step"] = "start";
+            // that.yAxisOption.axisLabel = {
+            //   formatter: function(value) {
+            //     var texts = [];
+            //     if (value === 0 || value === "0") {
+            //       texts.push("关");
+            //     } else if (value === 1 || value === "1") {
+            //       texts.push("开");
+            //     }
+            //     return texts;
+            //   }
+            // };
+          }
+          xAxisData = [];
+          for (let item in itemDataList) {
+            xAxisData.push(itemDataList[item].time);
+            obj.data.push(Number(itemDataList[item].data));
+          }
+          seriesData.push(obj);
+        }
+        that.legendData.push(...legendData);
+        that.seriesData.push(...seriesData);
+        that.$forceUpdate();
+        that.isChangeFlag = !that.isChangeFlag;
+      });
     },
     onChangeRadio(data) {
       this.radio = data;
-      let date = null
-      let arr = []
-      if(data == 1){
-        date = moment()
-      }else{
-        date = moment().subtract(1, 'days')
+      let date = null;
+      let arr = [];
+      if (data == 1) {
+        date = moment();
+      } else {
+        date = moment().subtract(1, "days");
       }
-      arr.push(date,date)
-      const startTime = moment(arr[0]).format('YYYY-MM-DD')
-      const endTime = moment(arr[1]).format('YYYY-MM-DD')
-      this.startTime = JSON.parse(JSON.stringify(startTime))
-      this.endTime = JSON.parse(JSON.stringify(endTime))
-      $('#moveTarget').find('img').remove()
+      arr.push(date, date);
+      const startTime = moment(arr[0]).format("YYYY-MM-DD");
+      const endTime = moment(arr[1]).format("YYYY-MM-DD");
+      this.startTime = JSON.parse(JSON.stringify(startTime));
+      this.endTime = JSON.parse(JSON.stringify(endTime));
+      $("#moveTarget")
+        .find("img")
+        .remove();
       this.$emit("onChange", arr);
     },
     onChangeTime(data) {
-      $('#moveTarget').find('img').remove()
-      const startTime = moment(data[0]).format('YYYY-MM-DD')
-      const endTime = moment(data[1]).format('YYYY-MM-DD')
-      this.startTime = JSON.parse(JSON.stringify(startTime))
-      this.endTime = JSON.parse(JSON.stringify(endTime))
+      $("#moveTarget")
+        .find("img")
+        .remove();
+      const startTime = moment(data[0]).format("YYYY-MM-DD");
+      const endTime = moment(data[1]).format("YYYY-MM-DD");
+      this.startTime = JSON.parse(JSON.stringify(startTime));
+      this.endTime = JSON.parse(JSON.stringify(endTime));
       this.datePeriod = data;
       this.radio = null;
       if (!data) {
-        this.onChangeRadio(1)
+        this.onChangeRadio(1);
       } else {
         this.$emit("onChange", this.datePeriod);
       }
@@ -298,76 +324,81 @@ export default {
     }
   },
   watch: {
-    radio(now){
-        if(now != null)
-            this.value = ''
+    radio(now) {
+      if (now != null) this.value = "";
     },
-    isChange:{
-        handler(now){
-          this.isChangeFlag = now
-        },
-        immediate: true
+    isChange: {
+      handler(now) {
+        this.isChangeFlag = now;
+      },
+      immediate: true
     },
     legendData: {
       handler(now) {
-        let arr = []
+        let arr = [];
         if (now && now.length) {
-          arr = now
+          arr = now;
         }
-        if(now.length>4){
-          this.legendOption['type'] = 'scroll'
-          this.legendOption['padding'] = [0,0,0,0]
-          this.legendOption['itemGap'] = 20
-          this.legendOption['itemWidth'] = 14
-          this.legendOption['align'] = 'auto'
-          this.legendOption['pageIconColor'] = '#aaaaaa'
-          this.legendOption['pageIconInactiveColor'] = '#aaaaaa'
+        if (now.length > 4) {
+          this.legendOption["type"] = "scroll";
+          this.legendOption["padding"] = [0, 0, 0, 0];
+          this.legendOption["itemGap"] = 20;
+          this.legendOption["itemWidth"] = 14;
+          this.legendOption["align"] = "auto";
+          this.legendOption["pageIconColor"] = "#aaaaaa";
+          this.legendOption["pageIconInactiveColor"] = "#aaaaaa";
         }
-        this.legendOption.data = arr
+        this.legendOption.data = arr;
       },
       deep: true
     },
     xAxisData: {
       handler(now) {
-        let arr = []
+        let arr = [];
         if (now && now.length) {
-          arr = now
+          arr = now;
         }
-        this.xAxisOption.data = arr
+        this.xAxisOption.data = arr;
       },
       deep: true
     },
+    flag(now) {
+      if (now == 1) {
+        this.yAxisOption.type = "category";
+        this.yAxisOption.splitLine.show = false;
+      }
+    },
     yName(now) {
-      this.yAxisOption['name'] = now
+      this.yAxisOption["name"] = now;
     },
     yMax(now) {
-      this.yAxisOption.yMax = now
+      this.yAxisOption.yMax = now;
     },
     yMin(now) {
-      this.yAxisOption.yMin = now
+      this.yAxisOption.yMin = now;
     },
     ySplitNumber(now) {
-      this.yAxisOption.ySplitNumber = now
+      this.yAxisOption.ySplitNumber = now;
     },
     seriesData: {
       handler(now) {
-        let arr = []
+        let arr = [];
         if (now && now.length) {
-          arr = now
+          arr = now;
         }
-        this.seriesOption = arr
+        this.seriesOption = arr;
       },
       deep: true
     }
   },
-  mounted () {
-    const that = this
+  mounted() {
+    const that = this;
     if (this.radio) {
-      this.onChangeRadio(this.radio)
+      this.onChangeRadio(this.radio);
     } else if (!this.radio && this.datePeriod) {
-      this.onChangeTime(this.datePeriod)
+      this.onChangeTime(this.datePeriod);
     }
-     /* that.legendData.push(...['设备01'])
+    /* that.legendData.push(...['设备01'])
       that.seriesData.push(...[{
           data: [1,1,1,1,1,1,1,1,1,0],
           name: "设备01",
@@ -405,12 +436,12 @@ export default {
       margin-right: 30px;
     }
   }
-  &  .move {
+  & .move {
     height: 40px;
     color: #999;
     text-align: center;
     font-size: 14px !important;
-    img{
+    img {
       width: 30px;
       margin-right: 10px;
       margin-left: 10px;
