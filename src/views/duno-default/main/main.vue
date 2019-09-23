@@ -131,7 +131,7 @@
     >
       <KeyMonitor
         :isPic="$store.state.app.isPic"
-        :picUrl="$store.state.app.picSrc"
+        :monitorInfo="$store.state.app.monitorInfo"
         v-if="visibleCamera"
         :onlyCanel="true"
         :autoplay="true"

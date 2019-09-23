@@ -4,6 +4,7 @@ export default {
   state: {
     isPic: false,
     picSrc:'',
+    monitorInfo: '',
     webFullVisable: false,
     webFull: '',
     rebotFresh: '',
