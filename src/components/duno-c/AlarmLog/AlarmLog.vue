@@ -18,7 +18,7 @@
       <div class="top">
         <p>
           机器判断:
-          <span>{{remarkData.machineJudge}}</span>
+          <span>{{remarkData.alarmDetailType}}</span>
         </p>
       </div>
       <div class="mainMain">

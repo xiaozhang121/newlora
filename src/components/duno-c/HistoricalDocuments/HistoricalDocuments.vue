@@ -11,7 +11,10 @@
       @close="close"
     >
       <div slot="title">
-        <span class="title titleSpan" v-if="!isShowTab || showHeader"><img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px"/>{{title}}</span>
+        <span class="title titleSpan" v-if="!isShowTab || showHeader">
+          <img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px" />
+          {{title}}
+        </span>
         <div v-if="isShowTab" class="titleBtn">
           <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()">
             <i class="iconfont icon-daochu"></i>
@@ -62,9 +65,7 @@ import qs from "qs";
 export default {
   name: "HistoricalDocuments",
   props: {
-    picSrc:{
-
-    },
+    picSrc: {},
     showHeader: {
       type: Boolean,
       default: () => {
@@ -233,6 +234,9 @@ export default {
       padding: 8px 10px;
       margin: 0 10px;
       background-color: rgba(32, 54, 68, 0.8);
+      .el-dialog__header {
+        padding: 20px 20px 0 20px;
+      }
       .el-tabs {
         .el-tabs__header {
           /*width: 84%;*/

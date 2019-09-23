@@ -323,6 +323,10 @@ export default {
         this.isShowNone = {
           display: "none"
         };
+      }else{
+        this.isShowNone = {
+          visibility: "hidden"
+        };
       }
     }
   },
