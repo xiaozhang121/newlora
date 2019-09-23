@@ -697,6 +697,9 @@ export default {
   }
 }
 .keyMonitor {
+  .cameraImg{
+    z-index: 0 !important;
+  }
   .el-dialog.el-dialog--center {
     margin-top: 15vh !important;
     width: 500px !important;
