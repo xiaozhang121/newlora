@@ -171,7 +171,7 @@ export default {
           this.loading = false;
           clearTimeout(this.timer);
         }
-        if (now.length == 0) {
+        if (now.length == 0 && i == 1) {
           this.isEmpty = false;
         } else {
           this.isEmpty = true;
