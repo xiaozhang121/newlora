@@ -32,6 +32,7 @@
       <div class="left_main" :class="{widthA : displayType == '2'}">
         <div class="left" style="padding-bottom: 32%" v-if="displayType == '2'">
           <key-monitor
+            :isPic="isPicAddr01"
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
@@ -44,6 +45,7 @@
         </div>
         <div class="left" v-else-if="displayType == '1'">
           <key-monitor
+            :isPic="isPicAddr01"
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
@@ -61,6 +63,7 @@
       >
         <div class="right">
           <key-monitor
+            :isPic="isPicAddr02"
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
@@ -72,6 +75,7 @@
         </div>
         <div class="right">
           <key-monitor
+            :isPic="isPicAddr03"
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
@@ -83,6 +87,7 @@
         </div>
         <div class="right">
           <key-monitor
+            :isPic="isPicAddr04"
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
@@ -98,6 +103,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr02"
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
@@ -111,6 +117,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr03"
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
@@ -124,6 +131,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr04"
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
@@ -139,6 +147,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr01"
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
@@ -152,6 +161,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr02"
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
@@ -165,6 +175,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr03"
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
@@ -178,6 +189,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr04"
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
@@ -191,6 +203,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr05"
             :monitorInfo="monitorInfo05"
             :kilovolt="$store.state.user.configInfo['camera05Name']"
             :autoplay="true"
@@ -204,6 +217,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr06"
             :monitorInfo="monitorInfo06"
             :kilovolt="$store.state.user.configInfo['camera06Name']"
             :autoplay="true"
@@ -217,6 +231,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr07"
             :monitorInfo="monitorInfo07"
             :kilovolt="$store.state.user.configInfo['camera07Name']"
             :autoplay="true"
@@ -230,6 +245,7 @@
       <div class="item_main">
         <div class="item">
           <key-monitor
+            :isPic="isPicAddr08"
             :monitorInfo="monitorInfo08"
             :kilovolt="$store.state.user.configInfo['camera08Name']"
             :autoplay="true"
@@ -402,6 +418,78 @@ export default {
         }
       } catch (e) {}
     },
+    isPicAddr01() {
+        try {
+            if (this.cameraList[0]["isPic"])
+                return this.cameraList[0]["isPic"] == 1;
+            else {
+                return "";
+            }
+        } catch (e) {}
+    },
+    isPicAddr02() {
+      try {
+          if (this.cameraList[1]["isPic"])
+              return this.cameraList[1]["isPic"] == 1;
+          else {
+              return "";
+          }
+      } catch (e) {}
+  },
+    isPicAddr03() {
+      try {
+          if (this.cameraList[2]["isPic"])
+              return this.cameraList[2]["isPic"] == 1;
+          else {
+              return "";
+          }
+      } catch (e) {}
+  },
+    isPicAddr04() {
+      try {
+          if (this.cameraList[3]["isPic"])
+              return this.cameraList[3]["isPic"] == 1;
+          else {
+              return "";
+          }
+      } catch (e) {}
+  },
+    isPicAddr05() {
+      try {
+          if (this.cameraList[4]["isPic"])
+              return this.cameraList[4]["isPic"] == 1;
+          else {
+              return "";
+          }
+      } catch (e) {}
+  },
+    isPicAddr06() {
+      try {
+          if (this.cameraList[5]["isPic"])
+              return this.cameraList[5]["isPic"] == 1;
+          else {
+              return "";
+          }
+      } catch (e) {}
+  },
+    isPicAddr07() {
+      try {
+          if (this.cameraList[6]["isPic"])
+              return this.cameraList[6]["isPic"] == 1;
+          else {
+              return "";
+          }
+      } catch (e) {}
+  },
+    isPicAddr08() {
+      try {
+          if (this.cameraList[7]["isPic"])
+              return this.cameraList[7]["isPic"] == 1;
+          else {
+              return "";
+          }
+      } catch (e) {}
+  },
     streamAddr01() {
       try {
         if (this.cameraList[0]["streamAddr"])
