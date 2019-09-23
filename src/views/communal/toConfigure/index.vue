@@ -356,7 +356,9 @@ export default {
         }
       });
       this.dataForm.deviceType = arr.join(",");
-      this.getDataList();
+      if (this.dataForm.deviceType != "") {
+        this.getDataList();
+      }
       return value;
       // this.titleTypeL = item["describeName"];
     },
