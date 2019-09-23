@@ -171,6 +171,8 @@ export default {
         }
         if (now.length == 0) {
           this.isEmpty = false;
+        } else {
+          this.isEmpty = true;
         }
       },
       deep: true,
