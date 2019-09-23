@@ -151,7 +151,6 @@ export default {
         return false;
       }
     },
-    picUrl: {},
     isPic: {
       type: Boolean,
       default: () => {
@@ -250,6 +249,15 @@ export default {
     }
   },
   watch: {
+    isPic: {
+        handler(now) {
+          if(now){
+              this.picTurn()
+          }
+        },
+        deep: true,
+        immediate: true
+    },
     isAlarmG: {
       handler(now) {
         if (!now) {
@@ -332,6 +340,8 @@ export default {
   },
   data() {
     return {
+      picTurnTimer: null,
+      picUrl: '',
       taskId: 0,
       passTime: 0,
       timeSeed: null,
@@ -395,6 +405,17 @@ export default {
     }
   },
   methods: {
+    picTurn() {
+        const that = this;
+        this.picTurnTimer = setInterval(() => {
+            getAxiosData(
+                `/lenovo-iir/device/video/new-frame/${this.monitorInfoR["monitorDeviceId"]}`
+            ).then(res => {
+                // that.$store.state.app.picSrc = res.data;
+                that.picUrl = res.data
+            });
+        }, 200);
+    },
     toClose() {
       this.$emit("on-close");
     },
@@ -470,6 +491,9 @@ export default {
         parent.webFullScreen(this.streamAddr, this.isPic);
       } else {
         this.$store.state.app.isPic = this.isPic;
+        if(this.isPic){
+            this.$store.state.app.monitorInfo = this.monitorInfoR
+        }
         this.$store.state.app.webFullVisable = !this.$store.state.app
           .webFullVisable;
         this.$store.state.app.webFull = this.streamAddr;
@@ -636,15 +660,11 @@ export default {
     // console.log(document.getElementsById("videoPlayer").offsetWidth);
   },
   beforeDestroy() {
-    let flag =
-      "typeId" in this.$route.query && this.$route.query.typeId == 3
-        ? true
-        : false;
-    if (flag) {
-      this.$store.state.app.isPic = true;
-    } else {
-      this.$store.state.app.isPic = false;
+    if(this.picTurnTimer){
+        clearInterval(this.picTurnTimer)
+        this.picTurnTimer = null
     }
+    this.$store.state.app.isPic = false;
   },
   created() {
     this.playerOptions.autoplay = this.autoplay;

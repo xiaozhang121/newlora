@@ -26,8 +26,7 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                  :isPic="$store.state.app.isPic"
-                  :picUrl="$store.state.app.picSrc"
+                  :isPic="isPic"
                   @mousemove.native="pointerPos($event)"
                   @mouseout.native="clearTimer()"
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
@@ -218,6 +217,7 @@ export default {
   data() {
     const that = this;
     return {
+      isPic: false,
       typeId: -1,
       overFlag: false,
       offsetX: 0,
@@ -517,7 +517,7 @@ export default {
       that.overFlag = true;
       // console.log('x:'+event.offsetX)
       // console.log('y:'+event.offsetY)
-      if (that.$store.state.app.isPic) {
+      if (that.isPic) {
         if (event.target.className != "cameraImg") {
           that.overFlag = false;
         }
@@ -540,7 +540,7 @@ export default {
           ) {
             x = document.querySelector(".keyMonitor ").offsetWidth - pos * 2;
           }
-          if (this.$store.state.app.isPic) {
+          if (this.isPic) {
             x = that.offsetX;
           }
           getAxiosData(
@@ -794,10 +794,10 @@ export default {
     this.getEchasrts();
     this.getDataList();
     if (this.dataForm.typeId == 3) {
-      this.$store.state.app.isPic = true;
-      this.picTurn();
+      this.isPic = true;
+      // this.picTurn();
     } else {
-      this.$store.state.app.isPic = false;
+      this.isPic = false;
     }
   },
   mounted() {
