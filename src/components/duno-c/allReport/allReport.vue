@@ -546,9 +546,7 @@ export default {
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       this.dataForm.powerDeviceId = item.monitorDeviceType;
-      if (this.queryForm.powerDeviceId == "") {
-        this.queryForm.powerDeviceId = item.monitorDeviceType;
-      }
+      this.queryForm.powerDeviceId = item.monitorDeviceType;
       this.getDataList();
     },
     onSelectType(item, index) {
