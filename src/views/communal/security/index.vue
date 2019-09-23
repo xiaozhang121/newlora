@@ -166,6 +166,7 @@ export default {
   watch: {
     dataList: {
       handler(now) {
+        let i = 0;
         if (now.length || now.length == 0) {
           this.loading = false;
           clearTimeout(this.timer);
@@ -175,6 +176,7 @@ export default {
         } else {
           this.isEmpty = true;
         }
+        i++;
       },
       deep: true,
       immediate: true
