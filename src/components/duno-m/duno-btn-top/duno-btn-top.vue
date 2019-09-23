@@ -272,13 +272,14 @@ export default {
               let data = this.dataBackup
               let arr = []
               data.forEach((item,index)=>{
-                  if(item['describeName'].indexOf(value)>-1){
+                  if(item['describeName'] && item['describeName'].indexOf(value)>-1){
                       arr.push(item)
                   }
               })
               this.dataList = arr
           }else{
-              this.dataList = this.dataBackup
+              if(this.dataList.length != this.dataBackup.length)
+                  this.dataList = this.dataBackup
           }
       },
       onFocusd(){
