@@ -46,6 +46,7 @@
         </div>
         <div class="item-cons">
           <div
+            v-if="isEmpty"
             class="alarmLogIn"
             :class="{'canelLoading': !loading}"
             v-loading="loading"
@@ -60,6 +61,14 @@
               :key="index"
               @handleListData="handleData"
             />
+          </div>
+          <div v-else class="empty">
+            <div>
+              <p>近3日没有人员违规、异物入侵和车辆出入记录</p>
+              <p>
+                <a href="javascript:;" @click="clickToDetail(2)">查看更多历史</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -101,6 +110,7 @@ export default {
         getDataListURL: "/lenovo-alarm/api/security/list"
       },
       isCenter: false,
+      isEmpty: true,
       time: "",
       remarks: [],
       dataForm: {},
@@ -158,6 +168,11 @@ export default {
         if (now.length || now.length == 0) {
           this.loading = false;
           clearTimeout(this.timer);
+        }
+        if (now.length == 0) {
+          this.isEmpty = false;
+        } else {
+          this.isEmpty = true;
         }
       },
       deep: true,
@@ -397,6 +412,26 @@ export default {
     .item-cons {
       height: 100%;
       overflow-y: auto;
+      .empty {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 491px;
+        background-color: #142838;
+        opacity: 0.8;
+        padding-top: 15%;
+        & > div {
+          width: 50%;
+          margin: 0 auto;
+          color: #ffffff;
+          text-align: center;
+          p {
+            padding-top: 2%;
+          }
+          a {
+            text-decoration: underline;
+          }
+        }
+      }
     }
     .item {
       flex-grow: 1;
