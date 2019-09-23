@@ -367,7 +367,7 @@
         <popupinfod   :showClassify="true"  :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose"  :index="index" :monitorDeviceType="item['isShowClassifyVisble']"  v-if="item['isShowClassifyVisble']" :visible="item['isShowClassifyVisble']"></popupinfod>
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
-        <!--<camera-power :visible="true" title="demo" v-if="index==modeList.length-1" />-->
+        <!--<camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']"  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />-->
       </div>
     </div>
     <i class="iconfont icon-bukongqiu" @click="handeControl"></i>
@@ -511,6 +511,7 @@
                         cameraFlagVisible: false,
                         cameraFlagVisibled: false,
                         isShowClassifyVisble: false,
+                        isShowPowerVisible: false,
                         hotcameraFlagVisible: false,
                         itemData: {}
                     },
@@ -522,6 +523,7 @@
                         cameraFlagVisible: false,
                         cameraFlagVisibled: false,
                         isShowClassifyVisble: false,
+                        isShowPowerVisible: false,
                         hotcameraFlagVisible: false,
                         itemData: {}
                     }
@@ -699,6 +701,7 @@
                         item['cameraFlagVisible'] = false
                         item['cameraFlagVisibled'] = false
                         item['isShowClassifyVisble'] = false
+                        item['isShowPowerVisible'] = false
                         item['hotcameraFlagVisible'] = false
                     })
                     this.$forceUpdate()
@@ -750,6 +753,9 @@
                         that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
                     }
                     if(item['isShowClassifyVisble']){
+                        that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
+                    }
+                    if(item['isShowPowerVisible']){
                         that.toDevice(that.tempObj['item'],that.tempObj['index'],that.tempObj['target'],that.tempObj['modelIndex'])
                     }
                     if(item['hotcameraFlagVisible']){
@@ -852,6 +858,9 @@
                     if(!('monitorDeviceType' in item) && this.isDiagram == 1){
                         // debugger
                         this.modeList[modelIndex].isShowClassifyVisble = flag
+                    }
+                    if(!('monitorDeviceType' in item) && this.isDiagram != 1){
+                        this.modeList[modelIndex].isShowPowerVisible = flag
                     }
                     if(item.monitorDeviceType == '1' || item.monitorDeviceType == '5'){
                         this.modeList[modelIndex].popupinfoVisable = flag

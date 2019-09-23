@@ -1178,6 +1178,9 @@
                         that.$emit('toDetail', that.clickTarget,1,null,1)
                         console.log(that.clickTarget)
                     }
+                    if(that.clickTarget && that.isDiagram != 1){
+                        that.$emit('toDetail', that.clickTarget,1,null,1)
+                    }
                 })
             },
             clearTextLabel(){
@@ -1292,10 +1295,10 @@
                     that.isClick = true
                     // console.log(that.pointListObj)
                 });
-                this.mapTarget.on('click', function (evt) {
+               /* this.mapTarget.on('click', function (evt) {
 
                     alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
-                })
+                })*/
                 this.addInteraction()
                 setTimeout(()=>{
                     // this.dropOverlay()

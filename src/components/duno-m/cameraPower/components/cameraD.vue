@@ -1,12 +1,12 @@
 <template>
     <div class="cameraD" >
         <div class="img">
-            <img src="454">
+            <img :src="data['pic']">
         </div>
         <div class="contain">
-            <p>2019-05-08  13:22:50</p>
-            <p>本体：油温表计</p>
-            <p>内容：45℃</p>
+            <p>{{ data['executeTime'] }}</p>
+            <p>{{ data['part'] }}</p>
+            <p>{{ data['alarmValue'] }}</p>
         </div>
         <div class="btn">
             <a href="javascript:void(0)">详情</a>
@@ -26,7 +26,7 @@
             }
         },
         props: {
-
+            data:{}
         },
         watch: {
 
