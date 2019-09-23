@@ -35,7 +35,6 @@
                   :autoplay="playerOptionsd.autoplay"
                   :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
-                  :Initialization="true"
                 ></key-monitor>
                 <span
                   v-show="overFlag"

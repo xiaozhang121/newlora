@@ -54,6 +54,7 @@
               :routeName="routeNamed"
               :configType="configType"
               v-for="(item,index) in dataMonitor"
+              :isPic="item['isPic'] == 1"
               :autoplay="true"
               :class="{'noMargin': (index+1) % active == 0}"
               :key="index"

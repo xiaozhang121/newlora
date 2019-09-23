@@ -286,7 +286,7 @@
                     this.maxLength = 0
                 }
                 this.maxLength++
-                if(this.maxLength < 3){
+                if(this.maxLength < 50){
                     if(value != ''){
                         let data = this.dataBackup
                         let arr = []
