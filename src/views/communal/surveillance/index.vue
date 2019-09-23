@@ -674,6 +674,7 @@ export default {
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
+          that.initConfigure(type)
           that.$forceUpdate();
         } else that.$message.error(res.msg);
       });
