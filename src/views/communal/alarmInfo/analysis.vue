@@ -895,11 +895,50 @@ export default {
       this.endTime = `${time} 00:00:00`;
       this.startTime = `${time} 23:59:59`;
     },
+    initChart() {
+      let that = this;
+      getAmmeter().then(res => {
+        if (res.code == 200) {
+          let resData = res.data;
+          let map = resData.map(item => {
+            const obj = {
+              describeName: item.label,
+              ammeterType: item.value,
+              title: "titleAmmeter"
+            };
+            return obj;
+          });
+          that.ammeterData = map;
+          that.titleAmmeter = res.data[0].label;
+          let value1 = {
+            meterType: res.data[0].value
+          };
+          getMainEqui(value1).then(res => {
+            if (res.code == 200) {
+              that.partsList = res.data;
+              that.titleParts = res.data[0].label;
+              let value2 = {
+                part: res.data[0].value
+              };
+              getDifference(value2).then(res => {
+                if (res.code == 200) {
+                  that.phaseList = res.data;
+                  that.titlePhase = res.data[0].label;
+                  that.monitorDeviceId = res.data[0].value;
+                  that.getEcharts();
+                }
+              });
+            }
+          });
+        }
+      });
+    },
     dataListSelectionChangeHandle() {},
     pageSizeChangeHandle() {}
   },
   mounted() {
     this.getAmmeterData();
+    this.initChart();
     // this.initTime();
   },
   watch: {
@@ -1012,14 +1051,14 @@ export default {
         float: left;
       }
       & > div:first-child {
-        width: 70%;
+        width: 65%;
         // text-align: center;
         padding-left: 43%;
         font-size: 18px;
         color: #fff;
       }
       & > div:nth-child(2) {
-        width: 30%;
+        width: 35%;
         overflow: hidden;
         & > div:first-child {
           overflow: hidden;
@@ -1039,7 +1078,7 @@ export default {
             .btnList {
               /*background: rgba(0, 0, 0, 0);*/
               width: 100px;
-              top: 133px;
+              top: 136px;
               .btnItem {
                 color: white;
               }
