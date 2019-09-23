@@ -678,9 +678,9 @@ export default {
         } else that.$message.error(res.msg);
       });
     },
-    initConfigure() {
+    initConfigure(type) {
       const that = this;
-      initConfigure({ userId: this.$store.state.user.userId, type: "2" }).then(
+      initConfigure({ userId: this.$store.state.user.userId, type: type }).then(
         res => {
           that.$store.state.user.configInfo = res.data;
         }
@@ -749,6 +749,7 @@ export default {
           this.$refs.btnTopRef.disabled = true;
         }
         this.getCameraType();
+        this.initConfigure(item["format"]);
       });
     },
     onSelectVol(item) {

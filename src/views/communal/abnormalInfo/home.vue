@@ -47,13 +47,13 @@
               <img src="../../../assets/iconFunction/icon_statement.png" alt />
               报表
             </div>
-            <div class="reportLoad">
-              <div
-                class="re-middle"
-                v-loading="loadingOption"
-                element-loading-background="rgba(0, 0, 0, 0.8)"
-                element-loading-text="加载中"
-              >
+            <div
+              class="reportLoad"
+              v-loading="loadingOption"
+              element-loading-background="rgba(0, 0, 0, 0.8)"
+              element-loading-text="加载中"
+            >
+              <div class="re-middle">
                 <ReportTable
                   v-for="(item,index) in mockData"
                   :key="index"
