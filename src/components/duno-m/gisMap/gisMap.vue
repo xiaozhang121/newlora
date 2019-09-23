@@ -1049,6 +1049,11 @@
                     pointY = data['yReal']
                 }
                 if(point['alarmConfig'] != 3){
+                    try{
+                        this.clearAlarm()
+                    }catch (e) {
+                        
+                    }
                     if(!this.timer){
                         this.mapTarget.getView().setCenter(transform([pointX, pointY], 'EPSG:3857', 'EPSG:4326'))
                         this.mapTarget.getView().setZoom(20)
@@ -1069,6 +1074,7 @@
                 clearInterval(this.timer)
                 clearTimeout(this.timerd)
                 this.timer = null
+                this.timerd = null
                 this.clearCircle()
             },
             clearCircle(){
