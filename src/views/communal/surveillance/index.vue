@@ -843,6 +843,9 @@ export default {
     margin-right: 0 !important;
   }
   width: 100%;
+  .cameraImg{
+    z-index: 0 !important;
+  }
   .monitorM {
     width: 100% !important;
     height: 100% !important;
