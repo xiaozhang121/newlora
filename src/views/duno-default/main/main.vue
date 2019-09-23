@@ -194,6 +194,9 @@ export default {
     };
   },
   computed: {
+    alarmInfo(){
+        return this.$store.state.user.alarmInfo
+    },
     addrFlag() {
       return this.$store.state.app.webFullVisable;
     },
@@ -351,14 +354,17 @@ export default {
       deep: true,
       immediate: true
     },
-    isAlarm: {
-      handler(now) {
-        if (this.frameLength) this.visible = now;
-      },
-      deep: true,
-      immediate: true
+    alarmInfo: {
+        handler(now) {
+            this.visible = false
+            if (this.frameLength && now['alarmConfig'] == 1) {
+                this.visible = true;
+            }
+        },
+        deep: true
     },
     $route(newRoute) {
+      this.$store.state.user.alarmInfo = {}
       this.setBreadCrumb(newRoute.matched);
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute));
     },

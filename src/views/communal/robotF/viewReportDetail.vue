@@ -137,7 +137,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h("div", params.row.linkName2 + params.row.linkName3);
+            return h("div", params.row.linkName2 + params.row.linkName3?params.row.linkName3:'');
           }
         },
          {
@@ -147,6 +147,13 @@ export default {
           align: "center",
           tooltip: true
         },
+          {
+              title: "识别结果",
+              key: "yinShiResult",
+              minWidth: 90,
+              align: "center",
+              tooltip: true
+          },
           {
           title: "缺陷等级",
           key: "warnContent",

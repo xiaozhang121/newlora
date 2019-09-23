@@ -8,6 +8,7 @@
       />
       <KeyMonitor
         v-else
+        :autoplay="autoplay"
         :streamAddr="remarkData.alarmFileAddress"
         :imgAdress="remarkData.pic"
         :monitorInfo="remarkData"
@@ -71,6 +72,12 @@ export default {
   name: "AlarmLog",
   components: { KeyMonitor, buttonCustom, Remarks, wraning },
   props: {
+    autoplay: {
+        type: Boolean,
+        default: () => {
+            return false;
+        }
+    },
     isShow: {
       type: Boolean,
       default: () => {

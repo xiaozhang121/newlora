@@ -55,6 +55,7 @@
           >
             <AlarmLog
               v-for="(item,index) in dataList"
+              :autoplay="true"
               :remarkData="dataList[index]"
               :time="item.alarmTime"
               :remarks="item.dealList"
