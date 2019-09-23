@@ -1014,6 +1014,9 @@ export default {
     @media screen and (max-width: 1366px) {
       height: 70%;
     }
+    @media screen and (max-width: 1366px), screen and (max-height: 1080px) {
+      height: 80%;
+    }
     & > div {
       float: left;
     }
@@ -1058,7 +1061,7 @@ export default {
       }
     }
     .reportLoad {
-      height: 270px;
+      min-height: 270px;
     }
     .reportForm {
       position: relative;
