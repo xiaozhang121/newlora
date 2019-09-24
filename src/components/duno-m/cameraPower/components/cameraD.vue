@@ -1,15 +1,15 @@
 <template>
     <div class="cameraD" >
         <div class="img">
-            <img :src="data['pic']">
+            <img :src="dataInfo['pic']">
         </div>
         <div class="contain">
-            <p>{{ data['executeTime'] }}</p>
-            <p>{{ data['part'] }}</p>
-            <p>{{ data['alarmValue'] }}</p>
+            <p>{{ dataInfo['executeTime'] }}</p>
+            <p>{{ dataInfo['part'] }}</p>
+            <p>{{ dataInfo['alarmValue'] }}</p>
         </div>
         <div class="btn">
-            <a href="javascript:void(0)">详情</a>
+            <a @click.stop="toDetail()">详情</a>
         </div>
     </div>
 </template>
@@ -26,12 +26,15 @@
             }
         },
         props: {
-            data:{}
+            dataInfo:{}
         },
         watch: {
 
         },
         methods:{
+            toDetail(){
+                this.$emit('on-detail', this.dataInfo)
+            },
             onClose(){
             }
         },

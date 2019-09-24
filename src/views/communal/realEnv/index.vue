@@ -367,7 +367,7 @@
         <popupinfod   :showClassify="true"  :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose"  :index="index" :monitorDeviceType="item['isShowClassifyVisble']"  v-if="item['isShowClassifyVisble']" :visible="item['isShowClassifyVisble']"></popupinfod>
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
-        <!--<camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']"  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />-->
+        <camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']"  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
       </div>
     </div>
     <i class="iconfont icon-bukongqiu" @click="handeControl"></i>
@@ -946,6 +946,9 @@
         background: #1d2026 !important;
       }
     }
+    .HistoricalDocuments .el-dialog{
+        margin-top: 24vh !important;
+    }
     .icon-xiala{
      /* width: 12px;
       height: 15px;*/
@@ -1050,8 +1053,8 @@
     }
     .model{
       width: 100%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      /*left: 50%;*/
+      /*transform: translate(-50%, -50%);*/
       position: absolute;
     }
     .icon-bukongqiu{

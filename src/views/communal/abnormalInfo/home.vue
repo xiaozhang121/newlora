@@ -592,7 +592,6 @@ export default {
     getUbiquitous() {
       let url = "/lenovo-mon/api/monitoring/rack/zabbix/rack-health";
       getAxiosData(url).then(res => {
-        debugger;
         let ubiquitousData = res.data;
         this.init(ubiquitousData);
       });

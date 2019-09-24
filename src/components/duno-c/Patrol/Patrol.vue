@@ -235,7 +235,6 @@ export default {
   },
   methods: {
     toRunTask(param){
-       debugger
        this.$emit("to-run", param)
     },
     createTask() {

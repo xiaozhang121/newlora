@@ -366,7 +366,6 @@
                 if(flag){
                     return
                 }
-                debugger
                 if(!this.isClick){
                     this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
                     // this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']

@@ -544,7 +544,6 @@ export default {
                 that.$forceUpdate()
                 that.isRequest = false
                 that.loading = false
-                debugger
                 for (let i = indexX; i < that.videoList.length; i++) {
                     that.cancelList.push(axios.CancelToken.source())
                      postAxiosData("/lenovo-device/device/video/record/video/pic", {
