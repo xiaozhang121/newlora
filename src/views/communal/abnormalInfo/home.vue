@@ -657,8 +657,7 @@ export default {
       } else if (item == 2) {
         route = "box";
       } else if (item == 3) {
-        // route = "intellLock";
-        return;
+        route = "intellLock";
       } else {
         route = "platformMonitor";
       }
