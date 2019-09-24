@@ -71,7 +71,7 @@
           <div class="itemBottomTitle">
             <el-row>
               <el-col :span="15">{{item.alarmTime}}</el-col>
-              <el-col :span="9">
+              <el-col :span="24">
                 <div class="buttonAll">
                   <el-button
                     v-if="item['isReturn']"
@@ -80,6 +80,7 @@
                     @click="restoration(item, '1', index)"
                   >复归</el-button>
                   <el-button type="success" round @click="restoration(item, '2', index)">备注</el-button>
+                  <el-button type="info" round @click="toWatch(item)">查看</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -121,7 +122,7 @@ export default {
       return this.value > 0;
     },
     isAlarm() {
-      return this.$store.state.user.isAlarm;
+      return this.$store.state.user.alarmInfo;
     }
   },
   watch: {
@@ -144,6 +145,15 @@ export default {
     }
   },
   methods: {
+    toWatch(item){
+      let query = {}
+      query['alarmId'] = item['alarmId']
+      query['type'] = 'alarm'
+      if(item['isPhaseAlarm'] == 1){
+          query['type'] = 'phase'
+      }
+      getAxiosData("/lenovo-alarm/api/alarm/sendWithType",query)
+    },
     beforeClose() {
       this.dialogVisible = false;
     },
