@@ -14,7 +14,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <chosen-list :dataListOption="dataList" />
+      <chosen-list :dataListOption="dataList" @inputChange="inputChange" />
     </el-form>
   </div>
 </template>
@@ -84,12 +84,21 @@ export default {
     };
   },
   methods: {
-    onChange(value) {
+    inputChange(item) {
+        if (this.choseType == 1) {
+            this.initData(item);
+        } else if (this.choseType == 2) {
+            this.onChange(this.choseType, item);
+        } else {
+            this.onChange(this.choseType, item);
+        }
+    },
+    onChange(value,deviceName) {
        this.$emit('getchoseType',value)
         this.choseType=value;
       if (value != 3) {
         const that = this;
-        let query = { pageIndex: 1, pageRows: 888888 };
+        let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName};
         query["planType"] = value;
         getAxiosData("/lenovo-plan/api/device/multi", query).then(res => {
           let data = res.data.tableData;
@@ -109,7 +118,7 @@ export default {
         });
       } else {
         const that = this;
-        let query = { pageIndex: 1, pageRows: 888888 };
+        let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName};
         query["planType"] = value;
         getAxiosData("/lenovo-plan/api/environment/list/camera", query).then(
           res => {
@@ -129,13 +138,13 @@ export default {
         );
       }
     },
-    initData() {
+    initData(deviceName) {
       const that = this;
       postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
         this.taskKindList = res.data;
         if (!this.rowDataLength) that.form.taskKind = res.data[0].value;
         this.$forceUpdate();
-        let query = { pageIndex: 1, pageRows: 888888 };
+        let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName};
         query["planType"] = that.form.taskKind;
         getAxiosData("/lenovo-plan/api/device/multi", query).then(res => {
           let data = res.data.tableData;

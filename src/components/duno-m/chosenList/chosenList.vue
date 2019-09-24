@@ -1,7 +1,10 @@
 <template>
     <div class="chosenList">
         <div class="title">
-            <span>{{ title }}</span>
+            <div>
+                <span>{{ title }}</span>
+                <el-input placeholder="请输入内容" v-model="input" @change="inputChange" clearable></el-input>
+            </div>
             <span class="last" v-if="control" @click="toHide()">收起<i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i></span>
         </div>
         <el-collapse-transition>
@@ -88,6 +91,9 @@
             }
         },
         methods: {
+            inputChange(item) {
+                this.$emit("inputChange", item);
+            },
             toHide(){
                 this.collapse = !this.collapse
             }
@@ -104,6 +110,14 @@
         .title{
             display: flex;
             justify-content: space-between;
+            & > div {
+                display: flex;
+                justify-content: space-between;
+                    span {
+                        white-space: nowrap;
+                        padding-right: 10px;
+                    }
+            }
             span.last{
                 color: #999999;
                 margin-right: 10px;
