@@ -129,7 +129,7 @@ export default {
       isCenter: false,
       valueSelect: "",
       dataMonitor: [],
-      url: "/lenovo-plan/api/plan/visible-report/download",
+      url: "/lenovo-plan/api/information/overview/report/list/export",
       timeQueryData: {},
       inspecReport: [],
       lightInformation: [],
@@ -255,7 +255,7 @@ export default {
         .format("YYYY-MM-DD HH:mm:ss");
       this.timeQueryData.startTime = startTime;
       this.timeQueryData.endTime = endTime;
-      this.timeQueryData.playtype = "1";
+      //   this.timeQueryData.playtype = "1";
     }
   },
   mounted() {

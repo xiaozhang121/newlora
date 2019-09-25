@@ -711,6 +711,8 @@ export default {
       this.clearChart();
       this.valueParts = [];
       this.valuePhase = [];
+      this.titleParts = "";
+      this.titlePhase = "";
       let query = {
         meterType: item["ammeterType"]
       };
@@ -718,6 +720,7 @@ export default {
     },
     selectParts(item) {
       this.titleParts = item["describeName"];
+      this.titlePhase = "";
       this.clearChart();
       let query = {
         part: this.valueParts.join(",")

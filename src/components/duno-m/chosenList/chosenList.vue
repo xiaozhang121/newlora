@@ -3,7 +3,7 @@
         <div class="title">
             <div>
                 <span>{{ title }}</span>
-                <el-input placeholder="请输入内容" v-model="input" @change="inputChange" clearable></el-input>
+                <el-input v-show="isInput" placeholder="请输入内容" v-model="input" @change="inputChange" clearable></el-input>
             </div>
             <span class="last" v-if="control" @click="toHide()">收起<i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i></span>
         </div>
@@ -38,6 +38,12 @@
             }
         },
         props: {
+            isInput: {
+                type: Boolean,
+                default: () => {
+                    return false;
+                }
+            },
             titleOption:{
                 type: String,
                 default: ''

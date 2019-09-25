@@ -62,7 +62,12 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <enlarge
+      :pushCamera="false"
+      :isShow="isEnlarge"
+      :srcData="srcData"
+      @closeEnlarge="closeEnlarge"
+    />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
 </template>

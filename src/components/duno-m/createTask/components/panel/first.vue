@@ -14,7 +14,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <chosen-list :dataListOption="dataList" @inputChange="inputChange" />
+      <chosen-list :dataListOption="dataList" :isInput="true" @inputChange="inputChange" />
     </el-form>
   </div>
 </template>

@@ -17,7 +17,7 @@
       <div class="steps">
         <steps :step="stepValue" />
       </div>
-      <chosen-list :dataListOption="dataList" @change='demo'/>
+      <chosen-list :isInput="true" :dataListOption="dataList" @change='demo' @inputChange="inputChange" />
     </el-form>
   </div>
 </template>
@@ -87,19 +87,22 @@
             //     }
             //   );
             // },
-
+            inputChange(item) {
+                this.initData(item);
+            },
             onChange(value) {
                 const that = this;
                 if (value != "4") {
                     this.$emit("getchoseType", value);
                 }
             },
-            initData() {
+            initData(deviceName) {
                 const that = this;
                 postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
                     this.taskKindList = res.data;
                     this.$forceUpdate();
-                    let query = { pageIndex: 1, pageRows: 888888 };
+                    let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName,
+          monitorDeviceName: deviceName };
                     query["monitorDeviceType"] = 3;
                     getAxiosData("/lenovo-plan/api/environment/list/camera", query).then(
                         res => {

@@ -122,7 +122,7 @@ export default {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,
             taskRunHisId: this.reportData.ID,
-            planType: this.reportData.taskType
+            planType: this.reportData.taskType,
           }
         });
         return;
@@ -136,6 +136,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
+            batchId: this.reportData.batchId,
             url: "/lenovo-plan/api/plan/visible-report/view/detail"
           }
         });
@@ -148,6 +149,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
+            batchId: this.reportData.batchId,
             url: "/lenovo-plan/api/plan/iir-report/view/detail"
           }
         });
@@ -157,6 +159,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
+            batchId: this.reportData.batchId,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
@@ -176,6 +179,7 @@ export default {
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
+            batchId: this.reportData.batchId,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });

@@ -19,6 +19,7 @@
         v-if="srcData.fileType=='2'"
         ref="monitor"
         width="100%"
+        :pushCamera="pushCamera"
         :streamAddr="srcData.alarmFileAddress"
       />
     </el-dialog>
@@ -33,11 +34,17 @@ export default {
     KeyMonitor
   },
   data() {
-      return {
-          isMax: false
-      }
+    return {
+      isMax: false
+    };
   },
   props: {
+    pushCamera: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     isShow: {
       type: Boolean,
       default: () => {
@@ -69,11 +76,16 @@ export default {
   },
   mounted() {
     if (document.documentElement.clientWidth > 3000) {
-     /* this.width = "45%";*/
-        this.isMax = true
-        document.querySelector('.enlarge .el-dialog__wrapper').children[0].style.height = window.outerHeight* 0.826412614980289 + 'px'
+      /* this.width = "45%";*/
+      this.isMax = true;
+      document.querySelector(
+        ".enlarge .el-dialog__wrapper"
+      ).children[0].style.height =
+        window.outerHeight * 0.826412614980289 + "px";
     }
-      document.querySelector('.enlarge .el-dialog__wrapper').children[0].style.height = window.outerHeight* 0.826412614980289 + 'px'
+    document.querySelector(
+      ".enlarge .el-dialog__wrapper"
+    ).children[0].style.height = window.outerHeight * 0.826412614980289 + "px";
   }
 };
 </script>
@@ -84,7 +96,7 @@ export default {
     width: 100%;
     display: block;
   }
-  .offsetImg{
+  .offsetImg {
     position: absolute;
     top: 0;
     left: 0;
