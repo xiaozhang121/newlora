@@ -548,6 +548,17 @@ export default [{
                     },
                     component: () => import('@/views/communal/abnormalInfo/server.vue')
                 },
+                {
+                    path: 'taskReport',
+                    name: 'taskReport',
+                    meta: {
+                        topNav: '1',
+                        title: '全面巡视任务报告',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/taskReport.vue')
+                },
             ]
         }]
     },
