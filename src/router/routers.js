@@ -537,6 +537,17 @@ export default [{
                     },
                     component: () => import('@/views/communal/abnormalInfo/networkDevice.vue')
                 },
+                {
+                    path: 'server',
+                    name: 'serverList',
+                    meta: {
+                        topNav: '1',
+                        title: '服务器',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/server.vue')
+                },
             ]
         }]
     },
