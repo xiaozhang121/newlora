@@ -80,7 +80,6 @@
         watch: {
             dataInfo:{
                   handler(now){
-                      debugger
                       let type = now['monitorDeviceType']
                       this.installTime = now['deviceMessage']['createTime']?now['deviceMessage']['createTime']:'/'
                       this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'

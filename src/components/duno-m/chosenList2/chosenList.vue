@@ -138,7 +138,6 @@ export default {
   },
   methods: {
     change(val, i) {
-      debugger;
       if (val.value == 0) {
         if (val.isCheck) {
           this.dataList[i].listArr.map(res => {

@@ -28,7 +28,9 @@ export default {
     steps
   },
   data() {
+    const self = this
     return {
+      stringQuery: '',
       init: true,
       preList: []
     };
@@ -68,7 +70,7 @@ export default {
       deep: true
     },
     list: {
-      handler(now) {
+      handler(now, old) {
         console.log(now);
         let data = now.dataList.map(item => {
           if (item["isCheck"]) {
@@ -81,7 +83,12 @@ export default {
             query.push(item);
           }
         });
+        if(this.stringQuery!= '' && this.stringQuery  == query.join(",")){
+            return
+        }
+        this.stringQuery = query.join(",")
         var that = this;
+        that.dataList2  = []
         postAxiosData("/lenovo-plan/api/list/person-alarm-type").then(res => {
           that.preList = res.data;
           that.preList.unshift({

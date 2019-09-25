@@ -117,7 +117,6 @@ export default {
           "/lenovo-plan/api/handheldinfrared/list/device",
           query
         ).then(res => {
-          debugger
           console.log(res)
           var dataList = [];
           for (var i = 0; i <= res.data.length - 1; i++) {
@@ -128,6 +127,7 @@ export default {
                   dataList.push({
                     areaId: res.data[i].areaId,
                     title: res.data[i].areaName,
+                    isCheck: false,
                     children: []
                   });
                   break;
@@ -157,9 +157,9 @@ export default {
             for (var i = 0; i <= allArr.length - 1; i++) {
               if (val.areaId == allArr[i].areaId) {
                 // dataList[i].id=val.parentDeviceId
-                debugger
-          
+
                 allArr[i].children.push({
+                  isCheck: false,
                   title: val.deviceName,
                   deviceId: val.deviceId,
                   deviceName:val.deviceName,

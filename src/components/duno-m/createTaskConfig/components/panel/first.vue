@@ -54,7 +54,7 @@ export default {
     }
   },
   watch: {
- 
+
     list: {
       handler(now) {},
       deep: true
@@ -120,7 +120,6 @@ export default {
               monitorDeviceIds.push(val.deviceId);
             });
             var query = monitorDeviceIds.join(",");
-            debugger
             this.dataList=info;
             this.$forceUpdate();
           }
@@ -129,7 +128,6 @@ export default {
     }
   },
   mounted() {
-    debugger
     //   this.demo();
     this.initData();
     // this.dataList = [

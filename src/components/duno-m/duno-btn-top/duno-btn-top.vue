@@ -281,6 +281,10 @@
 
             },
             onKeyup(event){
+                if(!this.dataBackup.length){
+                    this.dataBackup = this.dataList
+                }
+                console.log(this.titleMain)
                 let value = this.titleMain
                 if(event){
                     this.maxLength = 0
@@ -366,7 +370,6 @@
                 if(flag){
                     return
                 }
-                debugger
                 if(!this.isClick){
                     this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
                     // this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']

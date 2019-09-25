@@ -174,12 +174,13 @@ export default {
       }
 
       var handheldInfraredDevices = [];
-      debugger;
       var deviceNum=[];
       this.$refs["panel[1]"].dataList.map(res => {
-        handheldInfraredDevices.push(res.id);
-        console.log(res)
-        deviceNum.push(res.deviceNum)
+        if(res.isCheck){
+          handheldInfraredDevices.push(res.id);
+          console.log(res)
+          deviceNum.push(res.deviceNum)
+        }
       });
       var query = {
         planDate: {
@@ -206,7 +207,6 @@ export default {
       var that = this;
       postAxiosData("/lenovo-plan/api/handheldinfrared/planCreate", query).then(
         res => {
-          debugger;
           console.log(res);
           if (res.code != 200) {
             this.$message(res.msg);

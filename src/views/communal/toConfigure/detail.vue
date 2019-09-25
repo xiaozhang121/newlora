@@ -790,9 +790,7 @@ export default {
       );
     },
     getType(value) {
-      debugger;
       console.log(value);
-      debugger;
       if (value == "4") {
         this.taskVisible = false;
         this.taskVisible3 = false;

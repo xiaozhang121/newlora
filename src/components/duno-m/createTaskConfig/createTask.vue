@@ -153,6 +153,10 @@ export default {
               this.$message("预置位时间不能为空");
               return;
             }
+           /* if(!arr.join(",").length){
+                this.$message("请选择");
+                return;
+            }*/
             deviceJson.push({
               monitorDeviceId: list[i].monitorDeviceId,
               monitorDeviceName: taskName,
