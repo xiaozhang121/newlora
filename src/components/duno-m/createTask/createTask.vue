@@ -157,11 +157,11 @@ export default {
         ["value"]: [
           {
             startTime:
-              new Date(this.$refs["panel[2]"].$data.value3).getHours() +
+              (Number(new Date(this.$refs["panel[2]"].$data.value3).getHours()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getHours())):(Number(new Date(this.$refs["panel[2]"].$data.value3).getHours())) +
               ":" +
-              new Date(this.$refs["panel[2]"].$data.value3).getMinutes() +
+              (Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes())):(Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes())) +
               ":" +
-              new Date(this.$refs["panel[2]"].$data.value3).getSeconds()
+              (Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds())):(Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds()))
           }
         ]
       };
