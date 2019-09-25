@@ -206,7 +206,7 @@ export default {
                     patrol: params.row.status == "1"
                   }
                 },
-                params.row.statusNameW
+                params.row.statusName
               )
             );
             return h("div", newArr);
