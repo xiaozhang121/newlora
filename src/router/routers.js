@@ -114,7 +114,7 @@ export default [{
                 path: 'realEnv',
                 name: 'realEnvIndex',
                 meta: {
-                    title: '全部电压',
+                    title: '全部电压等级',
                     topNav: '2',
                     notCache: true,
                     toListName: 'realEnvList',
@@ -558,7 +558,7 @@ export default [{
         meta: {
             hide: true,
             isAlone: true,
-            title: '动态环境监测',
+            title: '现场安全管控',
             notCache: true
         },
         children: [{
@@ -566,7 +566,7 @@ export default [{
                 name: 'environmental',
                 meta: {
                     topNav: '2',
-                    title: '动态环境总览',
+                    title: '信息总览',
                     notCache: true,
                     toListName: 'environmentalList',
                     btnArr: []
@@ -824,7 +824,7 @@ export default [{
                 name: 'visiblelight',
                 meta: {
                     topNav: '2',
-                    title: '可见光',
+                    title: '可见光监测',
                     notCache: true,
                     toListName: 'visiblelightList',
                     btnArr: []
@@ -846,7 +846,7 @@ export default [{
                         name: 'light-report',
                         meta: {
                             topNav: '2',
-                            title: '可见光',
+                            title: '可见光监测',
                             hideInMenu: true,
                             isDetails: true,
                             active: 'visiblelightList'
@@ -858,7 +858,7 @@ export default [{
                         name: 'light-info',
                         meta: {
                             topNav: '2',
-                            title: '可见光',
+                            title: '可见光监测',
                             hideInMenu: true,
                             isDetails: true,
                             active: 'visiblelightList'
@@ -870,7 +870,7 @@ export default [{
                         name: 'light-detail',
                         meta: {
                             topNav: '2',
-                            title: '可见光',
+                            title: '可见光监测',
                             hideInMenu: true,
                             isDetails: true,
                             active: 'visiblelightList'

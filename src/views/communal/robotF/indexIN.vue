@@ -145,7 +145,7 @@
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/robot-two/list", name: "机器人巡视" },
-                    { path: "", name: "机器人" }
+                    { path: "", name: "轨道机器人" }
                 ],
                 baseUrl:
                     process.env.NODE_ENV === "development"

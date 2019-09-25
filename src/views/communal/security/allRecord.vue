@@ -159,7 +159,7 @@ export default {
       titleTypeR: "全部摄像头",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
-        { path: "/environmental/list", name: "动态环境监测" },
+        { path: "/environmental/list", name: "现场安全管控" },
         { path: "", name: "24小时监测记录" }
       ],
       columns: [

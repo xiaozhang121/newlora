@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="titleLight">可见光</div>
+    <div class="titleLight">可见光监测</div>
     <div class="reportRecode">
       <div class="report">
         <div>最新生成的巡检报告</div>
@@ -131,7 +131,7 @@ export default {
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/visiblelight/list", name: "设备监测" },
-        { path: "", name: "可见光" }
+        { path: "", name: "可见光监测" }
       ]
     };
   },

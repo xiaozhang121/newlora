@@ -368,7 +368,7 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.pic },
+                  attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -504,22 +504,22 @@ export default {
       dataTimeD: "",
       dataBread: [{ name: "摄像头详情" }],
       pageParam: {
-          pageIndex: 1,
-          totalRows: 1
+        pageIndex: 1,
+        totalRows: 1
       },
       isLock: 0,
-      timeData: ''
+      timeData: ""
     };
   },
-  watch:{
-      isLock(now){
-          if(now){
-              this.controlAble = true
-              this.isMonitor =  false
-              this.isShowBox =  true
-              this.isCamera = false
-          }
+  watch: {
+    isLock(now) {
+      if (now) {
+        this.controlAble = true;
+        this.isMonitor = false;
+        this.isShowBox = true;
+        this.isCamera = false;
       }
+    }
   },
   props: {
     deviceId: {
@@ -528,29 +528,35 @@ export default {
     }
   },
   methods: {
-    getCoordinate(type, w0, w1, h0, h1, x0, y0){
-        let obj = {x: 0, y: 0}
-        // 原始-->页面
-        if(type){
-            obj['x'] = (w0/w1) * x0
-            obj['y'] = (h0/h1) * y0
-        }else{
+    getCoordinate(type, w0, w1, h0, h1, x0, y0) {
+      let obj = { x: 0, y: 0 };
+      // 原始-->页面
+      if (type) {
+        obj["x"] = (w0 / w1) * x0;
+        obj["y"] = (h0 / h1) * y0;
+      } else {
         // 页面-->原始
-            obj['x'] = (w1/w0) * x0
-            obj['y'] = (h1/h0) * y0
-        }
-        return obj
+        obj["x"] = (w1 / w0) * x0;
+        obj["y"] = (h1 / h0) * y0;
+      }
+      return obj;
     },
-    getVideo(pageIndex){
-        let index = 1
-        if(pageIndex){
-            index = pageIndex
-        }
-        getAxiosData('/lenovo-device/device/video/record/videos', {startTime: this.timeData, endTime: this.timeData, pageIndex: index, pageRows: 10,  monitorDeviceId: this.dataForm.monitorDeviceId}).then(res=>{
-            let data = res.data.tableData
-            this.videoList = data
-            this.pageParam = res.data.pageParam
-        })
+    getVideo(pageIndex) {
+      let index = 1;
+      if (pageIndex) {
+        index = pageIndex;
+      }
+      getAxiosData("/lenovo-device/device/video/record/videos", {
+        startTime: this.timeData,
+        endTime: this.timeData,
+        pageIndex: index,
+        pageRows: 10,
+        monitorDeviceId: this.dataForm.monitorDeviceId
+      }).then(res => {
+        let data = res.data.tableData;
+        this.videoList = data;
+        this.pageParam = res.data.pageParam;
+      });
     },
     closeEnlarge() {
       this.isEnlarge = false;
@@ -769,44 +775,52 @@ export default {
       // this.getDataList();
     },
     getMonitorDeviceName() {
-      const that = this
+      const that = this;
       let url = "/lenovo-device/api/device-monitor/device";
       let query = {
         monitorDeviceId: this.$route.query.monitorDeviceId
       };
       getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
-        this.isLock = Number(res.data.isLock)
-        this.imgsrc = res.data.imgAddress
-        let img = new Image()
-        img.src = this.imgsrc
-        let w1 = 0
-        let h1 = 0
-        img.onload = function () {
-            w1 = img.width
-            h1 = img.height
-            let w0 = document.querySelector('.calibration').offsetWidth
-            let h0 = document.querySelector('.calibration').offsetHeight
-            let ww1 =  Math.abs(res.data.x0 -  res.data.x1)
-            let hh1 =  Math.abs(res.data.y0 -  res.data.y1)
-            let point = that.getCoordinate(1, w0, w1, h0, h1, res.data.x0, res.data.y0)
-            let whData = that.getCoordinate(1, w0, w1, h0, h1, ww1, hh1)
-            document.querySelector('#boxImg').style.left = point.x + 'px'
-            document.querySelector('#boxImg').style.top = point.y + 'px'
-            document.querySelector('#boxImg').style.width = whData.x + 'px'
-            document.querySelector('#boxImg').style.height = whData.y + 'px'
-        }  
+        this.isLock = Number(res.data.isLock);
+        this.imgsrc = res.data.imgAddress;
+        let img = new Image();
+        img.src = this.imgsrc;
+        let w1 = 0;
+        let h1 = 0;
+        img.onload = function() {
+          w1 = img.width;
+          h1 = img.height;
+          let w0 = document.querySelector(".calibration").offsetWidth;
+          let h0 = document.querySelector(".calibration").offsetHeight;
+          let ww1 = Math.abs(res.data.x0 - res.data.x1);
+          let hh1 = Math.abs(res.data.y0 - res.data.y1);
+          let point = that.getCoordinate(
+            1,
+            w0,
+            w1,
+            h0,
+            h1,
+            res.data.x0,
+            res.data.y0
+          );
+          let whData = that.getCoordinate(1, w0, w1, h0, h1, ww1, hh1);
+          document.querySelector("#boxImg").style.left = point.x + "px";
+          document.querySelector("#boxImg").style.top = point.y + "px";
+          document.querySelector("#boxImg").style.width = whData.x + "px";
+          document.querySelector("#boxImg").style.height = whData.y + "px";
+        };
       });
     },
     changeDate(now) {
-        let data = ''
-        if(now){
-            data = moment(now).format("YYYY-MM-DD")
-        }else{
-            data = ''
-        }
-        this.timeData = data
-        this.getVideo()
+      let data = "";
+      if (now) {
+        data = moment(now).format("YYYY-MM-DD");
+      } else {
+        data = "";
+      }
+      this.timeData = data;
+      this.getVideo();
     },
     handleCamare() {
       let that = this;
@@ -825,7 +839,7 @@ export default {
       this.isCamera = true;
       this.isMonitor = true;
       this.controlAble = true;
-      this.imgsrc = ""
+      this.imgsrc = "";
       this.clearDraw();
       let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       deleteDataId(url).then(res => {
@@ -858,37 +872,53 @@ export default {
       }
       that.isDraw = false;
       let url = "/lenovo-device/api/monitor/ball-control/start";
-      let img = new Image()
-      img.src = this.imgsrc
-      let w1 = 0
-      let h1 = 0
-      img.onload = function () {
-          w1 = img.width
-          h1 = img.height
-          let w0 = document.querySelector('.calibration').offsetWidth
-          let h0 = document.querySelector('.calibration').offsetHeight
-          let startPoint = that.getCoordinate(0, w0, w1, h0, h1, that.startPointX, that.startPointY)
-          let endPoint = that.getCoordinate(0, w0, w1, h0, h1, that.endPointX, that.endPointY)
-          let query = {
-              monitorDeviceId: that.$route.query.monitorDeviceId,
-              /*     fileName: that.shotData.cephFileName,
+      let img = new Image();
+      img.src = this.imgsrc;
+      let w1 = 0;
+      let h1 = 0;
+      img.onload = function() {
+        w1 = img.width;
+        h1 = img.height;
+        let w0 = document.querySelector(".calibration").offsetWidth;
+        let h0 = document.querySelector(".calibration").offsetHeight;
+        let startPoint = that.getCoordinate(
+          0,
+          w0,
+          w1,
+          h0,
+          h1,
+          that.startPointX,
+          that.startPointY
+        );
+        let endPoint = that.getCoordinate(
+          0,
+          w0,
+          w1,
+          h0,
+          h1,
+          that.endPointX,
+          that.endPointY
+        );
+        let query = {
+          monitorDeviceId: that.$route.query.monitorDeviceId,
+          /*     fileName: that.shotData.cephFileName,
                    bucketName: that.shotData.cephBucket,*/
-              imgAddress: that.imgsrc,
-              x0: startPoint.x,
-              y0: startPoint.y,
-              x1: endPoint.x,
-              y1: endPoint.y
-          };
-          postAxiosData(url, query).then(res => {
-              if (res.data.isSuccess) {
-                  that.isMonitor = false;
-                  this.$message({
-                      type: "success",
-                      message: "开始监控标定区域"
-                  });
-              }
-          });
-      }
+          imgAddress: that.imgsrc,
+          x0: startPoint.x,
+          y0: startPoint.y,
+          x1: endPoint.x,
+          y1: endPoint.y
+        };
+        postAxiosData(url, query).then(res => {
+          if (res.data.isSuccess) {
+            that.isMonitor = false;
+            this.$message({
+              type: "success",
+              message: "开始监控标定区域"
+            });
+          }
+        });
+      };
     },
     handleEnd() {
       let that = this;
@@ -985,7 +1015,7 @@ export default {
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
-   /* setTimeout(()=>{
+    /* setTimeout(()=>{
         this.controlAble = true
         this.isMonitor =  false
         this.isShowBox =  true

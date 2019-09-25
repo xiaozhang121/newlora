@@ -33,7 +33,8 @@
                 title: '选择电力设备',
                 control: false,
                 dataList:[],
-                collapse: true
+                collapse: true,
+                input:""
             }
         },
         props: {

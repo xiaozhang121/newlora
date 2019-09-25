@@ -224,9 +224,9 @@ export default {
                           }
                         },
                         [
-                          // h("span", this.cutOut(params.row.alarmLevelName), {
-                          //   class: { member_operate_div: true }
-                          // }),
+                          h("span", params.row.alarmLevelName, {
+                            class: { member_operate_div: true }
+                          }),
                           h("i", {
                             style: { marginLeft: "5px" },
                             class: { "iconfont icon-xiala": true }
