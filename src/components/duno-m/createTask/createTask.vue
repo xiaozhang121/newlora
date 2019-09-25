@@ -152,18 +152,17 @@ export default {
     toSubmit(url) {
       let obj = {};
       let data = [];
+      let house = (Number(new Date(this.$refs["panel[2]"].$data.value3).getHours()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getHours())).toString():(Number(new Date(this.$refs["panel[2]"].$data.value3).getHours())).toString()
+      let minute = (Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes())).toString():(Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes())).toString()
+      let second = (Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds())).toString():(Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds())).toString()
       obj["planDate"] = {
-        ["planCycle"]: this.$refs["panel[2]"].$data.value,
-        ["value"]: [
-          {
-            startTime:
-              (Number(new Date(this.$refs["panel[2]"].$data.value3).getHours()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getHours())):(Number(new Date(this.$refs["panel[2]"].$data.value3).getHours())) +
-              ":" +
-              (Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes())):(Number(new Date(this.$refs["panel[2]"].$data.value3).getMinutes())) +
-              ":" +
-              (Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds()))<10?'0'+(Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds())):(Number(new Date(this.$refs["panel[2]"].$data.value3).getSeconds()))
-          }
-        ]
+          ["planCycle"]: this.$refs["panel[2]"].$data.value,
+          ["value"]: [
+              {
+                  startTime:
+                  house+":" + minute + ":" +second
+              }
+          ]
       };
       obj["planType"] = this.$refs["panel[0]"].$data.form.taskKind;
       obj["deviceJson"] = [];
