@@ -90,9 +90,16 @@ export default {
       console.log(res)
       console.log('ttttttttttttttttt')
       for (var i = 0; i <= res.data.data.length - 1; i++) {
-        dataList.push({ title: res.data.data[i].deviceName, id: res.data.data[i].id, children: [],deviceNum:res.data.data[i].deviceNum});
+        let obj =  { title: res.data.data[i].deviceName, id: res.data.data[i].id, children: [],deviceNum:res.data.data[i].deviceNum}
+        try{
+            if(that.rowData['devicemonitors'][0]['monitorDeviceId'].indexOf(obj['id'])>-1){
+                obj['isCheck'] = true
+            }
+        }catch (e) {
+            
+        }
+        dataList.push(obj);
       }
-    
       that.dataList = dataList;
       this.$forceUpdate();
     });

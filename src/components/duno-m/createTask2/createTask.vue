@@ -52,7 +52,7 @@
         <button-custom
           v-if="rowDataLength != 0 && stepValue == 3"
           class="button"
-          @click.native="toEdit"
+          @click.native="toEdit()"
           title="编辑"
         />
       </span>
@@ -79,6 +79,7 @@ export default {
   },
   data() {
     return {
+      planId: '',
       dataObjList: {
         "0": [],
         "1": [],
@@ -90,6 +91,15 @@ export default {
     };
   },
   watch: {
+    rowData:{
+        handler(now){
+            if(Object.keys(now).length){
+                this.planId = now['planId']
+                // this.planId = now['']
+            }
+        },
+        deep: true
+    },
     visible(now) {
       this.visibleOption = now;
       this.stepValue = 1;
@@ -150,9 +160,9 @@ export default {
       }
     },
     toEdit() {
-      this.toSubmit("/lenovo-plan/api/plan/edit");
+      this.toSubmit("/lenovo-plan/api/handheldinfrared/edit");
     },
-    toSubmit() {
+    toSubmit(url) {
       var deviceJson = [];
       var datalist = this.$refs["panel[0]"].$data.dataList;
       for (var i = 0; i <= datalist.length - 1; i++) {
@@ -205,7 +215,12 @@ export default {
         )
       };
       var that = this;
-      postAxiosData("/lenovo-plan/api/handheldinfrared/planCreate", query).then(
+      let link = '/lenovo-plan/api/handheldinfrared/planCreate'
+      if(url){
+          link = url
+          query.planId = this.planId
+      }
+      postAxiosData(link, query).then(
         res => {
           console.log(res);
           if (res.code != 200) {
