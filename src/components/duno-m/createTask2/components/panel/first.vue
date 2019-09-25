@@ -95,8 +95,11 @@ export default {
               };
               return obj;
             });
-
+            try{
             this.rowData["isChange"] = true;
+            }catch (e) {
+                
+            }
             // that.taskKindList=info;
             this.dataList = info;
             this.$forceUpdate();
@@ -106,6 +109,11 @@ export default {
     },
     initData() {
       const that = this;
+      try{
+       this.form.taskName = this.rowData['planName']
+      }catch (e) {
+          
+      }
       postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
         this.taskKindList = res.data;
         this.value=5
@@ -157,19 +165,27 @@ export default {
             for (var i = 0; i <= allArr.length - 1; i++) {
               if (val.areaId == allArr[i].areaId) {
                 // dataList[i].id=val.parentDeviceId
-
-                allArr[i].children.push({
-                  isCheck: false,
-                  title: val.deviceName,
-                  deviceId: val.deviceId,
-                  deviceName:val.deviceName,
-                  mainDevice: val.mainDevice,
-                  phase: val.phase,
-                  part: val.part,
-                  areaName: val.areaName,
-                  parentDeviceId: val.parentDeviceId,
-                  deviceSeri: val.deviceSeri
-                });
+                let obj = {
+                    isCheck: false,
+                    title: val.deviceName,
+                    deviceId: val.deviceId,
+                    deviceName:val.deviceName,
+                    mainDevice: val.mainDevice,
+                    phase: val.phase,
+                    part: val.part,
+                    areaName: val.areaName,
+                    parentDeviceId: val.parentDeviceId,
+                    deviceSeri: val.deviceSeri
+                }
+                try{
+                if(that.rowData['devicemonitors'][0]['powerDeviceId'].indexOf(obj['deviceId'])>-1){
+                    allArr[i]['isCheck'] = true
+                    obj['isCheck'] = true
+                }
+                }catch (e) {
+                    
+                }
+                allArr[i].children.push(obj);
               }
             }
           });

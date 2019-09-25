@@ -51,12 +51,14 @@
       @gettype="getType"
     />
     <create-task2
+      :rowData="rowData"
       :visible="taskVisible2"
       @on-close="onClose"
       @on-fresh="onFresh"
       @gettype="getType"
     />
     <create-taskhw
+      :rowData="rowData"
       :visible="taskVisible3"
       @on-close="onClose"
       @on-fresh="onFresh"
@@ -562,7 +564,7 @@ export default {
                     patrol: params.row.status == "1"
                   }
                 },
-                params.row.statusNameW
+                params.row.statusName
               )
             );
             return h("div", newArr);
@@ -586,7 +588,7 @@ export default {
                   on: {
                     click: () => {
                       that.rowData = JSON.parse(JSON.stringify(params.row));
-                      that.taskVisible = true;
+                      that.taskVisible3 = true;
                     }
                   }
                 },
@@ -735,7 +737,7 @@ export default {
                   on: {
                     click: () => {
                       that.rowData = JSON.parse(JSON.stringify(params.row));
-                      that.taskVisible = true;
+                      that.taskVisible2 = true;
                     }
                   }
                 },
@@ -815,9 +817,11 @@ export default {
     },
     addTask() {
       this.taskVisible2 = false;
+      this.taskVisible3 = false;
       this.taskVisible = true;
     },
     onClose() {
+      this.rowData = {}
       this.taskVisible = false;
       this.taskVisible2 = false;
       this.taskVisible3 = false;
@@ -833,7 +837,7 @@ export default {
     },
     getDataList() {
       const that = this;
-      infrInformation().then(res => {
+        infrInformation().then(res => {
         res.data.allInspectList.map(item => {
           item["type"] = "allInspectList";
           item["loading"] = false;

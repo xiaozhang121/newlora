@@ -68,7 +68,7 @@ export default {
   },
   data() {
     return {
-      
+      planId: '',
       dataObjList: {
         "0": [],
         "1": [],
@@ -79,6 +79,15 @@ export default {
     };
   },
   watch: {
+    rowData:{
+      handler(now){
+          if(Object.keys(now).length){
+              this.planId = now['planId']
+              // this.planId = now['']
+          }
+      },
+      deep: true
+    },
     visible(now) {
       this.visibleOption = now;
       this.stepValue = 1;
@@ -117,10 +126,9 @@ export default {
       }
     },
     toEdit() {
-      this.toSubmit("/lenovo-plan/api/plan/edit");
+      this.toSubmit("/lenovo-plan/api/environment/edit");
     },
-    toSubmit() {
-  
+    toSubmit(url) {
       let obj = {};
       var taskName = this.$refs["panel[0]"].form.taskName;
       var oldList = this.$refs["panel[1]"].dataList2.length;
@@ -172,9 +180,14 @@ export default {
       query.deviceJson = deviceJson;
       query.planName = taskName;
       try {
-        postAxiosData("/lenovo-plan/api/environment/planCreate", query).then(
+        let link = "/lenovo-plan/api/environment/planCreate"
+        if(url){
+            link = url
+            query.planId = this.planId
+        }
+        postAxiosData(link, query).then(
           res => {
-            if (res.code!= 200) {
+            if (res.code!= 200 && !res.data) {
               this.$message(res.msg);
             } else {
                this.$message(res.msg);
