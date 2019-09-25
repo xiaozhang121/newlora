@@ -126,8 +126,8 @@ export default {
       dataMonitor: [],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
-        { path: "/environmental/list", name: "动态环境监测" },
-        { path: "", name: "动态环境总览" }
+        { path: "/environmental/list", name: "现场安全管控" },
+        { path: "", name: "信息总览" }
       ],
       numberCameras: [
         {

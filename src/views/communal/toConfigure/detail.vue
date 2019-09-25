@@ -31,7 +31,7 @@
         :title="title1"
         :isShowBtn="false"
         :titleCon="titleCon"
-        planType="动态环境巡视"
+        planType="现场安全管控巡视"
       />
       <Patrol
         :columns="columnsDataD"
@@ -146,7 +146,7 @@ export default {
           tooltip: true
         },
         {
-          title: "巡视间隔",
+          title: "执行时间",
           key: "interval",
           minWidth: 50,
           align: "center",
@@ -504,7 +504,7 @@ export default {
           tooltip: true
         },
         {
-          title: "巡视间隔",
+          title: "执行时间",
           key: "interval",
           minWidth: 50,
           align: "center",

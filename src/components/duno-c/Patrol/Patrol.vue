@@ -94,7 +94,7 @@ export default {
             tooltip: true
         },
         {
-              title: "巡视间隔",
+              title: "执行时间",
               key: "interval",
               minWidth: 50,
               align: "center",

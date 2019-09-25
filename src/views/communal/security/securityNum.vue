@@ -62,7 +62,7 @@ export default {
             // navBar: ["操作中台", "动态环境监测", "1000千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
-              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "/environmental/list", name: "现场安全管控" },
               { path: "", name: "1000千伏" }
             ],
             titleType: "全部类型",
@@ -76,7 +76,7 @@ export default {
             // navBar: ["操作中台", "动态环境监测", "500千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
-              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "/environmental/list", name: "现场安全管控" },
               { path: "", name: "500千伏" }
             ],
             titleType: "全部类型",
@@ -90,7 +90,7 @@ export default {
             // navBar: ["操作中台", "动态环境监测", "220千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
-              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "/environmental/list", name: "现场安全管控" },
               { path: "", name: "220千伏" }
             ],
             titleType: "全部类型",
@@ -104,7 +104,7 @@ export default {
             // navBar: ["操作中台", "动态环境监测", "110千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
-              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "/environmental/list", name: "现场安全管控" },
               { path: "", name: "110千伏" }
             ],
             titleType: "全部类型",
@@ -118,7 +118,7 @@ export default {
             // navBar: ["操作中台", "动态环境监测", "350千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
-              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "/environmental/list", name: "现场安全管控" },
               { path: "", name: "35千伏" }
             ],
             titleType: "全部类型",
@@ -132,7 +132,7 @@ export default {
             // navBar: ["操作中台", "动态环境监测", "10千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
-              { path: "/environmental/list", name: "动态环境监测" },
+              { path: "/environmental/list", name: "现场安全管控" },
               { path: "", name: "10千伏" }
             ],
             titleType: "全部类型",
