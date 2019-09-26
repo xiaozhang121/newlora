@@ -376,8 +376,8 @@ export default {
       let startTime = "";
       let endTime = "";
       if (data) {
-        startTime = moment(data[0]).format("YYYY-MM-DD");
-        endTime = moment(data[1]).format("YYYY-MM-DD");
+        startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
+        endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
       }
       this.clcikQueryData.startTime = startTime;
       this.clcikQueryData.endTime = endTime;

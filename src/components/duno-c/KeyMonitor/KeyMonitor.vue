@@ -327,7 +327,7 @@ export default {
       immediate: true
     },
     width(now) {
-      if (now == "calc(25% - 15px)") {
+      if (now == "calc(25% - 15px)" && document.documentElement.clientWidth > 3000) {
         this.isShowNone = {
           display: "none"
         };
