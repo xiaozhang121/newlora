@@ -357,7 +357,7 @@ export default {
     }
   },
   created() {
-    this.dataForm.taskRunHisId = this.$route.query.taskRunHisId;
+    this.dataForm.taskRunHisId = this.$route.query.taskRunHisId?this.$route.query.taskRunHisId:'';
     this.planType = this.$route.query.planType;
     if (this.planType == "1501") this.planType = "全面巡视";
     else if (this.planType == "1502") this.planType = "例行巡视";
