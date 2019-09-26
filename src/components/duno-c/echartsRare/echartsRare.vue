@@ -5,7 +5,7 @@
         :isChange="isChangeSpeed"
         :legendOption="legendSpeed"
         :titleOption="titleSpeed"
-        paddingBottom="60%"
+        :paddingBottom="paddingBottom"
         :isItemEchart="true"
         :xAxisOption="xAxisSpeed"
         :yAxisOption="yAxisSpeed"
@@ -18,7 +18,7 @@
         :isChange="isChangeSpeed"
         :legendOption="legendSpeed"
         :titleOption="titleSpeed"
-        paddingBottom="60%"
+        :paddingBottom="paddingBottom"
         :isItemEchart="true"
         :xAxisOption="xAxisRead"
         :yAxisOption="yAxisSpeed"
@@ -31,7 +31,7 @@
         :isChange="isChangeSpeed"
         :legendOption="legendSpeed"
         :titleOption="titleSpeed"
-        paddingBottom="60%"
+        :paddingBottom="paddingBottom"
         :isItemEchart="true"
         :xAxisOption="xAxisRead"
         :yAxisOption="yAxisSpeed"
@@ -44,7 +44,7 @@
         :isChange="isChangeSpeed"
         :legendOption="legendSpeed"
         :titleOption="titleSpeed"
-        paddingBottom="60%"
+        :paddingBottom="paddingBottom"
         :isItemEchart="true"
         :xAxisOption="xAxisRead"
         :yAxisOption="yAxisSpeed"
@@ -66,6 +66,12 @@ export default {
       type: String,
       default: () => {
         return "50%";
+      }
+    },
+    paddingBottom: {
+      type: String,
+      default: () => {
+        return "60%";
       }
     }
   },

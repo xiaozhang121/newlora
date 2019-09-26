@@ -5,7 +5,7 @@
         :isChange="isChangeProcessor"
         :legendOption="legendProcessor"
         :titleOption="titleProcessor"
-        paddingBottom="50%"
+        :paddingBottom="paddingBottom"
         :isItemEchart="true"
         :seriesOption="seriesProcessor"
         :colorOption="colorProcessor"
@@ -19,6 +19,14 @@ export default {
   name: "dunoPie",
   components: {
     DunoCharts
+  },
+  props: {
+    paddingBottom: {
+      type: String,
+      default: () => {
+        return "50%";
+      }
+    }
   },
   data() {
     return {
