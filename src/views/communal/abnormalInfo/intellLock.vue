@@ -12,15 +12,13 @@
         :columns="infoColumns"
         :data="dataList"
         :totalNum="totalNum"
-        :pageSize="pageRows"
-        :current="pageIndex"
+        :current="offset"
         :border="true"
         :showSizer="true"
-        @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
-        @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
+    <unlock :isShow="isShow" :dataList="webData" @on-close="onClose"></unlock>
   </div>
 </template>
 
@@ -29,45 +27,31 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-// import mixinViewModule from "@/mixins/view-module";
-import { putAxiosData, getAxiosData, postAxiosData } from "@/api/axiosType";
-import {
-  getVoltage,
-  getStatus,
-  getDevice
-} from "@/api/configuration/configuration.js";
+import unlock from "_c/duno-c/unlock";
 import moment from "moment";
+import { putAxiosData, getAxiosData, postAxiosData } from "@/api/axiosType";
+import { debug } from "util";
 export default {
   name: "intellLock",
-  //   mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
     DunoTablesTep,
     Breadcrumb,
-    dunoMain
+    dunoMain,
+    unlock
   },
   data() {
     const that = this;
     return {
-      // mixinViewModuleOptions: {
-      //     getDataListURL: "/lenovo-device/api/monitor/device-list"
-      // },
-      dataForm: {},
-      radio: "1",
-      value: "",
       offset: 1,
       totalNum: 10,
-      titleTypeL: "所有监测设备",
-      titleTypeC: "所有电压等级",
-      titleTypeR: "所有状态",
+      websock: null,
+      webData: {},
+      isShow: false,
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "", name: "智能锁具" }
       ],
-      TestEquipment: [],
-      voltageLevel: [],
-      stateSelect: [],
-      chexked: [],
       infoColumns: [
         {
           key: "devMac",
@@ -146,6 +130,9 @@ export default {
     };
   },
   methods: {
+    onClose() {
+      this.isShow = false;
+    },
     pageCurrentChangeHandle(val) {
       this.offset = val;
       this.init();
@@ -166,186 +153,43 @@ export default {
         this.dataList = res.data;
       });
     },
-    handleDevice() {
-      getDevice().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            value: item.value,
-            title: "titleTypeL",
-            isActive: true
-          };
-          return obj;
-        });
-        console.log("------->" + map);
-        console.log("------->" + map.join(","));
-        this.TestEquipment = map;
-        this.$forceUpdate();
-        this.$refs.btnTopRef.handleCheckAllChange(true);
-        this.$refs.btnTopRef.checkAll = true;
-        this.$refs.btnTopRef.checkedCities = this.onSelectDevice(map);
-        console.log(this.TestEquipment);
-        this.getDataList();
-      });
-    },
-    handleVoltage() {
-      getVoltage().then(res => {
-        const resData = res.data;
-        let map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            value: item.value,
-            title: "titleTypeC",
-            isActive: true
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有电压等级",
-          value: "",
-          title: "titleTypeC"
-        });
-        this.voltageLevel = map;
-      });
-    },
-    onSelectDevice(item) {
-      console.log(item);
-      let arr = [];
-      let value = [];
-      item.forEach(nr => {
-        if (nr["isActive"]) {
-          arr.push(nr["value"]);
-          if ("describeName" in nr) value.push(nr["describeName"]);
-        }
-      });
-      this.dataForm.deviceType = arr.join(",");
-      this.getDataList();
-      return value;
-      // this.titleTypeL = item["describeName"];
-    },
-    onSelectVol(item) {
-      if (item["value"]) this.dataForm.areaId = item["value"];
-      else {
-        if ("areaId" in this.dataForm) {
-          delete this.dataForm["areaId"];
-        }
-      }
-      this.getDataList();
-      this.titleTypeC = item["describeName"];
-    },
-    onSelectState(item) {
-      this.dataForm.status = item["value"];
-      this.getDataList();
-      this.titleTypeR = item["describeName"];
-    },
-    onChangeTime(data) {
-      const startTime = moment(data[0]).format("YYYY-MM-DD");
-      const endTime = moment(data[1]).format("YYYY-MM-DD");
-      this.startTime = JSON.parse(JSON.stringify(startTime));
-      this.endTime = JSON.parse(JSON.stringify(endTime));
-      this.$emit("onChange", data);
-    },
-    changeCycle() {
-      let query = {};
-      query.id = row.params.id;
-      putAxiosData("/lenovo-plan/api/plan/cycle-edit").then(res => {
-        if (res.code !== 200) {
-          return that.$message.error(res.msg);
-        }
-      });
-    },
-    onClickDropdown(row, type, value) {
-      const index = row._index;
-      this.dataList[index].inspectCycle = type;
-      this.psotAlarmData(row, value);
-    },
-    psotAlarmData(row, value) {
-      const that = this;
-      const url = "/lenovo-device/api/monitor/edit";
-      const query = {
-        id: row.id,
-        cycleType: value
-      };
-      putAxiosData(url, query).then(
-        res => {
-          if (res.code !== 200) {
-            this.dataList[index].cycleType = row.inspectCycle;
-            return that.$message.error(res.msg);
-          }
-          that.$message.success(res.msg);
-          this.getDataList();
-        },
-        error => {
-          this.dataList[index].cycleType = row.inspectCycle;
-        }
+    initWebSocket() {
+      //初始化weosocket
+      this.websock = new WebSocket(
+        `ws://10.0.8.86:8099/lenovo-smartlock/grant/websocket`
       );
+      this.websock.onmessage = this.websocketonmessage;
+      this.websock.onerror = this.websocketonerror;
+      this.websock.onclose = this.websocketclose;
     },
-    getSelectStatus() {
-      getStatus().then(res => {
-        const resData = res.data;
-        let map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            value: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有状态",
-          value: "",
-          title: "titleTypeR"
-        });
-        this.stateSelect = map;
-      });
+    websocketonerror() {
+      //连接建立失败重连
+      this.initWebSocket();
     },
-    getJump(row) {
-      getAxiosData("/lenovo-device/api/preset/type", {
-        monitorDeviceId: row.monitorDeviceId
-      }).then(res => {
-        let supportPreset = res.data["supportPreset"];
-        let monitorDeviceType = res.data["monitorDeviceType"];
-        if (monitorDeviceType == 1) {
-          if (supportPreset) {
-            this.$router.push({
-              path: "/surveillancePath/detailLight",
-              query: {
-                monitorDeviceId: row.monitorDeviceId
-              }
-            });
-          } else {
-            this.$router.push({
-              path: "/surveillancePath/detailLightN",
-              query: {
-                monitorDeviceId: row.monitorDeviceId
-              }
-            });
-          }
-        } else if (monitorDeviceType == 2) {
-          this.$router.push({
-            path: "/surveillancePath/detailRedN",
-            query: {
-              monitorDeviceId: row.monitorDeviceId,
-              typeId: res.data["typeId"]
-            }
-          });
-        } else if (monitorDeviceType == 3) {
-          this.$router.push({
-            path: "/surveillancePath/detailEnv",
-            query: {
-              monitorDeviceId: row.monitorDeviceId
-            }
-          });
-        }
-      });
+    websocketonmessage(e) {
+      //数据接收
+      const redata = JSON.parse(e.data);
+      this.webData = JSON.parse(e.data);
+      if (redata.userId) {
+        this.isShow = true;
+      }
+    },
+    websocketclose(e) {
+      //关闭
+      this.websock = null;
+      console.log("断开连接", e);
     }
   },
   mounted() {
-    this.init();
-    this.handleDevice();
-    this.handleVoltage();
-    this.getSelectStatus();
+    // this.init();
+    this.initWebSocket();
+    window.onbeforeunload = function() {
+      // 浏览器关闭
+      that.Socket.close();
+    };
+  },
+  destroyed() {
+    this.websock.close(); //离开路由之后断开websocket连接
   }
 };
 </script>
@@ -354,10 +198,6 @@ export default {
 @import "@/style/tableStyle.scss";
 .intellLock {
   width: 100%;
-  .icon-xiala {
-    /*width: 9px;
-            height: 12px;*/
-  }
   .dunoMain {
     height: inherit;
   }

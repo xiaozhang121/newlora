@@ -24,6 +24,7 @@
       <el-input
         v-if="!isTemperture"
         class="itemInput"
+        type="number"
         v-model="formData.inputT"
         placeholder="机械判断数值"
       ></el-input>

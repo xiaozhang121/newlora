@@ -1,7 +1,7 @@
 <template>
   <div class="duno-service">
     <p>Service</p>
-    <div class="tabData">
+    <div class="tabData" :style="{height:height}">
       <div v-for="(item,index) in dataList" :key="index">
         <div class="square">
           <span></span>
@@ -15,6 +15,14 @@
 <script>
 export default {
   name: "service",
+  props: {
+    height: {
+      type: String,
+      default: () => {
+        return "";
+      }
+    }
+  },
   data() {
     return {
       dataList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
@@ -35,7 +43,7 @@ export default {
   .tabData {
     border: 1px solid #414f58;
     overflow-y: auto;
-    height: 580px;
+
     & > div {
       color: #fff;
       display: flex;
