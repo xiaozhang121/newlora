@@ -55,8 +55,8 @@
           >
             <AlarmLog
               v-for="(item,index) in dataList"
-              :autoplay="true"
               :remarkData="dataList[index]"
+              :noButton="false"
               :time="item.alarmTime"
               :remarks="item.dealList"
               :key="index"
@@ -159,28 +159,37 @@ export default {
           isActive: true
         }
       ],
+      getPic: false,
       cameraInfo: null,
       active: 4
     };
   },
   watch: {
-    dataList: {
-      handler(now) {
-        let i = 0;
-        if (now.length || now.length == 0) {
-          this.loading = false;
-          clearTimeout(this.timer);
-        }
-        if (now.length == 0 && i == 1) {
-          this.isEmpty = false;
-        } else {
-          this.isEmpty = true;
-        }
-        i++;
-      },
-      deep: true,
-      immediate: true
-    }
+      dataList: {
+          handler(now) {
+              let i = 0;
+              if (now.length || now.length == 0) {
+                  this.loading = false;
+                  clearTimeout(this.timer);
+              }
+              if(!this.getPic){
+                  now.forEach((item, index)=>{
+                      this.getPic = true
+                      postAxiosData('/lenovo-alarm/api/info/video/pic', {'videoPath': item['alarmFileAddress'], 'positionIndex': index}).then(res=>{
+                          this.dataList[res.data['positionIndex']]['pic'] = res.data.pic
+                          this.$forceUpdate()
+                      })
+                  })
+              }
+              if (now.length == 0 && i == 1) {
+                  this.isEmpty = false;
+              } else {
+                  this.isEmpty = true;
+              }
+              i++;
+          },
+          deep: true,
+      }
   },
   methods: {
     oneDayAgo() {
