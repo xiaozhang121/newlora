@@ -115,7 +115,7 @@ export default {
       isCenter: false,
       valueSelect: "",
       dataMonitor: [],
-      url: "/lenovo-plan/api/plan/visible-report/download",
+      url: "/lenovo-plan/api/plan/iir-report/download",
       timeQueryData: {},
       inspecReport: [],
       lightInformation: [],
