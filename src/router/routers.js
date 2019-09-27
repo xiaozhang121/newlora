@@ -559,6 +559,17 @@ export default [{
                     },
                     component: () => import('@/views/communal/abnormalInfo/taskReport.vue')
                 },
+                {
+                    path: 'taskForm',
+                    name: 'taskForm',
+                    meta: {
+                        topNav: '1',
+                        title: '报表',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/taskForm.vue')
+                },
             ]
         }]
     },
