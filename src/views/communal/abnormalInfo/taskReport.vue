@@ -40,8 +40,9 @@
                 :loading="false"
                 :isShowPage="false"
                 :showSizer="true"
+                :height="tableHeight"
         />
-        <div class="col_main">
+       <!-- <div class="col_main">
           <template v-for="(item, index) in dataCol">
             <div class="col_table" v-if="'spaceLine' in item"></div>
             <div class="col_table" v-else>
@@ -50,7 +51,7 @@
               </template>
             </div>
           </template>
-        </div>
+        </div>-->
         <div class="tip">
           备注：状态识别显示“表计读数异常”/ “表计读数正常”/ “无法识别”
         </div>
@@ -122,7 +123,7 @@ export default {
           '金属氧化物避雷器-MOA红外15',
       ],
       activeName2: 'item0',
-      dataCol: [
+      data10: [
           {
               name:'123',
               age: '132',
@@ -214,7 +215,6 @@ export default {
               key: 'name',
               align: 'center',
               width: 200,
-              fixed: 'left',
           },
           {
               title: 'Other',
@@ -272,8 +272,11 @@ export default {
   mounted(){
       this.$nextTick(()=>{
           this.addHeader()
+
       })
-      // this.tableHeight = $('.dunoMain_nr').height() - $('.tab').height()-60
+      // document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","borderLeft: 1px solid grey !important")
+      // document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border:none !important; border-left: 1px solid grey !important")
+      this.tableHeight = $('.dunoMain_nr').height() - $('.tab').height()-140
   }
 };
 </script>
@@ -304,7 +307,10 @@ export default {
       }
     }
     tbody{
-      display: none;
+      /*display: none;*/
+    }
+    .taskReport .tablesTep .ivu-table-wrapper tr  td .ivu-table-cell span:empty{
+        background-color: pink !important;
     }
     .tablesTep  .ivu-table-wrapper .ivu-table td, .tablesTep   .ivu-table-wrapper .ivu-table th{
       border: 1px solid grey !important;
@@ -313,6 +319,9 @@ export default {
       border: 1px solid grey !important;
       height: 52px;
       background-color: #2a5171;
+    }
+    .tablesTep thead th:empty{
+      visibility: hidden;
     }
     .tablesTep   .ivu-table-wrapper .ivu-table tr:first-child th:first-child{
       position: relative;
