@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="title">
-      <span>轨道机器人</span>
+      <span>室内轨道机器人</span>
       <button-custom
               class="moreTask"
               title="更多任务>"
@@ -145,7 +145,7 @@
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/robot-two/list", name: "机器人巡视" },
-                    { path: "", name: "轨道机器人" }
+                    { path: "", name: "室内轨道机器人" }
                 ],
                 baseUrl:
                     process.env.NODE_ENV === "development"

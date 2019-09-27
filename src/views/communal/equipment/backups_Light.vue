@@ -31,14 +31,6 @@
         element-loading-background="rgba(0, 0, 0, 0.8)"
         element-loading-text="加载中"
       >
-        <MonitorWarn
-          v-for="(item,index) in lightInformation"
-          :remarkData="lightInformation[index]"
-          :time="item.alarmTime"
-          :remarks="item.dealRecord"
-          :key="index"
-          @handleListData="handleData"
-        />
         <template v-for="(item,index) in lightInformation">
           <MonitorWarn
             v-if="item['isPhaseAlarm']!= 1"

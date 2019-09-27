@@ -968,7 +968,7 @@ export default [{
             name: 'robot-one',
             meta: {
                 topNav: '2',
-                title: '室外机器人',
+                title: '室外巡检机器人',
                 notCache: true,
                 toListName: 'robot-oneList',
             },
@@ -1029,7 +1029,7 @@ export default [{
                 name: 'robot-two',
                 meta: {
                     topNav: '2',
-                    title: '轨道机器人',
+                    title: '室内轨道机器人',
                     notCache: true,
                     toListName: 'robot-twoList',
                     btnArr: []

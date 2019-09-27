@@ -110,6 +110,7 @@
                 paddingBottom="56%"
                 class="monitor"
                 width="100%"
+                :pushCamera="false"
                 :autoplay="false"
                 :imgAdress="item['pic']"
                 :streamAddr="item['streamAddr']"

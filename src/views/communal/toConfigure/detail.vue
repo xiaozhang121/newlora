@@ -864,7 +864,7 @@ export default {
         });
         that.handHeldInfraredPlanList = res.data.handHeldInfraredPlanList;
         that.title = `特殊巡视（${that.specialInspectList.length}）`;
-        that.title1 = `动态环境巡视（${that.environmentInspectList.length}）`;
+        that.title1 = `现场安全管控巡视（${that.environmentInspectList.length}）`;
         that.title2 = `手持红外巡视（${that.handHeldInfraredPlanList.length}）`;
       });
     },

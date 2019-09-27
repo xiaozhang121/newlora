@@ -20,8 +20,8 @@
         >
           <div v-if="isCalibrat" ref="box" id="box1"></div>
         </div>
-        <div v-show="!isCalibrat" class="calibrat" @click="addTag">手动标定</div>
-        <div v-show="isCalibrat" class="clearCalibrat" @click="delTag">清除</div>
+        <div v-show="!isCalibrat" v-if="isVideo" class="calibrat" @click="addTag">手动标定</div>
+        <div v-show="isCalibrat" v-if="isVideo" class="clearCalibrat" @click="delTag">清除</div>
         <div class="shotInput">
           <div>
             <el-cascader placeholder="选择设备-部件-类型" @change="handleChange" :props="props"></el-cascader>
@@ -69,6 +69,12 @@ import moment from "moment";
 export default {
   name: "screenshot",
   props: {
+    taskId: {
+      type: String,
+      default: () => {
+        return "";
+      }
+    },
     isShow: {
       type: Boolean,
       default: () => {
@@ -103,6 +109,12 @@ export default {
       type: String,
       default: () => {
         return "15vh";
+      }
+    },
+    isVideo: {
+      type: Boolean,
+      default: () => {
+        return true;
       }
     }
   },
@@ -259,8 +271,6 @@ export default {
     },
     handleSubmit() {
       this.$emit("closeShot");
-      //   let img = new Image();
-      //   img.src = this.imgsrc;
       //   this.picWigth = img.naturalWidth;
       //   this.picHeigh = img.naturalHeight;
       this.picWigth = this.$refs.image.naturalWidth;
@@ -303,12 +313,29 @@ export default {
     },
     getImgInfo() {
       let that = this;
-      let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
-      getAxiosData(url).then(res => {
-        let baseLen = res.data.length;
-        this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
-        that.handleSubmit();
-      });
+      if (that.isVideo) {
+        let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+        getAxiosData(url).then(res => {
+          let baseLen = res.data.length;
+          this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
+          that.handleSubmit();
+        });
+      } else {
+        let url = "/lenovo-device/device/video/record/file/alarm";
+        let query = {
+          powerDeviceId: that.powerDeviceId,
+          monitorDeviceId: that.monitorDeviceId,
+          alarmFileAddress: "",
+          recognizeType: that.selectValue,
+          remake: this.textarea
+        };
+        postAxiosData(url, query).then(res => {
+          this.$message({
+            message: "保存成功",
+            type: "success"
+          });
+        });
+      }
     },
     getPowerDeviceId() {
       let url = "/lenovo-device/api/monitor/power-device";
@@ -325,14 +352,29 @@ export default {
     },
     deletSubmit() {
       this.$emit("closeShot");
-      let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
-      deleteDataId(url).then(res => {
-        this.$message({
-          type: "success",
-          message: "删除成功"
+      if (this.isVideo) {
+        let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+        deleteDataId(url).then(res => {
+          this.$message({
+            type: "success",
+            message: "删除成功"
+          });
         });
-      });
-      this.clearCan();
+        this.clearCan();
+      } else {
+        let url = "/lenovo-device/device/video/record/file/delete";
+        let query = {
+          taskId: this.taskId
+        };
+        deleteDataId(url, query).then(res => {
+          if (res.data.isSuccess) {
+            this.$message({
+              type: "success",
+              message: "删除成功"
+            });
+          }
+        });
+      }
     }
   },
   mounted() {

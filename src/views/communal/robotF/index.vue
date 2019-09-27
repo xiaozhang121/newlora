@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="title">
-      <span>室外机器人</span>
+      <span>室外巡检机器人</span>
       <button-custom
               class="moreTask"
               title="更多任务>"
@@ -146,11 +146,10 @@
                 routeName: "",
                 newsReport: [],
                 cameraPath: [],
-                // dataBread: ['操作中台','机器人巡视','机器人一'],
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/robot-one/list", name: "机器人巡视" },
-                    { path: "", name: "室内机器人" }
+                    { path: "", name: "室外巡检机器人" }
                 ],
                 baseUrl:
                     process.env.NODE_ENV === "development"
