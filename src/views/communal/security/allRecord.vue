@@ -886,6 +886,7 @@ export default {
           .btnList {
             top: inherit !important;
             width: 180px;
+            z-index: 110;
             .title {
               padding: 8px 20px;
             }

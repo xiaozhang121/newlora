@@ -7,14 +7,29 @@
       <div>{{dataForm.planType}}{{dataForm.planId}}</div>
       <div class="btn">
         <div>
-          <duno-btn-top
+          <!-- <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTo"
             :isCheck="false"
             :dataList="regionList"
             :title="titleType"
             :showBtnList="false"
-          ></duno-btn-top>
+          ></duno-btn-top>-->
+          <el-select
+            class="selectItem"
+            v-model="titleType"
+            filterable
+            clearable
+            @change="changeSelect"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in regionList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </div>
       </div>
     </div>
@@ -528,9 +543,13 @@ export default {
     showSetting() {
       this.visibleSettingOption = true;
     },
-    onSelect(item, index) {
-      this[item.title] = item["describeName"];
-      this.dataForm.powerDeviceId = item.monitorDeviceType;
+    // onSelect(item, index) {
+    //   this[item.title] = item["describeName"];
+    //   this.dataForm.powerDeviceId = item.monitorDeviceType;
+    //   this.getDataList();
+    // },
+    changeSelect(item) {
+      this.dataForm.powerDeviceId = item;
       this.getDataList();
     },
     handleClose() {
@@ -559,20 +578,20 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleType"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有设备",
-          monitorDeviceType: "",
-          title: "titleType"
-        });
-        this.regionList = map;
+        // const map = resData.map(item => {
+        //   const obj = {
+        //     describeName: item.label,
+        //     monitorDeviceType: item.value,
+        //     title: "titleType"
+        //   };
+        //   return obj;
+        // });
+        // map.unshift({
+        //   describeName: "所有设备",
+        //   monitorDeviceType: "",
+        //   title: "titleType"
+        // });
+        this.regionList = resData;
       });
     },
     getStart() {
@@ -840,21 +859,21 @@ export default {
       justify-content: space-between;
       & > div {
         margin-left: 10px;
-        .dunoBtnTop {
-          width: 250px;
-          display: inline-flex;
-          padding-bottom: 0;
-          .btnList {
-            top: inherit !important;
-            width: 250px;
-            .title {
-              padding: 8px 20px;
-              @media screen and (min-width: 3500px) {
-                height: 35px;
-              }
-            }
-          }
-        }
+        // .dunoBtnTop {
+        //   width: 250px;
+        //   display: inline-flex;
+        //   padding-bottom: 0;
+        //   .btnList {
+        //     top: inherit !important;
+        //     width: 250px;
+        //     .title {
+        //       padding: 8px 20px;
+        //       @media screen and (min-width: 3500px) {
+        //         height: 35px;
+        //       }
+        //     }
+        //   }
+        // }
       }
     }
   }
@@ -862,6 +881,10 @@ export default {
     color: white;
     font-size: 13px;
   }
+}
+.el-input__inner {
+  background-color: #1a2f42;
+  border: 1px solid #1a2f42;
 }
 .setting {
   cursor: pointer;
