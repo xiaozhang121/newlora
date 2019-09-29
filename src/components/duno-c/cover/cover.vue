@@ -1,0 +1,194 @@
+<template>
+  <div class="cover">
+    <div>
+      <img :src="srcData.pic" alt />
+      <i class="iconfont icon-bofang" @click="handleShow"></i>
+    </div>
+    <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
+      <div v-if="isSecond" @click="getJump" class="explainy">
+        <div class="text">
+          <span>{{srcData.monitorDeviceName}}</span>
+          <span>{{srcData.monitorDeviceId}}</span>
+        </div>
+        <span>
+          <i class="iconfont icon-jiantou"></i>
+        </span>
+      </div>
+    </el-tooltip>
+    <enlarge
+      :pushCamera="false"
+      :isShow="isEnlarge"
+      :srcData="srcData"
+      @closeEnlarge="closeEnlarge"
+    ></enlarge>
+  </div>
+</template>
+
+<script>
+import enlarge from "_c/duno-c/enlarge";
+export default {
+  name: "cover",
+  components: {
+    enlarge
+  },
+  props: {
+    pushCamera: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
+    },
+    isSecond: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
+    srcData: {
+      type: [Object, Array],
+      default: () => {
+        return {};
+      }
+    }
+  },
+  data() {
+    return {
+      isEnlarge: false
+    };
+  },
+  methods: {
+    handleShow() {
+      console.log(this.srcData);
+      this.isEnlarge = true;
+    },
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
+    getJump() {
+      if (this.aggregate) {
+        this.$router.push({
+          path: "/surveillancePath/areaVideo",
+          query: {
+            areaId: this.areaId,
+            showType: this.showType,
+            powerDeviceId: this.powerDeviceId
+          }
+        });
+        return;
+      }
+      getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+      }).then(res => {
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+                monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+                monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
+              }
+            });
+          }
+        } else if (monitorDeviceType == 2) {
+          this.$router.push({
+            path: "/surveillancePath/detailRedN",
+            query: {
+              monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+              monitorDeviceName: this.monitorInfoR["monitorDeviceName"],
+              typeId: res.data["typeId"]
+            }
+          });
+        } else if (monitorDeviceType == 3 || monitorDeviceType == 6) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+              monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
+            }
+          });
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style lang='scss'>
+.cover {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  img {
+    width: 100%;
+    display: block;
+  }
+  .icon-bofang {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: #fff;
+    z-index: 100;
+  }
+  .explainy {
+    color: #fff;
+    height: 32px;
+    line-height: 32px;
+    background-color: #213848;
+    font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    bottom: -3px;
+    display: flex;
+    justify-content: space-between;
+    span {
+      display: flex;
+      flex: none !important;
+      align-items: center;
+      text-align: right !important;
+      cursor: pointer;
+    }
+    .demonstration {
+      margin-left: 0;
+      margin-right: 2%;
+    }
+    i {
+      font-size: 15px;
+      margin-right: 10px;
+    }
+    .text {
+      overflow: hidden;
+      display: block;
+      justify-content: flex-start;
+      width: 100%;
+      span:first-child {
+        padding-right: 10px;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        white-space: nowrap;
+        text-align: left !important;
+      }
+      span:nth-child(2) {
+        padding-right: 10px;
+        font-size: 12px;
+        color: #a0a0a0;
+      }
+    }
+  }
+}
+</style>

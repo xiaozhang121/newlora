@@ -5,7 +5,7 @@
     </div>
     <div class="top not-print">
       <div>24小时监测记录</div>
-      <div class="btn"  style="width: 740px">
+      <div class="btn" style="width: 740px">
         <div>
           <!--<el-date-picker v-model="chosenDate" type="date" placeholder="全部日期"></el-date-picker>-->
           <duno-btn-top
@@ -57,7 +57,7 @@
             v-for="(nr, i) in item['data']"
             :key="i"
           >
-            <key-monitor
+            <!-- <key-monitor
               class="monitorRecord"
               :showBtmOption="true"
               :noButton="false"
@@ -69,37 +69,16 @@
               :streamAddr="nr['streamAddr']"
               :kilovolt="nr['monitorDeviceName']"
               :patrol="nr['monitorDeviceId']"
-            />
+            />-->
+            <cover class="coverRecord" :srcData="nr"></cover>
           </div>
-          <div style="clear: both"></div>
+          <!-- <div style="clear: both"></div> -->
         </div>
       </div>
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-    <!-- <div class="remarks">
-      <el-dialog
-        title="备注"
-        :center="true"
-        top="20vh"
-        :visible.sync="dialogVisible"
-        :modal="false"
-        width="500px"
-        :before-close="beforeClose"
-      >
-        <el-input
-          type="textarea"
-          placeholder="请输入备注内容"
-          :autosize="{ minRows: 3}"
-          v-model="textarea"
-        ></el-input>
-        <span slot="footer" class="dialog-footer">
-          <button-custom class="button" @click.native="closeRemarks" title="取消" />
-          <button-custom class="button" @click="clickRemarks" title="确定" />
-        </span>
-      </el-dialog>
-    </div>-->
   </div>
 </template>
 
@@ -109,6 +88,8 @@ import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
+import cover from "_c/duno-c/cover";
+import Remarks from "_c/duno-c/Remarks";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
@@ -132,7 +113,9 @@ export default {
     DunoTablesTep,
     warningSetting,
     wraning,
-    buttonCustom
+    buttonCustom,
+    cover,
+    Remarks
   },
   data() {
     const that = this;
@@ -198,7 +181,6 @@ export default {
                   on: {
                     click: () => {
                       this.getJump(params.row);
-                      //   console.log("摄像头ID：", params.row.monitorDeviceId);
                     }
                   }
                 },
@@ -495,17 +477,17 @@ export default {
       }
       this.clickQuery(this.clcikQueryData);
     },
-    onChangeTime(data) {
-      let startTime = "";
-      let endTime = "";
-      if (data) {
-        startTime = moment(data[0]).format("YYYY-MM-DD");
-        endTime = moment(data[1]).format("YYYY-MM-DD");
-      }
-      this.clcikQueryData.startTime = startTime;
-      this.clcikQueryData.endTime = endTime;
-      this.clickQuery(this.clcikQueryData);
-    },
+    // onChangeTime(data) {
+    //   let startTime = "";
+    //   let endTime = "";
+    //   if (data) {
+    //     startTime = moment(data[0]).format("YYYY-MM-DD");
+    //     endTime = moment(data[1]).format("YYYY-MM-DD");
+    //   }
+    //   this.clcikQueryData.startTime = startTime;
+    //   this.clcikQueryData.endTime = endTime;
+    //   this.clickQuery(this.clcikQueryData);
+    // },
     handleClose() {
       this.popData = {};
       this.visible = false;
@@ -522,10 +504,10 @@ export default {
         this.getDataList();
       });
     },
-    clickExcel() {
-      const that = this;
-      that.exportHandle();
-    },
+    // clickExcel() {
+    //   const that = this;
+    //   that.exportHandle();
+    // },
     getRegion(flag) {
       const that = this;
       getAxiosData("/lenovo-device/device/video/record/date/select-list", {
@@ -640,40 +622,10 @@ export default {
           });
         }
       });
-      /* if (row.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      } else if (row.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      }*/
     },
     beforeClose() {
       this.dialogVisible = false;
     }
-    // clickRemarks() {
-    //   const that = this;
-    //   that.isShowRemarks = false;
-    //   let query = {
-    //     alarmId: that.remarkData.alarmId,
-    //     type: "2",
-    //     content: that.textarea
-    //   };
-    //   dealRemarks(query).then(res => {
-    //     that.textarea = "";
-    //     if (res.data.isSuccess) that.$message.success(res.msg);
-    //     else that.$message.error(res.msg);
-    //     this.$emit("handleListData");
-    //   });
-    // }
   }
 };
 </script>
@@ -682,8 +634,8 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail-record {
   width: 100%;
-  .btnTopRefD{
-    .btnList{
+  .btnTopRefD {
+    .btnList {
       width: 540px !important;
     }
   }
@@ -737,18 +689,14 @@ export default {
       padding: 20px;
       padding-bottom: 0;
       display: flex;
+      flex-wrap: wrap;
       /*justify-content: space-between;*/
     }
     .monitorItem {
-      width: 24%;
-      float: left;
+      width: calc(25% - 15px);
+      margin-bottom: 20px;
       &.marginRight {
-        margin-right: 1%;
-      }
-      .monitorRecord {
-        width: 100% !important;
-        height: 100%;
-        margin: 0 0px 55px 0;
+        margin-right: 20px;
       }
     }
   }
@@ -977,57 +925,57 @@ export default {
           cursor: pointer;
         }
       }
-      .clickBtn {
-        line-height: 40px;
-        width: 139px;
-        background-image: url(../../../assets/images/btn/moreBtn.png);
-        text-align: center;
-        font-size: 18px;
-        cursor: pointer;
-        color: #ffffff;
-        @media screen and (min-width: 3500px) {
-          background-size: 100% 100%;
-          font-size: 14px;
-          line-height: 34px;
-          width: 120px;
-        }
-      }
-      .dateChose {
-        .el-date-editor {
-          background-color: #192f41;
-          border: none;
-          .el-range-input {
-            background-color: rgba(81, 89, 112, 0);
-          }
-          .el-range-separator {
-            font-size: 20px;
-            color: #fff;
-            @media screen and (min-width: 3500px) {
-              font-size: 14px;
-            }
-          }
-          .el-range-input {
-            color: #fff;
-          }
-        }
-        .el-range-editor--small.el-input__inner {
-          height: 40px !important;
-          @media screen and (min-width: 3500px) {
-            height: 35px !important;
-            width: 250px;
-          }
-        }
-        .el-range-editor--small .el-range__icon,
-        .el-range-editor--small .el-range__close-icon {
-          line-height: 35px;
-        }
-        .el-range-editor--small .el-range-input {
-          font-size: 16px;
-          @media screen and (min-width: 3500px) {
-            font-size: 14px;
-          }
-        }
-      }
+      //   .clickBtn {
+      //     line-height: 40px;
+      //     width: 139px;
+      //     background-image: url(../../../assets/images/btn/moreBtn.png);
+      //     text-align: center;
+      //     font-size: 18px;
+      //     cursor: pointer;
+      //     color: #ffffff;
+      //     @media screen and (min-width: 3500px) {
+      //       background-size: 100% 100%;
+      //       font-size: 14px;
+      //       line-height: 34px;
+      //       width: 120px;
+      //     }
+      //   }
+      //   .dateChose {
+      //     .el-date-editor {
+      //       background-color: #192f41;
+      //       border: none;
+      //       .el-range-input {
+      //         background-color: rgba(81, 89, 112, 0);
+      //       }
+      //       .el-range-separator {
+      //         font-size: 20px;
+      //         color: #fff;
+      //         @media screen and (min-width: 3500px) {
+      //           font-size: 14px;
+      //         }
+      //       }
+      //       .el-range-input {
+      //         color: #fff;
+      //       }
+      //     }
+      //     .el-range-editor--small.el-input__inner {
+      //       height: 40px !important;
+      //       @media screen and (min-width: 3500px) {
+      //         height: 35px !important;
+      //         width: 250px;
+      //       }
+      //     }
+      //     .el-range-editor--small .el-range__icon,
+      //     .el-range-editor--small .el-range__close-icon {
+      //       line-height: 35px;
+      //     }
+      //     .el-range-editor--small .el-range-input {
+      //       font-size: 16px;
+      //       @media screen and (min-width: 3500px) {
+      //         font-size: 14px;
+      //       }
+      //     }
+      //   }
     }
   }
   .icon-xiala {
