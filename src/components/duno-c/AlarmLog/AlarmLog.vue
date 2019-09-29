@@ -6,7 +6,7 @@
         :src="remarkData.fileAddress?remarkData.fileAddress:remarkData.alarmFileAddress"
         alt
       />
-      <KeyMonitor
+      <!-- <KeyMonitor
         v-else
         :autoplay="autoplay"
         :noButton="noButton"
@@ -14,7 +14,8 @@
         :imgAdress="remarkData.pic"
         :monitorInfo="remarkData"
         :isNav="false"
-      />
+      />-->
+      <cover v-else :srcData="remarkData"></cover>
     </div>
     <div class="contentMain" @click="handleWain">
       <div class="top">
@@ -66,24 +67,25 @@ import { postAxiosData, getAxiosData } from "@/api/axiosType";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Remarks from "_c/duno-c/Remarks";
+import cover from "_c/duno-c/cover";
 import buttonCustom from "_c/duno-m/buttonCustom";
 import wraning from "_c/duno-j/warning";
 import { dealRemarks } from "@/api/configuration/configuration.js";
 export default {
   name: "AlarmLog",
-  components: { KeyMonitor, buttonCustom, Remarks, wraning },
+  components: { KeyMonitor, cover, buttonCustom, Remarks, wraning },
   props: {
     noButton: {
-        type: Boolean,
-        default: () => {
-            return true;
-        }
+      type: Boolean,
+      default: () => {
+        return true;
+      }
     },
     autoplay: {
-        type: Boolean,
-        default: () => {
-            return false;
-        }
+      type: Boolean,
+      default: () => {
+        return false;
+      }
     },
     isShow: {
       type: Boolean,
@@ -122,7 +124,7 @@ export default {
           this.isReturn = false;
         }
         this.alarmId = `${now.alarmId}`;
-        this.dealList = []
+        this.dealList = [];
         this.handleDeal(now.dealList);
       },
       deep: true,
@@ -134,7 +136,7 @@ export default {
       item.forEach(el => {
         let str = el.dealType + " (" + el.dealTime + ")";
         this.dealList.push(str);
-        this.$forceUpdate
+        this.$forceUpdate;
       });
     },
     openRemarks() {
@@ -233,7 +235,7 @@ export default {
   justify-content: space-around;
   .img {
     width: 40%;
-    height: 100%;
+    // height: 100%;
     position: relative;
     img {
       width: 100%;

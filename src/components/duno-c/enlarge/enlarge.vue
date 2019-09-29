@@ -20,7 +20,7 @@
         ref="monitor"
         width="100%"
         :pushCamera="pushCamera"
-        :streamAddr="srcData.alarmFileAddress"
+        :streamAddr="srcData.alarmFileAddress?srcData.alarmFileAddress:srcData.streamAddr"
       />
     </el-dialog>
   </div>
