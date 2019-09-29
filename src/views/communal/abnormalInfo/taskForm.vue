@@ -154,7 +154,7 @@
     </div>
     <div class="btn not-print">
       <div>最新报告</div>
-      <div @click="handleToMore">查看更多 ></div>
+      <div @click="toMoreReport">查看更多 ></div>
     </div>
     <div class="reportList">
       <div class="contentNR">
@@ -167,7 +167,7 @@
           />
         </div>
       </div>
-      <div class="iconfont icon-zuo position" :class="{'route': turnFlag}" @click="toMove()"></div>
+      <div class="iconfont icon-zuo position" :class="{'route': turnFlag, 'isVisible': !isVisible}" @click="toMove()"></div>
     </div>
     <div class="btn not-print">
       <div>最新记录</div>
@@ -685,10 +685,21 @@
                     }
                 ],
                 turnFlag: false,
-                limit: false
+                limit: false,
+                isVisible: false
             };
         },
         methods: {
+            toMoreReport(){
+               this.$router.push({path: '/report/list'})
+            },
+            isShow(){
+                if(document.querySelectorAll('.reportTable').length*278 < $('.reportList')[0].offsetWidth-278){
+                    this.isVisible = false
+                }else{
+                    this.isVisible = true
+                }
+            },
             toMove(){
                 if(this.limit){
                     this.nowPostion += 250
@@ -707,7 +718,7 @@
                 document.querySelector('.tableList').setAttribute('style',`transform: translateX(${this.nowPostion}px)`)
             },
             init() {
-              /*  let url = "/lenovo-plan/api/statistics/plan/list";
+                let url = "/lenovo-plan/api/statistics/plan/list";
                 let query = {
                     pageIndex: 1,
                     pageRows: 10
@@ -715,56 +726,8 @@
                 getAxiosData(url, query).then(res => {
                     this.dataListInfo = res.data;
                     this.$forceUpdate();
-                });*/
-                this.dataListInfo['tableData'] = [
-                    {
-                        "id": 70848,
-                        "planId": "71750",
-                        "planType": "UkrgJnkTYf",
-                        "date": "1563262026546",
-                        "timeLong": "Xo0kf2utPd",
-                        "alarmNum": 65846,
-                        "pic": "RXwocIMUkv",
-                        "monitorDeviceList": [
-                            {
-                                "monitorDeviceName": "ZUtfcjfb9l",
-                                "monitorDeviceId": 71879
-                            },
-                            {
-                                "monitorDeviceName": "MamJRdkLcY",
-                                "monitorDeviceId": 72238
-                            },
-                            {
-                                "monitorDeviceName": "pcuYkceh1b",
-                                "monitorDeviceId": 72891
-                            }
-                        ],
-                        "batchId": "99051"
-                    },
-                    {
-                        "id": 73166,
-                        "planId": "73395",
-                        "planType": "x6trIqZ76b",
-                        "date": "1563260687270",
-                        "timeLong": "uOav4gmBOv",
-                        "alarmNum": 65580,
-                        "pic": "PtEYa4Txzc",
-                        "monitorDeviceList": [
-                            {
-                                "monitorDeviceName": "9OHsYf5d4G",
-                                "monitorDeviceId": 74153
-                            },
-                            {
-                                "monitorDeviceName": "8XLJgYsQhz",
-                                "monitorDeviceId": 74310
-                            },
-                            {
-                                "monitorDeviceName": "lxuy6vvRPy",
-                                "monitorDeviceId": 74444
-                            }
-                        ],
-                        "batchId": "89776"
-                    },
+                });
+               /* this.dataListInfo['tableData'] = [
                     {
                         "id": 74815,
                         "planId": "74989",
@@ -885,7 +848,7 @@
                         ],
                         "batchId": "89776"
                     },
-                ]
+                ]*/
             },
             closeEnlarge() {
                 this.isEnlarge = false;
@@ -1192,9 +1155,12 @@
             pageSizeChangeHandle() {}
         },
         mounted() {
+            const that = this
             this.nowDate = new Date()
             this.getAmmeterData();
             this.initChart();
+            that.isShow()
+            window.addEventListener('resize', that.isShow)
             // this.initTime();
         },
         created(){
@@ -1219,6 +1185,9 @@
     }
   }
   .taskForm {
+    .isVisible{
+      visibility: hidden;
+    }
     .selectSearch {
       overflow: hidden;
     }
