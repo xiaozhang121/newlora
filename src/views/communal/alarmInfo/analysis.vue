@@ -872,7 +872,9 @@ export default {
       }
       this.startTime = startTime;
       this.endTime = endTime;
-      this.getEcharts();
+      if (this.titlePhase != "") {
+        this.getEcharts();
+      }
     },
     getJump(row) {
       if (row.monitorDeviceType == "1") {

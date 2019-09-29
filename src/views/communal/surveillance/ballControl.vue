@@ -105,7 +105,7 @@
         <div class="video">
           <div>
             <div class="videoItem" v-for="(item,index) in videoList" :key="index">
-              <key-monitor
+              <!-- <key-monitor
                 :monitorInfo="item"
                 paddingBottom="56%"
                 class="monitor"
@@ -116,7 +116,8 @@
                 :streamAddr="item['streamAddr']"
                 :showBtmOption="false"
                 :Initialization="true"
-              ></key-monitor>
+              ></key-monitor>-->
+              <cover :srcData="item" :isSecond="false"></cover>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>
             </div>
           </div>
@@ -204,6 +205,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
+import cover from "_c/duno-c/cover";
 import controBtn from "_c/duno-m/controBtn";
 import pattery from "_c/duno-m/pattery";
 import mixinViewModule from "@/mixins/view-module";
@@ -238,7 +240,8 @@ export default {
     wraning,
     enlarge,
     Remarks,
-    pattery
+    pattery,
+    cover
   },
   data() {
     const that = this;
@@ -556,12 +559,15 @@ export default {
       }).then(res => {
         let data = res.data.tableData;
         this.videoList = data;
-        data.forEach((item)=>{
-            postAxiosData('/lenovo-alarm/api/info/video/pic', {'videoPath': item['streamAddr'], 'positionIndex': index}).then(res=>{
-                this.videoList[res.data['positionIndex']]['pic'] = res.data.pic
-                this.$forceUpdate()
-            })
-        })
+        data.forEach((item, index) => {
+          postAxiosData("/lenovo-device/device/video/record/video/pic", {
+            videoPath: item["streamAddr"],
+            positionIndex: index
+          }).then(res => {
+            this.videoList[res.data["positionIndex"]]["pic"] = res.data.pic;
+            this.$forceUpdate();
+          });
+        });
         this.pageParam = res.data.pageParam;
       });
     },
