@@ -14,6 +14,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
+      <a href="javascript:void(0)" class="selectAll" @click="chosenAll">全选</a>
       <chosen-list :dataListOption="dataList" :isInput="true" @inputChange="inputChange" />
     </el-form>
   </div>
@@ -84,6 +85,12 @@ export default {
     };
   },
   methods: {
+    chosenAll(){
+        this.dataList.map((item, index)=>{
+            item['isCheck'] = true
+        })
+        this.$forceUpdate()
+    },
     inputChange(item) {
         if (this.choseType == 1) {
             this.initData(item);
@@ -187,6 +194,10 @@ export default {
 .taskPanel {
   .el-select {
     width: 100%;
+  }
+  .selectAll{
+    position: absolute;
+    right: 48px;
   }
 }
 </style>
