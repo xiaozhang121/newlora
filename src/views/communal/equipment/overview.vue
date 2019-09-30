@@ -137,7 +137,7 @@ export default {
       titleValueL: "四个摄像头",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
-        { path: "/visiblelight/list", name: "设备监测" },
+        { path: "/overview/list", name: "设备监测" },
         { path: "", name: "信息总览" }
       ]
     };

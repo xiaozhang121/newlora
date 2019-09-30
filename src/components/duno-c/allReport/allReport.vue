@@ -194,6 +194,12 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
+            let alarmLevelName;
+            if (params.row.alarmLevelName.length > 2) {
+              alarmLevelName = params.row.alarmLevelName.slice(0, 2);
+            } else {
+              alarmLevelName = params.row.alarmLevelName;
+            }
             if (
               params.row.alarmLevel == "1" ||
               params.row.alarmLevel == "2" ||
@@ -224,7 +230,7 @@ export default {
                           }
                         },
                         [
-                          h("span", params.row.alarmLevelName, {
+                          h("span", alarmLevelName, {
                             class: { member_operate_div: true }
                           }),
                           h("i", {

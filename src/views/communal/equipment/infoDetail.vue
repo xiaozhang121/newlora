@@ -41,8 +41,8 @@ export default {
         case "overview-info":
           this.dataBread = [
             { path: "/realEnv/list", name: "操作中台" },
-            { path: "/infrared/list", name: "设备监测" },
-            { path: "/infrared/list", name: "信息总览" },
+            { path: "/overview/list", name: "设备监测" },
+            { path: "/overview/list", name: "信息总览" },
             { path: "", name: "信息总览巡检报告" }
           ];
           this.downloadURL = "/lenovo-plan/api/plan/visible-report/download";
