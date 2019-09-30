@@ -7,6 +7,7 @@
           destroy-on-close
           class="elDialogClass"
           :visible="newVisible"
+          :modal-append-to-body="modalBody"
           width="900px"
           center
           :top="top"
@@ -161,6 +162,12 @@ export default {
     };
   },
   props: {
+    modalBody: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     isAlarmLog: {
       type: Boolean,
       default: () => {

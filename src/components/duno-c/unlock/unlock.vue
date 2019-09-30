@@ -71,7 +71,7 @@ export default {
       };
       let url = "/lenovo-smartlock/permit/grant";
       axios({
-        baseURL: "http://10.0.0.164:8080",
+        baseURL: "http://10.0.10.35:8080",
         method: "POST",
         headers: {
           Authorization: this.$store.state.user.token,

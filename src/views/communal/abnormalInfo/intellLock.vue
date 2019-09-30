@@ -183,7 +183,7 @@ export default {
     initWebSocket() {
       //初始化weosocket
       this.websock = new WebSocket(
-        `ws://10.0.8.86:8099/lenovo-smartlock/grant/websocket`
+        `ws://10.0.10.35:8099/lenovo-smartlock/grant/websocket`
       );
       this.websock.onmessage = this.websocketonmessage;
       this.websock.onerror = this.websocketonerror;
