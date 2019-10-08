@@ -1380,6 +1380,12 @@ export default {
         width: calc(20% - 20px);
         margin-right: 20px;
         margin-bottom: 20px;
+        .cover {
+          min-height: 196px;
+          @media screen and (min-width: 3500px) {
+            min-height: 150px;
+          }
+        }
         p {
           margin-top: 5px;
           color: #fff;
