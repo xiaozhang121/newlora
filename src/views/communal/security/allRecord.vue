@@ -698,6 +698,14 @@ export default {
       &.marginRight {
         margin-right: 20px;
       }
+      .cover {
+        & > div:first-child {
+          min-height: 218px;
+          @media screen and (min-width: 3500px) {
+            min-height: 135px;
+          }
+        }
+      }
     }
   }
   .icon-xiala {

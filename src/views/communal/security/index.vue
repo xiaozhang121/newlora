@@ -348,7 +348,7 @@ export default {
     width: 100%;
     min-height: 491px;
     background-color: #142838;
-    opacity: 0.8;
+    // opacity: 0.8;
     padding: 21px 27px;
     overflow: hidden;
     .alarmLog {

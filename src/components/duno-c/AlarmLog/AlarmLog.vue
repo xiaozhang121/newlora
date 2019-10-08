@@ -56,6 +56,7 @@
       detailsType="alarm"
       :isAlarmLog="true"
       :popData="remarkData"
+      :modalBody="false"
       :visible="visible"
       @handleClose="handleClose"
     />

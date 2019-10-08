@@ -11,13 +11,14 @@
         class="table_abnormalInfo"
         :columns="infoColumns"
         :data="dataList"
+        :loading="loadingOption"
         :totalNum="totalNum"
         :current="offset"
         :border="true"
         :showSizer="true"
         @clickPage="pageCurrentChangeHandle"
       />
-    </duno-main>
+    </duno-main>    
     <unlock :isShow="isShow" :dataList="webData" @on-close="onClose"></unlock>
   </div>
 </template>
@@ -31,6 +32,7 @@ import unlock from "_c/duno-c/unlock";
 import moment from "moment";
 import { putAxiosData, getAxiosData, postAxiosData } from "@/api/axiosType";
 import { debug } from "util";
+const qs = require("qs");
 export default {
   name: "intellLock",
   components: {
@@ -45,6 +47,7 @@ export default {
     return {
       offset: 1,
       totalNum: 10,
+      loadingOption: true,
       websock: null,
       webData: {},
       isShow: false,
@@ -54,7 +57,7 @@ export default {
       ],
       infoColumns: [
         {
-          key: "devMac",
+          key: "id",
           title: "锁具ID",
           align: "center"
         },
@@ -85,7 +88,7 @@ export default {
           }
         },
         {
-          key: "devName",
+          key: "userName",
           title: "授权人员姓名",
           align: "center"
         },
@@ -117,14 +120,37 @@ export default {
           }
         },
         {
-          key: "address",
-          title: "部门",
-          align: "center"
-        },
-        {
           key: "opTime",
           title: "授权期限",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            let newArr = [];
+            // let startTime = params.row.startTime.slice(0, -8);
+            // let endTime = params.row.endTime.slice(0, -8);
+            newArr.push([
+              h("div", [
+                h(
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      content: `${params.row.startTime} - ${params.row.endTime}`,
+                      transfer: true
+                    },
+                    style: {
+                      display: "inline-block",
+                      width: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap"
+                    }
+                  },
+                  `${params.row.startTime} - ${params.row.endTime}`
+                )
+              ])
+            ]);
+            return h("div", newArr);
+          }
         }
       ]
     };
@@ -145,18 +171,19 @@ export default {
       let query = {
         offset: this.offset,
         limit: this.totalNum,
-        startTime: startTime,
-        endTime: endTime
+        // startTime: startTime,
+        // endTime: endTime
       };
       let url = "/lenovo-smartlock/permit/record";
       postAxiosData(url, query).then(res => {
         this.dataList = res.data;
+        this.loadingOption = false;
       });
     },
     initWebSocket() {
       //初始化weosocket
       this.websock = new WebSocket(
-        `ws://10.0.8.86:8099/lenovo-smartlock/grant/websocket`
+        `ws://10.0.10.35:8099/lenovo-smartlock/grant/websocket`
       );
       this.websock.onmessage = this.websocketonmessage;
       this.websock.onerror = this.websocketonerror;
@@ -181,7 +208,7 @@ export default {
     }
   },
   mounted() {
-    // this.init();
+    this.init();
     this.initWebSocket();
     window.onbeforeunload = function() {
       // 浏览器关闭

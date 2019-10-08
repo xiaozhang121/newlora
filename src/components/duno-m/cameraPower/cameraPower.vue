@@ -2,7 +2,7 @@
     <div class="cameraPower" >
         <historical-documents v-if="mainType == 1" :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="444px" @close="onClose" :dialogTableVisible="visible" class="historical">
             <div class="monitor">
-                <key-monitor :autoplay="true" :monitorInfo="monitorInfo" :streamAddr="monitorInfo['videoAddr']"></key-monitor>
+                <key-monitor :autoplay="true" :monitorInfo="monitorInfo" :streamAddr="monitorInfo['addr']"></key-monitor>
             </div>
             <div class="from">
                 来源：
@@ -20,9 +20,18 @@
                 <camera-d @on-detail="toDetail" :dataInfo="item"></camera-d>
             </div>
             <ul class="threeClass">
-                <li>A相</li>
-                <li>B相</li>
-                <li>C相</li>
+                <li
+                :class="{active:active=='A'}"
+                @click="activeItem('A')"
+                >A相</li>
+                <li
+                
+                :class="{active:active=='B'}"
+                @click="activeItem('B')">B相</li>
+                <li
+                :class="{active:active=='C'}"
+                @click="activeItem('C')"
+                >C相</li>
             </ul>
         </historical-documents>
         <historical-documents v-else :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="744px" @close="onClose" :dialogTableVisible="visible" class="historical">
@@ -46,9 +55,18 @@
                 <camera-d @on-detail="toDetail" :dataInfo="item"></camera-d>
             </div>
             <ul class="threeClass">
-                <li>A相</li>
-                <li>B相</li>
-                <li>C相</li>
+                <li
+                :class="{active:active=='A'}"
+                @click="activeItem('A')"
+                >A相</li>
+                <li
+                
+                :class="{active:active=='B'}"
+                @click="activeItem('B')">B相</li>
+                <li
+                :class="{active:active=='C'}"
+                @click="activeItem('C')"
+                >C相</li>
             </ul>
         </historical-documents>
         <wraning
@@ -87,13 +105,16 @@
                 streamAddr: '',
                 dialogTitle: '暂无名称',
                 dataList: [],
+                allList:[],
                 mainName: '',
                 mainType: '',
                 monitorInfo: {},
+                monitorInfo1:{},
                 recentList: [],
                 popData: {},
                 alarmLevel: '',
                 visibleInner: false,
+                active:'A',
                 playerOptions: {
                     streamAddr: "",
                     autoplay: true
@@ -126,6 +147,24 @@
             }
         },
         methods:{
+            activeItem(type){
+                this.active=type
+                let data=this.allList
+                let dataList=[]
+                data.forEach((el,i) => {
+                        if(el.powerDevicePhase==type){
+                            dataList.push(data[i])
+                        }
+                });
+                this.dataList=dataList;
+                this.mainName = dataList[0]['monitorDeviceName']
+                    this.mainType = dataList[0]['monitorDeviceType']
+                    this.monitorInfo = dataList[0]
+                    this.streamAddr = dataList[0]['addr']
+                    if(this.mainType=='2'){
+                        this.monitorInfo1 = dataList[1]
+                    }
+            },
             getJump() {
                 getAxiosData("/lenovo-device/api/preset/type", {
                     monitorDeviceId: this.monitorInfo["monitorDeviceId"]
@@ -169,12 +208,6 @@
                         });
                     }
                 });
-                /* this.$router.push({
-                  path: "/surveillancePath/detailLight",
-                  query: {
-                    monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
-                  }
-                });*/
             },
             handleClose() {
                 this.popData = {};
@@ -188,86 +221,37 @@
             },
             initList(){
                 const that = this
-                this.recentList = [
-                    {
-                        alarmLevel: null,
-                        alarmLevelName: null,
-                        alarmTime: "2019-09-23 16:30:02",
-                        alarmValue: "57.203",
-                        areaName: "1000千伏",
-                        batchId: "667",
-                        content: "正常",
-                        dealRecord: null,
-                        executeTime: "2019-09-23 16:30:02",
-                        fileType: "1",
-                        id: "203755",
-                        isAlarm: "0",
-                        isPhaseAlarm: "0",
-                        isReturn: null,
-                        isRobot: "0",
-                        mainDevice: "4号主变",
-                        monitorDeviceId: "10002",
-                        monitorDeviceName: "新视界-练塘站-1000KV-4号主变A相风控箱红外41#-232",
-                        monitorDeviceType: null,
-                        part: "A相",
-                        phaseData: null,
-                        pic: "http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=roibucket&fileName=A相风控箱左侧下部器件.jpg",
-                        powerDeviceName: "A相风控箱左侧下部器件",
-                        sourceType: "自动",
-                        taskId: "620656413568679936"
-                    }
-                ]
-               /* getAxiosData('/lenovo-plan/api/task/result/list', {'monitorDeviceId': this.monitorInfo['monitorDeviceId'], 'pageIndex': 1, 'pageRows': 2}).then(res=>{
+                getAxiosData('/lenovo-plan/api/task/result/list', {'monitorDeviceId': this.monitorInfo['monitorDeviceId'], 'pageIndex': 1, 'pageRows': 2}).then(res=>{
                     this.recentList = res.data.details || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
-                })*/
-               if(this.monitorInfo['monitorDeviceType'] == 2){
-                   const url =
-                       "/lenovo-iir/device/visible/url/rtmp/" + this.monitorInfo['monitorDeviceId'];
-                   getAxiosData(url, {}).then(res => {
-                       that.playerOptions.streamAddr = res.data.data;
-                   });
-                   const urld =
-                       "/lenovo-iir/device/video/url/rtmp/" + this.monitorInfo['monitorDeviceId'];
-                   getAxiosData(urld, {}).then(res => {
-                       that.playerOptionsd.streamAddr = res.data.data;
-                   });
-               }
+                })
             },
             chosenItem(item){
                 this.monitorInfo = item
                 this.mainType = item['monitorDeviceType']
                 this.mainName = item['monitorDeviceName']
-                this.streamAddr = item['videoAddr']
-                this.isPic = item['typeId'] == 3
+                this.streamAddr = item['addr']
                 this.initList()
             },
             getData(){
-                    let res = {
-                        'data': [
-                            {
-                                "monitorDeviceId": "51",
-                                "monitorDeviceName": "Name1新视界 -练塘站-1000kV-4号主变C相温度表-18",
-                                "monitorDeviceType": 2,
-                                "videoAddr": '123'
-                            },
-                            {
-                                "monitorDeviceId": "51",
-                                "monitorDeviceName": "Name2新视界 -练塘站-1000kV-4号主变C相温度表-18",
-                                "monitorDeviceType": 1,
-                                "videoAddr": '56+'
-                            }
-                        ]
+                getAxiosData('/lenovo-device/api/device/newrtmp', {powerDeviceId: this.itemData['deviceIdStr']}).then(res=>{
+                    let data = res.data.dmDeviceRtmpOutputs
+                    let dataList=[]
+                    data.forEach((el,i) => {
+                        if(el.powerDevicePhase=='A'){
+                            dataList.push(data[i])
+                        }
+                    });
+                    this.allList=data;
+                    this.dataList = dataList
+                    this.mainName = dataList[0]['monitorDeviceName']
+                    this.mainType = dataList[0]['monitorDeviceType']
+                    this.monitorInfo = dataList[0]
+                    this.streamAddr = dataList[0]['addr']
+                    if(this.mainType=='2'){
+                        this.monitorInfo1 = dataList[1]
                     }
-                // getAxiosData('/lenovo-device/api/monitors/device', {powerDeviceId: this.itemData['deviceIdStr']}).then(res=>{
-                    let data = res.data
-                    this.dataList = data
-                    this.mainName = data[0]['monitorDeviceName']
-                    this.mainType = data[0]['monitorDeviceType']
-                    this.monitorInfo = data[0]
-                    this.streamAddr = data[0]['videoAddr']
-                    this.isPic = data[0]['typeId'] == 3
                     this.initList()
-                // })
+                })
             },
             onClose(){
             }
@@ -291,6 +275,10 @@
                 margin-bottom: 8px;
                 border-radius: 3px;
                 cursor: pointer;
+                
+            }
+            .active{
+                    color: #00e5ff;
             }
         }
         .el-dialog{
@@ -325,6 +313,7 @@
             color: #4bbdc1;
         }
         .moreInfo{
+            cursor: pointer;
             color: #4bbdc1 !important;
             text-align: right;
             text-decoration: underline;

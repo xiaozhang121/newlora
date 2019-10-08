@@ -4,6 +4,7 @@
       :visible.sync="isShow"
       :show-close="false"
       :modal="true"
+      :modal-append-to-body="modalBody"
       :width="width"
       top="5vh"
       :before-close="handleLarge"
@@ -19,6 +20,7 @@
         v-if="srcData.fileType=='2'"
         ref="monitor"
         width="100%"
+        :autoplay='true'
         :pushCamera="pushCamera"
         :streamAddr="srcData.alarmFileAddress?srcData.alarmFileAddress:srcData.streamAddr"
       />
@@ -39,6 +41,12 @@ export default {
     };
   },
   props: {
+    modalBody: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     pushCamera: {
       type: Boolean,
       default: () => {

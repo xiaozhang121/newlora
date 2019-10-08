@@ -11,7 +11,6 @@
       top="30vh"
       :before-close="handleClose"
     >
-      <!-- <span>这是一段信息</span> -->
       <p>
         <span>{{dataList.userId}}</span>
         申请锁具
@@ -19,8 +18,8 @@
         开锁授权
       </p>
       <span slot="footer" class="dialog-footer">
-        <button-custom class="button" @click.native="handleReject" title="驳回" />
-        <button-custom class="button" @click.native="handleChick" title="确定" />
+        <button-custom class="button" @click.native="handleChick(0)" title="驳回" />
+        <button-custom class="button" @click.native="handleChick(1)" title="确定" />
       </span>
     </el-dialog>
   </div>
@@ -28,6 +27,8 @@
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
 import { postAxiosData } from "@/api/axiosType";
+import qs from "qs";
+import axios from "axios";
 export default {
   name: "unlock",
   components: {
@@ -62,15 +63,32 @@ export default {
     handleReject() {
       this.$emit("on-close");
     },
-    handleChick() {
+    handleChick(item) {
+      let that = this;
       let query = {
-        ...this.dataList
+        ...this.dataList,
+        act: item
       };
       let url = "/lenovo-smartlock/permit/grant";
-      postAxiosData(url, query).then(res => {
-        console.log(res.data);
-        this.$emit("on-close");
-      });
+      axios({
+        baseURL: "http://10.0.10.35:8080",
+        method: "POST",
+        headers: {
+          Authorization: this.$store.state.user.token,
+          "content-type": "application/x-www-form-urlencoded"
+        },
+        data: qs.stringify(query),
+        url: "/lenovo-smartlock/permit/grant"
+      })
+        .then(function(response) {
+          let data = response.data;
+          if (data.errorCode == 200) {
+            that.$emit("on-close");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

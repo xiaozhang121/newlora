@@ -18,6 +18,7 @@
     <enlarge
       :pushCamera="false"
       :isShow="isEnlarge"
+      :modalBody="false"
       :srcData="srcData"
       @closeEnlarge="closeEnlarge"
     ></enlarge>
