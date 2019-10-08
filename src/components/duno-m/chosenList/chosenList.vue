@@ -78,7 +78,7 @@
             },
             dataListOption:{
                 handler(now){
-                    if(now.length)
+                    // if(now.length)
                       this.dataList = now
                 },
                 immediate: true
@@ -103,6 +103,9 @@
             },
             toHide(){
                 this.collapse = !this.collapse
+            },
+            onClear(){
+                this.input=''
             }
         }
     }

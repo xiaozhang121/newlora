@@ -15,7 +15,7 @@
         </el-select>
       </el-form-item>
       <a href="javascript:void(0)" class="selectAll" @click="chosenAll">全选</a>
-      <chosen-list :dataListOption="dataList" :isInput="true" @inputChange="inputChange" />
+      <chosen-list :dataListOption="dataList" ref="choseChild" :isInput="true" @inputChange="inputChange" />
     </el-form>
   </div>
 </template>
@@ -80,6 +80,7 @@ export default {
         taskKind: ""
       },
       dataList: [],
+      infoData: [],
       taskKindList: [],
       choseType:-1,
     };
@@ -92,20 +93,33 @@ export default {
         this.$forceUpdate()
     },
     inputChange(item) {
-        if (this.choseType == 1) {
-            this.initData(item);
-        } else if (this.choseType == 2) {
-            this.onChange(this.choseType, item);
+        // if (this.choseType == 1) {
+        //     this.initData(item);
+        // } else if (this.choseType == 2) {
+        //     this.onChange(this.choseType, item);
+        // } else {
+        //     this.onChange(this.choseType, item);
+        // }
+        let data = this.dataList;
+        let selectData = [];
+        console.log(data)
+        if (item != "") {
+            data.forEach(el => {
+            if (el["title"].indexOf(item) > -1) {
+                selectData.push(el);
+            }
+            });
+            this.dataList = selectData;
         } else {
-            this.onChange(this.choseType, item);
+            this.dataList = this.infoData;
         }
     },
-    onChange(value,deviceName) {
+    onChange(value) {
        this.$emit('getchoseType',value)
         this.choseType=value;
       if (value != 3) {
         const that = this;
-        let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName};
+        let query = { pageIndex: 1, pageRows: 888888 };
         query["planType"] = value;
         getAxiosData("/lenovo-plan/api/device/multi", query).then(res => {
           let data = res.data.tableData;
@@ -122,10 +136,11 @@ export default {
           this.$forceUpdate();
           this.rowData["isChange"] = true;
           this.dataList = info;
+          this.infoData = info;
         });
       } else {
         const that = this;
-        let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName};
+        let query = { pageIndex: 1, pageRows: 888888 };
         query["planType"] = value;
         getAxiosData("/lenovo-plan/api/environment/list/camera", query).then(
           res => {
@@ -141,17 +156,19 @@ export default {
             this.$forceUpdate();
             this.rowData["isChange"] = true;
             this.dataList = info;
+            this.infoData = info;
           }
         );
       }
+      this.$refs.choseChild.onClear()
     },
-    initData(deviceName) {
+    initData() {
       const that = this;
       postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
         this.taskKindList = res.data;
         if (!this.rowDataLength) that.form.taskKind = res.data[0].value;
         this.$forceUpdate();
-        let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName};
+        let query = { pageIndex: 1, pageRows: 888888 };
         query["planType"] = that.form.taskKind;
         getAxiosData("/lenovo-plan/api/device/multi", query).then(res => {
           let data = res.data.tableData;
@@ -181,6 +198,7 @@ export default {
             }
           }
           this.dataList = info;
+          this.infoData = info;
         });
       });
     }
