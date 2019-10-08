@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="rightBtnHandle" v-if="showBtnList">
-      <div class="zoomMain" style="visibility: hidden">
+      <div class="zoomMain" style="display: none">
         <span class="zoom">
           <i class="iconfont icon-jianshao"></i>
         </span>
@@ -69,6 +69,10 @@
         <span class="zoom">
           <i class="iconfont icon-zengjia"></i>
         </span>
+      </div>
+      <div class="controlBall" @click="handleControlBall">
+          <img :src="ball"/>
+          <span>布控球</span>
       </div>
       <span v-if="!isFullscreen"><i class="fullScreenTop iconfont icon-quanping"  @click="changeFullScreen()"></i></span>
       <span v-else><i class="fullScreenTop iconfont icon-suoxiao"  @click="changeFullScreen()"></i></span>
@@ -264,6 +268,9 @@
             }
         },
         methods:{
+            handleControlBall(){
+                this.$emit('on-controlBall')
+            },
             isDiff(arr1, arr2) {
                 let flag = true
                 if (arr1.length !== arr2.length) {
@@ -590,6 +597,22 @@
           margin: 0 10px;
           position: relative;
           top: -1px;
+        }
+      }
+      .controlBall{
+        width: 122px;
+        margin-right: 19px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        img{
+          width: 30px;
+          height: 30px;
+        }
+        span{
+          font-size: 14px;
         }
       }
     }

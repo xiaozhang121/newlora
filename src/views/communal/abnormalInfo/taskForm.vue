@@ -69,20 +69,20 @@
         <div class="infoItem">
             <i class="iconfont icon-baogao blue"></i>
             <div class="dataInfo">
-                <div class="num"><span class="blue">23</span>张</div>
+                <div class="num"><span class="blue">{{ reportNum }}</span>张</div>
                 <div class="description">已生成报告</div>
             </div>
         </div>
         <div class="infoItem">
           <i class="iconfont icon-jilu green"></i>
           <div class="dataInfo">
-            <div class="num"><span class="green">121</span>条</div>
+            <div class="num"><span class="green">{{ reportRecordNum }}</span>条</div>
             <div class="description">已生成记录</div>
           </div>
         </div>
         <div class="explainItem">
-            <div>其中异常信息<span>12</span>条</div>
-            <div>未处理异常信息<span class="danger">2</span>条</div>
+            <div>其中异常信息<span>{{ alarmRecord }}</span>条</div>
+            <div>未处理异常信息<span class="danger">{{ noHandle }}</span>条</div>
         </div>
       </div>
       <div class="echarts not-print">
@@ -272,6 +272,11 @@
                     return "泄露电流表24小时温度分析";
                 }
             }
+        },
+        computed: {
+          alarmRecord(){
+              return Number(this.noHandle) + Number(this.isHandle)
+          }
         },
         data() {
             const that = this;
@@ -686,10 +691,36 @@
                 ],
                 turnFlag: false,
                 limit: false,
-                isVisible: false
+                isVisible: false,
+                reportRecordNum: 0,
+                reportNum: 0,
+                noHandle: 0,
+                isHandle: 0
             };
         },
         methods: {
+            getReportNum(){
+                let date = new Date()
+                let year = date.getFullYear()
+                let month = (date.getMonth()+1)<10?'0'+date.getMonth()+1:date.getMonth()+1
+                let day = Number(date.getDate())<10?'0'+date.getDate():date.getDate()
+                let startTime = year+'-'+month+'-'+'01'+ ' 00:00:00'
+                let endTime = year+'-'+month+'-'+day + ' 00:00:00'
+                getAxiosData('/lenovo-plan/api/information/overview/report/detail/num', {startTime: startTime,endTime: endTime}).then(res=>{
+                      this.reportRecordNum = res.data.sum
+                })
+                getAxiosData('/lenovo-plan/api/information/overview/report/num',{startTime: startTime,endTime: endTime}).then(res=>{
+                      this.reportNum  = res.data.sum
+                })
+                // 未处理
+                postAxiosData('/lenovo-alarm/alarm/total/alarm/num', {startTime: startTime,endTime: endTime, isReturn: 0}).then(res=>{
+                      this.noHandle = res.data.totalAlarmNum
+                })
+                //处理
+                postAxiosData('/lenovo-alarm/alarm/total/alarm/num', {startTime: startTime,endTime: endTime, isReturn: 1}).then(res=>{
+                      this.isHandle = res.data.totalAlarmNum
+                })
+            },
             toMoreReport(){
                this.$router.push({path: '/report/list'})
             },
@@ -726,6 +757,9 @@
                 getAxiosData(url, query).then(res => {
                     this.dataListInfo = res.data;
                     this.$forceUpdate();
+                    this.$nextTick(()=>{
+                        this.isShow();
+                    })
                 });
                /* this.dataListInfo['tableData'] = [
                     {
@@ -1165,6 +1199,7 @@
         },
         created(){
             this.init()
+            this.getReportNum()
         },
         watch: {
             isChange: {

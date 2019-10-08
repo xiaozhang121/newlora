@@ -1,6 +1,6 @@
 <template>
   <div class="realEnv">
-    <duno-btn-top :isCheck="true" :zIndex="100" ref="btnTopRef" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
+    <duno-btn-top :isCheck="true" :zIndex="100" ref="btnTopRef" @on-controlBall="showControlBall" @on-active="deviceShowHandle" @on-diagram="changDiagram" @change-screen="changeFullScreen($refs.firstElE)" />
    <!-- <el-date-picker
             v-model="value2"
             align="right"
@@ -368,6 +368,7 @@
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
         <camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']"  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
+        <!--<ball-control-d  @on-close="showControlBall"  v-if="index==modeList.length-1 && controlBallVisible" :visible="controlBallVisible"></ball-control-d>-->
       </div>
     </div>
     <i class="iconfont icon-bukongqiu" @click="handeControl"></i>
@@ -397,6 +398,7 @@
     import { mapState } from 'vuex'
     import gisMap from '_c/duno-m/gisMap'
     import {getAxiosData} from "../../../api/axiosType";
+    import ballControlD from '_c/duno-m/ballControlD'
     export default {
         mixins: [mixinViewModule],
         name: 'RoleIndex',
@@ -416,7 +418,8 @@
             cameraPopBackUP,
             createTask,
             areaSetting,
-            cameraPower
+            cameraPower,
+            ballControlD
         },
         computed:{
             ...mapState([
@@ -480,6 +483,7 @@
         data () {
             const that = this
             return {
+                drawPoint: require('@/assets/drawPoint.png'),
                 value2: '',
                 pickerOptions1: {
                     disabledDate(time) {
@@ -532,7 +536,8 @@
                 monitorDeviceType: '',
                 cameraFlag: 'first',
                 domTarget: null,
-                tempDeviceList: null
+                tempDeviceList: null,
+                controlBallVisible: false
             }
         },
         watch: {
@@ -564,6 +569,10 @@
             }
         },
         methods: {
+          showControlBall(){
+              $('.realEnv')[0].style.cursor = `url(${this.drawPoint})`
+              this.controlBallVisible = !this.controlBallVisible
+          },
           handeControl(){
             this.$router.push({
               path:'/surveillancePath/ballControl',
