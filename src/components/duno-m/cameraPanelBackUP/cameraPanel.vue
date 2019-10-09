@@ -48,6 +48,7 @@
                         <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
+                    <control-check v-if="lockPress && deviceId"  :deviceType="1"  :deviceId="deviceId" />
                 </div>
             </div>
         </template>
@@ -157,6 +158,7 @@
             </div>
             <div class="addPosition" style="">
                 <div class="left" v-if="isAdd">
+                    <control-check v-if="lockPress && deviceId" :deviceType="1" :deviceId="deviceId" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit"/>
                     <div class="title">新增预置位名称：</div>
                     <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" v-model="addPosInput" placeholder=""></el-input></div>
                     <div class="btnEx">
@@ -255,6 +257,7 @@
 
 <script>
     import screenshot from "_c/duno-c/screenshot";
+    import moment from "moment";
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
     import dunoTable from '_c/duno-m/table/Table'
     import videojs from 'video.js'
@@ -268,10 +271,11 @@
     videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
+        components: { dunoTable,DunoCharts, videoPlayer, screenshot, controlCheck },
         mixins: [mixinViewModule],
-        components: { dunoTable,DunoCharts, videoPlayer, screenshot },
         data() {
             return {
+                lockPress: false,
                 taskId: '',
                 monitorInfo: {},
                 isShow: false,
@@ -553,7 +557,7 @@
             flagNow(now){
                 const that = this
                 // alert(now)
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+this.dataList[0]['dataList'][now]['psIndex'])
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/'+this.dataList[0]['dataList'][now]['psIndex']+'/'+that.deviceId)
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
                 that.lightTimer = setInterval(()=>{
@@ -709,7 +713,7 @@
             },
             checkPostion(pid){
                 const that = this
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+pid)
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/'+pid+'/'+that.deviceId)
             },
             editTableData(params){
                 const that = this
@@ -889,6 +893,7 @@
         },
         mounted(){
             const that = this
+            this.lockPress = this.getAuthority("10000105")
             this.$nextTick(()=>{
                 that.initCamera()   // 初始化摄像头
                 that.getListData()  // 获取表格数据

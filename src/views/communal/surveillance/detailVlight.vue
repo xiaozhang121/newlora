@@ -23,7 +23,7 @@
       <div class="content">
         <div class="left nr">
           <div class="item" style="position: relative">
-            <control-check v-if="dataForm.monitorDeviceId" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+            <control-check v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -211,6 +211,7 @@ export default {
       titleTypeK: "全部识别类型",
       disabled: false,
       place: false,
+      lockPress: false,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-plan/api/task/result/list/export"
@@ -769,6 +770,7 @@ export default {
   },
   mounted() {
     this.place = this.getAuthority("10071002");
+    this.lockPress = this.getAuthority("10075002")
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();

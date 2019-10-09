@@ -42,7 +42,7 @@
                                <i class="iconfont icon-fangda1"></i>
                            </div>-->
                     </div>
-                    <control-check v-if="deviceId" :deviceType="2" :deviceId="deviceId" style="top: 9px; left: 85px; bottom: inherit"/>
+                    <control-check v-if="deviceId && lockPress" :deviceType="2" :deviceId="deviceId" style="top: 9px; left: 85px; bottom: inherit"/>
                 </div>
             </div>
         </template>
@@ -147,7 +147,7 @@
                                     position: relative;
                                     left: 0;
                                     top: 0;
-                                    text-align: left; font-size: 14px" :deviceType="2" :deviceId="deviceId" v-if="deviceId"/></div>
+                                    text-align: left; font-size: 14px" :deviceType="2" :deviceId="deviceId" v-if="deviceId && lockPress"/></div>
                                     <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
                                 </div>
                                 <div class="table" style="padding-top: 10px">
@@ -163,6 +163,7 @@
 </template>
 
 <script>
+    import mixinViewModule from "@/mixins/view-module";
     import  { controlCamera } from '@/api/camera'
     import controlCheck from '_c/duno-m/controlCheck'
     import camera from './components/camera'
@@ -182,9 +183,11 @@
         name: 'cameraPanel',
         mixins: [mixinViewModule],
         components: { dunoTable, DunoCharts, videoPlayer, camera, controlCheck },
+        mixins: [mixinViewModule],
         data() {
             const that = this
             return {
+                lockPress: false,
                 temparams: null,
                 passTime: 0,
                 timeSeed: null,
@@ -761,6 +764,7 @@
         },
         mounted(){
             const that = this
+            this.lockPress = this.getAuthority("10000105")
             this.$nextTick(()=>{
                 that.initCamera()   // 初始化摄像头
                 that.getListData()  // 获取表格数据
