@@ -42,6 +42,7 @@
                                <i class="iconfont icon-fangda1"></i>
                            </div>-->
                     </div>
+                    <control-check v-if="deviceId" :deviceType="2" :deviceId="deviceId" style="top: 9px; left: 85px; bottom: inherit"/>
                 </div>
             </div>
         </template>
@@ -141,7 +142,12 @@
                         <div class="addPosition" style="">
                             <div class="right">
                                 <div class="left" style="width: 97%;position: relative;">
-                                    <div class="title" style="font-size: 16px">请使用左侧图标调整预设位：</div>
+                                    <!--<div class="title" style="font-size: 16px">请使用左侧图标调整预设位：</div>-->
+                                    <div class="title"><control-check style="bottom: inherit;
+                                    position: relative;
+                                    left: 0;
+                                    top: 0;
+                                    text-align: left; font-size: 14px" :deviceType="2" :deviceId="deviceId" v-if="deviceId"/></div>
                                     <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
                                 </div>
                                 <div class="table" style="padding-top: 10px">
@@ -158,6 +164,7 @@
 
 <script>
     import  { controlCamera } from '@/api/camera'
+    import controlCheck from '_c/duno-m/controlCheck'
     import camera from './components/camera'
     import videojs from 'video.js'
     import dunoTable from '_c/duno-m/table/Table'
@@ -172,7 +179,7 @@
     videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
-        components: { dunoTable, DunoCharts, videoPlayer, camera },
+        components: { dunoTable, DunoCharts, videoPlayer, camera, controlCheck },
         data() {
             const that = this
             return {

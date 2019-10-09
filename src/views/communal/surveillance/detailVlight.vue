@@ -22,7 +22,8 @@
     <div class="Main_contain">
       <div class="content">
         <div class="left nr">
-          <div class="item">
+          <div class="item" style="position: relative">
+            <control-check v-if="dataForm.monitorDeviceId" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -164,6 +165,7 @@
 </template>
 
 <script>
+import controlCheck from '_c/duno-m/controlCheck'
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -198,7 +200,8 @@ export default {
     echarts,
     warningSetting,
     wraning,
-    enlarge
+    enlarge,
+    controlCheck
   },
   data() {
     const that = this;
@@ -788,6 +791,15 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .controlCheck{
+    bottom: inherit;
+    color: white;
+    width: 194px;
+    overflow: visible;
+    position: absolute;
+    top: -39px;
+    right: 0;
+  }
   /*overflow-y: hidden;*/
   .icon-xiala {
     /* width: 12px;

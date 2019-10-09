@@ -48,10 +48,7 @@
                         <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
-                    <div class="isControl">
-                        <span>云台控制中</span>
-                        <a>获取控制权</a>
-                    </div>
+                    <control-check  :deviceType="1"  :deviceId="deviceId" />
                 </div>
             </div>
         </template>
@@ -161,10 +158,7 @@
             </div>
             <div class="addPosition" style="">
                 <div class="left">
-                    <div class="isControl" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit">
-                        <span>云台控制中</span>
-                        <a>获取控制权</a>
-                    </div>
+                    <control-check  :deviceType="1" :deviceId="deviceId" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit"/>
                     <div class="title">新增预置位名称：</div>
                     <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" v-model="addPosInput" placeholder=""></el-input></div>
                     <div class="btnEx">
@@ -266,6 +260,7 @@
     import moment from "moment";
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
     import dunoTable from '_c/duno-m/table/Table'
+    import controlCheck from '_c/duno-m/controlCheck'
     import videojs from 'video.js'
     import clock from '@/assets/camera/clock.png'
     import { DunoCharts } from '_c/duno-charts'
@@ -276,7 +271,7 @@
     videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
-        components: { dunoTable,DunoCharts, videoPlayer, screenshot },
+        components: { dunoTable,DunoCharts, videoPlayer, screenshot, controlCheck },
         data() {
             return {
                 taskId: '',
@@ -584,33 +579,6 @@
             }
         },
         methods:{
-            getpermissionCheck(){
-                // 检测设备占用状态
-                getAxiosData('/lenovo-iir/device/permission/check/'+ this.deviceId).then(res=>{
-                    if(res.data.status){
-
-                    }
-                    moment(time1).diff(time2, 'seconds')
-                })
-            },
-            permissionRelease(){
-                //设备占用权限释放
-                getAxiosData(`/lenovo-iir/device/permission/release/${this.deviceId}`).then(res=>{
-
-                })
-            },
-            permissionApply(){
-                //普通使用权限申请
-                getAxiosData(`/lenovo-iir/device/permission/apply/${this.deviceId}/${60*5}`).then(res=>{
-
-                })
-            },
-            permissionUse(){
-                //设备强制申请使用
-                getAxiosData(`/lenovo-iir/device/permission/use/${this.deviceId}/${60*5}`).then(res=>{
-
-                })
-            },
             closeShot() {
                 this.isShow = false;
             },
@@ -910,7 +878,6 @@
         },
         created(){
             const that = this
-            that.getpermissionCheck()
         },
         mounted(){
             const that = this
@@ -939,7 +906,6 @@
             bottom: -66px;
             width: 100%;
             text-align: center;
-            visibility: hidden;
             span:first-child{
                 margin-right: 15px;
             }
