@@ -24,7 +24,7 @@
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
-                <div class="btnList" style="padding-bottom: 0; ">
+                <div class="btnList" style="padding-bottom: 0; transform: scale(0.9); position: relative; top: -16px">
                     <div class="description">
                         调整镜头
                     </div>
@@ -43,10 +43,14 @@
                         <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
                         <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                     </div>
-                    <div class="control_slider">
+                    <div class="control_slider" style="bottom: -30px">
                         <i class="iconfont icon-suoxiao1"></i>
                         <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
+                    </div>
+                    <div class="isControl">
+                        <span>云台控制中</span>
+                        <a>获取控制权</a>
                     </div>
                 </div>
             </div>
@@ -157,6 +161,10 @@
             </div>
             <div class="addPosition" style="">
                 <div class="left">
+                    <div class="isControl" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit">
+                        <span>云台控制中</span>
+                        <a>获取控制权</a>
+                    </div>
                     <div class="title">新增预置位名称：</div>
                     <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" v-model="addPosInput" placeholder=""></el-input></div>
                     <div class="btnEx">
@@ -255,6 +263,7 @@
 
 <script>
     import screenshot from "_c/duno-c/screenshot";
+    import moment from "moment";
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
     import dunoTable from '_c/duno-m/table/Table'
     import videojs from 'video.js'
@@ -575,6 +584,33 @@
             }
         },
         methods:{
+            getpermissionCheck(){
+                // 检测设备占用状态
+                getAxiosData('/lenovo-iir/device/permission/check/'+ this.deviceId).then(res=>{
+                    if(res.data.status){
+
+                    }
+                    moment(time1).diff(time2, 'seconds')
+                })
+            },
+            permissionRelease(){
+                //设备占用权限释放
+                getAxiosData(`/lenovo-iir/device/permission/release/${this.deviceId}`).then(res=>{
+
+                })
+            },
+            permissionApply(){
+                //普通使用权限申请
+                getAxiosData(`/lenovo-iir/device/permission/apply/${this.deviceId}/${60*5}`).then(res=>{
+
+                })
+            },
+            permissionUse(){
+                //设备强制申请使用
+                getAxiosData(`/lenovo-iir/device/permission/use/${this.deviceId}/${60*5}`).then(res=>{
+
+                })
+            },
             closeShot() {
                 this.isShow = false;
             },
@@ -874,6 +910,7 @@
         },
         created(){
             const that = this
+            that.getpermissionCheck()
         },
         mounted(){
             const that = this
@@ -897,6 +934,22 @@
         /*border: 1px solid #04e6e7;*/
         /*padding: 1px 20px;*/
         width: 710px;
+        .isControl{
+            position: absolute;
+            bottom: -66px;
+            width: 100%;
+            text-align: center;
+            visibility: hidden;
+            span:first-child{
+                margin-right: 15px;
+            }
+            a{
+                background: #254e70;
+                color: white;
+                padding: 7px 10px;
+                border-radius: 30px;
+            }
+        }
         .redPoint{
             position: relative;
             background: red;
