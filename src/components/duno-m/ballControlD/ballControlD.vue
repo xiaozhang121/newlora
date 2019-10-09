@@ -40,6 +40,7 @@
 
 <script>
   import buttonCustom from '_c/duno-m/buttonCustom'
+  import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
   export default {
         name: 'ballControlD',
         components: {
@@ -76,6 +77,9 @@
             }
         },
         methods:{
+            initTable(){
+                getAxiosData('/lenovo-device/api/monitor/ball-control/status')
+            },
             closeCommit(){
               this.commitDefineVisible = false
             },
