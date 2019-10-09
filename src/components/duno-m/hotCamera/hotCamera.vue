@@ -141,7 +141,7 @@
                     <div class="camera" v-if="showCamera" style="height: inherit;flex: 1; padding-left: 118px; padding-right: 14px">
                         <div class="addPosition" style="">
                             <div class="right">
-                                <div class="left" style="width: 97%;position: relative;">
+                                <div class="left" style="width: 97%;position: relative;" v-if="isAdd">
                                     <!--<div class="title" style="font-size: 16px">请使用左侧图标调整预设位：</div>-->
                                     <div class="title"><control-check style="bottom: inherit;
                                     position: relative;
@@ -168,6 +168,7 @@
     import camera from './components/camera'
     import videojs from 'video.js'
     import dunoTable from '_c/duno-m/table/Table'
+    import mixinViewModule from "@/mixins/view-module";
     import { getImage, stopImage, getPointData } from '@/api/user'
     import clock from '@/assets/camera/clock.png'
     import { mapState } from 'vuex'
@@ -179,6 +180,7 @@
     videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
+        mixins: [mixinViewModule],
         components: { dunoTable, DunoCharts, videoPlayer, camera, controlCheck },
         data() {
             const that = this
@@ -190,6 +192,10 @@
                 timerTime: null,
                 timeIncreateD: '0:00:00',
                 isCamera: false,
+                isAdd:false,
+                isEdite:false,
+                isViwe:false,
+                isDel:false,
                 playerOptions:{
                     width:296,
                     height:170,
@@ -324,30 +330,36 @@
                         tooltip: true,
                         render: (h, params) => {
                             let newArr = []
-                            newArr.push(h('Tooltip', {
-                                props: { content: '查看' }
-                            }, [
-                                h('el-button', {
-                                    class:'tableBtnName', style: {backgroundImage:'url('+ this.play +')'},
-                                    on: { click: () => {  this.checkPostion(params.row) } }
-                                })
+                            if(this.isViwe){
+                                newArr.push(h('Tooltip', {
+                                    props: { content: '查看' }
+                                }, [
+                                    h('el-button', {
+                                        class:'tableBtnName', style: {backgroundImage:'url('+ this.play +')'},
+                                        on: { click: () => {  this.checkPostion(params.row) } }
+                                    })
                             ]))
-                            newArr.push(h('Tooltip', {
-                                props: { content: '编辑' }
-                            }, [
-                                h('el-button', {
-                                    class:'tableBtnName', style: {backgroundImage:'url('+ this.edit +')'},
-                                    on: { click: () => { this.editTableData(params) } }
-                                })
-                            ]))
-                            newArr.push(h('Tooltip', {
-                                props: {content: '删除'}
-                            }, [
-                                h('el-poptip', {
-                                    props: { confirm: true, placement: 'top-end', title: '您确定删除数据吗?', transfer: true },
-                                    on: { 'on-ok': () => { this.delTableData(params) } }
-                                }, [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ this.del +')'} }) ])
-                            ]))
+                            }
+                            if(this.isEdite){
+                                newArr.push(h('Tooltip', {
+                                    props: { content: '编辑' }
+                                }, [
+                                    h('el-button', {
+                                        class:'tableBtnName', style: {backgroundImage:'url('+ this.edit +')'},
+                                        on: { click: () => { this.editTableData(params) } }
+                                    })
+                                ]))
+                            }
+                            if(this.isDel){
+                                newArr.push(h('Tooltip', {
+                                    props: {content: '删除'}
+                                }, [
+                                    h('el-poptip', {
+                                        props: { confirm: true, placement: 'top-end', title: '您确定删除数据吗?', transfer: true },
+                                        on: { 'on-ok': () => { this.delTableData(params) } }
+                                    }, [ h('el-button', { class:'tableBtnName', style: {backgroundImage:'url('+ this.del +')'} }) ])
+                                ]))
+                            }
                             return h('div', newArr)
                         }
                     },
@@ -766,6 +778,10 @@
                 let video = document.getElementById("videoMain");
                 video.onmousemove = this.mouseMove
             })
+            this.isAdd = this.getAuthority('10000101');
+            this.isEdite = this.getAuthority('10000102');
+            this.isViwe = this.getAuthority('10000103');
+            this.isDel = this.getAuthority('10000104');
         }
     }
 </script>
