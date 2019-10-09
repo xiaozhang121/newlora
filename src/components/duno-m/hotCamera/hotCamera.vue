@@ -163,7 +163,6 @@
 </template>
 
 <script>
-    import mixinViewModule from "@/mixins/view-module";
     import  { controlCamera } from '@/api/camera'
     import controlCheck from '_c/duno-m/controlCheck'
     import camera from './components/camera'

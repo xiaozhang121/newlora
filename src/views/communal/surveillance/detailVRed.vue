@@ -794,11 +794,12 @@ export default {
   .controlCheck{
     bottom: inherit;
     color: white;
-    width: 194px;
+    min-width: 195px;
     overflow: visible;
     position: absolute;
     top: -39px;
     right: 0;
+    width: auto;
   }
   .video-js.vjs-fluid {
     padding-top: 56%;
