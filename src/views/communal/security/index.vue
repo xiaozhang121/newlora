@@ -149,12 +149,11 @@ export default {
                       })
                   })
               }
-              if (now.length == 0 && i == 1) {
+              if (now.length == 0) {
                   this.isEmpty = false;
               } else {
                   this.isEmpty = true;
               }
-              i++;
           },
           deep: true,
       }

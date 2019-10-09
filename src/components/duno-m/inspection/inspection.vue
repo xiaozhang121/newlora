@@ -77,6 +77,7 @@ import "video.js/dist/video-js.css";
 import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
+import { threadId } from "worker_threads";
 videojs.options.flash.swf = SWF_URL;
 export default {
   name: "inspection",
@@ -112,13 +113,16 @@ export default {
       movTimer: null,
       boatNow: true,
       radioValue: "1",
+      isViwe: false,
+      isEdite: false,
+      isDel: false,
       selectValue: "3000",
       timeOptions: [
-          { value:'3000', label: '3秒/控制位' },
-          { value:'6000', label: '6秒/控制位' },
-          { value:'9000', label: '9秒/控制位' },
-          { value:'12000', label: '12秒/控制位' },
-          { value:'15000', label: '15秒/控制位' }
+        { value: "3000", label: "3秒/控制位" },
+        { value: "6000", label: "6秒/控制位" },
+        { value: "9000", label: "9秒/控制位" },
+        { value: "12000", label: "12秒/控制位" },
+        { value: "15000", label: "15秒/控制位" }
       ],
       play: require("@/assets/camera/play.png"),
       greenPoint: require("@/assets/camera/greenPoint.png"),
@@ -156,7 +160,8 @@ export default {
             else if (params.row.flag == "orangePointP")
               temp = this.orangePointP;
             let newArr = [];
-            if (params.row.flag == "play")
+            // if (params.row.flag == "play") {
+            if (this.isViwe) {
               newArr.push(
                 h(
                   "Tooltip",
@@ -179,67 +184,73 @@ export default {
                   ]
                 )
               );
-            else
+            }
+            // } else {
+            //   newArr.push(
+            //     h("el-button", {
+            //       class: "tableBtnName",
+            //       style: {
+            //         backgroundImage: "url(" + temp + ")",
+            //         backgroundSize: "contain"
+            //       }
+            //     })
+            //   );
+            if (this.isEdite) {
               newArr.push(
-                h("el-button", {
-                  class: "tableBtnName",
-                  style: {
-                    backgroundImage: "url(" + temp + ")",
-                    backgroundSize: "contain"
-                  }
-                })
-              );
-            newArr.push(
-              h(
-                "Tooltip",
-                {
-                  props: { content: "编辑" }
-                },
-                [
-                  h("el-button", {
-                    class: "tableBtnName",
-                    style: { backgroundImage: "url(" + this.edit + ")" },
-                    on: {
-                      click: () => {
-                        this.editTableData(params);
-                      }
-                    }
-                  })
-                ]
-              )
-            );
-            newArr.push(
-              h(
-                "Tooltip",
-                {
-                  props: { content: "删除" }
-                },
-                [
-                  h(
-                    "el-poptip",
-                    {
-                      props: {
-                        confirm: true,
-                        placement: "top-end",
-                        title: "您确定删除数据吗?",
-                        transfer: true
-                      },
+                h(
+                  "Tooltip",
+                  {
+                    props: { content: "编辑" }
+                  },
+                  [
+                    h("el-button", {
+                      class: "tableBtnName",
+                      style: { backgroundImage: "url(" + this.edit + ")" },
                       on: {
-                        "on-ok": () => {
-                          this.delTableData(params);
+                        click: () => {
+                          this.editTableData(params);
                         }
                       }
-                    },
-                    [
-                      h("el-button", {
-                        class: "tableBtnName",
-                        style: { backgroundImage: "url(" + this.del + ")" }
-                      })
-                    ]
-                  )
-                ]
-              )
-            );
+                    })
+                  ]
+                )
+              );
+            }
+            if (this.isDel) {
+              newArr.push(
+                h(
+                  "Tooltip",
+                  {
+                    props: { content: "删除" }
+                  },
+                  [
+                    h(
+                      "el-poptip",
+                      {
+                        props: {
+                          confirm: true,
+                          placement: "top-end",
+                          title: "您确定删除数据吗?",
+                          transfer: true
+                        },
+                        on: {
+                          "on-ok": () => {
+                            this.delTableData(params);
+                          }
+                        }
+                      },
+                      [
+                        h("el-button", {
+                          class: "tableBtnName",
+                          style: { backgroundImage: "url(" + this.del + ")" }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              );
+            }
+            // }
             return h("div", newArr);
           }
         }
@@ -820,6 +831,9 @@ export default {
     this.$nextTick(() => {
       that.tableHeight = document.querySelector(".contain").offsetHeight - 170;
     });
+    this.isViwe = this.getAuthority("10072002");
+    this.isEdite = this.getAuthority("10073002");
+    this.isDel = this.getAuthority("10074002");
   }
 };
 </script>
@@ -1000,7 +1014,7 @@ export default {
   }
 
   .ivu-table th {
-    font-size: 14px!important;
+    font-size: 14px !important;
     height: 50px;
   }
 }

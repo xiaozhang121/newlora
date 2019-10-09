@@ -5,7 +5,7 @@
     </div>
     <div class="top not-print">
       <dir>任务配置</dir>
-      <div @click="addTask()">+创建新的任务配置</div>
+      <div @click="addTask()" v-if="place">+创建新的任务配置</div>
     </div>
     <duno-main class="dunoMain">
       <Patrol @to-run="toRunTask" :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit" />
@@ -76,6 +76,7 @@ import createTask2 from "_c/duno-m/createTaskConfig";
 import createTaskhw from "_c/duno-m/createTask2";
 import Patrol from "_c/duno-c/Patrol";
 import alert from "_c/duno-j/statistics/components/alert";
+import mixinViewModule from "@/mixins/view-module";
 import {
   infrInformation,
   startPatrol
@@ -83,6 +84,7 @@ import {
 import { debuglog } from "util";
 export default {
   name: "configDetail",
+  mixins: [mixinViewModule],
   components: {
     Breadcrumb,
     dunoMain,
@@ -99,6 +101,8 @@ export default {
       taskVisible: false,
       taskVisible2: false,
       taskVisible3: false,
+      place: false,
+      isEdit: false,
       title: "",
       title1: "",
       title2: "",
@@ -152,34 +156,7 @@ export default {
           key: "interval",
           minWidth: 50,
           align: "center",
-          tooltip: true /*,
-            render: (h, params) => {
-                let newArr = [];
-                newArr.push([
-                    h(
-                        "a",
-                        {
-                            class: "table_link",
-                            props: { type: "text" },
-                            on: {
-                                click: () => {
-                                    // this.visible = true;
-                                }
-                            }
-                        },
-                        params.row.interval
-                    )
-                ]);
-                return h(
-                    "div",
-                    {
-                        class: {
-                            member_operate_div: true
-                        }
-                    },
-                    newArr
-                );
-            }*/
+          tooltip: true
         },
         {
           title: "已巡视次数",
@@ -240,23 +217,25 @@ export default {
                 "立即执行"
               )
             );
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: { type: "text", content: "编辑" },
-                  on: {
-                    click: () => {
-                      that.rowData = JSON.parse(JSON.stringify(params.row));
-                      that.taskVisible = true;
+            if (that.isEdit) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.rowData = JSON.parse(JSON.stringify(params.row));
+                        that.taskVisible = true;
+                      }
                     }
-                  }
-                },
-                "编辑"
-              )
-            );
+                  },
+                  "编辑"
+                )
+              );
+            }
             /*
             newArr.push(
               h(
@@ -439,23 +418,25 @@ export default {
                 "立即执行"
               )
             );
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: { type: "text", content: "编辑" },
-                  on: {
-                    click: () => {
-                      that.rowData = JSON.parse(JSON.stringify(params.row));
-                      that.taskVisible = true;
+            if (that.isEdit) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.rowData = JSON.parse(JSON.stringify(params.row));
+                        that.taskVisible = true;
+                      }
                     }
-                  }
-                },
-                "编辑"
-              )
-            );
+                  },
+                  "编辑"
+                )
+              );
+            }
             newArr.push([
               h(
                 "el-button",
@@ -578,23 +559,25 @@ export default {
           render: (h, params) => {
             let self = that;
             let newArr = [];
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: { type: "text", content: "编辑" },
-                  on: {
-                    click: () => {
-                      that.rowData = JSON.parse(JSON.stringify(params.row));
-                      that.taskVisible3 = true;
+            if (that.isEdit) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.rowData = JSON.parse(JSON.stringify(params.row));
+                        that.taskVisible3 = true;
+                      }
                     }
-                  }
-                },
-                "编辑"
-              )
-            );
+                  },
+                  "编辑"
+                )
+              );
+            }
             /*
                   newArr.push(
                     h(
@@ -727,23 +710,25 @@ export default {
           render: (h, params) => {
             let newArr = [];
             let self = that;
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: { type: "text", content: "编辑" },
-                  on: {
-                    click: () => {
-                      that.rowData = JSON.parse(JSON.stringify(params.row));
-                      that.taskVisible2 = true;
+            if (that.isEdit) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.rowData = JSON.parse(JSON.stringify(params.row));
+                        that.taskVisible2 = true;
+                      }
                     }
-                  }
-                },
-                "编辑"
-              )
-            );
+                  },
+                  "编辑"
+                )
+              );
+            }
             newArr.push([
               h(
                 "el-button",
@@ -821,7 +806,7 @@ export default {
       this.taskVisible = true;
     },
     onClose() {
-      this.rowData = {}
+      this.rowData = {};
       this.taskVisible = false;
       this.taskVisible2 = false;
       this.taskVisible3 = false;
@@ -837,7 +822,7 @@ export default {
     },
     getDataList() {
       const that = this;
-        infrInformation().then(res => {
+      infrInformation().then(res => {
         res.data.allInspectList.map(item => {
           item["type"] = "allInspectList";
           item["loading"] = false;
@@ -884,6 +869,10 @@ export default {
   },
   mounted() {
     this.getDataList();
+    try {
+      this.place = this.getAuthority("10050101");
+    } catch (e) {}
+    this.isEdit = this.getAuthority("10050102");
   }
 };
 </script>

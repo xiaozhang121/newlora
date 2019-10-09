@@ -112,6 +112,9 @@ export default {
       movTimer: null,
       boatNow: true,
       radioValue: "1",
+      isViwe: false,
+      isEdite: false,
+      isDel: false,
       selectValue: "3000",
       timeOptions: [
           { value:'3000', label: '3秒/控制位' },
@@ -156,8 +159,9 @@ export default {
             else if (params.row.flag == "orangePointP")
               temp = this.orangePointP;
             let newArr = [];
-            if (params.row.flag == "play")
-              newArr.push(
+            // if (params.row.flag == "play")
+            if (this.isViwe) {
+                newArr.push(
                 h(
                   "Tooltip",
                   {
@@ -179,17 +183,19 @@ export default {
                   ]
                 )
               );
-            else
-              newArr.push(
-                h("el-button", {
-                  class: "tableBtnName",
-                  style: {
-                    backgroundImage: "url(" + temp + ")",
-                    backgroundSize: "contain"
-                  }
-                })
-              );
-            newArr.push(
+            }
+            // else
+            //   newArr.push(
+            //     h("el-button", {
+            //       class: "tableBtnName",
+            //       style: {
+            //         backgroundImage: "url(" + temp + ")",
+            //         backgroundSize: "contain"
+            //       }
+            //     })
+            //   );
+            if (this.isEdite) {
+                newArr.push(
               h(
                 "Tooltip",
                 {
@@ -208,7 +214,9 @@ export default {
                 ]
               )
             );
-            newArr.push(
+            }
+            if(this.isDel){
+                newArr.push(
               h(
                 "Tooltip",
                 {
@@ -240,6 +248,7 @@ export default {
                 ]
               )
             );
+            }
             return h("div", newArr);
           }
         }
@@ -800,6 +809,9 @@ export default {
     this.$nextTick(() => {
       that.tableHeight = document.querySelector(".contain").offsetHeight - 170;
     });
+    this.isViwe = this.getAuthority("10072002");
+    this.isEdite = this.getAuthority("10073002");
+    this.isDel = this.getAuthority("10074002");
   }
 };
 </script>

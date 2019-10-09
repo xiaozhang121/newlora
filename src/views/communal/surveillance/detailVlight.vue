@@ -44,7 +44,7 @@
                   :deviceId="dataForm.monitorDeviceId"
                 />
               </div>
-              <div class="inputGroup">
+              <div class="inputGroup" v-if="place">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
                 <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
               </div>
@@ -207,6 +207,7 @@ export default {
       addOrEdit: "添加",
       titleTypeK: "全部识别类型",
       disabled: false,
+      place: false,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-plan/api/task/result/list/export"
@@ -764,7 +765,7 @@ export default {
     this.getEchasrts();
   },
   mounted() {
-    // this.getInit();
+    this.place = this.getAuthority("10071002");
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();

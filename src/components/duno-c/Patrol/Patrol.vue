@@ -24,8 +24,10 @@
 <script>
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import mixinViewModule from "@/mixins/view-module";
 export default {
   name: "Patrol",
+  mixins: [mixinViewModule],
   components: {
     DunoTablesTep
   },
@@ -71,34 +73,35 @@ export default {
     return {
       interval: true,
       patrol: false,
+      isEdit: false,
       columnsData: [
         {
-            title: "巡视名称",
-            key: "planName",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
+          title: "巡视名称",
+          key: "planName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
         },
         {
-            title: "巡视步骤",
-            key: "stepNum",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
+          title: "巡视步骤",
+          key: "stepNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
         },
         {
-            title: "监测设备",
-            key: "monitorDeviceName",
-            minWidth: 50,
-            align: "center",
-            tooltip: true
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
         },
         {
-              title: "执行时间",
-              key: "interval",
-              minWidth: 50,
-              align: "center",
-              tooltip: true/*,
+          title: "执行时间",
+          key: "interval",
+          minWidth: 50,
+          align: "center",
+          tooltip: true /*,
               render: (h, params) => {
                   let newArr = [];
                   newArr.push([
@@ -126,7 +129,7 @@ export default {
                       newArr
                   );
               }*/
-          },
+        },
         {
           title: "已巡视次数",
           key: "inspectNum",
@@ -165,40 +168,49 @@ export default {
           align: "right",
           tooltip: true,
           render: (h, params) => {
-            let self = that
+            let self = that;
             let newArr = [];
-              newArr.push(
-                  h(
-                      "el-button",
-                      {
-                          class: "btn_pre",
-                          style: { background: "#305e83" },
-                          props: { type: "text", content: "立即执行", loading:params.row.loading},
-                          on: {
-                              click: () => {
-                                  self.toRunTask(params)
-                              }
-                          }
-                      },
-                      "立即执行"
-                  )
-              );
             newArr.push(
-                h(
-                    "el-button",
-                    {
-                        class: "btn_pre",
-                        style: { background: "#305e83" },
-                        props: { type: "text", content: "编辑" },
-                        on: {
-                            click: () => {
-                                that.$emit('to-edit', JSON.parse(JSON.stringify(params.row)))
-                            }
-                        }
-                    },
-                    "编辑"
-                )
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即执行",
+                    loading: params.row.loading
+                  },
+                  on: {
+                    click: () => {
+                      self.toRunTask(params);
+                    }
+                  }
+                },
+                "立即执行"
+              )
             );
+            if (that.isEdit) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.$emit(
+                          "to-edit",
+                          JSON.parse(JSON.stringify(params.row))
+                        );
+                      }
+                    }
+                  },
+                  "编辑"
+                )
+              );
+            }
             newArr.push([
               h(
                 "el-button",
@@ -234,8 +246,8 @@ export default {
     }
   },
   methods: {
-    toRunTask(param){
-       this.$emit("to-run", param)
+    toRunTask(param) {
+      this.$emit("to-run", param);
     },
     createTask() {
       this.$emit("add-task");
@@ -262,7 +274,7 @@ export default {
     dataListSelectionChangeHandle() {}
   },
   mounted() {
-    console.log(this.$route.name);
+    this.isEdit = this.getAuthority("10050102");
   }
 };
 </script>

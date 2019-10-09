@@ -44,7 +44,7 @@
                   :deviceId="dataForm.monitorDeviceId"
                 />
               </div>
-              <div class="inputGroup">
+              <div class="inputGroup" v-if="place">
                 <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
                 <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
               </div>
@@ -226,6 +226,7 @@ export default {
       echartTitle: "",
       addOrEdit: "添加",
       disabled: false,
+      place: false,
       isControl: "1",
       currentTime: 10,
       timeOut: null,
@@ -760,6 +761,7 @@ export default {
     this.getEchasrts();
   },
   mounted() {
+    this.place = this.getAuthority("10071002");
     this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
