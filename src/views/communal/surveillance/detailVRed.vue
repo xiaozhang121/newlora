@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="right nr contain"   style="position: relative">
-          <control-check v-if="dataForm.monitorDeviceId" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+          <control-check v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
           <inspection-red-control
             @on-edit="onEdit"
             ref="inspectionRef"
@@ -230,6 +230,7 @@ export default {
       addOrEdit: "添加",
       disabled: false,
       place: false,
+      lockPress: false,
       isControl: "1",
       currentTime: 10,
       timeOut: null,
@@ -765,6 +766,7 @@ export default {
   },
   mounted() {
     this.place = this.getAuthority("10071002");
+    this.lockPress = this.getAuthority("10075002")
     this.getInit();
     this.getSelectType();
     this.getSelcetGrade();

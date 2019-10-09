@@ -164,7 +164,7 @@ export default {
     },
     created(){
         // 超级管理员
-        this.pressions = this.$store.user.userinfo.userType == '超级管理员'
+        this.pressions = this.$store.state.user.userinfo.userType == '超级管理员'
     },
     mounted(){
 
