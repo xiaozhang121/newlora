@@ -14,7 +14,7 @@
     import { Map, View, Overlay, Feature } from "ol";
     import {boundingExtent,getCenter} from 'ol/extent'
     import Polygon from 'ol/geom/Polygon.js';
-    import  { Draw } from 'ol/interaction'
+    import  { Draw, DragPan } from 'ol/interaction'
     import Point from 'ol/geom/Point.js';
     import { XYZ, TileImage } from "ol/source"
     import { transform, getTransform } from "ol/proj"
@@ -158,6 +158,15 @@
 
         },
         methods:{
+             getPan() {
+                let pan;
+                this.mapTarget.getInteractions().forEach(function(element, index, array) {
+                    if(element instanceof DragPan) {
+                        pan = element;
+                    }
+                })
+                return pan;
+            },
             setOverlayPos({cadX, cadY}){
                 this.mapTarget.getOverlays().array_[0].setPosition(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
             },
@@ -1295,12 +1304,33 @@
                     }
                 })
                 this.mapTarget.on('movestart', function (evt) {
+                    that.isMove = true
                     that.isClick = false
+                    that.startPoint =  that.mapTarget.getPixelFromCoordinate([evt.frameState.focus[0],evt.frameState.focus[1]])
+                    console.log(evt)
                 });
+                this.mapTarget.on('pointermove', function (evt) {
+                    if(that.isMove){
+                        let movePoint = that.mapTarget.getPixelFromCoordinate([evt.frameState.focus[0],evt.frameState.focus[1]])
+                        let x = movePoint[0] -  that.startPoint[0]
+                        let y = movePoint[1] -  that.startPoint[1]
+                        // 偏移量
+                        console.log('x--->', x)
+                        console.log('y--->', y)
+                    }
+                })
                 this.mapTarget.on('moveend', function (evt) {
                     that.isClick = true
+                    that.isMove = false
+                    console.log(evt)
+                    console.log(                    that.mapTarget.getPixelFromCoordinate([evt.frameState.focus[0],evt.frameState.focus[1]])
+                    )
                     // console.log(that.pointListObj)
                 });
+                // 禁止鼠标拖动
+                let pan = that.getPan();
+//false：当前地图不可拖动。true：可拖动
+                pan.setActive(true);
                /* this.mapTarget.on('click', function (evt) {
 
                     alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))

@@ -372,6 +372,7 @@
       </div>
     </div>
     <i class="iconfont icon-bukongqiu" @click="handeControl"></i>
+    <div class="clickMark" v-show="markVisible">点击标记</div>
   </div>
 </template>
 
@@ -483,7 +484,7 @@
         data () {
             const that = this
             return {
-                drawPoint: require('@/assets/drawPoint.png'),
+                drawPoint: require('@/assets/drawPointIcon.ico'),
                 value2: '',
                 pickerOptions1: {
                     disabledDate(time) {
@@ -537,10 +538,18 @@
                 cameraFlag: 'first',
                 domTarget: null,
                 tempDeviceList: null,
-                controlBallVisible: false
+                controlBallVisible: false,
+                markVisible: false
             }
         },
         watch: {
+            controlBallVisible(nowVal){
+                if(!nowVal) {
+                    $('.dunoMain_nr').css({cursor: `auto`})
+                    $('.dunoMain_nr')[0].removeEventListener('mousemove', this.moveEvent)
+                    this.markVisible = false
+                }
+            },
             alarmInfo:{
                 handler(now){
                     this.visible = false
@@ -569,8 +578,22 @@
             }
         },
         methods: {
+          moveEvent(event){
+              const that = this
+              $('.clickMark')[0].style.left = event.pageX + 17 + 'px'
+              $('.clickMark')[0].style.top = event.pageY - 3 + 'px'
+              that.markVisible = true
+          },
           showControlBall(){
-              $('.realEnv')[0].style.cursor = `url(${this.drawPoint})`
+              const that = this
+              $('.dunoMain_nr').css({cursor:`url(${this.drawPoint}) -32 27,auto`})
+              $('.dunoMain_nr')[0].addEventListener('mousemove', that.moveEvent)
+              document.addEventListener('mousemove', function () {
+                  console.log('12111111')
+              })
+              $('.dunoMain_nr')[0].addEventListener('mouseout', function () {
+                  that.markVisible = false
+              })
               this.controlBallVisible = !this.controlBallVisible
           },
           handeControl(){
@@ -949,6 +972,18 @@
     }
 </script>
 <style lang="scss">
+  .clickMark{
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: #597aff;
+    pointer-events: none;
+    font-size: 13px;
+    width: 52px;
+  }
+  .dunoMain{
+    cursor:"url('../../../../src/assets/drawPoint.png')";
+  }
   .realEnv{
     .dunoMainContain{
       .gisMap{

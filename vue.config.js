@@ -43,6 +43,13 @@ module.exports = {
                   options:{
                       limit: 10000
                   }
+              },
+              {
+                  test: /\.ico$/,
+                  loader: 'url-loader',
+                  options:{
+                      limit: 10000
+                  }
               }
           ]
       },
