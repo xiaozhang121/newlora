@@ -50,10 +50,20 @@
                 vector: null,
                 vectord: null,
                 sourced: null,
-                source: null
+                source: null,
+                mapActive: true
             }
         },
         watch: {
+            mapActive(now){
+                const that = this
+                try{
+                    let pan = that.getPan();
+                    pan.setActive(now);
+                }catch (e) {
+
+                }
+            },
             kind(now){
                 if(!this.isFirst){
                     let feature = this.vector.getSource().getFeatures()
@@ -158,7 +168,7 @@
 
         },
         methods:{
-             getPan() {
+            getPan() {
                 let pan;
                 this.mapTarget.getInteractions().forEach(function(element, index, array) {
                     if(element instanceof DragPan) {
@@ -1061,7 +1071,7 @@
                     try{
                         this.clearAlarm()
                     }catch (e) {
-                        
+
                     }
                     if(!this.timer){
                         this.mapTarget.getView().setCenter(transform([pointX, pointY], 'EPSG:3857', 'EPSG:4326'))
@@ -1277,7 +1287,7 @@
                     let feature = that.mapTarget.forEachFeatureAtPixel(pixel, function(feature) {
                         return feature;
                     });
-                        try{
+                    try{
                         if(feature.get('type') == 'line'){
                             $('.toolTip').css({
                                 left: (pixel[0] + 15 ) + 'px',
@@ -1291,7 +1301,7 @@
                     }catch (e) {}
 
                     if(that.isIn){
-                       that.clearTextLabel()
+                        that.clearTextLabel()
                     }
                     if(that.mapTarget.hasFeatureAtPixel(event.pixel)){
                         that.mapTarget.forEachFeatureAtPixel(event.pixel, function(feature){
@@ -1304,37 +1314,18 @@
                     }
                 })
                 this.mapTarget.on('movestart', function (evt) {
-                    that.isMove = true
                     that.isClick = false
-                    that.startPoint =  that.mapTarget.getPixelFromCoordinate([evt.frameState.focus[0],evt.frameState.focus[1]])
-                    console.log(evt)
                 });
-                this.mapTarget.on('pointermove', function (evt) {
-                    if(that.isMove){
-                        let movePoint = that.mapTarget.getPixelFromCoordinate([evt.frameState.focus[0],evt.frameState.focus[1]])
-                        let x = movePoint[0] -  that.startPoint[0]
-                        let y = movePoint[1] -  that.startPoint[1]
-                        // 偏移量
-                        console.log('x--->', x)
-                        console.log('y--->', y)
-                    }
-                })
                 this.mapTarget.on('moveend', function (evt) {
                     that.isClick = true
-                    that.isMove = false
-                    console.log(evt)
-                    console.log(                    that.mapTarget.getPixelFromCoordinate([evt.frameState.focus[0],evt.frameState.focus[1]])
-                    )
-                    // console.log(that.pointListObj)
                 });
                 // 禁止鼠标拖动
                 let pan = that.getPan();
-//false：当前地图不可拖动。true：可拖动
-                pan.setActive(true);
-               /* this.mapTarget.on('click', function (evt) {
-
-                    alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
-                })*/
+                //false：当前地图不可拖动。true：可拖动
+                pan.setActive(that.mapActive);
+                /* this.mapTarget.on('click', function (evt) {
+                     alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
+                 })*/
                 this.addInteraction()
                 setTimeout(()=>{
                     // this.dropOverlay()

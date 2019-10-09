@@ -51,7 +51,8 @@
             </div>
           </div>
         </div>
-        <div class="right nr contain">
+        <div class="right nr contain"   style="position: relative">
+          <control-check v-if="dataForm.monitorDeviceId" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
           <inspection-red-control
             @on-edit="onEdit"
             ref="inspectionRef"
@@ -183,6 +184,7 @@
 </template>
 
 <script>
+import controlCheck from '_c/duno-m/controlCheck'
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -218,7 +220,8 @@ export default {
     wraning,
     enlarge,
     controBtnRedControl,
-    inspectionRedControl
+    inspectionRedControl,
+    controlCheck
   },
   data() {
     const that = this;
@@ -786,6 +789,15 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
+  .controlCheck{
+    bottom: inherit;
+    color: white;
+    width: 194px;
+    overflow: visible;
+    position: absolute;
+    top: -39px;
+    right: 0;
+  }
   .video-js.vjs-fluid {
     padding-top: 56%;
   }
