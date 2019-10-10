@@ -256,6 +256,7 @@
 </template>
 
 <script>
+    import controlCheck from '_c/duno-m/controlCheck'
     import screenshot from "_c/duno-c/screenshot";
     import moment from "moment";
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
@@ -484,7 +485,7 @@
                 operateUrl: {
                     play: '/lenovo-visible/api/visible-equipment/stable/play/{deviceId}',// 视频播放
                     pause: '/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}',// 暂停
-                    ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{id}/{cmd}/{step}/{flag}',//
+                    ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}',//
                     stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
                 },
                 playerOptions:{
