@@ -80,7 +80,13 @@
             }
         },
         methods:{
+            findDevice(){
+                debugger
+                let deviceList = this.$parent.$refs.gisMapObj.mapTarget.deviceList
+                let deviceOverlay = this.$parent.$refs.gisMapObj.mapTarget.getOverlays()
+            },
             rePoint(){
+                this.$parent.$refs.gisMapObj.setPosition(this.$parent.selectBallControl, '', '')
                 this.commitDefineVisible = false
             },
             toSave(){
@@ -107,7 +113,8 @@
                 getAxiosData('/lenovo-device/api/monitor/ball-control/status',{pageIndex: 1, pageRows: 999999}).then(res=>{
                     let data = res.data.tableData
                     data.map(item=>{
-                        item['isConnected'] = item['isConnected']
+                        // item['isConnected'] = item['isConnected']
+                        item['isConnected'] = '1'
                         item['name'] = item['monitorDeviceName']
                         item['chosenName'] = (item['isMark'] == 0)?'未标定':'已标定'
                         item['status'] = item['isMark']
