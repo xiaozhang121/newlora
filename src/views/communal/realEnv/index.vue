@@ -371,7 +371,7 @@
         <ball-control-d @on-reset="resetM" ref="ballControl" @on-draw="onDrawPoint"  @on-close="hideControlBall"  v-if="index==modeList.length-1 && controlBallVisible" :visible="controlBallVisible"></ball-control-d>
       </div>
     </div>
-    <i class="iconfont icon-bukongqiu" @click="handeControl"></i>
+    <!--<i class="iconfont icon-bukongqiu" @click="handeControl"></i>-->
     <div class="clickMark" v-show="markVisible">点击标记</div>
   </div>
 </template>

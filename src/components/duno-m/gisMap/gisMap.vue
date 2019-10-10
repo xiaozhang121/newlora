@@ -445,8 +445,18 @@
                 this.$emit('on-drag',event,item)
             },
             toDeviced(item,index,flag){
-                if(this.isClick)
-                    this.$emit('toDetail',item,index,null,1)
+                if(this.isClick){
+                    if('monitorDeviceType' in item && item['monitorDeviceType'] == 4){
+                        this.$router.push({
+                            path:'/surveillancePath/ballControl',
+                            query:{
+                                monitorDeviceId: item['monitorDeviceId']
+                            }
+                        })
+                    }else{
+                        this.$emit('toDetail',item,index,null,1)
+                    }
+                }
             },
             initFeature(){
                 try {
