@@ -23,7 +23,7 @@
       <div class="content">
         <div class="left nr">
           <div class="item" style="position: relative">
-            <control-check v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+            <control-check ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -779,6 +779,7 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
+    this.$refs.controlCheckRef.releaseNow()
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }

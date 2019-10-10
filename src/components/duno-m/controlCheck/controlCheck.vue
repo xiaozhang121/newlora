@@ -84,14 +84,14 @@
                             this.isControl = Object.keys(res.data.data).length
                         }
                         if(this.isControl){
-                            let date = res.data.data.expireTime
+                            // let date = res.data.data.expireTime
                             let nowDate = new Date()
-                            if(nowDate.getTime() <= date){
+                           /* if(nowDate.getTime() <= date){
                                 let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
                                 this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
                                 this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
-                                this.setInterval()
-                            }
+                                // this.setInterval()
+                            }*/
                         }
                     })
                 }else{
@@ -105,17 +105,17 @@
                         if(this.isControl){
                             let date = ''
                             try{
-                                date = res.data.expireTime
+                                // date = res.data.expireTime
                             }catch (e) {
                                 date = res.data.data.expireTime
                             }
                             let nowDate = new Date()
-                            if(nowDate.getTime() <= date){
+                          /*  if(nowDate.getTime() <= date){
                                 let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
                                 this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
                                 this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
-                                this.setInterval()
-                            }
+                                // this.setInterval()
+                            }*/
                         }
                     })
                 }
@@ -183,15 +183,43 @@
                         }
                     })
                 }
+            },
+            releaseNow(){
+                this.minute = '00'
+                this.second = '00'
+                clearInterval(this.timer)
+                this.permissionRelease()
+                this.isControl = false
+            },
+            clearIn(){
+                this.minute = '01'
+                this.second = '00'
+                this.setInterval()
             }
         },
         created(){
+            const that = this
+            this.count = 0
             // 超级管理员
             this.pressions = (this.$store.state.user.userinfo.userType == '超级管理员')
+            this.initTimer = setInterval(()=>{
+                if(that.isControl){
+                    that.count++
+                    if(that.count == 60){
+                        that.clearIn()
+                    }
+                }
+            },1000)
+            document.addEventListener('mousemove', function () {
+                that.count = 0
+            })
             console.log(this.$store.state.user.userinfo.userType)
         },
         mounted(){
 
+        },
+        beforeDestroy(){
+            clearInterval(this.initTimer)
         }
     }
 </script>

@@ -178,6 +178,9 @@
                 })
                 return pan;
             },
+            setPosition(obj, x, y){
+                obj.setPosition(transform([x, y], 'EPSG:3857', 'EPSG:4326'))
+            },
             setOverlayPos({cadX, cadY}){
                 this.mapTarget.getOverlays().array_[0].setPosition(transform([cadX, cadY], 'EPSG:3857', 'EPSG:4326'))
             },
@@ -1148,10 +1151,23 @@
                     if(that.isDiagram == 1){
 
                     }else if(that.isDiagram == 3){
+                        if(!item['realX']){
+                            item['realX'] = ''
+                        }
+                        if(!item['realY']){
+                            item['realY'] = ''
+                        }
                         anchor.setPosition(transform([item['realX'],item['realY']], 'EPSG:3857' ,'EPSG:4326'));
                     }else{
+                        if(!item['cadX']){
+                            item['cadX'] = ''
+                        }
+                        if(!item['cadY']){
+                            item['cadY'] = ''
+                        }
                         anchor.setPosition(transform([item['cadX'],item['cadY']], 'EPSG:3857' ,'EPSG:4326'));
                     }
+                    anchor.set('pointInfo',item)
                     this.setZoom(anchor)
                     that.pointListObj.push({anchor: anchor})
                     that.mapTarget.addOverlay(anchor);

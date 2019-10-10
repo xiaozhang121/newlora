@@ -583,6 +583,18 @@
               this.markVisible = false
           },
           onDrawPoint(monitorDeviceId){
+              this.controlBallDeviceId = monitorDeviceId
+              try{
+                let deviceOverlayArr = this.$refs.gisMapObj.mapTarget.getOverlays().array_
+                let controlBallD = deviceOverlayArr.filter(item=>{
+                    let info = item.get('pointInfo')
+                    return info.monitorDeviceType == '4' && info['monitorDeviceId'] == this.controlBallDeviceId
+                })
+                this.selectBallControl = controlBallD[0]
+                this.$refs.gisMapObj.setPosition(controlBallD[0], '', '')
+              }catch (e) {
+                  
+              }
               this.showPen()
           },
           moveEvent(event){
@@ -600,6 +612,20 @@
           },
           savePoint(){
               this.$refs.ballControl[0].commitDefineVisible = true
+              try{
+                  let deviceOverlayArr = this.$refs.gisMapObj.mapTarget.getOverlays().array_
+                  let controlBallD = deviceOverlayArr.filter(item=>{
+                      let info = item.get('pointInfo')
+                      return info.monitorDeviceType == '4' && info['monitorDeviceId'] == this.controlBallDeviceId
+                  })
+                  this.selectBallControl = controlBallD[0]
+                  this.$refs.gisMapObj.setPosition(controlBallD[0], this.$refs.gisMapObj.clickPos[0], this.$refs.gisMapObj.clickPos[1])
+              }catch (e) {
+                  
+              }
+              // controlBallD[0].setPosition(this.$refs.gisMapObj.clickPos)
+            /*  if(controlBallD[0].get('pointInfo').realX)
+                this.$refs.gisMapObj.addPointList(['realX': ])*/
           },
           showPen(){
               const that = this

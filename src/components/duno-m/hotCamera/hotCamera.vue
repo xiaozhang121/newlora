@@ -42,7 +42,7 @@
                                <i class="iconfont icon-fangda1"></i>
                            </div>-->
                     </div>
-                    <control-check v-if="deviceId && lockPress" :deviceType="2" :deviceId="deviceId" style="top: 9px; left: 85px; bottom: inherit"/>
+                    <control-check ref="controlCheckRef" v-if="deviceId && lockPress" :deviceType="2" :deviceId="deviceId" style="top: 9px; left: 85px; bottom: inherit"/>
                 </div>
             </div>
         </template>
@@ -143,7 +143,7 @@
                             <div class="right">
                                 <div class="left" style="width: 97%;position: relative;" v-if="isAdd">
                                     <!--<div class="title" style="font-size: 16px">请使用左侧图标调整预设位：</div>-->
-                                    <div class="title"><control-check style="bottom: inherit;
+                                    <div class="title"><control-check ref="controlCheckRef" style="bottom: inherit;
                                     position: relative;
                                     left: 0;
                                     top: 0;
@@ -785,6 +785,9 @@
             this.isEdite = this.getAuthority('10000102');
             this.isViwe = this.getAuthority('10000103');
             this.isDel = this.getAuthority('10000104');
+        },
+        beforeDestroy(){
+            this.$refs.controlCheckRef.releaseNow()
         }
     }
 </script>
