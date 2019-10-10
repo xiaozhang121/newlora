@@ -256,6 +256,7 @@
 </template>
 
 <script>
+    import controlCheck from '_c/duno-m/controlCheck'
     import screenshot from "_c/duno-c/screenshot";
     import moment from "moment";
     import {getAxiosData, putAxiosData, postAxiosData, deleteDataId} from '@/api/axiosType'
