@@ -1,6 +1,7 @@
 <template>
     <div class="ballControlD">
         <el-dialog
+                v-show="dialogVisible"
                 title="标定布控球设备"
                 v-dialogDrag
                 :modal="false"
@@ -11,9 +12,10 @@
             <div class="contain">
                 <ul>
                     <li v-for="(item, index) in deviceList" :key="index" :class="{'grey': index % 2 == 0}">
-                        <div><span class="circle" :class="[{'active':item['status'] == 1}, {'inactive': item['status'] == 0}]"></span>{{ item['name'] }}</div>
+                        <div><span class="circle" :class="[{'active':item['isConnected'] == 1}, {'inactive': item['isConnected'] == 0}]"></span>{{ item['name'] }}</div>
                         <div>{{ item['chosenName'] }}</div>
-                        <div><i class="iconfont icon-weibiaoti-" v-if="item['status'] == 1"></i><i class="iconfont icon-xiugaibiaoding" v-else></i><span>{{ item['status'] }}</span></div>
+                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-if="item['status'] == 1"><i class="iconfont icon-weibiaoti-" ></i><span>{{ item['status'] }}</span></div>
+                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-else><i class="iconfont icon-xiugaibiaoding" ></i><span>{{ item['status'] }}</span></div>
                     </li>
                 </ul>
             </div>
@@ -27,10 +29,10 @@
                 width="500px"
                 :before-close="closeCommit">
             <div class="commit_contain" v-show="commitDefineVisible">
-                <div class="info">是否将布控球01标定于此处</div>
+                <div class="info">是否将{{ deviceName }}标定于此处</div>
                 <div class="btnList">
-                    <button-custom class="btn" title="重新标定"/>
-                    <button-custom  class="btn" title="确定"/>
+                    <button-custom class="btn" title="重新标定" @click.native="rePoint()"/>
+                    <button-custom  class="btn" title="确定" @click.native="toSave()"/>
                 </div>
             </div>
         </el-dialog>
@@ -48,12 +50,13 @@
         },
         data() {
             return {
+                deviceName: '',
                 dialogVisible: false,
-                commitDefineVisible: true,
+                commitDefineVisible: false,
                 deviceList: [
-                    {name: '布控球设备名称1', chosenName: '未标定', status: 1},
+                /*    {name: '布控球设备名称1', chosenName: '未标定', status: 1},
                     {name: '布控球设备名称1', chosenName: '已标定', status: 0},
-                    {name: '布控球设备名称1', chosenName: '已标定', status: 0},
+                    {name: '布控球设备名称1', chosenName: '已标定', status: 0},*/
                 ]
             }
         },
@@ -77,11 +80,44 @@
             }
         },
         methods:{
+            rePoint(){
+                this.commitDefineVisible = false
+            },
+            toSave(){
+                debugger
+                let pos = this.$parent.$refs.gisMapObj.clickPos
+                postAxiosData('/lenovo-device/api/monitor/ball-control/location', {monitorDeviceId: this.monitorDeviceId, cadX: pos[0], cadY: pos[1]}).then(res=>{
+                    if(res.data.isSuccess){
+                        this.$message.success('保存成功')
+                    }else{
+                        this.$message.fail('保存失败')
+                    }
+                    this.commitDefineVisible = false
+                    this.dialogVisible = true
+                    this.$emit('on-reset')
+                })
+            },
+            posUpdate(monitorDeviceId, name){
+                this.dialogVisible = false
+                this.deviceName = name
+                this.monitorDeviceId = monitorDeviceId
+                this.$emit('on-draw', monitorDeviceId)
+            },
             initTable(){
-                getAxiosData('/lenovo-device/api/monitor/ball-control/status')
+                getAxiosData('/lenovo-device/api/monitor/ball-control/status',{pageIndex: 1, pageRows: 999999}).then(res=>{
+                    let data = res.data.tableData
+                    data.map(item=>{
+                        item['isConnected'] = item['isConnected']
+                        item['name'] = item['monitorDeviceName']
+                        item['chosenName'] = (item['isMark'] == 0)?'未标定':'已标定'
+                        item['status'] = item['isMark']
+                    })
+                    this.deviceList = data
+                })
             },
             closeCommit(){
-              this.commitDefineVisible = false
+                this.commitDefineVisible = false
+                this.dialogVisible = true
             },
             handleClose(){
                 this.$emit('on-close')
@@ -89,6 +125,7 @@
         },
         created(){
             const that = this
+            that.initTable()
         },
         mounted(){
 
@@ -106,12 +143,13 @@
           background: #e0e0e0;
       }
       .el-dialog__wrapper{
+          width: 0;
+          height: 0;
           overflow: visible;
-          width: 500px;
-          height: 227px;
-          top: 50%;
           left: 50%;
+          top: 34%;
           transform: translateX(-50%) translateY(-50%);
+          margin-left: -252px;
       }
       .contain{
             & > ul{

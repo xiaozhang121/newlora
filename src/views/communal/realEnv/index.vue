@@ -368,7 +368,7 @@
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
         <camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']"  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
-        <!--<ball-control-d  @on-close="showControlBall"  v-if="index==modeList.length-1 && controlBallVisible" :visible="controlBallVisible"></ball-control-d>-->
+        <ball-control-d @on-reset="resetM" ref="ballControl" @on-draw="onDrawPoint"  @on-close="hideControlBall"  v-if="index==modeList.length-1 && controlBallVisible" :visible="controlBallVisible"></ball-control-d>
       </div>
     </div>
     <i class="iconfont icon-bukongqiu" @click="handeControl"></i>
@@ -545,9 +545,7 @@
         watch: {
             controlBallVisible(nowVal){
                 if(!nowVal) {
-                    $('.dunoMain_nr').css({cursor: `auto`})
-                    $('.dunoMain_nr')[0].removeEventListener('mousemove', this.moveEvent)
-                    this.markVisible = false
+                    this.resetM()
                 }
             },
             alarmInfo:{
@@ -578,23 +576,40 @@
             }
         },
         methods: {
+          resetM(){
+              $('.dunoMain_nr').css({cursor: `auto`})
+              $('.dunoMain_nr')[0].removeEventListener('mousemove', this.moveEvent)
+              $('.dunoMain_nr')[0].removeEventListener('click', this.savePoint)
+              this.markVisible = false
+          },
+          onDrawPoint(monitorDeviceId){
+              this.showPen()
+          },
           moveEvent(event){
               const that = this
               $('.clickMark')[0].style.left = event.pageX + 17 + 'px'
               $('.clickMark')[0].style.top = event.pageY - 3 + 'px'
               that.markVisible = true
           },
+          hideControlBall(){
+              this.controlBallVisible = false
+          },
           showControlBall(){
               const that = this
+              this.controlBallVisible = true
+          },
+          savePoint(){
+              this.$refs.ballControl[0].commitDefineVisible = true
+          },
+          showPen(){
+              const that = this
+              debugger
               $('.dunoMain_nr').css({cursor:`url(${this.drawPoint}) -32 27,auto`})
+              $('.dunoMain_nr')[0].addEventListener('click', that.savePoint)
               $('.dunoMain_nr')[0].addEventListener('mousemove', that.moveEvent)
-              document.addEventListener('mousemove', function () {
-                  console.log('12111111')
-              })
               $('.dunoMain_nr')[0].addEventListener('mouseout', function () {
                   that.markVisible = false
               })
-              this.controlBallVisible = !this.controlBallVisible
           },
           handeControl(){
             this.$router.push({
@@ -981,9 +996,6 @@
     pointer-events: none;
     font-size: 13px;
     width: 52px;
-  }
-  .dunoMain{
-    cursor:"url('../../../../src/assets/drawPoint.png')";
   }
   .realEnv{
     .dunoMainContain{
