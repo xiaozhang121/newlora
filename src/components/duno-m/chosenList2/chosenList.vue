@@ -1,7 +1,10 @@
 <template>
   <div class="chosenList">
     <div class="title">
-      <span style="font-weight:700;font-size:18px">{{ title }}</span>
+      <div>
+        <span style="font-weight:700;font-size:18px">{{ title }}</span>
+        <el-input placeholder="请输入内容" v-model="input" @change="inputChange" clearable></el-input>
+      </div>
       <span class="last" v-if="control" @click="toHide()">
         收起
         <i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i>
@@ -49,6 +52,7 @@ export default {
       collapse: true,
       checkList: [],
       alarmValue: "",
+      input:'',
       alarmList: [
         { title: 123, id: "123", isCheck: false },
         { title: 123, id: "123", isCheck: true }
@@ -96,7 +100,8 @@ export default {
     dataListOption: {
       handler(now) {
         //////错误内容///////////////
-        if (now.length) this.dataList = now;
+        // if (now.length) 
+        this.dataList = now;
         var data = [];
 
         if (this.dataList.length > 0) {
@@ -137,6 +142,9 @@ export default {
     }
   },
   methods: {
+    inputChange(item){
+      this.$emit("inputChange", item);
+    },
     change(val, i) {
       if (val.value == 0) {
         if (val.isCheck) {

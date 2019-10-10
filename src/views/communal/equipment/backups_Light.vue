@@ -10,6 +10,7 @@
         <div @click="getMoreReport">查看更多 ></div>
       </div>
       <div
+        v-if="isEmpty"
         class="inspection"
         v-loading="loadingOptionF"
         element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -19,6 +20,14 @@
           <ReportTable :url="url" :reportData="item" />
         </div>
       </div>
+      <div v-else class="empty">
+        <div>
+          <p>暂时没有可见光设备巡检报告</p>
+          <p>
+            <a href="javascript:;" @click="getMoreReport">查看更多报告</a>
+          </p>
+        </div>
+      </div>
     </div>
     <div class="reportRecode">
       <div class="recode">
@@ -26,6 +35,7 @@
         <div @click="getMore">查看更多 ></div>
       </div>
       <div
+        v-if="isEmptyHour"
         class="hours"
         v-loading="loadingOptionS"
         element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -49,6 +59,14 @@
             @handleListData="handleListData"
           />
         </template>
+      </div>
+      <div v-else class="empty">
+        <div>
+          <p>24小时内暂时没有可见光设备监测记录</p>
+          <p>
+            <a href="javascript:;" @click="getMore">查看更多记录</a>
+          </p>
+        </div>
       </div>
     </div>
     <div class="allRecodes">
@@ -118,6 +136,8 @@ export default {
       url: "/lenovo-plan/api/plan/visible-report/download",
       timeQueryData: {},
       inspecReport: [],
+      isEmpty: true,
+      isEmptyHour: true,
       lightInformation: [],
       titleValueL: "四个摄像头",
       dataBread: [
@@ -184,6 +204,11 @@ export default {
         this.inspecReport = res.data.tableData;
         clearTimeout(this.timerF);
         this.loadingOptionF = false;
+        if (this.inspecReport.length == 0) {
+          this.isEmpty = false;
+        } else {
+          this.isEmpty = true;
+        }
       });
       let data = {
         ...this.timeQueryData,
@@ -194,6 +219,11 @@ export default {
         this.lightInformation = res.data.tableData;
         clearTimeout(this.timerS);
         this.loadingOptionS = false;
+        if (this.lightInformation.length == 0) {
+          this.isEmptyHour = false;
+        } else {
+          this.isEmptyHour = true;
+        }
       });
     },
     getInit() {
@@ -275,8 +305,29 @@ export default {
     width: 100%;
     min-height: 425px;
     margin-top: 20px;
-    // display: flex;
-    // flex-direction: column;
+    .empty {
+      padding: 20px 20px 0 20px;
+      background-color: #142838;
+      min-height: 465px;
+      box-sizing: border-box;
+      width: 100%;
+      // min-height: 491px;
+      background-color: #142838;
+      opacity: 0.8;
+      padding-top: 10%;
+      & > div {
+        width: 50%;
+        margin: 0 auto;
+        color: #ffffff;
+        text-align: center;
+        p {
+          padding-top: 2%;
+        }
+        a {
+          text-decoration: underline;
+        }
+      }
+    }
     .report,
     .recode {
       margin-bottom: 10px;

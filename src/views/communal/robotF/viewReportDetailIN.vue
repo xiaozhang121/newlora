@@ -113,7 +113,7 @@ export default {
         },
         {
           path: "/robot-two/list",
-          name: "室内巡检机器人"
+          name: "室内轨道机器人"
         },
         {
           path: "",
