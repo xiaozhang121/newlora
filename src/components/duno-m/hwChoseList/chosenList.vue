@@ -85,7 +85,8 @@ export default {
     dataListOption: {
       handler(now) {
         //////错误内容///////////////
-        if (now.length) this.dataList = now;
+        // if (now.length) 
+        this.dataList = now;
         var data = [];
 
         if (this.dataList.length > 0) {

@@ -93,14 +93,7 @@ export default {
         this.$forceUpdate()
     },
     inputChange(item) {
-        // if (this.choseType == 1) {
-        //     this.initData(item);
-        // } else if (this.choseType == 2) {
-        //     this.onChange(this.choseType, item);
-        // } else {
-        //     this.onChange(this.choseType, item);
-        // }
-        let data = this.dataList;
+        let data = this.infoData;
         let selectData = [];
         console.log(data)
         if (item != "") {
