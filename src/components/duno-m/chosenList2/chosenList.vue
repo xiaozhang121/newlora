@@ -3,7 +3,7 @@
     <div class="title">
       <div>
         <span style="font-weight:700;font-size:18px">{{ title }}</span>
-        <el-input placeholder="请输入内容" v-model="input" @change="inputChange" clearable></el-input>
+        <el-input placeholder="请输入内容" v-model="input" @input="inputChange" clearable></el-input>
       </div>
       <span class="last" v-if="control" @click="toHide()">
         收起
