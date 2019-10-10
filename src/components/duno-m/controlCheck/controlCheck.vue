@@ -1,6 +1,6 @@
 <template>
     <div class="isControl">
-        <span v-if="isControl">结束控制倒计时 <i>{{ minute+'m '+ second+'s'}}</i></span>
+        <span v-if="isControl && showTimer">结束控制倒计时 <i>{{ minute+'m '+ second+'s'}}</i></span>
         <span v-else>云台控制中</span>
         <a @click="getPression" v-if="!isControl">获取控制权</a>
         <a @click="permissionRelease" v-else>结束控制</a>
@@ -10,13 +10,14 @@
 <script>
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     import moment from "moment";
-    const waitTime = 60*4
+    const waitTime = 60*40000000
     export default {
         name: 'controlCheck',
         components: {
         },
         data() {
             return {
+                showTimer: false,
                 isControl: false,
                 second: '',
                 minute: '',
@@ -43,7 +44,9 @@
             }
         },
         computed: {
-
+            isShow(){
+                return Number(this.minute) && Number(this.second)
+            }
         },
         methods:{
             getPression(){
@@ -55,7 +58,9 @@
             },
             setInterval(){
                 clearInterval(this.timer)
+                this.timer = null
                 this.setTimer()
+                this.showTimer = true
                 this.timer = setInterval(this.setTimer,1000)
             },
             setTimer(){
@@ -68,6 +73,7 @@
                     this.minute = '00'
                     this.second = '00'
                     clearInterval(this.timer)
+                    this.timer = null
                     this.permissionRelease()
                     this.isControl = false
                 }
@@ -86,12 +92,12 @@
                         if(this.isControl){
                             // let date = res.data.data.expireTime
                             let nowDate = new Date()
-                           /* if(nowDate.getTime() <= date){
-                                let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
-                                this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
-                                this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
-                                // this.setInterval()
-                            }*/
+                            /* if(nowDate.getTime() <= date){
+                                 let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
+                                 this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
+                                 this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
+                                 // this.setInterval()
+                             }*/
                         }
                     })
                 }else{
@@ -110,12 +116,12 @@
                                 date = res.data.data.expireTime
                             }
                             let nowDate = new Date()
-                          /*  if(nowDate.getTime() <= date){
-                                let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
-                                this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
-                                this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
-                                // this.setInterval()
-                            }*/
+                            /*  if(nowDate.getTime() <= date){
+                                  let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
+                                  this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
+                                  this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
+                                  // this.setInterval()
+                              }*/
                         }
                     })
                 }
@@ -126,6 +132,7 @@
                     getAxiosData(`/lenovo-iir/device/permission/release/${this.deviceId}`).then(res => {
                         if(res.data.data){
                             clearInterval(this.timer)
+                            this.timer = null
                             this.getpermissionCheck()
                             this.$message.info(res.data.msg)
                         }else{
@@ -136,6 +143,7 @@
                     getAxiosData(`/lenovo-visible/api/device/permission/release/${this.deviceId}`).then(res => {
                         if(res.data.releaseFlag){
                             clearInterval(this.timer)
+                            this.timer = null
                             this.getpermissionCheck()
                             this.$message.info(res.data.msg)
                         }else{
@@ -188,13 +196,26 @@
                 this.minute = '00'
                 this.second = '00'
                 clearInterval(this.timer)
+                this.timer = null
                 this.permissionRelease()
                 this.isControl = false
+                window.removeEventListener('beforeunload', this.beforeunload)
             },
             clearIn(){
                 this.minute = '01'
                 this.second = '00'
                 this.setInterval()
+            },
+            beforeunload(e) {
+                const that = this;
+                console.log("保存相关操作");
+                console.log("I want to cancel");
+                // Cancel the event
+                e.preventDefault();
+                // that.saveCamera()
+                // Chrome requires returnValue to be set
+                e.returnValue = "hello";
+                that.releaseNow()
             }
         },
         created(){
@@ -203,17 +224,23 @@
             // 超级管理员
             this.pressions = (this.$store.state.user.userinfo.userType == '超级管理员')
             this.initTimer = setInterval(()=>{
+                console.log(that.count)
                 if(that.isControl){
                     that.count++
-                    if(that.count == 60){
-                        that.clearIn()
+                    if(that.count >= 60){
+                        if(!that.timer)
+                            that.clearIn()
                     }
                 }
             },1000)
             document.addEventListener('mousemove', function () {
+                clearInterval(that.timer)
+                that.showTimer = false
+                that.timer = null
                 that.count = 0
             })
             console.log(this.$store.state.user.userinfo.userType)
+            window.addEventListener('beforeunload', this.beforeunload)
         },
         mounted(){
 
