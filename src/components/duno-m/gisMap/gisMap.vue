@@ -179,13 +179,15 @@
                 return pan;
             },
             setPosition(obj, x, y){
-
                 let item = obj.get('pointInfo')
                 let anchor = new Overlay({
                     element: document.getElementById('anchor'+ item['s_index']),
                     offset: item['s_offset']
                 });
-                anchor.setPosition(transform([x,y], 'EPSG:3857' ,'EPSG:4326'));
+                if(x > 1000)
+                    anchor.setPosition(transform([x,y], 'EPSG:3857' ,'EPSG:4326'));
+                else
+                    anchor.setPosition([x, y]);
                 anchor.set('pointInfo',item)
                 this.mapTarget.removeOverlay(obj)
                 this.setZoom(anchor)
