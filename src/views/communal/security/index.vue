@@ -140,8 +140,7 @@ export default {
       ],
       getPic: false,
       cameraInfo: null,
-      active: 4,
-      dataList: [{}, {}, {}, {}]
+      active: 4
     };
   },
   watch: {
@@ -410,24 +409,24 @@ export default {
     .item-cons {
       height: 100%;
       overflow-y: auto;
-      .empty {
-        box-sizing: border-box;
-        width: 100%;
-        min-height: 491px;
-        background-color: #142838;
-        opacity: 0.8;
-        padding-top: 15%;
-        & > div {
-          width: 50%;
-          margin: 0 auto;
-          color: #ffffff;
-          text-align: center;
-          p {
-            padding-top: 2%;
-          }
-          a {
-            text-decoration: underline;
-          }
+    }
+    .empty {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 491px;
+      background-color: #142838;
+      opacity: 0.8;
+      padding-top: 15%;
+      & > div {
+        width: 50%;
+        margin: 0 auto;
+        color: #ffffff;
+        text-align: center;
+        p {
+          padding-top: 2%;
+        }
+        a {
+          text-decoration: underline;
         }
       }
     }

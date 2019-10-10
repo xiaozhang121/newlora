@@ -67,6 +67,7 @@
                     taskKind: "4"
                 },
                 dataList: [],
+                infoData:[],
                 taskKindList: [],
                 stepValue: 1
             };
@@ -88,7 +89,19 @@
             //   );
             // },
             inputChange(item) {
-                this.initData(item);
+                // this.initData(item);
+                let data = this.infoData;
+                let selectData = [];
+                if (item != "") {
+                    data.forEach(el => {
+                    if (el["title"].indexOf(item) > -1) {
+                        selectData.push(el);
+                    }
+                    });
+                    this.dataList = selectData;
+                } else {
+                    this.dataList = this.infoData;
+                }
             },
             onChange(value) {
                 const that = this;
@@ -96,13 +109,12 @@
                     this.$emit("getchoseType", value);
                 }
             },
-            initData(deviceName) {
+            initData() {
                 const that = this;
                 postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
                     this.taskKindList = res.data;
                     this.$forceUpdate();
-                    let query = { pageIndex: 1, pageRows: 888888 ,deviceName: deviceName,
-          monitorDeviceName: deviceName };
+                    let query = { pageIndex: 1, pageRows: 888888 };
                     query["monitorDeviceType"] = 3;
                     getAxiosData("/lenovo-plan/api/environment/list/camera", query).then(
                         res => {
@@ -132,6 +144,7 @@
                             });
                             var query = monitorDeviceIds.join(",");
                             this.dataList=info;
+                            this.infoData=info;
                             this.$forceUpdate();
                         }
                     );
