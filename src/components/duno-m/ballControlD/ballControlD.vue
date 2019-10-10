@@ -64,6 +64,10 @@
 
         },
         watch: {
+            dialogVisible(now){
+                this.$parent.$refs.gisMapObj.setPosition(this.$parent.selectBallControl, this.$store.state.user.mapX, this.$store.state.user.mapY)
+                this.initTable()
+            },
             visible:{
                 handler(now){
                     this.dialogVisible = now
@@ -81,17 +85,16 @@
         },
         methods:{
             findDevice(){
-                debugger
-                let deviceList = this.$parent.$refs.gisMapObj.mapTarget.deviceList
-                let deviceOverlay = this.$parent.$refs.gisMapObj.mapTarget.getOverlays()
+
             },
             rePoint(){
                 this.$parent.$refs.gisMapObj.setPosition(this.$parent.selectBallControl, '', '')
                 this.commitDefineVisible = false
             },
             toSave(){
-                debugger
                 let pos = this.$parent.$refs.gisMapObj.clickPos
+                this.$store.state.user.mapX =  pos[0]
+                this.$store.state.user.mapY =  pos[1]
                 postAxiosData('/lenovo-device/api/monitor/ball-control/location', {monitorDeviceId: this.monitorDeviceId, cadX: pos[0], cadY: pos[1]}).then(res=>{
                     if(res.data.isSuccess){
                         this.$message.success('保存成功')
@@ -125,6 +128,7 @@
             closeCommit(){
                 this.commitDefineVisible = false
                 this.dialogVisible = true
+                this.$parent.$refs.gisMapObj.setPosition(this.$parent.selectBallControl, '', '')
                 this.$parent.resetM()
             },
             handleClose(){

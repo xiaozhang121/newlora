@@ -179,19 +179,14 @@
                 return pan;
             },
             setPosition(obj, x, y){
-                debugger
+
                 let item = obj.get('pointInfo')
-                let element = obj.get('element')
-                let offset = obj.set('offset')
                 let anchor = new Overlay({
-                    element: document.getElementById('anchor'+element),
-                    offset: offset
+                    element: document.getElementById('anchor'+ item['s_index']),
+                    offset: item['s_offset']
                 });
                 anchor.setPosition(transform([x,y], 'EPSG:3857' ,'EPSG:4326'));
                 anchor.set('pointInfo',item)
-                anchor.set('element',element)
-                anchor.set('offset',offset)
-
                 this.mapTarget.removeOverlay(obj)
                 this.setZoom(anchor)
                 // this.pointListObj.push({anchor: anchor})
@@ -1152,6 +1147,8 @@
                     }else{
                         offset = [0, 0]
                     }
+                    if(item['monitorDeviceType'] == 4)
+                        offset = [-15, -15]
                     let anchor = new Overlay({
                         element: document.getElementById('anchor'+index),
                         offset: offset
@@ -1184,16 +1181,12 @@
                         }
                         anchor.setPosition(transform([item['cadX'],item['cadY']], 'EPSG:3857' ,'EPSG:4326'));
                     }
-                    try{
+                    item['s_index'] = index
+                    item['s_offset'] = offset
                     anchor.set('pointInfo',item)
-                    anchor.set('element', index)
-                    anchor.set('offset',offset)
-                        this.setZoom(anchor)
-                        that.pointListObj.push({anchor: anchor})
-                        that.mapTarget.addOverlay(anchor);
-                    }catch (e) {
-                        
-                    }
+                    this.setZoom(anchor)
+                    that.pointListObj.push({anchor: anchor})
+                    that.mapTarget.addOverlay(anchor);
 
                 })
             },

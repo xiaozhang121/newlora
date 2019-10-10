@@ -3,6 +3,8 @@ import { setToken, getToken } from '@/libs/util'
 import avatorImg from '@/assets/images/avatar.jpg'
 export default {
   state: {
+    mapX: '',
+    mapY: '',
     isAlarm: false,
     alarmInfo: '',
     configInfo: {},

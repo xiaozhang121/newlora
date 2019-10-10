@@ -591,6 +591,8 @@
                     return info.monitorDeviceType == '4' && info['monitorDeviceId'] == this.controlBallDeviceId
                 })
                 this.selectBallControl = controlBallD[0]
+                this.$store.state.user.mapX =  controlBallD[0].getPosition()[0]
+                this.$store.state.user.mapY =  controlBallD[0].getPosition()[1]
                 this.$refs.gisMapObj.setPosition(controlBallD[0], '', '')
               }catch (e) {
                   
