@@ -104,12 +104,20 @@ export default {
       titleType: "按设备筛选",
       dataBread: [
         {
+          path: "/realEnv/list",
+          name: "操作中台"
+        },
+        {
           path: "/robot-two/list",
           name: "机器人巡视"
         },
         {
+          path: "/robot-two/list",
+          name: "室内巡检机器人"
+        },
+        {
           path: "",
-          name: "报告"
+          name: "查看报告"
         }
       ],
       columns: [
