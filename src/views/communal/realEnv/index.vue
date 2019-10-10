@@ -583,22 +583,23 @@
               this.markVisible = false
           },
           onDrawPoint(monitorDeviceId){
-              this.controlBallDeviceId = monitorDeviceId
-              try{
-                let deviceOverlayArr = this.$refs.gisMapObj.mapTarget.getOverlays().array_
-                let controlBallD = deviceOverlayArr.filter(item=>{
-                    let info = item.get('pointInfo')
-                    return info.monitorDeviceType == '4' && info['monitorDeviceId'] == this.controlBallDeviceId
-                })
-                this.selectBallControl = controlBallD[0]
-                this.$store.state.user.mapX =  controlBallD[controlBallD.length-1].getPosition()[0]
-                this.$store.state.user.mapY =  controlBallD[controlBallD.length-1].getPosition()[1]
-                this.$refs.gisMapObj.setPosition(controlBallD[0], '', '')
-              }catch (e) {
-                  
-              }
-              this.showPen()
-          },
+                this.controlBallDeviceId = monitorDeviceId
+                try{
+                    let deviceOverlayArr = this.$refs.gisMapObj.mapTarget.getOverlays().array_
+                    let controlBallD = deviceOverlayArr.filter(item=>{
+                        let info = item.get('pointInfo')
+                        return info.monitorDeviceType == '4' && info['monitorDeviceId'] == this.controlBallDeviceId
+                    })
+                    this.selectBallControl = controlBallD[controlBallD.length - 1]
+                    debugger
+                    this.$store.state.user.mapX =  controlBallD[controlBallD.length - 1].getPosition()[0]
+                    this.$store.state.user.mapY =  controlBallD[controlBallD.length - 1].getPosition()[1]
+                    this.$refs.gisMapObj.setPosition(controlBallD[controlBallD.length - 1], '', '')
+                }catch (e) {
+
+                }
+                this.showPen()
+            },
           moveEvent(event){
               const that = this
               $('.clickMark')[0].style.left = event.pageX + 17 + 'px'
