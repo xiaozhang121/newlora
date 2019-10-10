@@ -102,6 +102,7 @@
     <div class="bottom">
       <div class="left">
         <div class="iconcen" @click="handleJump(1)">
+          <duno-main :controlOver="true" class="main_contain contain" >
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_weather.png" alt />
             微气象环境
@@ -147,35 +148,39 @@
               <span>西北风 二级</span>
             </div>-->
           </div>
+          </duno-main>
         </div>
         <div class="iconcen" @click="handleJump(2)">
-          <div class="iconTop">
-            <img src="../../../assets/iconFunction/icon_space.png" alt />
-            泛在盒子
-          </div>
-          <div class="gauge" id="mountNode"></div>
-          <div class="gauge">
-            <div class="gauge_top">
-              <i class="iconfont icon-wendu1"></i>
-              <p>{{envData['temp']}}℃</p>
-              <span>当前温度</span>
+          <duno-main :controlOver="true" class="main_contain contain" >
+            <div class="iconTop">
+              <img src="../../../assets/iconFunction/icon_space.png" alt />
+              泛在盒子
             </div>
-            <div class="gauge_btm">
-              <i class="iconfont icon-shidu"></i>
-              <p>{{envData['humid']}}%RH</p>
-              <span>当前湿度</span>
+            <div class="gauge" id="mountNode"></div>
+            <div class="gauge">
+              <div class="gauge_top">
+                <i class="iconfont icon-wendu1"></i>
+                <p>{{envData['temp']}}℃</p>
+                <span>当前温度</span>
+              </div>
+              <div class="gauge_btm">
+                <i class="iconfont icon-shidu"></i>
+                <p>{{envData['humid']}}%RH</p>
+                <span>当前湿度</span>
+              </div>
             </div>
-          </div>
+          </duno-main>
         </div>
       </div>
       <div class="right iconcen" @click="handleJump(3)">
-        <div class="iconTop">
-          <img src="../../../assets/iconFunction/icon_lock.png" alt />
-          智能锁具
-        </div>
-        <div :class="{echartBox:isShowEchart}">
-          <duno-chart-pie-loop
-            :value="[
+        <duno-main :controlOver="true" class="main_contain contain" >
+          <div class="iconTop">
+            <img src="../../../assets/iconFunction/icon_lock.png" alt />
+            智能锁具
+          </div>
+          <div :class="{echartBox:isShowEchart}">
+            <duno-chart-pie-loop
+                    :value="[
                 {value:75, name:'75%', itemStyle: {
                 normal: {
                     color: '#53cbc3'
@@ -187,26 +192,29 @@
                 }
             }},
             ]"
-            :radiusOption="radiusOption"
-            paddingBottom="45%"
-            text="锁具状态"
-            titlePosition="right"
-            :textStyle="textStyle"
-            titleTop="30"
-            titleLeft="60%"
-            :centerOption="centerOption"
-            :isChange="isChange"
-            :isItemEchart="isItemEchart"
-            :legendOption="legendOption"
-          />
-        </div>
+                    :radiusOption="radiusOption"
+                    paddingBottom="45%"
+                    text="锁具状态"
+                    titlePosition="right"
+                    :textStyle="textStyle"
+                    titleTop="30"
+                    titleLeft="60%"
+                    :centerOption="centerOption"
+                    :isChange="isChange"
+                    :isItemEchart="isItemEchart"
+                    :legendOption="legendOption"
+            />
+          </div>
+        </duno-main>
       </div>
       <div class="conter iconcen" @click="handleJump(4)">
-        <div class="iconTop">
-          <img src="../../../assets/iconFunction/icon_system.png" alt />
-          平台状态
-        </div>
-        <div class="echartsBar" id="echartsBar"></div>
+        <duno-main :controlOver="true" class="main_contain contain" >
+          <div class="iconTop">
+            <img src="../../../assets/iconFunction/icon_system.png" alt />
+            平台状态
+          </div>
+          <div class="echartsBar" id="echartsBar"></div>
+        </duno-main>
       </div>
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
@@ -1161,7 +1169,7 @@ export default {
         // background-image: url("../../../assets/iconFunction/img_bg_weather.jpg");
       }
       & > div:nth-child(2) {
-        height: 100%;
+        /*height: 100%;*/
         width: 45%;
         background-color: rgba(32, 62, 82, 0.8);
       }
@@ -1253,6 +1261,43 @@ export default {
   .iconcen {
     cursor: pointer;
     padding: 20px;
+    position: relative;
+    .contain {
+      padding: 20px;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(20, 40, 56, 0.8);
+      border: 2px solid transparent;
+      transition: border 0.5s;
+      &:hover {
+        border: 2px solid #435360;
+        transition-duration: 0.5s;
+        box-sizing: border-box;
+      }
+      .demo{
+        .angle:first-child{
+          top: -2px;
+          left: -2px;
+        }
+        .angle-top-right{
+          right: 0;
+          top: 0;
+        }
+        .angle-botton-left{
+          left: 0;
+          bottom: 0;
+        }
+        .angle-botton-right{
+          bottom: 0;
+          right: 0;
+        }
+      }
+    }
+    .dunoMain_nr{
+      overflow: hidden;
+      background: transparent;
+    }
+
     .icondev {
       text-align: center;
     }
