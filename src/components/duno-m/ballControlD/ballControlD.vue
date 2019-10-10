@@ -14,8 +14,8 @@
                     <li v-for="(item, index) in deviceList" :key="index" :class="{'grey': index % 2 == 0}">
                         <div><span class="circle" :class="[{'active':item['isConnected'] == 1}, {'inactive': item['isConnected'] == 0}]"></span>{{ item['name'] }}</div>
                         <div>{{ item['chosenName'] }}</div>
-                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-if="item['status'] == 1"><i class="iconfont icon-weibiaoti-" ></i><span>{{ item['status'] }}</span></div>
-                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-else><i class="iconfont icon-xiugaibiaoding" ></i><span>{{ item['status'] }}</span></div>
+                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-if="item['status'] == 1"><i class="iconfont icon-weibiaoti-" ></i><span>{{ item['chosenName'] }}</span></div>
+                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-else><i class="iconfont icon-xiugaibiaoding" ></i><span>{{ item['chosenName'] }}</span></div>
                     </li>
                 </ul>
             </div>
@@ -125,6 +125,7 @@
             closeCommit(){
                 this.commitDefineVisible = false
                 this.dialogVisible = true
+                this.$parent.resetM()
             },
             handleClose(){
                 this.$emit('on-close')

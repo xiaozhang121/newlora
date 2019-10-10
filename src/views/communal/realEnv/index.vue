@@ -879,6 +879,8 @@
                             }else{
                                 item['src'] = that.redLight
                             }
+                        }else if(item['monitorDeviceType'] == 4){
+                            item['src'] = that.ball
                         }
                         item['show'] = true
                         item['isShow'] = true
