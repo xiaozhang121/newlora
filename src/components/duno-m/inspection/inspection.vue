@@ -423,7 +423,7 @@ export default {
         play: "/lenovo-visible/api/visible-equipment/stable/play/{deviceId}", // 视频播放
         pause: "/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}", // 暂停
         ptzSet:
-          "/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{id}/{cmd}/{step}/{flag}", //
+          "/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}", //
         stop: "/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}" // 停止播放
       },
       playerOptions: {
@@ -498,10 +498,9 @@ export default {
       // alert(now)
       console.log(now);
       putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move/" +
-          that.deviceId +
+        "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
           "/" +
-          this.dataList[0]["dataList"][now]["psIndex"]
+          this.dataList[0]["dataList"][now]["psIndex"]+"/"+that.deviceId
       );
       this.dataList[0]["dataList"][now]["ago"] = true;
       this.dataList[0]["dataList"][now]["flag"] = "orangePointP";
@@ -605,10 +604,9 @@ export default {
     checkPostion(pid) {
       const that = this;
       putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move/" +
-          that.deviceId +
+        "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
           "/" +
-          pid
+          pid+"/"+that.deviceId
       );
     },
     editTableData(params) {
