@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="right nr contain"   style="position: relative">
-          <control-check v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+          <control-check ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
           <inspection-red-control
             @on-edit="onEdit"
             ref="inspectionRef"
@@ -776,6 +776,7 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
+    this.$refs.controlCheckRef.releaseNow()
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }

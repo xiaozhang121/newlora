@@ -48,7 +48,7 @@
                         <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
-                    <control-check v-if="lockPress && deviceId"  :deviceType="1"  :deviceId="deviceId" />
+                    <control-check ref="controlCheckRef" v-if="lockPress && deviceId"  :deviceType="1"  :deviceId="deviceId" />
                 </div>
             </div>
         </template>
@@ -158,7 +158,7 @@
             </div>
             <div class="addPosition" style="">
                 <div class="left" v-if="isAdd">
-                    <control-check v-if="lockPress && deviceId" :deviceType="1" :deviceId="deviceId" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit"/>
+                    <control-check ref="controlCheckRef" v-if="lockPress && deviceId" :deviceType="1" :deviceId="deviceId" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit"/>
                     <div class="title">新增预置位名称：</div>
                     <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" v-model="addPosInput" placeholder=""></el-input></div>
                     <div class="btnEx">
@@ -904,6 +904,9 @@
             this.isViwe = this.getAuthority('10000103');
             this.isDel = this.getAuthority('10000104');
             debugger
+        },
+        beforeDestroy(){
+            this.$refs.controlCheckRef.releaseNow()
         }
     }
 </script>

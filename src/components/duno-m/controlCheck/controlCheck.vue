@@ -184,12 +184,17 @@
                     })
                 }
             },
-            clearIn(){
-                this.minute = '01'
+            releaseNow(){
+                this.minute = '00'
                 this.second = '00'
                 clearInterval(this.timer)
                 this.permissionRelease()
                 this.isControl = false
+            },
+            clearIn(){
+                this.minute = '01'
+                this.second = '00'
+                this.setInterval()
             }
         },
         created(){
