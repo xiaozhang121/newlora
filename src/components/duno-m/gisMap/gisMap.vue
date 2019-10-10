@@ -51,7 +51,8 @@
                 vectord: null,
                 sourced: null,
                 source: null,
-                mapActive: true
+                mapActive: true,
+                clickPos: []
             }
         },
         watch: {
@@ -1323,9 +1324,10 @@
                 let pan = that.getPan();
                 //false：当前地图不可拖动。true：可拖动
                 pan.setActive(that.mapActive);
-                /* this.mapTarget.on('click', function (evt) {
-                     alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
-                 })*/
+                 this.mapTarget.on('click', function (evt) {
+                     // alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
+                    that.clickPos = transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857')
+                 })
                 this.addInteraction()
                 setTimeout(()=>{
                     // this.dropOverlay()
