@@ -471,7 +471,8 @@ export default {
     };
   },
   mounted() {
-    this.getDataList();
+    // this.getDataList();
+    this.getPowerDeviceName();
   },
   created() {
     this.init();
@@ -480,6 +481,17 @@ export default {
     this.getType();
   },
   methods: {
+    getPowerDeviceName() {
+      if (this.queryForm.powerDeviceId) {
+        let url = "/lenovo-device/api/device/query";
+        let query = {
+          deviceId: this.$route.query.powerDeviceId
+        };
+        getAxiosData(url, query).then(res => {
+          this.titleTypeL = res.data.deviceName;
+        });
+      }
+    },
     init() {
       this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
       this.mixinViewModuleOptions.exportURL = this.downloadURL;
@@ -493,6 +505,8 @@ export default {
       if (this.$route.query.deviceName) {
         this.title = this.$route.query.deviceName;
       }
+      this.getDataList();
+      this.getPowerDeviceName();
     },
     closeEnlarge() {
       this.isEnlarge = false;

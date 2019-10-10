@@ -14,7 +14,7 @@
             <div @click="clickToDetail(1)">查看更多 ></div>
           </div>
         </div>
-        <div class="monitorContain">
+        <div v-if="isEmptyHour" class="monitorContain">
           <div
             class="monitorItem"
             :class="{marginRight: index%2 == 0}"
@@ -36,6 +36,14 @@
           </div>
           <div style="clear: both"></div>
         </div>
+        <div v-else class="monitorContain empty">
+          <div>
+            <p>近24小时内没有监测记录</p>
+            <p>
+              <a href="javascript:;" @click="clickToDetail(1)">查看更多历史</a>
+            </p>
+          </div>
+        </div>
       </div>
       <div class="item">
         <div class="alarmTitle">
@@ -45,11 +53,14 @@
           </div>
         </div>
         <div class="item-cons">
-          <div v-if="isEmpty" class="alarmLogIn">
-            <!-- :class="{'canelLoading': !loading}"
+          <div
+            v-if="isEmpty"
+            class="alarmLogIn"
+            :class="{'canelLoading': !loading}"
             v-loading="loading"
             element-loading-background="rgba(0, 0, 0, 0.8)"
-            element-loading-text="加载中"-->
+            element-loading-text="加载中"
+          >
             <AlarmLog
               v-for="(item,index) in dataList"
               :remarkData="dataList[index]"
@@ -109,6 +120,7 @@ export default {
       },
       isCenter: false,
       isEmpty: true,
+      isEmptyHour: true,
       time: "",
       remarks: [],
       dataForm: {},
@@ -133,30 +145,33 @@ export default {
     };
   },
   watch: {
-      dataList: {
-          handler(now) {
-              let i = 0;
-              if (now.length || now.length == 0) {
-                  this.loading = false;
-                  clearTimeout(this.timer);
-              }
-              if(!this.getPic){
-                  now.forEach((item, index)=>{
-                      this.getPic = true
-                      postAxiosData('/lenovo-alarm/api/info/video/pic', {'videoPath': item['alarmFileAddress'], 'positionIndex': index}).then(res=>{
-                          this.dataList[res.data['positionIndex']]['pic'] = res.data.pic
-                          this.$forceUpdate()
-                      })
-                  })
-              }
-              if (now.length == 0) {
-                  this.isEmpty = false;
-              } else {
-                  this.isEmpty = true;
-              }
-          },
-          deep: true,
-      }
+    dataList: {
+      handler(now) {
+        let i = 0;
+        if (now.length || now.length == 0) {
+          this.loading = false;
+          clearTimeout(this.timer);
+        }
+        if (!this.getPic) {
+          now.forEach((item, index) => {
+            this.getPic = true;
+            postAxiosData("/lenovo-alarm/api/info/video/pic", {
+              videoPath: item["alarmFileAddress"],
+              positionIndex: index
+            }).then(res => {
+              this.dataList[res.data["positionIndex"]]["pic"] = res.data.pic;
+              this.$forceUpdate();
+            });
+          });
+        }
+        if (now.length == 0) {
+          this.isEmpty = false;
+        } else {
+          this.isEmpty = true;
+        }
+      },
+      deep: true
+    }
   },
   methods: {
     oneDayAgo() {
@@ -190,7 +205,11 @@ export default {
               that.$forceUpdate();
             });
           }
-          // this.safeList = [{},{},{}]
+          if (this.safeList.length == 0) {
+            this.isEmptyHour = false;
+          } else {
+            this.isEmptyHour = true;
+          }
         }
       );
     },

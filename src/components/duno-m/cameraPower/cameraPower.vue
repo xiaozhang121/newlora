@@ -6,16 +6,17 @@
             </div>
             <div class="from">
                 来源：
+                <span class="click_title" @click="handleJump">{{ mainName }}</span>
                 <el-dropdown  trigger="click">
                   <span class="el-dropdown-link">
-                    <span class="click_title">{{ mainName }}</span><i class="el-icon-arrow-down el-icon--right"></i>
+                    <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item v-for="(item, index) in dataList" :key="index"  @click.native="chosenItem(item)">{{ item['monitorDeviceName'] }}</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
-            <div class="moreInfo">更多记录信息>></div>
+            <div class="moreInfo" @click="handleMore">更多记录信息>></div>
             <div class="camera" v-for="(item, index) in recentList" :key="index">
                 <camera-d @on-detail="toDetail" :dataInfo="item"></camera-d>
             </div>
@@ -41,16 +42,17 @@
             </div>
             <div class="from">
                 来源：
+                <span class="click_title"  @click="handleJump">{{ mainName }}</span>
                 <el-dropdown  trigger="click">
                   <span class="el-dropdown-link">
-                    <span class="click_title">{{ mainName }}</span><i class="el-icon-arrow-down el-icon--right"></i>
+                    <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item v-for="(item, index) in dataList" :key="index" @click.native="chosenItem(item)">{{ item['monitorDeviceName'] }}</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
-            <div class="moreInfo">更多记录信息>></div>
+            <div class="moreInfo" @click="handleMore">更多记录信息>></div>
             <div class="camera" v-for="(item, index) in recentList" :key="index">
                 <camera-d @on-detail="toDetail" :dataInfo="item"></camera-d>
             </div>
@@ -165,7 +167,7 @@
                         this.monitorInfo1 = dataList[1]
                     }
             },
-            getJump() {
+            handleJump() {
                 getAxiosData("/lenovo-device/api/preset/type", {
                     monitorDeviceId: this.monitorInfo["monitorDeviceId"]
                 }).then(res => {
@@ -208,6 +210,15 @@
                         });
                     }
                 });
+            },
+            handleMore(){
+                this.$router.push({
+                    path:'/meterdata/allReport-detail',
+                    query: {
+                        powerDeviceId: this.itemData['deviceIdStr'],
+                        url:"/lenovo-plan/api/statistics/meter-data/list"
+              }
+                })
             },
             handleClose() {
                 this.popData = {};
@@ -291,6 +302,7 @@
         }
         .el-icon-arrow-down{
             color: white;
+            cursor: pointer;
         }
         .camera{
             margin-bottom: 10px;
@@ -310,6 +322,7 @@
             color: #969696   !important;
         }
         .click_title{
+            cursor: pointer;
             color: #4bbdc1;
         }
         .moreInfo{
