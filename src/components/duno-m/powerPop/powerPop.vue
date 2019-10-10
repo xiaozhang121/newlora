@@ -11,7 +11,7 @@
                     整体健康状态评估
                 </span>
             </div>
-            <a class="" href="javascript:void(0)">详情>></a>
+            <a class="" href="javascript:void(0)" @click="jumpServer">详情>></a>
         </div>
         <div class="allHealthStatus">
             <div class="mainCharts">
@@ -163,7 +163,7 @@
                     网络
                 </span>
             </div>
-            <a class="" href="javascript:void(0)">详情>></a>
+            <a class="" href="javascript:void(0)" @click="jumpNetwork">详情>></a>
         </div>
         <div class="allHealthStatus T" style="height: 20%; margin-bottom: 19px">
             <div class="mainCharts">
@@ -190,7 +190,7 @@
                     平台数据统计
                 </span>
             </div>
-            <a class="" href="javascript:void(0)">详情>></a>
+            <!-- <a class="" href="javascript:void(0)">详情>></a> -->
         </div>
         <div class="dataPlateForm">
             <div class="plateform">
@@ -341,6 +341,16 @@
                     $('.powerPop .allHealthStatus .warning').css({'bottom':'-18px'})
                     $('.powerPop .allHealthStatus .mainCharts .chartsTitle').css({'bottom':'2%'})
                 }
+            },
+            jumpServer(){
+                this.$router.push({
+                    path:'/abnormalInfoPath/server'
+                })
+            },
+            jumpNetwork(){
+                this.$router.push({
+                    path:'/abnormalInfoPath/networkDevice'
+                })
             }
         },
         created(){

@@ -36,6 +36,7 @@
                 <span v-if="dataList['alarmContent']">{{ dataList['alarmContent'] }}</span>
                 <span class="from not-print" @click="clickJudge()">结果修订</span>
                 <span style="visibility: hidden" class="from" @click="showDiff()">差值修订</span>
+                <button-custom class="button" :title="titleReturn" @click.native="handleReturn" />
               </p>
             </div>
           </div>
@@ -77,8 +78,9 @@ import { Base64 } from 'js-base64'
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import personJudge from "_c/duno-m/personJudge";
 import diffPanel  from '_c/duno-m/diffPanel'
+import buttonCustom from "_c/duno-m/buttonCustom";
 export default {
-  components: { personJudge, diffPanel },
+  components: { personJudge, diffPanel, buttonCustom },
   data() {
     return {
       formData: {},
@@ -96,6 +98,7 @@ export default {
       newMonitorUrl: "",
       dataList: {},
       alarmValue: '',
+      titleReturn:'复归',
       hasSelect: false,
       discriminate: false
     };
@@ -196,6 +199,11 @@ export default {
         }
         if (this.searchId != "" && this.isThree) {
             this.initData();
+        }
+        if(now['isReturn']=='1'){
+          this.titleReturn='已复归'
+        }else{
+          this.titleReturn='复归'
         }
     },
     // handleNotes(now) {
@@ -348,8 +356,23 @@ export default {
           });
       },
     clickJudge() {
-      //   debugger;
       this.visibleJudge = true;
+    },
+    handleReturn(){
+      const that = this;
+      let url = '/lenovo-alarm/api/alarm/deal'
+      const query = {
+        alarmId: that.popData.alarmId,
+        type: "1"
+      };
+      postAxiosData(url,query).then(res => {
+        if (res.data.isSuccess) {
+          that.$message.success(res.msg);
+          this.titleReturn='已复归'
+        }else {
+          that.$message.error(res.msg);
+        }
+      });
     }
   },
   beforeDestroy(){
@@ -516,6 +539,13 @@ export default {
               }
             }
           .alarmType{
+            display: flex;
+            justify-content: flex-start;
+            line-height: 30px;
+            .buttonCustom{
+              line-height: 30px;
+              color: #ffffff;
+            }
             span{
               margin-right: 40px;
               &.from{
