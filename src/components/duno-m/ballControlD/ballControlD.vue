@@ -14,8 +14,8 @@
                     <li v-for="(item, index) in deviceList" :key="index" :class="{'grey': index % 2 == 0}">
                         <div><span class="circle" :class="[{'active':item['isConnected'] == 1}, {'inactive': item['isConnected'] == 0}]"></span>{{ item['name'] }}</div>
                         <div>{{ item['chosenName'] }}</div>
-                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-if="item['status'] == 1"><i class="iconfont icon-weibiaoti-" ></i><span>{{ item['chosenName'] }}</span></div>
-                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-else><i class="iconfont icon-xiugaibiaoding" ></i><span>{{ item['chosenName'] }}</span></div>
+                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-if="item['status'] == 1"><span><i class="iconfont icon-xiugaibiaoding" ></i>{{ item['editName'] }}</span></div>
+                        <div @click="posUpdate(item['monitorDeviceId'], item['name'])" v-else><i class="iconfont icon-weibiaoti-" ></i><span>{{ item['editName'] }}</span></div>
                     </li>
                 </ul>
             </div>
@@ -120,6 +120,7 @@
                         item['isConnected'] = '1'
                         item['name'] = item['monitorDeviceName']
                         item['chosenName'] = (item['isMark'] == 0)?'未标定':'已标定'
+                        item['editName'] = (item['isMark'] == 0)?'标定':'修改'
                         item['status'] = item['isMark']
                     })
                     this.deviceList = data
