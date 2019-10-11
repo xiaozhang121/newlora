@@ -53,7 +53,7 @@
                     当前运行监测设备
                 </span>
             </div>
-            <a class="" href="javascript:void(0)">详情>></a>
+            <a class="" href="javascript:void(0)" @click="jumpStatus">详情>></a>
         </div>
         <div class="watchDevice">
            <div class="mainD">
@@ -350,6 +350,11 @@
             jumpNetwork(){
                 this.$router.push({
                     path:'/abnormalInfoPath/networkDevice'
+                })
+            },
+            jumpStatus(){
+                this.$router.push({
+                    path:'/abnormalInfoPath/deviceStatus'
                 })
             }
         },

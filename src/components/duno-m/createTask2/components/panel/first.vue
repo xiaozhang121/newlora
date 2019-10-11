@@ -19,7 +19,7 @@
       </div>
       <div class="titleInput">
         <span>选择电力设备</span>
-        <el-input placeholder="请输入内容" v-model="input" @input="inputChange" clearable></el-input>
+        <el-input placeholder="请输入内容" :isInput='true' v-model="input" @input="inputChange" clearable></el-input>
       </div>
       <chosen-list :dataListOption="dataList" />
     </el-form>
