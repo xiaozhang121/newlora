@@ -55,7 +55,7 @@
               </div>-->
             </div>
           </div>
-          <control-check ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
         </div>
         <div class="right nr contain">
           <div class="areaTitle">
@@ -536,6 +536,11 @@ export default {
     }
   },
   methods: {
+    onDisable(flag){
+        if(!this.controlAble){
+            this.controlAble = flag
+        }
+    },
     getCoordinate(type, w0, w1, h0, h1, x0, y0) {
       let obj = { x: 0, y: 0 };
       // 原始-->页面
@@ -602,7 +607,7 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = true;
+      that.controlAble = true;
       const url =
         "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
         this.dataForm.monitorDeviceId;
@@ -613,7 +618,7 @@ export default {
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
               setTimeout(() => {
                 this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                  that.disabled = false;
+                  that.controlAble = false;
                 });
               }, 5000);
             });

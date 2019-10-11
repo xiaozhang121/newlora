@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="right nr contain"   style="position: relative">
-          <control-check ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
           <inspection-red-control
             @on-edit="onEdit"
             ref="inspectionRef"
@@ -512,6 +512,9 @@ export default {
     };
   },
   methods: {
+    onDisable(flag){
+        this.disabled = flag
+    },
     closeEnlarge() {
       this.isEnlarge = false;
     },

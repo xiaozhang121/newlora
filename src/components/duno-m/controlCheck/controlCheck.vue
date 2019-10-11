@@ -162,8 +162,10 @@
                         if(res.data.data){
                             this.getpermissionCheck()
                             this.$message.info(res.data.msg)
+                            this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
+                            this.$emit('on-disable', true)
                         }
                     })
                 }else{
@@ -171,8 +173,10 @@
                         if(res.data.applyFlag){
                             this.$message.info(res.data.msg)
                             this.getpermissionCheck()
+                            this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
+                            this.$emit('on-disable', true)
                         }
                     })
                 }
@@ -183,12 +187,14 @@
                     getAxiosData(`/lenovo-iir/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
                         this.$message.info(res.data.msg)
                         this.getpermissionCheck()
+                        this.$emit('on-disable', false)
                     })
                 }else{
                     getAxiosData(`/lenovo-visible/api/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
                         if(res.data.applyFlag){
                             this.$message.info(res.data.msg)
                             this.getpermissionCheck()
+                            this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
                         }

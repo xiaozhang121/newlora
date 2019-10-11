@@ -23,7 +23,7 @@
       <div class="content">
         <div class="left nr">
           <div class="item" style="position: relative">
-            <control-check ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+            <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -497,6 +497,9 @@ export default {
     }
   },
   methods: {
+    onDisable(flag){
+        this.disabled = flag
+    },
     closeEnlarge() {
       this.isEnlarge = false;
     },
