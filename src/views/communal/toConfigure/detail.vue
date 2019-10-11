@@ -730,6 +730,26 @@ export default {
                       "立即执行"
                   )
               );
+              newArr.push(
+                  h(
+                      "el-button",
+                      {
+                          class: "btn_pre",
+                          style: { background: "#305e83" },
+                          props: {
+                              type: "text",
+                              content: "立即停止",
+                              loading: params.row.loading
+                          },
+                          on: {
+                              click: () => {
+                                  self.toStop(params);
+                              }
+                          }
+                      },
+                      "立即停止"
+                  )
+              );
             if (that.isEdit) {
               newArr.push(
                 h(
@@ -786,6 +806,17 @@ export default {
     }
   },
   methods: {
+    toStop(param){
+        let planId = param.row.planId;
+        this[param.row.type][param.index]["loading"] = true;
+        getAxiosData("/lenovo-plan/api/plan/stop", { planId: planId }).then(
+            res => {
+                this.getDataList()
+                this[param.row.type][param.index]["loading"] = false;
+                this.$message.success(res.msg);
+            }
+        );
+    },
     toRunTask(param) {
       let planId = param.row.planId;
       this[param.row.type][param.index]["loading"] = true;
