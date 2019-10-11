@@ -1,5 +1,6 @@
 <template>
     <div class="isControl">
+        {{ pressions }} --- {{ isControlPress }} --- {{ getPress }}
         <span v-if="isControlPress && showTimer">结束控制倒计时 <i>{{ minute+'m '+ second+'s'}}</i></span>
         <span v-else>
             <div v-if="isControlPress  && !getPress">云台可操控</div>
@@ -273,6 +274,7 @@
             // 超级管理员
             this.pressions = (this.$store.state.user.userinfo.userType == '超级管理员')
             this.initTimer = setInterval(()=>{
+                that.permissionRelease()
                 console.log(that.count)
                 if(that.getPress){
                     that.count++
