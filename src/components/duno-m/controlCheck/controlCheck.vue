@@ -197,7 +197,8 @@
                 this.second = '00'
                 clearInterval(this.timer)
                 this.timer = null
-                this.permissionRelease()
+                if(this.isControl)
+                    this.permissionRelease()
                 this.isControl = false
                 window.removeEventListener('beforeunload', this.beforeunload)
             },
