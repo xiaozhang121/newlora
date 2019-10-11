@@ -110,7 +110,7 @@ export default {
     onChange(value) {
        this.$emit('getchoseType',value)
         this.choseType=value;
-      if (value != 3) {
+      if (value) {
         const that = this;
         let query = { pageIndex: 1, pageRows: 888888 };
         query["planType"] = value;
