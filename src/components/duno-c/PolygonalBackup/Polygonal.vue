@@ -304,6 +304,8 @@ export default {
         .find("img")
         .remove();
       this.$emit("onChange", arr);
+      that.$forceUpdate();
+      that.isChangeFlag = !that.isChangeFlag;
     },
     onChangeTime(data) {
       $("#moveTarget")
