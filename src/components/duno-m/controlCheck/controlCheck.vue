@@ -274,7 +274,7 @@
             // 超级管理员
             this.pressions = (this.$store.state.user.userinfo.userType == '超级管理员')
             this.initTimer = setInterval(()=>{
-                that.permissionRelease()
+                that.getpermissionCheck()
                 console.log(that.count)
                 if(that.getPress){
                     that.count++
