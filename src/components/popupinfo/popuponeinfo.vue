@@ -310,13 +310,24 @@ export default {
               });
             }
           } else if (monitorDeviceType == 2) {
-            this.$router.push({
-              path: "/surveillancePath/detailRedN",
-              query: {
-                monitorDeviceId: this.itemData.monitorDeviceId,
-                typeId: res.data["typeId"]
+              if (supportPreset) {
+                  this.$router.push({
+                      path: "/surveillancePath/detailRed",
+                      query: {
+                          monitorDeviceId: this.itemData.monitorDeviceId,
+                          typeId: res.data["typeId"]
+                      }
+                  });
+              }else{
+                  this.$router.push({
+                      path: "/surveillancePath/detailRedN",
+                      query: {
+                          monitorDeviceId: this.itemData.monitorDeviceId,
+                          typeId: res.data["typeId"]
+                      }
+                  });
               }
-            });
+
           } else if (monitorDeviceType == 3) {
             this.$router.push({
               path: "/surveillancePath/detailEnv",
