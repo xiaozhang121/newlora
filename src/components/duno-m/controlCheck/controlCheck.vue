@@ -1,7 +1,10 @@
 <template>
     <div class="isControl">
         <span v-if="isControl && showTimer">结束控制倒计时 <i>{{ minute+'m '+ second+'s'}}</i></span>
-        <span v-else>云台控制中</span>
+        <span v-else>
+            <div v-if="isControl">云台控制中</div>
+            <div v-else></div>
+        </span>
         <a @click="getPression" v-if="!isControl">获取控制权</a>
         <a @click="permissionRelease" v-else>结束控制</a>
     </div>
@@ -263,6 +266,9 @@
             i{
                 color: #caa42d !important;
                 font-style: normal;
+            }
+            div{
+                display: inline-block;
             }
         }
         a{
