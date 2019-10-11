@@ -102,13 +102,15 @@
             },
             getpermissionCheck(){
                 const that = this
-                if(this.getPress){
-                    return
-                }
                 // 检测设备占用状态
                 if(this.deviceType == 2){
                     getAxiosData('/lenovo-iir/device/permission/check/'+ this.deviceId).then(res=>{
+                        let userId = res.data.userId
                         let type = Number(res.data.userType)
+                        if(this.$store.state.user.token == userId){
+                            return
+                        }
+                        this.getPress = false
                         this.userType = type
                         if(type != 2){
                             this.isControl = true
@@ -128,7 +130,12 @@
                     })
                 }else{
                     getAxiosData('/lenovo-visible/api/device/permission/check/'+ this.deviceId).then(res=>{
+                        let userId = res.data.userId
                         let type = Number(res.data.userType)
+                        if(this.$store.state.user.token == userId){
+                            return
+                        }
+                        this.getPress = false
                         this.userType = type
                         if(type != 2){
                             this.isControl = true
