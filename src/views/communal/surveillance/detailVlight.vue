@@ -515,13 +515,13 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = true;
+      that.disabled = false;
       const url =
         "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
         this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data;
-        that.$nextTick(() => {
+       /* that.$nextTick(() => {
           setTimeout(() => {
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
               setTimeout(() => {
@@ -531,7 +531,7 @@ export default {
               }, 5000);
             });
           }, 500);
-        });
+        });*/
       });
     },
     cutOut(data) {

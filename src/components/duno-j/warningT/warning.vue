@@ -380,6 +380,7 @@ export default {
         if (res.data.isSuccess) {
           that.$message.success(res.msg);
           this.titleReturn='已复归'
+            that.initData()
         }else {
           that.$message.error(res.msg);
         }

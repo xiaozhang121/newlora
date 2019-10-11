@@ -87,7 +87,7 @@
               </div>
               <div class="btn-print">
                 <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
-                <button-custom class="button" :title="titleReturn" @click.native="handleReturn" />
+                <button-custom v-if="!(dataList.result.indexOf('正常')>-1)" class="button" :title="titleReturn" @click.native="handleReturn" />
               </div>
               <div class="from">
                 <span class="origin">
@@ -517,6 +517,7 @@ export default {
         if (res.data.isSuccess) {
           that.$message.success(res.msg);
           this.titleReturn='已复归'
+          that.initData()
         }else {
           that.$message.error(res.msg);
         }

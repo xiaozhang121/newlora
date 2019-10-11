@@ -530,7 +530,7 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = true;
+      that.disabled = false;
       const url =
         "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {

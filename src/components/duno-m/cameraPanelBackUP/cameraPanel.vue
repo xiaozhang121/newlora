@@ -875,12 +875,12 @@
             },
             initCamera(){
                 const that = this
-                that.disabled = true
+                that.disabled = false
                 this.monitorInfo = {'monitorDeviceId': that.deviceId}
                 const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp/'+that.deviceId;
                 getAxiosData(url, {}).then(res => {
                      that.playerOptions.sources[0].src = res.data;
-                     setTimeout(()=>{
+                    /* setTimeout(()=>{
                          that.viewCamera(5, false).then(res=>{
                              setTimeout(()=>{
                                  this.viewCamera(5, true).then(res=>{
@@ -888,7 +888,7 @@
                                  })
                              },5000)
                          })
-                     },500)
+                     },500)*/
                 });
             }
         },
