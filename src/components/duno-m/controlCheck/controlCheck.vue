@@ -1,12 +1,14 @@
 <template>
     <div class="isControl">
-        <span v-if="isControl && showTimer">结束控制倒计时 <i>{{ minute+'m '+ second+'s'}}</i></span>
+        <span v-if="isControlPress && showTimer">结束控制倒计时 <i>{{ minute+'m '+ second+'s'}}</i></span>
         <span v-else>
-            <div v-if="isControl">云台控制中</div>
-            <div v-else></div>
+            <div v-if="isControlPress  && !getPress">云台可操控</div>
+            <div v-if="isControlPress && getPress">已获取控制权</div>
+            <div v-if="!isControlPress">云台控制中</div>
         </span>
-        <a @click="getPression" v-if="!isControl">获取控制权</a>
-        <a @click="permissionRelease" v-else>结束控制</a>
+        <a @click="getPression" v-if="isControlPress && !getPress">获取控制权</a>
+        <a @click="permissionRelease" v-if="isControlPress && getPress">结束控制</a>
+        <a v-if="!isControlPress" style="background: grey">获取控制权</a>
     </div>
 </template>
 
@@ -47,6 +49,21 @@
             }
         },
         computed: {
+            getPress:{
+                get(){
+                    return this.$store.state.user.getPress
+                },
+                set(val){
+                    this.$store.state.user.getPress = val
+                }
+            },
+            isControlPress(){
+                if(this.pressions){
+                    return this.isControl == false || (this.isControl == true && this.pressions && this.userType == 0)
+                }else{
+                    return this.isControl == false
+                }
+            },
             isShow(){
                 return Number(this.minute) && Number(this.second)
             }
@@ -83,49 +100,54 @@
             },
             getpermissionCheck(){
                 const that = this
+                if(this.getPress){
+                    return
+                }
                 // 检测设备占用状态
                 if(this.deviceType == 2){
                     getAxiosData('/lenovo-iir/device/permission/check/'+ this.deviceId).then(res=>{
-                        debugger
-                        if(!res.data.data){
-                            this.isControl = false
+                        let type = Number(res.data.userType)
+                        this.userType = type
+                        if(type != 2){
+                            this.isControl = true
                         }else{
-                            this.isControl = Object.keys(res.data.data).length
+                            this.isControl = false
                         }
-                        if(this.isControl){
-                            // let date = res.data.data.expireTime
-                            let nowDate = new Date()
-                            /* if(nowDate.getTime() <= date){
-                                 let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
-                                 this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
-                                 this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
-                                 // this.setInterval()
-                             }*/
-                        }
+                        /*  if(this.isControl){
+                              // let date = res.data.data.expireTime
+                              let nowDate = new Date()
+                              /!* if(nowDate.getTime() <= date){
+                                   let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
+                                   this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
+                                   this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
+                                   // this.setInterval()
+                               }*!/
+                          }*/
                     })
                 }else{
                     getAxiosData('/lenovo-visible/api/device/permission/check/'+ this.deviceId).then(res=>{
-                        debugger
-                        try{
-                            that.isControl = !(res.data.msg.indexOf('空闲')>-1)
-                        }catch (e) {
-                            that.isControl = new Boolean(res.data.data)
+                        let type = Number(res.data.userType)
+                        this.userType = type
+                        if(type != 2){
+                            this.isControl = true
+                        }else{
+                            this.isControl = false
                         }
-                        if(this.isControl){
-                            let date = ''
-                            try{
-                                // date = res.data.expireTime
-                            }catch (e) {
-                                date = res.data.data.expireTime
-                            }
-                            let nowDate = new Date()
-                            /*  if(nowDate.getTime() <= date){
-                                  let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
-                                  this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
-                                  this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
-                                  // this.setInterval()
-                              }*/
-                        }
+                        /* if(this.isControl){
+                             let date = ''
+                             try{
+                                 // date = res.data.expireTime
+                             }catch (e) {
+                                 date = res.data.data.expireTime
+                             }
+                             let nowDate = new Date()
+                             /!*  if(nowDate.getTime() <= date){
+                                   let Allseconds = moment(date).diff(nowDate.getTime(), 'seconds')
+                                   this.minute = parseInt(Allseconds / 60)<10?'0'+parseInt(Allseconds / 60):parseInt(Allseconds / 60)
+                                   this.second = parseInt(Allseconds % 60)<10?'0'+parseInt(Allseconds % 60):parseInt(Allseconds % 60)
+                                   // this.setInterval()
+                               }*!/
+                         }*/
                     })
                 }
             },
@@ -136,6 +158,7 @@
                         if(res.data.data){
                             clearInterval(this.timer)
                             this.timer = null
+                            this.getPress = false
                             this.getpermissionCheck()
                             this.$message.info(res.data.msg)
                         }else{
@@ -147,6 +170,7 @@
                         if(res.data.releaseFlag){
                             clearInterval(this.timer)
                             this.timer = null
+                            this.getPress = false
                             this.getpermissionCheck()
                             this.$message.info(res.data.msg)
                         }else{
@@ -159,9 +183,12 @@
                 //普通使用权限申请
                 if(this.deviceType == 2) {
                     getAxiosData(`/lenovo-iir/device/permission/apply/${this.deviceId}/${waitTime}`).then(res => {
+                        debugger
                         if(res.data.data){
-                            this.getpermissionCheck()
+                            this.getPress = true
+                            // this.getpermissionCheck()
                             this.$message.info(res.data.msg)
+                            this.setInterval()
                             this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
@@ -170,9 +197,12 @@
                     })
                 }else{
                     getAxiosData(`/lenovo-visible/api/device/permission/apply/${this.deviceId}/${waitTime}`).then(res => {
+                        debugger
                         if(res.data.applyFlag){
+                            this.getPress = true
                             this.$message.info(res.data.msg)
-                            this.getpermissionCheck()
+                            // this.getpermissionCheck()
+                            this.setInterval()
                             this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
@@ -185,30 +215,40 @@
                 //设备强制申请使用
                 if(this.deviceType == 2){
                     getAxiosData(`/lenovo-iir/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
+                        debugger
+                        if(res.data.msg.indexOf('success')> -1 || res.data.msg.indexOf('成功') > -1){
+                            this.getPress = true
+                            this.$emit('on-disable', false)
+                        }else{
+                            this.$emit('on-disable', true)
+                        }
                         this.$message.info(res.data.msg)
-                        this.getpermissionCheck()
-                        this.$emit('on-disable', false)
+                        // this.getpermissionCheck()
                     })
                 }else{
                     getAxiosData(`/lenovo-visible/api/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
+                        debugger
                         if(res.data.applyFlag){
+                            this.getPress = true
                             this.$message.info(res.data.msg)
-                            this.getpermissionCheck()
+                            // this.getpermissionCheck()
                             this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
+                            this.$emit('on-disable', true)
                         }
                     })
                 }
             },
             releaseNow(){
+                debugger
                 this.minute = '00'
                 this.second = '00'
                 clearInterval(this.timer)
                 this.timer = null
-                if(this.isControl)
+                if(this.getPress)
                     this.permissionRelease()
-                this.isControl = false
+                this.getPress = false
                 window.removeEventListener('beforeunload', this.beforeunload)
             },
             clearIn(){
@@ -235,9 +275,9 @@
             this.pressions = (this.$store.state.user.userinfo.userType == '超级管理员')
             this.initTimer = setInterval(()=>{
                 console.log(that.count)
-                if(that.isControl){
+                if(that.getPress){
                     that.count++
-                    if(that.count >= 60){
+                    if(that.count >= 10){
                         if(!that.timer)
                             that.clearIn()
                     }
