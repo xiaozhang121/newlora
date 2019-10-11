@@ -1246,6 +1246,8 @@ export default {
     }
   }
   .iconTop {
+      cursor: pointer;
+    flex: 1;
     color: #ffffff;
     font-size: 18px;
     line-height: 30px;

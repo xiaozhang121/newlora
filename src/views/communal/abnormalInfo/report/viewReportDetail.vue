@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       dataBread: [
-        { path: "/abnormalInfoPath/home", name: "操作中台" },
+        { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "/abnormalInfoPath/taskForm", name: "报表" },
         { path: "", name: "所有表计分析" }
       ],

@@ -336,7 +336,7 @@
                 startTime: "",
                 endTime: "",
                 dataBread: [
-                    { path: "/realEnv/list", name: "功能卡片" },
+                    { path: "/abnormalInfoPath/home", name: "功能卡片" },
                     { path: "", name: "报表" },
                 ],
                 //   isChangeFlag: true,

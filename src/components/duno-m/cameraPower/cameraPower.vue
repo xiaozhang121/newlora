@@ -116,6 +116,7 @@
                 popData: {},
                 alarmLevel: '',
                 visibleInner: false,
+                mapTypeDevice: "1",
                 active:'A',
                 playerOptions: {
                     streamAddr: "",
@@ -134,9 +135,22 @@
                 default: () => {
                     return false
                 }
+            },
+            mapType: {
+                type: String,
+                default: () => {
+                    return "1";
+                }
             }
         },
         watch: {
+            mapType(now) {
+                if (now == "1") {
+                    this.mapTypeDevice = "2";
+                } else {
+                    this.mapTypeDevice = "1";
+                }
+            },
             itemData:{
                 handler(now){
                     if(Object.keys(now).length){
@@ -256,7 +270,12 @@
                 this.initList()
             },
             getData(){
-                getAxiosData('/lenovo-device/api/device/newrtmp', {powerDeviceId: this.itemData['deviceIdStr']}).then(res=>{
+                if (this.mapType == "1") {
+                    this.mapTypeDevice = "2";
+                } else {
+                    this.mapTypeDevice = "1";
+                }
+                getAxiosData('/lenovo-device/api/device/newrtmp', {powerDeviceId: this.itemData['deviceIdStr'],mapType: this.mapTypeDevice}).then(res=>{
                     let data = res.data.dmDeviceRtmpOutputs
                     let dataList=[]
                     data.forEach((el,i) => {
@@ -280,6 +299,7 @@
             }
         },
         mounted() {
+            this.mapTypeDevice = this.mapType;
         }
     }
 </script>
