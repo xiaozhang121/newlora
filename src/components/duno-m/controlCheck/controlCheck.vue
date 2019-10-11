@@ -70,6 +70,7 @@
         },
         methods:{
             getPression(){
+                debugger
                 if(this.pressions){
                     this.permissionUse()
                 }else{
@@ -188,7 +189,6 @@
                             this.getPress = true
                             // this.getpermissionCheck()
                             this.$message.info(res.data.msg)
-                            this.setInterval()
                             this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
@@ -202,7 +202,6 @@
                             this.getPress = true
                             this.$message.info(res.data.msg)
                             // this.getpermissionCheck()
-                            this.setInterval()
                             this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
