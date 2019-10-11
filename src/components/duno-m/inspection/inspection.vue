@@ -607,7 +607,9 @@ export default {
         "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
           "/" +
           pid+"/"+that.deviceId
-      );
+      ).then(res=>{
+          this.$message.info(res.msg)
+      });
     },
     editTableData(params) {
       const that = this;
@@ -641,6 +643,7 @@ export default {
           { presetName: that.addPosInput, id: that.deviceId }
         ).then(res => {
           that.getListData();
+            this.$message.info(res.msg)
         });
         that.addPosInput = "";
       } else {

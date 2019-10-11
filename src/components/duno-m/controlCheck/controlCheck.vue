@@ -107,6 +107,8 @@
                     getAxiosData('/lenovo-iir/device/permission/check/'+ this.deviceId).then(res=>{
                         let userId = res.data.userId
                         let type = Number(res.data.userType)
+                        console.log(this.$store.state.user.token)
+                        console.log(userId)
                         if(this.$store.state.user.token == userId){
                             return
                         }
@@ -132,6 +134,8 @@
                     getAxiosData('/lenovo-visible/api/device/permission/check/'+ this.deviceId).then(res=>{
                         let userId = res.data.userId
                         let type = Number(res.data.userType)
+                        console.log(this.$store.state.user.token)
+                        console.log(userId)
                         if(this.$store.state.user.token == userId){
                             return
                         }

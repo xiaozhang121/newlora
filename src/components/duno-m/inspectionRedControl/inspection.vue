@@ -600,7 +600,9 @@ export default {
       const that = this;
       let pid = data.number
       let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+10+'&value='+pid
-      putAxiosData(url)
+      putAxiosData(url).then(res=>{
+          this.$message.info(res.msg)
+      })
     },
     editTableData(params) {
       const that = this;
@@ -616,6 +618,7 @@ export default {
             '/lenovo-iir/manager/preset/delete/'+params.row.id
         ).then(res => {
             that.getListData();
+            this.$message.info(res.msg)
         });
     },
     addPosition() {

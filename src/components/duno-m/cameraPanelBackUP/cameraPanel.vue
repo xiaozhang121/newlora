@@ -717,7 +717,9 @@
             },
             checkPostion(pid){
                 const that = this
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/'+pid+'/'+that.deviceId)
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/'+pid+'/'+that.deviceId).then(res=>{
+                    this.$message.info(res.msg)
+                })
             },
             editTableData(params){
                 const that = this
@@ -730,6 +732,7 @@
                 const that = this
                 deleteDataId('/lenovo-visible/api/visible-equipment/preset/delete/'+params.row.id, {id:params.row.id}).then(res=>{
                     that.getListData()
+                    this.$message.info(res.msg)
                 })
             },
             addPosition(){
@@ -743,6 +746,8 @@
                     let tempName = that.addPosInput
                     postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId}).then(res=>{
                         that.getListData()
+                        this.$message.info(res.msg)
+
                     })
                     that.addPosInput = ''
                 }else{
@@ -753,6 +758,7 @@
                     that.isEdit = !that.isEdit
                     putAxiosData('/lenovo-visible/api/visible-equipment/preset/edit', { deviceId: that.deviceId.toString(), id: that.temparams.row.id.toString(), presetName:temp }).then(res=>{
                         that.getListData()
+                        this.$message.info(res.msg)
                     })
                     sessionStorage.setItem('dataList',JSON.stringify( that.dataListd[0]['dataList']))
                 }
@@ -861,6 +867,7 @@
                     .replace("{step}", 8).replace("{flag}", Number(flag));
                 return new Promise((resolve, reject)=>{
                     putAxiosData(url).then(res => {
+                       this.$message.info(res.msg)
                        if(!res.data.flag){
                           /* putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/0`).then(res=>{
                                putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/1`).then(res=>{})

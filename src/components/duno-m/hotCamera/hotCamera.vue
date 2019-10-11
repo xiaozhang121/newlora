@@ -508,7 +508,9 @@
                 let pid = data.number
                 const that = this
                 let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+10+'&value='+pid
-                putAxiosData(url)
+                putAxiosData(url).then(res=>{
+                    this.$message.info(res.msg)
+                })
             },
             toStop(flag){
                 this.isStop = flag
@@ -588,6 +590,7 @@
                     '/lenovo-iir/manager/preset/delete/'+params.row.id
                 ).then(res => {
                     that.getListData();
+                    that.$message.info(res.msg)
                 });
             },
             addPosition(){
@@ -601,6 +604,7 @@
                     let tempName = that.addPosInput
                     postAxiosData('/lenovo-iir/manager/preset/add',{'deviceId': that.deviceId, 'name':that.addPosInput}).then(res=>{
                         that.getListData()
+                        that.$message.info(res.msg)
                     })
                     that.addPosInput = ''
                 }else{
@@ -611,6 +615,7 @@
                     that.isEdit = !that.isEdit
                     putAxiosData('/lenovo-iir/manager/preset/update', { deviceId: that.deviceId, id: that.temparams.row.id.toString(), name:temp }).then(res=>{
                         that.getListData()
+                        that.$message.info(res.msg)
                     })
                     // sessionStorage.setItem('dataList',JSON.stringify( that.dataListd[0]['dataList']))
                 }
@@ -737,7 +742,7 @@
                 let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value
                 console.log(typeof cmd)
                 putAxiosData(url).then(res=>{
-
+                    this.$message.info(res.msg)
                 })
                 /*  controlCamera({command: command, flag:flag}).then(res=>{
                   })*/
