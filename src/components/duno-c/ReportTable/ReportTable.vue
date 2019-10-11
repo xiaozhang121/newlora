@@ -122,7 +122,7 @@ export default {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,
             taskRunHisId: this.reportData.ID,
-            planType: this.reportData.taskType,
+            planType: this.reportData.taskType
           }
         });
         return;
@@ -156,6 +156,19 @@ export default {
       } else if (this.$route.name == "reportList") {
         this.$router.push({
           name: "report-view",
+          query: {
+            planId: this.reportData.planId,
+            planType: this.reportData.planType,
+            batchId: this.reportData.batchId,
+            url: "/lenovo-plan/api/statistics/plan/view"
+          }
+        });
+      } else if (
+        this.$route.name == "taskForm" ||
+        this.$route.name == "reportFrom"
+      ) {
+        this.$router.push({
+          path: "/abnormalInfoPath/taskForm/detail",
           query: {
             planId: this.reportData.planId,
             planType: this.reportData.planType,

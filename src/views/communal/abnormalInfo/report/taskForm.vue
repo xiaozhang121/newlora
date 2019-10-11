@@ -213,7 +213,7 @@
         getDifference,
         getviewDetail
     } from "@/api/configuration/configuration.js";
-    import itemMixin from "../../duno-default/main/components/side-menu/item-mixin";
+    import itemMixin from "../../../duno-default/main/components/side-menu/item-mixin";
     export default {
         name: "taskForm",
         mixins: [mixinViewModule],
@@ -722,7 +722,7 @@
                 })
             },
             toMoreReport(){
-               this.$router.push({path: '/report/list'})
+               this.$router.push({path: '/abnormalInfoPath/taskForm/reportFrom'})
             },
             isShow(){
                 if(document.querySelectorAll('.reportTable').length*278 < $('.reportList')[0].offsetWidth-278){
@@ -1057,7 +1057,7 @@
             },
             handleToMore() {
                 this.$router.push({
-                    name: "allReport-detail",
+                    path: "/abnormalInfoPath/taskForm/allReport-detail",
                     query: {
                         url: "/lenovo-plan/api/statistics/meter-data/list",
                         flag: 1
@@ -1409,7 +1409,7 @@
       & > div:nth-child(2) {
         line-height: 40px;
         width: 139px;
-        background-image: url(../../../assets/images/btn/moreBtn.png);
+        background-image: url(../../../../assets/images/btn/moreBtn.png);
         text-align: center;
         font-size: 18px;
         color: #ffffff;
