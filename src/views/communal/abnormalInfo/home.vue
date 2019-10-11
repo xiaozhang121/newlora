@@ -8,7 +8,7 @@
         <div class="contain borderTX">
           <duno-main :controlOver="true" class="main_contain">
             <div class="iconTop topTitle">
-              <div class="pointer" @click="getIn">
+              <div class="pointer" @click="handleJump(5)">
                 <img src="../../../assets/iconFunction/icon_abnormal.png" alt />
                 异常信息
               </div>
@@ -43,7 +43,7 @@
       <div class="reportForm">
         <div class="contain borderTX">
           <duno-main :controlOver="true" class="main_contain">
-            <div class="iconTop">
+            <div class="iconTop" @click="handleJump(6)">
               <img src="../../../assets/iconFunction/icon_statement.png" alt />
               报表
             </div>
@@ -666,6 +666,10 @@ export default {
         route = "box";
       } else if (item == 3) {
         route = "intellLock";
+      } else if (item == 5) {
+        route = "list";
+      } else if (item == 6) {
+        route = "taskForm";
       } else {
         route = "platformMonitor";
       }
@@ -763,11 +767,11 @@ export default {
         this.RecodeList = res.data.tableData.slice(0, 3);
       });
     },
-    getIn() {
-      this.$router.push({
-        path: "/abnormalInfoPath/list"
-      });
-    },
+    // getIn() {
+    //   this.$router.push({
+    //     path: "/abnormalInfoPath/list"
+    //   });
+    // },
     init(ubiquitousData) {
       let Shape = G2.Shape;
       // 自定义Shape 部分

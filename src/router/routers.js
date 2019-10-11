@@ -531,7 +531,7 @@ export default [{
                     name: 'networkDeviceList',
                     meta: {
                         topNav: '1',
-                        title: '平台监控',
+                        title: '网络设备',
                         hideInMenu: true,
                         isDetails: true
                     },
@@ -1225,42 +1225,42 @@ export default [{
                     },
                 ]
             },
-            {
-                path: 'detection',
-                name: 'detection',
-                meta: {
-                    topNav: '2',
-                    title: '监测设备管理',
-                    notCache: true,
-                    toListName: 'detectionList',
-                    btnArr: []
-                },
-                component: parentView,
-                children: [{
-                        path: 'list',
-                        name: 'detectionList',
-                        meta: {
-                            topNav: '2',
-                            title: '列表',
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/toConfigure/index.vue')
-                    },
-                    {
-                        path: 'detection-report',
-                        name: 'detection-report',
-                        meta: {
-                            topNav: '2',
-                            title: '监测设备管理',
-                            hideInMenu: true,
-                            isDetails: true,
-                            active: 'detectionList'
-                        },
-                        component: () => import('@/views/communal/toConfigure/viewDetail.vue')
-                    },
-                ]
-            }
+            // {
+            //     path: 'detection',
+            //     name: 'detection',
+            //     meta: {
+            //         topNav: '2',
+            //         title: '监测设备管理',
+            //         notCache: true,
+            //         toListName: 'detectionList',
+            //         btnArr: []
+            //     },
+            //     component: parentView,
+            //     children: [{
+            //             path: 'list',
+            //             name: 'detectionList',
+            //             meta: {
+            //                 topNav: '2',
+            //                 title: '列表',
+            //                 hideInMenu: true,
+            //                 isDetails: true
+            //             },
+            //             component: () => import('@/views/communal/toConfigure/index.vue')
+            //         },
+            //         {
+            //             path: 'detection-report',
+            //             name: 'detection-report',
+            //             meta: {
+            //                 topNav: '2',
+            //                 title: '监测设备管理',
+            //                 hideInMenu: true,
+            //                 isDetails: true,
+            //                 active: 'detectionList'
+            //             },
+            //             component: () => import('@/views/communal/toConfigure/viewDetail.vue')
+            //         },
+            //     ]
+            // }
             /*    {
                   path: 'detection-status',
                   name: 'detection-status',

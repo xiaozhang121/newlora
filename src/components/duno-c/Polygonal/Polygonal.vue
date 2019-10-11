@@ -216,6 +216,7 @@ export default {
             }])
             that.$forceUpdate()
             that.isChangeFlag = !that.isChangeFlag*/
+            
       } else if (data.name == "demoData") {
         that.legendData.push(...["可见光设备"]);
         that.seriesData.push(

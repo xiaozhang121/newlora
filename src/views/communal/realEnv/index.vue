@@ -640,14 +640,14 @@
                   that.markVisible = false
               })
           },
-          handeControl(){
-            this.$router.push({
-              path:'/surveillancePath/ballControl',
-              query:{
-                monitorDeviceId:'118'
-              }
-            })
-          },
+        //   handeControl(){
+        //     this.$router.push({
+        //       path:'/surveillancePath/ballControl',
+        //       query:{
+        //         monitorDeviceId:'118'
+        //       }
+        //     })
+        //   },
             initDisgram(){
                 const that = this
                 getAxiosData('/lenovo-device/api/device/diagram/list').then(res=>{
