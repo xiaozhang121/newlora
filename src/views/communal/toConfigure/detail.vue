@@ -710,6 +710,26 @@ export default {
           render: (h, params) => {
             let newArr = [];
             let self = that;
+              newArr.push(
+                  h(
+                      "el-button",
+                      {
+                          class: "btn_pre",
+                          style: { background: "#305e83" },
+                          props: {
+                              type: "text",
+                              content: "立即执行",
+                              loading: params.row.loading
+                          },
+                          on: {
+                              click: () => {
+                                  self.toRunTask(params);
+                              }
+                          }
+                      },
+                      "立即执行"
+                  )
+              );
             if (that.isEdit) {
               newArr.push(
                 h(
@@ -771,6 +791,7 @@ export default {
       this[param.row.type][param.index]["loading"] = true;
       getAxiosData("/lenovo-plan/api/plan/run", { planId: planId }).then(
         res => {
+          this.getDataList()
           this[param.row.type][param.index]["loading"] = false;
           this.$message.success(res.msg);
         }
