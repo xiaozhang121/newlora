@@ -192,14 +192,26 @@
                             });
                         }
                     } else if (monitorDeviceType == 2) {
-                        this.$router.push({
-                            path: "/surveillancePath/detailRedN",
-                            query: {
-                                monitorDeviceId: this.monitorInfo["monitorDeviceId"],
-                                monitorDeviceName: this.monitorInfo["monitorDeviceName"],
-                                typeId: res.data["typeId"]
-                            }
-                        });
+                        if (supportPreset) {
+                            this.$router.push({
+                                path: "/surveillancePath/detailRed",
+                                query: {
+                                    monitorDeviceId: this.monitorInfo["monitorDeviceId"],
+                                    monitorDeviceName: this.monitorInfo["monitorDeviceName"],
+                                    typeId: res.data["typeId"]
+                                }
+                            });
+                        }else{
+                            this.$router.push({
+                                path: "/surveillancePath/detailRedN",
+                                query: {
+                                    monitorDeviceId: this.monitorInfo["monitorDeviceId"],
+                                    monitorDeviceName: this.monitorInfo["monitorDeviceName"],
+                                    typeId: res.data["typeId"]
+                                }
+                            });
+                        }
+
                     } else if (monitorDeviceType == 3 || monitorDeviceType == 6) {
                         this.$router.push({
                             path: "/surveillancePath/detailEnv",
