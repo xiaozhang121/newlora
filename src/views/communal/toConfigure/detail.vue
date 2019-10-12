@@ -103,6 +103,7 @@ export default {
       taskVisible3: false,
       place: false,
       isEdit: false,
+      isDel: false,
       title: "",
       title1: "",
       title2: "",
@@ -236,57 +237,27 @@ export default {
                 )
               );
             }
-            /*
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: { type: "text", content: "编辑" },
-                  on: {
-                    click: () => {
-                      console.log(111);
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "删除"
+                    },
+                    on: {
+                      click: () => {
+                        self.toDel(params);
+                      }
                     }
-                  }
-                },
-                "编辑"
-              )
-            );
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: { type: "text", content: "复制" },
-                  on: {
-                    click: () => {
-                      console.log(111);
-                    }
-                  }
-                },
-                "复制"
-              )
-            );
-            */
-            /*  newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#3a81a1" },
-                  props: { type: "text", content: "开始巡视" },
-                  on: {
-                    click: () => {
-                      //   console.log(111);
-                      this.getStart(params.row);
-                    }
-                  }
-                },
-                "开始巡视"
-              )
-            );*/
+                  },
+                  "删除"
+                )
+              );
+            }
             newArr.push([
               h(
                 "el-button",
@@ -345,47 +316,22 @@ export default {
           render: (h, params) => {
             let newArr = [];
             newArr.push(
-              h(
-                "div",
-                [
-                  h(
-                    "span",
-                    {
-                      // style: {
-                      //   display: "inline-block",
-                      //   width: "100%",
-                      //   overflow: "hidden",
-                      //   textOverflow: "ellipsis",
-                      //   whiteSpace: "nowrap"
-                      // },
-                      class: {
-                        table_select: true,
-                        interval: params.row.status == "0",
-                        patrol: params.row.status == "1"
-                      },
-                      domProps: {
-                        title: params.row.statusName
-                      }
+              h("div", [
+                h(
+                  "span",
+                  {
+                    class: {
+                      table_select: true,
+                      interval: params.row.status == "0",
+                      patrol: params.row.status == "1"
                     },
-                    params.row.statusName
-                  )
-                ]
-                // {
-                //   style: {
-                //     display: "inline-block",
-                //     width: "100%",
-                //     overflow: "hidden",
-                //     textOverflow: "ellipsis",
-                //     whiteSpace: "nowrap"
-                //   },
-                //   class: {
-                //     table_select: true,
-                //     interval: params.row.status == "0",
-                //     patrol: params.row.status == "1"
-                //   }
-                // },
-                // params.row.statusName
-              )
+                    domProps: {
+                      title: params.row.statusName
+                    }
+                  },
+                  params.row.statusName
+                )
+              ])
             );
             return h("div", newArr);
           }
@@ -434,6 +380,27 @@ export default {
                     }
                   },
                   "编辑"
+                )
+              );
+            }
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "删除"
+                    },
+                    on: {
+                      click: () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  "删除"
                 )
               );
             }
@@ -491,34 +458,7 @@ export default {
           key: "interval",
           minWidth: 50,
           align: "center",
-          tooltip: true /*,
-          render: (h, params) => {
-              let newArr = [];
-              newArr.push([
-                  h(
-                      "a",
-                      {
-                          class: "table_link",
-                          props: { type: "text" },
-                          on: {
-                              click: () => {
-                                  // this.visible = true;
-                              }
-                          }
-                      },
-                      params.row.interval
-                  )
-              ]);
-              return h(
-                  "div",
-                  {
-                      class: {
-                          member_operate_div: true
-                      }
-                  },
-                  newArr
-              );
-          }*/
+          tooltip: true
         },
         {
           title: "已巡视次数",
@@ -578,57 +518,27 @@ export default {
                 )
               );
             }
-            /*
-                  newArr.push(
-                    h(
-                      "el-button",
-                      {
-                        class: "btn_pre",
-                        style: { background: "#305e83" },
-                        props: { type: "text", content: "编辑" },
-                        on: {
-                          click: () => {
-                            console.log(111);
-                          }
-                        }
-                      },
-                      "编辑"
-                    )
-                  );
-                  newArr.push(
-                    h(
-                      "el-button",
-                      {
-                        class: "btn_pre",
-                        style: { background: "#305e83" },
-                        props: { type: "text", content: "复制" },
-                        on: {
-                          click: () => {
-                            console.log(111);
-                          }
-                        }
-                      },
-                      "复制"
-                    )
-                  );
-                  */
-            /*  newArr.push(
-                    h(
-                      "el-button",
-                      {
-                        class: "btn_pre",
-                        style: { background: "#3a81a1" },
-                        props: { type: "text", content: "开始巡视" },
-                        on: {
-                          click: () => {
-                            //   console.log(111);
-                            this.getStart(params.row);
-                          }
-                        }
-                      },
-                      "开始巡视"
-                    )
-                  );*/
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "删除"
+                    },
+                    on: {
+                      click: () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  "删除"
+                )
+              );
+            }
             newArr.push([
               h(
                 "el-button",
@@ -643,7 +553,6 @@ export default {
                         query: {
                           planId: params.row.planId,
                           planType: params.row.planType
-                          //   url: ""
                         }
                       });
                     }
@@ -710,46 +619,46 @@ export default {
           render: (h, params) => {
             let newArr = [];
             let self = that;
-              newArr.push(
-                  h(
-                      "el-button",
-                      {
-                          class: "btn_pre",
-                          style: { background: "#305e83" },
-                          props: {
-                              type: "text",
-                              content: "立即执行",
-                              loading: params.row.loading
-                          },
-                          on: {
-                              click: () => {
-                                  self.toRunTask(params);
-                              }
-                          }
-                      },
-                      "立即执行"
-                  )
-              );
-              newArr.push(
-                  h(
-                      "el-button",
-                      {
-                          class: "btn_pre",
-                          style: { background: "#305e83" },
-                          props: {
-                              type: "text",
-                              content: "立即停止",
-                              loading: params.row.isStop
-                          },
-                          on: {
-                              click: () => {
-                                  self.toStop(params);
-                              }
-                          }
-                      },
-                      "立即停止"
-                  )
-              );
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即执行",
+                    loading: params.row.loading
+                  },
+                  on: {
+                    click: () => {
+                      self.toRunTask(params);
+                    }
+                  }
+                },
+                "立即执行"
+              )
+            );
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即停止",
+                    loading: params.row.isStop
+                  },
+                  on: {
+                    click: () => {
+                      self.toStop(params);
+                    }
+                  }
+                },
+                "立即停止"
+              )
+            );
             if (that.isEdit) {
               newArr.push(
                 h(
@@ -766,6 +675,27 @@ export default {
                     }
                   },
                   "编辑"
+                )
+              );
+            }
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "删除"
+                    },
+                    on: {
+                      click: () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  "删除"
                 )
               );
             }
@@ -806,23 +736,23 @@ export default {
     }
   },
   methods: {
-    toStop(param){
-        let planId = param.row.planId;
-        this[param.row.type][param.index]["isStop"] = true;
-        getAxiosData("/lenovo-plan/api/plan/stop", { planId: planId }).then(
-            res => {
-                this.getDataList()
-                this[param.row.type][param.index]["isStop"] = false;
-                this.$message.success(res.msg);
-            }
-        );
+    toStop(param) {
+      let planId = param.row.planId;
+      this[param.row.type][param.index]["isStop"] = true;
+      getAxiosData("/lenovo-plan/api/plan/stop", { planId: planId }).then(
+        res => {
+          this.getDataList();
+          this[param.row.type][param.index]["isStop"] = false;
+          this.$message.success(res.msg);
+        }
+      );
     },
     toRunTask(param) {
       let planId = param.row.planId;
       this[param.row.type][param.index]["loading"] = true;
       getAxiosData("/lenovo-plan/api/plan/run", { planId: planId }).then(
         res => {
-          this.getDataList()
+          this.getDataList();
           this[param.row.type][param.index]["loading"] = false;
           this.$message.success(res.msg);
         }
@@ -930,6 +860,7 @@ export default {
       this.place = this.getAuthority("10050101");
     } catch (e) {}
     this.isEdit = this.getAuthority("10050102");
+    this.isDel = this.getAuthority("10050103");
   }
 };
 </script>

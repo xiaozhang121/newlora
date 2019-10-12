@@ -211,7 +211,7 @@
         <duno-main :controlOver="true" class="main_contain contain" >
           <div class="iconTop">
             <img src="../../../assets/iconFunction/icon_system.png" alt />
-            平台状态
+            平台监控
           </div>
           <div class="echartsBar" id="echartsBar"></div>
         </duno-main>

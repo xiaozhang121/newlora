@@ -74,6 +74,7 @@ export default {
       interval: true,
       patrol: false,
       isEdit: false,
+      isDel: false,
       columnsData: [
         {
           title: "巡视名称",
@@ -101,34 +102,7 @@ export default {
           key: "interval",
           minWidth: 50,
           align: "center",
-          tooltip: true /*,
-              render: (h, params) => {
-                  let newArr = [];
-                  newArr.push([
-                      h(
-                          "a",
-                          {
-                              class: "table_link",
-                              props: { type: "text" },
-                              on: {
-                                  click: () => {
-                                      this.visible = true;
-                                  }
-                              }
-                          },
-                          params.row.interval
-                      )
-                  ]);
-                  return h(
-                      "div",
-                      {
-                          class: {
-                              member_operate_div: true
-                          }
-                      },
-                      newArr
-                  );
-              }*/
+          tooltip: true 
         },
         {
           title: "已巡视次数",
@@ -163,7 +137,6 @@ export default {
         },
         {
           title: " ",
-          // key: "Presentation",
           minWidth: 240,
           align: "right",
           tooltip: true,
@@ -211,6 +184,27 @@ export default {
                 )
               );
             }
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "删除"
+                    },
+                    on: {
+                      click: () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  "删除"
+                )
+              );
+            }
             newArr.push([
               h(
                 "el-button",
@@ -236,9 +230,6 @@ export default {
   watch: {
     columns: {
       handler(now) {
-        /* if (this.now.length == 0) {
-          return;
-        }*/
         if (now.length) this.columnsData = now;
       },
       immediate: true,
@@ -275,6 +266,7 @@ export default {
   },
   mounted() {
     this.isEdit = this.getAuthority("10050102");
+    this.isDel = this.getAuthority("10050103");
   }
 };
 </script>

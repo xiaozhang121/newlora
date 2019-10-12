@@ -239,7 +239,7 @@
             },
             handleMore(){
                 this.$router.push({
-                    path:'/meterdata/allReport-detail',
+                    name:'allReport-detail',
                     query: {
                         powerDeviceId: this.itemData['deviceIdStr'],
                         url:"/lenovo-plan/api/statistics/meter-data/list"

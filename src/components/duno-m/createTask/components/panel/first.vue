@@ -211,4 +211,7 @@ export default {
     right: 48px;
   }
 }
+.el-input--small .el-input__inner {
+  background-color: #fff;
+}
 </style>

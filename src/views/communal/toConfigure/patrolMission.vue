@@ -1,10 +1,10 @@
 <template>
-  <div class="allReport">
+  <div class="analysis-detail">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>{{ title }}</div>
+      <div>巡视任务名称 告警记录</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -18,8 +18,8 @@
         </div>
         <div>
           <duno-btn-top
-            @on-select="onSelectType"
-            class="dunoBtnTo"
+            @on-select="onSelect"
+            class="dunoBtnTop"
             :isCheck="false"
             :dataList="typeList"
             :title="titleTypeR"
@@ -61,8 +61,14 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <enlarge
+      :pushCamera="false"
+      :isShow="isEnlarge"
+      :srcData="srcData"
+      @closeEnlarge="closeEnlarge"
+    />
+    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
 </template>
 
@@ -70,16 +76,23 @@
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import dunoMain from "_c/duno-m/duno-main";
-import enlarge from "_c/duno-c/enlarge";
 import moment from "moment";
+import Remarks from "_c/duno-c/Remarks";
+import enlarge from "_c/duno-c/enlarge";
+import buttonCustom from "_c/duno-m/buttonCustom";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import {
+  getTypeData,
+  getRegionData,
+  dealRemarks
+} from "@/api/configuration/configuration.js";
 export default {
-  name: "allReport",
+  name: "abnormalInfo",
   mixins: [mixinViewModule],
   components: {
     Breadcrumb,
@@ -89,253 +102,106 @@ export default {
     DunoTablesTep,
     warningSetting,
     wraning,
-    enlarge
-  },
-  props: {
-    dataBread: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
-    downloadURL: {
-      type: String,
-      default: () => {
-        return "";
-      }
-    },
-    position: {
-      type: String,
-      default: () => {
-        return "";
-      }
-    },
-    monitorDeviceType: {
-      type: String,
-      default: () => {
-        return "";
-      }
-    },
-    selectUrl: {
-      type: String,
-      default: () => {
-        return "";
-      }
-    }
+    buttonCustom,
+    enlarge,
+    Remarks
   },
   data() {
     const that = this;
     return {
       mixinViewModuleOptions: {
-        getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
-        exportURL: ""
+        activatedIsNeed: true,
+        getDataListURL: "/lenovo-alarm/api/security/list",
+        exportURL: "/lenovo-alarm/api/security/history/export"
       },
-      dataForm: {},
-      title: "所有信息",
       handleNotes: [],
       alarmType: "",
       visibleSettingOption: false,
-      isEnlarge: false,
       visible: false,
-      totalNum: 20,
-      pageRows: 20,
-      srcData: [],
       selectInfo: "更多",
       serious: false,
+      textarea: "",
+      planName: "",
       commonly: false,
       danger: false,
-      value: "",
+      isEnlarge: false,
+      srcData: [],
       queryForm: {},
-      titleTypeL: "全部设备",
-      titleTypeC: "全部报表",
+      dialogVisible: false,
+      value: "",
+      alarmId: "",
+      titleTypeL: "全部电压等级",
       titleTypeR: "全部类型",
+      dataBread: [
+        { path: "/realEnv/list", name: "操作中台" },
+        { path: "/configuration/list", name: "配置管理" },
+        { path: "/configuration/list", name: "任务配置" },
+        { path: "", name: "告警记录" }
+      ],
       columns: [
         {
-          title: "对象",
-          key: "powerDeviceName",
-          minWidth: 120,
-          align: "center",
-          tooltip: true
-        },
-        {
-          title: "部件/相别",
-          key: "part",
-          minWidth: 120,
-          align: "center",
-          tooltip: true
-        },
-        {
-          title: "描述",
-          key: "content",
-          minWidth: 90,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let content;
-            if (params.row.content) {
-              content = params.row.content;
-            } else if (params.row.description) {
-              content = params.row.description;
-            } else if (params.row.desc) {
-              content = params.row.desc;
-            }
-            return h("div", { class: { member_operate_div: true } }, content);
-          }
-        },
-        {
-          title: "缺陷等级",
-          key: "alarmLevel",
+          title: "拍摄时间",
+          key: "alarmTime",
           minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let newArr = [];
-            let alarmLevelName;
-            if (params.row.alarmLevelName.length > 2) {
-              alarmLevelName = params.row.alarmLevelName.slice(0, 2);
-            } else {
-              alarmLevelName = params.row.alarmLevelName;
-            }
-            if (
-              params.row.alarmLevel == "1" ||
-              params.row.alarmLevel == "2" ||
-              params.row.alarmLevel == "3"
-            ) {
-              newArr.push(
-                h(
-                  "i-dropdown",
-                  {
-                    props: { trigger: "click", placement: "bottom-start" },
-                    style: { marginLeft: "5px" },
-                    on: {
-                      "on-click": value => {
-                        console.log(value);
-                      }
-                    }
-                  },
-                  [
-                    h("div", { class: { member_operate_div: true } }, [
-                      h(
-                        "div",
-                        {
-                          class: {
-                            table_select: true,
-                            serious: params.row.alarmLevel === "2",
-                            commonly: params.row.alarmLevel === "1",
-                            danger: params.row.alarmLevel === "3"
-                          }
-                        },
-                        [
-                          h("span", alarmLevelName, {
-                            class: { member_operate_div: true }
-                          }),
-                          h("i", {
-                            style: { marginLeft: "5px" },
-                            class: { "iconfont icon-xiala": true }
-                          })
-                        ]
-                      )
-                    ]),
-                    h("i-dropdownMenu", { slot: "list" }, [
-                      h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: { alarmLevel: true },
-                            on: {
-                              click: () => {
-                                that.onClickDropdown(params.row, "一般", "1");
-                              }
-                            }
-                          },
-                          "一般"
-                        )
-                      ]),
-                      h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: { alarmLevel: true },
-                            on: {
-                              click: () => {
-                                that.onClickDropdown(params.row, "严重", "2");
-                              }
-                            }
-                          },
-                          "严重"
-                        )
-                      ]),
-                      h("i-dropdownItem", {}, [
-                        h(
-                          "div",
-                          {
-                            class: { alarmLevel: true },
-                            on: {
-                              click: () => {
-                                that.onClickDropdown(params.row, "危急", "3");
-                              }
-                            }
-                          },
-                          "危急"
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              );
-            } else {
-              newArr.push(h("div", "/"));
-            }
-            return h("div", newArr);
+            let timeDay = params.row.alarmTime.slice(5);
+            return h("div", timeDay);
           }
+        },
+        {
+          title: "告警类型",
+          key: "alarmDetailType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true
         },
         {
           title: "拍摄来源",
           key: "monitorDeviceName",
-          minWidth: 150,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
               h(
-                "Tooltip",
+                "a",
                 {
-                  props: {
-                    placement: "top",
-                    content: params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source,
-                    transfer: true
-                  },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
+                  class: "table_link",
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      this.getJump(params.row);
+                    }
                   }
                 },
-                [
-                  h(
-                    "a",
-                    {
-                      class: "table_link",
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          this.getJump(params.row);
-                        }
-                      }
-                    },
-                    params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source
-                  )
-                ]
+                params.row.monitorDeviceName
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
+          }
+        },
+        {
+          title: "处理记录",
+          key: "dealType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            return h("div", params.row.dealList[0].dealType);
+          }
+        },
+        {
+          title: "处理时间",
+          key: "dealTime",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let timeDay = params.row.dealList[0].dealTime.slice(5);
+            return h("div", timeDay);
           }
         },
         {
@@ -350,11 +216,7 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: {
-                    src: params.row.fileAddress
-                      ? params.row.fileAddress
-                      : params.row.pic
-                  },
+                  attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -368,11 +230,7 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: {
-                    src: params.row.fileAddress
-                      ? params.row.fileAddress
-                      : params.row.pic
-                  },
+                  attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -387,36 +245,64 @@ export default {
           }
         },
         {
-          title: "记录时间",
-          key: "executeTime",
-          minWidth: 100,
+          title: " ",
+          width: 200,
           align: "center",
-          tooltip: true,
           render: (h, params) => {
-            let data;
-            if (params.row.executeTime) {
-              data = params.row.executeTime;
-            } else if (params.row.recordTime) {
-              data = params.row.recordTime;
-            } else if (params.row.date) {
-              data = params.row.date;
+            let newArr = [];
+            if (params.row.isReturn == "0") {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83!important" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.addReturn(params.row);
+                      }
+                    }
+                  },
+                  "复归"
+                )
+              );
             }
-            return h("div", [
+            if (params.row.isReturn == "1") {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: {
+                      background: "#979797",
+                      color: "#767676",
+                      pointerEvents: "none"
+                    },
+                    props: { type: "text" }
+                  },
+                  "已复归"
+                )
+              );
+            }
+            newArr.push(
               h(
-                "Tooltip",
+                "el-button",
                 {
-                  props: { placement: "top", content: data, transfer: true },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
+                  class: "btn_pre",
+                  style: { background: "#3a81a1!important" },
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      this.dialogVisible = true;
+                      this.alarmId = params.row.alarmId;
+                    }
                   }
                 },
-                data
+                "备注"
               )
-            ]);
+            );
+            return h("div", newArr);
           }
         },
         {
@@ -463,96 +349,16 @@ export default {
       typeList: [],
       regionList: [],
       statusList: [],
-      popData: {}
+      popData: {},
+      clcikQueryData: {}
     };
   },
-  mounted() {
-    // this.getDataList();
-    this.getPowerDeviceName();
-  },
   created() {
-    this.init();
+    this.planName = this.$route.query.planName;
     this.getRegion();
-    this.getStart();
     this.getType();
   },
   methods: {
-    getPowerDeviceName() {
-      if (this.queryForm.powerDeviceId) {
-        let url = "/lenovo-device/api/device/query";
-        let query = {
-          deviceId: this.$route.query.powerDeviceId
-        };
-        getAxiosData(url, query).then(res => {
-          this.titleTypeL = res.data.deviceName;
-        });
-      }
-    },
-    init() {
-      this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
-      this.mixinViewModuleOptions.exportURL = this.downloadURL;
-      this.queryForm.powerDeviceId = this.$route.query.powerDeviceId;
-      this.queryForm.flag = this.$route.query.flag;
-      if (this.monitorDeviceType == "") {
-        this.queryForm.monitorDeviceType = this.$route.query.monitorDeviceType;
-      } else {
-        this.queryForm.monitorDeviceType = this.monitorDeviceType;
-      }
-      if (this.$route.query.deviceName) {
-        this.title = this.$route.query.deviceName;
-      }
-      this.getDataList();
-      this.getPowerDeviceName();
-    },
-    closeEnlarge() {
-      this.isEnlarge = false;
-    },
-    onClickDropdown(row, type, No) {
-      const index = row._index;
-      this.dataList[index].alarmLevelName = type;
-      this.dataList[index].alarmLevel = No;
-      this.psotAlarmData(row, type, No);
-    },
-    psotAlarmData(row, type, No) {
-      const that = this;
-      let url;
-      if (row.isRobot == "0" || row.isRobot == "1") {
-        url = "/lenovo-plan/api/information/overview/alarm/level/edit";
-      } else {
-        url = "/lenovo-alarm/api/alarm/level-edit";
-      }
-      let oldLevel;
-      if (row.alarmLevel == "1") {
-        oldLevel = "一般";
-      } else if (row.alarmLevel == "2") {
-        oldLevel = "严重";
-      } else {
-        oldLevel = "危急";
-      }
-      const query = {
-        id: row.id,
-        isRobot: row.isRobot,
-        isPhaseAlarm: row.isPhaseAlarm,
-        alarmLevel: No,
-        oldLevel: oldLevel,
-        newLevel: type,
-        userName: this.$store.state.user.userName
-      };
-      putAxiosData(url, query).then(
-        res => {
-          if (res.code !== 200) {
-            this.dataList[index].alarmLevel = row.alarmLevel;
-            this.dataList[index].alarmLevelName = row.alarmLevelName;
-            return that.$message.error(res.msg);
-          }
-          that.$message.success(res.msg);
-        },
-        error => {
-          this.dataList[index].alarmLevel = row.alarmLevel;
-          this.dataList[index].alarmLevelName = row.alarmLevelName;
-        }
-      );
-    },
     onClose() {
       this.visibleSettingOption = false;
     },
@@ -561,14 +367,12 @@ export default {
     },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
-      this.dataForm.powerDeviceId = item.monitorDeviceType;
-      this.queryForm.powerDeviceId = item.monitorDeviceType;
-      this.getDataList();
-    },
-    onSelectType(item, index) {
-      this[item.title] = item["describeName"];
-      this.dataForm.planType = item.monitorType;
-      this.getDataList();
+      if (item.title == "titleTypeL") {
+        this.clcikQueryData.areaId = item.monitorDeviceType;
+      } else if (item.title == "titleTypeR") {
+        this.clcikQueryData.alarmType = item.monitorDeviceType;
+      }
+      this.clickQuery(this.clcikQueryData);
     },
     onChangeTime(data) {
       let startTime = "";
@@ -577,45 +381,34 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
         endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
       }
-      this.dataForm.startTime = startTime;
-      this.dataForm.endTime = endTime;
-      this.getDataList();
+      this.clcikQueryData.startTime = startTime;
+      this.clcikQueryData.endTime = endTime;
+      this.clickQuery(this.clcikQueryData);
     },
     handleClose() {
       this.popData = {};
       this.visible = false;
     },
-    restoration(row) {
-      const url = "/lenovo-alarm/api/alarm/deal";
+    addReturn(row) {
+      const that = this;
       const query = {
         alarmId: row.alarmId,
         type: "1"
       };
-      postAxiosData(url, query).then(res => {
-        if (res.code !== 200) {
-          return this.$message.error(res.msg);
-        }
-        this.dataList[row._index].isReturn = "1";
-        this.$message.success(res.msg);
+      dealRemarks(query).then(res => {
+        if (res.data.isSuccess) that.$message.success(res.msg);
+        else that.$message.error(res.msg);
+        this.getDataList();
       });
     },
     clickExcel() {
       const that = this;
-      that.queryForm = {
-        planId: that.$route.query.planId,
-        monitorDeviceType: that.monitorDeviceType,
-        ...that.dataForm
-      };
+      //   this.queryForm.startTime
       that.exportHandle();
     },
     getRegion() {
       const that = this;
-      const url = that.selectUrl;
-      let query = {
-        monitorDeviceType: this.monitorDeviceType,
-        parentDeviceId: this.$route.query.parentDeviceId
-      };
-      getAxiosData(url, query).then(res => {
+      getRegionData().then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {
@@ -626,56 +419,36 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "全部设备",
+          describeName: "所有区域",
           monitorDeviceType: "",
           title: "titleTypeL"
         });
         this.regionList = map;
       });
     },
-    getStart() {
+    getType() {
       const that = this;
-      const url = "/lenovo-device/api/monitor/status";
-      postAxiosData(url).then(res => {
+      getTypeData().then(res => {
         const resData = res.data;
-        const map = resData.map(item => {
+        let mapList = resData.filter(item => item.label != "请选择");
+        const map = mapList.map(item => {
           const obj = {
             describeName: item.label,
             monitorDeviceType: item.value,
-            title: "titleTypeC"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "全部报表",
-          monitorDeviceType: "",
-          title: "titleTypeC"
-        });
-        this.statusList = map;
-      });
-    },
-    getType() {
-      const url = "/lenovo-plan/api/list/plan-type";
-      let query = {
-        position: this.position
-      };
-      postAxiosData(url, query).then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorType: item.value,
             title: "titleTypeR"
           };
           return obj;
         });
         map.unshift({
-          describeName: "所有类型",
-          monitorType: "",
+          describeName: "全部告警类型",
+          monitorDeviceType: "",
           title: "titleTypeR"
         });
         this.typeList = map;
       });
+    },
+    closeEnlarge() {
+      this.isEnlarge = false;
     },
     getJump(row) {
       let monitorDeviceId =
@@ -730,6 +503,9 @@ export default {
           });
         }
       });
+    },
+    beforeClose() {
+      this.dialogVisible = false;
     }
   }
 };
@@ -737,7 +513,7 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.allReport {
+.analysis-detail {
   width: 100%;
   //-------------------表格样式
   .dunoMain {
@@ -836,15 +612,19 @@ export default {
     align-items: center;
   }
   .imgOrMv {
-    width: 80%;
+    width: 60%;
     height: 45px;
     position: relative;
     top: 2px;
   }
   .table_link {
     font-size: 16px;
+    text-align: center;
     color: #5fafff !important;
     text-decoration: underline;
+    @media screen and (min-width: 3500px) {
+      font-size: 13px;
+    }
   }
   .table_abnormalInfo {
     padding: 36px 18px;
@@ -876,6 +656,14 @@ export default {
       }
     }
   }
+  .btn_pre {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 20px;
+    @media screen and (min-width: 3500px) {
+      padding: 6px 12px;
+    }
+  }
   .top {
     color: #ffffff;
     height: 40px;
@@ -897,51 +685,40 @@ export default {
     .btn {
       display: flex;
       justify-content: space-between;
-      & > div:first-child {
+      & > div {
         margin-left: 10px;
         .dunoBtnTop {
-          width: 250px;
+          width: 180px;
           display: inline-flex;
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            width: 250px;
+            width: 180px;
             .title {
               padding: 8px 20px;
-              @media screen and (min-width: 3500px) {
+            }
+          }
+          @media screen and (min-width: 3500px) {
+            width: 140px;
+            .btnList {
+              width: 140px;
+              .title {
+                font-size: 14px;
                 height: 35px;
               }
             }
           }
         }
       }
-      & > div:not(:first-child) {
-        margin-left: 10px;
-        .dunoBtnTop {
-          width: 150px;
-          display: inline-flex;
-          padding-bottom: 0;
-          .btnList {
-            top: inherit !important;
-            width: 150px;
-            .title {
-              padding: 8px 20px;
-              @media screen and (min-width: 3500px) {
-                height: 35px;
-              }
-            }
-          }
+      & > div:nth-child(5) {
+        & > div {
+          width: 140px;
+          line-height: 40px;
+          text-align: center;
+          background-color: #192f41;
+          cursor: pointer;
         }
       }
-      // & > div:nth-child(5) {
-      //   & > div {
-      //     width: 140px;
-      //     line-height: 40px;
-      //     text-align: center;
-      //     background-color: #192f41;
-      //     cursor: pointer;
-      //   }
-      // }
       .clickBtn {
         line-height: 40px;
         width: 139px;

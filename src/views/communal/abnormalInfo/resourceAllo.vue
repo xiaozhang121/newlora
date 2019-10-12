@@ -47,7 +47,7 @@
                 yValue: '',
                 dataBread:[
                     { path: "/abnormalInfoPath/home", name: "功能卡片" },
-                    { path: "", name: "平台状态" },
+                    { path: "", name: "平台监控" },
                     { path: "", name: "无线AP" }
                 ]
             };
