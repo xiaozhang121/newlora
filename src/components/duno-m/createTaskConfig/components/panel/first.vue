@@ -167,4 +167,7 @@
       width: 100%;
     }
   }
+  .el-input--small .el-input__inner {
+  background-color: #fff;
+}
 </style>

@@ -208,6 +208,9 @@ export default {
     }
   }
 }
+.el-input--small .el-input__inner {
+  background-color: #fff;
+}
 .el-select-dropdown {
   background: #fff !important;
   color: #333;

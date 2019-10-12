@@ -1256,6 +1256,18 @@ export default [{
                         },
                         component: () => import('@/views/communal/toConfigure/viewDetail.vue')
                     },
+                    {
+                        path: 'patrolMission',
+                        name: 'patrolMission',
+                        meta: {
+                            topNav: '2',
+                            title: '巡视任务',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: 'configurationList'
+                        },
+                        component: () => import('@/views/communal/toConfigure/patrolMission.vue')
+                    },
                 ]
             },
             // {
@@ -1319,115 +1331,115 @@ export default [{
                 },*/
         ]
     },
-    {
-        path: '/',
-        name: '_report-forms',
-        component: Main,
-        meta: {
-            hide: true,
-            isAlone: true,
-            title: '所有报表',
-            notCache: true,
-            topNav: '2'
-        },
-        children: [{
-                path: 'report',
-                name: 'report',
-                meta: {
-                    topNav: '2',
-                    title: '巡检任务报表',
-                    notCache: true,
-                    toListName: 'reportList',
-                    btnArr: []
-                },
-                component: parentView,
-                children: [{
-                        path: 'list',
-                        name: 'reportList',
-                        meta: {
-                            topNav: '2',
-                            title: '列表',
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/alarmInfo/reportFrom.vue')
-                    },
-                    {
-                        path: 'report-view',
-                        name: 'report-view',
-                        meta: {
-                            topNav: '2',
-                            title: '全面巡视',
-                            hideInMenu: true,
-                            isDetails: true,
-                            active: 'reportList'
-                        },
-                        component: () => import('@/views/communal/alarmInfo/detail.vue'),
-                    },
-                ]
-            },
-            {
-                path: 'meterdata',
-                name: 'meterdata',
-                meta: {
-                    topNav: '2',
-                    title: '表计分析',
-                    notCache: true,
-                    toListName: 'meterdataList',
-                    btnArr: []
-                },
-                component: parentView,
-                children: [{
-                        path: 'list',
-                        name: 'meterdataList',
-                        meta: {
-                            topNav: '2',
-                            title: '列表',
-                            hideInMenu: true,
-                            isDetails: true
-                        },
-                        component: () => import('@/views/communal/alarmInfo/analysis.vue')
-                    },
-                    {
-                        path: 'meterdata-detail',
-                        name: 'meterdata-detail',
-                        meta: {
-                            topNav: '2',
-                            title: '所有表计分析',
-                            hideInMenu: true,
-                            isDetails: true,
-                            active: 'meterdataList'
-                        },
-                        component: () => import('@/views/communal/alarmInfo/detail.vue'),
-                    },
-                    {
-                        path: 'allReport-detail',
-                        name: 'allReport-detail',
-                        meta: {
-                            topNav: '2',
-                            title: '所有表计分析',
-                            hideInMenu: true,
-                            isDetails: true,
-                            active: 'meterdataList'
-                        },
-                        component: () => import('@/views/communal/alarmInfo/viewReportDetail.vue'),
-                    },
-                ]
-            }
-            /* ,
-             {
-                 path: 'alarm-info',
-                 name: 'alarmInfo',
-                 meta: {
-                     title: '告警信息',
-                     icon: "icon-shouye",
-                     notCache: true,
-                     isAlone: true
-                 },
-                 component: () => import('@/views/communal/alarmInfo/index.vue')
-             }*/
-        ]
-    },
+    // {
+    //     path: '/',
+    //     name: '_report-forms',
+    //     component: Main,
+    //     meta: {
+    //         hide: true,
+    //         isAlone: true,
+    //         title: '所有报表',
+    //         notCache: true,
+    //         topNav: '2'
+    //     },
+    //     children: [{
+    //             path: 'report',
+    //             name: 'report',
+    //             meta: {
+    //                 topNav: '2',
+    //                 title: '巡检任务报表',
+    //                 notCache: true,
+    //                 toListName: 'reportList',
+    //                 btnArr: []
+    //             },
+    //             component: parentView,
+    //             children: [{
+    //                     path: 'list',
+    //                     name: 'reportList',
+    //                     meta: {
+    //                         topNav: '2',
+    //                         title: '列表',
+    //                         hideInMenu: true,
+    //                         isDetails: true
+    //                     },
+    //                     component: () => import('@/views/communal/alarmInfo/reportFrom.vue')
+    //                 },
+    //                 {
+    //                     path: 'report-view',
+    //                     name: 'report-view',
+    //                     meta: {
+    //                         topNav: '2',
+    //                         title: '全面巡视',
+    //                         hideInMenu: true,
+    //                         isDetails: true,
+    //                         active: 'reportList'
+    //                     },
+    //                     component: () => import('@/views/communal/alarmInfo/detail.vue'),
+    //                 },
+    //             ]
+    //         },
+    //         {
+    //             path: 'meterdata',
+    //             name: 'meterdata',
+    //             meta: {
+    //                 topNav: '2',
+    //                 title: '表计分析',
+    //                 notCache: true,
+    //                 toListName: 'meterdataList',
+    //                 btnArr: []
+    //             },
+    //             component: parentView,
+    //             children: [{
+    //                     path: 'list',
+    //                     name: 'meterdataList',
+    //                     meta: {
+    //                         topNav: '2',
+    //                         title: '列表',
+    //                         hideInMenu: true,
+    //                         isDetails: true
+    //                     },
+    //                     component: () => import('@/views/communal/alarmInfo/analysis.vue')
+    //                 },
+    //                 {
+    //                     path: 'meterdata-detail',
+    //                     name: 'meterdata-detail',
+    //                     meta: {
+    //                         topNav: '2',
+    //                         title: '所有表计分析',
+    //                         hideInMenu: true,
+    //                         isDetails: true,
+    //                         active: 'meterdataList'
+    //                     },
+    //                     component: () => import('@/views/communal/alarmInfo/detail.vue'),
+    //                 },
+    //                 {
+    //                     path: 'allReport-detail',
+    //                     name: 'allReport-detail',
+    //                     meta: {
+    //                         topNav: '2',
+    //                         title: '所有表计分析',
+    //                         hideInMenu: true,
+    //                         isDetails: true,
+    //                         active: 'meterdataList'
+    //                     },
+    //                     component: () => import('@/views/communal/alarmInfo/viewReportDetail.vue'),
+    //                 },
+    //             ]
+    //         }
+    //         /* ,
+    //          {
+    //              path: 'alarm-info',
+    //              name: 'alarmInfo',
+    //              meta: {
+    //                  title: '告警信息',
+    //                  icon: "icon-shouye",
+    //                  notCache: true,
+    //                  isAlone: true
+    //              },
+    //              component: () => import('@/views/communal/alarmInfo/index.vue')
+    //          }*/
+    //     ]
+    // },
 
     /* 以下为系统出错时访问的路由 */
     {

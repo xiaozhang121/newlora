@@ -227,4 +227,7 @@ export default {
     }
   }
 }
+.el-input--small .el-input__inner {
+  background-color: #fff;
+}
 </style>
