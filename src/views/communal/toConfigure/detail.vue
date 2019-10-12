@@ -739,7 +739,7 @@ export default {
                           props: {
                               type: "text",
                               content: "立即停止",
-                              loading: params.row.loading
+                              loading: params.row.isStop
                           },
                           on: {
                               click: () => {
@@ -808,11 +808,11 @@ export default {
   methods: {
     toStop(param){
         let planId = param.row.planId;
-        this[param.row.type][param.index]["loading"] = true;
+        this[param.row.type][param.index]["isStop"] = true;
         getAxiosData("/lenovo-plan/api/plan/stop", { planId: planId }).then(
             res => {
                 this.getDataList()
-                this[param.row.type][param.index]["loading"] = false;
+                this[param.row.type][param.index]["isStop"] = false;
                 this.$message.success(res.msg);
             }
         );
@@ -878,26 +878,31 @@ export default {
         res.data.allInspectList.map(item => {
           item["type"] = "allInspectList";
           item["loading"] = false;
+          item["isStop"] = false;
         });
         that.allInspectList = res.data.allInspectList;
         res.data.nightInspectList.map(item => {
           item["type"] = "nightInspectList";
           item["loading"] = false;
+          item["isStop"] = false;
         });
         that.nightInspectList = res.data.nightInspectList;
         res.data.specialInspectList.map(item => {
           item["type"] = "specialInspectList";
           item["loading"] = false;
+          item["isStop"] = false;
         });
         that.specialInspectList = res.data.specialInspectList;
         res.data.environmentInspectList.map(item => {
           item["type"] = "environmentInspectList";
           item["loading"] = false;
+          item["isStop"] = false;
         });
         that.environmentInspectList = res.data.environmentInspectList;
         res.data.handHeldInfraredPlanList.map(item => {
           item["type"] = "handHeldInfraredPlanList";
           item["loading"] = false;
+          item["isStop"] = false;
         });
         that.handHeldInfraredPlanList = res.data.handHeldInfraredPlanList;
         that.title = `特殊巡视（${that.specialInspectList.length}）`;
