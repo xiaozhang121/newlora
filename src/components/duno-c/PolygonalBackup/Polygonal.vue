@@ -209,6 +209,7 @@ export default {
           times: times
         };
         getAxiosData(url, query).then(res => {
+          let that = this;
           let data = res.data;
           let obj = {
             name: "微型气象站",
@@ -218,6 +219,7 @@ export default {
           data.forEach(el => {
             obj.data.push(el.envTemp);
           });
+          that.legendData.push(...["微型气象站"]);
           that.seriesData.push(obj);
           that.$forceUpdate();
           that.isChangeFlag = !that.isChangeFlag;
@@ -287,6 +289,7 @@ export default {
       });
     },
     onChangeRadio(data) {
+      let that = this;
       this.radio = data;
       let date = null;
       let arr = [];
