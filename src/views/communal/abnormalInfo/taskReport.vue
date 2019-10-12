@@ -57,7 +57,7 @@
         </div>
       </div>
     </duno-main>
-    <div ref="tableName" class="tableName">
+    <div ref="tableName" class="tableName" style="display: none">
       <div class="top">名称1</div>
       <div class="bottom">名称2</div>
     </div>
@@ -211,7 +211,7 @@ export default {
       tableHeight: '',
       columns11: [
           {
-              title: ' ',
+              title: '4546',
               key: 'name',
               align: 'center',
               width: 200,
@@ -262,13 +262,42 @@ export default {
     };
   },
   methods:{
-      removeBorder(index){
-        let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[index]
-        dom.children[0].setAttribute("style","border-right: none !important;")
-        dom.children[dom.length-1].setAttribute("style","border-left: none !important;")
-        for(let i=1; i<dom.length-1; i++){
-            dom.children[i].setAttribute("style","border-left: none !important; border-right: none !important;")
+      mergeCol(colN, rowN, count){
+        let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')
+        let lineDom = dom[colN]
+        let firstDom = dom[colN].children[rowN]
+        firstDom.setAttribute('colspan', count)
+        let next = firstDom
+        for(let i=0; i<count-1; i++){
+            next = next.nextElementSibling
+            next.classList.add('removeF')
         }
+        next = firstDom
+        for(let i=0; i<lineDom.children.length; i++){
+            if(lineDom.children[i].classList.contains('removeF')){
+                lineDom.children[i].remove()
+                i--
+            }
+        }
+      },
+      mergeRow(childN, rowN, count){
+         let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')
+         let lineDom = dom[rowN]
+         let firstDom = dom[rowN].children[childN]
+         firstDom.setAttribute('rowspan', count)
+         let next = lineDom
+         for(let i=0; i<count-1; i++){
+             next = next.nextElementSibling
+             next.children[childN].classList.add('removeF')
+         }
+         for(let i=0; i<dom.length; i++){
+             for(let j=0; j<dom[i].children.length; j++){
+                 if(dom[i].children[j].classList.contains('removeF')){
+                     dom[i].children[j].remove()
+                     j--
+                 }
+             }
+         }
       },
       handleClick(){
 
@@ -287,8 +316,16 @@ export default {
      document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border:none !important; border-left: 1px solid grey !important")
   */
       setTimeout(()=>{
-          this.removeBorder(3)
-      },20)
+             // 第二列    第二行   占三列
+             // this.mergeRow(1, 1, 3)
+
+            //  第二行    第二列   合并三行
+            //   this.mergeCol(1, 1, 3)
+      },3000)
+      this.$nextTick(()=>{
+          this.mergeRow(1, 1, 3)
+              // this.mergeCol(1, 1, 3)
+      })
   }
 };
 </script>
@@ -345,6 +382,9 @@ export default {
         height: 100%;
         position: absolute;
         top: 0;
+      }
+      &.no-split:after{
+        background: none;
       }
       /*background-color: pink !important;*/
     }
