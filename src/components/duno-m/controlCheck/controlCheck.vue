@@ -1,6 +1,6 @@
 <template>
     <div class="isControl">
-        {{ pressions }} --- {{ isControlPress }} --- {{ getPress }}
+        <!--{{ pressions }} -&#45;&#45; {{ isControlPress }} -&#45;&#45; {{ getPress }}-->
         <span v-if="isControlPress && showTimer">结束控制倒计时 <i>{{ minute+'m '+ second+'s'}}</i></span>
         <span v-else>
             <div v-if="isControlPress  && !getPress">云台可操控</div>
@@ -112,12 +112,12 @@
                         if(this.$store.state.user.token == userId){
                             return
                         }
-                        this.getPress = false
                         this.userType = type
                         if(type != 2){
                             this.isControl = true
                         }else{
                             this.isControl = false
+                            this.getPress = false
                         }
                         /*  if(this.isControl){
                               // let date = res.data.data.expireTime
@@ -139,12 +139,12 @@
                         if(this.$store.state.user.token == userId){
                             return
                         }
-                        this.getPress = false
                         this.userType = type
                         if(type != 2){
                             this.isControl = true
                         }else{
                             this.isControl = false
+                            this.getPress = false
                         }
                         /* if(this.isControl){
                              let date = ''
