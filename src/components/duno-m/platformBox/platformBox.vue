@@ -90,6 +90,7 @@
 </template>
 
 <script>
+    import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     import pattery from '_c/duno-m/pattery'
     import "swiper/dist/css/swiper.css";
     import { swiper, swiperSlide } from "vue-awesome-swiper";
@@ -132,6 +133,11 @@
             }
         },
         methods:{
+            getMonitor(){
+                getAxiosData('/lenovo-mon/api/monitoring/rack/zabbix/rack-stream').then(res=>{
+                    debugger
+                })
+            },
             onChange(){
 
             },
@@ -140,6 +146,7 @@
             }
         },
         created(){
+            this.getMonitor()
         },
         mounted() {
 

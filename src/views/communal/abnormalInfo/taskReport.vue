@@ -262,6 +262,14 @@ export default {
     };
   },
   methods:{
+      removeBorder(index){
+        let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[index]
+        dom.children[0].setAttribute("style","border-right: none !important;")
+        dom.children[dom.length-1].setAttribute("style","border-left: none !important;")
+        for(let i=1; i<dom.length-1; i++){
+            dom.children[i].setAttribute("style","border-left: none !important; border-right: none !important;")
+        }
+      },
       handleClick(){
 
       },
@@ -274,9 +282,13 @@ export default {
           this.addHeader()
 
       })
-      // document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","borderLeft: 1px solid grey !important")
-      // document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border:none !important; border-left: 1px solid grey !important")
-      this.tableHeight = $('.dunoMain_nr').height() - $('.tab').height()-140
+     this.tableHeight = $('.dunoMain_nr').height() - $('.tab').height()-140
+/*     document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border-left: 1px solid grey !important")
+     document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border:none !important; border-left: 1px solid grey !important")
+  */
+      setTimeout(()=>{
+          this.removeBorder(3)
+      },20)
   }
 };
 </script>
