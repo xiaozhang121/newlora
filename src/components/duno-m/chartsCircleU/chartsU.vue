@@ -321,7 +321,7 @@ export default {
     /* 绘制图表的方法 */
     setOption () {
       let that = this
-      let value1 = Number(Number(that.chartsInfo['normal']/that.chartsInfo['total'] * 100).toFixed(0))
+      let value1 = Number(Number(that.chartsInfo['normal']/that.chartsInfo['total'] * 134).toFixed(0))
       if(value1 >= 60){
           that.status = '正常'
       }  else{
@@ -364,7 +364,7 @@ export default {
                   },
                   "data": [{
                       "value": 100,
-                      "name": '1'
+                      "name": '   '
                   }]
               },
               {
@@ -408,10 +408,10 @@ export default {
                       }
                   },
                   "data": [{
-                      "value": (100 - value1) * 270 / 360,
+                      "value": (134 - value1) * 270 / 360,
                       "name": ' '
                   }, {
-                      "value": 100 - (100 - value1) * 270 / 360,
+                      "value": 100 - (134 - value1) * 270 / 360,
                       "name": '7'
                   }
                   ]
