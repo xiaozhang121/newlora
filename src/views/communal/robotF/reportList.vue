@@ -5,14 +5,14 @@
     </div>
     <div class="title">
       最新巡视报告
-     <!-- <el-date-picker
-              v-model="selectTime"
-              type="daterange"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              @change="onChangeTime"
-             >
-      </el-date-picker>-->
+      <!-- <el-date-picker
+               v-model="selectTime"
+               type="daterange"
+               start-placeholder="开始日期"
+               end-placeholder="结束日期"
+               @change="onChangeTime"
+              >
+       </el-date-picker>-->
     </div>
     <duno-main  v-loading="loading"
                 element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -34,6 +34,11 @@
               </div>
             </template>
           </div>
+          <el-pagination
+                  @current-change="currentChange"
+                  layout="prev, pager, next"
+                  :total="reportNow.dataNum">
+          </el-pagination>
         </div>
       </div>
     </duno-main>
@@ -88,6 +93,10 @@
         data() {
             const that = this;
             return {
+                reportNow: {
+                    currentPage: 1,
+                    dataNum: 0
+                },
                 selectTime: false,
                 loading: true,
                 noPic: require("@/assets/noPic.png"),
@@ -168,6 +177,10 @@
             }
         },
         methods: {
+            currentChange(currentPage){
+                this.reportNow.currentPage = currentPage
+                this.initReport()
+            },
             onChangeTime(data){
                 let startTime = "";
                 let endTime = "";
@@ -212,10 +225,12 @@
                 const that = this
                 that.loading = true
                 that.newsReport = []
-                postAxiosData('/lenovo-robot/rest/reports',{startDay:that.startDay, endDay: that.endDay, substationId: that.substationId, robotId: that.robotId,length: 100}).then(res=>{
+                let start = this.reportNow.currentPage - 1
+                postAxiosData('/lenovo-robot/rest/reportsByPage',{substationId: that.substationId, robotId: that.robotId, length: 10, start:  start}).then(res=>{
+                    debugger
                     that.reportsList = res.data
-                    let data = res.data
-                    data = data.reportList
+                    let data = res.data.tableData
+                    this.reportNow.dataNum = Number(res.data.pageParam.totalRows)
                     data.map(item=>{
                         // item['pic'] = that.baseUrl+'/'+item['RoadImgPath']
                         if('taskImg' in item && item['taskImg'])
@@ -261,6 +276,28 @@
     color: white;
     width: 100%;
     height: 100%;
+    //分页--
+    .el-pagination {
+      color: #fff;
+      display: flex;
+      justify-content: center;
+    }
+    .el-pagination .btn-prev,
+    .el-pagination .btn-next {
+      background-color: rgba(0, 0, 0, 0);
+      color: #142838;
+    }
+    .el-pager li {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    .el-pager li.active {
+      color: #5fafff;
+    }
+    .el-pager li.btn-quicknext,
+    .el-pager li.btn-quickprev {
+      color: #fff;
+    }
+    //--
     .el-loading-text {
       color: #969696 !important;
     }
