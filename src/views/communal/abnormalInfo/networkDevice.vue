@@ -94,7 +94,7 @@ export default {
       titleTypeR: "所有状态",
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
-        { path: "/abnormalInfoPath/home", name: "平台监控" },
+        { path: "/abnormalInfoPath/platformMonitor", name: "平台监控" },
         { path: "", name: "网络设备" }
       ],
       TestEquipment: [],

@@ -15,7 +15,7 @@
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2 || isDiagram == 3"/>
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-else-if="isDiagram == 1"/>
           </div>
-          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;visibility: hidden"/>
+          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
           <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->
           <!-- <div v-for="(item, index) in deviceList" class="anchorPoint" :id="'anchor'+index" :key="index" >
                <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
@@ -367,7 +367,7 @@
         <!--<popupinfod   :showClassify="true"  :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose"  :index="index" :monitorDeviceType="item['isShowClassifyVisble']"  v-if="item['isShowClassifyVisble']" :visible="item['isShowClassifyVisble']"></popupinfod>-->
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
-        <camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']"  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
+        <camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']" :mapType='isDiagram'  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
         <ball-control-d @on-reset="resetM" ref="ballControl" @on-draw="onDrawPoint"  @on-close="hideControlBall"  v-if="index==modeList.length-1 && controlBallVisible" :visible="controlBallVisible"></ball-control-d>
       </div>
     </div>
@@ -492,7 +492,7 @@
                         return [new Date('2019-09-02').getTime(), new Date('2019-09-03').getTime(), new Date('2019-09-20').getTime()].indexOf(date)>-1;
                     }
                 },
-                showWeather: false,
+                showWeather: true,
                 disgramList: [],
                 alarmId: '',
                 visible: false,

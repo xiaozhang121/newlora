@@ -568,7 +568,40 @@ export default [{
                         hideInMenu: true,
                         isDetails: true
                     },
-                    component: () => import('@/views/communal/abnormalInfo/taskForm.vue')
+                    component: () => import('@/views/communal/abnormalInfo/report/taskForm.vue')
+                },
+                {
+                    path: 'taskForm/reportFrom',
+                    name: 'reportFrom',
+                    meta: {
+                        topNav: '1',
+                        title: '巡检任务报表',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/report/reportFrom.vue')
+                },
+                {
+                    path: 'taskForm/allReport-detail',
+                    name: 'allReport-detail',
+                    meta: {
+                        topNav: '1',
+                        title: '所有表计分析',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/report/viewReportDetail.vue')
+                },
+                {
+                    path: 'taskForm/detail',
+                    name: 'meterdata-detail',
+                    meta: {
+                        topNav: '1',
+                        title: '查看报表',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/abnormalInfo/report/detail.vue')
                 },
             ]
         }]
