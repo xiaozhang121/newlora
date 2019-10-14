@@ -54,6 +54,7 @@
               :routeName="routeNamed"
               :configType="configType"
               v-for="(item,index) in dataMonitor"
+              v-if="item['isShow']"
               :isPic="item['isPic'] == 1"
               :autoplay="true"
               :class="{'noMargin': (index+1) % active == 0}"
@@ -156,6 +157,14 @@
         },
         computed: {
             ...mapState(["app"]),
+            dataMonitorIds(){
+                let ids = []
+                this.dataMonitor.forEach((item, index)=>{
+                    if(typeof item == 'object' && Object.keys(item).length)
+                        ids.push(item.monitorDeviceId)
+                })
+                return ids
+            },
             isAlarmF() {
                 return this.$store.state.user.isAlarm;
             }
@@ -219,14 +228,38 @@
         },
         methods: {
             onDisabled(now){
-                if(this.selectCount!=0 && (now.length == this.selectCount)){
-                    this.$refs.btnTopRef.disabled = true
+                const that = this
+                if(this.selectCount!=0 && (now.length == this.selectCount+1)){
+                    let removeDeviceId = -1
+                    let data = that.dataMonitor
+                    for(let i=0; i<data.length; i++){
+                        if(data[i]['isShow']){
+                            removeDeviceId = data[i]['monitorDeviceId']
+                            data[i]['isShow'] = false
+                            data[i] = {}
+                            break;
+                        }
+                    }
+                    let index = now.indexOf(removeDeviceId)
+                    for(let z=0; z<this.$refs.btnTopRef.dataList.length; z++){
+                        if(this.$refs.btnTopRef.dataList[z]['monitorDeviceId'] == removeDeviceId){
+                            this.$refs.btnTopRef.dataList[z]['isActive'] = false
+                        }
+                    }
+                    now.splice(index, 1)
+                    that.$forceUpdate()
                 }else{
                     this.$refs.btnTopRef.disabled = false
                 }
                 this.$refs.btnTopRef.onKeyup()
             },
+            isAddType(){
+
+            },
             deviceShowHandle(arr){
+                let type = 'renew'
+                let monitorLength = -1
+                let searchData = null
                 if(this.selectCount){
                     this.$refs.btnTopRef.disabled = false
                 }
@@ -234,26 +267,110 @@
                 let target = arr.filter(item=>{
                     return item['isActive'] == true
                 })
+                monitorLength = target.length
                 let data = []
-                target.forEach(item=>{
+                let addTargetIndex = -1
+                target.forEach((item, index)=>{
+                    if(!(that.dataMonitorIds.indexOf(item['monitorDeviceId'])>-1)){
+                        addTargetIndex = index
+                    }
                     data.push(item['monitorDeviceId'])
                 })
                 this.$refs.btnTopRef.onKeyup()
+                searchData = data
+                if(data.length > this.selectCount){
+                    searchData = [data[addTargetIndex]]
+                    for(let i=0; i<arr.length; i++){
+                        if(that.dataMonitor[0].monitorDeviceId == arr[i]){
+                            arr[i].isActive = false
+                            for(let z=0; z<data.length; z++){
+                                if(data[z]['monitorDeviceId'] == arr[i]['monitorDeviceId']){
+                                    type = 'add'
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                if(data.length == 0){
+                    return;
+                }
                 securityMonitor({
-                    monitorDeviceId: data.join(","),
+                    monitorDeviceId: searchData.join(','),
                     configType: that.configType,
                     userId: this.$store.state.user.userId
                 }).then(res => {
                     // that.titleValueL = "监控摄像头数量";
-                    that.dataMonitor = res.data.tableData;
+                    let data = res.data.tableData
+                    data.map(item=>{
+                        item['isShow'] = true
+                    })
+                    if(type == 'add'){
+                        that.dataMonitor = that.dataMonitor.concat(data);
+                    }else{
+                        let posArr = []
+                        let addObj = null
+                        for(let i=0; i<data.length; i++){
+                            for(let j=0; j<that.dataMonitor.length; j++){
+                                if(data[i]['monitorDeviceId'] == that.dataMonitor[j]['monitorDeviceId']){
+                                    data[i]['isSave'] = true
+                                    posArr.push(j)
+                                }
+                            }
+                        }
+                        addObj = data.filter(item=>{
+                            return item['isSave'] != true
+                        })
+                        let count = 0
+                        that.dataMonitor.forEach(item=>{
+                            if(Object.keys(item).length && Object.keys(item).length!=1){
+                                count++
+                            }
+                        })
+                        if(count < this.selectCount && addObj[0]){
+                            that.dataMonitor.push(addObj[0]);
+                        }else{
+                            for(let j=0; j<that.dataMonitor.length; j++){
+                                if(Object.keys(that.dataMonitor[j]).length && !(posArr.indexOf(j)>-1)){
+                                    that.dataMonitor[j]['isShow'] = false
+                                    that.dataMonitor[j] = {}
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     that.$forceUpdate();
                     if(that.selectCount)
                         that.saveCamera();
                     this.$refs.btnTopRef.onKeyup()
+                    this.$nextTick(()=>{
+                        this.renewDom()
+                    })
+
                     // that.videoWidth = "calc(50%)";
                     // that.active = 1;
                     // that.isCenter = true;
                 });
+            },
+            renewDom(){
+                const that = this
+                this.$nextTick(()=>{
+                    let dom = document.querySelectorAll('.keyMonitor.monitorN')
+                    let newLine = that.selectCount / 2
+                    if(that.selectCount > 2){
+                        for(let i=0; i<dom.length; i++){
+                            if((i+1)%newLine == 0){
+                                dom[i].style.marginRight = 0 + 'px'
+                            }else{
+                                dom[i].style.marginRight = 20 + 'px'
+                            }
+                        }
+                    }else{
+                        dom[0].style.marginRight = 20 + 'px'
+                        dom[1].style.marginRight = 0 + 'px'
+                    }
+
+                })
             },
             onClose() {
                 this.pushMovVisable = false;
@@ -287,6 +404,9 @@
                 }).then(res => {
                     if (res.data && res.data.tableData.length) {
                         let data = res.data.tableData;
+                        data.map(item=>{
+                            item['isShow'] = true
+                        })
                         /*  data.map(item=>{
                             item['pic'] = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563287964020&di=5e687df08ed0f7f258186ce35c8a6ae9&imgtype=0&src=http%3A%2F%2Fp1.ifengimg.com%2Ffck%2F2018_01%2F4b3586c88209a81_w640_h429.jpg'
                         })*/
@@ -358,7 +478,6 @@
                 const that = this;
                 if(that.isFirst){
                     that.isFirst = false
-                    return
                 }
                 let query = {};
                 that.$refs.btnTopRef.checkedCities.forEach((item, index) => {
@@ -384,6 +503,7 @@
                     userId: this.$store.state.user.userId
                 }).then(res => {
                     // that.titleValueL = "监控摄像头数量";
+                    let data = res.data.tableData
                     that.dataMonitor = res.data.tableData;
                     that.$forceUpdate();
                     that.saveCamera();
@@ -393,11 +513,37 @@
                 });
             },
             onSelect(item) {
+                debugger
                 this.selectCount = item["count"];
                 this.titleValueL = item["describeName"];
                 console.log(item.widthType);
-                this.dataMonitor = this.dataMonitor.slice(0, item["count"]);
-                this.$refs.btnTopRef.checkedCities = this.$refs.btnTopRef.checkedCities.slice(0, item["count"])
+                let data = this.dataMonitor.filter(item=>{
+                    return Object.keys(item).length > 0
+                })
+                let clearData = data.slice(item["count"]);
+
+                // this.dataMonitor = data.slice(0, item["count"]);
+                for(let i=0; i< clearData.length; i++){
+                    let index = -1
+                    index =  this.$refs.btnTopRef.checkedCities.indexOf(clearData[i].monitorDeviceId)
+                    if(index > -1){
+                        this.$refs.btnTopRef.checkedCities.splice(index, 1)
+                    }
+                    index = this.dataMonitor.findIndex(item=>{
+                        return item['monitorDeviceId'] == clearData[i].monitorDeviceId
+                    })
+                    this.dataMonitor[index] = {}
+                }
+
+                /*    for(let i=0; i<item["count"]; i++){
+                      for(let z=0; z<this.dataMonitor.length; z++){
+                        if(Object.keys(this.dataMonitor[z]).length && this.dataMonitor[z].isShow){
+                          this.dataMonitor[z] = {}
+                          break;
+                        }
+                      }
+                    }*/
+                // this.$refs.btnTopRef.checkedCities = this.$refs.btnTopRef.checkedCities.slice(0, item["count"])
                 this.optionsList.map(item=>{
                     if(this.$refs.btnTopRef.checkedCities.indexOf(item['monitorDeviceId'])>-1){
                         item['isActive'] = true
@@ -428,7 +574,10 @@
                 }
                 this.$refs.btnTopRef.onKeyup()
                 this.saveCamera();
-                this.onDisabled(this.$refs.btnTopRef.checkedCities)
+                this.$nextTick(()=>{
+                    this.renewDom()
+                })
+                // this.onDisabled(this.$refs.btnTopRef.checkedCities)
             },
             beforeunload(e) {
                 /*   const that = this;
@@ -510,7 +659,7 @@
           }
         }
         .selectDevice{
-            width: 660px !important;
+          width: 660px !important;
           .btnList{
             width: 660px !important;
           }
