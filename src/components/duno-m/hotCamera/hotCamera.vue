@@ -742,7 +742,11 @@
                 let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value
                 console.log(typeof cmd)
                 putAxiosData(url).then(res=>{
-                    this.$message.info(res.msg)
+                    try{
+                        this.$message.info(res.msg)
+                    }catch (e) {
+
+                    }
                 })
                 /*  controlCamera({command: command, flag:flag}).then(res=>{
                   })*/

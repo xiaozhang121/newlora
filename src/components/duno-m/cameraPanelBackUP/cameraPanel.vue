@@ -867,7 +867,11 @@
                     .replace("{step}", 8).replace("{flag}", Number(flag));
                 return new Promise((resolve, reject)=>{
                     putAxiosData(url).then(res => {
-                       this.$message.info(res.msg)
+                       try{ 
+                        this.$message.info(res.msg)
+                       }catch (e) {
+                           
+                       }
                        if(!res.data.flag){
                           /* putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/0`).then(res=>{
                                putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/1`).then(res=>{})

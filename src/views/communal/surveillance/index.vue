@@ -688,11 +688,13 @@ export default {
           this.setDefault = '0'
       }
       const that = this;
-      initConfigure({ userId: this.$store.state.user.userId, type: type, setDefault: this.setDefault }).then(
-        res => {
-          that.$store.state.user.configInfo = res.data;
-        }
-      );
+      if(type != null){
+        initConfigure({ userId: this.$store.state.user.userId, type: type, setDefault: this.setDefault }).then(
+          res => {
+            that.$store.state.user.configInfo = res.data;
+          }
+        );
+      }
     },
     getArea() {
       this.ajaxCount++
