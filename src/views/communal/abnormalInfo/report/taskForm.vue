@@ -438,7 +438,7 @@
                     {
                         title: "对象",
                         key: "powerDeviceName",
-                        minWidth: 120,
+                        minWidth: 180,
                         align: "center",
                         tooltip: true
                     },

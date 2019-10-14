@@ -492,7 +492,7 @@ export default {
         {
           title: "对象",
           key: "monitorDeviceName",
-          minWidth: 100,
+          minWidth: 180,
           align: "center",
           tooltip: true
         },
