@@ -10,6 +10,7 @@
         <!-- <el-dropdown-item command="advise" divided>意见反馈</el-dropdown-item> -->
         <el-dropdown-item command="password">修改密码</el-dropdown-item>
         <el-dropdown-item command="feedBack" divided>问题反馈</el-dropdown-item>
+        <el-dropdown-item command="alarmTip" divided>告警提示设置</el-dropdown-item>
         <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -52,11 +53,13 @@
       </div>
     </el-dialog>
     <feed-back :visible="feedBackVisible" @on-close="onClose"></feed-back>
+    <warning-setting @handleClose="onCloseSetting" :visibleOption="visibleSettingOption" />
   </div>
 </template>
 
 <script>
 import './user.scss'
+import warningSetting from "_c/duno-j/warningSetting";
 import { mapActions } from 'vuex'
 import { postAxiosData } from '@/api/axiosType.js'
 import { InputTep } from '_c/Form'
@@ -64,9 +67,10 @@ import debounce from 'lodash/debounce'
 import feedBack from "_c/duno-m/feedBack";
 export default {
   name: 'User',
-  components: { InputTep, feedBack },
+  components: { InputTep, feedBack, warningSetting },
   data () {
     return {
+      visibleSettingOption: false,
       isShow: false,
       dataListLoading: false,
       feedBackVisible: false,
@@ -142,6 +146,9 @@ export default {
     ...mapActions([
       'handleLogOut'
     ]),
+    onCloseSetting() {
+        this.visibleSettingOption = false;
+    },
     onClose(){
         this.feedBackVisible = false
     },
@@ -182,6 +189,9 @@ export default {
           break
         case 'feedBack':
           this.feedBackVisible = true
+          break
+        case 'alarmTip':
+          this.visibleSettingOption = true
           break
       }
     },

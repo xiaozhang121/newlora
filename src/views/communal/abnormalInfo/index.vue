@@ -43,7 +43,7 @@
             导出表格
           </div>
         </div>
-        <div class="setting" @click="showSetting">
+        <div class="setting" @click="showSetting" style="display: none">
           <i class="iconfont icon-shezhi"></i>
         </div>
       </div>
@@ -63,7 +63,7 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
-    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
+    <!--<warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />-->
     <wraning
       :popData="popData"
       :fileType="isFileType"
