@@ -25,7 +25,7 @@
               </div>
               <div>
                 <p>
-                  内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}℃
+                  内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}
                   <span
                     class="commonly"
                     v-if="item.alarmLevel == '1'"

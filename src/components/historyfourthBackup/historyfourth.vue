@@ -19,7 +19,7 @@
         <div>
           <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;
           <span>{{item.alarmContent}}</span>
-          <span class="threshold">内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}℃</span>
+          <span class="threshold">内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}</span>
           <span
             :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]"
           >{{item.alarmLevelName}}</span>

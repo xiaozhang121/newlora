@@ -329,6 +329,7 @@ import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import mixinViewModule from "@/mixins/view-module";
 import { editConfig, getAreaList } from "@/api/currency/currency.js";
 import { mapState } from "vuex";
+const MAXAJAX = 5
 export default {
   mixins: [mixinViewModule],
   name: "surveillance",
@@ -628,7 +629,9 @@ export default {
       areaCameraList: [],
       oltagevLevelList: [],
       oltagevLevel: "所有电压等级",
-      layoutType: 1
+      layoutType: 1,
+      setDefault: '1',
+      ajaxCount: 0
     };
   },
   methods: {
@@ -680,15 +683,23 @@ export default {
       });
     },
     initConfigure(type) {
+      this.ajaxCount++
+      if(this.ajaxCount > MAXAJAX){
+          this.setDefault = '0'
+      }
       const that = this;
-      initConfigure({ userId: this.$store.state.user.userId, type: type }).then(
+      initConfigure({ userId: this.$store.state.user.userId, type: type, setDefault: this.setDefault }).then(
         res => {
           that.$store.state.user.configInfo = res.data;
         }
       );
     },
     getArea() {
-      getAxiosData("/lenovo-device/api/area-circuit/select-list").then(res => {
+      this.ajaxCount++
+      if(this.ajaxCount > MAXAJAX){
+          this.setDefault = '0'
+      }
+      getAxiosData("/lenovo-device/api/area-circuit/select-list", {setDefault: this.setDefault}).then(res => {
         let data = res.data;
         let arr = [];
         data.forEach(item => {
@@ -718,8 +729,13 @@ export default {
       });*/
     },
     initData() {
+      this.ajaxCount++
+      if(this.ajaxCount > MAXAJAX){
+          this.setDefault = '0'
+      }
       const that = this;
       getAxiosData("/lenovo-device/api/monitor/layout-list", {
+        setDefault: this.setDefault,
         userId: this.$store.state.user.userId
       }).then(res => {
         that.cameraList = res.data;
@@ -764,11 +780,16 @@ export default {
       this.getCamera(item["areaId"]);
     },
     getCameraType() {
+      this.ajaxCount++
+      if(this.ajaxCount > MAXAJAX){
+          this.setDefault = '0'
+      }
       let that = this;
       let type = this.$store.state.user.configInfo["displayType"];
       let url = "/lenovo-device/api/monitor/all/select-list";
       let query = {
-        userId: this.$store.state.user.configInfo["userId"]
+        userId: this.$store.state.user.configInfo["userId"],
+        setDefault: this.setDefault
       };
       getAxiosData(url, query).then(res => {
         if (res.data) {
@@ -809,11 +830,16 @@ export default {
       });
     },
     getCamera(areaId) {
+      this.ajaxCount++
+      if(this.ajaxCount > MAXAJAX){
+          this.setDefault = '0'
+      }
       const that = this;
       let query = {};
       if (areaId) {
         query["showType"] = areaId;
       }
+      query['setDefault'] = this.setDefault
       getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
         if (res.code == 200) {
           let data = res.data;
