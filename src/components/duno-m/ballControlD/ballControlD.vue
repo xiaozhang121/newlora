@@ -102,7 +102,7 @@
                         this.$message.fail('保存失败')
                     }
                     this.commitDefineVisible = false
-                    this.dialogVisible = true
+                    this.dialogVisible = false
                     this.$emit('on-reset')
                 })
             },
