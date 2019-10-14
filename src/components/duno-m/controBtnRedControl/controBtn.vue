@@ -120,7 +120,11 @@ export default {
             let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
+                    try{
                     this.$message.info(res.msg)
+                    }catch (e) {
+                        
+                    }
                     if(!res.data.flag){
                      /*   putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/0`).then(res=>{
                             putAxiosData(`/lenovo-visible/api/visible-equipment/equip-connect/${that.deviceId}/1`).then(res=>{})
