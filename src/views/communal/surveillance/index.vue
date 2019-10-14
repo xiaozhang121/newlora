@@ -329,7 +329,7 @@ import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import mixinViewModule from "@/mixins/view-module";
 import { editConfig, getAreaList } from "@/api/currency/currency.js";
 import { mapState } from "vuex";
-const MAXAJAX = 5
+const MAXAJAX = 6
 export default {
   mixins: [mixinViewModule],
   name: "surveillance",
@@ -670,10 +670,15 @@ export default {
       for (let i = 0; i < data.length; i++) {
         obj["cameraPos0" + (i + 1)] = data[i];
       }
+      this.ajaxCount++
+      if(this.ajaxCount > MAXAJAX){
+          this.setDefault = '0'
+      }
       let query = {
         ...obj,
         userId: this.$store.state.user.configInfo["userId"],
-        id: this.$store.state.user.configInfo.id
+        id: this.$store.state.user.configInfo.id,
+        setDefault: this.setDefault
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
