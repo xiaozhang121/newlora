@@ -207,7 +207,7 @@ export default {
             this.$emit("on-fresh");
             this.handleClose();
           } else {
-            this.$message.fail("编辑失败");
+            this.$message.error(res.msg);
           }
         });
       } else {
@@ -218,7 +218,7 @@ export default {
             this.$emit("on-fresh");
             this.handleClose();
           } else {
-            this.$message.fail("创建失败");
+            this.$message.error(res.msg);
           }
         });
       }

@@ -487,29 +487,31 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url =
-        "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
-        this.dataForm.monitorDeviceId;
-      getAxiosData(url, {}).then(res => {
-        that.playerOptionsd.streamAddr = res.data;
-        that.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.controBtnRef.viewCamera(5, false).then(res => {
-              setTimeout(() => {
-                this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                  that.disabled = false;
-                });
-              }, 5000);
-            });
-          }, 500);
-        });
-      });
-      const urld =
-        "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
-      getAxiosData(urld, {}).then(res => {
-        that.playerOptionsd.sources[0].src = res.data.data;
-        that.$forceUpdate();
-      });
+      if(this.dataForm.monitorDeviceId){
+          const url =
+              "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+              this.dataForm.monitorDeviceId;
+          getAxiosData(url, {}).then(res => {
+              that.playerOptionsd.streamAddr = res.data;
+              that.$nextTick(() => {
+                  setTimeout(() => {
+                      this.$refs.controBtnRef.viewCamera(5, false).then(res => {
+                          setTimeout(() => {
+                              this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+                                  that.disabled = false;
+                              });
+                          }, 5000);
+                      });
+                  }, 500);
+              });
+          });
+          const urld =
+              "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
+          getAxiosData(urld, {}).then(res => {
+              that.playerOptionsd.sources[0].src = res.data.data;
+              that.$forceUpdate();
+          });
+      }
     },
     cutOut(data) {
       if (data) {

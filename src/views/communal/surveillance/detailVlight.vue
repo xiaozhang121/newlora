@@ -516,23 +516,25 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = false;
-      const url =
-        "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
-        this.dataForm.monitorDeviceId;
-      getAxiosData(url, {}).then(res => {
-        that.playerOptions.streamAddr = res.data;
-       /* that.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.controBtnRef.viewCamera(5, false).then(res => {
-              setTimeout(() => {
-                this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                  that.disabled = false;
-                });
-              }, 5000);
-            });
-          }, 500);
-        });*/
-      });
+      if(this.dataForm.monitorDeviceId){
+        const url =
+          "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+          this.dataForm.monitorDeviceId;
+        getAxiosData(url, {}).then(res => {
+          that.playerOptions.streamAddr = res.data;
+         /* that.$nextTick(() => {
+            setTimeout(() => {
+              this.$refs.controBtnRef.viewCamera(5, false).then(res => {
+                setTimeout(() => {
+                  this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+                    that.disabled = false;
+                  });
+                }, 5000);
+              });
+            }, 500);
+          });*/
+        });
+      }
     },
     cutOut(data) {
       if (data) {

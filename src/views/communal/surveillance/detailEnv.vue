@@ -613,13 +613,15 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url =
-        "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
-        this.dataForm.monitorDeviceId;
-      getAxiosData(url, {}).then(res => {
-        that.playerOptions.streamAddr = res.data;
-        that.backUPAddr = res.data
-      });
+      if(this.dataForm.monitorDeviceId){
+          const url =
+              "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+              this.dataForm.monitorDeviceId;
+          getAxiosData(url, {}).then(res => {
+              that.playerOptions.streamAddr = res.data;
+              that.backUPAddr = res.data
+          });
+      }
     },
     cutOut(data) {
       if (data) {
