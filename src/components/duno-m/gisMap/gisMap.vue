@@ -1365,6 +1365,9 @@
                 this.mapTarget.on('moveend', function (evt) {
                     that.isClick = true
                 });
+                this.mapTarget.on('rendercomplete', function () {
+                    that.$emit('on-render')
+                })
                 // 禁止鼠标拖动
                 let pan = that.getPan();
                 //false：当前地图不可拖动。true：可拖动
@@ -1391,6 +1394,8 @@
                 if(this.small){
                     this.initMap()
                 }
+                if(this.deviceList.length)
+                    this.addPointList(this.deviceList)
                 this.isFirst = false
                 this.initFeature()
                 this.bindEvent()

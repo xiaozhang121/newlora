@@ -1,6 +1,6 @@
 <template>
     <div class="cameraPop" >
-        <historical-documents :showHeader="true"  :title="title" :itemId="itemId" width="744px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents :showHeader="true"  :title="title" :itemId="itemId" width="744px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vLight">
             <camera-panel-back-u-p  :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel-back-u-p>
             <polygonal-backup :yName="yName"  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
@@ -167,6 +167,11 @@
 </script>
 <style lang="scss">
     .cameraPop{
+        .vLight{
+            .elDialogMain{
+                height: 0 !important;
+            }
+        }
         .el-loading-text{
             color: #969696   !important;
         }

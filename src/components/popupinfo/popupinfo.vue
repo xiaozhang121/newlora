@@ -2,6 +2,7 @@
   <div class="popupinfo">
     <historical-documents
       :showHeader="true"
+      class="vNormal"
       :title="mainTitle"
       width="500px"
       :itemId="deviceId"
@@ -112,6 +113,10 @@ export default {
     }
   },
   watch: {
+    activeName(now){
+      if(now != 'fifth')
+          this.flag = null
+    },
     showClassify: {
       handler(now) {
         this.isShowClassify = now;
@@ -254,6 +259,11 @@ export default {
   .polygonal {
     position: relative;
     top: -13px;
+  }
+  .vNormal{
+    .elDialogMain{
+      height: 0 !important;
+    }
   }
   .HistoricalDocuments {
     .titleBtn {
