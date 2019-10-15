@@ -72,7 +72,7 @@
           </span>
         </div>
       </transition>
-      <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
+      <el-tooltip effect="dark" :content="contentTip" placement="top">
         <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
           <div class="text">
             <span>{{kilovolt}}</span>
@@ -402,6 +402,15 @@ export default {
     },
     isAlarmG() {
       return this.$store.state.user.isAlarm;
+    },
+    contentTip(){
+        // let str = '点击查看摄像头详情'
+        let str = ''
+        if(this.kilovolt)
+            str+=this.kilovolt+' '
+        if(this.patrol)
+            str+=this.patrol+' '
+        str+='点击查看摄像头详情'
     }
   },
   methods: {

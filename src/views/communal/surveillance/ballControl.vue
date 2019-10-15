@@ -196,7 +196,7 @@
     </div>
     <wraning :popData="popData" :visible="visible" detailsType="alarm" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <enlarge :isShow="isEnlarge" :pushCamera="false" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
