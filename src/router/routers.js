@@ -1207,7 +1207,7 @@ export default [{
             topNav: '2',
             hide: true,
             isAlone: true,
-            title: '配置管理',
+            title: '任务配置',
             notCache: true
         },
         children: [{

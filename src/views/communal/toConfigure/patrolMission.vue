@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>巡视任务名称 告警记录</div>
+      <div>{{inspectName}}告警记录</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -110,8 +110,7 @@ export default {
     const that = this;
     return {
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/security/list",
+        getDataListURL: "/lenovo-plan/api/environment/plan/report/list",
         exportURL: "/lenovo-alarm/api/security/history/export"
       },
       handleNotes: [],
@@ -121,12 +120,13 @@ export default {
       selectInfo: "更多",
       serious: false,
       textarea: "",
-      planName: "",
+      inspectName: "",
       commonly: false,
       danger: false,
       isEnlarge: false,
       srcData: [],
       queryForm: {},
+      dataForm: {},
       dialogVisible: false,
       value: "",
       alarmId: "",
@@ -134,7 +134,6 @@ export default {
       titleTypeR: "全部类型",
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
-        { path: "/configuration/list", name: "配置管理" },
         { path: "/configuration/list", name: "任务配置" },
         { path: "", name: "告警记录" }
       ],
@@ -354,9 +353,12 @@ export default {
     };
   },
   created() {
-    this.planName = this.$route.query.planName;
+    this.inspectName = this.$route.query.inspectName;
+    this.dataForm.planId = this.$route.query.planId;
+    this.dataForm.alarmType = "1";
     this.getRegion();
     this.getType();
+    this.getDataList();
   },
   methods: {
     onClose() {
@@ -403,7 +405,6 @@ export default {
     },
     clickExcel() {
       const that = this;
-      //   this.queryForm.startTime
       that.exportHandle();
     },
     getRegion() {
@@ -428,7 +429,8 @@ export default {
     },
     getType() {
       const that = this;
-      getTypeData().then(res => {
+      let url = "/lenovo-alarm/api/alarm-type/list";
+      getAxiosData(url).then(res => {
         const resData = res.data;
         let mapList = resData.filter(item => item.label != "请选择");
         const map = mapList.map(item => {

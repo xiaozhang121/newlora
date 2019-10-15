@@ -288,7 +288,7 @@ export default {
       float: left;
       & > span:first-child {
         font-size: 18px;
-        padding-left: 10px;
+        // padding-left: 10px;
         padding-right: 20px;
       }
       & > span:last-child {

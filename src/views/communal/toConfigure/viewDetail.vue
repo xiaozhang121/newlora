@@ -22,7 +22,6 @@ export default {
         case "configure-view":
           this.dataBread = [
             { path: "/realEnv/list", name: "操作中台" },
-            { path: "/configuration/list", name: "配置管理" },
             { path: "/configuration/list", name: "任务配置" },
             { path: "", name: "查看报告" }
           ];
@@ -31,7 +30,6 @@ export default {
         case "detection-report":
           this.dataBread = [
             { path: "/realEnv/list", name: "操作中台" },
-            { path: "/detection/list", name: "配置管理" },
             { path: "/detection/list", name: "任务配置" },
             { path: "", name: "查看报告" }
           ];

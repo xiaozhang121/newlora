@@ -124,7 +124,6 @@ export default {
       handHeldInfraredPlanList: [],
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
-        { path: "/configuration/list", name: "配置管理" },
         { path: "", name: "任务配置" }
       ],
       titleNight:
@@ -720,11 +719,11 @@ export default {
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: "configure-report",
+                        name: "patrolMission",
                         query: {
                           planId: params.row.planId,
-                          planType: params.row.planType
-                          //   url: ""
+                          planType: params.row.planType,
+                          inspectName: params.row.inspectName
                         }
                       });
                     }
@@ -911,6 +910,9 @@ export default {
   }
   .dunoMain {
     height: inherit;
+  }
+  .dunoMain_nr {
+    padding: 0 20px;
   }
   .table_select {
     text-align: center;
