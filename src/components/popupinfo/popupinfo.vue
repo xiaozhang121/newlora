@@ -2,6 +2,7 @@
   <div class="popupinfo">
     <historical-documents
       :showHeader="true"
+      class="vNormal"
       :title="mainTitle"
       width="500px"
       :itemId="deviceId"
@@ -254,6 +255,11 @@ export default {
   .polygonal {
     position: relative;
     top: -13px;
+  }
+  .vNormal{
+    .elDialogMain{
+      height: 0 !important;
+    }
   }
   .HistoricalDocuments {
     .titleBtn {
