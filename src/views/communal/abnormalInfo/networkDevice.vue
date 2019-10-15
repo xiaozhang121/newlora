@@ -9,23 +9,13 @@
         <div>
           <duno-btn-top
             ref="btnTopRef"
-            @on-active="onSelectDevice"
+            @on-select="onSelectDevice"
             class="dunoBtnTop"
-            :dataList="TestEquipment"
+            :dataList="DeviceData"
             :title="titleTypeL"
-            :chexked="chexked"
+            :isCheck="false"
             :showBtnList="false"
           />
-        </div>
-        <div>
-          <duno-btn-top
-            @on-select="onSelectVol"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="voltageLevel"
-            :title="titleTypeC"
-            :showBtnList="false"
-          ></duno-btn-top>
         </div>
         <div>
           <duno-btn-top
@@ -89,18 +79,15 @@ export default {
       radio: "1",
       value: "",
       totalNum: 10,
-      titleTypeL: "所有监测设备",
-      titleTypeC: "所有电压等级",
+      titleTypeL: "所有网络设备",
       titleTypeR: "所有状态",
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "/abnormalInfoPath/platformMonitor", name: "平台监控" },
         { path: "", name: "网络设备" }
       ],
-      TestEquipment: [],
-      voltageLevel: [],
       stateSelect: [],
-      chexked: [],
+      DeviceData: [],
       infoColumns: [
         {
           key: "monitorDeviceId",
@@ -193,73 +180,9 @@ export default {
     };
   },
   methods: {
-    handleDevice() {
-      getDevice().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            value: item.value,
-            title: "titleTypeL",
-            isActive: true
-          };
-          return obj;
-        });
-        console.log("------->" + map);
-        console.log("------->" + map.join(","));
-        this.TestEquipment = map;
-        this.$forceUpdate();
-        this.$refs.btnTopRef.handleCheckAllChange(true);
-        this.$refs.btnTopRef.checkAll = true;
-        this.$refs.btnTopRef.checkedCities = this.onSelectDevice(map);
-        console.log(this.TestEquipment);
-        this.getDataList();
-      });
-    },
-    handleVoltage() {
-      getVoltage().then(res => {
-        const resData = res.data;
-        let map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            value: item.value,
-            title: "titleTypeC",
-            isActive: true
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有电压等级",
-          value: "",
-          title: "titleTypeC"
-        });
-        this.voltageLevel = map;
-      });
-    },
     onSelectDevice(item) {
-      console.log(item);
-      let arr = [];
-      let value = [];
-      item.forEach(nr => {
-        if (nr["isActive"]) {
-          arr.push(nr["value"]);
-          if ("describeName" in nr) value.push(nr["describeName"]);
-        }
-      });
-      this.dataForm.deviceType = arr.join(",");
+      this.titleTypeL = item["describeName"];
       this.getDataList();
-      return value;
-      // this.titleTypeL = item["describeName"];
-    },
-    onSelectVol(item) {
-      if (item["value"]) this.dataForm.areaId = item["value"];
-      else {
-        if ("areaId" in this.dataForm) {
-          delete this.dataForm["areaId"];
-        }
-      }
-      this.getDataList();
-      this.titleTypeC = item["describeName"];
     },
     onSelectState(item) {
       this.dataForm.status = item["value"];
@@ -327,6 +250,21 @@ export default {
         this.stateSelect = map;
       });
     },
+    getSelectDevice() {
+      let url = "";
+      getAxiosData().then(res => {
+        const resData = res.data;
+        let map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            value: item.value,
+            title: "titleTypeL"
+          };
+          return obj;
+        });
+        this.DeviceData = map;
+      });
+    },
     getJump(row) {
       getAxiosData("/lenovo-device/api/preset/type", {
         monitorDeviceId: row.monitorDeviceId
@@ -350,24 +288,23 @@ export default {
             });
           }
         } else if (monitorDeviceType == 2) {
-            if (supportPreset) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRed",
-                    query: {
-                        monitorDeviceId: row.monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: row.monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }
-
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: row.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: row.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
         } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
@@ -380,8 +317,7 @@ export default {
     }
   },
   mounted() {
-    this.handleDevice();
-    this.handleVoltage();
+    this.getSelectDevice();
     this.getSelectStatus();
   }
 };
@@ -391,10 +327,6 @@ export default {
 @import "@/style/tableStyle.scss";
 .toConfigure {
   width: 100%;
-  .icon-xiala {
-    /*width: 9px;
-    height: 12px;*/
-  }
   .dunoMain {
     height: inherit;
   }

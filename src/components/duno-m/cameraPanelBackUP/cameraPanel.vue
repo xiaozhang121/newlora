@@ -914,8 +914,8 @@
                 that.getListData()  // 获取表格数据
             })
             this.isAdd = this.getAuthority('10000101');
-            this.isEdite = this.getAuthority('10000102');
-            this.isViwe = this.getAuthority('10000103');
+            this.isViwe = this.getAuthority('10000102');
+            this.isEdite = this.getAuthority('10000103');
             this.isDel = this.getAuthority('10000104');
             debugger
         },

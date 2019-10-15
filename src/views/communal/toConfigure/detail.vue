@@ -750,13 +750,11 @@ export default {
     toDel(param) {
       let url = `/lenovo-plan/api/inspection/deletePlanAndTasks?id=${param.row.id}`;
       postAxiosData(url).then(res => {
-        if (res.errorCode == 200) {
-          this.getDataList();
-          this.$message({
-            type: "success",
-            message: res.errorMessage
-          });
-        }
+        this.getDataList();
+        this.$message({
+          type: "success",
+          message: res.errorMessage
+        });
       });
     },
     toStop(param) {
