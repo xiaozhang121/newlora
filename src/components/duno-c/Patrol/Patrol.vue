@@ -211,14 +211,14 @@ export default {
                 {
                   class: "btn_pre",
                   style: { background: "#3a81a1" },
-                  props: { type: "text", content: "查看报告>" },
+                  props: { type: "text", content: "查看详情>" },
                   on: {
                     click: () => {
                       this.getJump(params.row);
                     }
                   }
                 },
-                "查看报告>"
+                "查看详情>"
               )
             ]);
             return h("div", newArr);

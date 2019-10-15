@@ -57,7 +57,7 @@
         </div>
       </div>
     </duno-main>
-    <div ref="tableName" class="tableName" style="display: none">
+    <div ref="tableName" class="tableName" v-if="splitHeaderVisible">
       <div class="top">名称1</div>
       <div class="bottom">名称2</div>
     </div>
@@ -79,6 +79,7 @@ export default {
   data() {
     return {
       titleValueL: '监控摄像头数量',
+      splitHeaderVisible: true,
       numberCameras: [
             {
                 circleColor: "#00B4FF",
@@ -299,6 +300,10 @@ export default {
              }
          }
       },
+      noSplit(){
+        this.splitHeaderVisible = false
+        document.querySelector('.tablesTep   .ivu-table-wrapper .ivu-table tr:first-child th:first-child').classList.add('no-split')
+      },
       handleClick(){
 
       },
@@ -323,8 +328,11 @@ export default {
             //   this.mergeCol(1, 1, 3)
       },3000)
       this.$nextTick(()=>{
+          this.noSplit()
           this.mergeRow(1, 1, 3)
-              // this.mergeCol(1, 1, 3)
+          this.mergeRow(2, 1, 3)
+          this.mergeRow(3, 1, 3)
+          this.mergeCol(1, 1, 3)
       })
   }
 };
