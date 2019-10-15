@@ -113,6 +113,9 @@ export default {
       }
       that.queryForm.planId = that.reportData.planId;
       that.queryForm.isRobot = that.reportData.isRobot;
+      that.queryForm.batchId = that.reportData.batchId;
+      that.queryForm.startTime = that.reportData.realStartTime;
+      that.queryForm.endTime = that.reportData.realEndTime;
       that.exportHandle();
     },
     viewReports() {
@@ -236,24 +239,23 @@ export default {
             });
           }
         } else if (monitorDeviceType == 2) {
-            if (supportPreset) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRed",
-                    query: {
-                        monitorDeviceId: item.monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: item.monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }
-
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: item.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: item.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
         } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",

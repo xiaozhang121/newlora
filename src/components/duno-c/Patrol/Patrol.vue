@@ -237,7 +237,7 @@ export default {
     }
   },
   methods: {
-    toDel(params) {
+    toDel(param) {
       this.$emit("to-del", param);
     },
     toRunTask(param) {
