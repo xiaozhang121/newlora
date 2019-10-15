@@ -304,16 +304,50 @@
                     let data = res.data.rate
                     this.rateData = Number(data*100).toFixed(0)
                 })
-                getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
+              /*  getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
                     this.visibleCount = res.data.total
                 })
                 getAxiosData('/lenovo-mon/api/monitoring/thermal/count').then(res=>{
                     this.infrared = res.data.total
-                })
+                })*/
                 getAxiosData('/lenovo-mon/api/monitoring/ap/zabbix/getApStatus').then(res=>{
                     let data = res.data
                     this.APData =  { normal: data['icnt'], total:  data['total'] }
                     this.APDataV = !this.APDataV
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/visible/run/count').then(res=>{
+                    let data = res.data
+                    data.forEach(item=>{
+                        if(item['cameraType'] == '可见光(云台)'){
+                            this.visibleCameraCount = item['count']
+                        }else if(item['cameraType'] == '可见光'){
+                            this.visibleCount  = item['count']
+                        }else if(item['cameraType'] == '布控球'){
+                            this.controlBall   = item['count']
+                        }else if(item['cameraType'] == '可见光(窄道)'){
+                            this.visibleNarrow    = item['count']
+                        }
+                    })
+                })
+
+                getAxiosData('/lenovo-mon/api/monitoring/thermal/run/count').then(res=>{
+                    let data = res.data
+                    data.forEach(item=>{
+                        if(item['cameraType'] == '红外测温'){
+                            this.infrared = item['count']
+                        }else if(item['cameraType'] == '红外测温(云台)'){
+                            this.infraredCamera = item['count']
+                        }
+                    })
+                })
+
+                getAxiosData('/lenovo-mon/api/monitoring/alarm/count').then(res=>{
+                    // debugger
+                })
+
+                getAxiosData('/lenovo-mon/api/monitoring/record/count').then(res=>{
+                    this.plateFormRecord = res.data.totalRecordCount
+                    this.plateFormRecordMonth = res.data.monthRecordCount
                 })
               /*
 

@@ -982,6 +982,8 @@
             this.$store.state.app.kilovolt = this.$route.meta.kind
         },
         beforeDestroy(){
+            debugger
+            document.querySelector('.gisMap').remove()
         },
         mounted () {
             const that = this

@@ -11,7 +11,7 @@
                     <div class="nr">{{ IP }}</div>
                 </div>
                 <div class="status">
-                    <div class="circle"></div>
+                    <div class="circle" :class="isNormal"></div>
                     <div class="nr">
                         {{ deviceType }}
                     </div>
@@ -81,17 +81,20 @@
             dataInfo:{
                   handler(now){
                       let type = now['monitorDeviceType']
-                      this.installTime = now['deviceMessage']['createTime']?now['deviceMessage']['createTime']:'/'
-                      this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
-                      this.deviceType = '正常'
                       if(type == 1){
+                          this.installTime = now['deviceMessage']['instTime']?now['deviceMessage']['instTime']:'/'
+                          this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
+                          this.deviceType = now['deviceMessage']['status']?'正常':'异常'
                           if (now.deviceMessage.supportPreset) {
                               this.picSrc = this.light
                           }else{
                               this.picSrc = this.lightNoCamera
                           }
-                          this.title = now['monitorDeviceName']
+                          this.title = now['deviceMessage']['cameraName']
                       }else if(type == 2){
+                          this.installTime = now['deviceMessage']['installDate']?now['deviceMessage']['installDate']:'/'
+                          this.IP = now['deviceMessage']['ip']?now['deviceMessage']['ip']:'/'
+                          this.deviceType = now['deviceMessage']['connect']?'正常':'异常'
                           if(now.deviceMessage.supportPreset){
                               this.picSrc = this.redLightCamera
                           }else{
@@ -107,6 +110,9 @@
             }
         },
         computed: {
+            isNormal(){
+                return this.deviceType == '正常'?"":"unNormal"
+            },
             deviceLength(){
                 if(this.deviceList.length > 6){
                     return true
@@ -161,6 +167,9 @@
                 width: 15px;
                 height: 15px;
                 margin-right: 12px;
+                &.unNormal{
+                    background: #ffce27;
+                }
             }
             .nr{
                 color: white;
