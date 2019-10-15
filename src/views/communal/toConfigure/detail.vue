@@ -105,7 +105,6 @@ export default {
     const that = this;
     return {
       rowData: {},
-      isRun: false,
       taskVisible: false,
       taskVisible2: false,
       taskVisible3: false,
@@ -627,7 +626,7 @@ export default {
           render: (h, params) => {
             let newArr = [];
             let self = that;
-            if (!that.isRun) {
+            if (params.row.statusName == "任务间隔中") {
               newArr.push(
                 h(
                   "el-button",
@@ -649,7 +648,7 @@ export default {
                 )
               );
             }
-            if (that.isRun) {
+            if (params.row.statusName == "正在巡视中") {
               newArr.push(
                 h(
                   "el-button",
@@ -748,10 +747,10 @@ export default {
     }
   },
   methods: {
-    toDel(params) {
+    toDel(param) {
       let url = "/lenovo-plan/api/inspection/deletePlanAndTasks";
       let query = {
-        id: params.row.id
+        id: param.row.id
       };
       postAxiosData(url, query).then(res => {
         if (res.errorCode == 200) {
@@ -771,7 +770,6 @@ export default {
           this.getDataList();
           this[param.row.type][param.index]["isStop"] = false;
           this.$message.success(res.msg);
-          this.isRun = false;
         }
       );
     },
@@ -783,7 +781,6 @@ export default {
           this.getDataList();
           this[param.row.type][param.index]["loading"] = false;
           this.$message.success(res.msg);
-          this.isRun = true;
         }
       );
     },
