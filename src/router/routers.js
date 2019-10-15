@@ -1242,7 +1242,7 @@ export default [{
                             isDetails: true,
                             active: 'configurationList'
                         },
-                        component: () => import('@/views/communal/toConfigure/reportDetail.vue')
+                        component: () => import('@/views/communal/toConfigure/reportDetailR.vue')
                     },
                     {
                         path: 'configure-view',
