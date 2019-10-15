@@ -87,7 +87,12 @@
               </div>
               <div class="btn-print">
                 <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
-                <button-custom v-if="!(dataList.result.indexOf('正常')>-1)" class="button" :title="titleReturn" @click.native="handleReturn" />
+                <button-custom
+                  v-if="!(dataList.result.indexOf('正常')>-1)"
+                  class="button"
+                  :title="titleReturn"
+                  @click.native="handleReturn"
+                />
               </div>
               <div class="from">
                 <span class="origin">
@@ -160,7 +165,7 @@ export default {
       isImgVideo: true,
       //   isTemperture: true,
       hasSelect: true,
-      titleReturn:'复归',
+      titleReturn: "复归",
       formData: {}
     };
   },
@@ -295,10 +300,10 @@ export default {
           this.searchId = now["taskId"] + "," + now["batchId"];
           this.searchType = "alarmId";
         }
-        if(now['isReturn']=='1'){
-          this.titleReturn='已复归'
-        }else{
-          this.titleReturn='复归'
+        if (now["isReturn"] == "1") {
+          this.titleReturn = "已复归";
+        } else {
+          this.titleReturn = "复归";
         }
       },
       deep: true,
@@ -468,24 +473,23 @@ export default {
               });
             }
           } else if (monitorDeviceType == 2) {
-              if (supportPreset) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailRed",
-                      query: {
-                          monitorDeviceId: this.popData.monitorDeviceId,
-                          typeId: res.data["typeId"]
-                      }
-                  });
-              }else{
-                  this.$router.push({
-                      path: "/surveillancePath/detailRedN",
-                      query: {
-                          monitorDeviceId: this.popData.monitorDeviceId,
-                          typeId: res.data["typeId"]
-                      }
-                  });
-              }
-
+            if (supportPreset) {
+              this.$router.push({
+                path: "/surveillancePath/detailRed",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId,
+                  typeId: res.data["typeId"]
+                }
+              });
+            } else {
+              this.$router.push({
+                path: "/surveillancePath/detailRedN",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId,
+                  typeId: res.data["typeId"]
+                }
+              });
+            }
           } else if (monitorDeviceType == 3) {
             this.$router.push({
               path: "/surveillancePath/detailEnv",
@@ -506,19 +510,20 @@ export default {
     onClose() {
       this.visibleJudge = false;
     },
-    handleReturn(){
+    handleReturn() {
       const that = this;
-      let url = '/lenovo-alarm/api/alarm/deal'
+      let url = "/lenovo-alarm/api/alarm/deal";
       const query = {
         alarmId: that.popData.alarmId,
         type: "1"
       };
-      postAxiosData(url,query).then(res => {
+      postAxiosData(url, query).then(res => {
         if (res.data.isSuccess) {
           that.$message.success(res.msg);
-          this.titleReturn='已复归'
-          that.initData()
-        }else {
+          this.titleReturn = "已复归";
+          that.initData();
+          this.$emit("on-fresh");
+        } else {
           that.$message.error(res.msg);
         }
       });
@@ -647,11 +652,11 @@ export default {
       flex: 1;
       color: #333333;
       font-size: 14px;
-      .btn-print{
+      .btn-print {
         display: flex;
         justify-content: flex-start;
         line-height: 30px;
-        .buttonCustom{
+        .buttonCustom {
           line-height: 30px;
           color: #ffffff;
           margin-left: 20px;
