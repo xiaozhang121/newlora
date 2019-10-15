@@ -113,6 +113,10 @@ export default {
     }
   },
   watch: {
+    activeName(now){
+      if(now != 'fifth')
+          this.flag = null
+    },
     showClassify: {
       handler(now) {
         this.isShowClassify = now;
