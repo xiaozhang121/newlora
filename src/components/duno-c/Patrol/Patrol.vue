@@ -102,7 +102,7 @@ export default {
           key: "interval",
           minWidth: 50,
           align: "center",
-          tooltip: true 
+          tooltip: true
         },
         {
           title: "已巡视次数",
@@ -237,6 +237,9 @@ export default {
     }
   },
   methods: {
+    toDel(params) {
+      this.$emit("to-del", param);
+    },
     toRunTask(param) {
       this.$emit("to-run", param);
     },

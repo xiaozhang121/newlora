@@ -8,8 +8,15 @@
       <div @click="addTask()" v-if="place">+创建新的任务配置</div>
     </div>
     <duno-main class="dunoMain">
-      <Patrol @to-run="toRunTask" :dataList="allInspectList" planType="全面巡视" @to-edit="toEdit" />
       <Patrol
+        @to-run="toRunTask"
+        @to-del="toDel"
+        :dataList="allInspectList"
+        planType="全面巡视"
+        @to-edit="toEdit"
+      />
+      <Patrol
+        @to-del="toDel"
         @to-edit="toEdit"
         @to-run="toRunTask"
         :dataList="nightInspectList"
@@ -98,6 +105,7 @@ export default {
     const that = this;
     return {
       rowData: {},
+      isRun: false,
       taskVisible: false,
       taskVisible2: false,
       taskVisible3: false,
@@ -619,46 +627,50 @@ export default {
           render: (h, params) => {
             let newArr = [];
             let self = that;
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: {
-                    type: "text",
-                    content: "立即执行",
-                    loading: params.row.loading
-                  },
-                  on: {
-                    click: () => {
-                      self.toRunTask(params);
+            if (!that.isRun) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "立即执行",
+                      loading: params.row.loading
+                    },
+                    on: {
+                      click: () => {
+                        self.toRunTask(params);
+                      }
                     }
-                  }
-                },
-                "立即执行"
-              )
-            );
-            newArr.push(
-              h(
-                "el-button",
-                {
-                  class: "btn_pre",
-                  style: { background: "#305e83" },
-                  props: {
-                    type: "text",
-                    content: "立即停止",
-                    loading: params.row.isStop
                   },
-                  on: {
-                    click: () => {
-                      self.toStop(params);
+                  "立即执行"
+                )
+              );
+            }
+            if (that.isRun) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "立即停止",
+                      loading: params.row.isStop
+                    },
+                    on: {
+                      click: () => {
+                        self.toStop(params);
+                      }
                     }
-                  }
-                },
-                "立即停止"
-              )
-            );
+                  },
+                  "立即停止"
+                )
+              );
+            }
             if (that.isEdit) {
               newArr.push(
                 h(
@@ -743,7 +755,11 @@ export default {
       };
       postAxiosData(url, query).then(res => {
         if (res.errorCode == 200) {
-          this.$message.success(res.errorMessage);
+          this.$message({
+            type: "success",
+            message: res.errorMessage
+          });
+          //   this.$message.success(res.errorMessage);
         }
       });
     },
@@ -755,6 +771,7 @@ export default {
           this.getDataList();
           this[param.row.type][param.index]["isStop"] = false;
           this.$message.success(res.msg);
+          this.isRun = false;
         }
       );
     },
@@ -766,6 +783,7 @@ export default {
           this.getDataList();
           this[param.row.type][param.index]["loading"] = false;
           this.$message.success(res.msg);
+          this.isRun = true;
         }
       );
     },

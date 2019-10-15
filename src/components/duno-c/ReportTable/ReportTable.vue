@@ -112,6 +112,7 @@ export default {
         that.queryForm.taskRunHisId = this.taskRunHisId;
       }
       that.queryForm.planId = that.reportData.planId;
+      that.queryForm.isRobot = that.reportData.isRobot;
       that.exportHandle();
     },
     viewReports() {

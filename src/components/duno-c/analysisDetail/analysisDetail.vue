@@ -53,6 +53,7 @@
       :popData="popData"
       :visible="visible"
       :detailsType="detailsType"
+      @on-fresh="onFresh"
       @handleClose="handleClose"
     />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
@@ -477,6 +478,9 @@ export default {
     this.getType();
   },
   methods: {
+    onFresh() {
+      this.getDataList();
+    },
     cutOut(data) {
       if (data) {
         const index = data.indexOf("缺陷");
@@ -664,24 +668,23 @@ export default {
             });
           }
         } else if (monitorDeviceType == 2) {
-            if (supportPreset) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRed",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }
-
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
         } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
