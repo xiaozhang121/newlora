@@ -411,6 +411,7 @@ export default {
         if(this.patrol)
             str+=this.patrol+' '
         str+='点击查看摄像头详情'
+        return str
     }
   },
   methods: {
