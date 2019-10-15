@@ -748,17 +748,14 @@ export default {
   },
   methods: {
     toDel(param) {
-      let url = "/lenovo-plan/api/inspection/deletePlanAndTasks";
-      let query = {
-        id: param.row.id
-      };
-      postAxiosData(url, query).then(res => {
+      let url = `/lenovo-plan/api/inspection/deletePlanAndTasks?id=${param.row.id}`;
+      postAxiosData(url).then(res => {
         if (res.errorCode == 200) {
+          this.getDataList();
           this.$message({
             type: "success",
             message: res.errorMessage
           });
-          //   this.$message.success(res.errorMessage);
         }
       });
     },

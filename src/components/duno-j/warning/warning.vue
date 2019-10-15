@@ -371,7 +371,7 @@ export default {
         (res.data.dealList || []).forEach(el => {
           let obj = {};
           obj.time = el.dealTime;
-          obj.info = el.dealType;
+          obj.info = el.dealContent;
           that.handleList.push(obj);
         });
         console.log(that.handleList);
