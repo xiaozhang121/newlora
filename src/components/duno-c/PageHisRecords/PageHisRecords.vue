@@ -172,7 +172,7 @@ export default {
         },
         {
           key: "monitorDeviceName",
-          title: "拍摄来源",
+          title: "来源",
           align: "center",
           render: (h, params) => {
             let newArr = [];

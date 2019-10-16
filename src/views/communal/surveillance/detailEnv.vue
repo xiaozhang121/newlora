@@ -1,24 +1,22 @@
 <template>
-  <div class="detailEnv">
+  <div class="surveillanceDetail">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="controlTitle">
-      <div>
-        <span>{{ dataForm.monitorDeviceName }}</span>
-        <span class="isEqual" :class="{'hidden': isEqual}"  @click="toReal">切换至实时视频</span>
-      </div>
+      <div>{{ dataForm.monitorDeviceName }}</div>
     </div>
     <div class="Main_contain">
       <div class="content">
         <div class="left nr">
-          <div class="item">
+          <div class="item" style="position: relative">
+            <!-- <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/> -->
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
-                  class="monitor child"
+                  class="monitor"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
@@ -26,289 +24,231 @@
                 ></key-monitor>
               </div>
             </div>
-          </div>
-        </div>
-          <div class="left nr">
-          <div class="item" style="background: transparent">
-            <div class="camera_surveillanceDetail">
-              <div class="contain color">
-                  <div class="main_add">
-                    <div class="title_add">
-                      <span>24小时监测记录</span>
-                      <duno-btn-top
-                              @on-select="onSelect"
-                              :zIndex="1"
-                              class="timeSelect"
-                              :isCheck="false"
-                              :dataList="timeList"
-                              :title="timeValue"
-                              :showBtnList="false"
-                      ></duno-btn-top>
-                    </div>
-                    <div class="contain_add">
-                      <div class="loading" :class="{'zIndex': loading}"  v-loading="loading"  element-loading-background="rgba(0, 0, 0, 0.8)"
-                           element-loading-text="加载中"></div>
-                      <video-list class="videoList" :index="index" v-for="(item, index) in videoList"  :dataInfo="item" :key="index" @on-play="onPlay" />
-                    </div>
-                  </div>
+            <div class="control">
+              <div class="controBtnContain">
+                <contro-btn
+                  :disabledOption="disabled"
+                  ref="controBtnRef"
+                  :deviceId="dataForm.monitorDeviceId"
+                />
+              </div>
+              <div class="inputGroup" v-if="place">
+                <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
+                <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
               </div>
             </div>
           </div>
+        </div>
+        <div class="right nr contain">
+          <inspection @on-edit="onEdit" ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
         </div>
       </div>
-      <div class="middle_table">
-        <div class="top not-print">
-          <div class="name">动态环境异常记录</div>
-          <!-- <div class="select">
-            <div>
-              <duno-btn-top
-                @on-select="onSelect"
-                :zIndex="1"
-                class="dunoBtnTo"
-                :isCheck="false"
-                :dataList="allDataKind"
-                :title="titleTypeL"
-                :showBtnList="false"
-              ></duno-btn-top>
-            </div>
-            <div>
-              <duno-btn-top
-                @on-select="onSelect"
-                :zIndex="1"
-                class="dunoBtnTop"
-                :isCheck="false"
-                :dataList="allDataLevel"
-                :title="titleTypeR"
-                :showBtnList="false"
-              ></duno-btn-top>
-            </div>
-          </div>-->
-          <div class="btn">
-            <div class="dateChose">
-              <el-date-picker
-                unlink-panels
-                v-model="dataTime"
-                type="daterange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                @change="onChangeHis"
-              ></el-date-picker>
-            </div>
-            <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div>
-          </div>
-        </div>
-        <duno-tables-tep
-          class="table_abnormalInfo"
-          :columns="columns"
-          :data="dataList"
-          :totalNum="totalNum"
-          :pageSize="pageRows"
-          :current="pageIndex"
-          :border="true"
-          :showSizer="true"
-          @on-select="dataListSelectionChangeHandle"
-          @clickPage="pageCurrentChangeHandle"
-          @on-page-size-change="pageSizeChangeHandle"
-        />
-      </div>
-      <!--<div class="historicalData">
-        <div class="top">
-          <div>历史数据</div>
-          <div class="btn">
-            <div>
-              <duno-btn-top
-                @on-select="onSelect"
-                class="dunoBtnTop"
-                :isCheck="false"
-                :dataList="typeList"
-                :title="titleType"
-                :showBtnList="false"
-              ></duno-btn-top>
-            </div>
-            <div class="dateChose">
-              <el-date-picker
-                unlink-panels
-                v-model="value"
-                type="daterange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                @change="onChangeTime"
-              ></el-date-picker>
-            </div>
-            <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="con-chart">
-          <echarts :dataAllList="echartData" />
-        </div>
-      </div>-->
     </div>
-    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <div class="middle_table">
+      <div class="top not-print">
+        <div class="name">历史监测记录</div>
+        <div class="btn">
+          <div class="dateChose">
+            <el-date-picker v-model="dataTimeD" @change="changeDate" type="date" placeholder="选择日期"></el-date-picker>
+          </div>
+        </div>
+      </div>
+      <div class="video">
+        <div>
+          <div class="videoItem" v-for="(item,index) in videoList" :key="index">
+            <cover :srcData="item" :isSecond="false"></cover>
+            <p>{{ item['startTime'] }}-{{ item['endTime'] }}</p>
+          </div>
+        </div>
+        <el-pagination
+          :current-page="pageParam['pageIndex']"
+          layout="pager"
+          :total="pageParam['totalRows']"
+          @current-change="sizeChange"
+        ></el-pagination>
+      </div>
+    </div>
+    <div class="middle_table">
+      <div class="top not-print">
+        <div class="name">动态环境告警记录</div>
+        <div class="btn">
+          <div class="dateChose">
+            <el-date-picker
+              unlink-panels
+              v-model="dataTime"
+              type="daterange"
+              range-separator="-"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              @change="onChangeHis"
+            ></el-date-picker>
+          </div>
+          <div>
+            <div @click="clickExcel" class="clickBtn">
+              <i class="iconfont icon-daochu1"></i>
+              导出表格
+            </div>
+          </div>
+        </div>
+      </div>
+      <duno-tables-tep
+        class="table_abnormalInfo"
+        :columns="columnsA"
+        :data="dataList"
+        :totalNum="totalNum"
+        :pageSize="pageRows"
+        :current="pageIndex"
+        :border="true"
+        :showSizer="true"
+        @on-select="dataListSelectionChangeHandle"
+        @clickPage="pageCurrentChangeHandle"
+        @on-page-size-change="pageSizeChangeHandle"
+      />
+    </div>
+    <div class="middle_table">
+      <div class="top not-print">
+        <div class="name">设备历史信息记录</div>
+        <div class="select">
+          <div>
+            <duno-btn-top
+              @on-select="onSelect"
+              :zIndex="1"
+              class="dunoBtnTop"
+              :isCheck="false"
+              :dataList="allDataLevel"
+              :title="titleTypeR"
+              :showBtnList="false"
+            ></duno-btn-top>
+          </div>
+        </div>
+        <div class="btn">
+          <div class="dateChose">
+            <el-date-picker
+              unlink-panels
+              v-model="dataTime"
+              type="daterange"
+              range-separator="-"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              @change="onChangeHis"
+            ></el-date-picker>
+          </div>
+          <div>
+            <div @click="clickExcel" class="clickBtn">
+              <i class="iconfont icon-daochu1"></i>
+              导出表格
+            </div>
+          </div>
+        </div>
+      </div>
+      <duno-tables-tep
+        class="table_abnormalInfo"
+        :columns="columns"
+        :data="dataList"
+        :totalNum="totalNum"
+        :pageSize="pageRows"
+        :current="pageIndex"
+        :border="true"
+        :showSizer="true"
+        @on-select="dataListSelectionChangeHandle"
+        @clickPage="pageCurrentChangeHandle"
+        @on-page-size-change="pageSizeChangeHandle"
+      />
+    </div>
+    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
-    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
 </template>
 
 <script>
-import videoList from "./components/videoList";
-import axios from 'axios'
+import controlCheck from "_c/duno-m/controlCheck";
+import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
-import enlarge from "_c/duno-c/enlarge";
-import echarts from "_c/duno-c/echarts";
 import controBtn from "_c/duno-m/controBtn";
-import buttonCustom from "_c/duno-m/buttonCustom";
-import Remarks from "_c/duno-c/Remarks";
+import cover from "_c/duno-c/cover";
 import mixinViewModule from "@/mixins/view-module";
 import inspection from "_c/duno-m/inspection";
 import { DunoTablesTep } from "_c/duno-tables-tep";
-import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import moment from "moment";
-import {
-  getVLIght,
-  getVType,
-  getVGrade,
-  getVPreset,
-  getVEcharts,
-  getPosition,
-  dealRemarks
-} from "@/api/configuration/configuration.js";
+import { getVLIght } from "@/api/configuration/configuration.js";
 export default {
-  name: "detailEnv",
+  name: "surveillanceDetail",
   mixins: [mixinViewModule],
   components: {
-    videoList,
     dunoBtnTop,
     KeyMonitor,
     Breadcrumb,
     controBtn,
     inspection,
     DunoTablesTep,
-    echarts,
-    warningSetting,
     wraning,
-    buttonCustom,
     enlarge,
-    Remarks
+    cover,
+    controlCheck
   },
   data() {
     const that = this;
     return {
-      loading: false,
-      pageIndexD: 1,
-      timeList: [],
-      timeValue: '全部日期',
-      videoList: [],
-      chosenDate: "",
       addOrEdit: "添加",
+      titleTypeK: "全部识别类型",
       disabled: false,
+      place: false,
+      lockPress: false,
       mixinViewModuleOptions: {
-        // activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/security/list",
-        exportURL: "/lenovo-alarm/api/security/history/export"
+        getDataListURL: "/lenovo-plan/api/task/result/list",
+        exportURL: "/lenovo-plan/api/task/result/list/export"
       },
-      titleType: "选择预置位",
-      titleTypeL: "全部数据类型",
-      titleTypeR: "全部异常类型",
       isControl: "1",
-      alarmId: "",
       currentTime: 10,
       timeOut: null,
-      isEnlarge: false,
-      dialogVisible: false,
-      dataForm: {},
-      queryForm: {},
-      echartForm: {},
-      echartData: [],
       srcData: [],
-      value: "",
-      textarea: "",
+      isEnlarge: false,
+      queryForm: {},
+      dataForm: {},
+      echartForm: {},
       alarmLevel: "",
       visible: false,
-      visibleSettingOption: false,
+      dataTime: "",
+      dataTimeD: "",
       popData: {},
+      playerOptions: {
+        streamAddr: "",
+        autoplay: true
+      },
+      presetName: "",
+      dataBread: [{ name: "摄像头详情" }],
+      pageParam: {
+        pageIndex: 1,
+        totalRows: 1
+      },
+      videoList: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
       columns: [
         {
           title: "拍摄时间",
           key: "alarmTime",
-          minWidth: 100,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h("div", [
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: params.row.alarmTime,
-                    transfer: true
-                  },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
-                },
-                params.row.alarmTime
-              )
-            ]);
+            let timeDay = params.row.alarmTime.slice(5);
+            return h("div", timeDay);
           }
         },
         {
           title: "告警类型",
-          key: "alarmType",
+          key: "alarmDetailType",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
-        // {
-        //   title: "拍摄来源",
-        //   key: "monitorDeviceName",
-        //   minWidth: 120,
-        //   align: "center",
-        //   tooltip: true,
-        //   render: (h, params) => {
-        //     let newArr = [];
-        //     newArr.push([
-        //       h(
-        //         "a",
-        //         {
-        //           class: "table_link",
-        //           props: { type: "text" },
-        //           on: {
-        //             click: () => {
-        //               this.getJump(params.row);
-        //             }
-        //           }
-        //         },
-        //         params.row.monitorDeviceName
-        //       )
-        //     ]);
-        //     return h("div", { class: { member_operate_div: true } }, newArr);
-        //   }
-        // },
         {
           title: "处理记录",
           key: "dealType",
-          minWidth: 90,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -328,7 +268,7 @@ export default {
         },
         {
           title: "视频/图片",
-          key: "id",
+          key: "fileType",
           minWidth: 120,
           align: "center",
           tooltip: true,
@@ -365,6 +305,13 @@ export default {
             }
             return h("div", newArr);
           }
+        },
+        {
+          title: "自动/手动",
+          key: "alarmDetailType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true
         },
         {
           title: " ",
@@ -416,8 +363,8 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      this.alarmId = params.row.alarmId;
                       this.dialogVisible = true;
+                      this.alarmId = params.row.alarmId;
                     }
                   }
                 },
@@ -429,11 +376,9 @@ export default {
         },
         {
           title: " ",
-          key: "id",
-          width: 220,
+          width: 90,
           align: "center",
           render: (h, params) => {
-            const that = this;
             let newArr = [];
             newArr.push([
               h(
@@ -444,9 +389,16 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
                       that.visible = true;
+                      that.$forceUpdate();
                     }
                   }
                 },
@@ -463,26 +415,249 @@ export default {
           }
         }
       ],
-      playerOptions: {
-        streamAddr: "",
-        autoplay: true
-      },
-      playerOptionsd: {
-        streamAddr: "",
-        autoplay: true
-      },
-      backUPAddr: '',
-      presetName: "",
-      dataTime: "",
-      dataBread: [{ name: "摄像头详情" }],
-      cancelList: [],
-      isRequest: false
+      columnsA: [
+        {
+          title: "时间",
+          key: "date",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let timeDay = params.row.date.slice(5);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: { placement: "top", content: timeDay, transfer: true },
+                  style: {
+                    display: "inline-block",
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
+          }
+        },
+        {
+          title: "对象",
+          key: "powerDeviceName",
+          minWidth: 180,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "部件/相别",
+          key: "part",
+          minWidth: 90,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "描述",
+          key: "description",
+          minWidth: 90,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "缺陷等级",
+          key: "alarmLevel",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let that = this;
+            let newArr = [];
+            if (params.row.isAlarm == "1") {
+              newArr.push(
+                h(
+                  "i-dropdown",
+                  {
+                    props: { trigger: "click", placement: "bottom-start" },
+                    style: { marginLeft: "5px" },
+                    on: {
+                      "on-click": value => {
+                        console.log(value);
+                      }
+                    }
+                  },
+                  [
+                    h("div", { class: { member_operate_div: true } }, [
+                      h(
+                        "div",
+                        {
+                          class: {
+                            table_select: true,
+                            serious: params.row.alarmLevel === "2",
+                            commonly: params.row.alarmLevel === "1",
+                            danger: params.row.alarmLevel === "3"
+                          }
+                        },
+                        [
+                          h("span", this.cutOut(params.row.alarmLevelName), {
+                            class: { member_operate_div: true }
+                          }),
+                          h("i", {
+                            style: { marginLeft: "5px" },
+                            class: { "iconfont icon-xiala": true }
+                          })
+                        ]
+                      )
+                    ]),
+                    h("i-dropdownMenu", { slot: "list" }, [
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "一般", "1");
+                              }
+                            }
+                          },
+                          "一般"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "严重", "2");
+                              }
+                            }
+                          },
+                          "严重"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "危急", "3");
+                              }
+                            }
+                          },
+                          "危急"
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              );
+            } else {
+              newArr.push("/");
+            }
+            return h("div", newArr);
+          }
+        },
+        {
+          title: "数据",
+          key: "resultValue",
+          minWidth: 90,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "视频/图片",
+          key: "fileType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            if (params.row.fileType == "1") {
+              newArr.push([
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.fileAddress },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
+                })
+              ]);
+            } else if (params.row.fileType == "2") {
+              newArr.push([
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.alarmFileAddress },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
+                })
+              ]);
+            }
+            return h("div", newArr);
+          }
+        },
+        {
+          title: "自动/手动",
+          key: "description",
+          minWidth: 90,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: " ",
+          width: 90,
+          align: "center",
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "table_link",
+                  style: { marginRight: "20px" },
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      that.handleNotes = [];
+                      that.handleNotes.push({
+                        dealTime: params.row.dealTime,
+                        dealType: params.row.dealRecord
+                      });
+                      that.alarmType = params.row.alarmType;
+                      that.popData = params.row;
+                      that.alarmLevel = params.row.alarmLevel;
+                      that.visible = true;
+                      that.$forceUpdate();
+                      //   that.getviewData(params.row);
+                    }
+                  }
+                },
+                "详情"
+              )
+            ]);
+            return h(
+              "div",
+              {
+                class: "flexPos"
+              },
+              newArr
+            );
+          }
+        }
+      ]
     };
-  },
-  computed:{
-      isEqual(){
-          return (this.backUPAddr == this.playerOptions.streamAddr)
-      }
   },
   props: {
     deviceId: {
@@ -491,107 +666,6 @@ export default {
     }
   },
   methods: {
-    toReal(){
-        this.playerOptions.streamAddr = this.backUPAddr
-        let data = this.videoList
-        data.map(item=>{
-            item['isPlay'] = false
-        })
-        this.videoList = data
-    },
-    onPlay(index){
-        let data = JSON.parse(JSON.stringify(this.videoList))
-        data.map((item, i)=>{
-            if(index == i){
-              item['isPlay'] = true
-            }else
-              item['isPlay'] = false
-        })
-        this.videoList = data
-        this.playerOptions.streamAddr = this.videoList[index]['streamAddr']
-        console.log(this.videoList[index]['streamAddr'])
-        this.$forceUpdate()
-    },
-    clearRequest(){
-        const that = this
-        for (let p in that.cancelList) {
-            that.cancelList[p].cancel('demo111')
-        }
-        that.cancelList = []
-    },
-    getVideo(date){
-        const that = this
-        that.loading = true
-        if(!this.isRequest) {
-            this.isRequest = true
-            getAxiosData('/lenovo-device/device/video/record/videos', {
-                pageIndex: this.pageIndexD,
-                pageRows: 7,
-                date: date,
-                monitorDeviceId: this.dataForm.monitorDeviceId
-            }).then(res => {
-                let data = res.data.tableData
-                let indexX = 0
-                indexX = this.videoList.length
-                data.map(item => {
-                    item['isPlay'] = false
-                })
-                if (that.pageIndexD != 1) {
-                    that.videoList = that.videoList.concat(data)
-                } else {
-                    that.videoList = data
-                }
-                that.$forceUpdate()
-                that.isRequest = false
-                that.loading = false
-                for (let i = indexX; i < that.videoList.length; i++) {
-                    that.cancelList.push(axios.CancelToken.source())
-                     postAxiosData("/lenovo-device/device/video/record/video/pic", {
-                        cancelToken: that.cancelList[that.cancelList.length-1].token,
-                        positionIndex: i,
-                        videoPath: that.videoList[i]['streamAddr']
-                    }).then(res => {
-                        let data = res.data
-                        that.$set(that.videoList[data['positionIndex']], 'pic', data['pic'])
-                        that.$forceUpdate()
-                    })
-                }
-            })
-        }
-    },
-    initTime(){
-        getAxiosData('/lenovo-device/device/video/record/date/select-list',{ monitorDeviceId: this.dataForm.monitorDeviceId }).then(res=>{
-            const resData = res.data;
-            const map = resData.map(item => {
-                const obj = {
-                    describeName: item.label,
-                    monitorDeviceType: item.value,
-                    title: "timeValue"
-                };
-                return obj;
-            });
-            map.unshift({
-                describeName: "全部日期",
-                monitorDeviceType: "",
-                title: "timeValue"
-            });
-            this.timeList = map;
-        })
-    },
-    beforeClose() {
-      this.dialogVisible = false;
-    },
-    closeEnlarge() {
-      this.isEnlarge = false;
-    },
-    handleClose() {
-      this.popData = {};
-      this.visible = false;
-    },
-    onEdit(name) {
-      this.presetName = name;
-      this.addOrEdit = "编辑";
-    },
     addReturn(row) {
       const that = this;
       const query = {
@@ -604,6 +678,71 @@ export default {
         this.getDataList();
       });
     },
+    clickExcel() {
+      const that = this;
+      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.exportHandle();
+    },
+    onChangeHis(data) {
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
+        endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
+      }
+      this.dataForm.startTime = startTime;
+      this.dataForm.endTime = endTime;
+      this.getDataList();
+    },
+    sizeChange(item) {
+      this.getVideo(item);
+    },
+    getVideo(pageIndex) {
+      let index = 1;
+      if (pageIndex) {
+        index = pageIndex;
+      }
+      getAxiosData("/lenovo-device/device/video/record/videos", {
+        startTime: this.timeData,
+        endTime: this.timeData,
+        pageIndex: index,
+        pageRows: 10,
+        monitorDeviceId: this.dataForm.monitorDeviceId
+      }).then(res => {
+        let data = res.data.tableData;
+        this.videoList = data;
+        data.forEach((item, index) => {
+          postAxiosData("/lenovo-device/device/video/record/video/pic", {
+            videoPath: item["streamAddr"],
+            positionIndex: index
+          }).then(res => {
+            this.videoList[res.data["positionIndex"]]["pic"] = res.data.pic;
+            this.$forceUpdate();
+          });
+        });
+        this.pageParam = res.data.pageParam;
+      });
+    },
+    changeDate(now) {
+      let data = "";
+      if (now) {
+        data = moment(now).format("YYYY-MM-DD");
+      } else {
+        data = "";
+      }
+      this.timeData = data;
+      this.getVideo();
+    },
+    onDisable(flag) {
+      this.disabled = flag;
+    },
+    closeEnlarge() {
+      this.isEnlarge = false;
+    },
+    onEdit(name) {
+      this.presetName = name;
+      this.addOrEdit = "编辑";
+    },
     addPoint() {
       this.$refs.inspectionRef.addPosInput = this.presetName;
       this.$refs.inspectionRef.addPosition();
@@ -612,26 +751,14 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = true;
-      if(this.dataForm.monitorDeviceId){
-          const url =
-              "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
-              this.dataForm.monitorDeviceId;
-          getAxiosData(url, {}).then(res => {
-              that.playerOptions.streamAddr = res.data;
-              that.backUPAddr = res.data
-          });
-      }
-    },
-    cutOut(data) {
-      if (data) {
-        const index = data.indexOf("缺陷");
-        if (index > -1) {
-          data = data.substring(0, index);
-        }
-        return data;
-      } else {
-        return "更多";
+      that.disabled = false;
+      if (this.dataForm.monitorDeviceId) {
+        const url =
+          "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+          this.dataForm.monitorDeviceId;
+        getAxiosData(url, {}).then(res => {
+          that.playerOptions.streamAddr = res.data;
+        });
       }
     },
     onClickDropdown(row, type, No) {
@@ -668,79 +795,9 @@ export default {
         }
       );
     },
-    onSelect(item, index) {
-      this[item.title] = item["describeName"];
-      if (item.title == "titleTypeL") {
-        this.dataForm.deviceType = item.monitorDeviceType;
-        this.getDataList();
-      } else if (item.title == "titleTypeR") {
-        this.dataForm.alarmLevel = item.monitorDeviceType;
-        this.getDataList();
-      } else if (item.title == "titleType") {
-        this.echartForm.source = item.monitorDeviceType;
-        this.getEchasrts();
-      } else if(item.title == 'timeValue'){
-        this.clearRequest()
-        this.pageIndexD = 1
-        this.videoList = []
-        this.getVideo(item['monitorDeviceType'])
-      }
-    },
-    onChangeHis(data) {
-      let startTime = "";
-      let endTime = "";
-      if (data) {
-        startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
-        endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
-      }
-      this.dataForm.startTime = startTime;
-      this.dataForm.endTime = endTime;
-      this.getDataList();
-    },
-    onChangeTime(data) {
-      let startTime = "";
-      let endTime = "";
-      if (data) {
-        startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
-        endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
-      }
-      this.echartForm.startTime = startTime;
-      this.echartForm.endTime = endTime;
-      this.getEchasrts();
-    },
-    clickExcel() {
-      const that = this;
-      this.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-      that.exportHandle();
-    },
-    getEchasrts() {
-      getPosition().then(res => {
-        let presetId = res.data[0].value;
-        this.echartForm = {
-          startTime: this.echartForm.startTime,
-          endTime: this.echartForm.endTime,
-          deviceType: "2",
-          monitorDeviceId: this.$route.params.monitorDeviceId,
-          presetIds: presetId
-        };
-        getVEcharts(this.echartForm).then(res => {
-          this.echartData = res.data.itemDataList;
-        });
-      });
-    },
     handleClose() {
       this.popData = {};
       this.visible = false;
-    },
-    onClose() {
-      this.visibleSettingOption = false;
-    },
-    getInit() {
-      let time = moment()
-        .add(-1, "days")
-        .format("YYYY-MM-DD");
-      this.echartForm.startTime = `${time} 00:00:00`;
-      this.echartForm.endTime = `${time} 23:59:59`;
     },
     getControl() {
       if (this.isControl == "1") {
@@ -783,166 +840,38 @@ export default {
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
-    this.getEchasrts();
-    this.initTime()
-    this.getVideo()
   },
   mounted() {
-    const that = this
-    this.getInit();
+    this.place = this.getAuthority("10071002");
+    this.lockPress = this.getAuthority("10075002");
     window.addEventListener("onmousemove", this.endControl());
-    document.querySelector(".mainAside").style.height = "inherit";
-    document.querySelector(".mainAside").style.minHeight = "100%";
-    $(".contain_add").scroll(function () {
-        let $this = $(this),
-            viewH = $(this).height(),//可见高度
-            contentH = $(this).get(0).scrollHeight,//内容高度
-            scrollTop = $(this).scrollTop();//滚动高度
-        console.log('viewH', viewH);
-        console.log('contentH', contentH);
-        console.log('scrollTop', scrollTop);
-        $('.loading').css({'top': scrollTop+'px'})
-        //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
-        console.log(scrollTop / (contentH - viewH))
-        if (scrollTop / (contentH - viewH) >= 0.9) { //到达底部100px时,加载新内容
-           if(!that.isRequest){
-               that.pageIndexD++
-               that.getVideo()
-           }
-        }
-    })
+    // document.querySelector(".mainAside").style.height = "inherit";
+    // document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
-    document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
-    document.querySelector(".mainAside").style.minHeight = "inherit";
+    // this.$refs.controlCheckRef.releaseNow();
+    // document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
+    // document.querySelector(".mainAside").style.minHeight = "inherit";
   }
 };
 </script>
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.mainAside {
-  /*min-height: 100%;*/
-}
-.el-loading-text {
-  color: #969696 !important;
-}
-.hidden{
-  visibility: hidden;
-}
-.el-picker-panel {
-  background-color: rgba(27, 59, 71, 0.7) !important;
-  color: #fff !important;
-  border: none !important;
-  .el-picker-panel__body-wrapper {
-    .el-picker-panel__body {
-      .in-range {
-        div {
-          background-color: rgba(81, 89, 112, 0.7) !important;
-        }
-      }
-    }
-  }
-}
-  .timeSelect.dunoBtnTop .btnList{
-    right: 0;
-    top: 0;
-    & .btn_main .btnItem{
-      text-align: left;
-    }
-  }
-.detailEnv {
+.surveillanceDetail {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
-  .loading{
+  .controlCheck {
+    bottom: inherit;
+    color: white;
+    min-width: 195px;
+    overflow: visible;
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    &.zIndex{
-      z-index: 100;
-    }
+    top: -39px;
+    right: 0;
+    width: auto;
   }
-  ::-webkit-input-placeholder {
-    /* WebKit browsers */
-    color: white;
-  }
-
-  ::-moz-placeholder {
-    /* Mozilla Firefox 19+ */
-    color: white;
-  }
-
-  :-ms-input-placeholder {
-    /* Internet Explorer 10+ */
-    color: white;
-  }
-
-  .el-input--small .el-input__inner {
-    // background: #1a2f42;
-    border: none;
-    color: #333;
-    height: 40px;
-    border-radius: 0;
-    font-size: 15px;
-    width: 154px;
-    float: right;
-  }
-  .el-date-editor.el-input,
-  .el-date-editor.el-input__inner {
-  }
-  .Main_contain {
-    .contain.color {
-      background: #132838 !important;
-    }
-    .content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .main_add {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      .title_add {
-        position: relative;
-        top: -45px;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .contain_add {
-        padding: 13px;
-        position: absolute;
-        overflow-y: auto;
-        text-align: left;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #112432;
-        .videoList {
-          margin-bottom: 10px;
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-      }
-    }
-  }
-  .monitor.child {
-    .vjs-fluid {
-      padding-top: 56%;
-    }
-  }
-  .icon-xiala {
-    /* width: 12px;
-    height: 14px;*/
-  }
-  /*overflow-y: hidden;*/
   .el-input--small .el-input__inner {
     border-radius: 0;
     width: 100%;
@@ -1011,25 +940,10 @@ export default {
       }
     }
   }
-  .btn_pre {
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    border-radius: 20px;
-    @media screen and (min-width: 3500px) {
-      padding: 6px 12px;
-    }
-  }
   .content {
     display: flex;
     .left {
-      width: 50%;
-      &:first-child {
-        margin-right: 10px;
-      }
-      &:last-child {
-        margin-left: 10px;
-      }
+      width: 75%;
       &.nr {
         display: flex;
         flex-direction: column;
@@ -1037,22 +951,13 @@ export default {
         .item {
           background: #132838;
           display: flex;
-          &:first-child {
-            /*margin-bottom: 15px;*/
-          }
           .camera_surveillanceDetail {
-            width: 100%;
-            text-align: center;
+            width: 68%;
             .contain {
               position: relative;
               width: 100%;
               padding-bottom: 56%;
               background: black;
-              .contain_img {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-              }
               .monitor {
                 position: absolute;
                 width: 100% !important;
@@ -1088,11 +993,16 @@ export default {
         }
       }
     }
+    .right {
+      width: 25%;
+      margin-left: 20px;
+      background: #132838;
+    }
   }
   .middle_table {
     margin-top: 20px;
     width: 100%;
-    min-height: 300px;
+    min-height: 400px;
     .top {
       color: #ffffff;
       height: 40px;
@@ -1116,10 +1026,8 @@ export default {
             padding-bottom: 0;
             .btnList {
               top: inherit !important;
-              // line-height: 30px;
               width: 160px;
               .title {
-                // font-size: 16px;
                 padding: 8px 20px;
               }
             }
@@ -1176,83 +1084,48 @@ export default {
         }
       }
     }
-  }
-  .historicalData {
-    .top {
-      color: #ffffff;
-      height: 40px;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
+    // .table_abnormalInfo {
+    //   background: #132838;
+    // }
+    .video {
+      background: #132838;
+      min-height: 400px;
+      padding: 20px 0 20px 20px;
       & > div:first-child {
-        font-size: 20px;
-        line-height: 40px;
+        overflow: hidden;
       }
-      .btn {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        & > div {
-          margin-left: 10px;
-          .dunoBtnTop {
-            width: 145px;
-            display: inline-flex;
-            padding-bottom: 0;
-            .btnList {
-              top: inherit !important;
-              width: 145px;
-              .title {
-                padding: 8px 20px;
-              }
-            }
+      .videoItem {
+        float: left;
+        width: calc(20% - 20px);
+        margin-right: 20px;
+        margin-bottom: 20px;
+        .cover {
+          min-height: 196px;
+          @media screen and (min-width: 3500px) {
+            min-height: 150px;
           }
         }
-        & > div:nth-child(5) {
-          & > div {
-            width: 140px;
-            line-height: 40px;
-            text-align: center;
-            background-color: #192f41;
-            cursor: pointer;
-          }
-        }
-        .dateChose {
-          .el-date-editor {
-            background-color: #192f41;
-            border: none;
-            .el-range-input {
-              background-color: rgba(81, 89, 112, 0);
-            }
-            .el-range-separator {
-              font-size: 20px;
-              color: #fff;
-            }
-            .el-range-input {
-              color: #fff;
-            }
-          }
-          .el-range-editor--small.el-input__inner {
-            height: 40px !important;
-          }
-          .el-range-editor--small .el-range__icon,
-          .el-range-editor--small .el-range__close-icon {
-            line-height: 35px;
-          }
-          .el-range-editor--small .el-range-input {
-            font-size: 16px;
-          }
+        p {
+          margin-top: 5px;
+          color: #fff;
+          text-align: center;
         }
       }
-    }
-    .con-chart {
-      width: 100%;
-      height: 340px;
-      .chartBox {
-        height: 340px;
-        .charts {
-          height: 340px;
-        }
+      .el-pagination {
+        text-align: center;
+      }
+      .el-pager li {
+        background: rgba(0, 0, 0, 0);
+        color: #fff;
+      }
+      .el-pager li.active {
+        color: #5fafff;
+        border-bottom: 1px solid #2d8cf0;
+      }
+      .el-pagination .btn-prev,
+      .el-pagination .btn-next {
+        background-color: rgba(0, 0, 0, 0);
+        color: #ffffff;
       }
     }
   }
@@ -1339,17 +1212,7 @@ export default {
     }
     & > div:first-child {
       font-size: 20px;
-      width: 49.3%;
-    }
-    .isEqual{
-      cursor: pointer;
-      font-size: 14px;
-      float: right;
-      position: relative;
-      top: 0px;
-      border: 1px solid white;
-      padding: 6px;
-      border-radius: 4px;
+      width: 52%;
     }
     .control {
       font-size: 18px;
@@ -1369,17 +1232,6 @@ export default {
         font-style: normal;
       }
     }
-  }
-}
-.el-popup-parent--hidden {
-  .el-select-dropdown {
-    background: #fff !important;
-    color: #333;
-  }
-  .el-select-dropdown__empty,
-  .el-select-dropdown__item,
-  .el-select-dropdown__item.selected {
-    color: #333;
   }
 }
 </style>

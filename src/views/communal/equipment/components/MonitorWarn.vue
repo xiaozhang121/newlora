@@ -30,7 +30,7 @@
       </div>
       <div class="btn">
         <p>
-          拍摄来源:
+          来源:
           <el-tooltip :content="remarkData.monitorDeviceName" placement="top">
             <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
           </el-tooltip>

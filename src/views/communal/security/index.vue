@@ -218,7 +218,7 @@ export default {
     clickToDetail(flag) {
       if (flag == 2) {
         this.$router.push({
-          name: "security-all"
+          name: "surveillanceListImportant"
         });
       } else {
         this.$router.push({

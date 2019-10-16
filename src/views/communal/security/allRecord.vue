@@ -165,7 +165,7 @@ export default {
           tooltip: true
         },
         {
-          title: "拍摄来源",
+          title: "来源",
           key: "monitorDeviceName",
           minWidth: 120,
           align: "center",

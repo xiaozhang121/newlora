@@ -38,7 +38,7 @@
       </div>
       <div class="btn">
         <p>
-          拍摄来源:
+          来源:
           <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
         </p>
         <p v-if="isShow">

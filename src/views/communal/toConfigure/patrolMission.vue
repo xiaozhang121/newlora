@@ -157,7 +157,7 @@ export default {
           tooltip: true
         },
         {
-          title: "拍摄来源",
+          title: "来源",
           key: "monitorDeviceName",
           minWidth: 120,
           align: "center",
@@ -355,7 +355,6 @@ export default {
   created() {
     this.inspectName = this.$route.query.inspectName;
     this.dataForm.planId = this.$route.query.planId;
-    this.dataForm.alarmType = "1";
     this.getRegion();
     this.getType();
     this.getDataList();

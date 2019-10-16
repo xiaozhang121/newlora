@@ -555,7 +555,7 @@
                         }
                     },
                     {
-                        title: "信息来源",
+                        title: "来源",
                         key: "monitorDeviceName",
                         minWidth: 120,
                         align: "center",

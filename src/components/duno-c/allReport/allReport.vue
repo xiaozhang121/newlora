@@ -290,7 +290,7 @@ export default {
           }
         },
         {
-          title: "拍摄来源",
+          title: "来源",
           key: "monitorDeviceName",
           minWidth: 150,
           align: "center",

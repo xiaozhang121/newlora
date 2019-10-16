@@ -794,7 +794,6 @@ export default {
     },
     sizeChange(item) {
       this.getVideo(item);
-      // this.getDataList();
     },
     getMonitorDeviceName() {
       const that = this;
