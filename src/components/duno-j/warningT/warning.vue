@@ -1,6 +1,17 @@
 <template>
-  <div class="warningDialog three warningT" v-if="newVisible && isThree && Object.keys(dataList).length">
-    <el-dialog destroy-on-close :close-on-click-modal="false"  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
+  <div
+    class="warningDialog three warningT"
+    v-if="newVisible && isThree && Object.keys(dataList).length"
+  >
+    <el-dialog
+      destroy-on-close
+      :close-on-click-modal="false"
+      class="elDialogClass"
+      :visible="newVisible"
+      width="900px"
+      center
+      @close="handleClose"
+    >
       <div slot="title">
         <div class="title_top">
           <span>
@@ -8,7 +19,7 @@
             <p>{{ dataList['alarmTypeValue']}}</p>
           </span>
           <span class="iconList">
-            <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
+            <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
             <i class="iconfont icon-wangye" @click="openPage()"></i>
           </span>
         </div>
@@ -16,21 +27,31 @@
       </div>
       <div class="main">
         <div class="monitor">
-          <span class="img"><img :src="dataList['alarmFileAddress'].split('||')[0]" alt /></span>
-          <span class="img"><img :src="dataList['alarmFileAddress'].split('||')[1]" alt /></span>
-          <span class="img"><img :src="dataList['alarmFileAddress'].split('||')[2]" alt /></span>
+          <span class="img">
+            <img :src="dataList['alarmFileAddress'].split('||')[0]" alt />
+          </span>
+          <span class="img">
+            <img :src="dataList['alarmFileAddress'].split('||')[1]" alt />
+          </span>
+          <span class="img">
+            <img :src="dataList['alarmFileAddress'].split('||')[2]" alt />
+          </span>
         </div>
         <div class="info">
           <div class="info_item">
-            <div class="info_title">
-              判定结果：
-            </div>
+            <div class="info_title">判定结果：</div>
             <div class="info_main">
               <p>{{ dataList.alarmDetailType }}</p>
               <p class="bold">
-                <span :class="{'red': dataList['phaseData'].split('||')[0].indexOf('\'')>-1}">{{ dataList['phaseData'].split('||')[0].replace('\'','') }}</span>
-                <span :class="{'red': dataList['phaseData'].split('||')[1].indexOf('\'')>-1}">{{ dataList['phaseData'].split('||')[1].replace('\'','') }}</span>
-                <span :class="{'red': dataList['phaseData'].split('||')[2].indexOf('\'')>-1}">{{ dataList['phaseData'].split('||')[2].replace('\'','') }}</span>
+                <span
+                  :class="{'red': dataList['phaseData'].split('||')[0].indexOf('\'')>-1}"
+                >{{ dataList['phaseData'].split('||')[0].replace('\'','') }}</span>
+                <span
+                  :class="{'red': dataList['phaseData'].split('||')[1].indexOf('\'')>-1}"
+                >{{ dataList['phaseData'].split('||')[1].replace('\'','') }}</span>
+                <span
+                  :class="{'red': dataList['phaseData'].split('||')[2].indexOf('\'')>-1}"
+                >{{ dataList['phaseData'].split('||')[2].replace('\'','') }}</span>
               </p>
               <p class="alarmType">
                 <span v-if="dataList['alarmContent']">{{ dataList['alarmContent'] }}</span>
@@ -41,9 +62,7 @@
             </div>
           </div>
           <div class="info_item">
-            <div class="info_title">
-              来源：
-            </div>
+            <div class="info_title">来源：</div>
             <div class="info_main">
               <p class="from" @click="getJump">{{dataList['monitorDeviceName']}}</p>
             </div>
@@ -54,37 +73,37 @@
         <div>
           <p class="monitorTitle">处理记录</p>
           <div class="monitorMain">
-          <p v-for="(item, index) in handleList" :key="index" class="item">
-            <span class="title">{{ item['time'] }}</span>
-            <span class="info">{{ item['info'] }}</span>
-          </p>
+            <p v-for="(item, index) in handleList" :key="index" class="item">
+              <span class="title">{{ item['time'] }}</span>
+              <span class="info">{{ item['info'] }}</span>
+            </p>
           </div>
         </div>
       </div>
       <div style="clear: both"></div>
     </el-dialog>
     <personJudge
-            :dataList="formData"
-            :isTemperture="discriminate"
-            @on-close="onClose"
-            @on-alter="initData"
-            :visible="visibleJudge"
+      :dataList="formData"
+      :isTemperture="discriminate"
+      @on-close="onClose"
+      @on-alter="initData"
+      :visible="visibleJudge"
     />
     <diff-panel :visible="visibleDiff" @on-close="closeDiff" />
   </div>
 </template>
 <script>
-import { Base64 } from 'js-base64'
+import { Base64 } from "js-base64";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import personJudge from "_c/duno-m/personJudge";
-import diffPanel  from '_c/duno-m/diffPanel'
+import diffPanel from "_c/duno-m/diffPanel";
 import buttonCustom from "_c/duno-m/buttonCustom";
 export default {
   components: { personJudge, diffPanel, buttonCustom },
   data() {
     return {
       formData: {},
-      isPhaseAlarm: '',
+      isPhaseAlarm: "",
       visibleDiff: false,
       target: null,
       searchId: "",
@@ -97,21 +116,21 @@ export default {
       alarmLevelN: "",
       newMonitorUrl: "",
       dataList: {},
-      alarmValue: '',
-      titleReturn:'复归',
+      alarmValue: "",
+      titleReturn: "复归",
       hasSelect: false,
       discriminate: false
     };
   },
   props: {
-    isThree:{
-        type: Boolean,
-        default: () => {
-            return false;
-        }
+    isThree: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
     },
-    dataBread:{},
-    warnData:{},
+    dataBread: {},
+    warnData: {},
     popData: {
       type: Object,
       default: () => {
@@ -172,39 +191,39 @@ export default {
       type: String
     },
     detailsType: {
-        type: String,
-        default: () => {
-            return "task";
-        }
+      type: String,
+      default: () => {
+        return "task";
+      }
     }
   },
   computed: {},
   watch: {
     popData(now) {
-        this.isPhaseAlarm = now['isPhaseAlarm']
-        if ("alarmId" in now && now["alarmId"]) {
-            // this.searchId = now["alarmId"];
-            this.searchId = now["taskId"] + "," + now["batchId"];
-            this.searchType = "alarmId";
-        } else if ("taskId" in now && now["taskId"]) {
-            this.searchId = now["taskId"] + "," + now["batchId"];
-            this.searchType = "alarmId";
-        } else {
-            this.searchId = now["resultId"];
-            this.searchType = "resultId";
-        }
-        if (this.detailsType == "alarm") {
-            this.searchId = now["id"];
-            this.searchType = "id";
-        }
-        if (this.searchId != "" && this.isThree) {
-            this.initData();
-        }
-        if(now['isReturn']=='1'){
-          this.titleReturn='已复归'
-        }else{
-          this.titleReturn='复归'
-        }
+      this.isPhaseAlarm = now["isPhaseAlarm"];
+      if ("alarmId" in now && now["alarmId"]) {
+        // this.searchId = now["alarmId"];
+        this.searchId = now["taskId"] + "," + now["batchId"];
+        this.searchType = "alarmId";
+      } else if ("taskId" in now && now["taskId"]) {
+        this.searchId = now["taskId"] + "," + now["batchId"];
+        this.searchType = "alarmId";
+      } else {
+        this.searchId = now["resultId"];
+        this.searchType = "resultId";
+      }
+      if (this.detailsType == "alarm") {
+        this.searchId = now["id"];
+        this.searchType = "id";
+      }
+      if (this.searchId != "" && this.isThree) {
+        this.initData();
+      }
+      if (now["isReturn"] == "1") {
+        this.titleReturn = "已复归";
+      } else {
+        this.titleReturn = "复归";
+      }
     },
     // handleNotes(now) {
     //   this.handleList = [];
@@ -228,83 +247,81 @@ export default {
     }
   },
   methods: {
-    showDiff(){
-        this.visibleDiff = true
+    showDiff() {
+      this.visibleDiff = true;
     },
-    closeDiff(){
-        this.visibleDiff = false
-        if(this.isThree)
-          this.initData()
+    closeDiff() {
+      this.visibleDiff = false;
+      if (this.isThree) this.initData();
     },
-    openPage(){
-        let routeData = this.$router.resolve({
-            name: "newPageT",
-            params: {
-                name: Base64.encode(this.searchType),
-                value: Base64.encode(this.searchId),
-                info: Base64.encode(JSON.stringify(this.popData)),
-                detailsType: Base64.encode(this.detailsType),
-                userName: Base64.encode(this.$store.state.user.userName)
-            }
-        });
-        window.open(routeData.href, "_blank");
+    openPage() {
+      let routeData = this.$router.resolve({
+        name: "newPageT",
+        params: {
+          name: Base64.encode(this.searchType),
+          value: Base64.encode(this.searchId),
+          info: Base64.encode(JSON.stringify(this.popData)),
+          detailsType: Base64.encode(this.detailsType),
+          userName: Base64.encode(this.$store.state.user.userName)
+        }
+      });
+      window.open(routeData.href, "_blank");
     },
-    toPrint(e){
-        this.target = e.path[5]
+    toPrint(e) {
+      this.target = e.path[5];
     },
-    onClose(){
-        this.visibleJudge = false
-        if(this.isThree)
-          this.initData()
-        this.$emit('on-fresh')
+    onClose() {
+      this.visibleJudge = false;
+      if (this.isThree) this.initData();
+      this.$emit("on-fresh");
     },
     initData() {
-          let that = this;
-          that.discriminate = false;
-          that.hasSelect = true;
-          let url = "/lenovo-plan/api/task-result/view";
-          if (this.detailsType == "alarm") {
-              url = "/lenovo-alarm/api/alarm/phase/view";
-          }
-          getAxiosData(url, {
-              [that.searchType]: that.searchId,
-              'isPhaseAlarm': that.isPhaseAlarm
-          }).then(res => {
-              that.handleList = [];
-              if(res.data['fileAddress'])
-                res.data['alarmFileAddress'] =  res.data['fileAddress']
-              that.dataList = res.data;
-              (res.data.dealList || []).forEach(el => {
-                  let obj = {};
-                  obj.time = el.dealTime;
-                  obj.info = el.dealContent;
-                  that.handleList.push(obj);
-              });
-              console.log(that.handleList);
-              if (that.handleList.length < 1) {
-                  that.isdeal = false;
-              }
-              if (that.dataList.alarmTypeValue == "动态环境类") {
-                  that.discriminate = true;
-              }
-              if (that.dataList.result == "温度正常") {
-                  that.hasSelect = false;
-              }
-              if (isNaN(that.dataList.alarmValue)) {
-                  that.alarmValue = that.dataList.alarmValue;
-              } else {
-                  that.alarmValue = that.dataList.alarmValue + "℃";
-              }
-              that.formData = {
-                  alarmId: that.searchId,
-                  input: that.dataList.alarmDetailType,
-                  inputT: that.dataList.alarmValue,
-                  select: that.dataList.alarmSuperDetailType,
-                  alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
-                  result: that.dataList.result
-              };
-              that.$forceUpdate();
-          });
+      let that = this;
+      that.discriminate = false;
+      that.hasSelect = true;
+      let url = "/lenovo-plan/api/task-result/view";
+      if (this.detailsType == "alarm") {
+        url = "/lenovo-alarm/api/alarm/phase/view";
+      }
+      getAxiosData(url, {
+        [that.searchType]: that.searchId,
+        isPhaseAlarm: that.isPhaseAlarm
+      }).then(res => {
+        that.handleList = [];
+        if (res.data["fileAddress"])
+          res.data["alarmFileAddress"] = res.data["fileAddress"];
+        that.dataList = res.data;
+        (res.data.dealList || []).forEach(el => {
+          let obj = {};
+          obj.time = el.dealTime;
+          obj.info = el.dealContent;
+          that.handleList.push(obj);
+        });
+        console.log(that.handleList);
+        if (that.handleList.length < 1) {
+          that.isdeal = false;
+        }
+        if (that.dataList.alarmTypeValue == "动态环境类") {
+          that.discriminate = true;
+        }
+        if (that.dataList.result == "温度正常") {
+          that.hasSelect = false;
+        }
+        if (isNaN(that.dataList.alarmValue)) {
+          that.alarmValue = that.dataList.alarmValue;
+        } else {
+          that.alarmValue = that.dataList.alarmValue + "℃";
+        }
+        that.formData = {
+          alarmId: that.searchId,
+          input: that.dataList.alarmDetailType,
+          inputT: that.dataList.alarmValue,
+          select: that.dataList.alarmSuperDetailType,
+          alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
+          result: that.dataList.result
+        };
+        that.$forceUpdate();
+      });
     },
     selectItem(item, index) {
       this.alarmLevelT = item;
@@ -316,79 +333,82 @@ export default {
       this.$emit("handleClose");
     },
     getJump() {
-          getAxiosData("/lenovo-device/api/preset/type", {
-              monitorDeviceId: this.popData.monitorDeviceId
-          }).then(res => {
-              let supportPreset = res.data["supportPreset"];
-              let monitorDeviceType = res.data["monitorDeviceType"];
-              if (monitorDeviceType == 1) {
-                  if (supportPreset) {
-                      this.$router.push({
-                          path: "/surveillancePath/detailLight",
-                          query: {
-                              monitorDeviceId: this.popData.monitorDeviceId
-                          }
-                      });
-                  } else {
-                      this.$router.push({
-                          path: "/surveillancePath/detailLightN",
-                          query: {
-                              monitorDeviceId: this.popData.monitorDeviceId
-                          }
-                      });
-                  }
-              } else if (monitorDeviceType == 2) {
-                  if (supportPreset) {
-                      this.$router.push({
-                          path: "/surveillancePath/detailRed",
-                          query: {
-                              monitorDeviceId: this.popData.monitorDeviceId,
-                              typeId: res.data["typeId"]
-                          }
-                      });
-                  }else{
-                      this.$router.push({
-                          path: "/surveillancePath/detailRedN",
-                          query: {
-                              monitorDeviceId: this.popData.monitorDeviceId,
-                              typeId: res.data["typeId"]
-                          }
-                      });
-                  }
-
-              } else if (monitorDeviceType == 3) {
-                  this.$router.push({
-                      path: "/surveillancePath/detailEnv",
-                      query: {
-                          monitorDeviceId: this.popData.monitorDeviceId
-                      }
-                  });
+      getAxiosData("/lenovo-device/api/preset/type", {
+        monitorDeviceId: this.popData.monitorDeviceId
+      }).then(res => {
+        let supportPreset = res.data["supportPreset"];
+        let monitorDeviceType = res.data["monitorDeviceType"];
+        if (monitorDeviceType == 1) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailLight",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId
               }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailLightN",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId
+              }
+            });
+          }
+        } else if (monitorDeviceType == 2) {
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
+        } else if (monitorDeviceType == 3) {
+          this.$router.push({
+            path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: this.popData.monitorDeviceId
+            }
           });
-      },
+        }
+      });
+    },
     clickJudge() {
       this.visibleJudge = true;
     },
-    handleReturn(){
+    handleReturn() {
       const that = this;
-      let url = '/lenovo-alarm/api/alarm/deal'
-      const query = {
-        alarmId: that.popData.alarmId,
-        type: "1"
-      };
-      postAxiosData(url,query).then(res => {
-        if (res.data.isSuccess) {
-          that.$message.success(res.msg);
-          this.titleReturn='已复归'
-            that.initData()
-        }else {
-          that.$message.error(res.msg);
-        }
-      });
+      if (that.titleReturn == "已复归") {
+        return;
+      } else {
+        let url = "/lenovo-alarm/api/alarm/deal";
+        const query = {
+          alarmId: that.dataList.alarmId,
+          type: "1"
+        };
+        postAxiosData(url, query).then(res => {
+          if (res.data.isSuccess) {
+            that.$message.success(res.msg);
+            this.titleReturn = "已复归";
+            that.initData();
+          } else {
+            that.$message.error(res.msg);
+          }
+        });
+      }
     }
   },
-  beforeDestroy(){
-      this.dataList = {}
+  beforeDestroy() {
+    this.dataList = {};
   },
   mounted() {
     this.newVisible = this.visible;
@@ -396,16 +416,16 @@ export default {
 };
 </script>
 <style lang="scss">
-.three{
-  .el-dialog__close{
+.three {
+  .el-dialog__close {
     left: 5px;
   }
-  .el-dialog__headerbtn{
+  .el-dialog__headerbtn {
     right: 14px;
     top: 20px !important;
   }
 }
-.warningDialog.three .handleInfo > div{
+.warningDialog.three .handleInfo > div {
   max-height: 200px;
   height: inherit !important;
   overflow-y: hidden;
@@ -415,10 +435,10 @@ export default {
     .not-print {
       opacity: 0;
     }
-    .el-dialog__headerbtn{
+    .el-dialog__headerbtn {
       display: none;
     }
-    .iconList{
+    .iconList {
       display: none;
     }
     .elDialogClass {
@@ -426,14 +446,14 @@ export default {
         width: 710px !important;
       }
     }
-    .warningDialog .handleInfo > div{
+    .warningDialog .handleInfo > div {
       max-height: inherit;
     }
-    .el-dialog.el-dialog--center{
+    .el-dialog.el-dialog--center {
       margin-top: 0vh !important;
     }
   }
-  .el-dialog__body{
+  .el-dialog__body {
     padding: 25px 21px 30px !important;
   }
   .iconfont.icon-xiala {
@@ -496,7 +516,7 @@ export default {
       height: 130px;
       background-color: inherit !important;
       display: flex;
-      .img{
+      .img {
         width: 100%;
         max-width: 230px;
         height: 100%;
@@ -510,7 +530,7 @@ export default {
           position: absolute;
           left: 0;
           top: 0;
-          &:last-child{
+          &:last-child {
             margin-right: 0;
           }
         }
@@ -522,45 +542,45 @@ export default {
       flex: 1;
       color: #333333;
       font-size: 14px;
-      .from{
+      .from {
         color: #3774fe;
         text-decoration: underline;
         position: inherit;
         cursor: pointer;
         bottom: inherit;
       }
-      .info_item{
+      .info_item {
         display: flex;
         margin-top: 20px;
         line-height: 31px;
-        .info_title{
+        .info_title {
           text-align: right;
           width: 71px;
           margin-right: 30px;
         }
-        .info_main{
-            .bold{
-              font-size: 20px;
-              font-weight: bold;
-              margin: 4px 0;
-              .red{
-                color: red;
-              }
-              span{
-                margin-right: 40px;
-              }
+        .info_main {
+          .bold {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 4px 0;
+            .red {
+              color: red;
             }
-          .alarmType{
+            span {
+              margin-right: 40px;
+            }
+          }
+          .alarmType {
             display: flex;
             justify-content: flex-start;
             line-height: 30px;
-            .buttonCustom{
+            .buttonCustom {
               line-height: 30px;
               color: #ffffff;
             }
-            span{
+            span {
               margin-right: 40px;
-              &.from{
+              &.from {
                 cursor: pointer;
               }
             }
@@ -571,7 +591,7 @@ export default {
   }
   .handleInfo {
     color: #333333;
-    .monitorMain{
+    .monitorMain {
       max-height: 300px;
       overflow-y: auto;
     }
@@ -604,17 +624,17 @@ export default {
   .title_top {
     font-weight: bold;
     text-align: left;
-    & > span:first-child{
-        p:last-child{
-          color: #969696;
-          font-size: 15px;
-        }
+    & > span:first-child {
+      p:last-child {
+        color: #969696;
+        font-size: 15px;
+      }
     }
-    .iconList{
+    .iconList {
       position: absolute;
       right: 33px;
       top: 20px;
-      .iconfont{
+      .iconfont {
         font-size: 22px;
         cursor: pointer;
         color: #909399;

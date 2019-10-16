@@ -213,7 +213,16 @@
             <img src="../../../assets/iconFunction/icon_system.png" alt />
             平台监控
           </div>
-          <div class="echartsBar" id="echartsBar"></div>
+          <!-- <div class="echartsBar" id="echartsBar"></div> -->
+          <duno-charts
+            paddingBottom="55%"
+            :seriesOption="seriesOptionBar"
+            :xAxisOption="xAxisOptionBar"
+            :yAxisOption="yAxisOptionBar"
+            :tooltipOption="tooltipOptionBar"
+            :isItemEchart="isItemEchartBar"
+            :isChange="isChangeBar"
+          />
         </duno-main>
       </div>
     </div>
@@ -238,6 +247,7 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
+import DunoCharts from "_c/duno-charts/charts.vue";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraningT from "_c/duno-j/warningT";
 import wraning from "_c/duno-j/warning";
@@ -258,6 +268,7 @@ export default {
     DunoChartPieLoop,
     DunoChartBarLine,
     warningSetting,
+    DunoCharts,
     wraning,
     wraningT
   },
@@ -579,7 +590,68 @@ export default {
       },
       radiusOption: "80%",
       centerOption: ["30%", "50%"],
-      tempEnv: { envTemp: 0, humidity: 0, resConf: 0, windSpeed: 0, resInfo: 0 }
+      tempEnv: {
+        envTemp: 0,
+        humidity: 0,
+        resConf: 0,
+        windSpeed: 0,
+        resInfo: 0
+      },
+      xAxisOptionBar: {
+        type: "category",
+        axisTick: { show: false },
+        data: ["处理器", "内存", "磁盘"],
+        axisLine: {
+          lineStyle: {
+            color: "#678a99" // X轴及其文字颜色
+          }
+        }
+      },
+      yAxisOptionBar: [
+        {
+          type: "value",
+          name: "(%)",
+          nameTextStyle: {
+            padding: [0, 30, 0, 0]
+          },
+          data: [0, 20, 40, 60, 80, 100],
+          axisLine: {
+            lineStyle: {
+              color: "#678a99" // X轴及其文字颜色
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#134b63",
+              type: "dashed"
+            }
+          }
+        }
+      ],
+      seriesOptionBar: [
+        {
+          name: "已占用",
+          type: "bar",
+          barGap: 0,
+          barWidth: 20,
+          data: [20, 52, 69]
+        },
+        {
+          name: "未占用",
+          type: "bar",
+          barWidth: 20,
+          data: [90, 80, 30]
+        }
+      ],
+      tooltipOptionBar: {
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow"
+        }
+      },
+      isItemEchartBar: true,
+      isChangeBar: true
     };
   },
   created() {
@@ -591,12 +663,50 @@ export default {
     this.isScreen();
     this.getEnv();
     this.$nextTick(() => {
-      // this.init();
       this.getUbiquitous();
-      this.initBar();
+      this.getEchartsBar();
+      // this.init();
+      // this.initBar();
     });
   },
   methods: {
+    getEchartsBar() {
+      let occupied = [];
+      let unoccupied = [];
+      getAxiosData("/lenovo-mon/api/monitoring/pro/zabbix/getCpuLoad").then(
+        res => {
+          let data = res.data;
+          occupied.push(
+            Math.round(((data.total - data.used) / data.total) * 100)
+          );
+          unoccupied.push(Math.round((data.used / data.total) * 100));
+          getAxiosData(
+            "/lenovo-mon/api/monitoring/memory/zabbix/getMemoryLoad"
+          ).then(res => {
+            let data1 = res.data;
+            occupied.push(Math.round((data1.available / data1.total) * 100));
+            unoccupied.push(
+              Math.round(((data1.total - data1.available) / data1.total) * 100)
+            );
+            getAxiosData(
+              "/lenovo-mon/api/monitoring/disk/zabbix/getDiskStatus"
+            ).then(res => {
+              let data2 = res.data;
+              occupied.push(Math.round((data2.available / data2.total) * 100));
+              unoccupied.push(
+                Math.round(
+                  ((data2.total - data2.available) / data2.total) * 100
+                )
+              );
+              this.seriesOptionBar[0].data = occupied;
+              this.seriesOptionBar[1].data = unoccupied;
+              this.isChangeBar = !this.isChangeBar;
+              this.$forceUpdate();
+            });
+          });
+        }
+      );
+    },
     getUbiquitous() {
       let url = "/lenovo-mon/api/monitoring/rack/zabbix/rack-health";
       getAxiosData(url).then(res => {
@@ -877,87 +987,87 @@ export default {
       });
 
       chart.render();
-    },
-    initBar() {
-      let myChart = echarts.init(document.getElementById("echartsBar"));
-      let option = {
-        color: ["#53cbc3", "#4c9fc1"],
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow"
-          },
-          formatter: function(params) {
-            let relVal = params[0].name;
-            for (let i = 0, l = params.length; i < l; i++) {
-              relVal +=
-                "<br/>" +
-                params[i]["marker"] +
-                params[i].seriesName +
-                " : " +
-                params[i].value +
-                "%";
-            }
-            return relVal;
-          }
-        },
-        calculable: true,
-        grid: {
-          top: "40px",
-          bottom: "20px"
-        },
-        xAxis: [
-          {
-            type: "category",
-            axisTick: { show: false },
-            data: ["处理器", "内存", "磁盘"],
-            axisLine: {
-              lineStyle: {
-                color: "#678a99" // X轴及其文字颜色
-              }
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: "value",
-            name: "(%)",
-            nameTextStyle: {
-              padding: [0, 30, 0, 0]
-            },
-            data: [0, 20, 40, 60, 80, 100],
-            axisLine: {
-              lineStyle: {
-                color: "#678a99" // X轴及其文字颜色
-              }
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: "#134b63",
-                type: "dashed"
-              }
-            }
-          }
-        ],
-        series: [
-          {
-            name: "已占用",
-            type: "bar",
-            barGap: 0,
-            barWidth: 20,
-            data: [20, 52, 69]
-          },
-          {
-            name: "未占用",
-            type: "bar",
-            barWidth: 20,
-            data: [90, 80, 30]
-          }
-        ]
-      };
-      myChart.setOption(option);
     }
+    // initBar() {
+    //   let myChart = echarts.init(document.getElementById("echartsBar"));
+    //   let option = {
+    //     color: ["#53cbc3", "#4c9fc1"],
+    //     tooltip: {
+    //       trigger: "axis",
+    //       axisPointer: {
+    //         type: "shadow"
+    //       },
+    //       formatter: function(params) {
+    //         let relVal = params[0].name;
+    //         for (let i = 0, l = params.length; i < l; i++) {
+    //           relVal +=
+    //             "<br/>" +
+    //             params[i]["marker"] +
+    //             params[i].seriesName +
+    //             " : " +
+    //             params[i].value +
+    //             "%";
+    //         }
+    //         return relVal;
+    //       }
+    //     },
+    //     calculable: true,
+    //     grid: {
+    //       top: "40px",
+    //       bottom: "20px"
+    //     },
+    //     xAxis: [
+    //       {
+    //         type: "category",
+    //         axisTick: { show: false },
+    //         data: ["处理器", "内存", "磁盘"],
+    //         axisLine: {
+    //           lineStyle: {
+    //             color: "#678a99" // X轴及其文字颜色
+    //           }
+    //         }
+    //       }
+    //     ],
+    //     yAxis: [
+    //       {
+    //         type: "value",
+    //         name: "(%)",
+    //         nameTextStyle: {
+    //           padding: [0, 30, 0, 0]
+    //         },
+    //         data: [0, 20, 40, 60, 80, 100],
+    //         axisLine: {
+    //           lineStyle: {
+    //             color: "#678a99" // X轴及其文字颜色
+    //           }
+    //         },
+    //         splitLine: {
+    //           show: true,
+    //           lineStyle: {
+    //             color: "#134b63",
+    //             type: "dashed"
+    //           }
+    //         }
+    //       }
+    //     ],
+    //     series: [
+    //       {
+    //         name: "已占用",
+    //         type: "bar",
+    //         barGap: 0,
+    //         barWidth: 20,
+    //         data: [20, 52, 69]
+    //       },
+    //       {
+    //         name: "未占用",
+    //         type: "bar",
+    //         barWidth: 20,
+    //         data: [90, 80, 30]
+    //       }
+    //     ]
+    //   };
+    //   myChart.setOption(option);
+    // }
   }
 };
 </script>

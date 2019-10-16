@@ -89,6 +89,7 @@
                 <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
                 <button-custom
                   v-if="!(dataList.result.indexOf('正常')>-1)"
+                  :class="{}"
                   class="button"
                   :title="titleReturn"
                   @click.native="handleReturn"
@@ -512,21 +513,25 @@ export default {
     },
     handleReturn() {
       const that = this;
-      let url = "/lenovo-alarm/api/alarm/deal";
-      const query = {
-        alarmId: that.popData.alarmId,
-        type: "1"
-      };
-      postAxiosData(url, query).then(res => {
-        if (res.data.isSuccess) {
-          that.$message.success(res.msg);
-          this.titleReturn = "已复归";
-          that.initData();
-          this.$emit("on-fresh");
-        } else {
-          that.$message.error(res.msg);
-        }
-      });
+      if (that.titleReturn == "已复归") {
+        return;
+      } else {
+        let url = "/lenovo-alarm/api/alarm/deal";
+        const query = {
+          alarmId: that.dataList.alarmId,
+          type: "1"
+        };
+        postAxiosData(url, query).then(res => {
+          if (res.data.isSuccess) {
+            that.$message.success(res.msg);
+            this.titleReturn = "已复归";
+            that.initData();
+            this.$emit("on-fresh");
+          } else {
+            that.$message.error(res.msg);
+          }
+        });
+      }
     }
   },
   mounted() {
