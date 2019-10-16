@@ -70,7 +70,7 @@
               :kilovolt="nr['monitorDeviceName']"
               :patrol="nr['monitorDeviceId']"
             />-->
-            <cover class="coverRecord" :srcData="nr"></cover>
+            <cover :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
           </div>
           <!-- <div style="clear: both"></div> -->
         </div>
