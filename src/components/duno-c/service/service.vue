@@ -2,11 +2,11 @@
   <div class="duno-service">
     <p>Service</p>
     <div class="tabData" :style="{height:height}">
-      <div v-for="(item,index) in dataList" :key="index">
-        <div class="square">
-          <span></span>
-          config-service
-        </div>
+      <div class="square" v-for="(item,index) in dataList" :key="index">
+        <!-- <div class="square"> -->
+        <span></span>
+        config-service
+        <!-- </div> -->
         <div>2 passing</div>
       </div>
     </div>
@@ -33,7 +33,6 @@ export default {
 <style lang="scss">
 .duno-service {
   padding: 0 50px 0 30px;
-  //   height: 100%;
   p {
     text-align: center;
     font-size: 20px;
@@ -41,24 +40,25 @@ export default {
     margin-bottom: 20px;
   }
   .tabData {
-    border: 1px solid #414f58;
     overflow-y: auto;
-
     & > div {
       color: #fff;
       display: flex;
       justify-content: space-around;
-      margin-top: 20px;
+      padding: 10px 20px;
+    }
+    & > div:nth-child(odd) {
+      background-color: #203e52;
     }
     .square {
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
       span {
         display: block;
-        height: 16px;
-        width: 16px;
-        border-radius: 5px;
+        height: 14px;
+        width: 14px;
+        border-radius: 50%;
         background-color: #7ed321;
         margin-right: 10px;
       }
