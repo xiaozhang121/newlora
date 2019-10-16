@@ -56,53 +56,53 @@
             <a class="" href="javascript:void(0)" @click="jumpStatus">详情>></a>
         </div>
         <div class="watchDevice">
-           <div class="mainD">
-               <div class="deviceItem">
-                   <div class="topM">
-                       <img :src="lightNoCamera"/>
-                       <span class="count">{{ visibleCount }}</span>
-                   </div>
-                   <div class="bottomM">
-                       可见光
-                   </div>
-               </div>
-               <div class="deviceItem">
-                   <div class="topM">
-                       <img :src="light"/>
-                       <span class="count">{{ visibleCameraCount }}</span>
-                   </div>
-                   <div class="bottomM">
-                       可见光(云台)
-                   </div>
-               </div>
-               <div class="deviceItem">
-                   <div class="topM">
-                       <img :src="lightD"/>
-                       <span class="count">{{ visibleNarrow }}</span>
-                   </div>
-                   <div class="bottomM">
-                       可见光(窄道)
-                   </div>
-               </div>
-               <div class="deviceItem">
-                   <div class="topM">
-                       <img :src="redLight"/>
-                       <span class="count">{{  infrared }}</span>
-                   </div>
-                   <div class="bottomM">
-                       红外测温
-                   </div>
-               </div>
-               <div class="deviceItem">
-                   <div class="topM">
-                       <img :src="redLightCamera"/>
-                       <span class="count">{{  infraredCamera }}</span>
-                   </div>
-                   <div class="bottomM">
-                       红外测温(云台)
-                   </div>
-               </div>
-           </div>
+            <div class="mainD">
+                <div class="deviceItem">
+                    <div class="topM">
+                        <img :src="lightNoCamera"/>
+                        <span class="count">{{ visibleCount }}</span>
+                    </div>
+                    <div class="bottomM">
+                        可见光
+                    </div>
+                </div>
+                <div class="deviceItem">
+                    <div class="topM">
+                        <img :src="light"/>
+                        <span class="count">{{ visibleCameraCount }}</span>
+                    </div>
+                    <div class="bottomM">
+                        可见光(云台)
+                    </div>
+                </div>
+                <div class="deviceItem">
+                    <div class="topM">
+                        <img :src="lightD"/>
+                        <span class="count">{{ visibleNarrow }}</span>
+                    </div>
+                    <div class="bottomM">
+                        可见光(窄道)
+                    </div>
+                </div>
+                <div class="deviceItem">
+                    <div class="topM">
+                        <img :src="redLight"/>
+                        <span class="count">{{  infrared }}</span>
+                    </div>
+                    <div class="bottomM">
+                        红外测温
+                    </div>
+                </div>
+                <div class="deviceItem">
+                    <div class="topM">
+                        <img :src="redLightCamera"/>
+                        <span class="count">{{  infraredCamera }}</span>
+                    </div>
+                    <div class="bottomM">
+                        红外测温(云台)
+                    </div>
+                </div>
+            </div>
             <div class="mainD">
                 <div class="deviceItem">
                     <div class="topM">
@@ -195,21 +195,21 @@
         <div class="dataPlateForm">
             <div class="plateform">
                 <div class="left">
-                    <div class="count">124</div>
+                    <div class="count">{{ totalAlarmCount }}</div>
                     <span class="nr_p">平台告警总数</span>
                 </div>
                 <div class="right">
-                    <span class="redF">本月新增：12</span>
-                    <span class="redF">未复归数：12</span>
+                    <span class="redF">本月新增：{{ totalMonthAlarmCount }}</span>
+                    <span class="redF">未复归数：{{ totalReturnAlarmCount }}</span>
                 </div>
             </div>
             <div class="plateform">
                 <div class="left">
-                    <div class="count">124</div>
+                    <div class="count">{{ plateFormRecord }}</div>
                     <span class="nr_p">平台汇总记录总数</span>
                 </div>
                 <div class="right">
-                    <span class="blueF">本月新增：32</span>
+                    <span class="blueF">本月新增：{{ plateFormRecordMonth }}</span>
                 </div>
             </div>
         </div>
@@ -237,6 +237,11 @@
         },
         data() {
             return {
+                totalAlarmCount: 0,
+                totalMonthAlarmCount: 0,
+                totalReturnAlarmCount: 0,
+                plateFormRecord: '0',
+                plateFormRecordMonth: '0',
                 allPanel: '',
                 allPanelV: false,
                 APData: {normal: 1, total: 1},
@@ -304,12 +309,12 @@
                     let data = res.data.rate
                     this.rateData = Number(data*100).toFixed(0)
                 })
-              /*  getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
-                    this.visibleCount = res.data.total
-                })
-                getAxiosData('/lenovo-mon/api/monitoring/thermal/count').then(res=>{
-                    this.infrared = res.data.total
-                })*/
+                /*   getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
+                       this.visibleCount = res.data.total
+                   })
+                   getAxiosData('/lenovo-mon/api/monitoring/thermal/count').then(res=>{
+                       this.infrared = recs.data.total
+                   })*/
                 getAxiosData('/lenovo-mon/api/monitoring/ap/zabbix/getApStatus').then(res=>{
                     let data = res.data
                     this.APData =  { normal: data['icnt'], total:  data['total'] }
@@ -342,20 +347,23 @@
                 })
 
                 getAxiosData('/lenovo-mon/api/monitoring/alarm/count').then(res=>{
-                    // debugger
+                    let data = res.data
+                    this.totalAlarmCount = data.totalAlarmCount
+                    this.totalMonthAlarmCount = data.totalMonthAlarmCount
+                    this.totalReturnAlarmCount = data.totalReturnAlarmCount
                 })
 
                 getAxiosData('/lenovo-mon/api/monitoring/record/count').then(res=>{
                     this.plateFormRecord = res.data.totalRecordCount
                     this.plateFormRecordMonth = res.data.monthRecordCount
                 })
-              /*
+                /*
 
 
 
 
 
-               */
+                 */
             },
             visibleHandle(){
                 this.$emit('on-visible')
@@ -479,11 +487,11 @@
                     width: 54%;
                 }
                 .childTitle{
-                   img{
-                       margin-right: 4px;
-                       position: relative;
-                       top: 4px;
-                   }
+                    img{
+                        margin-right: 4px;
+                        position: relative;
+                        top: 4px;
+                    }
                 }
                 .child{
                     margin-left: 0;
