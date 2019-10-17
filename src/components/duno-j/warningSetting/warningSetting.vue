@@ -112,6 +112,7 @@
   </el-dialog>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import { getAlarmAction } from "@/api/currency/currency.js";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
