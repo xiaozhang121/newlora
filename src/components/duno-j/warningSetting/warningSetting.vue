@@ -112,6 +112,7 @@
   </el-dialog>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import { getAlarmAction } from "@/api/currency/currency.js";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
@@ -158,6 +159,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['initAlarmConfig']),
     initData() {
       const that = this;
       getAlarmAction().then(res => {
@@ -210,6 +212,7 @@ export default {
       this.$refs[formName].validate((valid, obj) => {
         if (valid) {
           that.setData();
+          that.initAlarmConfig()
           this.$emit("submitSetting", this.form);
           this.$emit("handleClose");
         } else {

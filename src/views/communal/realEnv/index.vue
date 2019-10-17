@@ -377,6 +377,7 @@
 </template>
 
 <script>
+    import { getNewTagList, isAlarmVisible, isAlarmMap } from "@/libs/util";
     import cameraPower from '_c/duno-m/cameraPower'
     import areaSetting  from '_c/duno-m/areaSetting'
     import DunoHeadSearch from '_c/duno-head-search'
@@ -690,10 +691,10 @@
                 this.$refs.gisMapObj.clearAlarm()
             },
             onAlarm(now){
-                if(now['powerDeviceId']){
+                if(now['powerDeviceId'] && isAlarmMap(this.$store.state.user.alarmConfig, now)){
                     this.$refs.gisMapObj.isAlarm(now)
                 }
-                if(now['alarmConfig'] == 1){
+                if(isAlarmVisible(this.$store.state.user.alarmConfig, now)){
                     this.visible = true
                     this.$nextTick(()=>{
                         if(now['powerDeviceId']) {

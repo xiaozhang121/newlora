@@ -1,4 +1,4 @@
-import { initConfigure, login, logout, getUserInfo } from '@/api/user'
+import { initConfigure, login, logout, getUserInfo, initAlarmConfig } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
 import avatorImg from '@/assets/images/avatar.jpg'
 export default {
@@ -9,6 +9,7 @@ export default {
     isAlarm: false,
     alarmInfo: '',
     configInfo: {},
+    alarmConfig: {},
     isCollapsed: false,  // 侧边栏是否收起
     isSimple: true,
     userName: '',
@@ -23,6 +24,9 @@ export default {
     isHeader:1
   },
   mutations: {
+    setAlarmConfig(state, configinfo){
+        state.alarmConfig = configinfo
+    },
     setconfigInfo(state, configinfo){
         state.configInfo = configinfo
     },
@@ -97,6 +101,20 @@ export default {
             })
         })
     },
+    //初始化告警参数
+    initAlarmConfig ({ state, commit }) {
+        return new Promise((resolve, reject) => {
+            initAlarmConfig({userId:state.userId}).then(res => {
+                console.log('获取配置信息', res.data)
+                const data = res.data
+                commit('setAlarmConfig', data)
+                resolve(data)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    },
+
     // 获取用户相关信息
     getUserInfo ({ state, commit }) {
       return new Promise((resolve, reject) => {

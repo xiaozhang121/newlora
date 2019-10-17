@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { getNewTagList, isAlarmVoice } from "@/libs/util";
 import { mapState } from 'vuex'
 export default {
   name: 'App',
@@ -102,7 +103,7 @@ export default {
                 that.$store.state.user.alarmInfo = receivedMsg
                 that.$store.state.user.isAlarm  = receivedMsg['soundConfig']==1?true:false
                 if(that.$store.state.user.isAlarm){
-                    if(receivedMsg['alarmType'] == 1){
+                    if(isAlarmVoice(this.$store.state.user.alarmConfig, receivedMsg)){
                         that.audio = that.defectAlarm
                     }else{
                         that.audio = that.safetyAlarm
