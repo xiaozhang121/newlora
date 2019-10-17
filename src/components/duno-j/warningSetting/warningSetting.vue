@@ -183,6 +183,7 @@ export default {
         } else {
           this.$message.fail(res.msg);
         }
+        this.initAlarmConfig()
       });
     },
     initSelect() {
@@ -212,7 +213,6 @@ export default {
       this.$refs[formName].validate((valid, obj) => {
         if (valid) {
           that.setData();
-          that.initAlarmConfig()
           this.$emit("submitSetting", this.form);
           this.$emit("handleClose");
         } else {
