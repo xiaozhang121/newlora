@@ -976,12 +976,12 @@ export default {
       });
       // 绘制指标数字
       chart.guide().html({
-        position: ["50%", "95%"],
+        position: ["50%", "80%"],
         html:
           '<div style="width: 300px;text-align: center;">' +
           '<p class="gaugeClass">正常</p>' +
           '<p class="gaugeClass1">' +
-          data[0].value * 10 +
+          data[0].value * 100 +
           "%</p>" +
           "</div> "
       });

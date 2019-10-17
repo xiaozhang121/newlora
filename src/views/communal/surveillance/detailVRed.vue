@@ -833,7 +833,12 @@ export default {
     margin-bottom: 20px;
   }
   .exportExcel {
-    font-size: 16px;
+    line-height: 40px;
+    width: 139px;
+    background-image: url(../../../assets/images/btn/moreBtn.png);
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
   }
   .imgOrMv {
     width: 50%;
