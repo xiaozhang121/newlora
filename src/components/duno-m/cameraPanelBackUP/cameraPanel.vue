@@ -160,7 +160,7 @@
                 <div class="left" v-if="isAdd">
                     <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="lockPress && deviceId" :deviceType="1" :deviceId="deviceId" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit"/>
                     <div class="title">新增预置位名称：</div>
-                    <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" v-model="addPosInput" placeholder=""></el-input></div>
+                    <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" @input="checkSpecial" v-model="addPosInput" placeholder=""></el-input></div>
                     <div class="btnEx">
                         <span class="btnEx_title">请使用右上角图标调整预设位</span>
                         <span class="btnEx_btn"><el-button type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></span>
@@ -592,6 +592,24 @@
             }
         },
         methods:{
+            checkSpecial(value) {
+                let myreg =
+                  "[`~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，、？]‘'";
+                for (let i = 0; i < value.length; i++) {
+                  if (myreg.indexOf(value[i]) != -1) {
+                    this.addPosInput = value
+                      .replace(
+                        /[`~!！@#$%^&*()_\-\+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*——（）\-+={}|《》？：“”【】、；‘’，。、]/g,
+                        ""
+                      )
+                      .replace(/\s/g, "");
+                    this.$message({
+                      message: "不能包含特殊字符，请重新输入",
+                      type: "warning"
+                    });
+                  }
+                }
+            },
             onDisable(flag){
                 this.disabled = flag
             },
