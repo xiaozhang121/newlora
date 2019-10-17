@@ -12,6 +12,7 @@
     import "ol/ol.css";
     import { LineString } from "ol/geom";
     import { Map, View, Overlay, Feature } from "ol";
+    import {unByKey} from 'ol/Observable'
     import {boundingExtent,getCenter} from 'ol/extent'
     import Polygon from 'ol/geom/Polygon.js';
     import  { Draw, DragPan } from 'ol/interaction'
@@ -30,6 +31,7 @@
         data() {
             const that = this
             return {
+                EventList: [],
                 lineColor: '#78cbff',
                 isIn:false,
                 rebotTimer: null,
@@ -1212,7 +1214,7 @@
             },
             setZoom(anchor){
                 // 监听地图层级变化
-                this.mapTarget.getView().on('change:resolution', function(){
+                this.EventList[5] = this.mapTarget.getView().on('change:resolution', function(){
                     /*  let element = anchor.element;
                       // 重新设置图标的缩放率，基于层级10来做缩放
                       // console.log(Math.abs((this.getZoom() / 10))-0.5)
@@ -1296,7 +1298,7 @@
                         })
                     })
                 });
-                this.mapTarget = new Map({
+                this.EventList[4] = this.mapTarget = new Map({
                     controls: defaultControls({
                         attribution: that.controlBtn,
                         rotate: that.controlBtn,
@@ -1328,7 +1330,7 @@
                         maxZoom: that.maxZoom
                     })
                 });
-                this.mapTarget.on('pointermove', function (event) {
+                this.EventList[3] = this.mapTarget.on('pointermove', function (event) {
                     let pixel = that.mapTarget.getEventPixel(event.originalEvent)
                     let feature = that.mapTarget.forEachFeatureAtPixel(pixel, function(feature) {
                         return feature;
@@ -1359,20 +1361,18 @@
                         that.clearTextLabel()
                     }
                 })
-                this.mapTarget.on('movestart', function (evt) {
+                this.EventList[2] = this.mapTarget.on('movestart', function (evt) {
                     that.isClick = false
                 });
-                this.mapTarget.on('moveend', function (evt) {
+                this.EventList[1] = this.mapTarget.on('moveend', function (evt) {
                     that.isClick = true
                 });
-                this.mapTarget.on('rendercomplete', function () {
-                    that.$emit('on-render')
-                })
                 // 禁止鼠标拖动
                 let pan = that.getPan();
                 //false：当前地图不可拖动。true：可拖动
                 pan.setActive(that.mapActive);
-                 this.mapTarget.on('click', function (evt) {
+
+                this.EventList[0] = this.mapTarget.on('click', function (evt) {
                      // alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
                     that.clickPos = transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857')
                  })
@@ -1380,6 +1380,11 @@
                 setTimeout(()=>{
                     // this.dropOverlay()
                 },10000)
+            },
+            clearAllEvent(){
+                this.EventList.forEach(item=>{
+                    unByKey(item)
+                })
             }
         },
         mounted(){
@@ -1400,6 +1405,10 @@
                 this.initFeature()
                 this.bindEvent()
             })
+        },
+        beforeDestroy(){
+            this.mapTarget.getOverlays().clear()
+            this.clearAllEvent()
         }
     }
 </script>

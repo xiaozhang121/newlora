@@ -123,19 +123,23 @@ export default {
             img.src = "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1537549551&di=3f8d4d76679adcae225387f7d6b199aa&src=http://gss0.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/lvpics/h=800/sign=b49dc48f8718367ab28972dd1e728b68/9922720e0cf3d7ca7f0736d0f31fbe096a63a9a6.jpg";
         },
         reSize(){
+            debugger
             let mycanvas = document.getElementById('can')
             let ctx = mycanvas.getContext('2d')
-            ctx.canvas.width  = $('.areaSetting').offsetWidth;
-            ctx.canvas.height = $('.areaSetting').offsetHeight;
+            ctx.canvas.width  = $('.areaSetting')[0].offsetWidth;
+            ctx.canvas.height = $('.areaSetting')[0].offsetHeight;
             mycanvas = document.getElementById('tt')
             ctx = mycanvas.getContext('2d')
-            ctx.canvas.width  = $('.areaSetting').offsetWidth;
-            ctx.canvas.height = $('.areaSetting').offsetHeight;
+            ctx.canvas.width  = $('.areaSetting')[0].offsetWidth;
+            ctx.canvas.height = $('.areaSetting')[0].offsetHeight;
         }
     },
     mounted(){
         this.initMount()
         this.initImg()
+        this.$nextTick(()=>{
+            this.reSize()
+        })
         $(window).resize(this.reSize());
     }
 }
