@@ -144,7 +144,7 @@
 <script>
     import KeyMonitor from "_c/duno-c/KeyMonitor";
     import { mapMutations, mapState } from "vuex";
-    import { getNewTagList } from "@/libs/util";
+    import { getNewTagList, isAlarmVisible } from "@/libs/util";
     import SideMenu from "./components/side-menu"; // 侧导航栏
     import HeaderBar from "./components/header-bar"; // header
     import customBreadCrumb from "_c/custom-bread-crumb"; // 面包屑导航
@@ -357,7 +357,7 @@
             alarmInfo: {
                 handler(now) {
                     this.visible = false
-                    if (this.frameLength() && now['alarmConfig'] == 1) {
+                    if (this.frameLength() && isAlarmVisible(this.$store.state.user.alarmConfig, now)) {
                         this.visible = true;
                     }
                 },

@@ -1,25 +1,118 @@
 <template>
-  <div class="perimeterMonitorM">
-    <div class="breadcrumb">
-      <Breadcrumb :dataList="dataBread" />
-    </div>
+  <div class="perimeterMonitorR">
     <div class="topTitle">
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
-      <div>布控球</div>
-      <button-custom :title="buttonTitle"/>
+      <div>名称</div>
     </div>
-    <!--<img-line-panel></img-line-panel>-->
-    <div class="ballMonitorItem" v-for="(item, index) in demoList" :key="index">
-      <perimeter-monitor :zIndex = "index"/>
+    <div class="Main_contain">
+      <div class="content">
+        <div class="left nr">
+          <div class="item">
+            <div class="camera_surveillanceDetail">
+              <div class="contain">
+                <key-monitor
+                  :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+                  paddingBottom="56%"
+                  class="monitor"
+                  :autoplay="playerOptions.autoplay"
+                  :streamAddr="playerOptions.streamAddr"
+                  :showBtmOption="false"
+                  :Initialization="true"
+                ></key-monitor>
+                <div class="redCircle">
+                  <div class="outerRing">
+                  </div>
+                  <div class="innerCircle"></div>
+                </div>
+              </div>
+            </div>
+            <div class="control">
+              <div class="explain">
+                请调整云台，使目标表计正对摄像头，大小与红框范围相匹配
+              </div>
+              <div class="controBtnContain">
+                <contro-btn
+                  :controlAble="controlAble"
+                  url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}"
+                  :disabledOption="disabled"
+                  ref="controBtnRef"
+                  :deviceId="dataForm.monitorDeviceId"
+                />
+              </div>
+              <!-- <div class="controlTitle">
+                <div v-if="isControl =='1'" class="controlT">
+                  <span>云台控制中</span>
+                  <span @click="getControl">获取控制权</span>
+                </div>
+                <div v-if="isControl =='2'" class="controlT">
+                  <span>已获取云台控制</span>
+                  <span @click="getControl">结束控制</span>
+                </div>
+                <div v-if="isControl =='3'" class="controlT">
+                  <span>结束控制倒计时</span>
+                  <i>{{ currentTime }} s</i>
+                  <span @click="getControl">结束控制</span>
+                </div>
+              </div>-->
+            </div>
+          </div>
+          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+        </div>
+        <div class="right">
+          <div v-if="true">
+            <el-form ref="form" label-position="left"  label-width="110px">
+              <el-form-item label="表计类型">
+                <el-select  placeholder="选择表计类型">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="该表计图例参考">
+                <img class="caseImg" />
+              </el-form-item>
+              <el-form-item label="对应设备">
+                <el-select  placeholder="选择对应设备">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="识别频次">
+                <el-select  placeholder="选择识别频次">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="告警提示">
+                <el-select  placeholder="选择告警提示">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <div class="submitBtn">
+              <button-custom  title="完成设定，开始监测" />
+            </div>
+          </div>
+          <div class="checking" v-if="false">
+            <div class="checking_explain">当前识别类型</div>
+            <div class="checking_title">表计识别</div>
+            <div class="checking_discription">已完成设定，正在监测中...</div>
+            <div class="checking_btnList">
+              <button-custom  title="重新设定" />
+              <button-custom  title="结束监测" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <wraning :popData="popData" :visible="visible" detailsType="alarm" @handleClose="handleClose" />
+    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <enlarge :isShow="isEnlarge" :pushCamera="false" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
 <script>
 import imgLinePanel from '_c/duno-m/imgLinePanel'
-import buttonCustom from '_c/duno-m/buttonCustom'
-import areaSetting from '_c/duno-m/areaSetting'
-import perimeterMonitor from '_c/duno-m/perimeterMonitor'
 import controlCheck from '_c/duno-m/controlCheck'
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
@@ -48,10 +141,12 @@ import {
   getVEcharts,
   getPosition
 } from "@/api/configuration/configuration.js";
+import ButtonCustom from "../buttonCustom/buttonCustom";
 export default {
-  name: "perimeterMonitorM",
+  name: "perimeterMonitorR",
   mixins: [mixinViewModule],
   components: {
+      ButtonCustom,
     dunoBtnTop,
     KeyMonitor,
     Breadcrumb,
@@ -64,16 +159,11 @@ export default {
     pattery,
     cover,
     controlCheck,
-    perimeterMonitor,
-    areaSetting,
-    imgLinePanel,
-    buttonCustom
+    imgLinePanel
   },
   data() {
     const that = this;
     return {
-      buttonTitle: '开始监测',
-      demoList: [{},{},{}],
       lockPress: false,
       addOrEdit: "添加",
       disabled: false,
@@ -335,7 +425,7 @@ export default {
       allDataLevel: [],
       dataTime: "",
       dataTimeD: "",
-      dataBread: [{ name: "统一配置" }],
+      dataBread: [{ name: "摄像头详情" }],
       pageParam: {
         pageIndex: 1,
         totalRows: 1
@@ -355,6 +445,7 @@ export default {
     }
   },
   props: {
+    zIndex: {},
     deviceId: {
       type: [String, Number],
       default: "54"
@@ -700,11 +791,12 @@ export default {
       this.isDraw = true;
     },
     clearDraw() {
-      this.isDraw = false;
+        this.$refs.imgLinePanel.clearCanvas()
+   /*   this.isDraw = false;
       this.isShowBox = false;
       this.isStart = false;
       this.$refs.box.style.width = null;
-      this.$refs.box.style.height = null;
+      this.$refs.box.style.height = null;*/
     },
     handleStart() {
       let that = this;
@@ -879,12 +971,12 @@ export default {
 
 <style lang="scss">
 @import "@/style/tableStyle.scss";
-.perimeterMonitorM {
+.perimeterMonitorR {
   width: 100%;
   min-height: 100%;
-  padding-bottom: 100px;
-  .ballMonitorItem{
-    padding-bottom: 25px;
+  .el-form-item--small .el-form-item__label{
+    line-height: 40px !important;
+    color: #999999;
   }
   .controlCheck{
     right: 0;
@@ -967,11 +1059,10 @@ export default {
   .topTitle {
     overflow: hidden;
     line-height: 40px;
-    display: flex;
-    justify-content: space-between;
     & > div {
       color: #fff;
       float: left;
+      font-size: 14px;
     }
     .Battery {
       margin-left: 38%;
@@ -983,6 +1074,7 @@ export default {
   }
   .content {
     display: flex;
+    background: #132838;
     .left {
       width: 75%;
       &.nr {
@@ -1000,6 +1092,30 @@ export default {
               width: 100%;
               padding-bottom: 56%;
               background: black;
+              .redCircle{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                pointer-events: none;
+                .outerRing{
+                  position: absolute;
+                  border-radius: 50%;
+                  border: 2px solid #FF0000;
+                  width: 51%;
+                  height: 89%;
+                }
+                .innerCircle{
+                  position: absolute;
+                  transform: scale(0.8);
+                  border-radius: 50%;
+                  border: 2px dashed #FF0000;
+                  width: 51%;
+                  height: 89%;
+                }
+              }
               .monitor {
                 position: absolute;
                 width: 100% !important;
@@ -1011,10 +1127,22 @@ export default {
           .control {
             position: relative;
             display: flex;
-            margin-left: 3.4%;
+            margin-left: 2.4%;
             flex-direction: column;
             justify-content: center;
             width: 25%;
+            text-overflow: ellipsis;
+            overflow: visible;
+            .explain{
+              color: white;
+              font-size: 13px;
+              white-space: nowrap;
+              margin-bottom: 15px;
+              position: relative;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              width: 115%;
+            }
             .controBtnContain {
               margin-bottom: 26%;
             }
@@ -1059,6 +1187,50 @@ export default {
       padding: 20px;
       margin-left: 20px;
       background: #132838;
+      .checking{
+        margin-top: 3%;
+        .checking_explain{
+          color: #999999;
+          font-size: 14px;
+          margin-bottom: 8%;
+        }
+        .checking_title{
+          color: white;
+          font-size: 18px;
+          margin-bottom: 7%;
+        }
+        .checking_discription{
+          color: #53FEC0;
+          font-size: 13px;
+          margin-bottom: 22%;
+        }
+        .checking_btnList{
+          display: flex;
+          color: white;
+          .buttonCustom{
+            width: 128px;
+            margin-right: 20px;
+          }
+        }
+      }
+      .el-select{
+        width: 81%;
+      }
+      .caseImg{
+        background: grey;
+        width: 80%;
+        padding-bottom: 47%;
+      }
+      .submitBtn{
+        color: white;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        .buttonCustom{
+          width: 208px;
+        }
+      }
     }
     .areaTitle {
       color: #fff;
@@ -1069,6 +1241,23 @@ export default {
       }
       i:hover {
         color: #5fafff;
+      }
+    }
+    .defineTitle{
+      color: #999999;
+      font-size: 14px;
+    }
+    .defineNr{
+      font-size: 24px;
+      margin-top: 12px;
+      & span:first-child{
+        font-size: 18px;
+        color: white;
+        margin-right: 20px;
+      }
+      .green{
+        color: #53FEC0;
+        font-size: 12px;
       }
     }
     .iconControl {

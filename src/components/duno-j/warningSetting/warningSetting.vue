@@ -158,6 +158,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['initAlarmConfig']),
     initData() {
       const that = this;
       getAlarmAction().then(res => {
@@ -210,6 +211,7 @@ export default {
       this.$refs[formName].validate((valid, obj) => {
         if (valid) {
           that.setData();
+          that.initAlarmConfig()
           this.$emit("submitSetting", this.form);
           this.$emit("handleClose");
         } else {

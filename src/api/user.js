@@ -8,6 +8,14 @@ export const initConfigure = (data) => {
     })
 }
 
+export const initAlarmConfig = (data) => {
+    return axios.request({
+        url: '/lenovo-alarm/api/alarm-tip/info',
+        params: { ...data },
+        method: 'get'
+    })
+}
+
 export const login = (data) => {
   return axios.request({
     url: '/lenovo-user/api/user/login',
