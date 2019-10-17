@@ -752,7 +752,7 @@ export default {
         this.getDataList();
         this.$message({
           type: "success",
-          message: res.errorMessage
+          message: '删除成功'
         });
       });
     },
