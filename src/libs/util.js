@@ -16,38 +16,44 @@ export const getToken = () => {
 }
 
 export const isAlarmMap = (press, item)=>{
-    if(item['alarmType'] == 1){
-        if(item['alarmLevel'] == 1){
-            return press['normalAction'] == 1 || press['normalAction'] == 2
-        }else if(item['alarmLevel'] == 2){
-            return press['seriousAction'] == 1 || press['seriousAction'] == 2
-        }else if(item['alarmLevel'] == 3){
-            return press['dangerAction'] == 1 || press['dangerAction'] == 2
-        }
-    }else{
-        return press['envAction'] == 1 || press['envAction'] == 2
+    if(Object.keys(item).length){
+      if(item['alarmType'] == 1){
+          if(item['alarmLevel'] == 1){
+              return press['normalAction'] == 1 || press['normalAction'] == 2
+          }else if(item['alarmLevel'] == 2){
+              return press['seriousAction'] == 1 || press['seriousAction'] == 2
+          }else if(item['alarmLevel'] == 3){
+              return press['dangerAction'] == 1 || press['dangerAction'] == 2
+          }
+      }else{
+          return press['envAction'] == 1 || press['envAction'] == 2
+      }
     }
 }
 
 export const isAlarmVisible = (press, item)=>{
-    if(item['alarmType'] == 1){
-        if(item['alarmLevel'] == 1){
-            return press['normalAction'] == 1
-        }else if(item['alarmLevel'] == 2){
-            return press['seriousAction'] == 1
-        }else if(item['alarmLevel'] == 3){
-            return press['dangerAction'] == 1
+    if(Object.keys(item).length) {
+        if (item['alarmType'] == 1) {
+            if (item['alarmLevel'] == 1) {
+                return press['normalAction'] == 1
+            } else if (item['alarmLevel'] == 2) {
+                return press['seriousAction'] == 1
+            } else if (item['alarmLevel'] == 3) {
+                return press['dangerAction'] == 1
+            }
+        } else {
+            return press['envAction'] == 1
         }
-    }else{
-        return press['envAction'] == 1
     }
 }
 
 export const isAlarmVoice = (press, item)=>{
-    if(item['alarmType'] == 1){
-        return press['defectStatus'] == 1
-    }else{
-        return press['securityStatus'] == 1
+    if(Object.keys(item).length) {
+        if (item['alarmType'] == 1) {
+            return press['defectStatus'] == 1
+        } else {
+            return press['securityStatus'] == 1
+        }
     }
 }
 
