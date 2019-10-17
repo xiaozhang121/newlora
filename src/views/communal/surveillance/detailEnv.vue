@@ -45,7 +45,7 @@
                 />
               </div>
               <div class="inputGroup">
-                <el-input v-model="presetName" placeholder="添加预置位名称"></el-input>
+                <el-input  @input="checkSpecial" v-model="presetName" placeholder="添加预置位名称"></el-input>
                 <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
               </div>
             </div>
@@ -772,6 +772,24 @@ export default {
     }
   },
   methods: {
+    checkSpecial(value) {
+      let myreg =
+        "[`~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，、？]‘'";
+      for (let i = 0; i < value.length; i++) {
+        if (myreg.indexOf(value[i]) != -1) {
+          this.presetName = value
+            .replace(
+              /[`~!！@#$%^&*()_\-\+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*——（）\-+={}|《》？：“”【】、；‘’，。、]/g,
+              ""
+            )
+            .replace(/\s/g, "");
+          this.$message({
+            message: "不能包含特殊字符，请重新输入",
+            type: "warning"
+          });
+        }
+      }
+    },
     changeDate(now) {
       let data = "";
       if (now) {

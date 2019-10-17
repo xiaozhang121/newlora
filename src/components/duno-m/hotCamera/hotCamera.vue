@@ -148,7 +148,7 @@
                                     left: 0;
                                     top: 0;
                                     text-align: left; font-size: 14px" :deviceType="2" :deviceId="deviceId" v-if="deviceId && lockPress"/></div>
-                                    <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
+                                    <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" @input="checkSpecial" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
                                 </div>
                                 <div class="table" style="padding-top: 10px">
                                     <duno-table height="150"  v-for="(item, index) in dataListd"  :key="index"  :columns="columnsd" :dataList="item.dataList"></duno-table>
@@ -504,6 +504,24 @@
             },
         },
         methods:{
+            checkSpecial(value) {
+                let myreg =
+                  "[`~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，、？]‘'";
+                for (let i = 0; i < value.length; i++) {
+                  if (myreg.indexOf(value[i]) != -1) {
+                    this.addPosInput = value
+                      .replace(
+                        /[`~!！@#$%^&*()_\-\+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*——（）\-+={}|《》？：“”【】、；‘’，。、]/g,
+                        ""
+                      )
+                      .replace(/\s/g, "");
+                    this.$message({
+                      message: "不能包含特殊字符，请重新输入",
+                      type: "warning"
+                    });
+                  }
+                }
+            },
             checkPostion(data){
                 let pid = data.number
                 const that = this
