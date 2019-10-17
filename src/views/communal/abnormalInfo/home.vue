@@ -673,39 +673,43 @@ export default {
     getEchartsBar() {
       let occupied = [];
       let unoccupied = [];
-      getAxiosData("/lenovo-mon/api/monitoring/pro/zabbix/getCpuLoad").then(
-        res => {
-          let data = res.data;
-          occupied.push(
-            Math.round(((data.total - data.used) / data.total) * 100)
+      let query = {
+        hostType: "0"
+      };
+      getAxiosData(
+        "/lenovo-mon/api/monitoring/pro/zabbix/getCpuLoad",
+        query
+      ).then(res => {
+        let data = res.data;
+        occupied.push(
+          Math.round(((data.total - data.used) / data.total) * 100)
+        );
+        unoccupied.push(Math.round((data.used / data.total) * 100));
+        getAxiosData(
+          "/lenovo-mon/api/monitoring/memory/zabbix/getMemoryLoad",
+          query
+        ).then(res => {
+          let data1 = res.data;
+          occupied.push(Math.round((data1.available / data1.total) * 100));
+          unoccupied.push(
+            Math.round(((data1.total - data1.available) / data1.total) * 100)
           );
-          unoccupied.push(Math.round((data.used / data.total) * 100));
           getAxiosData(
-            "/lenovo-mon/api/monitoring/memory/zabbix/getMemoryLoad"
+            "/lenovo-mon/api/monitoring/disk/zabbix/getDiskStatus",
+            query
           ).then(res => {
-            let data1 = res.data;
-            occupied.push(Math.round((data1.available / data1.total) * 100));
+            let data2 = res.data;
+            occupied.push(Math.round((data2.available / data2.total) * 100));
             unoccupied.push(
-              Math.round(((data1.total - data1.available) / data1.total) * 100)
+              Math.round(((data2.total - data2.available) / data2.total) * 100)
             );
-            getAxiosData(
-              "/lenovo-mon/api/monitoring/disk/zabbix/getDiskStatus"
-            ).then(res => {
-              let data2 = res.data;
-              occupied.push(Math.round((data2.available / data2.total) * 100));
-              unoccupied.push(
-                Math.round(
-                  ((data2.total - data2.available) / data2.total) * 100
-                )
-              );
-              this.seriesOptionBar[0].data = occupied;
-              this.seriesOptionBar[1].data = unoccupied;
-              this.isChangeBar = !this.isChangeBar;
-              this.$forceUpdate();
-            });
+            this.seriesOptionBar[0].data = occupied;
+            this.seriesOptionBar[1].data = unoccupied;
+            this.isChangeBar = !this.isChangeBar;
+            this.$forceUpdate();
           });
-        }
-      );
+        });
+      });
     },
     getUbiquitous() {
       let url = "/lenovo-mon/api/monitoring/rack/zabbix/rack-health";
