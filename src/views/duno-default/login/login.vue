@@ -50,12 +50,12 @@ export default {
         }
       })
     },
-    getLoginData(userName, password, res) {
+    getLoginData(userName, password) {
       const url = '/api/userService/userLogin'
       const query = {
         "userName": userName,
         "password": password,
-        "userType": res.userType,
+        "userType": "ADMIN",
         "loginSource": "WEB",
         "department": "LR"
       }
