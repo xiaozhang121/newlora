@@ -11,14 +11,14 @@
           <div class="select-fr">{{selectTitle}}</div>
           <el-dropdown trigger="click">
             <span class="el-dropdown-link">
-              （全部{{tabdata.length}}）
+              （{{selectHost}}{{tabdata.length}}）
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
-                v-for="(item, index) in tabdata"
+                v-for="(item, index) in hostData"
                 :key="index"
-                @click.native="handleShow(item,index)"
+                @click.native="selectType(item)"
               >{{ item['name'] }}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -33,9 +33,12 @@
             <div>
               <span
                 class="tabFirst white"
-                :class="{blue:item.active==0,gray:item.active==1,red:item.active==2,}"
+                :class="{blue:item.serviceStatus==0,gray:item.serviceStatus==1}"
               ></span>
-              <span class="tabSecond" :class="{active:active===index}">{{item.name}}</span>
+              <span
+                class="tabSecond"
+                :class="{active:active===index,red:item.serviceStatus==1}"
+              >{{item.realName}}</span>
             </div>
             <i v-show="active===index" class="el-icon-caret-right"></i>
           </div>
@@ -53,7 +56,7 @@
         </div>
         <div>
           <div class="chartsPie">
-            <dunoPie></dunoPie>
+            <dunoPie :pieData="pieData"></dunoPie>
           </div>
           <div class="btmm">
             <div class="chartsbar">
@@ -142,6 +145,7 @@ import service from "_c/duno-c/service";
 import echartsRare from "_c/duno-c/echartsRare";
 import dunoMain from "_c/duno-m/duno-main";
 import DunoCharts from "_c/duno-charts/charts.vue";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
   components: {
     Breadcrumb,
@@ -159,11 +163,13 @@ export default {
       selectPart: 0,
       overview: true,
       selectTitle: "选择服务器",
+      selectHost: "全部",
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "/abnormalInfoPath/platformMonitor", name: "平台监控" },
         { path: "", name: "服务器" }
       ],
+      pieData: {},
       tabServe: [
         {
           name: "物理服务器"
@@ -172,28 +178,62 @@ export default {
           name: "虚拟服务器"
         }
       ],
+      hostData: [
+        {
+          name: "全部",
+          hostType: ""
+        },
+        {
+          name: "主机",
+          hostType: "0"
+        },
+        {
+          name: "虚拟机",
+          hostType: "1"
+        }
+      ],
       tabdata: [
         {
-          name: "总览"
+          realName: "总览"
         },
         {
-          active: 0,
-          name: "FWQ-001-识别"
+          realName: "FWQ-001-识别",
+          serviceStatus: "0"
         },
         {
-          active: 1,
-          name: "FWQ-001-视频流"
+          realName: "FWQ-001-视频流",
+          serviceStatus: "1"
         },
         {
-          active: 2,
-          name: "FWQ-001-表计数据"
+          realName: "FWQ-001-表计数据",
+          serviceStatus: "0"
         }
       ]
     };
   },
   methods: {
+    getService(item) {
+      let url = "/lenovo-mon/api/monitoring/host/zabbix/getService";
+      let query = {
+        hostType: item["hostType"]
+      };
+      getAxiosData(url, query).then(res => {
+        this.tabdata = res.data;
+        let obj = {
+          realName: "总览",
+          hostId: "",
+          hType: "",
+          serviceStatus: ""
+        };
+        this.tabdata.unshift(obj);
+      });
+    },
+    selectType(item) {
+      this.selectHost = item["name"];
+      this.getService(item);
+    },
     handleShow(item, index) {
-      this.selectTitle = item.name;
+      this.pieData = item;
       this.active = index;
       if (index == 0) {
         this.overview = true;
@@ -207,6 +247,9 @@ export default {
     selectPartServe(index) {
       this.selectPart = index;
     }
+  },
+  mounted() {
+    this.getService({ hostType: "" });
   }
 };
 </script>
@@ -292,13 +335,13 @@ export default {
         .gray {
           background: #9b9b9b;
         }
-        .red {
-          background: #d0021b;
-        }
         .tabSecond {
           color: #fff;
           font-size: 14px;
           padding-right: 5px;
+        }
+        .red {
+          color: #aaaaaa;
         }
         .tabSecond:hover {
           color: #3ed9c1;
@@ -443,8 +486,6 @@ export default {
             .tabSer {
               width: 25%;
             }
-          }
-          .serSecond {
           }
         }
       }
