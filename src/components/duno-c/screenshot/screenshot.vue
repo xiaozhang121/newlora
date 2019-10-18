@@ -116,7 +116,7 @@ export default {
       default: () => {
         return true;
       }
-    }
+    },
   },
   watch: {
     shotData(now) {

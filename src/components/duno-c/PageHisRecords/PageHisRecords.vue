@@ -48,7 +48,12 @@
       />
     </div>
     <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
-    <enlarge :isShow="isEnlarge" :pushCamera='false' :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <enlarge
+      :isShow="isEnlarge"
+      :pushCamera="false"
+      :srcData="srcData"
+      @closeEnlarge="closeEnlarge"
+    />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
 </template>
@@ -504,24 +509,23 @@ export default {
             });
           }
         } else if (monitorDeviceType == 2) {
-            if (supportPreset) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRed",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }
-
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
         } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",

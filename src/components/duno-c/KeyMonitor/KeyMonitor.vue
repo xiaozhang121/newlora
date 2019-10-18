@@ -93,6 +93,7 @@
     />
     <screenshot
       :isShow="isShow"
+      :isVideo='isVideo'
       :shotData="shotData"
       @closeShot="closeShot"
       :monitorInfo="monitorInfo"
@@ -350,6 +351,7 @@ export default {
       timeIncreateD: "0:00:00",
       monitorId: "",
       isCamera: false,
+      isVideo:true,
       isAlarmOption: false,
       sTimer: null,
       timer: null,
@@ -493,6 +495,9 @@ export default {
           clearInterval(this.timerTime);
           this.timeIncreateD = "0:00:00";
           this.$message.info(res.msg);
+          this.isShow = true;
+          this.isVideo = false;
+
         });
       }
     },
@@ -646,9 +651,10 @@ export default {
     //获取图片
     isSample() {
       this.monitorId = this.monitorInfoR["monitorDeviceId"];
+      this.isVideo = true;
+      this.isShow = true;
       this.$refs.screenShot.getPowerDeviceId();
       if (!this.isPic) {
-        this.isShow = true;
         let url = "/lenovo-device/api/stream/snapshoot";
         let query = {
           rtmpUrl: this.streamAddr
@@ -657,7 +663,6 @@ export default {
           this.shotData = res.data;
         });
       } else {
-        this.isShow = true;
         getAxiosData(
           `/lenovo-iir/device/image/get/output-image/${
             this.monitorInfoR["monitorDeviceId"]
@@ -788,10 +793,10 @@ export default {
       margin: auto;
     }
   }
-  .infraredList {
-    /*  transform: scale(1, 0.75);
-    transform-origin: left top;*/
-  }
+  /* .infraredList {
+     transform: scale(1, 0.75);
+    transform-origin: left top;
+  }*/
   .video-player.vjs-custom-skin {
     width: 100%;
   }
