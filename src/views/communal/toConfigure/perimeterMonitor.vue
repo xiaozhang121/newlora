@@ -6,11 +6,11 @@
     <div class="topTitle">
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
       <div>布控球</div>
-      <button-custom :title="buttonTitle"/>
+      <button-custom :title="buttonTitle" @click.native="planStart"/>
     </div>
     <!--<img-line-panel></img-line-panel>-->
-    <div class="ballMonitorItem" v-for="(item, index) in demoList" :key="index">
-      <perimeter-monitor :zIndex = "index"/>
+    <div class="ballMonitorItem" v-for="(item, index) in cameraList" :key="index">
+      <perimeter-monitor ref="monitorRef" :monitor="item" :zIndex = "index"/>
     </div>
   </div>
 </template>
@@ -341,7 +341,8 @@ export default {
         totalRows: 1
       },
       isLock: 0,
-      timeData: ""
+      timeData: "",
+      cameraList: []
     };
   },
   watch: {
@@ -361,6 +362,14 @@ export default {
     }
   },
   methods: {
+    planStart(){
+       postAxiosData('/lenovo-plan/api/unified/plan/start',{planId: '', plUnifiedTaskDtos: []})
+    },
+    initData(){
+        getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId}).then(res=>{
+            this.cameraList = res.data.cameraList
+        })
+    },
     onDisable(flag){
         if(!this.controlAble){
             this.controlAble = flag
@@ -848,11 +857,12 @@ export default {
     }
   },
   created() {
-    this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.dataForm.planId = this.$route.query.planId;
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
     this.getVideo();
+    this.initData()
   },
   mounted() {
     this.getInit();

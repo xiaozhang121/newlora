@@ -2,7 +2,7 @@
   <div class="perimeterMonitor">
     <div class="topTitle">
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
-      <div>名称</div>
+      <div>{{ monitor.monitorDeviceName }}</div>
     </div>
     <div class="Main_contain">
       <div class="content">
@@ -11,11 +11,11 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                  :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+                  :monitorInfo="{ monitor }"
                   paddingBottom="56%"
                   class="monitor"
-                  :autoplay="playerOptions.autoplay"
-                  :streamAddr="playerOptions.streamAddr"
+                  :autoplay="true"
+                  :streamAddr="monitor.streamAddress"
                   :showBtmOption="false"
                   :Initialization="true"
                 ></key-monitor>
@@ -79,7 +79,7 @@
           </div>
           <div v-else class="buttonC">
             <span @click="changeCamare">重新拍摄</span>
-            <span v-if="isMonitor" @click="handleStart">开始监控</span>
+            <span v-if="isMonitor" @click="handleStart">完成设定</span>
             <span v-else @click="handleEnd">停止监控</span>
           </div>
         </div>
@@ -142,6 +142,7 @@ export default {
   data() {
     const that = this;
     return {
+      drawArealist: [],
       lockPress: false,
       addOrEdit: "添加",
       disabled: false,
@@ -423,6 +424,10 @@ export default {
     }
   },
   props: {
+    monitor: {
+        type: Object,
+        default: {}
+    },
     zIndex: {},
     deviceId: {
       type: [String, Number],
@@ -742,7 +747,7 @@ export default {
       let that = this;
       let url = "/lenovo-device/api/stream/snapshoot";
       let query = {
-        rtmpUrl: that.playerOptions.streamAddr
+        rtmpUrl: that.monitor.streamAddr
       };
       postAxiosData(url, query).then(res => {
         that.shotData = res.data;
@@ -766,10 +771,14 @@ export default {
       });
     },
     handleDraw() {
-      this.isDraw = true;
+      this.clickFlage = 1
+      this.$refs.imgLinePanel.drawPress = true
     },
     clearDraw() {
+        this.$refs.imgLinePanel.drawPress = false
         this.$refs.imgLinePanel.clearCanvas()
+        this.$refs.imgLinePanel.drawPoint = []
+        this.drawArealist = []
    /*   this.isDraw = false;
       this.isShowBox = false;
       this.isStart = false;
@@ -777,65 +786,16 @@ export default {
       this.$refs.box.style.height = null;*/
     },
     handleStart() {
-      let that = this;
-      //   debugger;
-      console.log(!that.isShowBox, !that.isStart);
-      if (!that.isStart) {
-        this.$message({
-          message: "请先设定区域",
-          type: "warning"
-        });
-        return;
+      debugger
+      if(this.$refs.imgLinePanel.drawPoint.length > 4 || this.$refs.imgLinePanel.drawPoint.length < 4){
+          this.$message.error('请绘制一条折线4个端点')
+          return
+      }else if(this.$refs.imgLinePanel.drawPoint.length == 0){
+          this.$message.error('请绘制区域')
+          return
       }
-      that.isDraw = false;
-      let url = "/lenovo-device/api/monitor/ball-control/start";
-      let img = new Image();
-      img.src = this.imgsrc;
-      let w1 = 0;
-      let h1 = 0;
-      img.onload = function() {
-        w1 = img.width;
-        h1 = img.height;
-        let w0 = document.querySelector(".calibration").offsetWidth;
-        let h0 = document.querySelector(".calibration").offsetHeight;
-        let startPoint = that.getCoordinate(
-          0,
-          w0,
-          w1,
-          h0,
-          h1,
-          that.startPointX,
-          that.startPointY
-        );
-        let endPoint = that.getCoordinate(
-          0,
-          w0,
-          w1,
-          h0,
-          h1,
-          that.endPointX,
-          that.endPointY
-        );
-        let query = {
-          monitorDeviceId: that.$route.query.monitorDeviceId,
-          /*     fileName: that.shotData.cephFileName,
-                   bucketName: that.shotData.cephBucket,*/
-          imgAddress: that.imgsrc,
-          x0: startPoint.x,
-          y0: startPoint.y,
-          x1: endPoint.x,
-          y1: endPoint.y
-        };
-        postAxiosData(url, query).then(res => {
-          if (res.data.isSuccess) {
-            that.isMonitor = false;
-            this.$message({
-              type: "success",
-              message: "开始监控标定区域"
-            });
-          }
-        });
-      };
+      this.drawArealist = this.$refs.imgLinePanel.drawPoint
+      this.$message.success('完成设定！')
     },
     handleEnd() {
       let that = this;
@@ -892,11 +852,11 @@ export default {
       }
     },
     getEndCode(e) {
-      if (this.clickFlage == 1) {
+     /* if (this.clickFlage == 1) {
         this.endPointY = e.offsetY;
         this.endPointX = e.offsetX;
         this.clickFlage = 0;
-      }
+      }*/
     },
     getCircle(e) {
       if (this.clickFlage == 1) {

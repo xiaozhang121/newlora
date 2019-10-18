@@ -37,16 +37,15 @@
         </div>
         <div class="video">
           <div>
-            <div class="videoItem" v-for="(item,index) in videoList" :key="index">
+            <div class="videoItem" v-for="(item,index) in cameraList" :key="index">
               <key-monitor
                       :monitorInfo="item"
                       paddingBottom="56%"
                       class="monitor"
                       width="100%"
-                      :autoplay="false"
-                      :imgAdress="item['pic']"
-                      :streamAddr="item['streamAddr']"
-                      :kilovolt="item['source']"
+                      :autoplay="true"
+                      :streamAddr="item['streamAddress']"
+                      :kilovolt="item['monitorDeviceName']"
                       :showBtmOption="true"
                       :Initialization="true"
               ></key-monitor>
@@ -105,11 +104,11 @@
         </div>
         <duno-tables-tep
                 class="table_abnormalInfo"
-                :columns="envColumns"
-                :data="envDataList"
-                :totalNum="envTotalNum"
+                :columns="tableColumns"
+                :data="tableList"
+                :totalNum="totalPage"
                 :pageSize="pageRows"
-                :current="envPageIndex"
+                :current="pageIndex"
                 :border="true"
                 :showSizer="true"
                 @clickPage="changePage"
@@ -173,7 +172,7 @@
                 envPageIndex: 1,
                 envTotalNum: 1,
                 envDataList: [],
-                envColumns: [
+                tableColumns: [
                     {
                         title: "拍摄时间",
                         key: "alarmTime",
@@ -663,12 +662,12 @@
                 allDataLevel: [],
                 dataTime: "",
                 dataTimed: "",
-                pageParam: {
-                    pageIndex: 1,
-                    totalRows: 1
-                },
+                totalPage: 1,
+                pageIndex: 1,
                 dataBread: [{ name: "摄像头详情" }],
-                timeData: ""
+                timeData: "",
+                cameraList: [],
+                tableList: []
             };
         },
         props: {
@@ -678,6 +677,16 @@
             }
         },
         methods: {
+            initData(){
+                const that = this
+                let obj = {pageIndex: that.pageIndex, pageRows: 10, planId: this.dataForm.planId}
+                getAxiosData('/lenovo-plan/api/unified/plan/camera/list', {...obj, ...that.secondForm}).then(res=>{
+                    if(!this.cameraList.length)
+                        that.cameraList = res.data.cameraList
+                    that.tableList = res.data.tableData.tableData
+                    that.totalPage = res.data.tableData.pageParam.totalRows
+                })
+            },
             toRouter(){
                 this.$router.push({path: "perimeterMonitor"})
             },
@@ -721,8 +730,8 @@
                 });
             },
             changePage(val) {
-                this.envPageIndex = val;
-                this.getEnvData();
+                this.pageIndex = val;
+                this.initData();
             },
             getVideo(pageIndex) {
                 let index = 1;
@@ -842,7 +851,7 @@
                 }
                 this.secondForm.startTime = startTime;
                 this.secondForm.endTime = endTime;
-                this.getEnvData();
+                this.initData();
             },
             onChangeHis(data) {
                 let startTime = "";
@@ -1060,7 +1069,7 @@
                     this.dataForm.monitorDeviceName = res.data.deviceName;
                 });
             },
-            getEnvData() {
+           /* getEnvData() {
                 getAxiosData("/lenovo-alarm/api/security/list", {
                     startTime: this.secondForm.startTime,
                     endTime: this.secondForm.endTime,
@@ -1071,16 +1080,15 @@
                     this.envDataList = res.data.tableData;
                     this.envTotalNum = res.data.pageParam.totalRows;
                 });
-            }
+            }*/
         },
         created() {
-            this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+            this.dataForm.planId = this.$route.query.planId;
             this.getMonitorDeviceName();
             this.getDataList();
             this.initCamera();
             this.getEchasrts();
-            this.getVideo();
-            this.getEnvData();
+            this.initData()
         },
         mounted() {
             // this.getInit();

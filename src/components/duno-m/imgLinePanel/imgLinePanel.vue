@@ -33,7 +33,7 @@ export default {
       drawPress: {
           type: Boolean,
           default: ()=>{
-              return true
+              return false
           }
       },
       zIndex: {},
@@ -56,25 +56,39 @@ export default {
         }
         return obj;
     },
+    handleData(type = 0 ,x, y){
+        const that = this
+        let w1 = this.imgOriginWidth;
+        let h1 = this.imgOriginHeight;
+        let w0 = this.canvas.width;
+        let h0 = this.canvas.height;
+        return that.getCoordinate(type, w0, w1, h0, h1, x, y)
+    },
     dataToPic(){
+        const that = this
         let data = [
             {
-                x: 127.5374755859375,
-                y: 3.012481689453125
+                x: 885.6589440071937,
+                y: 566.6876015914114
             },
             {
-                x: 159.5374755859375,
-                y: 91.01248168945312
+                x: 495.80745885867884,
+                y: 769.306022644043
             },
             {
-                x: 194.5374755859375,
-                y: 76.01248168945312
+                x: 755.7084489576887,
+                y: 776.1744436966745
             },
             {
-                x: 211.5374755859375,
-                y: 1.012481689453125
+                x: 1023.0351816309559,
+                y: 676.5823384335166
             }
         ]
+        data.map((item)=>{
+            let d = that.handleData(1, item['x'], item['y'])
+            item['x'] = d.x
+            item['y'] = d.y
+        })
         data.forEach((item, index)=>{
             if(index > 0){
                 this.mousedown.x = data[index-1]['x']
@@ -111,9 +125,14 @@ export default {
           that.mousedown.x = loc.x;
           that.mousedown.y = loc.y;
           that.dragging = true;
-          that.pointList.push({x: that.saveDataX, y: that.saveDataY})
+          let saveData = {x: that.mousedown.x, y: that.mousedown.y}
+          let point =  that.handleData(0, saveData.x, saveData.y)
+          that.pointList.push(point)
       }
       this.canvas.onmousemove = function (e) {
+          if(!that.drawPress){
+              return
+          }
           if(that.dragging) {
               e.preventDefault();
               that.loc = that.windowToCanvas(e.clientX, e.clientY);
@@ -122,15 +141,18 @@ export default {
           }
       }
       this.canvas.ondblclick = function (e) {
+          if(!that.drawPress){
+              return
+          }
           that.loc = that.windowToCanvas(e.clientX, e.clientY);
           that.context.clearRect(0, 0, that.canvas.width, that.canvas.height)
           that.removeDoubleLast(that.drawingSurfacsImageData)
           that.removeDoubleLast(that.pointList)
-          if(that.drawPoint.length + that.pointList.length > MAXNODE){
+       /*   if(that.drawPoint.length + that.pointList.length > MAXNODE){
 
-          }else{
+          }else{*/
               that.drawPoint = that.drawPoint.concat(that.pointList)
-          }
+          // }
           console.log(that.drawPoint)
 
           that.restoreDrawingSurface()
@@ -162,8 +184,6 @@ export default {
            xx =  (x - bbox.left)/this.zoomRate.x
           yy = (y - bbox.top)/this.zoomRate.y
         }
-        that.saveDataX = (x - bbox.left)
-        that.saveDataY = (y - bbox.top)
         console.log(x - bbox.left, y - bbox.top)
         return {
             x: xx,
@@ -223,7 +243,7 @@ export default {
      })
     window.addEventListener('resize', this.initWinResize)
     setTimeout(()=>{
-        this.dataToPic()
+        // this.dataToPic()
     },6000)
   }
 };
