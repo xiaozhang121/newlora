@@ -55,6 +55,7 @@
                 caisson: require('@/apiData/caisson'),
                 reticle: require('@/apiData/reticle'),
                 fiber: require('@/apiData/fiber'),
+                fBox: require('@/apiData/fBox'),
                 wirelessAP: require('@/apiData/wirelessAP'),
                 isHide: false,
                 dataBread: [
@@ -170,6 +171,14 @@
                         that.$refs.gisMapObj.setDrawLine(arr, 1, [0, 0], '#c7b299', 3, item)
                 })
             },
+            handlefBox(){
+                const that = this
+                let data = that.fBox.default
+                data.forEach((item, index) => {
+                    let arr = that.arrHandle(item)
+                    that.$refs.gisMapObj.setDrawLine(arr, 1, [0, 0], '#ee183b', 3, item)
+                })
+            },
             handleReticle(){
                 const that = this
                 let data = that.reticle.default
@@ -190,6 +199,7 @@
         mounted() {
             this.handleReticle()
             this.handleFiber()
+            this.handlefBox()
             this.getDeviceList()
         }
     };

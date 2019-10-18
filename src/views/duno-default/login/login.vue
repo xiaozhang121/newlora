@@ -40,7 +40,7 @@ export default {
       this.handleLogin({ userName, password, code, uuid }).then(res => {
         if (res.code === 200) {
           this.getUserInfo().then(res => {
-            this.getLoginData(userName, password)
+            this.getLoginData(userName, password, res)
             this.isLoading = false
             this.$router.push({ name: 'realEnvList' })
           })
@@ -50,12 +50,13 @@ export default {
         }
       })
     },
-    getLoginData(userName, password) {
+    getLoginData(userName, password, res) {
       const url = '/api/userService/userLogin'
+      let userType =   res.userType
       const query = {
         "userName": userName,
         "password": password,
-        "userType": "ADMIN",
+        "userType": 'ADMIN',
         "loginSource": "WEB",
         "department": "LR"
       }
