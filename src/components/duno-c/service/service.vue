@@ -2,17 +2,21 @@
   <div class="duno-service">
     <p>Service</p>
     <div class="tabData" :style="{height:height}">
-      <div class="square" v-for="(item,index) in dataList" :key="index">
-        <!-- <div class="square"> -->
-        <span></span>
-        config-service
-        <!-- </div> -->
-        <div>2 passing</div>
+      <div
+        class="square"
+        :class="{gray:item.serviceStatus!=='passing'}"
+        v-for="(item,index) in dataList"
+        :key="index"
+      >
+        <span :style="{backgroundColor:item.serviceStatus=='passing'?'#7ed321':'#ee183b'}"></span>
+        {{item.name}}
+        <div>{{item.countStatus}}{{item.serviceStatus}}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   name: "service",
   props: {
@@ -21,12 +25,42 @@ export default {
       default: () => {
         return "";
       }
+    },
+    pieData: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
   data() {
     return {
-      dataList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+      dataList: []
     };
+  },
+  watch: {
+    pieData: {
+      handler() {
+        this.getConsul();
+      },
+      deep: true
+    }
+  },
+  methods: {
+    getConsul() {
+      let that = this;
+      let url = "/lenovo-mon/api/monitoring/host/zabbix/getConsulService";
+      let query = {
+        hostId: that.pieData.hostId,
+        hostType: that.pieData.htype
+      };
+      getAxiosData(url, query).then(res => {
+        that.dataList = res.data;
+      });
+    }
+  },
+  mounted() {
+    this.getConsul();
   }
 };
 </script>
@@ -59,9 +93,11 @@ export default {
         height: 14px;
         width: 14px;
         border-radius: 50%;
-        background-color: #7ed321;
         margin-right: 10px;
       }
+    }
+    .gray {
+      color: #aaa;
     }
   }
 }

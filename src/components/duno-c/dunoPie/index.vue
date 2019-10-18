@@ -50,23 +50,13 @@ export default {
     pieData: {
       type: Object,
       default: () => {
-        return {
-          hostId: "",
-          htype: ""
-        };
+        return {};
       }
     }
   },
   data() {
     const that = this;
     return {
-      dataList: [],
-      // legendFir: [],
-      // seriesFir: [],
-      // legendSec: [],
-      // seriesSec: [],
-      // legendThr: [],
-      // seriesThr: [],
       isChangeProcessorFir: true,
       isChangeProcessorSec: true,
       isChangeProcessorThr: true,
@@ -183,7 +173,7 @@ export default {
   },
   watch: {
     pieData: {
-      handler() {
+      handler(now) {
         this.getPie();
       },
       deep: true
@@ -215,7 +205,6 @@ export default {
           { value: occupied, name: that.legendProcessorFir.data[0] },
           { value: unoccupied, name: that.legendProcessorFir.data[1] }
         ];
-        debugger;
         that.isChangeProcessorFir = !that.isChangeProcessorFir;
         that.$forceUpdate();
       });

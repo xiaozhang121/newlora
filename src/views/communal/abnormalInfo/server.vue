@@ -18,7 +18,7 @@
               <el-dropdown-item
                 v-for="(item, index) in hostData"
                 :key="index"
-                @click.native="selectType(item)"
+                @click.native="selectType(item,index)"
               >{{ item['name'] }}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -48,11 +48,16 @@
         <div class="tabServer">
           <div
             class="unchecked"
-            :class="{selection:selection===index}"
-            @click="selectServe(index)"
-            v-for="(item,index) in tabServe"
-            :key="index"
-          >{{item.name}}</div>
+            :class="{selection:selection===0}"
+            v-if="serve==''||serve=='0'"
+            @click="selectServe(0)"
+          >物理服务器</div>
+          <div
+            class="unchecked"
+            :class="{selection:selection===1}"
+            v-if="serve==''||serve=='1'"
+            @click="selectServe(1)"
+          >虚拟服务器</div>
         </div>
         <div>
           <div class="chartsPie">
@@ -60,10 +65,10 @@
           </div>
           <div class="btmm">
             <div class="chartsbar">
-              <echartsRare ref="rare"></echartsRare>
+              <echartsRare :pieData="pieData" :serve="serve" ref="rare"></echartsRare>
             </div>
             <div class="serevice">
-              <service height="560px"></service>
+              <service :pieData="pieData" height="560px"></service>
             </div>
           </div>
         </div>
@@ -122,14 +127,20 @@
           <div class="server_con">
             <div class="serFirst">
               <div class="serChart">
-                <dunoPie paddingBottom="60%"></dunoPie>
+                <dunoPie :pieData="pieData" paddingBottom="60%"></dunoPie>
               </div>
               <div class="tabSer">
-                <service height="160px"></service>
+                <service :pieData="pieData" height="160px"></service>
               </div>
             </div>
             <div class="serSecond">
-              <echartsRare width="25%" paddingBottom="80%" ref="rare"></echartsRare>
+              <echartsRare
+                :pieData="pieData"
+                :serve="serve"
+                width="25%"
+                paddingBottom="80%"
+                ref="rare"
+              ></echartsRare>
             </div>
           </div>
         </div>
@@ -145,7 +156,7 @@ import service from "_c/duno-c/service";
 import echartsRare from "_c/duno-c/echartsRare";
 import dunoMain from "_c/duno-m/duno-main";
 import DunoCharts from "_c/duno-charts/charts.vue";
-import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   components: {
     Breadcrumb,
@@ -162,6 +173,7 @@ export default {
       selection: 0,
       selectPart: 0,
       overview: true,
+      serve: "",
       selectTitle: "选择服务器",
       selectHost: "全部",
       dataBread: [
@@ -181,34 +193,21 @@ export default {
       hostData: [
         {
           name: "全部",
-          hostType: ""
+          hostType: "",
+          serve: ""
         },
         {
           name: "主机",
-          hostType: "0"
+          hostType: "0",
+          serve: "0"
         },
         {
           name: "虚拟机",
-          hostType: "1"
+          hostType: "1",
+          serve: "1"
         }
       ],
-      tabdata: [
-        {
-          realName: "总览"
-        },
-        {
-          realName: "FWQ-001-识别",
-          serviceStatus: "0"
-        },
-        {
-          realName: "FWQ-001-视频流",
-          serviceStatus: "1"
-        },
-        {
-          realName: "FWQ-001-表计数据",
-          serviceStatus: "0"
-        }
-      ]
+      tabdata: []
     };
   },
   methods: {
@@ -228,9 +227,26 @@ export default {
         this.tabdata.unshift(obj);
       });
     },
-    selectType(item) {
+    selectType(item, index) {
       this.selectHost = item["name"];
-      this.getService(item);
+      this.active = 0;
+      this.overview = true;
+      this.pieData = {
+        hostId: "",
+        htype: item["hostType"]
+      };
+      this.serve = item["serve"];
+      if (index == 1) {
+        this.selection = 0;
+        this.serve = "0";
+      } else if (index == 2) {
+        this.selection = 1;
+        this.serve = "1";
+      } else if (index == 0) {
+        this.selection = 0;
+        this.serve = "";
+      }
+      this.getService({ hostType: item["hostType"] });
     },
     handleShow(item, index) {
       this.pieData = item;
@@ -243,6 +259,10 @@ export default {
     },
     selectServe(index) {
       this.selection = index;
+      this.pieData = {
+        hostId: "",
+        htype: index
+      };
     },
     selectPartServe(index) {
       this.selectPart = index;

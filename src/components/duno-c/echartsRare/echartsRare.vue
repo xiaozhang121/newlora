@@ -2,53 +2,51 @@
   <div class="echarts-rare">
     <div :style="{width:width}">
       <duno-charts
-        :isChange="isChangeSpeed"
-        :legendOption="legendSpeed"
-        :titleOption="titleSpeed"
+        :isChange="isChangeKps"
+        :legendOption="legendKps"
+        :titleOption="titleKps"
         :paddingBottom="paddingBottom"
         :isItemEchart="true"
-        :xAxisOption="xAxisSpeed"
-        :yAxisOption="yAxisSpeed"
-        :seriesOption="seriesSpeed"
+        :xAxisOption="xAxisKps"
+        :yAxisOption="yAxisKps"
+        :seriesOption="seriesKps"
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
     <div :style="{width:width}">
       <duno-charts
-        :isChange="isChangeSpeed"
-        :legendOption="legendSpeed"
-        :titleOption="titleSpeed"
+        :isChange="isChangeIo"
+        :legendOption="legendIo"
+        :titleOption="titleIo"
         :paddingBottom="paddingBottom"
         :isItemEchart="true"
-        :xAxisOption="xAxisRead"
-        :yAxisOption="yAxisSpeed"
-        :seriesOption="seriesRead"
+        :xAxisOption="xAxisIo"
+        :yAxisOption="yAxisIo"
+        :seriesOption="seriesIo"
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
     <div :style="{width:width}">
       <duno-charts
-        :isChange="isChangeSpeed"
-        :legendOption="legendSpeed"
-        :titleOption="titleSpeed"
+        :isChange="isChangeCpu"
+        :titleOption="titleCpu"
         :paddingBottom="paddingBottom"
         :isItemEchart="true"
-        :xAxisOption="xAxisRead"
-        :yAxisOption="yAxisSpeed"
-        :seriesOption="seriesCUP"
+        :xAxisOption="xAxisCpu"
+        :yAxisOption="yAxisCpu"
+        :seriesOption="seriesCpu"
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
     <div :style="{width:width}">
       <duno-charts
-        :isChange="isChangeSpeed"
-        :legendOption="legendSpeed"
-        :titleOption="titleSpeed"
+        :isChange="isChangeCpu"
+        :titleOption="titleCpu"
         :paddingBottom="paddingBottom"
         :isItemEchart="true"
-        :xAxisOption="xAxisRead"
-        :yAxisOption="yAxisSpeed"
-        :seriesOption="seriesCUP"
+        :xAxisOption="xAxisCpu"
+        :yAxisOption="yAxisCpu"
+        :seriesOption="seriesCpu"
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
@@ -56,12 +54,19 @@
 </template>
 <script>
 import { DunoCharts } from "_c/duno-charts";
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   name: "dunoPie",
   components: {
     DunoCharts
   },
   props: {
+    serve: {
+      type: String,
+      default: () => {
+        return "";
+      }
+    },
     width: {
       type: String,
       default: () => {
@@ -73,44 +78,39 @@ export default {
       default: () => {
         return "60%";
       }
+    },
+    pieData: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
   data() {
     return {
-      dataList: [{}, {}, {}, {}],
-      isChangeSpeed: true,
-      legendSpeed: {
+      isChangeKps: true,
+      legendKps: {
         // type: "scroll",
         top: "30",
         left: "center",
         orient: "horizontal",
-        data: ["出网pbs", "入网pbs"],
-        // data: [
-        //   {
-        //     name: "出网pbs",
-        //     icon: "circle"
-        //   },
-        //   {
-        //     name: "入网pbs",
-        //     icon: "circle"
-        //   }
-        // ],
+        data: ["出网kbs", "入网kbs"],
         textStyle: {
           color: "#fff"
         }
       },
-      titleSpeed: {
+      titleKps: {
         text: "出入网速率",
         left: "center",
         textStyle: {
           color: "#fff"
         }
       },
-      xAxisSpeed: {
+      xAxisKps: {
         type: "category",
         name: "(min)",
         // boundaryGap: false,
-        data: ["08:05:00", "08:10:00", "08:15:00", "08:20:00"],
+        data: [],
         axisLine: {
           lineStyle: {
             color: "#46565f"
@@ -123,24 +123,7 @@ export default {
           padding: [25, 0, 0, -20]
         }
       },
-      xAxisRead: {
-        type: "category",
-        name: "(min)",
-        boundaryGap: false,
-        data: ["08:05:00", "08:10:00", "08:15:00", "08:20:00"],
-        axisLine: {
-          lineStyle: {
-            color: "#46565f"
-          }
-        },
-        axisTick: {
-          show: false
-        },
-        nameTextStyle: {
-          padding: [25, 0, 0, -20]
-        }
-      },
-      yAxisSpeed: [
+      yAxisKps: [
         {
           type: "value",
           name: "(k)",
@@ -162,36 +145,141 @@ export default {
           }
         }
       ],
+      seriesKps: [
+        {
+          name: "出网kbs",
+          type: "bar",
+          barWidth: 20,
+          data: []
+        },
+        {
+          name: "入网kbs",
+          type: "bar",
+          barWidth: 20,
+          data: []
+        }
+      ],
+      isChangeIo: true,
+      legendIo: {
+        // type: "scroll",
+        top: "30",
+        left: "center",
+        orient: "horizontal",
+        data: ["读（MB/s）", "写（MB/s）"],
+        textStyle: {
+          color: "#fff"
+        }
+      },
+      titleIo: {
+        text: "读写速率",
+        left: "center",
+        textStyle: {
+          color: "#fff"
+        }
+      },
+      xAxisIo: {
+        type: "category",
+        name: "(min)",
+        boundaryGap: false,
+        data: [],
+        axisLine: {
+          lineStyle: {
+            color: "#46565f"
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        nameTextStyle: {
+          padding: [25, 0, 0, -20]
+        }
+      },
+      yAxisIo: [
+        {
+          type: "value",
+          name: "(MB)",
+          axisLine: {
+            lineStyle: {
+              color: "#46565f"
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: "#2a3c47"
+            }
+          },
+          nameTextStyle: {
+            padding: [0, 25, 0, 0]
+          }
+        }
+      ],
+      seriesIo: [
+        {
+          name: "读（MB/s）",
+          type: "line",
+          stack: "总量",
+          data: []
+        },
+        {
+          name: "写（MB/s）",
+          type: "line",
+          stack: "总量",
+          data: []
+        }
+      ],
+      isChangeCpu: true,
+      titleCpu: {
+        text: "CUP使用率",
+        left: "center",
+        textStyle: {
+          color: "#fff"
+        }
+      },
+      xAxisCpu: {
+        type: "category",
+        name: "(min)",
+        boundaryGap: false,
+        data: [],
+        axisLine: {
+          lineStyle: {
+            color: "#46565f"
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        nameTextStyle: {
+          padding: [25, 0, 0, -20]
+        }
+      },
+      yAxisCpu: [
+        {
+          type: "value",
+          name: "(%)",
+          max: 100,
+          axisLine: {
+            lineStyle: {
+              color: "#46565f"
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: "#2a3c47"
+            }
+          },
+          nameTextStyle: {
+            padding: [0, 25, 0, 0]
+          }
+        }
+      ],
       colorSpeed: ["#1b6697", "#53cbc3"],
-      seriesSpeed: [
-        {
-          name: "出网pbs",
-          type: "bar",
-          barWidth: 20,
-          data: [25, 35, 32, 31]
-        },
-        {
-          name: "入网pbs",
-          type: "bar",
-          barWidth: 20,
-          data: [36, 31, 26, 45]
-        }
-      ],
-      seriesRead: [
-        {
-          name: "出网pbs",
-          type: "line",
-          stack: "总量",
-          data: [25, 35, 32, 31]
-        },
-        {
-          name: "入网pbs",
-          type: "line",
-          stack: "总量",
-          data: [36, 31, 26, 45]
-        }
-      ],
-      seriesCUP: [
+      seriesCpu: [
         {
           name: "出网pbs",
           type: "line",
@@ -220,7 +308,7 @@ export default {
           symbol: "none",
           //   symbolSize: 0,
           sampling: "average",
-          data: [25, 35, 32, 31],
+          data: [],
           itemStyle: {
             normal: {
               color: "#05e6eb",
@@ -230,6 +318,82 @@ export default {
         }
       ]
     };
+  },
+  watch: {
+    pieData: {
+      handler() {
+        this.getBar();
+      },
+      deep: true
+    }
+  },
+  methods: {
+    getBar() {
+      let that = this;
+      let netUrl = "/lenovo-mon/api/monitoring/net/zabbix/getNetByHostId";
+      let diskUrl = "/lenovo-mon/api/monitoring/disk/zabbix/getDiskByHostId";
+      let cupUrl = "/lenovo-mon/api/monitoring/pro/zabbix/getCpuByHostId";
+      let query = {
+        hostid: that.pieData.hostId
+      };
+      getAxiosData(netUrl, query).then(res => {
+        let netData = res.data;
+        let outData = [];
+        let enterData = [];
+        let timeData = [];
+        netData.forEach(el => {
+          outData.push(el.netOut);
+          enterData.push(el.netInput);
+          timeData.push(el.createTime);
+        });
+        that.xAxisKps.data = timeData;
+        that.seriesKps[0].data = outData;
+        that.seriesKps[1].data = enterData;
+        that.isChangeKps = !that.isChangeKps;
+        that.$forceUpdate();
+      });
+      getAxiosData(diskUrl, query).then(res => {
+        let diskData = res.data;
+        let outData = [];
+        let enterData = [];
+        let timeData = [];
+        diskData.forEach(el => {
+          outData.push(el.ioRead);
+          enterData.push(el.ioWrite);
+          timeData.push(el.createTime);
+        });
+        that.xAxisIo.data = timeData;
+        that.seriesIo[0].data = outData;
+        that.seriesIo[1].data = enterData;
+        that.isChangeIo = !that.isChangeIo;
+        that.$forceUpdate();
+      });
+      getAxiosData(cupUrl, query).then(res => {
+        let cupData = res.data;
+        let usedData = [];
+        let timeData = [];
+        if (that.serve == "") {
+          cupData.forEach(el => {
+            usedData.push(el.used / el.total);
+            timeData.push(el.createTime);
+          });
+        } else {
+          cupData.forEach(el => {
+            usedData.push(el.used);
+            timeData.push(el.createTime);
+          });
+        }
+        that.xAxisIo.data = timeData;
+        that.seriesCpu[0].data = usedData;
+        that.isChangeCpu = !that.isChangeCpu;
+        that.$forceUpdate();
+      });
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.getBar();
+    });
   }
 };
 </script>

@@ -385,6 +385,11 @@ export default {
         if (that.dataList.result == "温度正常") {
           that.hasSelect = false;
         }
+        if (that.dataList.isReturn == "1") {
+          this.titleReturn = "已复归";
+        } else {
+          this.titleReturn = "复归";
+        }
         if (isNaN(that.dataList.alarmValue)) {
           that.alarmValue = that.dataList.alarmValue;
         } else {
