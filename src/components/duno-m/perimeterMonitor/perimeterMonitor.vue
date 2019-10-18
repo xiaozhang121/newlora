@@ -424,6 +424,7 @@ export default {
     }
   },
   props: {
+    checkType: {},
     monitor: {
         type: Object,
         default: {}

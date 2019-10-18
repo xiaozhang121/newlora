@@ -6,11 +6,11 @@
     <div class="topTitle">
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
       <div>布控球</div>
-      <button-custom :title="buttonTitle" @click.native="planStart"/>
+      <button-custom :title="btnTitle" @click.native="startHandle"/>
     </div>
     <!--<img-line-panel></img-line-panel>-->
     <div class="ballMonitorItem" v-for="(item, index) in cameraList" :key="index">
-      <perimeter-monitor ref="monitorRef" :monitor="item" :zIndex = "index"/>
+      <perimeter-monitor :checkType="checkType" ref="monitorRef" :monitor="item" :zIndex = "index"/>
     </div>
   </div>
 </template>
@@ -72,7 +72,7 @@ export default {
   data() {
     const that = this;
     return {
-      buttonTitle: '开始监测',
+      checkType: false,
       demoList: [{},{},{}],
       lockPress: false,
       addOrEdit: "添加",
@@ -345,6 +345,15 @@ export default {
       cameraList: []
     };
   },
+  computed:{
+      btnTitle(){
+          if(this.checkType){
+              return  '撤防'
+          }else{
+              return '开始监测'
+          }
+      }
+  },
   watch: {
     isLock(now) {
       if (now) {
@@ -362,8 +371,31 @@ export default {
     }
   },
   methods: {
+    startHandle(){
+        if(this.checkType){
+            this.planEnd()
+        }else{
+            this.planStart()
+        }
+    },
+    planEnd(){
+        postAxiosData('/lenovo-plan/api/unified/plan/stop',{planId: '', plUnifiedTaskDtos: ''}).then(res=>{
+            this.checkType = !this.checkType
+        })
+    },
     planStart(){
-       postAxiosData('/lenovo-plan/api/unified/plan/start',{planId: '', plUnifiedTaskDtos: []})
+       let dom = this.$refs.monitorRef
+       let data = []
+       for(let i=0; i<dom.length; i++){
+          if(dom[i].drawArealist.length == 0){
+              this.$message.info('请设定所有区域')
+              return
+          }
+          data.push(dom[i].drawArealist)
+       }
+       postAxiosData('/lenovo-plan/api/unified/plan/start',{planId: '', plUnifiedTaskDtos: []}).then(res=>{
+           this.checkType = !this.checkType
+       })
     },
     initData(){
         getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId}).then(res=>{
