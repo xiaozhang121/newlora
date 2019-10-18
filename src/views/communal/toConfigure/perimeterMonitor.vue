@@ -10,7 +10,7 @@
     </div>
     <!--<img-line-panel></img-line-panel>-->
     <div class="ballMonitorItem" v-for="(item, index) in cameraList" :key="index">
-      <perimeter-monitor :checkType="checkType" ref="monitorRef" :monitor="item" :zIndex = "index"/>
+      <perimeter-monitor :checkTypeT="checkType" ref="monitorRef" :monitor="item" :zIndex = "index"/>
     </div>
   </div>
 </template>
@@ -383,6 +383,25 @@ export default {
             this.checkType = !this.checkType
         })
     },
+
+    handleData(arr){
+        let line = ""
+        for(let i=0; i<arr.length; i++){
+            for(let j=0; j<arr[i].length; j++){
+                if(line){
+                    line+=':'
+                }
+                if(arr[i][j+1]){
+                    line+=arr[i][j].x+':'+arr[i][j].y+":"+arr[i][j+1].x+":"+arr[i][j+1].y
+                }
+            }
+            if(i+1 != arr.length)
+            line+="|"
+        }
+        line = line.replace(/:\|:/g,'|')
+        line = line.substring(0, line.length-1)
+        return line
+    },
     planStart(){
        let dom = this.$refs.monitorRef
        let data = []
@@ -393,7 +412,8 @@ export default {
           }
           data.push(dom[i].drawArealist)
        }
-       postAxiosData('/lenovo-plan/api/unified/plan/start',{planId: '', plUnifiedTaskDtos: []}).then(res=>{
+       let line = this.handleData(data)
+       postAxiosData('/lenovo-plan/api/unified/plan/start',{planId: '', plUnifiedTaskDtos: '', areaRect: line}).then(res=>{
            this.checkType = !this.checkType
        })
     },
