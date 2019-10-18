@@ -51,14 +51,21 @@
           <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
         </div>
         <div class="right nr contain">
-          <div class="areaTitle">
+          <div class="areaTitle" v-if="!checkType">
             <span>区域设定</span>
           </div>
-          <div class="iconControl" v-if="!isCamera&&isMonitor">
+          <div class="iconControl" v-if="!isCamera&&isMonitor&&!checkType">
             <i class="iconfont icon-shanchu"></i>
             <span @click="clearDraw">清空</span>
-            <i class="iconfont icon-weibiaoti-"></i>
-            <span @click="handleDraw">设定区域</span>
+            <i class="iconfont icon-weibiaoti-" v-if="!demarcate"></i>
+            <span @click="handleDraw" v-if="!demarcate">设定区域</span>
+          </div>
+          <div class="checkingN" v-if="checkType">
+            <div class="checking_explain">当前识别类型</div>
+            <div class="mix_nr">
+              <div class="checking_title">表计识别</div>
+              <div class="checking_discription">已完成设定，正在监测中...</div>
+            </div>
           </div>
           <div
             class="calibration"
@@ -79,8 +86,7 @@
           </div>
           <div v-else class="buttonC">
             <span @click="changeCamare">重新拍摄</span>
-            <span v-if="isMonitor" @click="handleStart">完成设定</span>
-            <span v-else @click="handleEnd">停止监控</span>
+            <span v-if="isMonitor && !checkType && !demarcate" @click="handleStart">完成设定</span>
           </div>
         </div>
       </div>
@@ -121,6 +127,7 @@ import {
   getVEcharts,
   getPosition
 } from "@/api/configuration/configuration.js";
+const that = this
 export default {
   name: "perimeterMonitor",
   mixins: [mixinViewModule],
@@ -142,6 +149,7 @@ export default {
   data() {
     const that = this;
     return {
+      demarcate: false,
       drawArealist: [],
       lockPress: false,
       addOrEdit: "添加",
@@ -410,10 +418,14 @@ export default {
         totalRows: 1
       },
       isLock: 0,
-      timeData: ""
+      timeData: "",
+      checkType: false
     };
   },
   watch: {
+    checkTypeT(now){
+        this.checkType = now
+    },
     isLock(now) {
       if (now) {
         this.controlAble = true;
@@ -424,7 +436,12 @@ export default {
     }
   },
   props: {
-    checkType: {},
+    checkTypeT: {
+        type: Boolean,
+        default: ()=>{
+            return false
+        }
+    },
     monitor: {
         type: Object,
         default: {}
@@ -758,6 +775,10 @@ export default {
       that.controlAble = false;
     },
     changeCamare() {
+      if(this.checkType){
+          this.$message.info('请撤防后再重新拍摄！')
+          return
+      }
       this.isCamera = true;
       this.isMonitor = true;
       this.controlAble = true;
@@ -769,6 +790,8 @@ export default {
           type: "success",
           message: "删除成功"
         });
+        this.checkType = false
+        this.$refs.imgLinePanel.drawPress = false
       });
     },
     handleDraw() {
@@ -780,6 +803,8 @@ export default {
         this.$refs.imgLinePanel.clearCanvas()
         this.$refs.imgLinePanel.drawPoint = []
         this.drawArealist = []
+        this.demarcate = false
+        this.$refs.imgLinePanel.drawPress = true
    /*   this.isDraw = false;
       this.isShowBox = false;
       this.isStart = false;
@@ -787,7 +812,6 @@ export default {
       this.$refs.box.style.height = null;*/
     },
     handleStart() {
-      debugger
       if(this.$refs.imgLinePanel.drawPoint.length > 4 || this.$refs.imgLinePanel.drawPoint.length < 4){
           this.$message.error('请绘制一条折线4个端点')
           return
@@ -795,7 +819,9 @@ export default {
           this.$message.error('请绘制区域')
           return
       }
+      this.demarcate = true
       this.drawArealist = this.$refs.imgLinePanel.drawPoint
+      this.$refs.imgLinePanel.drawPress = false
       this.$message.success('完成设定！')
     },
     handleEnd() {
@@ -1085,6 +1111,27 @@ export default {
       padding: 20px;
       margin-left: 20px;
       background: #132838;
+      .checkingN{
+          margin-top: 3%;
+          .checking_explain{
+            color: #999999;
+            font-size: 14px;
+            margin-bottom: 7%;
+          }
+        .mix_nr{
+          display: flex;
+          align-items: center;
+          .checking_title{
+            color: white;
+            font-size: 18px;
+            margin-right: 20px;
+          }
+          .checking_discription{
+            color: #53FEC0;
+            font-size: 13px;
+          }
+        }
+        }
     }
     .areaTitle {
       color: #fff;
