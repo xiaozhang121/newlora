@@ -50,17 +50,18 @@ export default {
         }
       })
     },
-    getLoginData(userName, password) {
+    getLoginData(userName, password, res) {
       const url = '/api/userService/userLogin'
+      let userType =   res.userType
       const query = {
         "userName": userName,
         "password": password,
-        "userType": "ADMIN",
+        "userType": res.userType,
         "loginSource": "WEB",
         "department": "LR"
       }
       postAxiosData(url, query).then(res => {
-        localStorage.setItem('ms_userType','ADMIN')
+        localStorage.setItem('ms_userType',userType)
         localStorage.setItem('ms_userId', res.data.userId)
         localStorage.setItem('ms_userName', userName)
         localStorage.setItem('ms_accessToken', res.data.accessToken)
