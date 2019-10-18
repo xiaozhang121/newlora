@@ -56,12 +56,12 @@ export default {
       const query = {
         "userName": userName,
         "password": password,
-        "userType": res.userType,
+        "userType": 'ADMIN',
         "loginSource": "WEB",
         "department": "LR"
       }
       postAxiosData(url, query).then(res => {
-        localStorage.setItem('ms_userType',userType)
+        localStorage.setItem('ms_userType','ADMIN')
         localStorage.setItem('ms_userId', res.data.userId)
         localStorage.setItem('ms_userName', userName)
         localStorage.setItem('ms_accessToken', res.data.accessToken)
