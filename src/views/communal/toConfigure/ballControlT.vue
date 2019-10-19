@@ -1,127 +1,116 @@
 <template>
-  <div class="unfiyConfig">
-    <div class="breadcrumb">
-      <Breadcrumb :dataList="dataBread" />
-    </div>
-    <div class="controlTitle">
-      <div> 周界入侵监控 </div>
-      <!--   <div v-if="isControl =='1'" class="control">
-        云台控制中
-        <span @click="getControl">获取控制权</span>
-      </div>
-      <div v-if="isControl =='2'" class="control">
-        已获取云台控制
-        <span @click="getControl">结束控制</span>
-      </div>
-      <div v-if="isControl =='3'" class="control">
-        结束控制倒计时
-        <i>{{ currentTime }} s</i>
-        <span @click="getControl">结束控制</span>
-      </div>-->
-    </div>
-    <div class="Main_contain">
-      <div class="middle_table">
-        <div class="top not-print">
-          <div class="name">历史监测记录</div>
-          <div class="btn">
-            <div class="dateChose">
-         <!--     <el-date-picker
-                      v-model="dataTimeEE"
-                      @change="changeDate"
-                      type="date"
-                      placeholder="选择日期"
-              ></el-date-picker>-->
-              <button-custom title="统一配置页面" @click.native="toRouter" />
-            </div>
-          </div>
+    <div class="ballControlT">
+        <div class="breadcrumb">
+            <Breadcrumb :dataList="dataBread" />
         </div>
-        <div class="video">
-          <div>
-            <div class="videoItem" v-for="(item,index) in cameraList" :key="index">
-              <key-monitor
-                      :monitorInfo="item"
-                      paddingBottom="56%"
-                      class="monitor"
-                      width="100%"
-                      :autoplay="true"
-                      :streamAddr="item['streamAddress']"
-                      :kilovolt="item['monitorDeviceName']"
-                      :showBtmOption="true"
-                      :Initialization="true"
-              ></key-monitor>
+        <div class="controlTitle">
+            <div> 周界入侵监控 </div>
+            <!--   <div v-if="isControl =='1'" class="control">
+              云台控制中
+              <span @click="getControl">获取控制权</span>
             </div>
-          </div>
+            <div v-if="isControl =='2'" class="control">
+              已获取云台控制
+              <span @click="getControl">结束控制</span>
+            </div>
+            <div v-if="isControl =='3'" class="control">
+              结束控制倒计时
+              <i>{{ currentTime }} s</i>
+              <span @click="getControl">结束控制</span>
+            </div>-->
         </div>
-      </div>
-      <div class="middle_table">
-        <div class="top not-print">
-          <div class="name">动态环境告警记录</div>
-          <div class="select">
-            <div>
-              <duno-btn-top
-                      style="visibility: hidden"
-                      @on-select="onSelect"
-                      :zIndex="1"
-                      class="dunoBtnTo"
-                      :isCheck="false"
-                      :dataList="allDataKind"
-                      :title="titleTypeL"
-                      :showBtnList="false"
-              ></duno-btn-top>
+        <div class="Main_contain">
+            <div class="middle_table">
+                <div class="top not-print" style="display: none">
+                    <!--<div class="name">历史监测记录</div>-->
+                    <div class="btn">
+                        <div class="dateChose">
+                            <!--     <el-date-picker
+                                         v-model="dataTimeEE"
+                                         @change="changeDate"
+                                         type="date"
+                                         placeholder="选择日期"
+                                 ></el-date-picker>-->
+                            <button-custom title="统一配置页面" @click.native="toRouter" />
+                        </div>
+                    </div>
+                </div>
+                <div class="video">
+                    <div>
+                        <perimeter-monitor />
+                    </div>
+                </div>
             </div>
-            <div>
-              <duno-btn-top
-                      style="visibility: hidden"
-                      @on-select="onSelect"
-                      :zIndex="1"
-                      class="dunoBtnTop"
-                      :isCheck="false"
-                      :dataList="allDataLevel"
-                      :title="titleTypeR"
-                      :showBtnList="false"
-              ></duno-btn-top>
+            <div class="middle_table">
+                <div class="top not-print">
+                    <div class="name">动态环境告警记录</div>
+                    <div class="select">
+                        <div>
+                            <duno-btn-top
+                                    style="visibility: hidden"
+                                    @on-select="onSelect"
+                                    :zIndex="1"
+                                    class="dunoBtnTo"
+                                    :isCheck="false"
+                                    :dataList="allDataKind"
+                                    :title="titleTypeL"
+                                    :showBtnList="false"
+                            ></duno-btn-top>
+                        </div>
+                        <div>
+                            <duno-btn-top
+                                    style="visibility: hidden"
+                                    @on-select="onSelect"
+                                    :zIndex="1"
+                                    class="dunoBtnTop"
+                                    :isCheck="false"
+                                    :dataList="allDataLevel"
+                                    :title="titleTypeR"
+                                    :showBtnList="false"
+                            ></duno-btn-top>
+                        </div>
+                    </div>
+                    <div class="btn">
+                        <div class="dateChose">
+                            <el-date-picker
+                                    unlink-panels
+                                    v-model="dataTimed"
+                                    type="daterange"
+                                    range-separator="-"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    @change="onChangeSecond"
+                            ></el-date-picker>
+                        </div>
+                        <div>
+                            <div @click="clickExcel" class="clickBtn">
+                                <i class="iconfont icon-daochu1"></i>
+                                导出表格
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <duno-tables-tep
+                        class="table_abnormalInfo"
+                        :columns="tableColumns"
+                        :data="tableList"
+                        :totalNum="totalPage"
+                        :pageSize="pageRows"
+                        :current="pageIndex"
+                        :border="true"
+                        :showSizer="true"
+                        @clickPage="changePage"
+                />
             </div>
-          </div>
-          <div class="btn">
-            <div class="dateChose">
-              <el-date-picker
-                      unlink-panels
-                      v-model="dataTimed"
-                      type="daterange"
-                      range-separator="-"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期"
-                      @change="onChangeSecond"
-              ></el-date-picker>
-            </div>
-            <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div>
-          </div>
         </div>
-        <duno-tables-tep
-                class="table_abnormalInfo"
-                :columns="tableColumns"
-                :data="tableList"
-                :totalNum="totalPage"
-                :pageSize="pageRows"
-                :current="pageIndex"
-                :border="true"
-                :showSizer="true"
-                @clickPage="changePage"
-        />
-      </div>
+        <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+        <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+        <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     </div>
-    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
-    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-  </div>
 </template>
 
 <script>
+    import perimeterMonitor from '_c/duno-m/perimeterMonitorR'
     import enlarge from "_c/duno-c/enlarge";
     import dunoBtnTop from "_c/duno-m/duno-btn-top";
     import buttonCustom from "_c/duno-m/buttonCustom";
@@ -161,7 +150,8 @@
             wraning,
             enlarge,
             Remarks,
-            buttonCustom
+            buttonCustom,
+            perimeterMonitor
         },
         data() {
             const that = this;
@@ -405,7 +395,7 @@
                     {streamAddr: 'rtmp://202.69.69.180:443/webcast/bshdlive-pc', monitorDeviceId: '110', source: '123'},
                     {streamAddr: 'rtmp://202.69.69.180:443/webcast/bshdlive-pc', monitorDeviceId: '110', source: '123'},
                     {streamAddr: 'rtmp://202.69.69.180:443/webcast/bshdlive-pc', monitorDeviceId: '110', source: '123'}
-                    ],
+                ],
                 isControl: "1",
                 currentTime: 10,
                 timeOut: null,
@@ -1061,26 +1051,26 @@
                 }
             },
             getMonitorDeviceName() {
-             /*   let url = "/lenovo-device/api/device-monitor/device";
-                let query = {
-                    monitorDeviceId: this.$route.query.monitorDeviceId
-                };
-                getAxiosData(url, query).then(res => {
-                    this.dataForm.monitorDeviceName = res.data.deviceName;
-                });*/
+                /*   let url = "/lenovo-device/api/device-monitor/device";
+                   let query = {
+                       monitorDeviceId: this.$route.query.monitorDeviceId
+                   };
+                   getAxiosData(url, query).then(res => {
+                       this.dataForm.monitorDeviceName = res.data.deviceName;
+                   });*/
             },
-           /* getEnvData() {
-                getAxiosData("/lenovo-alarm/api/security/list", {
-                    startTime: this.secondForm.startTime,
-                    endTime: this.secondForm.endTime,
-                    monitorDeviceId: this.$route.query.monitorDeviceId,
-                    pageIndex: this.envPageIndex,
-                    pageRows: this.pageRows
-                }).then(res => {
-                    this.envDataList = res.data.tableData;
-                    this.envTotalNum = res.data.pageParam.totalRows;
-                });
-            }*/
+            /* getEnvData() {
+                 getAxiosData("/lenovo-alarm/api/security/list", {
+                     startTime: this.secondForm.startTime,
+                     endTime: this.secondForm.endTime,
+                     monitorDeviceId: this.$route.query.monitorDeviceId,
+                     pageIndex: this.envPageIndex,
+                     pageRows: this.pageRows
+                 }).then(res => {
+                     this.envDataList = res.data.tableData;
+                     this.envTotalNum = res.data.pageParam.totalRows;
+                 });
+             }*/
         },
         created() {
             this.dataForm.planId = this.$route.query.planId;
@@ -1107,468 +1097,460 @@
 </script>
 
 <style lang="scss">
-  @import "@/style/tableStyle.scss";
-  .el-popper[x-placement^="bottom"] {
-    background: #192f41 !important;
-    border: none !important;
-  }
-  .el-popper[x-placement^="top"] {
-    background: #192f41 !important;
-    border: none !important;
-  }
-  .mainAside {
-    /*min-height: 100%;*/
-  }
-  .unfiyConfig {
-    width: 100%;
-    min-height: 100%;
-    padding-bottom: 100px;
-    /*overflow-y: hidden;*/
-    .el-button:hover {
-      background: transparent !important;
+    @import "@/style/tableStyle.scss";
+    .mainAside {
+        /*min-height: 100%;*/
     }
-    .dateChose {
-      .el-input--small .el-input__inner {
-        border-radius: 5px;
+    .ballControlT {
         width: 100%;
-        line-height: 40px;
-        color: #fff;
-        height: 40px;
-        border: none;
-        background-color: #192f41;
-      }
-    }
-    .icon-xiala {
-      /* width: 12px;
-      height: 15px;*/
-    }
-    .btn_pre {
-      padding: 10px 20px;
-      cursor: pointer;
-      border: none;
-      border-radius: 20px;
-      @media screen and (min-width: 3500px) {
-        padding: 6px 12px;
-      }
-    }
-    .el-input--small .el-input__inner {
-      border-radius: 0;
-      width: 100%;
-    }
-    .control_slider {
-      width: 94%;
-      position: absolute;
-      height: 8%;
-      top: calc(100% + 9%);
-      left: 3%;
-      .iconfont {
-        color: white;
-      }
-    }
-    .breadcrumb {
-      margin-bottom: 20px;
-    }
-    .exportExcel {
-      font-size: 16px;
-    }
-    .imgOrMv {
-      width: 50%;
-      height: 35px;
-      position: relative;
-      top: 2px;
-    }
-    .flexPos {
-      /*.el-button {*/
-      /*background: rgba(0, 0, 0, 0);*/
-      /*border: none;*/
-      /*}*/
-    }
-    .table_link {
-      font-size: 16px;
-      color: #5fafff !important;
-      text-decoration: underline;
-      background: transparent;
-      border: none;
-    }
-    .table_select {
-      cursor: pointer;
-      // color: #1d1f26;
-      color: #fff;
-      span {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 30px;
-        border-radius: 20px;
-      }
-      &.serious {
-        span {
-          background: #f4a723;
-          color: #1d1f26;
+        min-height: 100%;
+        padding-bottom: 100px;
+        /*overflow-y: hidden;*/
+        .el-button:hover {
+            background: transparent !important;
         }
-      }
-      &.commonly {
-        span {
-          background: #5eb0fc;
-          color: #1d1f26;
-        }
-      }
-      &.danger {
-        span {
-          background: #d0011b;
-          color: #1d1f26;
-        }
-      }
-    }
-    .content {
-      display: flex;
-      .left {
-        width: 75%;
-        &.nr {
-          display: flex;
-          flex-direction: column;
-          padding-bottom: 3px;
-          .item {
-            background: #132838;
-            display: flex;
-            &:first-child {
-              /*margin-bottom: 15px;*/
-            }
-            .camera_surveillanceDetail {
-              width: 68%;
-              .contain {
-                position: relative;
+        .dateChose {
+            .el-input--small .el-input__inner {
+                border-radius: 5px;
                 width: 100%;
-                padding-bottom: 56%;
-                background: black;
-                .monitor {
-                  position: absolute;
-                  width: 100% !important;
-                  top: 0;
-                  left: 0;
+                line-height: 40px;
+                color: #fff;
+                height: 40px;
+                border: none;
+                background-color: #192f41;
+            }
+        }
+        .icon-xiala {
+            /* width: 12px;
+            height: 15px;*/
+        }
+        .btn_pre {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 20px;
+            @media screen and (min-width: 3500px) {
+                padding: 6px 12px;
+            }
+        }
+        .el-input--small .el-input__inner {
+            border-radius: 0;
+            width: 100%;
+        }
+        .control_slider {
+            width: 94%;
+            position: absolute;
+            height: 8%;
+            top: calc(100% + 9%);
+            left: 3%;
+            .iconfont {
+                color: white;
+            }
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+        }
+        .exportExcel {
+            font-size: 16px;
+        }
+        .imgOrMv {
+            width: 50%;
+            height: 35px;
+            position: relative;
+            top: 2px;
+        }
+        .flexPos {
+            /*.el-button {*/
+            /*background: rgba(0, 0, 0, 0);*/
+            /*border: none;*/
+            /*}*/
+        }
+        .table_link {
+            font-size: 16px;
+            color: #5fafff !important;
+            text-decoration: underline;
+            background: transparent;
+            border: none;
+        }
+        .table_select {
+            cursor: pointer;
+            // color: #1d1f26;
+            color: #fff;
+            span {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 60px;
+                height: 30px;
+                border-radius: 20px;
+            }
+            &.serious {
+                span {
+                    background: #f4a723;
+                    color: #1d1f26;
                 }
-              }
+            }
+            &.commonly {
+                span {
+                    background: #5eb0fc;
+                    color: #1d1f26;
+                }
+            }
+            &.danger {
+                span {
+                    background: #d0011b;
+                    color: #1d1f26;
+                }
+            }
+        }
+        .content {
+            display: flex;
+            .left {
+                width: 75%;
+                &.nr {
+                    display: flex;
+                    flex-direction: column;
+                    padding-bottom: 3px;
+                    .item {
+                        /*background: #132838;*/
+                        display: flex;
+                        &:first-child {
+                            /*margin-bottom: 15px;*/
+                        }
+                        .camera_surveillanceDetail {
+                            width: 68%;
+                            .contain {
+                                position: relative;
+                                width: 100%;
+                                padding-bottom: 56%;
+                                background: black;
+                                .monitor {
+                                    position: absolute;
+                                    width: 100% !important;
+                                    top: 0;
+                                    left: 0;
+                                }
+                            }
+                        }
+                        .control {
+                            position: relative;
+                            display: flex;
+                            margin-left: 3.4%;
+                            flex-direction: column;
+                            justify-content: center;
+                            /*margin-right: 15px;*/
+                            width: 25%;
+                            .controBtnContain {
+                                margin-bottom: 26%;
+                            }
+                            .inputGroup {
+                                display: flex;
+                                text-align: right;
+                                padding-left: 12px;
+                                .el-input el-input--small {
+                                    margin-left: 10px;
+                                }
+                                .addPoint {
+                                    margin-left: 9px;
+                                    border-radius: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .right {
+                width: 25%;
+                margin-left: 20px;
+                /*background: #132838;*/
+            }
+        }
+        .middle_table {
+            margin-top: 20px;
+            width: 100%;
+            min-height: 300px;
+            .top {
+                color: #ffffff;
+                height: 40px;
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: flex-end;
+                .name {
+                    align-items: center;
+                    display: flex;
+                    flex: 1;
+                }
+                & > .select {
+                    display: flex;
+                    & > div {
+                        margin-right: 10px;
+                        .dunoBtnTop {
+                            width: 170px;
+                            position: relative;
+                            left: 10px;
+                            display: inline-flex;
+                            padding-bottom: 0;
+                            .btnList {
+                                top: inherit !important;
+                                // line-height: 30px;
+                                width: 160px;
+                                .title {
+                                    // font-size: 16px;
+                                    padding: 8px 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+                .btn {
+                    display: flex;
+                    & > div {
+                        margin-left: 10px;
+                    }
+                    & > div:nth-child(2) {
+                        & > div {
+                            width: 140px;
+                            line-height: 40px;
+                            text-align: center;
+                            /*background-color: #192f41;*/
+                            cursor: pointer;
+                        }
+                    }
+                    // & > div:last-child {
+                    //   font-size: 22px;
+                    // }
+                    .clickBtn {
+                        line-height: 40px;
+                        width: 139px;
+                        background-image: url(../../../assets/images/btn/moreBtn.png);
+                        text-align: center;
+                        font-size: 18px;
+                        color: #ffffff;
+                    }
+                    .dateChose {
+                        .el-date-editor {
+                            background-color: #192f41;
+                            border: none;
+                            .el-range-input {
+                                background-color: rgba(81, 89, 112, 0);
+                            }
+                            .el-range-separator {
+                                font-size: 20px;
+                                color: #fff;
+                            }
+                            .el-range-input {
+                                color: #fff;
+                            }
+                        }
+                        .el-range-editor--small.el-input__inner {
+                            height: 40px !important;
+                        }
+                        .el-range-editor--small .el-range__icon,
+                        .el-range-editor--small .el-range__close-icon {
+                            line-height: 35px;
+                        }
+                        .el-range-editor--small .el-range-input {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+            .video {
+                background: #132838;
+                min-height: 400px;
+                padding: 20px 0 20px 20px;
+                & > div:first-child {
+                    /*overflow: hidden;*/
+                }
+                .videoItem {
+                    float: left;
+                    width: calc(33.3% - 20px);
+                    margin-right: 20px;
+                    margin-bottom: 20px;
+                    p {
+                        margin-top: 5px;
+                        color: #fff;
+                        text-align: center;
+                    }
+                }
+                .el-pagination {
+                    text-align: center;
+                }
+                .el-pager li {
+                    background: rgba(0, 0, 0, 0);
+                    color: #fff;
+                }
+                .el-pager li.active {
+                    color: #5fafff;
+                    border-bottom: 1px solid #2d8cf0;
+                }
+                .el-pagination .btn-prev,
+                .el-pagination .btn-next {
+                    background-color: rgba(0, 0, 0, 0);
+                    color: #ffffff;
+                }
+            }
+        }
+        .historicalData {
+            .top {
+                color: #ffffff;
+                height: 40px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: space-between;
+                & > div:first-child {
+                    font-size: 20px;
+                    line-height: 40px;
+                }
+                .btn {
+                    display: flex;
+                    justify-content: space-between;
+                    position: relative;
+                    & > div {
+                        margin-left: 10px;
+                        .dunoBtnTop {
+                            width: 145px;
+                            display: inline-flex;
+                            padding-bottom: 0;
+                            .btnList {
+                                top: inherit !important;
+                                width: 145px;
+                                .title {
+                                    padding: 8px 20px;
+                                }
+                            }
+                        }
+                    }
+                    & > div:nth-child(5) {
+                        & > div {
+                            width: 140px;
+                            line-height: 40px;
+                            text-align: center;
+                            background-color: #192f41;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .con-chart {
+                width: 100%;
+                height: 340px;
+                .chartBox {
+                    height: 340px;
+                    .charts {
+                        height: 340px;
+                    }
+                }
+            }
+        }
+        //-------------------表格样式
+        .dunoMain {
+            height: inherit;
+        }
+        .ivu-table {
+            font-size: 16px;
+        }
+        .ivu-table th {
+            color: #fff;
+            border: none;
+            height: 60px;
+            background-color: #2d5980 !important;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .ivu-page {
+            text-align: center;
+            .ivu-page-total {
+                display: none;
+            }
+            .ivu-page-item-jump-next:after,
+            .ivu-page-item-jump-prev:after {
+                color: white;
+            }
+            .ivu-page-next,
+            .ivu-page-prev {
+                background: transparent;
+                display: none;
+                border: none;
+            }
+            .ivu-page-item {
+                background: transparent !important;
+                border: none !important;
+                min-width: 16px;
+                height: 28px;
+                a {
+                    color: white;
+                }
+            }
+            .ivu-page-options {
+                display: none;
+            }
+            .ivu-page-item-active {
+                border-bottom: 1px solid #2d8cf0 !important;
+                border-radius: 0;
+                a {
+                    color: #2d8cf0;
+                }
+            }
+        }
+        .ivu-table-wrapper {
+            tr {
+                td {
+                    height: 48px;
+                }
+            }
+            tr:nth-child(odd) {
+                td {
+                    background: rgba(0, 0, 0, 0) !important;
+                }
+            }
+            tr:nth-child(even) {
+                td {
+                    background-color: #2a526c;
+                }
+            }
+        }
+        .ivu-select-dropdown {
+            background: white !important;
+        }
+        .ivu-table-small td {
+            background: black;
+        }
+        //------------------
+        .controlTitle {
+            overflow: hidden;
+            color: #fff;
+            margin-bottom: 10px;
+            & > div {
+                float: left;
+            }
+            & > div:first-child {
+                font-size: 20px;
+                width: 52%;
             }
             .control {
-              position: relative;
-              display: flex;
-              margin-left: 3.4%;
-              flex-direction: column;
-              justify-content: center;
-              /*margin-right: 15px;*/
-              width: 25%;
-              .controBtnContain {
-                margin-bottom: 26%;
-              }
-              .inputGroup {
-                display: flex;
-                text-align: right;
-                padding-left: 12px;
-                .el-input el-input--small {
-                  margin-left: 10px;
+                font-size: 18px;
+                span {
+                    font-size: 14px;
+                    text-align: center;
+                    cursor: pointer;
+                    display: inline-block;
+                    width: 90px;
+                    line-height: 32px;
+                    background: #305e83;
+                    border-radius: 16px;
+                    margin-left: 10px;
                 }
-                .addPoint {
-                  margin-left: 9px;
-                  border-radius: 20px;
+                i {
+                    color: #ffcc30;
+                    font-style: normal;
                 }
-              }
             }
-          }
         }
-      }
-      .right {
-        width: 25%;
-        margin-left: 20px;
-        background: #132838;
-      }
     }
-    .middle_table {
-      margin-top: 20px;
-      width: 100%;
-      min-height: 300px;
-      .top {
-        color: #ffffff;
-        height: 40px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: flex-end;
-        .name {
-          align-items: center;
-          display: flex;
-          flex: 1;
-        }
-        & > .select {
-          display: flex;
-          & > div {
-            margin-right: 10px;
-            .dunoBtnTop {
-              width: 170px;
-              position: relative;
-              left: 10px;
-              display: inline-flex;
-              padding-bottom: 0;
-              .btnList {
-                top: inherit !important;
-                // line-height: 30px;
-                width: 160px;
-                .title {
-                  // font-size: 16px;
-                  padding: 8px 20px;
-                }
-              }
-            }
-          }
-        }
-        .btn {
-          display: flex;
-          & > div {
-            margin-left: 10px;
-          }
-          & > div:nth-child(2) {
-            & > div {
-              width: 140px;
-              line-height: 40px;
-              text-align: center;
-              background-color: #192f41;
-              cursor: pointer;
-            }
-          }
-          // & > div:last-child {
-          //   font-size: 22px;
-          // }
-          .clickBtn {
-            line-height: 40px;
-            width: 139px;
-            background-image: url(../../../assets/images/btn/moreBtn.png);
-            text-align: center;
-            font-size: 18px;
-            color: #ffffff;
-          }
-          .dateChose {
-            .el-date-editor {
-              background-color: #192f41;
-              border: none;
-              .el-range-input {
-                background-color: rgba(81, 89, 112, 0);
-              }
-              .el-range-separator {
-                font-size: 20px;
-                color: #fff;
-              }
-              .el-range-input {
-                color: #fff;
-              }
-            }
-            .el-range-editor--small.el-input__inner {
-              height: 40px !important;
-            }
-            .el-range-editor--small .el-range__icon,
-            .el-range-editor--small .el-range__close-icon {
-              line-height: 35px;
-            }
-            .el-range-editor--small .el-range-input {
-              font-size: 16px;
-            }
-          }
-        }
-      }
-      .video {
-        background: #132838;
-        min-height: 400px;
-        padding: 20px 0 20px 20px;
-        & > div:first-child {
-          /*overflow: hidden;*/
-        }
-        .videoItem {
-          float: left;
-          width: calc(33.3% - 20px);
-          margin-right: 20px;
-          margin-bottom: 20px;
-          p {
-            margin-top: 5px;
-            color: #fff;
-            text-align: center;
-          }
-        }
-        .el-pagination {
-          text-align: center;
-        }
-        .el-pager li {
-          background: rgba(0, 0, 0, 0);
-          color: #fff;
-        }
-        .el-pager li.active {
-          color: #5fafff;
-          border-bottom: 1px solid #2d8cf0;
-        }
-        .el-pagination .btn-prev,
-        .el-pagination .btn-next {
-          background-color: rgba(0, 0, 0, 0);
-          color: #ffffff;
-        }
-      }
-    }
-    .historicalData {
-      .top {
-        color: #ffffff;
-        height: 40px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-        & > div:first-child {
-          font-size: 20px;
-          line-height: 40px;
-        }
-        .btn {
-          display: flex;
-          justify-content: space-between;
-          position: relative;
-          & > div {
-            margin-left: 10px;
-            .dunoBtnTop {
-              width: 145px;
-              display: inline-flex;
-              padding-bottom: 0;
-              .btnList {
-                top: inherit !important;
-                width: 145px;
-                .title {
-                  padding: 8px 20px;
-                }
-              }
-            }
-          }
-          & > div:nth-child(5) {
-            & > div {
-              width: 140px;
-              line-height: 40px;
-              text-align: center;
-              background-color: #192f41;
-              cursor: pointer;
-            }
-          }
-        }
-      }
-      .con-chart {
-        width: 100%;
-        height: 340px;
-        .chartBox {
-          height: 340px;
-          .charts {
-            height: 340px;
-          }
-        }
-      }
-    }
-    //-------------------表格样式
-    .dunoMain {
-      height: inherit;
-    }
-    .ivu-table {
-      font-size: 16px;
-    }
-    .ivu-table th {
-      color: #fff;
-      border: none;
-      height: 60px;
-      background-color: #2d5980 !important;
-      font-size: 18px;
-      font-weight: normal;
-    }
-    .ivu-page {
-      text-align: center;
-      .ivu-page-total {
-        display: none;
-      }
-      .ivu-page-item-jump-next:after,
-      .ivu-page-item-jump-prev:after {
-        color: white;
-      }
-      .ivu-page-next,
-      .ivu-page-prev {
-        background: transparent;
-        display: none;
+    .el-popper[x-placement^="bottom"] {
+        /*background: #192f41;*/
         border: none;
-      }
-      .ivu-page-item {
-        background: transparent !important;
-        border: none !important;
-        min-width: 16px;
-        height: 28px;
-        a {
-          color: white;
-        }
-      }
-      .ivu-page-options {
-        display: none;
-      }
-      .ivu-page-item-active {
-        border-bottom: 1px solid #2d8cf0 !important;
-        border-radius: 0;
-        a {
-          color: #2d8cf0;
-        }
-      }
     }
-    .ivu-table-wrapper {
-      tr {
-        td {
-          height: 48px;
-        }
-      }
-      tr:nth-child(odd) {
-        td {
-          background: rgba(0, 0, 0, 0) !important;
-        }
-      }
-      tr:nth-child(even) {
-        td {
-          background-color: #2a526c;
-        }
-      }
-    }
-    .ivu-select-dropdown {
-      background: white !important;
-    }
-    .ivu-table-small td {
-      background: black;
-    }
-    //------------------
-    .controlTitle {
-      overflow: hidden;
-      color: #fff;
-      margin-bottom: 10px;
-      & > div {
-        float: left;
-      }
-      & > div:first-child {
-        font-size: 20px;
-        width: 52%;
-      }
-      .control {
-        font-size: 18px;
-        span {
-          font-size: 14px;
-          text-align: center;
-          cursor: pointer;
-          display: inline-block;
-          width: 90px;
-          line-height: 32px;
-          background: #305e83;
-          border-radius: 16px;
-          margin-left: 10px;
-        }
-        i {
-          color: #ffcc30;
-          font-style: normal;
-        }
-      }
-    }
-  }
-  .el-popper[x-placement^="bottom"] {
-    background: #192f41;
-    border: none;
-  }
 </style>

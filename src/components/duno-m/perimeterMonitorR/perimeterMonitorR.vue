@@ -1,9 +1,5 @@
 <template>
   <div class="perimeterMonitorR">
-    <div class="topTitle">
-      <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
-      <div>名称</div>
-    </div>
     <div class="Main_contain">
       <div class="content">
         <div class="left nr">

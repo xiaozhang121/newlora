@@ -10,7 +10,7 @@
     </div>
     <!--<img-line-panel></img-line-panel>-->
     <div class="ballMonitorItem" v-for="(item, index) in cameraList" :key="index">
-      <perimeter-monitor :checkTypeT="checkType" ref="monitorRef" :monitor="item" :zIndex = "index"/>
+      <perimeter-monitor :isLock="isLock" :checkTypeT="checkType" ref="monitorRef" :monitor="item" :zIndex = "index"/>
     </div>
   </div>
 </template>
@@ -355,14 +355,7 @@ export default {
       }
   },
   watch: {
-    isLock(now) {
-      if (now) {
-        this.controlAble = true;
-        this.isMonitor = false;
-        this.isShowBox = true;
-        this.isCamera = false;
-      }
-    }
+
   },
   props: {
     deviceId: {
@@ -379,32 +372,46 @@ export default {
         }
     },
     planEnd(){
-        postAxiosData('/lenovo-plan/api/unified/plan/stop',{planId: '', plUnifiedTaskDtos: ''}).then(res=>{
+        const that = this
+        let query = {}
+        query['planId'] = this.dataForm.planId
+        query['plUnifiedTaskDtos'] = []
+        that.cameraList.forEach((item, index) =>{
+            let data = {
+                'taskId': item['taskId'],
+                'monitorDeviceId': item['monitorDeviceId']
+            }
+            query['plUnifiedTaskDtos'][index] = data
+        })
+        postAxiosData('/lenovo-plan/api/unified/plan/stop',query).then(res=>{
             this.checkType = !this.checkType
         })
     },
 
     handleData(arr){
         let line = ""
+        let data = []
         for(let i=0; i<arr.length; i++){
+            line = ""
             for(let j=0; j<arr[i].length; j++){
-                if(line){
-                    line+=':'
+                if(line && j+1 != arr[i].length){
+                        line+='|'
                 }
                 if(arr[i][j+1]){
                     line+=arr[i][j].x+':'+arr[i][j].y+":"+arr[i][j+1].x+":"+arr[i][j+1].y
                 }
             }
-            if(i+1 != arr.length)
-            line+="|"
+            data.push(line)
         }
-        line = line.replace(/:\|:/g,'|')
-        line = line.substring(0, line.length-1)
-        return line
+        return data
     },
     planStart(){
+       const that = this
        let dom = this.$refs.monitorRef
        let data = []
+       let query = {}
+       query['planId'] = this.dataForm.planId
+       query['plUnifiedTaskDtos'] = []
        for(let i=0; i<dom.length; i++){
           if(dom[i].drawArealist.length == 0){
               this.$message.info('请设定所有区域')
@@ -413,32 +420,29 @@ export default {
           data.push(dom[i].drawArealist)
        }
        let line = this.handleData(data)
-       postAxiosData('/lenovo-plan/api/unified/plan/start',{planId: '', plUnifiedTaskDtos: '', areaRect: line}).then(res=>{
+       line.forEach((item, index)=>{
+           let data = {
+               'taskId':that.cameraList[index]['taskId'],
+               'monitorDeviceId': that.cameraList[index]['monitorDeviceId'],
+               'areaRect': item
+           }
+           query['plUnifiedTaskDtos'][index] = data
+       })
+       postAxiosData('/lenovo-plan/api/unified/plan/start', query).then(res=>{
            this.checkType = !this.checkType
        })
     },
     initData(){
         getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId}).then(res=>{
             this.cameraList = res.data.cameraList
+            this.isLock = res.data.planStatus
+            this.checkType = (res.data.planStatus == 1)
         })
     },
     onDisable(flag){
         if(!this.controlAble){
             this.controlAble = flag
         }
-    },
-    getCoordinate(type, w0, w1, h0, h1, x0, y0) {
-      let obj = { x: 0, y: 0 };
-      // 原始-->页面
-      if (type) {
-        obj["x"] = (w0 / w1) * x0;
-        obj["y"] = (h0 / h1) * y0;
-      } else {
-        // 页面-->原始
-        obj["x"] = (w1 / w0) * x0;
-        obj["y"] = (h1 / h0) * y0;
-      }
-      return obj;
     },
     getVideo(pageIndex) {
       let index = 1;
@@ -682,44 +686,6 @@ export default {
       this.getVideo(item);
       // this.getDataList();
     },
-    getMonitorDeviceName() {
-      const that = this;
-      let url = "/lenovo-device/api/device-monitor/device";
-      let query = {
-        monitorDeviceId: this.$route.query.monitorDeviceId
-      };
-      getAxiosData(url, query).then(res => {
-        this.dataForm.monitorDeviceName = res.data.deviceName;
-        this.isLock = Number(res.data.isLock);
-        this.imgsrc = res.data.imgAddress;
-        let img = new Image();
-        img.src = this.imgsrc;
-        let w1 = 0;
-        let h1 = 0;
-        img.onload = function() {
-          w1 = img.width;
-          h1 = img.height;
-          let w0 = document.querySelector(".calibration").offsetWidth;
-          let h0 = document.querySelector(".calibration").offsetHeight;
-          let ww1 = Math.abs(res.data.x0 - res.data.x1);
-          let hh1 = Math.abs(res.data.y0 - res.data.y1);
-          let point = that.getCoordinate(
-            1,
-            w0,
-            w1,
-            h0,
-            h1,
-            res.data.x0,
-            res.data.y0
-          );
-          let whData = that.getCoordinate(1, w0, w1, h0, h1, ww1, hh1);
-          document.querySelector("#boxImg").style.left = point.x + "px";
-          document.querySelector("#boxImg").style.top = point.y + "px";
-          document.querySelector("#boxImg").style.width = whData.x + "px";
-          document.querySelector("#boxImg").style.height = whData.y + "px";
-        };
-      });
-    },
     changeDate(now) {
       let data = "";
       if (now) {
@@ -910,17 +876,9 @@ export default {
   },
   created() {
     this.dataForm.planId = this.$route.query.planId;
-    this.getMonitorDeviceName();
-    this.getDataList();
-    this.initCamera();
-    this.getVideo();
     this.initData()
   },
   mounted() {
-    this.getInit();
-    this.getSelectType();
-    this.getSelcetGrade();
-    this.getSelectPreset();
     this.lockPress = this.getAuthority("10075002")
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";

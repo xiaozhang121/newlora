@@ -48,7 +48,7 @@
               </div>-->
             </div>
           </div>
-          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+          <!--<control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>-->
         </div>
         <div class="right nr contain">
           <div class="areaTitle" v-if="!checkType">
@@ -70,14 +70,10 @@
           <div
             class="calibration"
             id="calibration"
-            @mousedown="getFirstCode"
-            @mouseup="getEndCode"
-            @mousemove="getCircle"
-            :style="{backgroundImage: 'url(' + imgsrc + ')', backgroundSize: '100%'}"
           >
             <p v-if="isCamera">未设定区域</p>
             <p v-if="isCamera">请先调整左边视频再点击下方按钮拍照取图</p>
-            <img-line-panel  ref="imgLinePanel" :zIndex="zIndex" pId="calibration"/>
+            <img-line-panel @on-finish="onFinish" :picData="picData" :imgsrc="imgsrc"  v-show="!isCamera" ref="imgLinePanel" :zIndex="zIndex" pId="calibration"/>
            <!-- <img v-if="!isCamera" :src="imgsrc" ref="image" alt :style="{display:'none'}" />
             <div v-if="isShowBox" ref="box" id="boxImg"></div>-->
           </div>
@@ -98,6 +94,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import imgLinePanel from '_c/duno-m/imgLinePanel'
 import controlCheck from '_c/duno-m/controlCheck'
 import enlarge from "_c/duno-c/enlarge";
@@ -145,6 +142,11 @@ export default {
     cover,
     controlCheck,
     imgLinePanel
+  },
+  computed:{
+      picData(){
+          return this.monitor['areaRect']
+      }
   },
   data() {
     const that = this;
@@ -417,7 +419,6 @@ export default {
         pageIndex: 1,
         totalRows: 1
       },
-      isLock: 0,
       timeData: "",
       checkType: false
     };
@@ -436,6 +437,10 @@ export default {
     }
   },
   props: {
+    isLock: {
+        type: [String, Number],
+        default: 0
+    },
     checkTypeT: {
         type: Boolean,
         default: ()=>{
@@ -453,6 +458,9 @@ export default {
     }
   },
   methods: {
+    onFinish(data){
+        this.drawArealist = data
+    },
     onDisable(flag){
         if(!this.controlAble){
             this.controlAble = flag
@@ -527,7 +535,7 @@ export default {
       that.controlAble = false;
       const url =
         "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
-        this.dataForm.monitorDeviceId;
+          this.monitor.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data;
      /*   that.$nextTick(() => {
@@ -666,7 +674,7 @@ export default {
     },
     clickExcel() {
       const that = this;
-      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.queryForm.monitorDeviceId = this.monitor.monitorDeviceId;
       that.exportHandle();
     },
     handleClose() {
@@ -717,16 +725,12 @@ export default {
       const that = this;
       let url = "/lenovo-device/api/device-monitor/device";
       let query = {
-        monitorDeviceId: this.$route.query.monitorDeviceId
+        monitorDeviceId: this.monitor.monitorDeviceId
       };
-      getAxiosData(url, query).then(res => {
+   /*   getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
         this.isLock = Number(res.data.isLock);
         this.imgsrc = res.data.imgAddress;
-        let img = new Image();
-        img.src = this.imgsrc;
-        let w1 = 0;
-        let h1 = 0;
         img.onload = function() {
           w1 = img.width;
           h1 = img.height;
@@ -749,7 +753,7 @@ export default {
           document.querySelector("#boxImg").style.width = whData.x + "px";
           document.querySelector("#boxImg").style.height = whData.y + "px";
         };
-      });
+      });*/
     },
     changeDate(now) {
       let data = "";
@@ -765,11 +769,20 @@ export default {
       let that = this;
       let url = "/lenovo-device/api/stream/snapshoot";
       let query = {
-        rtmpUrl: that.monitor.streamAddr
+        rtmpUrl: that.monitor.streamAddress
       };
       postAxiosData(url, query).then(res => {
         that.shotData = res.data;
-        that.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`;
+        axios({
+            method:'get',
+            url:`http://10.0.10.35:8100/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`,
+            responseType:'stream'
+        })
+        .then(function(response) {
+            that.imgsrc = response.data
+            // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
+        })
+        // that.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`;
       });
       that.isCamera = false;
       that.controlAble = false;
@@ -830,7 +843,7 @@ export default {
       that.isMonitor = true;
       let url = "/lenovo-device/api/monitor/ball-control/end";
       let query = {
-        monitorDeviceId: that.$route.query.monitorDeviceId
+        monitorDeviceId: this.monitor.monitorDeviceId
       };
       postAxiosData(url, query).then(res => {
         if (res.data.isSuccess) {
@@ -905,17 +918,17 @@ export default {
     }
   },
   created() {
-    this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-    this.getMonitorDeviceName();
-    this.getDataList();
-    this.initCamera();
-    this.getVideo();
+    this.dataForm.monitorDeviceId = this.monitor.monitorDeviceId;
+    // this.getMonitorDeviceName();
+    // this.getDataList();
+    // this.initCamera();
+    // this.getVideo();
   },
   mounted() {
     this.getInit();
-    this.getSelectType();
+ /*   this.getSelectType();
     this.getSelcetGrade();
-    this.getSelectPreset();
+    this.getSelectPreset();*/
     this.lockPress = this.getAuthority("10075002")
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";

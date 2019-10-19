@@ -718,14 +718,25 @@ export default {
                   props: { type: "text", content: "查看详情>" },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: "patrolMission",
-                        query: {
-                          planId: params.row.planId,
-                          planType: params.row.planType,
-                          inspectName: params.row.inspectName
-                        }
-                      });
+                      if(params.row.planType == 6){
+                        this.$router.push({
+                          name: "unifyConfig",
+                          query: {
+                            planId: params.row.planId,
+                            planType: params.row.planType,
+                            inspectName: params.row.inspectName
+                          }
+                        });
+                      }else{
+                        this.$router.push({
+                            name: "patrolMission",
+                            query: {
+                                planId: params.row.planId,
+                                planType: params.row.planType,
+                                inspectName: params.row.inspectName
+                            }
+                        });
+                      }
                     }
                   }
                 },
