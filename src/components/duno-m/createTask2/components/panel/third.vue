@@ -7,7 +7,7 @@
    
       <div>
         开始时间
-        <el-date-picker class="mainItem" v-model="value3" type="datetime" placeholder="选择日期时间"></el-date-picker>
+        <el-date-picker class="mainItem" v-model="value3" type="datetime" placeholder="选择日期时间" :picker-options='expireTimeOption'></el-date-picker>
       </div>
       <div class="tip">结束时间以各监测设备需要为准</div>
       <div>
@@ -66,7 +66,12 @@ export default {
       value3: "",
       options: [],
       value: "",
-      stepValue: 1
+      stepValue: 1,
+      expireTimeOption: {
+        disabledDate(date) {
+          return date.getTime() <= Date.now();
+        }
+      }
     };
   },
   methods: {

@@ -88,6 +88,10 @@ export default {
         if (!value) {
           callback(new Error('不能为空'))
         } else {
+          let myReg = /^[0-9a-zA-Z]{6,18}$/;
+          if(!myReg.test(value)){
+            callback(new Error('请输入6-18位密码且不能有特殊字符'))
+          }
           if ((value === that.formData.newPasswords && that.formData.newPasswords) || !that.formData.newPasswords) {
             callback()
           } else {
@@ -95,7 +99,7 @@ export default {
           }
         }
       }
-      return [{ required: true, validator: verifyNewPassword, trigger: 'blur' }]
+      return [{ required: true, validator: verifyNewPassword, min:6, max:18, trigger: 'blur' }]
     },
     verifyNewPasswords () {
       const that = this
