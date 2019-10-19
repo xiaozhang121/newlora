@@ -48,12 +48,15 @@
             <div class="info">
               <div class="info_top">
                 <p class="monitorTitle">判定结果:</p>
-                <p>{{dataList.alarmDetailType}}</p>
+                <p>{{dataList.judgeResult}}</p>
               </div>
               <div v-if="!discriminate" class="temperature">
-                <p class="monitorTitle">{{dataList.result}}</p>
-                <p>
-                  {{alarmValue}}
+                <p
+                  class="monitorTitle"
+                  :style="{color:(dataList.alarmContent || dataList.result)=='正常'?'#333':'red'}"
+                >{{dataList.alarmContent?dataList.alarmContent:dataList.result}}</p>
+                <p v-if="hasSelect && !discriminate && popData['alarmLevel']">
+                  {{dataList.alarmValue?dataList.alarmValue:dataList.result}}{{dataList.result=='正常'?'':'℃'}}
                   <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                   <i-dropdown
                     v-if="hasSelect && !discriminate && popData['alarmLevel']"
@@ -82,13 +85,13 @@
                 </p>
               </div>
               <div v-else class="btn-printbtn-printbtn-print">
-                <div class="title">识别</div>
-                <div class="nr">{{ dataList.result }}</div>
+                <!-- <div class="title">识别</div> -->
+                <div class="nr">{{ dataList.result?dataList.result:dataList.alarmContent }}</div>
               </div>
               <div class="btn-print">
                 <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
                 <button-custom
-                  v-if="!(dataList.result.indexOf('正常')>-1)"
+                  v-if="showBtn"
                   :class="{}"
                   class="button"
                   :title="titleReturn"
@@ -154,7 +157,6 @@ export default {
       searchType: "",
       visibleJudge: false,
       handleList: [],
-      isdeal: true,
       newVisible: false,
       selectList: ["一般", "严重", "危急"],
       alarmLevelT: "",
@@ -164,10 +166,10 @@ export default {
       alarmValue: null,
       discriminate: false,
       isImgVideo: true,
-      //   isTemperture: true,
       hasSelect: true,
       titleReturn: "复归",
-      formData: {}
+      formData: {},
+      showBtn: true
     };
   },
   props: {
@@ -332,6 +334,15 @@ export default {
     }
   },
   methods: {
+    handleBtn() {
+      if (this.dataList.alarmTypeValue == "设备缺陷类") {
+        if (this.dataList.result.indexOf("正常") > -1) {
+          this.showBtn = false;
+        } else {
+          this.showBtn = true;
+        }
+      }
+    },
     openPage() {
       let routeData = this.$router.resolve({
         name: "newPage",
@@ -375,14 +386,10 @@ export default {
           obj.info = el.dealContent;
           that.handleList.push(obj);
         });
-        console.log(that.handleList);
-        if (that.handleList.length < 1) {
-          that.isdeal = false;
-        }
         if (that.dataList.alarmTypeValue == "动态环境类") {
           that.discriminate = true;
         }
-        if (that.dataList.result == "温度正常") {
+        if (that.dataList.result == "正常") {
           that.hasSelect = false;
         }
         if (that.dataList.isReturn == "1") {
@@ -404,7 +411,7 @@ export default {
           result: that.dataList.result,
           isRobot: that.isRobot
         };
-        console.log(that.formData);
+        this.handleBtn();
         that.$forceUpdate();
       });
     },
@@ -673,9 +680,10 @@ export default {
         }
       }
       .info_top {
+        min-height: 50px;
         .monitorTitle {
           font-size: 14px;
-          margin-bottom: 30px;
+          margin-bottom: 10px;
         }
         & > p {
           margin-bottom: 17px;
@@ -700,6 +708,14 @@ export default {
       }
       .temperature + div a {
         text-decoration: underline;
+      }
+      .btn-printbtn-printbtn-print {
+        margin-bottom: 20px;
+        .nr {
+          font-size: 18px;
+          color: red;
+          font-weight: 600;
+        }
       }
       .discriminate {
         margin-top: 25px;

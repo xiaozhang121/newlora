@@ -789,6 +789,13 @@ export default {
           });
         }
       }
+      if(value.length>20){
+        this.$message({
+            message: "字符长度超出限制",
+            type: "warning"
+          });
+          this.presetName=value.slice(0,20)
+      }
     },
     changeDate(now) {
       let data = "";

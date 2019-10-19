@@ -14,6 +14,7 @@
                         v-model="value3"
                         type="datetime"
                         placeholder="选择日期时间"
+                        :picker-options='expireTimeOption'
                        >
                 </el-date-picker>
             </div>
@@ -72,7 +73,12 @@
                 radio: '1',
                 value3: '',
                 options: [],
-                value: ''
+                value: '',
+                expireTimeOption: {
+                    disabledDate(date) {
+                        return date.getTime() <= Date.now();
+                    }
+                }
             }
         },
         methods: {
@@ -134,5 +140,20 @@
         .radioItem{
             margin-bottom: 15px;
         }
+    }
+    .el-date-table td.disabled div{
+      color: 	#606266;
+      background-color: rgba(27, 59, 71, 0.7);
+    }
+    .el-time-panel{
+      border: solid 1px rgba(27, 59, 71, 0.7);
+      background-color: rgba(27, 59, 71, 0.7); 
+    }
+    .el-time-panel__footer{
+      border-top:none
+    }
+    .el-time-panel__btn,
+    .el-time-panel__btn.confirm{
+      color:#fff;
     }
 </style>

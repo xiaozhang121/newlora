@@ -609,6 +609,13 @@
                     });
                   }
                 }
+                if(value.length>20){
+                  this.$message({
+                      message: "字符长度超出限制",
+                      type: "warning"
+                    });
+                    this.addPosInput=value.slice(0,20)
+                }
             },
             onDisable(flag){
                 this.disabled = flag
