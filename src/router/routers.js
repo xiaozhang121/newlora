@@ -1268,6 +1268,42 @@ export default [{
                         },
                         component: () => import('@/views/communal/toConfigure/patrolMission.vue')
                     },
+                    {
+                        path: 'unifyConfig',
+                        name: 'unifyConfig',
+                        meta: {
+                            topNav: '2',
+                            title: '周界入侵监控',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: 'configurationList'
+                        },
+                        component: () => import('@/views/communal/toConfigure/unifyConfig.vue')
+                    },
+                    {
+                        path: 'perimeterMonitor',
+                        name: 'perimeterMonitor',
+                        meta: {
+                            topNav: '2',
+                            title: '周界入侵监控',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: 'configurationList'
+                        },
+                        component: () => import('@/views/communal/toConfigure/perimeterMonitor.vue')
+                    },
+                    {
+                        path: 'ballControlT',
+                        name: 'ballControlT',
+                        meta: {
+                            topNav: '2',
+                            title: '布控球（表计识别）',
+                            hideInMenu: true,
+                            isDetails: true,
+                            active: 'configurationList'
+                        },
+                        component: () => import('@/views/communal/toConfigure/ballControlT.vue')
+                    }
                 ]
             },
             // {
