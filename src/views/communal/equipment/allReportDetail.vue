@@ -6,6 +6,7 @@
       :downloadURL="downloadURL"
       :selectUrl="selectUrl"
       :position="position"
+      :dataSource="dataSource"
     />
   </div>
 </template>
@@ -23,7 +24,7 @@ export default {
       selectUrl: "",
       monitorDeviceType: "",
       position: "",
-      dataSource:'1'
+      dataSource: ""
     };
   },
   methods: {
@@ -65,7 +66,7 @@ export default {
             "/lenovo-plan/api/information/overview/result/one/day/export";
           this.selectUrl = "/lenovo-device/api/power/monitor";
           this.position = "1";
-          this.dataSource='1'
+          this.dataSource = "1";
           break;
       }
     }

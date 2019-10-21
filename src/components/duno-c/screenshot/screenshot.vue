@@ -20,6 +20,7 @@
         >
           <div v-if="isCalibrat" ref="box" id="box1"></div>
         </div>
+        <i v-if="!isVideo" class="iconfont icon-bofang"></i>
         <div v-show="!isCalibrat" v-if="isVideo" class="calibrat" @click="addTag">手动标定</div>
         <div v-show="isCalibrat" v-if="isVideo" class="clearCalibrat" @click="delTag">清除</div>
         <div class="shotInput">
@@ -116,7 +117,7 @@ export default {
       default: () => {
         return true;
       }
-    },
+    }
   },
   watch: {
     shotData(now) {
@@ -325,7 +326,7 @@ export default {
         let query = {
           powerDeviceId: that.powerDeviceId,
           monitorDeviceId: that.monitorDeviceId,
-          alarmFileAddress: "",
+          alarmFileAddress: `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`,
           recognizeType: that.selectValue,
           remake: this.textarea
         };
@@ -410,6 +411,12 @@ export default {
           position: absolute;
           //   display: block;
         }
+      }
+      .icon-bofang {
+        font-size: 66px;
+        position: absolute;
+        top: 17%;
+        left: 42%;
       }
       .calibrat,
       .clearCalibrat {

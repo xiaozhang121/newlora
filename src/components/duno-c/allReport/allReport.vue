@@ -18,7 +18,7 @@
         </div>
         <div>
           <duno-btn-top
-            v-if="$route.query.dataSource"
+            v-if="dataSource"
             @on-select="onSelectDevice"
             class="dunoBtnTo"
             :isCheck="false"
@@ -116,6 +116,12 @@ export default {
       }
     },
     position: {
+      type: String,
+      default: () => {
+        return "";
+      }
+    },
+    dataSource: {
       type: String,
       default: () => {
         return "";
@@ -221,7 +227,10 @@ export default {
           render: (h, params) => {
             let newArr = [];
             let alarmLevelName;
-            if (params.row.alarmLevelName.length > 2) {
+            if (
+              params.row.alarmLevelName &&
+              params.row.alarmLevelName.length > 2
+            ) {
               alarmLevelName = params.row.alarmLevelName.slice(0, 2);
             } else {
               alarmLevelName = params.row.alarmLevelName;
@@ -531,8 +540,8 @@ export default {
       if (this.$route.query.deviceName) {
         this.title = this.$route.query.deviceName;
       }
-      if (this.$route.query.dataSource) {
-        this.queryForm.dataSource = this.$route.query.dataSource;
+      if (this.dataSource != "") {
+        this.queryForm.dataSource = this.dataSource;
       }
       this.getDataList();
       this.getPowerDeviceName();
@@ -599,8 +608,8 @@ export default {
       this.getDataList();
     },
     onSelectDevice(item, index) {
-      this[item.title] = item["describeName"];
-      this.queryForm.powerDeviceId = item.monitorDeviceType;
+      this.deviceTitleType.title = item["describeName"];
+      this.queryForm.dataSource = item.monitorDeviceType;
       this.getDataList();
     },
     onSelectType(item, index) {
