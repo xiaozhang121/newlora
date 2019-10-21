@@ -506,7 +506,7 @@
         methods:{
             checkSpecial(value) {
                 let myreg =
-                  "[`~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，、？]‘'";
+                    "[`_+@~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，'、？]‘'";
                 for (let i = 0; i < value.length; i++) {
                   if (myreg.indexOf(value[i]) != -1) {
                     this.addPosInput = value

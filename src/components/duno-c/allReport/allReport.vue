@@ -18,6 +18,17 @@
         </div>
         <div>
           <duno-btn-top
+            v-if="$route.query.dataSource"
+            @on-select="onSelectDevice"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="deviceType"
+            :title="deviceTitleType"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <div>
+          <duno-btn-top
             @on-select="onSelectType"
             class="dunoBtnTo"
             :isCheck="false"
@@ -149,6 +160,25 @@ export default {
       titleTypeL: "全部设备",
       titleTypeC: "全部报表",
       titleTypeR: "全部类型",
+      deviceTitleType: "可见光设备",
+      deviceType: [
+        {
+          describeName: "可见光设备",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "红外设备",
+          monitorDeviceType: "2"
+        },
+        {
+          describeName: "室内轨道机器人",
+          monitorDeviceType: "3"
+        },
+        {
+          describeName: "室外巡检机器人",
+          monitorDeviceType: "4"
+        }
+      ],
       columns: [
         {
           title: "对象",
@@ -501,6 +531,9 @@ export default {
       if (this.$route.query.deviceName) {
         this.title = this.$route.query.deviceName;
       }
+      if (this.$route.query.dataSource) {
+        this.queryForm.dataSource = this.$route.query.dataSource;
+      }
       this.getDataList();
       this.getPowerDeviceName();
     },
@@ -562,6 +595,11 @@ export default {
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       this.dataForm.powerDeviceId = item.monitorDeviceType;
+      this.queryForm.powerDeviceId = item.monitorDeviceType;
+      this.getDataList();
+    },
+    onSelectDevice(item, index) {
+      this[item.title] = item["describeName"];
       this.queryForm.powerDeviceId = item.monitorDeviceType;
       this.getDataList();
     },
