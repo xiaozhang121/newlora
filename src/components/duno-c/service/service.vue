@@ -56,6 +56,7 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         that.dataList = res.data;
+        this.$emit("on-length", that.dataList.length);
       });
     }
   },

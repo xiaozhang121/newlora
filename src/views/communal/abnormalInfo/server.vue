@@ -78,10 +78,10 @@
           <div class="fwq">
             <div class="fwq_top">
               <div>
-                <i class="iconfont icon-zuoyoubuju"></i>
+                <i class="iconfont icon-fuwuqi1"></i>
               </div>
               <div>
-                <p>FWQ-001-识别</p>
+                <p>{{pieData.realName}}</p>
                 <p>
                   型号：
                   <span>SR650</span>
@@ -94,24 +94,23 @@
               <p>
                 <i class="iconfont icon-fuwuqi"></i>
                 虚拟服务器数量：
-                <span>2</span>
+                <span>{{virtualData.length}}</span>
               </p>
               <p>
                 <i class="iconfont icon-servise"></i>
                 Service数量：
-                <span>2</span>
+                <span>{{serviceLength}}</span>
               </p>
             </div>
           </div>
           <div class="system">
-            <p>春江潮水连海平，海上明月共潮生。</p>
-            <p>滟滟随波千万里，何处春江无月明！</p>
-            <p>江流宛转绕芳甸，月照花林皆似霰。</p>
-            <p>空里流霜不觉飞，汀上白沙看不见。</p>
-            <p>江天一色无纤尘，皎皎空中孤月轮。</p>
-            <p>江畔何人初见月？江月何年初照人？</p>
-            <p>人生代代无穷已，江月年年只相似</p>
-            <p>不知江月待何人，但见长江送流水。</p>
+            <p>SR650 2*Intel Xeon Silver 4116 12C 85W 2.1GHz 处理器</p>
+            <p>2*64GB TruDDR4 2666 MHz</p>
+            <p>RAID 730-8i 2GB 闪存 PCIe 12Gb</p>
+            <p>4* 1.2TB 10K 12Gbps SAS 2.5" G4HS</p>
+            <p>2*ThinkSystem 2.5 英寸 5200 480GB 入门级 SATA 6Gb 热插拔固态硬盘</p>
+            <p>2*千兆网口</p>
+            <p>2* 750W（230/115V）白金级热插拔电源模块</p>
           </div>
         </div>
         <div class="conServer">
@@ -119,7 +118,7 @@
             <div
               class="unchecked"
               :class="{selection:selectPart===index}"
-              @click="selectPartServe(index)"
+              @click="selectPartServe(item,index)"
               v-for="(item,index) in tabServe"
               :key="index"
             >{{item.name}}</div>
@@ -127,19 +126,19 @@
           <div class="server_con">
             <div class="serFirst">
               <div class="serChart">
-                <dunoPie :pieData="pieData" paddingBottom="60%"></dunoPie>
+                <dunoPie :pieData="pieData" paddingBottom="60%" ref="dunoPie"></dunoPie>
               </div>
               <div class="tabSer">
-                <service :pieData="pieData" height="160px"></service>
+                <service :pieData="pieData" @on-length="onLength" ref="dunoService" height="160px"></service>
               </div>
             </div>
             <div class="serSecond">
               <echartsRare
+                ref="dunoRare"
                 :pieData="pieData"
                 :serve="serve"
                 width="25%"
                 paddingBottom="80%"
-                ref="rare"
               ></echartsRare>
             </div>
           </div>
@@ -174,6 +173,7 @@ export default {
       selectPart: 0,
       overview: true,
       serve: "",
+      serviceLength: "",
       selectTitle: "选择服务器",
       selectHost: "全部",
       dataBread: [
@@ -182,14 +182,7 @@ export default {
         { path: "", name: "服务器" }
       ],
       pieData: {},
-      tabServe: [
-        {
-          name: "物理服务器"
-        },
-        {
-          name: "虚拟服务器"
-        }
-      ],
+      tabServe: [],
       hostData: [
         {
           name: "全部",
@@ -207,10 +200,36 @@ export default {
           serve: "1"
         }
       ],
+      virtualData: [],
       tabdata: []
     };
   },
   methods: {
+    onLength(length) {
+      this.serviceLength = length;
+    },
+    getVirtual() {
+      let url = "/lenovo-mon/api/monitoring/host/zabbix/host/virtual";
+      let query = {
+        hostId: this.pieData["hostId"]
+      };
+      this.tabServe = [];
+      this.tabServe.push({
+        name: "物理服务器",
+        hostid: this.pieData["hostId"]
+      });
+      getAxiosData(url, query).then(res => {
+        this.virtualData = res.data;
+        let data = res.data;
+        data.forEach((item, index) => {
+          let obj = {
+            name: `虚拟服务器${index + 1}`,
+            hostid: item["hostid"]
+          };
+          this.tabServe.push(obj);
+        });
+      });
+    },
     getService(item) {
       let url = "/lenovo-mon/api/monitoring/host/zabbix/getService";
       let query = {
@@ -251,10 +270,12 @@ export default {
     handleShow(item, index) {
       this.pieData = item;
       this.active = index;
+      this.selectPart = 0;
       if (index == 0) {
         this.overview = true;
       } else {
         this.overview = false;
+        this.getVirtual();
       }
     },
     selectServe(index) {
@@ -264,8 +285,11 @@ export default {
         htype: index
       };
     },
-    selectPartServe(index) {
+    selectPartServe(item, index) {
       this.selectPart = index;
+      this.$refs.dunoPie.getPie();
+      this.$refs.dunoService.getConsul();
+      this.$refs.dunoRare.getBar();
     }
   },
   mounted() {
@@ -295,15 +319,14 @@ export default {
   //   .dunoMain_nr {
   .content {
     width: 100%;
-    // height: 100%;
+    height: calc(100vh - 80px);
     display: flex;
     justify-content: flex-start;
     .left {
       width: 300px;
-      // height: 100%;
+      overflow-y: auto;
       padding: 0 20px 20px 20px;
       background-color: #0f222f;
-      // padding-top: 2%;
       .select {
         height: 50px;
         display: flex;
@@ -426,7 +449,6 @@ export default {
       flex: 1;
       height: 100%;
       margin-left: 10px;
-      // border: 2px solid #204f57;
       .topMessage {
         display: flex;
         justify-content: space-between;
@@ -467,6 +489,7 @@ export default {
         }
         .system {
           font-size: 12px;
+          text-align: right;
         }
       }
       .conServer {
@@ -494,7 +517,6 @@ export default {
           }
         }
         .server_con {
-          // border: 1px solid #34434c;
           background-color: #041a27;
           .serFirst {
             display: flex;

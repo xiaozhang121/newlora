@@ -237,7 +237,8 @@ export default {
       });
       let data = {
         pageIndex: 1,
-        pageRows: 4
+        pageRows: 4,
+        dataSource: "1"
       };
       let url1 = "/lenovo-plan/api/information/overview/result/one/day";
       getAxiosData(url1, data).then(res => {

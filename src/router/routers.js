@@ -425,6 +425,17 @@ export default [{
                     },
                     component: () => import('@/views/communal/surveillance/ballControl.vue')
                 },
+                {
+                  path: 'detailUbiquitou',
+                  name: 'surveillanceList',
+                  meta: {
+                      topNav: '3',
+                      title: '泛在盒子详情',
+                      hideInMenu: true,
+                      isDetails: true
+                  },
+                  component: () => import('@/views/communal/surveillance/detailUbiquitou.vue')
+              },
             ]
         }]
     },

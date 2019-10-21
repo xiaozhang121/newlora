@@ -55,7 +55,7 @@
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
-          <span @click="isSample()" v-if="!onlyCanel && picCut">
+          <span @click="isSample(1)" v-if="!onlyCanel && picCut">
             <i class="iconfont icon-jietu"></i>截图
           </span>
           <!--  <span @click="fullScreen()">
@@ -495,9 +495,7 @@ export default {
           clearInterval(this.timerTime);
           this.timeIncreateD = "0:00:00";
           this.$message.info(res.msg);
-          this.isShow = true;
-          this.isVideo = false;
-
+          this.isSample(0);
         });
       }
     },
@@ -649,9 +647,13 @@ export default {
       this.isNavbar = true;
     },
     //获取图片
-    isSample() {
+    isSample(index) {
+      if(index){
+        this.isVideo = true;
+      }else{
+        this.isVideo = false;
+      }
       this.monitorId = this.monitorInfoR["monitorDeviceId"];
-      this.isVideo = true;
       this.isShow = true;
       this.$refs.screenShot.getPowerDeviceId();
       if (!this.isPic) {
