@@ -15,7 +15,7 @@
         </el-select>
       </el-form-item>
       <a href="javascript:void(0)" class="selectAll" @click="chosenAll">全选</a>
-      <chosen-list :dataListOption="dataList" ref="choseChild" :isInput="true" @inputChange="inputChange" />
+      <chosen-list :isOver='isOver' :dataListOption="dataList" ref="choseChild" :isInput="true" @inputChange="inputChange" />
     </el-form>
   </div>
 </template>
@@ -83,6 +83,7 @@ export default {
       infoData: [],
       taskKindList: [],
       choseType:-1,
+      isOver:true
     };
   },
   methods: {
@@ -110,6 +111,11 @@ export default {
     onChange(value) {
        this.$emit('getchoseType',value)
         this.choseType=value;
+        if(value!='1'){
+          this.isOver = false;
+        }else{
+          this.isOver = true;
+        }
       if (value) {
         const that = this;
         let query = { pageIndex: 1, pageRows: 888888 };

@@ -323,11 +323,13 @@ export default {
         });
       } else {
         let url = "/lenovo-device/device/video/record/file/alarm";
+        let data = [];
+        data.push(that.selectValue);
         let query = {
           powerDeviceId: that.powerDeviceId,
           monitorDeviceId: that.monitorDeviceId,
           alarmFileAddress: `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`,
-          recognizeType: that.selectValue,
+          recognizeType: data,
           remake: this.textarea
         };
         postAxiosData(url, query).then(res => {
@@ -345,6 +347,7 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.powerDeviceId = res.data[0].value;
+        this.getImgInfo();
       });
     },
     close() {

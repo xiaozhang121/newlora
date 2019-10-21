@@ -55,7 +55,14 @@
               </div>-->
             </div>
           </div>
-          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+          <control-check
+            @on-disable="onDisable"
+            ref="controlCheckRef"
+            v-if="dataForm.monitorDeviceId && lockPress"
+            :deviceType="1"
+            :deviceId="dataForm.monitorDeviceId"
+            class="controlCheck"
+          />
         </div>
         <div class="right nr contain">
           <div class="areaTitle">
@@ -196,12 +203,17 @@
     </div>
     <wraning :popData="popData" :visible="visible" detailsType="alarm" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
-    <enlarge :isShow="isEnlarge" :pushCamera="false" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <enlarge
+      :isShow="isEnlarge"
+      :pushCamera="false"
+      :srcData="srcData"
+      @closeEnlarge="closeEnlarge"
+    />
   </div>
 </template>
 
 <script>
-import controlCheck from '_c/duno-m/controlCheck'
+import controlCheck from "_c/duno-m/controlCheck";
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -536,10 +548,10 @@ export default {
     }
   },
   methods: {
-    onDisable(flag){
-        if(!this.controlAble){
-            this.controlAble = flag
-        }
+    onDisable(flag) {
+      if (!this.controlAble) {
+        this.controlAble = flag;
+      }
     },
     getCoordinate(type, w0, w1, h0, h1, x0, y0) {
       let obj = { x: 0, y: 0 };
@@ -613,7 +625,7 @@ export default {
         this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data;
-     /*   that.$nextTick(() => {
+        /*   that.$nextTick(() => {
           setTimeout(() => {
             this.$refs.controBtnRef.viewCamera(5, false).then(res => {
               setTimeout(() => {
@@ -1033,7 +1045,7 @@ export default {
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();
-    this.lockPress = this.getAuthority("10075002")
+    this.lockPress = this.getAuthority("10075002");
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
@@ -1057,7 +1069,7 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
-  .controlCheck{
+  .controlCheck {
     right: 0;
     width: 211px;
     color: white;

@@ -129,7 +129,7 @@ export default {
         textStyle: {
           color: "#999"
         },
-        data: that.legendData
+        data: []
       },
       xAxisOption: {
         type: "category",
@@ -151,7 +151,7 @@ export default {
         axisTick: {
           show: false
         },
-        data: that.xAxisData
+        data: []
       },
       yAxisOption: {
         type: "value",
@@ -178,7 +178,7 @@ export default {
           show: false
         }
       },
-      seriesOption: that.seriesData
+      seriesOption: []
     };
   },
   methods: {
@@ -224,27 +224,6 @@ export default {
           that.$forceUpdate();
           that.isChangeFlag = !that.isChangeFlag;
         });
-        /* that.legendData.push(...['微型气象站'])
-            that.seriesData.push(...[{
-                data: [50, 70, 10, 0, 20, 80, 30, 10, 20, 1],
-                name: "微型气象站",
-                type: "line"
-            }])
-            that.$forceUpdate()
-            that.isChangeFlag = !that.isChangeFlag*/
-      } else if (data.name == "demoData") {
-        that.legendData.push(...["可见光设备"]);
-        that.seriesData.push(
-          ...[
-            {
-              data: [10, 90, 50, 0, 20, 0, 20, 40, 60, 5],
-              name: "可见光设备",
-              type: "line"
-            }
-          ]
-        );
-        that.$forceUpdate();
-        that.isChangeFlag = !that.isChangeFlag;
       } else
         this.getHistoryData(data["monitorDeviceId"], data["monitorDeviceType"]);
     },
@@ -330,6 +309,13 @@ export default {
     },
     handle() {
       this.$emit("changeHandle");
+    },
+    initData() {
+      let that = this;
+      that.legendOption.data = that.legendData;
+      that.xAxisOption.data = that.xAxisData;
+      that.seriesOption = that.seriesData;
+      this.isChangeFlag = !this.isChangeFlag;
     }
   },
   watch: {
@@ -339,6 +325,7 @@ export default {
     isChange: {
       handler(now) {
         this.isChangeFlag = now;
+        this.initData();
       },
       immediate: true
     },
@@ -401,6 +388,7 @@ export default {
     } else if (!this.radio && this.datePeriod) {
       this.onChangeTime(this.datePeriod);
     }
+    that.initData();
   }
 };
 </script>
