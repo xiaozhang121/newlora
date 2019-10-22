@@ -38,15 +38,15 @@
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
-    <div :style="{width:width}">
+    <div :style="{width:width}" v-if="!seriesGpu[0].data">
       <duno-charts
-        :isChange="isChangeCpu"
-        :titleOption="titleCpu"
+        :isChange="isChangeGpu"
+        :titleOption="titleGpu"
         :paddingBottom="paddingBottom"
         :isItemEchart="true"
-        :xAxisOption="xAxisCpu"
+        :xAxisOption="xAxisGpu"
         :yAxisOption="yAxisCpu"
-        :seriesOption="seriesCpu"
+        :seriesOption="seriesGpu"
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
@@ -316,6 +316,69 @@ export default {
             }
           }
         }
+      ],
+      isChangeGpu: true,
+      titleGpu: {
+        text: "GUP使用率",
+        left: "center",
+        textStyle: {
+          color: "#fff"
+        }
+      },
+      xAxisGpu: {
+        type: "category",
+        name: "(min)",
+        boundaryGap: false,
+        data: [],
+        axisLine: {
+          lineStyle: {
+            color: "#46565f"
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        nameTextStyle: {
+          padding: [25, 0, 0, -20]
+        }
+      },
+      seriesGpu: [
+        {
+          name: "出网pbs",
+          type: "line",
+          //   stack: "总量",
+          areaStyle: {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "#05e6eb" // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: "#091f2c" // 100% 处的颜色#
+                }
+              ],
+              global: false // 缺省为 false
+            }
+          },
+          smooth: true,
+          symbol: "none",
+          //   symbolSize: 0,
+          sampling: "average",
+          data: [],
+          itemStyle: {
+            normal: {
+              color: "#05e6eb",
+              borderColor: "#05e6eb"
+            }
+          }
+        }
       ]
     };
   },
@@ -323,6 +386,11 @@ export default {
     pieData: {
       handler() {
         this.getBar();
+        if (this.seriesGpu[0].data.length > 0) {
+          this.changeWidth(0);
+        } else {
+          this.changeWidth(1);
+        }
       },
       deep: true
     }
@@ -388,12 +456,20 @@ export default {
         that.isChangeCpu = !that.isChangeCpu;
         that.$forceUpdate();
       });
+    },
+    changeWidth(item) {
+      this.$emit("changeWidth", item);
     }
   },
   mounted() {
     this.$nextTick(() => {
       this.getBar();
     });
+    if (this.seriesGpu[0].data.length > 0) {
+      this.changeWidth(0);
+    } else {
+      this.changeWidth(1);
+    }
   }
 };
 </script>
