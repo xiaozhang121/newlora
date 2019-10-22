@@ -8,7 +8,7 @@
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown()" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
         <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}" @click="showListFlag = !showListFlag"></div>
       </div>
       <div class="title dropSelf" v-else @click="showListFlag = !showListFlag">
@@ -16,31 +16,31 @@
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown()" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
         <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
-      <div v-if="isCheck" class="btn_main dropSelf isCheck" ref="showListRef" style="display: none">
-        <div v-if="showAll">
+      <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef" style="display: none">
+        <div v-if="showAll" class="checkbox">
           <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         </div>
         <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
           <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
-          <div class="btnItem" v-for="(item,index) in dataList" :key="index">
+          <div class="btnItem checkbox" v-for="(item,index) in dataList" :key="index">
             <el-tooltip class="item" effect="dark" :content="item['describeName']" placement="top">
               <el-checkbox v-if="keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
-                <img  :src="item.img">
+                <img class="checkbox"  :src="item.img">
                 {{item['describeName']}}</el-checkbox>
             </el-tooltip>
             <el-tooltip  class="item" effect="dark" :content="item['describeName']" placement="top">
               <el-checkbox v-if="!keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
                 <!-- <i class="item.icon"></i> -->
                 {{item['describeName']}}
-                <span v-if="Array.isArray(item.img)">
-                  <img v-for="(pic, indexd) in item['img']" :key="indexd" class="icon_img" :src="pic">
+                <span class="checkbox" v-if="Array.isArray(item.img)">
+                  <img v-for="(pic, indexd) in item['img']" :key="indexd" class="icon_img checkbox" :src="pic">
                 </span>
-                <span v-else>
-                  <img v-if="item.img" class="icon_img" :src="item.img">
+                <span class="checkbox" v-else>
+                  <img v-if="item.img" class="icon_img checkbox" :src="item.img">
                 </span>
               </el-checkbox>
             </el-tooltip>
@@ -48,7 +48,7 @@
         </el-checkbox-group>
       </div>
       <div v-else class="btn_main dropSelf" ref="showListRef" style="display: none; margin-top: 0; padding: 5px 0">
-        <div class="btnItem" v-for="(item,index) in dataList" :key="index" style="margin:inherit">
+        <div class="btnItem checkbox" v-for="(item,index) in dataList" :key="index" style="margin:inherit">
           <div class="btnNr" @click="singleSelect(item, index)">{{item['describeName']}}</div>
         </div>
       </div>
@@ -114,7 +114,8 @@
                 dataBackup: [],
                 titleMain: '',
                 maxLength: 0,
-                isNow: false
+                isNow: false,
+                autoHide: true
             }
         },
         watch: {
@@ -268,6 +269,9 @@
             }
         },
         methods:{
+            mousedown(){
+
+            },
             handleControlBall(){
                 this.$emit('on-controlBall')
             },
@@ -319,9 +323,9 @@
                      $(that.$refs.showListRef).slideDown('normal')
                  }*/
             },
-            hiddenDrapdown(){
+            hiddenDrapdown(e){
                 const that = this
-                if(that.isCheck){
+                if(that.isCheck && this.autoHide){
                     return
                 }
                 $(that.$refs.showListRef).slideUp('normal')
@@ -424,7 +428,16 @@
 
         },
         mounted(){
+            const that = this
             $(this.$refs.showListRef).hide('normal')
+            window.addEventListener('click', function (event) {
+                if(that.showListFlag){
+                  if(!(event.target.className.indexOf('checkbox')>-1) && that.isCheck){
+                      that.showListFlag = !that.showListFlag
+                      that.$refs.selfInput.blur()
+                  }
+                }
+            })
             this.handleCheckAllChange(true)
             this.checkAll = true
         }
