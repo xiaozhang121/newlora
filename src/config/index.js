@@ -4,10 +4,10 @@ const isMock = false
 // let baseUrl = 'https://nei.netease.com/api/apimock/57f58ef205ee52da278d328008655e99'
 // let baseUrl = 'http://192.168.0.49:8088'
 // let baseUrl = 'http://10.0.6.223:8096'
-let baseUrl = 'http://10.0.0.164:8080' 
+// let baseUrl = 'http://10.0.0.164:8080' 
 // let baseUrl = 'http://192.168.0.49:8088'// 锴锴
 // let baseUrl = 'http://52.82.107.5:8080'              // 锴锴
-// let baseUrl = 'http://192.168.9.112:8088'                  // 刘飞
+let baseUrl = 'http://192.168.0.114:8088'                  // 刘飞
 // let baseUrl = 'http://10.0.6.233:8088'                  // 刘飞
 // let baseUrl = 'http://192.168.9.113:8091'
 /* 如果开始mock数据模式dev启动自动切换至mock

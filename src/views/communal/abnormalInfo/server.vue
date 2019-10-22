@@ -3,13 +3,13 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="title">服务器</div>
+    <div class="title">服务器（{{tabdata.length}}）</div>
     <!-- <duno-main class="dunoMain"> -->
     <div class="content">
       <div class="left">
         <div class="select">
           <div class="select-fr">{{selectTitle}}</div>
-          <el-dropdown trigger="click">
+          <!-- <el-dropdown trigger="click">
             <span class="el-dropdown-link">
               （{{selectHost}}{{tabdata.length}}）
               <i class="el-icon-arrow-down el-icon--right"></i>
@@ -21,7 +21,7 @@
                 @click.native="selectType(item,index)"
               >{{ item['name'] }}</el-dropdown-item>
             </el-dropdown-menu>
-          </el-dropdown>
+          </el-dropdown>-->
         </div>
         <div class="leftTab">
           <div
@@ -125,10 +125,10 @@
           </div>
           <div class="server_con">
             <div class="serFirst">
-              <div class="serChart">
+              <div :style="{width:serviceLength=='0'?'100%':'75%'}">
                 <dunoPie :pieData="pieData" paddingBottom="60%" ref="dunoPie"></dunoPie>
               </div>
-              <div class="tabSer">
+              <div :style="{width:serviceLength=='0'?'0':'25%'}">
                 <service :pieData="pieData" @on-length="onLength" ref="dunoService" height="160px"></service>
               </div>
             </div>
@@ -137,8 +137,9 @@
                 ref="dunoRare"
                 :pieData="pieData"
                 :serve="serve"
-                width="25%"
-                paddingBottom="80%"
+                :width="width"
+                paddingBottom="paddingBottom"
+                @changeWidth="changeWidth"
               ></echartsRare>
             </div>
           </div>
@@ -174,6 +175,8 @@ export default {
       overview: true,
       serve: "",
       serviceLength: "",
+      width: "25%",
+      paddingBottom: "80%",
       selectTitle: "选择服务器",
       selectHost: "全部",
       dataBread: [
@@ -205,6 +208,15 @@ export default {
     };
   },
   methods: {
+    changeWidth(item) {
+      if (item == 0) {
+        this.width = "25%";
+        this.paddingBottom = "80%";
+      } else {
+        this.width = "33.33%";
+        this.paddingBottom = "70%";
+      }
+    },
     onLength(length) {
       this.serviceLength = length;
     },
@@ -293,7 +305,7 @@ export default {
     }
   },
   mounted() {
-    this.getService({ hostType: "" });
+    this.getService({ hostType: "0" });
   }
 };
 </script>

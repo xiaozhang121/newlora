@@ -69,16 +69,17 @@ export default {
         ...this.dataList,
         act: item
       };
-      let url = "/lenovo-smartlock/permit/grant";
+      // let url = "/lenovo-smartlock/permit/grant";
+      let url = "/lenovo-smartlock/permit/decide";
       axios({
-        baseURL: "http://10.0.10.35:8080",
+        baseURL: "http://192.168.0.114:8088",
         method: "POST",
         headers: {
           Authorization: this.$store.state.user.token,
           "content-type": "application/x-www-form-urlencoded"
         },
         data: qs.stringify(query),
-        url: "/lenovo-smartlock/permit/grant"
+        url: "/lenovo-smartlock/permit/decide"
       })
         .then(function(response) {
           let data = response.data;

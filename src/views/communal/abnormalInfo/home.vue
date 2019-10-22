@@ -179,31 +179,15 @@
             智能锁具
           </div>
           <div :class="{echartBox:isShowEchart}">
-            <duno-chart-pie-loop
-              :value="[
-                {value:75, name:'75%', itemStyle: {
-                normal: {
-                    color: '#53cbc3'
-                }
-            }},
-                {value:25, name:'25%', itemStyle: {
-                normal: {
-                    color: '#1b6697'
-                }
-            }},
-            ]"
-              :radiusOption="radiusOption"
-              paddingBottom="45%"
-              text="锁具状态"
-              titlePosition="right"
-              :textStyle="textStyle"
-              titleTop="30"
-              titleLeft="60%"
-              :centerOption="centerOption"
+            <duno-charts
               :isChange="isChange"
               :isItemEchart="isItemEchart"
               :legendOption="legendOption"
-            />
+              :titleOption="titleOption"
+              paddingBottom="45%"
+              :seriesOption="seriesOption"
+              :colorOption="colorOption"
+            ></duno-charts>
           </div>
         </duno-main>
       </div>
@@ -247,10 +231,11 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
-import DunoCharts from "_c/duno-charts/charts.vue";
+// import DunoCharts from "_c/duno-charts/charts.vue";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraningT from "_c/duno-j/warningT";
 import wraning from "_c/duno-j/warning";
+import { DunoCharts } from "_c/duno-charts";
 import { DunoChartPieLoop, DunoChartBarLine } from "_c/duno-charts/index";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import { getRecode } from "@/api/configuration/configuration.js";
@@ -320,6 +305,7 @@ export default {
       ubiquitousData: [],
       alarmType: "",
       isShowEchart: false,
+      lockData: [],
       mockData: [],
       envData: {
         temp: 0,
@@ -567,29 +553,43 @@ export default {
       ],
       legendOption: {
         orient: "vertical",
-        top: "50%",
-        right: "7%",
-        itemGap: 10,
+        right: "20%",
+        top: "60%",
+        data: ["解锁", "闭锁"],
         textStyle: {
-          color: "white",
-          fontSize: 16
-          //   padding: [0, 0, 0, 4]
-        },
-        formatter: function(name) {
-          if (name == "25%") {
-            return "解锁：" + name + " (1)";
-          } else {
-            return "闭锁：" + name + " (3)";
-          }
-        },
-        data: ["25%", "75%"]
+          color: "#fff"
+        }
       },
-      textStyle: {
-        color: "#fff",
-        paddingRight: "20px"
+      titleOption: {
+        text: "锁具状态",
+        right: "25%",
+        top: "45%",
+        textStyle: {
+          color: "#fff",
+          fontSize: 18
+        }
       },
+      seriesOption: [
+        {
+          name: "半径模式",
+          type: "pie",
+          radius: "55%",
+          roseType: "radius",
+          center: ["35%", "50%"],
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: true
+            }
+          },
+          data: [{ value: 1, name: "解锁" }, { value: 3, name: "闭锁" }]
+        }
+      ],
+      colorOption: ["#1b6697", "#53cbc3"],
       radiusOption: "80%",
-      centerOption: ["30%", "50%"],
+      // centerOption: ["30%", "50%"],
       tempEnv: {
         envTemp: 0,
         humidity: 0,
@@ -655,7 +655,6 @@ export default {
     };
   },
   created() {
-    // this.getUbiquitous();
     this.getRecodeList();
     this.getData();
     this.getMockData();
@@ -665,11 +664,34 @@ export default {
     this.$nextTick(() => {
       this.getUbiquitous();
       this.getEchartsBar();
-      // this.init();
-      // this.initBar();
+      this.getLock();
     });
   },
   methods: {
+    getLock() {
+      let that = this;
+      let url = "/lenovo-smartlock/permit/record";
+      let query = {
+        offset: "0",
+        startTime: moment()
+          .subtract(1, "day")
+          .format("YYYY-MM-DD HH:mm:ss"),
+        endTime: moment().format("YYYY-MM-DD HH:mm:ss")
+      };
+      postAxiosData(url, query).then(res => {
+        let data = res.data;
+        let total = data.close + data.open;
+        let close = Math.round((data.close / total) * 100);
+        let open = Math.round((data.open / total) * 100);
+        that.legendOption.data = [`解锁 : ${open}%`, `闭锁 : ${close}%`];
+        that.seriesOption[0].data = [
+          { value: data.open, name: that.legendOption.data[0] },
+          { value: data.close, name: that.legendOption.data[1] }
+        ];
+        that.isChange = !that.isChange;
+        that.$forceUpdate();
+      });
+    },
     getEchartsBar() {
       let occupied = [];
       let unoccupied = [];
@@ -992,86 +1014,6 @@ export default {
 
       chart.render();
     }
-    // initBar() {
-    //   let myChart = echarts.init(document.getElementById("echartsBar"));
-    //   let option = {
-    //     color: ["#53cbc3", "#4c9fc1"],
-    //     tooltip: {
-    //       trigger: "axis",
-    //       axisPointer: {
-    //         type: "shadow"
-    //       },
-    //       formatter: function(params) {
-    //         let relVal = params[0].name;
-    //         for (let i = 0, l = params.length; i < l; i++) {
-    //           relVal +=
-    //             "<br/>" +
-    //             params[i]["marker"] +
-    //             params[i].seriesName +
-    //             " : " +
-    //             params[i].value +
-    //             "%";
-    //         }
-    //         return relVal;
-    //       }
-    //     },
-    //     calculable: true,
-    //     grid: {
-    //       top: "40px",
-    //       bottom: "20px"
-    //     },
-    //     xAxis: [
-    //       {
-    //         type: "category",
-    //         axisTick: { show: false },
-    //         data: ["处理器", "内存", "磁盘"],
-    //         axisLine: {
-    //           lineStyle: {
-    //             color: "#678a99" // X轴及其文字颜色
-    //           }
-    //         }
-    //       }
-    //     ],
-    //     yAxis: [
-    //       {
-    //         type: "value",
-    //         name: "(%)",
-    //         nameTextStyle: {
-    //           padding: [0, 30, 0, 0]
-    //         },
-    //         data: [0, 20, 40, 60, 80, 100],
-    //         axisLine: {
-    //           lineStyle: {
-    //             color: "#678a99" // X轴及其文字颜色
-    //           }
-    //         },
-    //         splitLine: {
-    //           show: true,
-    //           lineStyle: {
-    //             color: "#134b63",
-    //             type: "dashed"
-    //           }
-    //         }
-    //       }
-    //     ],
-    //     series: [
-    //       {
-    //         name: "已占用",
-    //         type: "bar",
-    //         barGap: 0,
-    //         barWidth: 20,
-    //         data: [20, 52, 69]
-    //       },
-    //       {
-    //         name: "未占用",
-    //         type: "bar",
-    //         barWidth: 20,
-    //         data: [90, 80, 30]
-    //       }
-    //     ]
-    //   };
-    //   myChart.setOption(option);
-    // }
   }
 };
 </script>

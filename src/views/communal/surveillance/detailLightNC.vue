@@ -281,9 +281,21 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            const that = this;
             let newArr = [];
-            if (params.row.isAlarm == "1") {
+            let alarmLevelName;
+            if (
+              params.row.alarmLevelName &&
+              params.row.alarmLevelName.length > 2
+            ) {
+              alarmLevelName = params.row.alarmLevelName.slice(0, 2);
+            } else {
+              alarmLevelName = params.row.alarmLevelName;
+            }
+            if (
+              params.row.alarmLevel == "1" ||
+              params.row.alarmLevel == "2" ||
+              params.row.alarmLevel == "3"
+            ) {
               newArr.push(
                 h(
                   "i-dropdown",
@@ -309,7 +321,7 @@ export default {
                           }
                         },
                         [
-                          h("span", this.cutOut(params.row.alarmLevelName), {
+                          h("span", alarmLevelName, {
                             class: { member_operate_div: true }
                           }),
                           h("i", {
@@ -367,7 +379,7 @@ export default {
                 )
               );
             } else {
-              newArr.push("/");
+              newArr.push(h("div", "/"));
             }
             return h("div", newArr);
           }
@@ -487,43 +499,43 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      if(this.dataForm.monitorDeviceId){
-          const url =
-              "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
-              this.dataForm.monitorDeviceId;
-          getAxiosData(url, {}).then(res => {
-              that.playerOptionsd.streamAddr = res.data;
-              that.$nextTick(() => {
-                  setTimeout(() => {
-                      this.$refs.controBtnRef.viewCamera(5, false).then(res => {
-                          setTimeout(() => {
-                              this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                                  that.disabled = false;
-                              });
-                          }, 5000);
-                      });
-                  }, 500);
+      if (this.dataForm.monitorDeviceId) {
+        const url =
+          "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+          this.dataForm.monitorDeviceId;
+        getAxiosData(url, {}).then(res => {
+          that.playerOptionsd.streamAddr = res.data;
+          that.$nextTick(() => {
+            setTimeout(() => {
+              this.$refs.controBtnRef.viewCamera(5, false).then(res => {
+                setTimeout(() => {
+                  this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+                    that.disabled = false;
+                  });
+                }, 5000);
               });
+            }, 500);
           });
-          const urld =
-              "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
-          getAxiosData(urld, {}).then(res => {
-              that.playerOptionsd.sources[0].src = res.data.data;
-              that.$forceUpdate();
-          });
+        });
+        const urld =
+          "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
+        getAxiosData(urld, {}).then(res => {
+          that.playerOptionsd.sources[0].src = res.data.data;
+          that.$forceUpdate();
+        });
       }
     },
-    cutOut(data) {
-      if (data) {
-        const index = data.indexOf("缺陷");
-        if (index > -1) {
-          data = data.substring(0, index);
-        }
-        return data;
-      } else {
-        return "更多";
-      }
-    },
+    // cutOut(data) {
+    //   if (data) {
+    //     const index = data.indexOf("缺陷");
+    //     if (index > -1) {
+    //       data = data.substring(0, index);
+    //     }
+    //     return data;
+    //   } else {
+    //     return "更多";
+    //   }
+    // },
     onClickDropdown(row, type, No) {
       const index = row._index;
       this.dataList[index].alarmLevelName = type;
@@ -704,16 +716,16 @@ export default {
     onClose() {
       this.visibleSettingOption = false;
     },
-    getInit() {
-      let time = moment()
-        .add(-1, "days")
-        .format("YYYY-MM-DD");
-      this.echartForm.startTime = `${time} 00:00:00`;
-      this.echartForm.endTime = `${time} 23:59:59`;
-      /*this.echartTitle = moment()
-        .add(-1, "days")
-        .format("YYYY/MM/DD");*/
-    },
+    // getInit() {
+    //   let time = moment()
+    //     .add(-1, "days")
+    //     .format("YYYY-MM-DD");
+    //   this.echartForm.startTime = `${time} 00:00:00`;
+    //   this.echartForm.endTime = `${time} 23:59:59`;
+    //   /*this.echartTitle = moment()
+    //     .add(-1, "days")
+    //     .format("YYYY/MM/DD");*/
+    // },
     getControl() {
       if (this.isControl == "1") {
         this.isControl = "2";
@@ -758,7 +770,7 @@ export default {
     this.getEchasrts();
   },
   mounted() {
-    this.getInit();
+    // this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
     // this.getSelectPreset();
