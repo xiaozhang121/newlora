@@ -34,11 +34,13 @@
               />
               <KeyMonitor
                 v-else
+                class="KeyMonitor_screenshot"
                 width="100%"
                 :autoplay="true"
                 :isNav="false"
                 :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
               />
+              <img :src="ImgScreenshot" class="Img_screenshot" v-if="!isImgVideo"/>
               <i
                 v-if="isImgVideo"
                 class="fullScreen iconfont icon-quanping"
@@ -151,6 +153,7 @@ export default {
   components: { personJudge, KeyMonitor, wraningT, buttonCustom },
   data() {
     return {
+      ImgScreenshot: "",
       isPhaseAlarm: "",
       isRobot: "",
       isThree: false,
@@ -336,6 +339,12 @@ export default {
     }
   },
   methods: {
+    getCameraPic(){
+        let videoPath = this.dataList.fileAddress?this.dataList.fileAddress:this.dataList.alarmFileAddress
+        postAxiosData('/lenovo-alarm/api/info/video/pic', {videoPath: videoPath, positionIndex: ''}).then(res=>{
+            this.ImgScreenshot = res.data.pic
+        })
+    },
     handleBtn() {
       if (this.dataList.alarmTypeValue == "设备缺陷类") {
         if (this.dataList.result.indexOf("正常") > -1) {
@@ -414,6 +423,8 @@ export default {
           isRobot: that.isRobot
         };
         this.handleBtn();
+        if(!this.isImgVideo)
+          this.getCameraPic()
         that.$forceUpdate();
       });
     },
@@ -575,8 +586,17 @@ export default {
   .el-dialog.el-dialog--center {
     margin-top: 0vh !important;
   }
+  .KeyMonitor_screenshot{
+    display: none !important;
+  }
+  .Img_screenshot{
+    display: block !important;
+  }
 }
 .mainDialog {
+  .Img_screenshot{
+    display: none !important;
+  }
   .vjs-fluid {
     padding-top: 56%;
   }

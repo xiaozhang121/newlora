@@ -145,7 +145,8 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h("div", params.row.linkName2 + params.row.linkName3?params.row.linkName3:'');
+            let data = (params.row.linkName2?params.row.linkName2:'') + (params.row.linkName3?params.row.linkName3:'')
+            return h("div", data?data:'/');
           }
         },
          {
