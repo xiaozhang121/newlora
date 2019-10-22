@@ -608,7 +608,7 @@ export default {
       this.getDataList();
     },
     onSelectDevice(item, index) {
-      this.deviceTitleType.title = item["describeName"];
+      this.deviceTitleType = item["describeName"];
       this.queryForm.dataSource = item.monitorDeviceType;
       this.getDataList();
     },
