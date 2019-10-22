@@ -2,7 +2,7 @@
   <div class="taskPanel">
     <el-form :model="form" label-width="80px" >
       <el-form-item label="任务名称">
-        <el-input v-model="form.taskName"></el-input>
+        <el-input v-model="form.taskName" @input="checkSpecial"></el-input>
       </el-form-item>
       <el-form-item label="任务类型">
         <el-select v-model="form.taskKind" @change="onChange" :vlaue="value">
@@ -149,7 +149,32 @@
                         }
                     );
                 });
-            }
+            },
+            checkSpecial(value) {
+              let myreg =
+                "[`_+@~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，'、？]‘'";
+              for (let i = 0; i < value.length; i++) {
+                if (myreg.indexOf(value[i]) != -1) {
+                  this.form.taskName = value
+                    .replace(
+                      /[`~!！@#$%^&*()_\-\+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*——（）\-+={}|《》？：“”【】、；‘’，。、]/g,
+                      ""
+                    )
+                    .replace(/\s/g, "");
+                  this.$message({
+                    message: "不能包含特殊字符，请重新输入",
+                    type: "warning"
+                  });
+                }
+              }
+              if(value.length>20){
+                this.$message({
+                    message: "字符长度超出限制",
+                    type: "warning"
+                  });
+                  this.form.taskName=value.slice(0,20)
+              }
+            },
         },
         mounted() {
             //   this.demo();

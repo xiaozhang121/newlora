@@ -335,7 +335,7 @@ export default {
         if (now && now.length) {
           arr = now;
         }
-        if (now.length > 4) {
+        if (now.length > 2) {
           this.legendOption["type"] = "scroll";
           this.legendOption["padding"] = [0, 0, 0, 0];
           this.legendOption["itemGap"] = 20;
