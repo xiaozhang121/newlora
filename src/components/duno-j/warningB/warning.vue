@@ -182,7 +182,7 @@ export default {
         this.searchId = now["resultId"];
         this.searchType = "resultId";
       }
-      this.initData();
+      // this.initData();
     },
     // handleNotes(now) {
     //   this.handleList = [];
