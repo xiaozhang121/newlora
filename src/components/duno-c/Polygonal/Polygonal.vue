@@ -208,6 +208,39 @@ export default {
       let data = JSON.parse(ev.dataTransfer.getData("itemData"));
       $(ev.target).append(`<img src="${data.src}" />`);
       if (data.name == "weatherCheck") {
+        let timeData = this.xAxisOption.data;
+        let timeLength = timeData.length;
+        let times = "";
+        if (timeLength > 0) {
+          for (let i = 0; i < timeLength; i++) {
+            times += "," + timeData[i];
+          }
+          times = times.slice(1);
+        } else {
+          let timeHour = moment().format("YYYY-MM-DD");
+          times = `${timeHour} 00:00:00,${timeHour} 02:00:00,${timeHour} 04:00:00,${timeHour} 06:00:00,${timeHour} 08:00:00,${timeHour} 10:00:00,${timeHour} 12:00:00,${timeHour} 14:00:00,${timeHour} 16:00:00,${timeHour} 18:00:00,${timeHour} 20:00:00,${timeHour} 22:00:00,${timeHour} 24:00:00`;
+          this.xAxisOption.data = times.split(",");
+        }
+        let url = `/lenovo-robot/rest/envTempLine/substation/1/robot/1`;
+        let query = {
+          times: times
+        };
+        getAxiosData(url, query).then(res => {
+          let that = this;
+          let data = res.data;
+          let obj = {
+            name: "微型气象站",
+            type: "line",
+            data: []
+          };
+          data.forEach(el => {
+            obj.data.push(el.envTemp);
+          });
+          that.legendData.push(...["微型气象站"]);
+          that.seriesData.push(obj);
+          that.$forceUpdate();
+          that.isChangeFlag = !that.isChangeFlag;
+        });
         /*   that.legendData.push(...['微型气象站'])
             that.seriesData.push(...[{
                 data: [50, 70, 10, 0, 20, 80, 30, 10, 20, 1],
@@ -216,7 +249,6 @@ export default {
             }])
             that.$forceUpdate()
             that.isChangeFlag = !that.isChangeFlag*/
-            
       } else if (data.name == "demoData") {
         that.legendData.push(...["可见光设备"]);
         that.seriesData.push(
@@ -340,7 +372,7 @@ export default {
         if (now && now.length) {
           arr = now;
         }
-        if (now.length > 4) {
+        if (now.length > 2) {
           this.legendOption["type"] = "scroll";
           this.legendOption["padding"] = [0, 0, 0, 0];
           this.legendOption["itemGap"] = 20;
