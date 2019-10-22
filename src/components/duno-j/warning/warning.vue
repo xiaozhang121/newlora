@@ -118,6 +118,7 @@
           <div style="clear: both"></div>
         </el-dialog>
         <personJudge
+          :modal="modal"
           :dataList="formData"
           :isTemperture="discriminate"
           @on-close="onClose"
@@ -128,6 +129,7 @@
     </section>
     <wraning-t
       class="warningDialog"
+      :modal="modal"
       :isThree="isThree"
       :popData="popData"
       :detailsType="detailsType"

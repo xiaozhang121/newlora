@@ -9,6 +9,7 @@
       class="elDialogClass"
       :visible="newVisible"
       width="900px"
+      :modal="modal"
       center
       @close="handleClose"
     >
@@ -84,6 +85,7 @@
     </el-dialog>
     <personJudge
       :dataList="formData"
+      :modal="modal"
       :isTemperture="discriminate"
       @on-close="onClose"
       @on-alter="initData"
@@ -123,6 +125,12 @@ export default {
     };
   },
   props: {
+    modal: {
+        type: Boolean,
+        default: () => {
+            return true;
+        }
+    },
     isThree: {
       type: Boolean,
       default: () => {
