@@ -78,7 +78,7 @@
       </div>
       <div style="clear: both"></div>
     </el-dialog>
-    <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="{taskDeviceId: $route.query.taskDeviceId}" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
+    <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="warnData" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
   </div>
 </template>
 <script>

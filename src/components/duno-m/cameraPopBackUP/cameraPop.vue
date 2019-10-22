@@ -1,6 +1,6 @@
 <template>
     <div class="cameraPop" >
-        <historical-documents :showHeader="true"  :title="title" :itemId="itemId" width="744px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vLight">
+        <historical-documents :tabPaneData="tabPaneData" :showHeader="true"  :title="title" :itemId="itemId" width="744px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vLight">
             <camera-panel-back-u-p  :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel-back-u-p>
             <polygonal-backup :yName="yName"  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
@@ -37,6 +37,28 @@
         },
         data() {
             return {
+                tabPaneData:[
+                    {
+                        label: "实时监控",
+                        name: "first"
+                    },
+                    {
+                        label: "巡航",
+                        name: "second"
+                    },
+                    {
+                        label: "预置位",
+                        name: "third"
+                    },
+                    {
+                        label: "历史告警",
+                        name: "fourth"
+                    },
+                    {
+                        label: "历史数据",
+                        name: "fifth"
+                    }
+                ],
                 yName: '',
                 timer: null,
                 loadingOption: false,
@@ -67,9 +89,13 @@
         watch: {
             itemData: {
                 handler(now) {
+                    if(now['realMonitorDeviceType']==3){
+                        this.tabPaneData.splice(this.tabPaneData.length-1,1)
+                    }
                     this.disposeData(now)
                 },
-                deep: true
+                deep: true,
+                immediate: true
             },
             cameraFlag (now) {
                 if (now == 'fifth' && this.itemData && this.isGetData) this.getHistoryData()

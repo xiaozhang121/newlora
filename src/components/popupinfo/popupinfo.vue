@@ -113,6 +113,15 @@ export default {
     }
   },
   watch: {
+    itemData: {
+        handler(now) {
+            if(now['realMonitorDeviceType']==3){
+                this.tabPaneData.splice(this.tabPaneData.length-1,1)
+            }
+        },
+        deep: true,
+        immediate: true
+    },
     activeName(now){
       if(now != 'fifth')
           this.flag = null

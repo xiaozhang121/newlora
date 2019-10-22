@@ -90,6 +90,9 @@
             itemData: {
                 handler(now) {
                     this.title = now.deviceMessage.name
+                    if(now['realMonitorDeviceType']==3){
+                        this.tabPaneData.splice(this.tabPaneData.length-1,1)
+                    }
                     this.disposeData(now)
                 },
                 deep: true,
