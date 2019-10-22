@@ -96,7 +96,7 @@
         methods:{
             submit(){
                 postAxiosData('/lenovo-robot/rest/manualJudge',{'manualRecognType':this.dataTyped, 'manualValueShow':this.analysisResultd, 'taskDeviceId':this.taskCurreny['taskDeviceId']}).then(res=>{
-                    if(!res.data.resInfo)
+                    if(!(Number(res.data.resInfo)))
                         this.$message.info('修改成功')
                     else
                         this.$message.info(res.data.resInfo)
