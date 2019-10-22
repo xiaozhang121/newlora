@@ -4,6 +4,7 @@
       v-dialogDrag
       title="人工判断"
       :close-on-click-modal="false"
+      :modal="modal"
       :visible.sync="dialogVisible"
       width="500px"
       :before-close="handleClose"
@@ -76,6 +77,12 @@ export default {
     };
   },
   props: {
+    modal: {
+        type: Boolean,
+        default: () => {
+            return true;
+        }
+    },
     isTemperture: {
       type: Boolean,
       default: () => {

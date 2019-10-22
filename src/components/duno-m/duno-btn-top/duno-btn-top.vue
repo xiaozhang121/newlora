@@ -422,22 +422,27 @@
                 }
 
                 this.$forceUpdate();
+            },
+            bindEvent(event){
+                const that = this
+                if(that.showListFlag){
+                    if(!(event.target.className.indexOf('checkbox')>-1) && that.isCheck){
+                        that.showListFlag = !that.showListFlag
+                        that.$refs.selfInput.blur()
+                    }
+                }
             }
         },
         created(){
 
         },
+        beforeDestroy(){
+            window.removeEventListener('click', that.bindEvent)
+        },
         mounted(){
             const that = this
             $(this.$refs.showListRef).hide('normal')
-            window.addEventListener('click', function (event) {
-                if(that.showListFlag){
-                  if(!(event.target.className.indexOf('checkbox')>-1) && that.isCheck){
-                      that.showListFlag = !that.showListFlag
-                      that.$refs.selfInput.blur()
-                  }
-                }
-            })
+            window.addEventListener('click', that.bindEvent)
             this.handleCheckAllChange(true)
             this.checkAll = true
         }
