@@ -266,9 +266,6 @@ export default {
   top: -5px;
 }
 .visiblelight {
-  .el-loading-mask {
-    width: 100% !important;
-  }
   .el-loading-text {
     color: #969696 !important;
   }
@@ -412,6 +409,9 @@ export default {
         }
       }
     }
+  }
+  .el-loading-mask {
+    width: 100% !important;
   }
 }
 .visiblelight .reportRecode > div {
