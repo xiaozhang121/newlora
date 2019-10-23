@@ -486,9 +486,7 @@ export default {
   methods: {
     clickExcel() {
       const that = this;
-      that.queryForm = {
-        ...that.dataForm
-      };
+      that.queryForm = that.dataForm;
       that.exportHandle();
     },
     onFresh() {
