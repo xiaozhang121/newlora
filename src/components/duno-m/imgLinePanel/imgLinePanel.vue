@@ -134,6 +134,7 @@ export default {
             that.imgOriginWidth = this.width
             that.imgOriginHeight = this.height
             that.context.drawImage(that.img,0,0, that.width, that.height);
+            that.initWinResize()
             // that.img.src = this.canvas.toDataURL('image/png')
         }
         that.img.src = this.imgsrc;
