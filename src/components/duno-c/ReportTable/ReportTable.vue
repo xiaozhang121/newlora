@@ -126,7 +126,9 @@ export default {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,
             taskRunHisId: this.reportData.ID,
-            planType: this.reportData.taskType
+            planType: this.reportData.taskType,
+            path:'/robot-one/reportList?substationId=1&robotId=1',
+            name:'最新巡视报告'
           }
         });
         return;

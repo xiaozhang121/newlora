@@ -119,7 +119,7 @@
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/robot-one/list", name: "机器人巡视" },
                     { path: "/robot-one/list", name: "室外巡检机器人" },
-                    { path: "", name: "查看更多" }
+                    { path: "", name: "最新巡视报告" }
                 ],
                 baseUrl:
                     process.env.NODE_ENV === "development"
