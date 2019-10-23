@@ -301,6 +301,9 @@ export default {
           } else {
             this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
           }
+          if(now.indexOf("m3u8") > -1){
+            delete this.playerOptions['techOrder'];
+          }
           this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
           this.showView = true;
