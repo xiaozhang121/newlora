@@ -96,11 +96,12 @@
         <div class="reportList">
           <div class="contentNR">
             <div class="tableList">
-              <div class="reportTable" v-for="(item) in ['','','']">
+              <div class="reportTable"  v-for="(item,index) in videoList" :key="index">
                 <!--<cover />-->
-                <img src="" :onerror="defaultImg"/>
-                <!--<i class="iconfont icon-bofang" @click="handleShow"></i>-->
-                <span>08:04 08:00:00 至 08-04 08:15:00</span>
+                <img  :src="item['pic']?item['pic']:''" :onerror="defaultImg"/>
+                <!--v-if="item['pic']"-->
+                <i  v-if="item['pic']" class="iconfont icon-bofang" @click="handleShow(item)"></i>
+                <span>{{ item['startTime'] }}-{{ item['endTime'] }}</span>
               </div>
              <!-- <ReportTable
                       v-for="(item) in ['','','','','','','']"
@@ -250,7 +251,7 @@ export default {
         getDataListURL: "/lenovo-alarm/api/security/list",
         exportURL: "/lenovo-alarm/api/security/history/export"
       },
-      videoList: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      videoList: [],
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       isControl: "1",
@@ -531,6 +532,10 @@ export default {
     }
   },
   methods: {
+    handleShow(item){
+      this.srcData = item
+      this.isEnlarge = true
+    },
     isShow(){
         if(document.querySelectorAll('.reportTable').length*ITEMWIDTH < $('.reportList')[0].offsetWidth-ITEMWIDTH){
             this.isVisible = false
@@ -587,12 +592,14 @@ export default {
       }).then(res => {
         let data = res.data.tableData;
         this.videoList = data;
+        this.$forceUpdate()
         data.forEach((item, index) => {
           postAxiosData("/lenovo-device/device/video/record/video/pic", {
             videoPath: item["streamAddr"],
             positionIndex: index
           }).then(res => {
             this.videoList[res.data["positionIndex"]]["pic"] = res.data.pic;
+            this.isShow()
             this.$forceUpdate();
           });
         });
@@ -1129,6 +1136,7 @@ export default {
           }
           & img{
             width: 100%;
+            height: 236px;
             display: block;
           }
           & span{

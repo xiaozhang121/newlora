@@ -53,15 +53,15 @@
       </div>
     </div>
     <div v-else style="display: flex">
-      <div class="progress" v-for="(item, index) in templateList" :key="index">
-        <el-progress
-                type="circle"
-                :percentage="item['realValue']"
-                :width="80"
-                :format="format"
-        />
-        <p>温度℃</p>
-      </div>
+      <!--<div class="progress" v-for="(item, index) in templateList" :key="index">-->
+        <!--<el-progress-->
+                <!--type="circle"-->
+                <!--:percentage="item['realValue']"-->
+                <!--:width="80"-->
+                <!--:format="format"-->
+        <!--/>-->
+        <!--<p>温度℃</p>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -232,10 +232,10 @@
                 return
             }
             if(this.monitorDeviceType==1 || this.monitorDeviceType == 5){
-                getAxiosData('/lenovo-plan/api/yinshi/device/real-data',{'monitorDeviceId': that.deviceId}).then(res=>{
+               /* getAxiosData('/lenovo-plan/api/yinshi/device/real-data',{'monitorDeviceId': that.deviceId}).then(res=>{
                     this.templateList = res.data
                     this.$forceUpdate()
-                })
+                })*/
             }
             if (this.monitorDeviceType == 1 || this.monitorDeviceType == 3 || this.monitorDeviceType == 5) {
                 const url =
