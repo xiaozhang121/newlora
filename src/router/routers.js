@@ -426,6 +426,17 @@ export default [{
                     component: () => import('@/views/communal/surveillance/ballControl.vue')
                 },
                 {
+                    path: 'ballControlM',
+                    name: 'surveillanceList',
+                    meta: {
+                        topNav: '3',
+                        title: '布控球详情',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/surveillance/ballControlM.vue')
+                },
+                {
                   path: 'detailUbiquitou',
                   name: 'surveillanceList',
                   meta: {
@@ -1296,7 +1307,7 @@ export default [{
                         name: 'perimeterMonitor',
                         meta: {
                             topNav: '2',
-                            title: '周界入侵监控',
+                            title: '周界入侵配置',
                             hideInMenu: true,
                             isDetails: true,
                             active: 'configurationList'
