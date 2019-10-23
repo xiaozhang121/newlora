@@ -98,6 +98,9 @@ export default {
       }
     }
   }
+  .el-breadcrumb__inner.is-link{
+    font-weight: normal;
+  }
 }
 </style>
 

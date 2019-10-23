@@ -290,7 +290,9 @@ export default {
                         query: {
                           taskId: params.row.taskId,
                           taskRunHisId: params.row.latestTaskRunHisId,
-                          planType: params.row.taskType
+                          planType: params.row.taskType,
+                          path:'/robot-one/detail?substationId=1&robotId=1',
+                          name:'任务配置列表'
                         }
                       });
                     }

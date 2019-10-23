@@ -116,6 +116,10 @@ export default {
           name: "室外巡检机器人"
         },
         {
+          path: that.$route.query.path,
+          name: that.$route.query.name
+        },
+        {
           path: "",
           name: "查看报告"
         }
