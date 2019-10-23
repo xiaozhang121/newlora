@@ -592,12 +592,14 @@ export default {
       }).then(res => {
         let data = res.data.tableData;
         this.videoList = data;
+        this.$forceUpdate()
         data.forEach((item, index) => {
           postAxiosData("/lenovo-device/device/video/record/video/pic", {
             videoPath: item["streamAddr"],
             positionIndex: index
           }).then(res => {
             this.videoList[res.data["positionIndex"]]["pic"] = res.data.pic;
+            this.isShow()
             this.$forceUpdate();
           });
         });
