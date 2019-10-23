@@ -647,6 +647,7 @@
           .btnList {
             top: inherit !important;
             width: 150px;
+            z-index: 0!important;
             .title {
               padding: 8px 20px;
             }

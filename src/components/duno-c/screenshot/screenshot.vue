@@ -44,7 +44,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="deletSubmit">取消并删除图像</el-button>
-        <el-button type="primary" @click="getImgInfo">保 存</el-button>
+        <el-button type="primary" @click="getPowerDeviceId">保 存</el-button>
       </span>
       <img :src="imgsrc" ref="image" alt :style="{display:'none'}" />
     </el-dialog>
@@ -175,6 +175,7 @@ export default {
       };
       getRecognizeType(query).then(res => {
         this.options = res.data;
+        this.selectValue = "";
       });
     },
     getCircle(e) {
@@ -305,21 +306,22 @@ export default {
     },
     clearCan() {
       this.imgsrc = "";
+      this.options = [];
       this.$refs.box.style.width = null;
       this.$refs.box.style.height = null;
-      this.isCalibrat = true;
+      this.isCalibrat = false;
       this.selectValue = "";
       this.textarea = "";
-      this.props.lazyLoad = null;
     },
     getImgInfo() {
       let that = this;
       if (that.isVideo) {
-        let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+        let url = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
         getAxiosData(url).then(res => {
           let baseLen = res.data.length;
           this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
           that.handleSubmit();
+          this.$emit("closeShot");
         });
       } else {
         let url = "/lenovo-device/device/video/record/file/alarm";
@@ -333,10 +335,12 @@ export default {
           remake: this.textarea
         };
         postAxiosData(url, query).then(res => {
+          this.$emit("closeShot");
           this.$message({
             message: "保存成功",
             type: "success"
           });
+          this.clearCan();
         });
       }
     },
@@ -356,29 +360,15 @@ export default {
     },
     deletSubmit() {
       this.$emit("closeShot");
-      if (this.isVideo) {
-        let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
-        deleteDataId(url).then(res => {
-          this.$message({
-            type: "success",
-            message: "删除成功"
-          });
+      let url = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+      deleteDataId(url).then(res => {
+        this.$emit("closeShot");
+        this.$message({
+          type: "success",
+          message: "删除成功"
         });
-        this.clearCan();
-      } else {
-        let url = "/lenovo-device/device/video/record/file/delete";
-        let query = {
-          taskId: this.taskId
-        };
-        deleteDataId(url, query).then(res => {
-          if (res.data.isSuccess) {
-            this.$message({
-              type: "success",
-              message: "删除成功"
-            });
-          }
-        });
-      }
+      });
+      this.clearCan();
     }
   },
   mounted() {

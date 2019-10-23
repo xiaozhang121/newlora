@@ -540,8 +540,12 @@ export default {
       if (this.$route.query.deviceName) {
         this.title = this.$route.query.deviceName;
       }
+      if (this.$route.query.planId) {
+        this.queryForm.planId = this.$route.query.planId;
+      }
       if (this.dataSource != "") {
         this.queryForm.dataSource = this.dataSource;
+        this.dataForm.dataSource = this.dataSource;
       }
       this.getDataList();
       this.getPowerDeviceName();
@@ -610,11 +614,13 @@ export default {
     onSelectDevice(item, index) {
       this.deviceTitleType = item["describeName"];
       this.queryForm.dataSource = item.monitorDeviceType;
+      this.dataForm.dataSource = item.monitorDeviceType;
       this.getDataList();
     },
     onSelectType(item, index) {
       this[item.title] = item["describeName"];
       this.dataForm.planType = item.monitorType;
+      this.queryForm.planType = item.monitorType;
       this.getDataList();
     },
     onChangeTime(data) {
@@ -626,6 +632,8 @@ export default {
       }
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
+      this.queryForm.startTime = startTime;
+      this.queryForm.endTime = endTime;
       this.getDataList();
     },
     handleClose() {
@@ -648,11 +656,12 @@ export default {
     },
     clickExcel() {
       const that = this;
-      that.queryForm = {
-        planId: that.$route.query.planId,
-        monitorDeviceType: that.monitorDeviceType,
-        ...that.dataForm
-      };
+      // that.queryForm = {
+      //   planId: that.$route.query.planId,
+      //   monitorDeviceType: that.monitorDeviceType,
+      //   dataSource:that.dataForm.dataSource
+      //   ...that.dataForm
+      // };
       that.exportHandle();
     },
     getRegion() {
