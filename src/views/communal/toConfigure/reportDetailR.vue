@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="dunoDrap">
-      <div>全面巡视任务详情</div>
+      <div>{{$route.query.planType}}任务详情</div>
       <div class="selectBtn">
         <div style="visibility: hidden">
           <duno-btn-top
@@ -182,7 +182,7 @@
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/configuration/list", name: "任务配置" },
-                    { path: "", name: "查看报表" }
+                    { path: "", name: "查看详情" }
                 ],
                 loadingOption: false,
                 timer: null,

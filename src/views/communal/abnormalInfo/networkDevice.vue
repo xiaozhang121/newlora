@@ -39,9 +39,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
-        @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
   </div>
@@ -72,13 +70,14 @@ export default {
   data() {
     const that = this;
     return {
-      mixinViewModuleOptions: {
-        getDataListURL: "/lenovo-device/api/monitor/device-list"
+      dataForm: {
+        type: "",
+        status: ""
       },
-      dataForm: {},
-      radio: "1",
-      value: "",
       totalNum: 10,
+      pageIndex: 1,
+      pageRows: 10,
+      dataList: [],
       titleTypeL: "所有网络设备",
       titleTypeR: "所有状态",
       dataBread: [
@@ -86,31 +85,64 @@ export default {
         { path: "/abnormalInfoPath/platformMonitor", name: "平台监控" },
         { path: "", name: "网络设备" }
       ],
-      stateSelect: [],
-      DeviceData: [],
+      stateSelect: [
+        {
+          describeName: "上线",
+          value: "ApOnline"
+        },
+        {
+          describeName: "连接中",
+          value: "ApConnecting"
+        },
+        {
+          describeName: "离线",
+          value: "ApOffline"
+        },
+        {
+          describeName: "未上线",
+          value: "ApDown"
+        }
+      ],
+      DeviceData: [
+        {
+          describeName: "无线ap",
+          value: "0"
+        },
+        {
+          describeName: "交换机",
+          value: "1"
+        }
+      ],
       infoColumns: [
         {
           key: "monitorDeviceId",
           title: "网络设备名称",
-          align: "center"
+          minWidth: 300,
+          align: "center",
+          render: (h, params) => {
+            return h("div", "802.11ac Wave2天线一一体化室外无无线AP");
+          }
         },
         {
-          key: "monitorDeviceType",
+          key: "model",
           title: "型号",
           align: "center"
         },
         {
           key: "areaName",
           title: "品牌",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            return h("div", "苏州汉明");
+          }
         },
         {
-          key: "areaName",
+          key: "ip",
           title: "IP地址",
           align: "center"
         },
         {
-          key: "statusName",
+          key: "status",
           title: "当前状态",
           align: "center",
           render: (h, params) => {
@@ -119,16 +151,14 @@ export default {
               h("span", {
                 class: {
                   circleStatus: true,
-                  green: params.row.status === "1",
-                  fault: params.row.status === "2",
-                  close: params.row.status === "0"
+                  green: params.row.status === "上线",
+                  fault: params.row.status === "连接中",
+                  close: params.row.status === "离线"
                 },
                 draggable: false
               })
             ]);
-            newArr.push([
-              h("span", { draggable: true }, params.row.statusName)
-            ]);
+            newArr.push([h("span", { draggable: true }, params.row.status)]);
             return h("div", newArr);
           }
         },
@@ -143,8 +173,8 @@ export default {
                 "div",
                 {
                   class: {
-                    green: params.row.status === "1",
-                    close: params.row.status === "0"
+                    green: params.row.status === "上线",
+                    close: params.row.status === "离线"
                   }
                 },
                 [
@@ -158,10 +188,10 @@ export default {
                     "span",
                     {
                       style: {
-                        paddingRight: "10px"
+                        paddingRight: "20px"
                       }
                     },
-                    "105m/s"
+                    `${params.row.outPortFlow}m/s`
                   ),
                   h("i", {
                     class: "iconfont icon-xiazaisudu",
@@ -169,7 +199,7 @@ export default {
                       paddingRight: "5px"
                     }
                   }),
-                  h("span", "105m/s")
+                  h("span", `${params.row.inPortFlow}m/s`)
                 ]
               )
             ]);
@@ -180,145 +210,36 @@ export default {
     };
   },
   methods: {
+    init() {
+      let url = "/lenovo-mon/api/monitoring/ap/zabbix/getNetDevicePage";
+      let query = {
+        pageIndex: this.pageIndex,
+        pageRows: 10,
+        type: this.dataForm.type,
+        status: this.dataForm.status
+      };
+      getAxiosData(url, query).then(res => {
+        this.dataList = res.data.records;
+        this.totalNum = res.data.total;
+      });
+    },
+    pageCurrentChangeHandle(index) {
+      this.pageIndex = index;
+      this.init();
+    },
     onSelectDevice(item) {
       this.titleTypeL = item["describeName"];
-      this.getDataList();
+      this.dataForm.type = item["value"];
+      this.init();
     },
     onSelectState(item) {
-      this.dataForm.status = item["value"];
-      this.getDataList();
       this.titleTypeR = item["describeName"];
-    },
-    onChangeTime(data) {
-      const startTime = moment(data[0]).format("YYYY-MM-DD");
-      const endTime = moment(data[1]).format("YYYY-MM-DD");
-      this.startTime = JSON.parse(JSON.stringify(startTime));
-      this.endTime = JSON.parse(JSON.stringify(endTime));
-      this.$emit("onChange", data);
-    },
-    changeCycle() {
-      let query = {};
-      query.id = row.params.id;
-      putAxiosData("/lenovo-plan/api/plan/cycle-edit").then(res => {
-        if (res.code !== 200) {
-          return that.$message.error(res.msg);
-        }
-      });
-    },
-    onClickDropdown(row, type, value) {
-      const index = row._index;
-      this.dataList[index].inspectCycle = type;
-      this.psotAlarmData(row, value);
-    },
-    psotAlarmData(row, value) {
-      const that = this;
-      const url = "/lenovo-device/api/monitor/edit";
-      const query = {
-        id: row.id,
-        cycleType: value
-      };
-      putAxiosData(url, query).then(
-        res => {
-          if (res.code !== 200) {
-            this.dataList[index].cycleType = row.inspectCycle;
-            return that.$message.error(res.msg);
-          }
-          that.$message.success(res.msg);
-          this.getDataList();
-        },
-        error => {
-          this.dataList[index].cycleType = row.inspectCycle;
-        }
-      );
-    },
-    getSelectStatus() {
-      getStatus().then(res => {
-        const resData = res.data;
-        let map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            value: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有状态",
-          value: "",
-          title: "titleTypeR"
-        });
-        this.stateSelect = map;
-      });
-    },
-    getSelectDevice() {
-      let url = "";
-      getAxiosData().then(res => {
-        const resData = res.data;
-        let map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            value: item.value,
-            title: "titleTypeL"
-          };
-          return obj;
-        });
-        this.DeviceData = map;
-      });
-    },
-    getJump(row) {
-      getAxiosData("/lenovo-device/api/preset/type", {
-        monitorDeviceId: row.monitorDeviceId
-      }).then(res => {
-        let supportPreset = res.data["supportPreset"];
-        let monitorDeviceType = res.data["monitorDeviceType"];
-        if (monitorDeviceType == 1) {
-          if (supportPreset) {
-            this.$router.push({
-              path: "/surveillancePath/detailLight",
-              query: {
-                monitorDeviceId: row.monitorDeviceId
-              }
-            });
-          } else {
-            this.$router.push({
-              path: "/surveillancePath/detailLightN",
-              query: {
-                monitorDeviceId: row.monitorDeviceId
-              }
-            });
-          }
-        } else if (monitorDeviceType == 2) {
-          if (supportPreset) {
-            this.$router.push({
-              path: "/surveillancePath/detailRed",
-              query: {
-                monitorDeviceId: row.monitorDeviceId,
-                typeId: res.data["typeId"]
-              }
-            });
-          } else {
-            this.$router.push({
-              path: "/surveillancePath/detailRedN",
-              query: {
-                monitorDeviceId: row.monitorDeviceId,
-                typeId: res.data["typeId"]
-              }
-            });
-          }
-        } else if (monitorDeviceType == 3) {
-          this.$router.push({
-            path: "/surveillancePath/detailEnv",
-            query: {
-              monitorDeviceId: row.monitorDeviceId
-            }
-          });
-        }
-      });
+      this.dataForm.status = item["value"];
+      this.init();
     }
   },
   mounted() {
-    this.getSelectDevice();
-    this.getSelectStatus();
+    this.init();
   }
 };
 </script>
@@ -335,7 +256,7 @@ export default {
     height: 13px;
     display: inline-block;
     border-radius: 20px;
-    margin-right: 5px;
+    margin-right: 15px;
     position: relative;
     top: 1px;
     &.green {
