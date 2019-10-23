@@ -118,7 +118,7 @@ export default {
                     that.$emit('on-success')
                     // that.dialogVisible = false
                 }else{
-                    that.$message.fail(res.data.resInfo)
+                    that.$message.error(res.data.resInfo)
                 }
                 that.dialogVisible = false
                 that.$emit('on-close')
