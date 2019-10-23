@@ -167,7 +167,7 @@
         </div>
         <div class="allHealthStatus T" style="height: 20%; margin-bottom: 19px">
             <div class="mainCharts">
-                <charts-line></charts-line>
+                <charts-line :isChange="netWorkChange" :chartData="netWorkData"></charts-line>
             </div>
             <div class="child">
                 <charts-u :hiddenM="true" mainColor="#00b3ff"/>
@@ -237,6 +237,8 @@
         },
         data() {
             return {
+                netWorkChange: false,
+                netWorkData: [],
                 totalAlarmCount: 0,
                 totalMonthAlarmCount: 0,
                 totalReturnAlarmCount: 0,
@@ -280,6 +282,7 @@
         },
         methods:{
             initData(){
+                const that = this
                 getAxiosData('/lenovo-mon/api/monitoring/zabbix/health-status').then(res=>{
                     let data = res.data.data
                     this.allPanel = data.hostData[0]/data.total
@@ -356,6 +359,17 @@
                 getAxiosData('/lenovo-mon/api/monitoring/record/count').then(res=>{
                     this.plateFormRecord = res.data.totalRecordCount
                     this.plateFormRecordMonth = res.data.monthRecordCount
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/host/zabbix/port/flow').then(res=>{
+                    let data = res.data
+                    this.netWorkData = [{inPortFlow: [], outPortFlow: [], date: []}]
+                    for(let i=data.length-1; i>-1; i--){
+                        this.netWorkData[0]['date'].push(data[i]['time'])
+                        this.netWorkData[0]['inPortFlow'].push(data[i]['inPortFlow'].toFixed(2))
+                        this.netWorkData[0]['outPortFlow'].push(data[i]['outPortFlow'].toFixed(2))
+                    }
+                    this.$forceUpdate()
+                    this.netWorkChange = !this.netWorkChange
                 })
                 /*
 
