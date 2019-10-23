@@ -116,12 +116,14 @@ export default {
                     that.$refs.gisMapRef.drawList = []
                     that.$refs.gisMapRef.drawListNum = 0
                     that.$emit('on-success')
+                    that.dialogVisible = false
+                    that.$emit('on-close')
                     // that.dialogVisible = false
                 }else{
                     that.$message.error(res.data.resInfo)
                 }
-                that.dialogVisible = false
-                that.$emit('on-close')
+           /*     that.dialogVisible = false
+                that.$emit('on-close')*/
             })
         },
         getDeviceList(){
