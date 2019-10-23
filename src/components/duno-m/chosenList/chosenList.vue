@@ -10,14 +10,6 @@
           @input="inputChange"
           clearable
         ></el-input>
-        <el-select v-if="isOver" v-model="value" @change="onChange" placeholder="请选择">
-          <el-option
-            v-for="(item,index) in options"
-            :key="index"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
       </div>
       <span class="last" v-if="control" @click="toHide()">
         收起

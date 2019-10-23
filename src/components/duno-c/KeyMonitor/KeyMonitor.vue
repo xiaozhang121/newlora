@@ -92,13 +92,14 @@
       :visible="pushMovVisable"
     />
     <screenshot
+      v-if="isShow"
       :isShow="isShow"
       :isVideo='isVideo'
+      :taskId='taskId'
       :shotData="shotData"
       @closeShot="closeShot"
       :monitorInfo="monitorInfo"
       :monitorDeviceId="monitorInfoR['monitorDeviceId']"
-      ref="screenShot"
     />
   </div>
 </template>
@@ -655,7 +656,6 @@ export default {
       }
       this.monitorId = this.monitorInfoR["monitorDeviceId"];
       this.isShow = true;
-      this.$refs.screenShot.getPowerDeviceId();
       if (!this.isPic) {
         let url = "/lenovo-device/api/stream/snapshoot";
         let query = {

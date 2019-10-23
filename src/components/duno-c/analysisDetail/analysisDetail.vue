@@ -31,6 +31,12 @@
             ></el-option>
           </el-select>
         </div>
+        <div>
+          <div @click="clickExcel" class="clickBtn">
+            <i class="iconfont icon-daochu1"></i>
+            导出表格
+          </div>
+        </div>
       </div>
     </div>
     <duno-main class="dunoMain">
@@ -116,7 +122,7 @@ export default {
     return {
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
-        exportURL: ""
+        exportURL: "/lenovo-plan/api/statistics/plan/download"
       },
       dataForm: {},
       title: "所有信息",
@@ -478,6 +484,13 @@ export default {
     this.getType();
   },
   methods: {
+    clickExcel() {
+      const that = this;
+      that.queryForm = {
+        ...that.dataForm
+      };
+      that.exportHandle();
+    },
     onFresh() {
       this.getDataList();
     },
@@ -888,6 +901,21 @@ export default {
         //     }
         //   }
         // }
+      }
+      .clickBtn {
+        line-height: 40px;
+        width: 139px;
+        background-image: url(../../../assets/images/btn/moreBtn.png);
+        text-align: center;
+        font-size: 18px;
+        cursor: pointer;
+        color: #ffffff;
+        @media screen and (min-width: 3500px) {
+          background-size: 100% 100%;
+          font-size: 14px;
+          line-height: 34px;
+          width: 120px;
+        }
       }
     }
   }
