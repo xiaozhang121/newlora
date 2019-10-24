@@ -232,7 +232,7 @@ export default {
       ],
       isChangeCpu: true,
       titleCpu: {
-        text: "CUP使用率",
+        text: "CPU使用率",
         left: "center",
         textStyle: {
           color: "#fff"

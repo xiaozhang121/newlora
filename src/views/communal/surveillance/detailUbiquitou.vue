@@ -61,7 +61,7 @@ export default {
       dataTime: "",
       timeData: "",
       monitorDeviceId: "",
-      videoList: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      videoList: [],
       dataBread: [{ name: "摄像头详情" }],
       pageParam: { pageIndex: 1, totalRows: 1 },
       playerOptions: { streamAddr: "", autoplay: true }
@@ -99,10 +99,14 @@ export default {
     },
     initCamera() {
       const that = this;
-      const url = "";
-      getAxiosData(url, {}).then(res => {
-        that.playerOptions.streamAddr = res.data;
-      });
+      if (this.dataForm.monitorDeviceId) {
+        const url =
+          "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
+          this.dataForm.monitorDeviceId;
+        getAxiosData(url, {}).then(res => {
+          that.playerOptions.streamAddr = res.data;
+        });
+      }
     },
     onChange(data) {
       let startTime = "";
@@ -118,6 +122,10 @@ export default {
   },
   mounted() {
     this.initCamera();
+    this.getVideo();
+  },
+  created() {
+    this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
   }
 };
 </script>

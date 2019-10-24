@@ -625,9 +625,17 @@ export default {
                   }
               });
           }
-        } else if (monitorDeviceType == 3 || monitorDeviceType == 6) {
+        } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
+              monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
+            }
+          });
+        }else if (monitorDeviceType == 6) {
+          this.$router.push({
+            path: "/surveillancePath/detailUbiquitou",
             query: {
               monitorDeviceId: this.monitorInfoR["monitorDeviceId"],
               monitorDeviceName: this.monitorInfoR["monitorDeviceName"]
