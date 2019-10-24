@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div>
+    <div class="keyEreaContain">
       <KeyErea />
     </div>
     <div class="mainContamin">
@@ -82,7 +82,6 @@
         </div>
       </div>
     </div>
-
     <!-- <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" /> -->
   </div>
 </template>
@@ -380,10 +379,16 @@ export default {
       margin-left: 0 !important;
     }
   }
+  .keyEreaContain{
+    position: relative;
+    z-index: 1;
+  }
   .mainContamin {
     height: 560px;
     overflow: hidden;
     display: flex;
+    position: relative;
+    z-index: 0;
     .keyMonitor .camera .explain .text {
       display: flex;
     }
