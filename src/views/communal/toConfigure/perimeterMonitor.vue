@@ -389,11 +389,12 @@ export default {
     },
 
     handleData(arr){
+      debugger
         let line = ""
         let data = []
         for(let i=0; i<arr.length; i++){
             line = ""
-            for(let j=0; j<arr[i].length; j++){
+            for(let j=0; j<arr[i].length; j+=2){
                 if(line && j+1 != arr[i].length){
                         line+='|'
                 }
@@ -421,9 +422,15 @@ export default {
        }
        let line = this.handleData(data)
        line.forEach((item, index)=>{
+           let pic = ''
+           if(that.cameraList[index]['pic'].indexOf('fileToBase64')>-1)
+              pic = that.cameraList[index]['pic'].replace('fileToBase64', 'imgFile')
+           else
+              pic = that.cameraList[index]['pic']
            let data = {
                'taskId':that.cameraList[index]['taskId'],
-               'monitorDeviceId': that.cameraList[index]['monitorDeviceId'],
+               'monitorDeviceId': pic,
+               'pic': that.cameraList[index]['pic'],
                'areaRect': item
            }
            query['plUnifiedTaskDtos'][index] = data
