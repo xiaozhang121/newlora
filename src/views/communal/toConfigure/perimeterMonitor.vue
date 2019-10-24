@@ -422,9 +422,15 @@ export default {
        }
        let line = this.handleData(data)
        line.forEach((item, index)=>{
+           let pic = ''
+           if(that.cameraList[index]['pic'].indexOf('fileToBase64')>-1)
+              pic = that.cameraList[index]['pic'].replace('fileToBase64', 'imgFile')
+           else
+              pic = that.cameraList[index]['pic']
            let data = {
                'taskId':that.cameraList[index]['taskId'],
-               'monitorDeviceId': that.cameraList[index]['monitorDeviceId'],
+               'monitorDeviceId': pic,
+               'pic': that.cameraList[index]['pic'],
                'areaRect': item
            }
            query['plUnifiedTaskDtos'][index] = data

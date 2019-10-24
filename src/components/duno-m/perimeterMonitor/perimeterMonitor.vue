@@ -434,6 +434,27 @@ export default {
         this.isShowBox = true;
         this.isCamera = false;
       }
+    },
+    monitor:{
+      handler(now){
+        if(now){
+          if('pic' in now && now[pic]){
+            let url = now[pic]
+            url = url.replace('imgFile', 'fileToBase64')
+            axios({
+              method:'get',
+              url:url,
+              responseType:'stream'
+            })
+                .then(function(response) {
+                  that.imgsrc = response.data
+                  // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
+                })
+          }
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   props: {
@@ -780,6 +801,7 @@ export default {
         })
         .then(function(response) {
             that.imgsrc = response.data
+            that.monitor['pic'] = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`
             // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
         })
         // that.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`;

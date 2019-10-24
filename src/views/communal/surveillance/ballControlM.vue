@@ -113,7 +113,7 @@
       </div>
       <div class="middle_table">
         <div class="top not-print">
-          <div class="name">异常记录</div>
+          <div class="name">动态环境异常记录</div>
           <div class="select">
             <div>
               <duno-btn-top
@@ -174,6 +174,67 @@
           @on-page-size-change="pageSizeChangeHandle"
         />
       </div>
+      <div class="middle_table">
+        <div class="top not-print">
+          <div class="name">设备监测记录</div>
+          <div class="select">
+            <div>
+              <duno-btn-top
+                      style="visibility: hidden"
+                      @on-select="onSelect"
+                      :zIndex="1"
+                      class="dunoBtnTo"
+                      :isCheck="false"
+                      :dataList="allDataKind"
+                      :title="titleTypeL"
+                      :showBtnList="false"
+              ></duno-btn-top>
+            </div>
+            <div>
+              <duno-btn-top
+                      style="visibility: hidden"
+                      @on-select="onSelect"
+                      :zIndex="1"
+                      class="dunoBtnTop"
+                      :isCheck="false"
+                      :dataList="allDataLevel"
+                      :title="titleTypeR"
+                      :showBtnList="false"
+              ></duno-btn-top>
+            </div>
+          </div>
+          <div class="btn">
+            <div class="dateChose">
+              <el-date-picker
+                      unlink-panels
+                      v-model="dataTimeD"
+                      type="daterange"
+                      range-separator="-"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期"
+                      @change="onChangeHisD"
+              ></el-date-picker>
+            </div>
+            <div>
+              <div @click="clickExcel" class="clickBtn">
+                <i class="iconfont icon-daochu1"></i>
+                导出表格
+              </div>
+            </div>
+          </div>
+        </div>
+        <duno-tables-tep
+                class="table_abnormalInfo"
+                :columns="columnsR"
+                :data="dataListR"
+                :totalNum="totalNumR"
+                :pageSize="pageRowsR"
+                :current="pageIndexR"
+                :border="true"
+                :showSizer="true"
+                @clickPage="pageChange"
+        />
+      </div>
     </div>
     <wraning :popData="popData" :visible="visible" detailsType="alarm" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
@@ -187,6 +248,7 @@
 </template>
 
 <script>
+import { dealRemarks } from "@/api/configuration/configuration.js";
 import ReportTable from "_c/duno-c/ReportTable";
 import controlCheck from "_c/duno-m/controlCheck";
 import buttonCustom from "_c/duno-m/buttonCustom";
@@ -240,6 +302,11 @@ export default {
   data() {
     const that = this;
     return {
+      dataTimeD: '',
+      dataListR: [],
+      totalNumR: 1,
+      pageRowsR: 10,
+      pageIndexR: 1,
       defaultImg: 'this.src="' + require("@/assets/images/placeholder.png") + '"',
       turnFlag: false,
       nowPostion: 0,
@@ -290,6 +357,303 @@ export default {
       alarmLevel: "",
       visible: false,
       popData: {},
+      columnsR: [
+        {
+          title: "时间",
+          key: "executeTime",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+        },
+        {
+          title: "对象",
+          key: "powerDeviceName",
+          minWidth: 180,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "部件/相别",
+          key: "part",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            return h(
+                "div",
+                params.row.part ? params.row.part : params.row.phase
+            );
+          }
+        },
+        {
+          title: "描述",
+          key: "content",
+          minWidth: 90,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let content;
+            if (params.row.content) {
+              content = params.row.content;
+            } else if (params.row.description) {
+              content = params.row.description;
+            } else if (params.row.desc) {
+              content = params.row.desc;
+            }
+            return h("div", { class: { member_operate_div: true } }, content);
+          }
+        },
+        {
+          title: "识别结果",
+          key: "alarmDetailType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            const content = params.row.monitorDevice['monitorDeviceType']
+            return h("div", { class: { member_operate_div: true } }, content);
+          }
+        },
+        {
+          title: "缺陷等级",
+          key: "alarmLevel",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            if (
+                params.row.alarmLevel == "1" ||
+                params.row.alarmLevel == "2" ||
+                params.row.alarmLevel == "3"
+            ) {
+              newArr.push(
+                  h(
+                      "i-dropdown",
+                      {
+                        props: { trigger: "click", placement: "bottom-start" },
+                        style: { marginLeft: "5px" },
+                        on: {
+                          "on-click": value => {
+                            console.log(value);
+                          }
+                        }
+                      },
+                      [
+                        h("div", { class: { member_operate_div: true } }, [
+                          h(
+                              "div",
+                              {
+                                class: {
+                                  table_select: true,
+                                  serious: params.row.alarmLevel === "2",
+                                  commonly: params.row.alarmLevel === "1",
+                                  danger: params.row.alarmLevel === "3"
+                                }
+                              },
+                              [
+                                h("span", that.cutOut(params.row.alarmLevelName), {
+                                  class: { member_operate_div: true }
+                                }),
+                                h("i", {
+                                  style: { marginLeft: "5px" },
+                                  class: { "iconfont icon-xiala": true }
+                                })
+                              ]
+                          )
+                        ]),
+                        h("i-dropdownMenu", { slot: "list" }, [
+                          h("i-dropdownItem", {}, [
+                            h(
+                                "div",
+                                {
+                                  class: { alarmLevel: true },
+                                  on: {
+                                    click: () => {
+                                      that.onClickDropdown(params.row, "一般", "1");
+                                    }
+                                  }
+                                },
+                                "一般"
+                            )
+                          ]),
+                          h("i-dropdownItem", {}, [
+                            h(
+                                "div",
+                                {
+                                  class: { alarmLevel: true },
+                                  on: {
+                                    click: () => {
+                                      that.onClickDropdown(params.row, "严重", "2");
+                                    }
+                                  }
+                                },
+                                "严重"
+                            )
+                          ]),
+                          h("i-dropdownItem", {}, [
+                            h(
+                                "div",
+                                {
+                                  class: { alarmLevel: true },
+                                  on: {
+                                    click: () => {
+                                      that.onClickDropdown(params.row, "危急", "3");
+                                    }
+                                  }
+                                },
+                                "危急"
+                            )
+                          ])
+                        ])
+                      ]
+                  )
+              );
+            } else {
+              newArr.push(h("div", "/"));
+            }
+            return h("div", newArr);
+          }
+        },
+        {
+          title: "视频/图片",
+          key: "fileType",
+          minWidth: 120,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            let sic =
+                params.row.pic ||
+                params.row.fileAddress ||
+                params.row.alarmFileAddress;
+            if (params.row.fileType == "1") {
+              newArr.push([
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: sic },
+
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
+                })
+              ]);
+            } else if (params.row.fileType == "2") {
+              newArr.push([
+                h("video", {
+                  class: "imgOrMv",
+                  attrs: { src: sic },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      that.isEnlarge = true;
+                      that.srcData = params.row;
+                    }
+                  }
+                })
+              ]);
+            }
+            return h("div", newArr);
+          }
+        },
+        {
+          title: "自动/手动",
+          key: "sourceType",
+          width: 120,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: " ",
+          width: 200,
+          align: "center",
+          render: (h, params) => {
+            let newArr = [];
+            if (params.row.isReturn == "0") {
+              newArr.push(
+                  h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83!important" },
+                        props: { type: "text" },
+                        on: {
+                          click: () => {
+                            that.addReturn(params.row);
+                          }
+                        }
+                      },
+                      "复归"
+                  )
+              );
+            }
+            if (params.row.isReturn == "1") {
+              newArr.push(
+                  h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: {
+                          background: "#979797",
+                          color: "#767676",
+                          pointerEvents: "none"
+                        },
+                        props: { type: "text" }
+                      },
+                      "已复归"
+                  )
+              );
+            }
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          key: "id",
+          width: 90,
+          align: "center",
+          render: (h, params) => {
+            const that = this;
+            let newArr = [];
+            newArr.push([
+              h(
+                  "el-button",
+                  {
+                    class: "table_link",
+                    style: { marginRight: "20px" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.handleNotes = [];
+                        that.handleNotes.push({
+                          dealTime: params.row.dealTime,
+                          dealType: params.row.dealRecord
+                        });
+                        that.alarmType = params.row.alarmType;
+                        that.popData = params.row;
+                        that.alarmLevel = params.row.alarmLevel;
+                        that.visible = true;
+                        that.$forceUpdate();
+                      }
+                    }
+                  },
+                  "详情"
+              )
+            ]);
+            return h(
+                "div",
+                {
+                  class: "flexPos"
+                },
+                newArr
+            );
+          }
+        }
+      ],
       columns: [
         {
           title: "拍摄时间",
@@ -532,6 +896,15 @@ export default {
     }
   },
   methods: {
+    initTableData(){
+      getAxiosData('/lenovo-plan/api/statistics/plan/view',{monitorDeviceId: this.dataForm.monitorDeviceId, pageIndex: this.pageIndexR, pageRows: this.pageRowsR, startTime: this.startTimeR, endTime: this.endTimeR}).then(res=>{
+          this.dataListR = res.data.tableData
+      })
+    },
+    pageChange (val) {
+      this.pageIndexR = val
+      this.initTableData()
+    },
     handleShow(item){
       this.srcData = item
       this.isEnlarge = true
@@ -720,6 +1093,17 @@ export default {
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
       this.getDataList();
+    },
+    onChangeHisD(data) {
+      let startTime = "";
+      let endTime = "";
+      if (data) {
+        startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
+        endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
+      }
+      this.startTimeR = startTime;
+      this.endTimeR = endTime;
+      this.initTableData();
     },
     getSelectType() {
       getVType().then(res => {
@@ -1053,6 +1437,7 @@ export default {
     this.getDataList();
     this.initCamera();
     this.getVideo();
+    this.initTableData();
   },
   mounted() {
     this.getInit();
