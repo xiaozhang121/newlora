@@ -825,7 +825,8 @@ export default {
       this.$refs.box.style.height = null;*/
     },
     handleStart() {
-      if(this.$refs.imgLinePanel.drawPoint.length > 4 || this.$refs.imgLinePanel.drawPoint.length < 4){
+      // this.$refs.imgLinePanel.drawPoint.length > 4 || this.$refs.imgLinePanel.drawPoint.length < 4
+      if(false){
           this.$message.error('请绘制一条折线4个端点')
           return
       }else if(this.$refs.imgLinePanel.drawPoint.length == 0){

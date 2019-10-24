@@ -32,7 +32,11 @@ export default {
       },
       picData(now){
           let arr = this.handleAjaxData(now)
-          this.dataToPic(arr)
+          this.pointList = []
+          for(let i=0; i<arr.length; i+=2){
+              this.dataToPic([{x: arr[i].x, y: arr[i].y},{x: arr[i+1].x, y:arr[i+1].y}])
+          }
+          this.$emit('on-finish', that.pointList)
       }
   },
   props: {
@@ -79,16 +83,12 @@ export default {
         let bD = []
         let arr = data.split('|')
         for(let i=0; i<arr.length; i++){
-            if(i == 0 || i== 2){
-                let nD = arr[i].split(':')
-                for(let j=0; j<nD.length; j+=2){
-                    bD.push({
-                        x: nD[j],
-                        y: nD[j+1]
-                    })
-                }
+            let dataJ = arr[i].split(':')
+            for(let j=0; j<dataJ.length; j+=2){
+              bD.push({x: dataJ[j], y: dataJ[j+1]})
             }
         }
+        return bD
     },
     dataToPic(data){
         const that = this
@@ -116,14 +116,12 @@ export default {
             item['x'] = d.x
             item['y'] = d.y
         })
-        data.forEach((item, index)=>{
-            if(index > 0){
-                this.mousedown.x = data[index-1]['x']
-                this.mousedown.y = data[index-1]['y']
-            }
-            this.drawRubberbandShape(item, true)
-        })
-        this.$emit('on-finish', that.pointList)
+        for(let i=0; i<data.length; i+=2){
+          this.mousedown.x = data[i]['x']
+          this.mousedown.y = data[i]['y']
+          let item = {x: data[i+1].x, y: data[i+1].y}
+          this.drawRubberbandShape(item, true)
+        }
     },
     initImg(width, height){
         const that = this
@@ -152,6 +150,7 @@ export default {
           if(!that.drawPress){
               return
           }
+          that.pointStart = {}
           let loc = that.windowToCanvas(e.clientX, e.clientY);
           e.preventDefault();
           that.saveDrawingSurface();
@@ -160,7 +159,7 @@ export default {
           that.dragging = true;
           let saveData = {x: that.mousedown.x, y: that.mousedown.y}
           let point =  that.handleData(0, saveData.x, saveData.y)
-          that.pointList.push(point)
+          that.pointStart = point
       }
       this.canvas.onmousemove = function (e) {
           if(!that.drawPress){
@@ -173,27 +172,36 @@ export default {
               that.updateRubberband(that.loc);
           }
       }
-      this.canvas.ondblclick = function (e) {
+      this.canvas.onmouseup = function (e) {
           if(!that.drawPress){
+            return
+          }
+          that.loc = that.windowToCanvas(e.clientX, e.clientY);
+          let saveData = {x: that.loc.x, y: that.loc.y}
+          let point =  that.handleData(0, saveData.x, saveData.y)
+        /*  that.removeDoubleLast(that.drawingSurfacsImageData)
+          that.removeDoubleLast(that.pointList)*/
+          if(JSON.stringify(that.pointStart) != JSON.stringify(point))
+            that.drawPoint = that.drawPoint.concat({x: that.pointStart.x, y: that.pointStart.y}, {x: point.x, y: point.y})
+          console.log(that.drawPoint)
+          that.dragging = false;
+      }
+      this.canvas.ondblclick = function (e) {
+      /*    if(!that.drawPress){
               return
           }
           that.loc = that.windowToCanvas(e.clientX, e.clientY);
-          // that.context.clearRect(0, 0, that.canvas.width, that.canvas.height)
-          // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
           that.removeDoubleLast(that.drawingSurfacsImageData)
           that.removeDoubleLast(that.pointList)
-       /*   if(that.drawPoint.length + that.pointList.length > MAXNODE){
 
-          }else{*/
-              that.drawPoint = that.drawPoint.concat(that.pointList)
-          // }
+          that.drawPoint = that.drawPoint.concat(that.pointList)
           console.log(that.drawPoint)
 
           that.restoreDrawingSurface()
           //鼠标抬起，拖动标记设为否
           that.dragging = false;
           that.pointList = []
-          that.drawingSurfacsImageData = [];
+          that.drawingSurfacsImageData = [];*/
       }
       that.context.strokeStyle = POINTCOLOR;
       that.context.lineWidth = 3;
@@ -230,7 +238,7 @@ export default {
         this.context.lineTo(loc.x, loc.y);
         this.context.stroke();
         if(flag){
-            that.pointList.push(loc)
+            that.pointList.push({x: this.mousedown.x, y:this.mousedown.y},{x: loc.x, y: loc.y})
         }
     },
     removeDoubleLast(arr){

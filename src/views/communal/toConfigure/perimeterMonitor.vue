@@ -389,11 +389,12 @@ export default {
     },
 
     handleData(arr){
+      debugger
         let line = ""
         let data = []
         for(let i=0; i<arr.length; i++){
             line = ""
-            for(let j=0; j<arr[i].length; j++){
+            for(let j=0; j<arr[i].length; j+=2){
                 if(line && j+1 != arr[i].length){
                         line+='|'
                 }
