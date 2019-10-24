@@ -323,8 +323,8 @@ export default {
     box-sizing: border-box;
     width: 100%;
     min-height: 491px;
-    background-color: #142838;
-    opacity: 0.8;
+    background-color: rgba(20, 40, 56, 0.8) !important;
+    opacity: 1 !important;
     padding: 20px 20px;
     overflow: hidden;
     &.center {
