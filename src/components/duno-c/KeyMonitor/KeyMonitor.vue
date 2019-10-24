@@ -42,7 +42,7 @@
               v-if="!isCamera"
             >
               <span class="demonstration">-15s</span>
-              <el-slider :min="-15" :max="0" v-model="value2"></el-slider>
+              <el-slider :min="-15" :max="0" v-model="value2" :step="15" @change='sliderChange'></el-slider>
               <span class="nowNR">当前</span>
             </div>
             <div class="block" v-else>
@@ -296,15 +296,7 @@ export default {
     streamAddr: {
       handler(now) {
         if (now) {
-          if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
-            this.playerOptions["sources"][0]["type"] = "video/mp4";
-          } else {
-            this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
-          }
-          if(now.indexOf("m3u8") > -1){
-            delete this.playerOptions['techOrder'];
-          }
-          this.playerOptions["sources"][0]["src"] = now;
+          this.getHLS(now);
           this.monitorSrc = now;
           this.showView = true;
           clearTimeout(this.timer);
@@ -338,7 +330,7 @@ export default {
         };
       }else{
         this.isShowNone = {
-          visibility: "hidden"
+          // visibility: "hidden"
         };
       }
     }
@@ -373,7 +365,7 @@ export default {
       shotData: [],
       //   isChange: true,
       isShowNone: {
-        visibility: "hidden"
+        // visibility: "hidden"
       },
       isSecond: false,
       playerOptions: {
@@ -421,6 +413,35 @@ export default {
     }
   },
   methods: {
+    getHLS(now){
+        if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
+          this.playerOptions["sources"][0]["type"] = "video/mp4";
+        } else {
+          this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
+        }
+        if(now.indexOf("m3u8") > -1){
+          delete this.playerOptions['techOrder'];
+        }
+        this.playerOptions["sources"][0]["src"] = now; 
+    },
+    sliderChange(item){
+      let url = '/lenovo-device/api/stream/videoMove';
+      if(item==0){
+        let nowRtmp = this.monitorSrc;
+        this.getHLS(nowRtmp)
+        this.$forceUpdate()
+      }else{
+        let query = {
+          rtmpUrl:this.playerOptions["sources"][0]["src"],
+          second:'15',
+          orientation:'1'
+        }
+        postAxiosData(url,query).then(res=>{
+          let now = res.data.hlsUrl;
+          this.getHLS(now)
+        })
+      }
+    },
     picTurn() {
         const that = this;
         this.picTurnTimer = setInterval(() => {

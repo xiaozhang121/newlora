@@ -8,6 +8,7 @@
       <div class="btn">
         <div>
           <duno-btn-top
+            :style="{visibility:hidden}"
             ref="btnTopRef"
             @on-select="onSelectDevice"
             class="dunoBtnTop"
