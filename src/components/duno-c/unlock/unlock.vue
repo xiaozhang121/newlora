@@ -67,7 +67,8 @@ export default {
       let that = this;
       let query = {
         ...this.dataList,
-        act: item
+        act: item,
+        userName: this.$store.state.user.userName
       };
       // let url = "/lenovo-smartlock/permit/grant";
       let url = "/lenovo-smartlock/permit/decide";

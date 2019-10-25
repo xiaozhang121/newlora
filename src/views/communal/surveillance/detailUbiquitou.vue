@@ -19,7 +19,15 @@
       <div class="top">
         <div>动态环境监测记录</div>
         <div>
-          <el-date-picker v-model="dataTime" @change="onChange" type="date" placeholder="选择日期"></el-date-picker>
+          <duno-btn-top
+            @on-select="onSelect"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="regionList"
+            :title="titleType"
+            :showBtnList="false"
+          ></duno-btn-top>
+          <!-- <el-date-picker v-model="dataTime" @change="onChange" type="date" placeholder="选择日期"></el-date-picker> -->
         </div>
       </div>
       <div class="dy-concent">
@@ -41,6 +49,7 @@
 </template>
 
 <script>
+import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import enlarge from "_c/duno-c/enlarge";
@@ -50,6 +59,7 @@ import moment from "moment";
 export default {
   name: "detailUbiquitou",
   components: {
+    dunoBtnTop,
     Breadcrumb,
     KeyMonitor,
     enlarge,
@@ -58,16 +68,38 @@ export default {
   data() {
     return {
       dataForm: {},
-      dataTime: "",
+      titleType: "选择日期",
       timeData: "",
       monitorDeviceId: "",
       videoList: [],
+      regionList: [],
       dataBread: [{ name: "摄像头详情" }],
       pageParam: { pageIndex: 1, totalRows: 1 },
       playerOptions: { streamAddr: "", autoplay: true }
     };
   },
   methods: {
+    onSelect(item) {
+      this[item.title] = item["describeName"];
+    },
+    getRegion() {
+      const that = this;
+      getAxiosData("/lenovo-device/device/video/record/date/select-list", {
+        monitorDeviceId: that.$route.query.monitorDeviceId
+      }).then(res => {
+        const resData = res.data;
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            monitorDeviceId: item.value,
+            title: "titleType"
+          };
+          return obj;
+        });
+        this.regionList = map;
+      });
+    },
     sizeChange(item) {
       this.getVideo(item);
     },
@@ -123,6 +155,7 @@ export default {
   mounted() {
     this.initCamera();
     this.getVideo();
+    this.getRegion();
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
@@ -149,6 +182,19 @@ export default {
       margin: 10px 0;
       display: flex;
       justify-content: space-between;
+      .dunoBtnTo {
+        width: 180px;
+        display: inline-flex;
+        padding-bottom: 0;
+        .btnList {
+          top: inherit !important;
+          width: 180px;
+          z-index: 110;
+          .title {
+            padding: 8px 20px;
+          }
+        }
+      }
     }
     .dy-concent {
       background: #132838;

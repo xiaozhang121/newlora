@@ -310,7 +310,7 @@
                 })
                 getAxiosData('/lenovo-mon/api/monitoring/memory/zabbix/countMemory').then(res=>{
                     let data = res.data.rate
-                    this.rateData = Number(data*100).toFixed(0)
+                    this.rateData = Number(data).toFixed(0)
                 })
                 /*   getAxiosData('/lenovo-mon/api/monitoring/visible/count').then(res=>{
                        this.visibleCount = res.data.total
