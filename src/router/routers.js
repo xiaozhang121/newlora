@@ -1137,19 +1137,6 @@ export default [{
                     },
                     component: () => import('@/views/communal/robotF/detailIN.vue')
                 },
-                {
-                    path: 'domeRtmp',
-                    name: 'domeRtmp',
-                    active: "robot-oneList",
-                    meta: {
-                        topNav: '2',
-                        title: '列表',
-                        hideInMenu: true,
-                        isDetails: true,
-                        active: "robot-twoList"
-                    },
-                    component: () => import('@/views/communal/robotF/domeRtmp.vue')
-                },
             ]
             }
         ]
