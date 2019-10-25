@@ -48,7 +48,7 @@
               </div>-->
             </div>
           </div>
-          <!--<control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>-->
+          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
         </div>
         <div class="right nr contain">
           <div class="areaTitle" v-if="!checkType">
@@ -71,9 +71,9 @@
             class="calibration"
             id="calibration"
           >
-            <p v-if="isCamera">未设定区域</p>
-            <p v-if="isCamera">请先调整左边视频再点击下方按钮拍照取图</p>
-            <img-line-panel @on-finish="onFinish" :picData="picData" :imgsrc="imgsrc"  v-show="!isCamera" ref="imgLinePanel" :zIndex="zIndex" pId="calibration"/>
+            <p v-if="isCamera || showInfo">未设定区域</p>
+            <p v-if="isCamera  || showInfo">请先调整左边视频再点击下方按钮拍照取图</p>
+            <img-line-panel :isLock="isLock"  @on-finish="onFinish" :picData="picData" :imgsrc="imgsrc"  v-show="!isCamera || initImgD" ref="imgLinePanel" :zIndex="zIndex" pId="calibration"/>
            <!-- <img v-if="!isCamera" :src="imgsrc" ref="image" alt :style="{display:'none'}" />
             <div v-if="isShowBox" ref="box" id="boxImg"></div>-->
           </div>
@@ -145,12 +145,13 @@ export default {
   },
   computed:{
       picData(){
-          return this.monitor['areaRect']
+           return this.monitor['areaRect']
       }
   },
   data() {
     const that = this;
     return {
+      showInfo: false,
       demarcate: false,
       drawArealist: [],
       lockPress: false,
@@ -165,6 +166,7 @@ export default {
       titleTypeR: "全部异常类型",
       isControl: "1",
       currentTime: 10,
+      initImgD: false,
       isCamera: true, //是否点击拍照
       isShowBox: false, //框选div是否显示
       isMonitor: true, //是否开始监控
@@ -424,22 +426,29 @@ export default {
     };
   },
   watch: {
-    checkTypeT(now){
-        this.checkType = now
+    checkTypeT:{
+        handler(now){
+            this.checkType = now
+        },
+        immediate: true
     },
-    isLock(now) {
-      if (now) {
-        this.controlAble = true;
-        this.isMonitor = false;
-        this.isShowBox = true;
-        this.isCamera = false;
-      }
+    isLock:{
+      handler(now){
+          if (now) {
+              this.controlAble = false;
+              this.isMonitor = false;
+              this.isShowBox = true;
+              this.isCamera = false;
+          }
+      },
+      immediate: true
     },
     monitor:{
       handler(now){
         if(now){
-          if('pic' in now && now[pic]){
-            let url = now[pic]
+          const self = this
+          if('pic' in now && now['pic'] && Object.keys(now).length && this.isLock){
+            let url = now['pic']
             url = url.replace('imgFile', 'fileToBase64')
             axios({
               method:'get',
@@ -447,7 +456,8 @@ export default {
               responseType:'stream'
             })
                 .then(function(response) {
-                  that.imgsrc = response.data
+                  self.imgsrc = response.data
+                  self.initImgD = true;
                   // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
                 })
           }
@@ -480,12 +490,11 @@ export default {
   },
   methods: {
     onFinish(data){
+        debugger
         this.drawArealist = data
     },
     onDisable(flag){
-        if(!this.controlAble){
-            this.controlAble = flag
-        }
+       this.controlAble = flag
     },
     getCoordinate(type, w0, w1, h0, h1, x0, y0) {
       let obj = { x: 0, y: 0 };
@@ -801,6 +810,8 @@ export default {
         })
         .then(function(response) {
             that.imgsrc = response.data
+            that.showInfo = false
+            that.initImgD = true
             that.monitor['pic'] = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${that.shotData.cephBucket}&fileName=${that.shotData.cephFileName}`
             // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
         })
@@ -814,11 +825,17 @@ export default {
           this.$message.info('请撤防后再重新拍摄！')
           return
       }
+      this.monitor['areaRect'] = ""
+      this.isLock = 0
       this.isCamera = true;
       this.isMonitor = true;
       this.controlAble = true;
       this.imgsrc = "";
       this.clearDraw();
+      this.$refs.imgLinePanel.initWinResize()
+      this.$refs.imgLinePanel.drawPress = false
+      this.showInfo = true
+      this.initImgD = false
       let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       deleteDataId(url).then(res => {
         this.$message({
@@ -826,7 +843,6 @@ export default {
           message: "删除成功"
         });
         this.checkType = false
-        this.$refs.imgLinePanel.drawPress = false
       });
     },
     handleDraw() {
@@ -980,6 +996,7 @@ export default {
     width: 211px;
     color: white;
     top: -35px;
+    height: 30px;
   }
   .el-input--small .el-input__inner {
     border-radius: 5px;

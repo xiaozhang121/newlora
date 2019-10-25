@@ -821,6 +821,7 @@ export default {
   min-height: 100%;
   overflow-y: hidden;
   .controlCheck{
+    height: 30px;
     bottom: inherit;
     color: white;
     min-width: 195px;

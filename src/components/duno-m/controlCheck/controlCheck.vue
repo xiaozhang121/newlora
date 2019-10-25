@@ -71,7 +71,6 @@
         },
         methods:{
             getPression(){
-                debugger
                 if(this.pressions){
                     this.permissionUse()
                 }else{
@@ -196,28 +195,26 @@
                 //普通使用权限申请
                 if(this.deviceType == 2) {
                     getAxiosData(`/lenovo-iir/device/permission/apply/${this.deviceId}/${waitTime}`).then(res => {
-                        debugger
                         if(res.data.data){
                             this.getPress = true
                             // this.getpermissionCheck()
                             this.$message.info(res.data.msg)
-                            this.$emit('on-disable', false)
+                            this.$emit('on-disable', true)
                         }else{
                             this.$message.error(res.data.msg)
-                            this.$emit('on-disable', true)
+                            this.$emit('on-disable', false)
                         }
                     })
                 }else{
                     getAxiosData(`/lenovo-visible/api/device/permission/apply/${this.deviceId}/${waitTime}`).then(res => {
-                        debugger
                         if(res.data.applyFlag){
                             this.getPress = true
                             this.$message.info(res.data.msg)
                             // this.getpermissionCheck()
-                            this.$emit('on-disable', false)
+                            this.$emit('on-disable', true)
                         }else{
                             this.$message.error(res.data.msg)
-                            this.$emit('on-disable', true)
+                            this.$emit('on-disable', false)
                         }
                     })
                 }
@@ -226,7 +223,6 @@
                 //设备强制申请使用
                 if(this.deviceType == 2){
                     getAxiosData(`/lenovo-iir/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
-                        debugger
                         if(res.data.msg.indexOf('success')> -1 || res.data.msg.indexOf('成功') > -1){
                             this.getPress = true
                             this.$emit('on-disable', false)
@@ -238,7 +234,6 @@
                     })
                 }else{
                     getAxiosData(`/lenovo-visible/api/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
-                        debugger
                         if(res.data.applyFlag){
                             this.getPress = true
                             this.$message.info(res.data.msg)
@@ -252,7 +247,6 @@
                 }
             },
             releaseNow(){
-                debugger
                 this.minute = '00'
                 this.second = '00'
                 clearInterval(this.timer)

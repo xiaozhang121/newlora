@@ -135,7 +135,6 @@
         methods:{
             getMonitor(){
                 getAxiosData('/lenovo-mon/api/monitoring/rack/zabbix/rack-stream').then(res=>{
-                    debugger
                 })
             },
             onChange(){

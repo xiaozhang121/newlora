@@ -942,7 +942,6 @@
             this.isViwe = this.getAuthority('10000102');
             this.isEdite = this.getAuthority('10000103');
             this.isDel = this.getAuthority('10000104');
-            debugger
         },
         beforeDestroy(){
             this.$refs.controlCheckRef.releaseNow()

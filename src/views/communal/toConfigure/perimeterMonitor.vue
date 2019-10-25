@@ -389,7 +389,6 @@ export default {
     },
 
     handleData(arr){
-      debugger
         let line = ""
         let data = []
         for(let i=0; i<arr.length; i++){
@@ -429,8 +428,8 @@ export default {
               pic = that.cameraList[index]['pic']
            let data = {
                'taskId':that.cameraList[index]['taskId'],
-               'monitorDeviceId': pic,
-               'pic': that.cameraList[index]['pic'],
+               'monitorDeviceId': that.cameraList[index]['monitorDeviceId'],
+               'pic': pic,
                'areaRect': item
            }
            query['plUnifiedTaskDtos'][index] = data
@@ -441,8 +440,8 @@ export default {
     },
     initData(){
         getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId}).then(res=>{
+            this.isLock = Number(res.data.planStatus)
             this.cameraList = res.data.cameraList
-            this.isLock = res.data.planStatus
             this.checkType = (res.data.planStatus == 1)
         })
     },
@@ -914,6 +913,7 @@ export default {
     padding-bottom: 25px;
   }
   .controlCheck{
+    height: 30px;
     right: 0;
     width: 211px;
     color: white;

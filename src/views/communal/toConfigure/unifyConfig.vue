@@ -283,7 +283,7 @@
                     },
                     {
                         title: "自动/手动",
-                        key: "sourceType",
+                        key: "machineJudge",
                         width: 120,
                         align: "center",
                         tooltip: true

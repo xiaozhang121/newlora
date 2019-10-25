@@ -534,7 +534,7 @@ export default {
   watch: {
     isLock(now) {
       if (now) {
-        this.controlAble = true;
+        this.controlAble = false;
         this.isMonitor = false;
         this.isShowBox = true;
         this.isCamera = false;
@@ -549,9 +549,7 @@ export default {
   },
   methods: {
     onDisable(flag) {
-      if (!this.controlAble) {
-        this.controlAble = flag;
-      }
+      this.controlAble = flag;
     },
     getCoordinate(type, w0, w1, h0, h1, x0, y0) {
       let obj = { x: 0, y: 0 };
@@ -1074,6 +1072,7 @@ export default {
     width: 211px;
     color: white;
     top: -35px;
+    height: 27px;
   }
   .el-input--small .el-input__inner {
     border-radius: 5px;
