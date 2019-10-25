@@ -211,35 +211,17 @@
                     },
                     {
                         title: "处理记录",
-                        key: "dealList",
+                        key: "dealRecord",
                         minWidth: 120,
                         align: "center",
                         tooltip: true,
-                        render: (h, params) => {
-                            return h(
-                                "div",
-                                {
-                                    class: "flexPos"
-                                },
-                                params.row.dealList[0].dealType
-                            );
-                        }
                     },
                     {
                         title: "处理时间",
-                        key: "content",
+                        key: "dealTime",
                         minWidth: 90,
                         align: "center",
                         tooltip: true,
-                        render: (h, params) => {
-                            return h(
-                                "div",
-                                {
-                                    class: "flexPos"
-                                },
-                                params.row.dealList[0].dealTime
-                            );
-                        }
                     },
                     {
                         title: "视频/图片",
@@ -267,7 +249,7 @@
                                 newArr.push([
                                     h("video", {
                                         class: "imgOrMv",
-                                        attrs: { src: params.row.pic },
+                                        attrs: { src: params.row.alarmFileAddress },
                                         draggable: false,
                                         on: {
                                             click: () => {

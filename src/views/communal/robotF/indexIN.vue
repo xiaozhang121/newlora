@@ -8,7 +8,7 @@
       <button-custom
               class="moreTask"
               title="更多任务>"
-              @click.native="$router.push({'path': 'detail',query: {substationId: substationId, robotId:robotId}})"
+              @click.native="$router.push({'path': 'detailIN',query: {substationId: substationId, robotId:robotId}})"
       />
     </div>
     <div class="content">
@@ -277,9 +277,6 @@
     color: white;
     width: 100%;
     height: 100%;
-    .buttonCustom{
-      display: none;
-    }
     .rouTineInspection_last{
       width: 100%;
       align-items: normal;

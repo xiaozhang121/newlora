@@ -30,13 +30,14 @@
         </div>
         <div class="elTree">
           <div class="backList">
-            <div v-for="item in labelLength" class="backItem">
+            <div v-for="(item,index) in labelLength" class="backItem" :key="index">
             </div>
           </div>
           <el-tree
                   show-checkbox
                   class="filter-tree"
                   :data="data2"
+                  @check='currentChange'
                   default-expand-all
                   :filter-node-method="filterNode"
                   ref="tree2">
@@ -52,6 +53,12 @@ export default {
   components: {
   },
   props: {
+    isShow:{
+      type:Boolean,
+      default:()=>{
+        return false
+      }
+    },
     rowData: {
       type: Object,
       default: () => {
@@ -76,6 +83,9 @@ export default {
     }
   },
   watch: {
+    isShow(now){
+      this.visible = now;
+    },
     filterText(val) {
         this.$refs.tree2.filter(val);
     },
@@ -86,7 +96,7 @@ export default {
   },
   data() {
     return {
-        visible: true,
+        visible: false,
         filterText: '',
         allDevice: false,
         inspectionName: '',
@@ -128,8 +138,11 @@ export default {
     };
   },
   methods: {
+    currentChange(data,node,children){
+      console.log(data,node,children)
+    },
     handleClose(){
-
+      this.$emit('on-close')
     },
     filterNode(value, data) {
         if (!value) return true;
@@ -150,6 +163,7 @@ export default {
   },
   mounted() {
     this.initData();
+    this.visible = this.isShow
   }
 };
 </script>

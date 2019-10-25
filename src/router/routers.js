@@ -1136,7 +1136,7 @@ export default [{
                     component: () => import('@/views/communal/robotF/viewReportDetailIN.vue')
                 },
                 {
-                    path: 'detail',
+                    path: 'detailIN',
                     name: 'robot-twoList',
                     active: "robot-oneList",
                     meta: {
@@ -1147,7 +1147,8 @@ export default [{
                         active: "robot-twoList"
                     },
                     component: () => import('@/views/communal/robotF/detailIN.vue')
-                }]
+                },
+            ]
             }
         ]
     },

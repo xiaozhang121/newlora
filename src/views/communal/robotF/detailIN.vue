@@ -67,12 +67,14 @@
         :total="specialInspectList.totalRows"
       ></el-pagination>
     </div>
-    <select-district @on-success="success" @on-close="onClose" :visible="dialogVisible" />
+    <robot-task :isShow='dialogVisible'  @on-close="onClose" />
+    <!-- <select-district @on-success="success" @on-close="onClose" :visible="dialogVisible" /> -->
   </div>
 </template>
 
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import robotTask from "_c/duno-m/robotTask";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import Patrol from "_c/duno-c/Patrol";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -88,7 +90,8 @@ export default {
     dunoBtnTop,
     DunoTablesTep,
     Patrol,
-    selectDistrict
+    selectDistrict,
+    robotTask
   },
   data() {
     const that = this;

@@ -671,23 +671,24 @@ export default {
     getLock() {
       let that = this;
       let url = "/lenovo-smartlock/permit/record";
-      let query = {
-        offset: "0",
-        startTime: moment()
-          .subtract(1, "day")
-          .format("YYYY-MM-DD HH:mm:ss"),
-        endTime: moment().format("YYYY-MM-DD HH:mm:ss")
-      };
-      postAxiosData(url, query).then(res => {
+      postAxiosData(url).then(res => {
         let data = res.data;
-        let total = data.close + data.open;
-        let close = Math.round((data.close / total) * 100);
-        let open = Math.round((data.open / total) * 100);
-        that.legendOption.data = [`解锁 : ${open}%`, `闭锁 : ${close}%`];
-        that.seriesOption[0].data = [
-          { value: data.open, name: that.legendOption.data[0] },
-          { value: data.close, name: that.legendOption.data[1] }
-        ];
+        if (data.open == 0 && data.close == 0) {
+          that.legendOption.data = ["解锁 : 50%（0）", "闭锁 : 50%（0）"];
+          that.seriesOption[0].data = [
+            { value: data.open, name: that.legendOption.data[0] },
+            { value: data.close, name: that.legendOption.data[1] }
+          ];
+        } else {
+          let total = data.close + data.open;
+          let close = Math.round((data.close / total) * 100);
+          let open = Math.round((data.open / total) * 100);
+          that.legendOption.data = [`解锁 : ${open}%（${data.open}）`, `闭锁 : ${close}%（${data.close}）`];
+          that.seriesOption[0].data = [
+            { value: data.open, name: that.legendOption.data[0] },
+            { value: data.close, name: that.legendOption.data[1] }
+          ];
+        }
         that.isChange = !that.isChange;
         that.$forceUpdate();
       });
