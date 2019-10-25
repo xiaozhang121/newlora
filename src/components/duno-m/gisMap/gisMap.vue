@@ -450,7 +450,7 @@
                 if(this.isClick){
                     if('monitorDeviceType' in item && item['monitorDeviceType'] == 4){
                         this.$router.push({
-                            path:'/surveillancePath/ballControl',
+                            path:'/surveillancePath/ballControlM',
                             query:{
                                 monitorDeviceId: item['monitorDeviceId']
                             }

@@ -532,13 +532,16 @@ export default {
     };
   },
   watch: {
-    isLock(now) {
-      if (now) {
-        this.controlAble = false;
-        this.isMonitor = false;
-        this.isShowBox = true;
-        this.isCamera = false;
-      }
+    isLock:{
+        handler(now){
+            if (now) {
+                this.controlAble = false;
+                this.isMonitor = false;
+                this.isShowBox = true;
+                this.isCamera = false;
+            }
+        },
+        immediate: true
     }
   },
   props: {
