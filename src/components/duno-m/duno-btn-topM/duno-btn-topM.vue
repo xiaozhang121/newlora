@@ -1,5 +1,5 @@
 <template>
-  <div class="dunoBtnTop not-print" :style="'z-index:' + zIndex">
+  <div class="dunoBtnTopM not-print" :style="'z-index:' + zIndex">
     <div class="placeHolder" v-if="showBtnList">
     </div>
     <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" :style="'position: absolute; z-index:' + zIndex">
@@ -24,26 +24,16 @@
           <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         </div>
         <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
-          <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
-          <div class="btnItem checkbox" v-for="(item,index) in dataList" :key="index">
-            <el-tooltip class="item" effect="dark" :content="item['describeName']" placement="top">
-              <el-checkbox v-if="keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['monitorDeviceId']" :key="item['monitorDeviceId']" @click.native="handleActive(index,(disabled && !item['isActive']))">
-                <!-- <i class="item.icon"></i> -->
-                <img class="checkbox"  :src="item.img">
-                {{item['describeName']}}</el-checkbox>
-            </el-tooltip>
-            <el-tooltip  class="item" effect="dark" :content="item['describeName']" placement="top">
-              <el-checkbox v-if="!keyChange"  :disabled="(disabled && !item['isActive'])"  :label="item['describeName']" :key="item['describeName']" @click.native="handleActive(index,(disabled && !item['isActive']))">
-                <!-- <i class="item.icon"></i> -->
-                {{item['describeName']}}
-                <span class="checkbox" v-if="Array.isArray(item.img)">
-                  <img v-for="(pic, indexd) in item['img']" :key="indexd" class="icon_img checkbox" :src="pic">
-                </span>
-                <span class="checkbox" v-else>
-                  <img v-if="item.img" class="icon_img checkbox" :src="item.img">
-                </span>
-              </el-checkbox>
-            </el-tooltip>
+          <div class="btnItem checkbox" v-for="(item,index) in useListData" :key="index">
+            <div class="noCheck selectItem"><el-checkbox  @click.native="showHide($event, item)">{{ item['type'] }}</el-checkbox></div>
+            <el-collapse-transition>
+                <div class="selectItem" v-show="item['isShow']"  v-for="(child, Cindex) in item['children']" :key="Cindex">
+                  <el-tooltip class="item" effect="dark" :content="child['item']['describeName']" placement="top">
+                    <el-checkbox   :disabled="(disabled && !child['item']['isActive'])"  :label="child['item']['monitorDeviceId']" :key="child['item']['monitorDeviceId']" @click.native="handleActive(child['index'],(disabled && !child['item']['isActive']))">
+                      {{child['item']['describeName']}}</el-checkbox>
+                  </el-tooltip>
+              </div>
+            </el-collapse-transition>
           </div>
         </el-checkbox-group>
       </div>
@@ -94,7 +84,7 @@
     import dunoBtnTopItem  from '../duno-btn-topItem'
     export default {
         mixins: [mixinViewModule],
-        name: 'dunoBtnTop',
+        name: 'dunoBtnTopM',
         data (){
             return {
                 dataInput: '',
@@ -115,7 +105,9 @@
                 titleMain: '',
                 maxLength: 0,
                 isNow: false,
-                autoHide: true
+                autoHide: true,
+                useListData: [],
+                showDataBackUp: []
             }
         },
         watch: {
@@ -177,6 +169,12 @@
                     return true
                 }
             },
+            showData: {
+                type:Array,
+                default: ()=>{
+                    return []
+                }
+            },
             dataList:{
                 type:Array,
                 default:()=>{
@@ -216,14 +214,25 @@
             }
         },
         watch: {
+            showData: {
+                handler(now, old){
+                    if(this.isCheck){
+                        if(now.length && !this.showDataBackUp.length){
+                            this.showDataBackUp = now
+                            this.useListData = now
+                        }
+                       /* if(now.length == this.showDataBackUp.length){
+                            this.onKeyup()
+                        }*/
+                    }
+                },
+                deep: true
+            },
             dataList:{
                 handler(now, old){
                     if(this.isCheck){
                         if(now.length && !this.dataBackup.length){
                             this.dataBackup = now
-                        }
-                        if(now.length == this.dataBackup.length){
-                            this.onKeyup()
                         }
                     }
                 },
@@ -269,6 +278,11 @@
             }
         },
         methods:{
+            showHide(event, item){
+              item['isShow'] = !item['isShow']
+              event.preventDefault()
+              event.stopImmediatePropagation()
+            },
             mousedown(){
 
             },
@@ -291,7 +305,19 @@
             toShow(){
 
             },
+            findInArray(arr, indexList){
+              let data = []
+              for(let i=0; i<arr.length; i++){
+                  let type = arr[i]['type']
+                  let children = arr[i]['children'].filter(item=>{
+                      return indexList.indexOf(item['index'])>-1
+                  })
+                  data.push({type: type, children: children})
+              }
+              return data
+            },
             onKeyup(event){
+                const that = this
                 if(!this.dataBackup.length){
                     this.dataBackup = this.dataList
                 }
@@ -305,14 +331,18 @@
                     if(value != ''){
                         let data = this.dataBackup
                         let arr = []
+                        let indexList = []
                         data.forEach((item,index)=>{
                             if(item['describeName'] && item['describeName'].indexOf(value)>-1){
-                                arr.push(item)
+                                // arr.push(item)
+                                indexList.push(index)
                             }
                         })
-                        this.dataList = arr
+                        let info = that.findInArray(that.useListData, indexList)
+                        this.useListData = info
+                        // this.dataList = arr
                     }else{
-                        this.dataList = this.dataBackup
+                        this.useListData = this.showDataBackUp
                     }
                 }
             },
@@ -455,12 +485,20 @@
       opacity: 0;
     }
   }
-  .dunoBtnTop{
+  .dunoBtnTopM{
     min-height: 38px;
     z-index: 10;
     display: flex;
     justify-content: space-between;
     padding-bottom: 13px;
+    .selectItem{
+      margin:  5px 0;
+    }
+    .noCheck{
+      .el-checkbox__input{
+        display: none;
+      }
+    }
     ::-webkit-input-placeholder { /* WebKit browsers */
       color: white;
     }
@@ -551,9 +589,9 @@
         padding: 5px 20px;
         display: flex;
         flex-direction: column;
-        overflow-y: auto;
+        overflow-y: scroll;
         .btnItem{
-          margin: 12px 0;
+          /*margin: 12px 0;*/
           img{
             vertical-align: top
           }

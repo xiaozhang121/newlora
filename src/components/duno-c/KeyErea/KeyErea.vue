@@ -7,7 +7,7 @@
           <duno-btn-top
                   zIndex="10"
                   @on-select="onSelect"
-                  class="dunoBtnTop"
+                  class="dunoBtnTopM"
                   :isCheck="false"
                   :dataList="numberCameras"
                   :title="titleValueL"
@@ -15,17 +15,18 @@
           ></duno-btn-top>
         </div>
         <div>
-          <duno-btn-top
+          <duno-btn-top-m
                   class="selectDevice"
                   ref="btnTopRef"
                   :showBtnList="false"
                   :dataList="optionsList"
+                  :showData="showDataList"
                   :showAll="false"
                   :keyChange="true"
                   @on-disabled="onDisabled"
                   @on-active="deviceShowHandle"
           >
-          </duno-btn-top>
+          </duno-btn-top-m>
           <!--     <el-select
                        @change="selectData"
                        class="selectSearch"
@@ -77,6 +78,7 @@
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     import Breadcrumb from "_c/duno-c/Breadcrumb";
     import dunoBtnTop from "_c/duno-m/duno-btn-top";
+    import dunoBtnTopM from "_c/duno-m/duno-btn-topM";
     import KeyMonitor from "_c/duno-c/KeyMonitor";
     import { mapState } from "vuex";
     import pushMov from "_c/duno-m/pushMov";
@@ -92,10 +94,12 @@
             Breadcrumb,
             dunoBtnTop,
             KeyMonitor,
-            pushMov
+            pushMov,
+            dunoBtnTopM
         },
         data() {
             return {
+                showDataList: [],
                 routeName: '',
                 routeNamed: '',
                 initCount: 0,
@@ -227,6 +231,32 @@
             }
         },
         methods: {
+            inArrayType(arr, type, item, index){
+               if(type == null){
+                   return true
+               }
+               let i=0
+               for(i=0; i<arr.length; i++){
+                   if(arr[i]['type'] == type){
+                       arr[i]['children'].push({item:item, index: index})
+                       break;
+                   }
+               }
+               if(i == arr.length){
+                  return false
+               }else{
+                  return true
+               }
+            },
+            handleData(arr){
+                let data = []
+                arr.forEach((item, index)=>{
+                    if(!this.inArrayType(data, item['type'], item, index)){
+                        data.push({type: item['type'], isShow: true, children: [{item:item, index: index}]})
+                    }
+                })
+                return data
+            },
             onDisabled(now){
                 const that = this
                 if(this.selectCount!=0 && (now.length == this.selectCount+1)){
@@ -453,6 +483,10 @@
                                 item['isActive'] = true
                             item['describeName'] = item['monitorDeviceName']
                         })
+                        debugger
+                        let info = that.handleData(dataB)
+                        debugger
+                        that.showDataList = info
                         that.optionsList = dataB;
                     }
                 });
@@ -638,7 +672,7 @@
         margin-top: 14px;
         height: 50px;
 
-        .dunoBtnTop {
+        .dunoBtnTopM {
           width: 150px;
           display: inline-flex;
           padding-bottom: 0;
