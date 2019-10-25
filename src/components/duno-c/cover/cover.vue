@@ -177,7 +177,7 @@
       transform: translate(-50%, -50%);
       font-size: 50px;
       color: #fff;
-      z-index: 100;
+      z-index: 10;
     }
     .explainy {
       color: #fff;

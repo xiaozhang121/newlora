@@ -69,10 +69,14 @@
             </div>
           </div>
         </div>
-        <div class="video">
+        <div 
+          class="video"
+          v-loading="loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          element-loading-text="加载中">
           <div>
             <div class="videoItem" v-for="(item,index) in videoList" :key="index">
-              <key-monitor
+              <!-- <key-monitor
                 :monitorInfo="item"
                 paddingBottom="56%"
                 class="monitor"
@@ -83,7 +87,9 @@
                 :showBtmOption="false"
                 :Initialization="true"
               ></key-monitor>
-              <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>
+              <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p> -->
+              <cover :srcData="item" :isSecond="false"></cover>
+              <p>{{ item['startTime'] }}-{{ item['endTime'] }}</p>
             </div>
           </div>
           <el-pagination
@@ -223,6 +229,7 @@
 </template>
 
 <script>
+import cover from "_c/duno-c/cover";
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -260,13 +267,15 @@ export default {
     warningSetting,
     wraning,
     enlarge,
-    Remarks
+    Remarks,
+    cover
   },
   data() {
     const that = this;
     return {
       dataTimeEE: "",
       alarmId: 0,
+      loading: true,
       dialogVisible: false,
       envPageIndex: 1,
       envTotalNum: 1,
@@ -366,7 +375,7 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.pic },
+                  attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -500,7 +509,7 @@ export default {
       },
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
-      videoList: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      videoList: [],
       isControl: "1",
       currentTime: 10,
       timeOut: null,
@@ -682,7 +691,7 @@ export default {
               newArr.push([
                 h("video", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.pic },
+                  attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -858,6 +867,16 @@ export default {
       }).then(res => {
         let data = res.data.tableData;
         this.videoList = data;
+        data.forEach((item, index) => {
+          postAxiosData("/lenovo-device/device/video/record/video/pic", {
+            videoPath: item["streamAddr"],
+            positionIndex: index
+          }).then(res => {
+            this.videoList[res.data["positionIndex"]]["pic"] = res.data.pic;
+            this.$forceUpdate();
+            this.loading=false
+          });
+        });
         this.pageParam = res.data.pageParam;
       });
     },
@@ -1501,6 +1520,12 @@ export default {
           margin-top: 5px;
           color: #fff;
           text-align: center;
+        }
+        .cover {
+          min-height: 130px;
+          @media screen and (min-width: 3500px) {
+            min-height: 150px;
+          }
         }
       }
       .el-pagination {
