@@ -513,7 +513,6 @@
                 });
             },
             onSelect(item) {
-                debugger
                 this.selectCount = item["count"];
                 this.titleValueL = item["describeName"];
                 console.log(item.widthType);

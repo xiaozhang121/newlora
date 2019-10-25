@@ -826,6 +826,7 @@ export default {
   min-height: 100%;
   padding-bottom: 100px;
   .controlCheck{
+    height: 30px;
     bottom: inherit;
     color: white;
     min-width: 195px;

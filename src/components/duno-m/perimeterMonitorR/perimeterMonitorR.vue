@@ -975,6 +975,7 @@ export default {
     color: #999999;
   }
   .controlCheck{
+    height: 30px;
     right: 0;
     width: 211px;
     color: white;

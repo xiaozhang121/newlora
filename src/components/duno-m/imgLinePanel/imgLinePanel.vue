@@ -30,16 +30,16 @@ export default {
       imgsrc(now){
           this.initDom()
       },
-      picData(now){
-          let arr = this.handleAjaxData(now)
-          this.pointList = []
-          for(let i=0; i<arr.length; i+=2){
-              this.dataToPic([{x: arr[i].x, y: arr[i].y},{x: arr[i+1].x, y:arr[i+1].y}])
-          }
-          this.$emit('on-finish', that.pointList)
+      picData:{
+        handler(now){
+
+        },
+        deep: true,
+        immediate: true
       }
   },
   props: {
+      isLock: {},
       picData: {
           type: String,
           default: ''
@@ -58,6 +58,14 @@ export default {
       }
   },
   methods: {
+    ajaxToDraw(now){
+        let arr = this.handleAjaxData(now)
+        this.pointList = []
+        for(let i=0; i<arr.length; i+=2){
+            this.dataToPic([{x: arr[i].x, y: arr[i].y},{x: arr[i+1].x, y:arr[i+1].y}])
+        }
+        this.$emit('on-finish', this.pointList)
+    },
     getCoordinate(type, w0, w1, h0, h1, x0, y0) {
         let obj = { x: 0, y: 0 };
         // 原始-->页面
@@ -92,7 +100,6 @@ export default {
     },
     dataToPic(data){
         const that = this
-        that.pointList = []
         // let data = [
         //     {
         //         x: 885.6589440071937,
@@ -133,6 +140,8 @@ export default {
             that.imgOriginHeight = this.height
             that.context.drawImage(that.img,0,0, that.width, that.height);
             that.initWinResize()
+            if(that.picData && that.isLock)
+              that.ajaxToDraw(that.picData)
             // that.img.src = this.canvas.toDataURL('image/png')
         }
         that.img.src = this.imgsrc;
@@ -233,6 +242,7 @@ export default {
         };
     },
     drawRubberbandShape(loc, flag) {
+        const that = this
         this.context.beginPath();
         this.context.moveTo(this.mousedown.x, this.mousedown.y);
         this.context.lineTo(loc.x, loc.y);
