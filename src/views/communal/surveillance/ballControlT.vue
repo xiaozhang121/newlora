@@ -43,7 +43,7 @@
             </div>
             <div class="middle_table">
                 <div class="top not-print">
-                    <div class="name">动态环境告警记录</div>
+                    <div class="name">设备监测记录</div>
                     <div class="select">
                         <div>
                             <duno-btn-top
@@ -164,86 +164,180 @@
                 envDataList: [],
                 tableColumns: [
                     {
-                        title: "拍摄时间",
-                        key: "alarmTime",
-                        minWidth: 100,
+                        title: "时间",
+                        key: "executeTime",
+                        minWidth: 120,
                         align: "center",
                         tooltip: true,
-                        render: (h, params) => {
-                            return h("div", [
-                                h(
-                                    "Tooltip",
-                                    {
-                                        props: {
-                                            placement: "top",
-                                            content: params.row.alarmTime,
-                                            transfer: true
-                                        },
-                                        style: {
-                                            display: "inline-block",
-                                            width: "100%",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            whiteSpace: "nowrap"
-                                        }
-                                    },
-                                    params.row.alarmTime
-                                )
-                            ]);
-                        }
                     },
                     {
-                        title: "警告类型",
-                        key: "alarmType",
-                        minWidth: 120,
+                        title: "对象",
+                        key: "powerDeviceName",
+                        minWidth: 180,
                         align: "center",
                         tooltip: true
                     },
                     {
-                        title: "处理记录",
-                        key: "dealList",
+                        title: "部件/相别",
+                        key: "part",
                         minWidth: 120,
                         align: "center",
                         tooltip: true,
                         render: (h, params) => {
                             return h(
                                 "div",
-                                {
-                                    class: "flexPos"
-                                },
-                                params.row.dealList[0].dealType
+                                params.row.part ? params.row.part : params.row.phase
                             );
                         }
                     },
                     {
-                        title: "处理时间",
+                        title: "描述",
                         key: "content",
                         minWidth: 90,
                         align: "center",
                         tooltip: true,
                         render: (h, params) => {
-                            return h(
-                                "div",
-                                {
-                                    class: "flexPos"
-                                },
-                                params.row.dealList[0].dealTime
-                            );
+                            let content;
+                            if (params.row.content) {
+                                content = params.row.content;
+                            } else if (params.row.description) {
+                                content = params.row.description;
+                            } else if (params.row.desc) {
+                                content = params.row.desc;
+                            }
+                            return h("div", { class: { member_operate_div: true } }, content);
                         }
                     },
                     {
-                        title: "视频/图片",
-                        key: "id",
+                        title: "识别结果",
+                        key: "alarmDetailType",
+                        minWidth: 120,
+                        align: "center",
+                        tooltip: true,
+                        render: (h, params) => {
+                            const content = params.row.monitorDevice['monitorDeviceType']
+                            return h("div", { class: { member_operate_div: true } }, content);
+                        }
+                    },
+                    {
+                        title: "缺陷等级",
+                        key: "alarmLevel",
                         minWidth: 120,
                         align: "center",
                         tooltip: true,
                         render: (h, params) => {
                             let newArr = [];
+                            if (
+                                params.row.alarmLevel == "1" ||
+                                params.row.alarmLevel == "2" ||
+                                params.row.alarmLevel == "3"
+                            ) {
+                                newArr.push(
+                                    h(
+                                        "i-dropdown",
+                                        {
+                                            props: { trigger: "click", placement: "bottom-start" },
+                                            style: { marginLeft: "5px" },
+                                            on: {
+                                                "on-click": value => {
+                                                    console.log(value);
+                                                }
+                                            }
+                                        },
+                                        [
+                                            h("div", { class: { member_operate_div: true } }, [
+                                                h(
+                                                    "div",
+                                                    {
+                                                        class: {
+                                                            table_select: true,
+                                                            serious: params.row.alarmLevel === "2",
+                                                            commonly: params.row.alarmLevel === "1",
+                                                            danger: params.row.alarmLevel === "3"
+                                                        }
+                                                    },
+                                                    [
+                                                        h("span", that.cutOut(params.row.alarmLevelName), {
+                                                            class: { member_operate_div: true }
+                                                        }),
+                                                        h("i", {
+                                                            style: { marginLeft: "5px" },
+                                                            class: { "iconfont icon-xiala": true }
+                                                        })
+                                                    ]
+                                                )
+                                            ]),
+                                            h("i-dropdownMenu", { slot: "list" }, [
+                                                h("i-dropdownItem", {}, [
+                                                    h(
+                                                        "div",
+                                                        {
+                                                            class: { alarmLevel: true },
+                                                            on: {
+                                                                click: () => {
+                                                                    that.onClickDropdown(params.row, "一般", "1");
+                                                                }
+                                                            }
+                                                        },
+                                                        "一般"
+                                                    )
+                                                ]),
+                                                h("i-dropdownItem", {}, [
+                                                    h(
+                                                        "div",
+                                                        {
+                                                            class: { alarmLevel: true },
+                                                            on: {
+                                                                click: () => {
+                                                                    that.onClickDropdown(params.row, "严重", "2");
+                                                                }
+                                                            }
+                                                        },
+                                                        "严重"
+                                                    )
+                                                ]),
+                                                h("i-dropdownItem", {}, [
+                                                    h(
+                                                        "div",
+                                                        {
+                                                            class: { alarmLevel: true },
+                                                            on: {
+                                                                click: () => {
+                                                                    that.onClickDropdown(params.row, "危急", "3");
+                                                                }
+                                                            }
+                                                        },
+                                                        "危急"
+                                                    )
+                                                ])
+                                            ])
+                                        ]
+                                    )
+                                );
+                            } else {
+                                newArr.push(h("div", "/"));
+                            }
+                            return h("div", newArr);
+                        }
+                    },
+                    {
+                        title: "视频/图片",
+                        key: "fileType",
+                        minWidth: 120,
+                        align: "center",
+                        tooltip: true,
+                        render: (h, params) => {
+                            let newArr = [];
+                            let sic =
+                                params.row.pic ||
+                                params.row.fileAddress ||
+                                params.row.alarmFileAddress;
                             if (params.row.fileType == "1") {
                                 newArr.push([
                                     h("img", {
                                         class: "imgOrMv",
-                                        attrs: { src: params.row.pic },
+                                        attrs: { src: sic },
+
                                         draggable: false,
                                         on: {
                                             click: () => {
@@ -257,7 +351,7 @@
                                 newArr.push([
                                     h("video", {
                                         class: "imgOrMv",
-                                        attrs: { src: params.row.pic },
+                                        attrs: { src: sic },
                                         draggable: false,
                                         on: {
                                             click: () => {
@@ -319,32 +413,16 @@
                                     )
                                 );
                             }
-                            newArr.push(
-                                h(
-                                    "el-button",
-                                    {
-                                        class: "btn_pre",
-                                        style: { background: "#3a81a1!important" },
-                                        props: { type: "text" },
-                                        on: {
-                                            click: () => {
-                                                this.alarmId = params.row.alarmId;
-                                                this.dialogVisible = true;
-                                            }
-                                        }
-                                    },
-                                    "备注"
-                                )
-                            );
-                            newArr.push();
                             return h("div", newArr);
                         }
                     },
                     {
                         title: " ",
+                        key: "id",
                         width: 90,
                         align: "center",
                         render: (h, params) => {
+                            const that = this;
                             let newArr = [];
                             newArr.push([
                                 h(
@@ -386,7 +464,7 @@
                 titleTypeK: "全部识别类型",
                 disabled: false,
                 mixinViewModuleOptions: {
-                    getDataListURL: "/lenovo-plan/api/task/result/list",
+                    getDataListURL: "/lenovo-plan/api/statistics/plan/view",
                     exportURL: "/lenovo-plan/api/task/result/list/export"
                 },
                 titleTypeL: "全部数据类型",
@@ -669,8 +747,8 @@
         methods: {
             initData(){
                 const that = this
-                let obj = {pageIndex: that.pageIndex, pageRows: 10, planId: this.dataForm.planId}
-                getAxiosData('/lenovo-plan/api/unified/plan/camera/list', {...obj, ...that.secondForm}).then(res=>{
+                let obj = {pageIndex: that.pageIndex, pageRows: 10, monitorDeviceId: this.dataForm.monitorDeviceId}
+                getAxiosData('/lenovo-plan/api/statistics/plan/view', {...obj, ...that.secondForm}).then(res=>{
                     if(!this.cameraList.length)
                         that.cameraList = res.data.cameraList
                     that.tableList = res.data.tableData.tableData
@@ -1074,6 +1152,7 @@
         },
         created() {
             this.dataForm.planId = this.$route.query.planId;
+            this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
             this.getMonitorDeviceName();
             // this.getDataList();
             // this.initCamera();
@@ -1106,6 +1185,9 @@
         min-height: 100%;
         padding-bottom: 100px;
         /*overflow-y: hidden;*/
+        .controlCheck{
+            top: -60px;
+        }
         .el-button:hover {
             background: transparent !important;
         }

@@ -24,7 +24,7 @@
             </div>
             <div class="control">
               <div class="explain">
-                请调整云台，使目标表计正对摄像头，大小与红框范围相匹配
+                  {{ meterTitle }}
               </div>
               <div class="controBtnContain">
                 <contro-btn
@@ -55,47 +55,44 @@
           <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
         </div>
         <div class="right">
-          <div v-if="true">
+          <div v-if="!isLock">
             <el-form ref="form" label-position="left"  label-width="110px">
               <el-form-item label="表计类型">
-                <el-select  placeholder="选择表计类型">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="meterType"  placeholder="选择表计类型">
+                  <el-option v-for="(item, index) in meterTypeList" :key="index" :label="item['label']" :value="item['value']" @click.native="setInstancePic(item)"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="该表计图例参考">
-                <img class="caseImg" />
+                <img class="caseImg" :src="instancePic"/>
               </el-form-item>
               <el-form-item label="对应设备">
-                <el-select  placeholder="选择对应设备">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="powerDeviceId" placeholder="选择对应设备">
+                  <el-option v-for="(item, index) in meterTypeListD" :key="index" :label="item['label']" :value="item['value']"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="识别频次">
-                <el-select  placeholder="选择识别频次">
+                <el-select v-model="frequencyType"  placeholder="选择识别频次">
+                  <el-option v-for="(item, index) in frequencyTypeList" :key="index" :label="item['label']" :value="item['value']"></el-option>
+                </el-select>
+              </el-form-item>
+            <!--  <el-form-item label="告警提示">
+                <el-select v-model="alarmTipType"  placeholder="选择告警提示">
                   <el-option label="区域一" value="shanghai"></el-option>
                   <el-option label="区域二" value="beijing"></el-option>
                 </el-select>
-              </el-form-item>
-              <el-form-item label="告警提示">
-                <el-select  placeholder="选择告警提示">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
+              </el-form-item>-->
             </el-form>
             <div class="submitBtn">
-              <button-custom  title="完成设定，开始监测" />
+              <button-custom  title="完成设定，开始监测"  @click.native="startCheck"/>
             </div>
           </div>
-          <div class="checking" v-if="false">
+          <div class="checking" v-else>
             <div class="checking_explain">当前识别类型</div>
             <div class="checking_title">表计识别</div>
             <div class="checking_discription">已完成设定，正在监测中...</div>
             <div class="checking_btnList">
-              <button-custom  title="重新设定" />
-              <button-custom  title="结束监测" />
+              <button-custom  title="重新设定" @click.native="toStop()"/>
+              <button-custom  title="结束监测" @click.native="toStop()"/>
             </div>
           </div>
         </div>
@@ -160,6 +157,12 @@ export default {
   data() {
     const that = this;
     return {
+      meterTypeList: [],
+      meterType: '',
+      powerDeviceId: '',
+      frequencyType: '',
+      alarmTipType: '',
+      monitorDeviceId: '',
       lockPress: false,
       addOrEdit: "添加",
       disabled: false,
@@ -427,18 +430,44 @@ export default {
         totalRows: 1
       },
       isLock: 0,
-      timeData: ""
+      timeData: "",
+      meterTypeListD: [],
+      frequencyTypeList: [],
+      instancePic: ' '
     };
   },
-  watch: {
-    isLock(now) {
-      if (now) {
-        this.controlAble = true;
-        this.isMonitor = false;
-        this.isShowBox = true;
-        this.isCamera = false;
+  computed:{
+      meterTitle(){
+          if(!this.isLock) {
+              return '请调整云台，使目标表计正对摄像头，大小与红框范围相匹配'
+          }else{
+              return '表计识别监测中，暂不可调整云台'
+          }
       }
-    }
+  },
+  watch: {
+      meterType:{
+         handler(now){
+             if(now){
+                 getAxiosData('/lenovo-device/api/device/power-device/list',{meterType: now}).then(res=>{
+                     this.meterTypeListD = res.data
+                     this.powerDeviceId = res.data[0]['value']
+                 })
+             }
+         },
+         immediate: true
+      },
+      isLock:{
+          handler(now){
+              if (now) {
+                  this.controlAble = false;
+                  this.isMonitor = false;
+                  this.isShowBox = true;
+                  this.isCamera = false;
+              }
+          },
+          immediate: true
+      }
   },
   props: {
     zIndex: {},
@@ -448,10 +477,39 @@ export default {
     }
   },
   methods: {
-    onDisable(flag){
-        if(!this.controlAble){
-            this.controlAble = flag
+    toStop(){
+        postAxiosData('/lenovo-plan/api/plan/meter-data/recognize/stop', {monitorDeviceId: this.monitorDeviceId} ).then(res=>{
+            this.isLock = 0
+            this.controlAble = true;
+        })
+    },
+    setInstancePic(item){
+      this.instancePic = item['group']
+    },
+    startCheck(){
+        let query = {
+            meterType: this.meterType,
+            powerDeviceId: this.powerDeviceId,
+            frequencyType: this.frequencyType,
+            alarmTipType: this.alarmTipType,
+            monitorDeviceId: this.monitorDeviceId
         }
+        postAxiosData('/lenovo-plan/api/plan/meter-data/recognize', query).then(res=>{
+            this.isLock = true
+        })
+    },
+    getFrequencyType(){
+        getAxiosData('/lenovo-device/api/device/frequency-type/list').then(res=>{
+            this.frequencyTypeList = res.data
+        })
+    },
+    getMeterType(){
+        getAxiosData('/lenovo-device/api/device/meter-type/list').then(res=>{
+            this.meterTypeList = res.data
+        })
+    },
+    onDisable(flag){
+         this.controlAble = flag
     },
     getCoordinate(type, w0, w1, h0, h1, x0, y0) {
       let obj = { x: 0, y: 0 };
@@ -710,40 +768,18 @@ export default {
     },
     getMonitorDeviceName() {
       const that = this;
-      let url = "/lenovo-device/api/device-monitor/device";
+      let url = "/lenovo-plan/api/plan/meter-data/recognize/init";
       let query = {
         monitorDeviceId: this.$route.query.monitorDeviceId
       };
       getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
-        this.isLock = Number(res.data.isLock);
-        this.imgsrc = res.data.imgAddress;
-        let img = new Image();
-        img.src = this.imgsrc;
-        let w1 = 0;
-        let h1 = 0;
-        img.onload = function() {
-          w1 = img.width;
-          h1 = img.height;
-          let w0 = document.querySelector(".calibration").offsetWidth;
-          let h0 = document.querySelector(".calibration").offsetHeight;
-          let ww1 = Math.abs(res.data.x0 - res.data.x1);
-          let hh1 = Math.abs(res.data.y0 - res.data.y1);
-          let point = that.getCoordinate(
-            1,
-            w0,
-            w1,
-            h0,
-            h1,
-            res.data.x0,
-            res.data.y0
-          );
-          let whData = that.getCoordinate(1, w0, w1, h0, h1, ww1, hh1);
-          document.querySelector("#boxImg").style.left = point.x + "px";
-          document.querySelector("#boxImg").style.top = point.y + "px";
-          document.querySelector("#boxImg").style.width = whData.x + "px";
-          document.querySelector("#boxImg").style.height = whData.y + "px";
-        };
+        this.isLock = Number(res.data.status);
+        this.meterType = res.data.meterType
+        this.powerDeviceId = res.data.powerDeviceId
+        this.frequencyType = res.data.frequencyType
+        this.monitorDeviceId = res.data.monitorDeviceId
+        this.dataForm.monitorDeviceId = res.data.monitorDeviceId
       });
     },
     changeDate(now) {
@@ -937,10 +973,13 @@ export default {
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.monitorDeviceId = this.dataForm.monitorDeviceId
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
     this.getVideo();
+    this.getMeterType()
+    this.getFrequencyType()
   },
   mounted() {
     this.getInit();
@@ -1090,6 +1129,7 @@ export default {
               padding-bottom: 56%;
               background: black;
               .redCircle{
+                transform: scale(0.8);
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -1214,9 +1254,10 @@ export default {
         width: 81%;
       }
       .caseImg{
-        background: grey;
+        background: black;
         width: 80%;
         padding-bottom: 47%;
+        display: block;
       }
       .submitBtn{
         color: white;

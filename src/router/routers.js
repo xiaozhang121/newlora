@@ -426,6 +426,17 @@ export default [{
                     component: () => import('@/views/communal/surveillance/ballControl.vue')
                 },
                 {
+                    path: 'ballControlT',
+                    name: 'surveillanceList',
+                    meta: {
+                        topNav: '3',
+                        title: '布控球（表计识别）',
+                        hideInMenu: true,
+                        isDetails: true
+                    },
+                    component: () => import('@/views/communal/surveillance/ballControlT.vue')
+                },
+                {
                     path: 'ballControlM',
                     name: 'surveillanceList',
                     meta: {
@@ -1313,18 +1324,6 @@ export default [{
                             active: 'configurationList'
                         },
                         component: () => import('@/views/communal/toConfigure/perimeterMonitor.vue')
-                    },
-                    {
-                        path: 'ballControlT',
-                        name: 'ballControlT',
-                        meta: {
-                            topNav: '2',
-                            title: '布控球（表计识别）',
-                            hideInMenu: true,
-                            isDetails: true,
-                            active: 'configurationList'
-                        },
-                        component: () => import('@/views/communal/toConfigure/ballControlT.vue')
                     }
                 ]
             },

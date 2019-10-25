@@ -73,8 +73,8 @@
               <div>请选择类别后设定布控球的监测区域</div>
             </div>
             <div class="right-btn">
-              <button-custom class="right-btn-item" title="周界入侵监测"/>
-              <button-custom class="right-btn-item" title="表计识别监测"/>
+              <button-custom class="right-btn-item" title="周界入侵监测" @click.native="toArea()"/>
+              <button-custom class="right-btn-item" title="表计识别监测"  @click.native="toClock()"/>
             </div>
           </div>
         </div>
@@ -880,14 +880,17 @@ export default {
     };
   },
   watch: {
-    isLock(now) {
-      if (now) {
-        this.controlAble = true;
-        this.isMonitor = false;
-        this.isShowBox = true;
-        this.isCamera = false;
+      isLock:{
+          handler(now){
+              if (now) {
+                  this.controlAble = false;
+                  this.isMonitor = false;
+                  this.isShowBox = true;
+                  this.isCamera = false;
+              }
+          },
+          immediate: true
       }
-    }
   },
   props: {
     deviceId: {
@@ -896,6 +899,22 @@ export default {
     }
   },
   methods: {
+    toArea(){
+        this.$router.push({
+            path:'/surveillancePath/ballControl',
+            query:{
+                monitorDeviceId: this.dataForm.monitorDeviceId
+            }
+        })
+    },
+    toClock(){
+        this.$router.push({
+            path:'/surveillancePath/ballControlT',
+            query:{
+                monitorDeviceId: this.dataForm.monitorDeviceId
+            }
+        })
+    },
     initTableData(){
       getAxiosData('/lenovo-plan/api/statistics/plan/view',{monitorDeviceId: this.dataForm.monitorDeviceId, pageIndex: this.pageIndexR, pageRows: this.pageRowsR, startTime: this.startTimeR, endTime: this.endTimeR}).then(res=>{
           this.dataListR = res.data.tableData
@@ -934,9 +953,7 @@ export default {
         document.querySelector('.tableList').setAttribute('style',`transform: translateX(${this.nowPostion}px)`)
     },
     onDisable(flag) {
-      if (!this.controlAble) {
         this.controlAble = flag;
-      }
     },
     getCoordinate(type, w0, w1, h0, h1, x0, y0) {
       let obj = { x: 0, y: 0 };
