@@ -170,7 +170,7 @@
                 <charts-line :isChange="netWorkChange" :chartData="netWorkData"></charts-line>
             </div>
             <div class="child">
-                <charts-u :hiddenM="true" mainColor="#00b3ff"/>
+                <charts-u :chartsInfo="switchData" :isChange="switchDataV" :hiddenM="true" mainColor="#00b3ff"/>
                 <span class="childTitle"><img :src="switchPic"/>交换机</span>
             </div>
             <div class="child">
@@ -237,6 +237,8 @@
         },
         data() {
             return {
+                switchData: {},
+                switchDataV: false,
                 netWorkChange: false,
                 netWorkData: [],
                 totalAlarmCount: 0,
@@ -370,6 +372,11 @@
                     }
                     this.$forceUpdate()
                     this.netWorkChange = !this.netWorkChange
+                })
+                getAxiosData('/lenovo-mon/api/monitoring/host/zabbix/exchange/count').then(res=>{
+                    let data = res.data
+                    this.switchData =  { normal: data['normal'], total:  data['total'] }
+                    this.switchDataV = !this.switchDataV
                 })
                 /*
 
