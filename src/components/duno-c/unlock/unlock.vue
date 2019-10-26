@@ -68,29 +68,31 @@ export default {
       let query = {
         ...this.dataList,
         act: item,
-        userName: this.$store.state.user.userName
+        grantName: this.$store.state.user.userName
       };
-      // let url = "/lenovo-smartlock/permit/grant";
       let url = "/lenovo-smartlock/permit/decide";
-      axios({
-        baseURL: "http://10.0.10.35:8088",
-        method: "POST",
-        headers: {
-          Authorization: this.$store.state.user.token,
-          "content-type": "application/x-www-form-urlencoded"
-        },
-        data: qs.stringify(query),
-        url: "/lenovo-smartlock/permit/decide"
-      })
-        .then(function(response) {
-          let data = response.data;
-          if (data.errorCode == 200) {
-            that.$emit("on-close");
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      postAxiosData(url, query).then(res => {
+        that.$emit("on-close");
+      });
+      // axios({
+      //   baseURL: "http://10.0.10.35:8088",
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: this.$store.state.user.token,
+      //     "content-type": "application/x-www-form-urlencoded"
+      //   },
+      //   data: qs.stringify(query),
+      //   url: "/lenovo-smartlock/permit/decide"
+      // })
+      //   .then(function(response) {
+      //     let data = response.data;
+      //     if (data.errorCode == 200) {
+      //       that.$emit("on-close");
+      //     }
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error);
+      //   });
     }
   }
 };

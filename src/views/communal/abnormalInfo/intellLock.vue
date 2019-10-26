@@ -139,32 +139,27 @@ export default {
   methods: {
     onClose() {
       this.isShow = false;
+      this.init();
     },
     pageCurrentChangeHandle(val) {
       this.offset = val;
       this.init();
     },
     init() {
-      let startTime = moment()
-        .subtract(3, "days")
-        .format("YYYY-MM-DD HH:mm:ss");
-      let endTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         pageIndex: this.offset,
         pageRows: this.totalNum
-        // startTime: startTime,
-        // endTime: endTime
       };
       let url = "/lenovo-smartlock/api/device/list/granPermits";
       getAxiosData(url, query).then(res => {
-        this.dataList = res.data.tableData
+        this.dataList = res.data.tableData;
         this.loadingOption = false;
       });
     },
     initWebSocket() {
       //初始化weosocket
       this.websock = new WebSocket(
-        `ws://192.168.0.114:8099/lenovo-smartlock/grant/websocket`
+        `ws://10.0.10.35:8099/lenovo-smartlock/grant/websocket`
       );
       this.websock.onmessage = this.websocketonmessage;
       this.websock.onerror = this.websocketonerror;

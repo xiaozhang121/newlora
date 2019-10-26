@@ -48,11 +48,21 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div>
+        <!-- <div>
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
+        </div>-->
+        <div>
+          <duno-btn-top
+            @on-select="selectDownloadType"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="downLoadList"
+            title="导出表格/PDF"
+            :showBtnList="false"
+          ></duno-btn-top>
         </div>
       </div>
     </div>
@@ -167,6 +177,16 @@ export default {
       titleTypeC: "全部报表",
       titleTypeR: "全部类型",
       deviceTitleType: "可见光设备",
+      downLoadList: [
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
+        }
+      ],
       deviceType: [
         {
           describeName: "可见光设备",
@@ -516,6 +536,11 @@ export default {
     this.getType();
   },
   methods: {
+    selectDownloadType(item) {
+      const that = this;
+      this.queryForm.type = item.monitorDeviceType;
+      that.exportHandle();
+    },
     getPowerDeviceName() {
       if (this.queryForm.powerDeviceId) {
         let url = "/lenovo-device/api/device/query";
@@ -654,16 +679,10 @@ export default {
         this.$message.success(res.msg);
       });
     },
-    clickExcel() {
-      const that = this;
-      // that.queryForm = {
-      //   planId: that.$route.query.planId,
-      //   monitorDeviceType: that.monitorDeviceType,
-      //   dataSource:that.dataForm.dataSource
-      //   ...that.dataForm
-      // };
-      that.exportHandle();
-    },
+    // clickExcel() {
+    //   const that = this;
+    //   that.exportHandle();
+    // },
     getRegion() {
       const that = this;
       const url = that.selectUrl;
@@ -998,21 +1017,21 @@ export default {
       //     cursor: pointer;
       //   }
       // }
-      .clickBtn {
-        line-height: 40px;
-        width: 139px;
-        background-image: url(../../../assets/images/btn/moreBtn.png);
-        text-align: center;
-        font-size: 18px;
-        cursor: pointer;
-        color: #ffffff;
-        @media screen and (min-width: 3500px) {
-          background-size: 100% 100%;
-          font-size: 14px;
-          line-height: 34px;
-          width: 120px;
-        }
-      }
+      // .clickBtn {
+      //   line-height: 40px;
+      //   width: 139px;
+      //   background-image: url(../../../assets/images/btn/moreBtn.png);
+      //   text-align: center;
+      //   font-size: 18px;
+      //   cursor: pointer;
+      //   color: #ffffff;
+      //   @media screen and (min-width: 3500px) {
+      //     background-size: 100% 100%;
+      //     font-size: 14px;
+      //     line-height: 34px;
+      //     width: 120px;
+      //   }
+      // }
       .dateChose {
         .el-date-editor {
           background-color: #192f41;

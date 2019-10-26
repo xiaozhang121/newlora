@@ -95,11 +95,21 @@
               ></el-date-picker>
             </div>
             <div>
+              <duno-btn-top
+                @on-select="selectDownloadType"
+                class="dunoBtnTo"
+                :isCheck="false"
+                :dataList="downLoadList"
+                title="导出表格/PDF"
+                :showBtnList="false"
+              ></duno-btn-top>
+            </div>
+            <!-- <div>
               <div @click="clickExcel" class="clickBtn">
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <duno-tables-tep
@@ -172,6 +182,16 @@
                 envPageIndex: 1,
                 envTotalNum: 1,
                 envDataList: [],
+                downLoadList: [
+                  {
+                    describeName: "导出表格",
+                    monitorDeviceType: "1"
+                  },
+                  {
+                    describeName: "导出PDF",
+                    monitorDeviceType: "2"
+                  }
+                ],
                 tableColumns: [
                     {
                         title: "拍摄时间",
@@ -957,32 +977,38 @@
                 }
                 return isIE;
             },
-            clickExcel() {
-                const that = this;
-                that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-                /*getAxiosData(this.mixinViewModuleOptions.exportURL).then(res=>{
-                    let bstr  = res.data,
-                    n = bstr.length,
-                    u8arr = new Uint8Array(n);
-                    debugger
-                    while (n--) {
-                        u8arr[n] = bstr.charCodeAt(n);
-                    }
-                    debugger
-                    let  blob = new Blob([u8arr], {
-                        type: `application/pdf;charset-UTF-8`
-                    });
-                    if (this.MyBrowserIsIE()) {
-                        let BOM = "\uFEFF";
-                        navigator.msSaveBlob(blob, `demo.pdf`);
-                    }else {
-                        let content = window.URL.createObjectURL(blob);
-                        this.createDownLoadClick(content, `demo.pdf`);
-                    }
-
-                })*/
-                that.exportHandle();
+            selectDownloadType(item) {
+              const that = this;
+              that.queryForm.type = item.monitorDeviceType;
+              that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+              that.exportHandle();
             },
+            // clickExcel() {
+            //     const that = this;
+            //     that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+            //     /*getAxiosData(this.mixinViewModuleOptions.exportURL).then(res=>{
+            //         let bstr  = res.data,
+            //         n = bstr.length,
+            //         u8arr = new Uint8Array(n);
+            //         debugger
+            //         while (n--) {
+            //             u8arr[n] = bstr.charCodeAt(n);
+            //         }
+            //         debugger
+            //         let  blob = new Blob([u8arr], {
+            //             type: `application/pdf;charset-UTF-8`
+            //         });
+            //         if (this.MyBrowserIsIE()) {
+            //             let BOM = "\uFEFF";
+            //             navigator.msSaveBlob(blob, `demo.pdf`);
+            //         }else {
+            //             let content = window.URL.createObjectURL(blob);
+            //             this.createDownLoadClick(content, `demo.pdf`);
+            //         }
+
+            //     })*/
+            //     that.exportHandle();
+            // },
             getEchasrts() {
                 let query = {
                     recognizeType: this.echartForm.getEchasrts,
@@ -1319,14 +1345,14 @@
           // & > div:last-child {
           //   font-size: 22px;
           // }
-          .clickBtn {
-            line-height: 40px;
-            width: 139px;
-            background-image: url(../../../assets/images/btn/moreBtn.png);
-            text-align: center;
-            font-size: 18px;
-            color: #ffffff;
-          }
+          // .clickBtn {
+          //   line-height: 40px;
+          //   width: 139px;
+          //   background-image: url(../../../assets/images/btn/moreBtn.png);
+          //   text-align: center;
+          //   font-size: 18px;
+          //   color: #ffffff;
+          // }
           .dateChose {
             .el-date-editor {
               background-color: #192f41;

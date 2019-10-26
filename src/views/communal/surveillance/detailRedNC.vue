@@ -105,11 +105,21 @@
               ></el-date-picker>
             </div>
             <div>
+              <duno-btn-top
+                @on-select="selectDownloadType"
+                class="dunoBtnTo"
+                :isCheck="false"
+                :dataList="downLoadList"
+                title="导出表格/PDF"
+                :showBtnList="false"
+              ></duno-btn-top>
+            </div>
+            <!-- <div>
               <div @click="clickExcel" class="clickBtn">
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <duno-tables-tep
@@ -247,6 +257,16 @@ export default {
       visible: false,
       visibleSettingOption: false,
       popData: {},
+      downLoadList: [
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
+        }
+      ],
       columns: [
         {
           title: "时间",
@@ -667,11 +687,17 @@ export default {
       this.echartForm.endTime = endTime;
       this.getEchasrts();
     },
-    clickExcel() {
+    selectDownloadType(item) {
       const that = this;
+      that.queryForm.type = item.monitorDeviceType;
       that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
       that.exportHandle();
     },
+    // clickExcel() {
+    //   const that = this;
+    //   that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    //   that.exportHandle();
+    // },
     getSelectType() {
       getVType().then(res => {
         const resData = res.data;
@@ -1027,14 +1053,14 @@ export default {
         // & > div:last-child {
         //   font-size: 22px;
         // }
-        .clickBtn {
-          line-height: 40px;
-          width: 139px;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          text-align: center;
-          font-size: 18px;
-          color: #ffffff;
-        }
+        // .clickBtn {
+        //   line-height: 40px;
+        //   width: 139px;
+        //   background-image: url(../../../assets/images/btn/moreBtn.png);
+        //   text-align: center;
+        //   font-size: 18px;
+        //   color: #ffffff;
+        // }
         .dateChose {
           .el-date-editor {
             background-color: #192f41;

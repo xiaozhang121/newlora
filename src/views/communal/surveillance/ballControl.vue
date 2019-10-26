@@ -179,11 +179,21 @@
               ></el-date-picker>
             </div>
             <div>
+            <duno-btn-top
+                @on-select="selectDownloadType"
+                class="dunoBtnTo"
+                :isCheck="false"
+                :dataList="downLoadList"
+                title="导出表格/PDF"
+                :showBtnList="false"
+              ></duno-btn-top>
+            </div>
+            <!-- <div>
               <div @click="clickExcel" class="clickBtn">
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <duno-tables-tep
@@ -307,6 +317,16 @@ export default {
       alarmLevel: "",
       visible: false,
       popData: {},
+      downLoadList: [
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
+        }
+      ],
       columns: [
         {
           title: "拍摄时间",
@@ -760,11 +780,17 @@ export default {
         this.typeList = map;
       });
     },
-    clickExcel() {
+    selectDownloadType(item) {
       const that = this;
       that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.queryForm.type = item.monitorDeviceType
       that.exportHandle();
     },
+    // clickExcel() {
+    //   const that = this;
+    //   that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    //   that.exportHandle();
+    // },
     handleClose() {
       this.popData = {};
       this.visible = false;
@@ -1365,14 +1391,14 @@ export default {
             cursor: pointer;
           }
         }
-        .clickBtn {
-          line-height: 40px;
-          width: 139px;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          text-align: center;
-          font-size: 18px;
-          color: #ffffff;
-        }
+        // .clickBtn {
+        //   line-height: 40px;
+        //   width: 139px;
+        //   background-image: url(../../../assets/images/btn/moreBtn.png);
+        //   text-align: center;
+        //   font-size: 18px;
+        //   color: #ffffff;
+        // }
         .dateChose {
           .el-date-editor {
             background-color: #192f41;

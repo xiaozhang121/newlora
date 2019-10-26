@@ -7,14 +7,6 @@
       <div>{{dataForm.planType}}{{dataForm.planId}}</div>
       <div class="btn">
         <div>
-          <!-- <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTo"
-            :isCheck="false"
-            :dataList="regionList"
-            :title="titleType"
-            :showBtnList="false"
-          ></duno-btn-top>-->
           <el-select
             class="selectItem"
             v-model="titleType"
@@ -32,11 +24,21 @@
           </el-select>
         </div>
         <div>
+          <duno-btn-top
+            @on-select="selectDownloadType"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="downLoadList"
+            title="导出表格/PDF"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <!-- <div>
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <duno-main class="dunoMain">
@@ -141,6 +143,16 @@ export default {
       queryForm: {},
       detailsType: "",
       titleType: "按设备筛选",
+      downLoadList: [
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
+        }
+      ],
       columns: [
         {
           title: "序号",
@@ -484,9 +496,15 @@ export default {
     this.getType();
   },
   methods: {
-    clickExcel() {
+    // clickExcel() {
+    //   const that = this;
+    //   that.queryForm = that.dataForm;
+    //   that.exportHandle();
+    // },
+    selectDownloadType(item) {
       const that = this;
-      that.queryForm = that.dataForm;
+      this.dataForm.type = item.monitorDeviceType;
+      this.queryForm = this.dataForm;
       that.exportHandle();
     },
     onFresh() {
@@ -884,37 +902,37 @@ export default {
       justify-content: space-between;
       & > div {
         margin-left: 10px;
-        // .dunoBtnTop {
-        //   width: 250px;
-        //   display: inline-flex;
-        //   padding-bottom: 0;
-        //   .btnList {
-        //     top: inherit !important;
-        //     width: 250px;
-        //     .title {
-        //       padding: 8px 20px;
-        //       @media screen and (min-width: 3500px) {
-        //         height: 35px;
-        //       }
-        //     }
-        //   }
-        // }
-      }
-      .clickBtn {
-        line-height: 40px;
-        width: 139px;
-        background-image: url(../../../assets/images/btn/moreBtn.png);
-        text-align: center;
-        font-size: 18px;
-        cursor: pointer;
-        color: #ffffff;
-        @media screen and (min-width: 3500px) {
-          background-size: 100% 100%;
-          font-size: 14px;
-          line-height: 34px;
-          width: 120px;
+        .dunoBtnTop {
+          width: 150px;
+          display: inline-flex;
+          padding-bottom: 0;
+          .btnList {
+            top: inherit !important;
+            width: 150px;
+            .title {
+              padding: 8px 20px;
+              @media screen and (min-width: 3500px) {
+                height: 35px;
+              }
+            }
+          }
         }
       }
+      // .clickBtn {
+      //   line-height: 40px;
+      //   width: 139px;
+      //   background-image: url(../../../assets/images/btn/moreBtn.png);
+      //   text-align: center;
+      //   font-size: 18px;
+      //   cursor: pointer;
+      //   color: #ffffff;
+      //   @media screen and (min-width: 3500px) {
+      //     background-size: 100% 100%;
+      //     font-size: 14px;
+      //     line-height: 34px;
+      //     width: 120px;
+      //   }
+      // }
     }
   }
   .icon-xiala {
@@ -946,5 +964,15 @@ export default {
       }
     }
   }
+}
+.el-input--small .el-input__inner {
+  height: 40px;
+  background: #1a2f42;
+}
+.el-scrollbar {
+  background: #1a2f42;
+}
+.el-select-dropdown {
+  border: solid 1px #1a2f42;
 }
 </style>

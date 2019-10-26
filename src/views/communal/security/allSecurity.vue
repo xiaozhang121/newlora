@@ -38,11 +38,21 @@
           ></el-date-picker>
         </div>
         <div>
+          <duno-btn-top
+            @on-select="selectDownloadType"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="downLoadList"
+            title="导出表格/PDF"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <!-- <div>
           <div @click="clickExcel" class="clickBtn">
             <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <duno-main class="dunoMain">
@@ -126,6 +136,7 @@ export default {
       isEnlarge: false,
       srcData: [],
       queryForm: {},
+      dataForm: {},
       dialogVisible: false,
       value: "",
       alarmId: "",
@@ -136,6 +147,16 @@ export default {
         { path: "/environmental/list", name: "现场安全管控" },
         { path: "/environmental/list", name: "信息总览" },
         { path: "", name: "所有动态环境异常信息" }
+      ],
+      downLoadList: [
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
+        }
       ],
       columns: [
         {
@@ -189,7 +210,8 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h("div", params.row.dealList[0].dealType);
+            let dealList = params.row.dealList;
+            return h("div", dealList.length > 0 ? dealList[0].dealType : "");
           }
         },
         {
@@ -199,7 +221,13 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let timeDay = params.row.dealList[0].dealTime.slice(5);
+            let dealList = params.row.dealList;
+            let timeDay;
+            if (dealList.length > 0) {
+              timeDay = dealList[0].dealTime.slice(5);
+            } else {
+              timeDay = "";
+            }
             return h("div", timeDay);
           }
         },
@@ -348,8 +376,7 @@ export default {
       typeList: [],
       regionList: [],
       statusList: [],
-      popData: {},
-      clcikQueryData: {}
+      popData: {}
     };
   },
   created() {
@@ -363,14 +390,20 @@ export default {
     showSetting() {
       this.visibleSettingOption = true;
     },
+    selectDownloadType(item) {
+      const that = this;
+      this.dataForm.type = item.monitorDeviceType;
+      this.queryForm = this.dataForm;
+      that.exportHandle();
+    },
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
-        this.clcikQueryData.areaId = item.monitorDeviceType;
+        this.dataForm.areaId = item.monitorDeviceType;
       } else if (item.title == "titleTypeR") {
-        this.clcikQueryData.alarmType = item.monitorDeviceType;
+        this.dataForm.alarmType = item.monitorDeviceType;
       }
-      this.clickQuery(this.clcikQueryData);
+      this.getDataList();
     },
     onChangeTime(data) {
       let startTime = "";
@@ -379,9 +412,9 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
         endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
       }
-      this.clcikQueryData.startTime = startTime;
-      this.clcikQueryData.endTime = endTime;
-      this.clickQuery(this.clcikQueryData);
+      this.dataForm.startTime = startTime;
+      this.dataForm.endTime = endTime;
+      this.getDataList();
     },
     handleClose() {
       this.popData = {};
@@ -399,11 +432,10 @@ export default {
         this.getDataList();
       });
     },
-    clickExcel() {
-      const that = this;
-      //   this.queryForm.startTime
-      that.exportHandle();
-    },
+    // clickExcel() {
+    //   const that = this;
+    //   that.exportHandle();
+    // },
     getRegion() {
       const that = this;
       getRegionData().then(res => {
@@ -475,23 +507,23 @@ export default {
             });
           }
         } else if (monitorDeviceType == 2) {
-            if (supportPreset) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRed",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
         } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
@@ -736,21 +768,21 @@ export default {
           cursor: pointer;
         }
       }
-      .clickBtn {
-        line-height: 40px;
-        width: 139px;
-        background-image: url(../../../assets/images/btn/moreBtn.png);
-        text-align: center;
-        font-size: 18px;
-        cursor: pointer;
-        color: #ffffff;
-        @media screen and (min-width: 3500px) {
-          background-size: 100% 100%;
-          font-size: 14px;
-          line-height: 34px;
-          width: 120px;
-        }
-      }
+      // .clickBtn {
+      //   line-height: 40px;
+      //   width: 139px;
+      //   background-image: url(../../../assets/images/btn/moreBtn.png);
+      //   text-align: center;
+      //   font-size: 18px;
+      //   cursor: pointer;
+      //   color: #ffffff;
+      //   @media screen and (min-width: 3500px) {
+      //     background-size: 100% 100%;
+      //     font-size: 14px;
+      //     line-height: 34px;
+      //     width: 120px;
+      //   }
+      // }
       .dateChose {
         .el-date-editor {
           background-color: #192f41;
