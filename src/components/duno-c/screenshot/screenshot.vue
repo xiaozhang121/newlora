@@ -21,9 +21,21 @@
           <div v-if="isCalibrat" ref="box" id="box1"></div>
         </div>
         <i v-if="!isVideo" class="iconfont icon-bofang"></i>
-        <div v-show="!isCalibrat" v-if="isVideo" class="calibrat" @click="addTag">手动标定</div>
-        <div v-show="isCalibrat" v-if="isVideo" class="clearCalibrat" @click="delTag">清除</div>
-        <div class="shotInput">
+        <div
+          v-show="!isCalibrat"
+          v-if="isVideo"
+          class="calibrat"
+          @click="addTag"
+          :style="{top:isInput?'48%':'84%'}"
+        >手动标定</div>
+        <div
+          v-show="isCalibrat"
+          v-if="isVideo"
+          class="clearCalibrat"
+          @click="delTag"
+          :style="{top:isInput?'48%':'84%'}"
+        >清除</div>
+        <div class="shotInput" v-if="isInput">
           <div>
             <el-cascader placeholder="选择设备-部件-类型" @change="handleChange" :props="props"></el-cascader>
           </div>
@@ -44,7 +56,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="deletSubmit">取消并删除图像</el-button>
-        <el-button type="primary" @click="getPowerDeviceId">保 存</el-button>
+        <el-button type="primary" @click="getImgInfo">保 存</el-button>
       </span>
       <img :src="imgsrc" ref="image" alt :style="{display:'none'}" />
     </el-dialog>
@@ -123,25 +135,20 @@ export default {
     shotData(now) {
       this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${now.cephBucket}&fileName=${now.cephFileName}`;
     }
-    // monitorInfo(now) {
-    //   this.getPowerDeviceId();
-    // }
   },
   data() {
     let that = this;
     return {
-      // dialogVisible: false,
       value: "",
       optionsFirst: [],
       options: [],
-      //   platOptions: [],
-      //   cascadeValue: "",
       selectValue: "",
       textarea: "",
       picWigth: "",
       picHeigh: "",
       picSize: "",
       powerDeviceId: "",
+      isInput: false,
       isCalibrat: false,
       startPointX: null,
       endPointX: null,
@@ -350,8 +357,12 @@ export default {
         monitorDeviceId: this.monitorDeviceId
       };
       getAxiosData(url, query).then(res => {
-        this.powerDeviceId = res.data[0].value;
-        this.getImgInfo();
+        // this.powerDeviceId = res.data[0].value;
+        if (res.data.length > 0 && this.isVideo) {
+          this.isInput = true;
+        } else {
+          this.isInput = false;
+        }
       });
     },
     close() {
@@ -372,7 +383,7 @@ export default {
     }
   },
   mounted() {
-    // this.getPowerDeviceId();
+    this.getPowerDeviceId();
     this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
   }
 };
@@ -402,19 +413,20 @@ export default {
           width: 100%;
           height: 100%;
           position: absolute;
-          //   display: block;
         }
       }
       .icon-bofang {
+        cursor: pointer;
+        color: #fff;
         font-size: 66px;
         position: absolute;
-        top: 17%;
+        top: 32%;
         left: 42%;
       }
       .calibrat,
       .clearCalibrat {
         position: absolute;
-        top: 48%;
+        // top: 48%;
         right: 10px;
         text-align: center;
         color: #fff;

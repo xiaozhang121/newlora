@@ -37,12 +37,22 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div>
+        <div class="downloadExc">
+              <duno-btn-top
+                @on-select="selectDownloadType"
+                class="dunoBtnTo"
+                :isCheck="false"
+                :dataList="downLoadList"
+                title="导出表格/PDF"
+                :showBtnList="false"
+              ></duno-btn-top>
+            </div>
+        <!-- <div>
           <div @click="clickExcel">
             <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
-        </div>
+        </div>-->
         <div class="setting" @click="showSetting" style="display: none">
           <i class="iconfont icon-shezhi"></i>
         </div>
@@ -132,6 +142,16 @@ export default {
       titleTypeL: "所有区域",
       titleTypeC: "所有状态",
       titleTypeR: "所有来源",
+      downLoadList: [
+                  {
+                    describeName: "导出表格",
+                    monitorDeviceType: "1"
+                  },
+                  {
+                    describeName: "导出PDF",
+                    monitorDeviceType: "2"
+                  }
+                ],
       columns: [
         {
           title: "时间",
@@ -586,10 +606,16 @@ export default {
         });
       }
     },
-    clickExcel() {
+    selectDownloadType(item) {
       const that = this;
+      this.clcikQueryData.type = item.monitorDeviceType;
+      this.clickQuery(this.clcikQueryData);
       that.exportHandle();
     },
+    // clickExcel() {
+    //   const that = this;
+    //   that.exportHandle();
+    // },
     getRegion() {
       const that = this;
       const url = "/lenovo-device/api/area/select-list";
@@ -684,24 +710,23 @@ export default {
             });
           }
         } else if (monitorDeviceType == 2) {
-            if (supportPreset) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRed",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }
-
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
         } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
@@ -967,13 +992,12 @@ export default {
           }
         }
       }
-      & > div:nth-child(4) {
-        & > div {
-          width: 140px;
-          line-height: 40px;
-          text-align: center;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          cursor: pointer;
+      .downloadExc{
+        .dunoBtnTop{
+          width: 150px;
+          .btnList{
+            width: 150px;
+          }
         }
       }
       & > div:last-child {

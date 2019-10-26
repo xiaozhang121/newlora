@@ -25,11 +25,21 @@
           ></el-date-picker>
         </div>
         <div>
+          <duno-btn-top
+            @on-select="selectDownloadType"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="downLoadList"
+            title="导出表格/PDF"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <!-- <div>
           <div @click="clickExcel">
             <i class="iconfont icon-daochu1"></i>
             导出表格
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <div class="tables">
@@ -121,6 +131,16 @@ export default {
       alarmId: "",
       isEnlarge: false,
       srcData: [],
+      downLoadList: [
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
+        }
+      ],
       columns: [
         {
           key: "alarmTime",
@@ -443,11 +463,17 @@ export default {
       this.dataForm.endTime = endTime;
       this.getDataList();
     },
-    clickExcel() {
+    selectDownloadType(item) {
       const that = this;
-      that.queryForm.areaId = that.dataForm.areaId;
+      this.dataForm.type = item.monitorDeviceType;
+      this.queryForm = this.dataForm;
       that.exportHandle();
     },
+    // clickExcel() {
+    //   const that = this;
+    //   that.queryForm.areaId = that.dataForm.areaId;
+    //   that.exportHandle();
+    // },
     getAlarmType() {
       alarmType().then(res => {
         const resData = res.data;
@@ -574,22 +600,6 @@ export default {
       justify-content: space-between;
       & > div {
         margin-left: 10px;
-      }
-      & > div:last-child {
-        & > div {
-          width: 140px;
-          line-height: 40px;
-          text-align: center;
-          // background-color: #192f41;
-          background-image: url(../../../assets/images/btn/moreBtn.png);
-          cursor: pointer;
-          @media screen and (min-width: 3500px) {
-            background-size: 100% 100%;
-            font-size: 14px;
-            line-height: 34px;
-            width: 120px;
-          }
-        }
       }
       .dunoBtnTop {
         width: 190px;
