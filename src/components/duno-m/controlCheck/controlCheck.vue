@@ -173,6 +173,7 @@
                             this.getPress = false
                             this.getpermissionCheck()
                             this.$message.info(res.data.msg)
+                            this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
                         }
@@ -185,6 +186,7 @@
                             this.getPress = false
                             this.getpermissionCheck()
                             this.$message.info(res.data.msg)
+                            this.$emit('on-disable', false)
                         }else{
                             this.$message.error(res.data.msg)
                         }
@@ -225,9 +227,9 @@
                     getAxiosData(`/lenovo-iir/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
                         if(res.data.msg.indexOf('success')> -1 || res.data.msg.indexOf('成功') > -1){
                             this.getPress = true
-                            this.$emit('on-disable', false)
-                        }else{
                             this.$emit('on-disable', true)
+                        }else{
+                            this.$emit('on-disable', false)
                         }
                         this.$message.info(res.data.msg)
                         // this.getpermissionCheck()
@@ -238,10 +240,10 @@
                             this.getPress = true
                             this.$message.info(res.data.msg)
                             // this.getpermissionCheck()
-                            this.$emit('on-disable', false)
+                            this.$emit('on-disable', true)
                         }else{
                             this.$message.error(res.data.msg)
-                            this.$emit('on-disable', true)
+                            this.$emit('on-disable', false)
                         }
                     })
                 }
