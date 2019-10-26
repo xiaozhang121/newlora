@@ -18,7 +18,7 @@
         :showSizer="true"
         @clickPage="pageCurrentChangeHandle"
       />
-    </duno-main>    
+    </duno-main>
     <unlock :isShow="isShow" :dataList="webData" @on-close="onClose"></unlock>
   </div>
 </template>
@@ -62,13 +62,18 @@ export default {
           align: "center"
         },
         {
+          key: "deviceName",
+          title: "锁具名称",
+          align: "center"
+        },
+        {
           key: "action",
           title: "锁具状态",
           align: "center",
           render: (h, params) => {
             let newArr = [];
             let name;
-            if (params.row.action === 1) {
+            if (params.row.opstate === 1) {
               name = "开锁";
             } else {
               name = "闭锁";
@@ -77,8 +82,8 @@ export default {
               h("span", {
                 class: {
                   circleStatus: true,
-                  green: params.row.action === 1,
-                  close: params.row.action === 0
+                  green: params.row.opstate === 1,
+                  close: params.row.opstate === 0
                 },
                 draggable: false
               })
@@ -88,36 +93,14 @@ export default {
           }
         },
         {
-          key: "userName",
-          title: "授权人员姓名",
+          key: "applyName",
+          title: "申请人姓名",
           align: "center"
         },
         {
-          key: "userId",
-          title: "授权人员ID",
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: params.row.userId,
-                    transfer: true
-                  },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
-                },
-                params.row.userId
-              )
-            ]);
-          }
+          key: "grantName",
+          title: "授权人姓名",
+          align: "center"
         },
         {
           key: "opTime",
@@ -125,8 +108,6 @@ export default {
           align: "center",
           render: (h, params) => {
             let newArr = [];
-            // let startTime = params.row.startTime.slice(0, -8);
-            // let endTime = params.row.endTime.slice(0, -8);
             newArr.push([
               h("div", [
                 h(
@@ -169,21 +150,21 @@ export default {
         .format("YYYY-MM-DD HH:mm:ss");
       let endTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
-        offset: this.offset,
-        limit: this.totalNum,
+        pageIndex: this.offset,
+        pageRows: this.totalNum
         // startTime: startTime,
         // endTime: endTime
       };
-      let url = "/lenovo-smartlock/permit/record";
-      postAxiosData(url, query).then(res => {
-        this.dataList = res.data;
+      let url = "/lenovo-smartlock/api/device/list/granPermits";
+      getAxiosData(url, query).then(res => {
+        this.dataList = res.data.tableData
         this.loadingOption = false;
       });
     },
     initWebSocket() {
       //初始化weosocket
       this.websock = new WebSocket(
-        `ws://10.0.10.35:8099/lenovo-smartlock/grant/websocket`
+        `ws://192.168.0.114:8099/lenovo-smartlock/grant/websocket`
       );
       this.websock.onmessage = this.websocketonmessage;
       this.websock.onerror = this.websocketonerror;
