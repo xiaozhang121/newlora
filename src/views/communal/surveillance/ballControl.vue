@@ -877,6 +877,8 @@ export default {
       this.clearDraw();
       let url = `/lenovo-storage/api/storageService/file/deleteFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
       deleteDataId(url).then(res => {
+        this.isLock = 0
+        this.controlAble = true;
         this.$message({
           type: "success",
           message: "删除成功"
@@ -946,6 +948,7 @@ export default {
         postAxiosData(url, query).then(res => {
           if (res.data.isSuccess) {
             that.isMonitor = false;
+            that.isLock = 1
             this.$message({
               type: "success",
               message: "开始监控标定区域"
