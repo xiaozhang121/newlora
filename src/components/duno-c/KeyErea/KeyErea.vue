@@ -369,12 +369,12 @@
                   })
                   this.dataMonitor[targetIndex] = data[0]
                   this.$forceUpdate()
-                 /* if(that.selectCount)
+                  if(that.selectCount)
                       that.saveCamera();
                   this.$refs.btnTopRef.onKeyup()
                   this.$nextTick(()=>{
                       this.renewDom()
-                  })*/
+                  })
               })
             },
             deviceShowHandle(arr, flag){
