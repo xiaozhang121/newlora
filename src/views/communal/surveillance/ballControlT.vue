@@ -210,14 +210,14 @@
                     },
                     {
                         title: "识别结果",
-                        key: "alarmDetailType",
+                        key: "result",
                         minWidth: 120,
                         align: "center",
                         tooltip: true,
-                        render: (h, params) => {
-                            const content = params.row.monitorDevice['monitorDeviceType']
-                            return h("div", { class: { member_operate_div: true } }, content);
-                        }
+                        // render: (h, params) => {
+                        //     const content = params.row.monitorDevice['monitorDeviceType']
+                        //     return h("div", { class: { member_operate_div: true } }, content);
+                        // }
                     },
                     {
                         title: "缺陷等级",
@@ -365,13 +365,13 @@
                             return h("div", newArr);
                         }
                     },
-                    {
-                        title: "自动/手动",
-                        key: "sourceType",
-                        width: 120,
-                        align: "center",
-                        tooltip: true
-                    },
+                    // {
+                    //     title: "自动/手动",
+                    //     key: "sourceType",
+                    //     width: 120,
+                    //     align: "center",
+                    //     tooltip: true
+                    // },
                     {
                         title: " ",
                         width: 200,
@@ -751,7 +751,7 @@
                 getAxiosData('/lenovo-plan/api/statistics/plan/view', {...obj, ...that.secondForm}).then(res=>{
                     if(!this.cameraList.length)
                         that.cameraList = res.data.cameraList
-                    that.tableList = res.data.tableData.tableData
+                    that.tableList = res.data.tableData
                     that.totalPage = res.data.tableData.pageParam.totalRows
                 })
             },
