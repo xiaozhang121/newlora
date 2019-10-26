@@ -41,6 +41,10 @@
             }
         },
         props: {
+            zIndex: {
+                type: [String, Number],
+                default: '0'
+            },
             deviceId:{
                 type: [String, Number],
                 default: ''
@@ -52,10 +56,10 @@
         computed: {
             getPress:{
                 get(){
-                    return this.$store.state.user.getPress
+                    return this.$store.state.user.getPress[this.zIndex]
                 },
                 set(val){
-                    this.$store.state.user.getPress = val
+                    this.$set(this.$store.state.user.getPress, this.zIndex, val)
                 }
             },
             isControlPress(){

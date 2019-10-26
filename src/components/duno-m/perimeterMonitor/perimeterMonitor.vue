@@ -48,7 +48,7 @@
               </div>-->
             </div>
           </div>
-          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+          <control-check :zIndex="zIndex" @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
         </div>
         <div class="right nr contain">
           <div class="areaTitle" v-if="!checkType">
@@ -172,7 +172,7 @@ export default {
       isMonitor: true, //是否开始监控
       isDraw: false, //是否允许画div
       isStart: false, //是否框选div了
-      controlAble: true, //左侧按钮是否可控
+      controlAble: false, //左侧按钮是否可控
       clickFlage: 0,
       startPointX: null,
       endPointX: null,
@@ -482,7 +482,10 @@ export default {
         type: Object,
         default: {}
     },
-    zIndex: {},
+    zIndex: {
+        type: [String, Number],
+        default: '0'
+    },
     deviceId: {
       type: [String, Number],
       default: "54"

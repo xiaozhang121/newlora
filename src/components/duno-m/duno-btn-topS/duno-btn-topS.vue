@@ -494,7 +494,7 @@
       border-color: #515970 !important;
     }
     .el-radio__input.is-checked + .el-radio__label{
-      color: #1c2225;
+      color: white;
     }
     .el-radio__label{
       color: white;
