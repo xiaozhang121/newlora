@@ -16,7 +16,7 @@
 <script>
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     import moment from "moment";
-    const waitTime = 60*40000000
+    const waitTime = 60 * 5
     export default {
         name: 'controlCheck',
         components: {
