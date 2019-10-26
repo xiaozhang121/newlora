@@ -116,7 +116,8 @@ export default {
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
                     try{
-                    this.$message.info(res.msg)
+                    if(!(res.msg.indexOf('成功')>-1))
+                        this.$message.info(res.msg)
                     }catch (e) {
                         
                     }

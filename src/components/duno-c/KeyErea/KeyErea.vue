@@ -67,8 +67,20 @@
               :width="videoWidth"
               :showBtmOption="true"
               :kilovolt="item['monitorDeviceName']"
+              @change-video="changeVideo"
       />
     </div>
+    <duno-btn-top-s
+            class="selectTop"
+            ref="selectTop"
+            :showBtnList="false"
+            :dataList="optionsListB"
+            :showData="showDataList"
+            :showAll="false"
+            :keyChange="true"
+            :dataMonitorIds="dataMonitorIds"
+            @on-chosen="changeListV"
+    />
     <!--:patrol="item['monitorDeviceId']"-->
     <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->
   </div>
@@ -79,6 +91,7 @@
     import Breadcrumb from "_c/duno-c/Breadcrumb";
     import dunoBtnTop from "_c/duno-m/duno-btn-top";
     import dunoBtnTopM from "_c/duno-m/duno-btn-topM";
+    import dunoBtnTopS from "_c/duno-m/duno-btn-topS";
     import KeyMonitor from "_c/duno-c/KeyMonitor";
     import { mapState } from "vuex";
     import pushMov from "_c/duno-m/pushMov";
@@ -95,7 +108,8 @@
             dunoBtnTop,
             KeyMonitor,
             pushMov,
-            dunoBtnTopM
+            dunoBtnTopM,
+            dunoBtnTopS
         },
         data() {
             return {
@@ -231,6 +245,32 @@
             }
         },
         methods: {
+            changeListV(item, before){
+              let index = this.$refs.btnTopRef.checkedCities.indexOf(before)
+              let obj = {}
+              let indexE = 0
+              for(let i=0; i<this.optionsList.length; i++){
+                  obj = this.optionsList[i]
+                  indexE = i
+                  if(obj['monitorDeviceId'] == before){
+                      this.optionsList[i]['isActive'] = !this.optionsList[i]['isActive']
+                  }
+                  if(obj['monitorDeviceId'] == item['monitorDeviceId']){
+                      this.$refs.btnTopRef.checkedCities.push(obj['monitorDeviceId'])
+                      this.$refs.btnTopRef.handleCheckedCitiesChange(this.$refs.btnTopRef.checkedCities, index, before)
+                      this.$refs.btnTopRef.handleActive(i, false, true)
+                  }
+              }
+            },
+            changeVideo(item, event){
+               let pageX = Number(event.pageX)
+               let pageY = Number(event.pageY)
+               let dom = this.$refs.selectTop.$el
+               dom.style.left = pageX + 20 + 'px'
+               dom.style.top = pageY - 20 + 'px'
+                this.$refs.selectTop.$refs.dunoBtnTopS.style.display = "block"
+              this.$refs.selectTop.checkedCities = item['monitorDeviceId']
+            },
             inArrayType(arr, type, item, index){
                if(type == null){
                    return true
@@ -257,8 +297,22 @@
                 })
                 return data
             },
-            onDisabled(now){
+            onDisabled(now, Gindex, before){
                 const that = this
+                debugger
+                if(Gindex != undefined) {
+                    let searchData = JSON.parse(JSON.stringify(now))
+                    let findIndex = -1
+                    for(let index=0; index<this.dataMonitor.length; index++){
+                        let item = this.dataMonitor[index]
+                        if(item['monitorDeviceId'] == before){
+                            findIndex = index
+                        }
+                    }
+                    this.dataMonitor[findIndex] = {isReplace: true}
+                    now.splice(Gindex, 1)
+                    return;
+                }
                 if(this.selectCount!=0 && (now.length == this.selectCount+1)){
                     let removeDeviceId = -1
                     let data = that.dataMonitor
@@ -286,7 +340,45 @@
             isAddType(){
 
             },
-            deviceShowHandle(arr){
+            renewCamera(arr){
+              const that = this
+              let searchData = []
+              let targetIndex = -1
+              arr.forEach(item=>{
+                  searchData.push(item['monitorDeviceId'])
+              })
+              for(let index=0; index<this.dataMonitor.length; index++){
+                  let item = this.dataMonitor[index]
+                  let flag = -1
+                  if(item['isReplace']){
+                      targetIndex = index
+                  }
+                  flag = searchData.indexOf(item['monitorDeviceId'])
+                  if(Object.keys(item).length > 4 && flag > -1){
+                      searchData.splice(flag, 1)
+                  }
+              }
+              securityMonitor({
+                  monitorDeviceId: searchData.join(','),
+                  configType: that.configType,
+                  userId: this.$store.state.user.userId
+              }).then(res => {
+                  let data = res.data.tableData
+                  data.map(item=>{
+                      item['isShow'] = true
+                  })
+                  this.dataMonitor[targetIndex] = data[0]
+                  this.$forceUpdate()
+                  if(that.selectCount)
+                      that.saveCamera();
+                  this.$refs.btnTopRef.onKeyup()
+                  this.$nextTick(()=>{
+                      this.renewDom()
+                  })
+              })
+            },
+            deviceShowHandle(arr, flag){
+                debugger
                 let type = 'renew'
                 let monitorLength = -1
                 let searchData = null
@@ -294,9 +386,14 @@
                     this.$refs.btnTopRef.disabled = false
                 }
                 const that = this
+                debugger
                 let target = arr.filter(item=>{
                     return item['isActive'] == true
                 })
+                if(flag){
+                    this.renewCamera(target)
+                    return
+                }
                 monitorLength = target.length
                 let data = []
                 let addTargetIndex = -1
@@ -331,6 +428,7 @@
                     userId: this.$store.state.user.userId
                 }).then(res => {
                     // that.titleValueL = "监控摄像头数量";
+                    debugger
                     let data = res.data.tableData
                     data.map(item=>{
                         item['isShow'] = true
@@ -396,7 +494,9 @@
                             }
                         }
                     }else{
+                        if(dom[0])
                         dom[0].style.marginRight = 20 + 'px'
+                        if(dom[1])
                         dom[1].style.marginRight = 0 + 'px'
                     }
 
@@ -487,6 +587,7 @@
                         let info = that.handleData(dataB)
                         debugger
                         that.showDataList = info
+                        that.optionsListB = JSON.parse(JSON.stringify(dataB))
                         that.optionsList = dataB;
                     }
                 });
@@ -514,9 +615,16 @@
                     that.isFirst = false
                 }
                 let query = {};
-                that.$refs.btnTopRef.checkedCities.forEach((item, index) => {
+                let count = 0
+                that.dataMonitor.forEach(item=>{
+                    if(item['monitorDeviceId']){
+                        count ++
+                    }
+                    query["camera0" + (count + 1) + "Id"] = item['monitorDeviceId'];
+                })
+              /*  that.$refs.btnTopRef.checkedCities.forEach((item, index) => {
                     query["camera0" + (index + 1) + "Id"] = item;
-                });
+                });*/
                 query["cameraNum"] = that.selectCount;
                 query["userId"] = this.$store.state.user.userId;
                 query["configType"] = that.configType;
@@ -642,6 +750,14 @@
 
 <style lang="scss">
   .keyErea {
+    .selectTop{
+      position: fixed;
+      top: 0;
+      left: 0;
+      .btnList{
+        width: 300px;
+      }
+    }
     .monitorN{
       .vjs-fluid {
         padding-top: 56%;

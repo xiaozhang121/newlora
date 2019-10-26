@@ -23,6 +23,7 @@
           :playsinline="true"
           @play="onPlayerPlay($event)"
           @pause="onPlayerPause($event)"
+          @mousedown.native="clickNative"
         ></video-player>
         <img v-else class="cameraImg" :src="picUrl" />
       </div>
@@ -413,6 +414,11 @@ export default {
     }
   },
   methods: {
+    clickNative(event){
+      if(event.button == 0){
+          this.$emit('change-video', this.monitorInfo, event)
+      }
+    },
     getHLS(now){
         if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
           this.playerOptions["sources"][0]["type"] = "video/mp4";
