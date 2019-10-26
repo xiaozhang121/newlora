@@ -615,9 +615,16 @@
                     that.isFirst = false
                 }
                 let query = {};
-                that.$refs.btnTopRef.checkedCities.forEach((item, index) => {
+                let count = 0
+                that.dataMonitor.forEach(item=>{
+                    if(item['monitorDeviceId']){
+                        count ++
+                    }
+                    query["camera0" + (count + 1) + "Id"] = item['monitorDeviceId'];
+                })
+              /*  that.$refs.btnTopRef.checkedCities.forEach((item, index) => {
                     query["camera0" + (index + 1) + "Id"] = item;
-                });
+                });*/
                 query["cameraNum"] = that.selectCount;
                 query["userId"] = this.$store.state.user.userId;
                 query["configType"] = that.configType;
