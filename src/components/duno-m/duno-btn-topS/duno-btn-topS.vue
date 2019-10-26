@@ -1,5 +1,5 @@
 <template>
-  <div class="dunoBtnTopM not-print" :style="'z-index:' + zIndex">
+  <div class="dunoBtnTopS not-print" :style="'z-index:' + zIndex" ref="dunoBtnTopS" style="display: none">
     <div class="placeHolder" v-if="showBtnList">
     </div>
     <div class="btnList dropSelf" v-if="showBtnList?true:isSingleDrop" :style="'position: absolute; z-index:' + zIndex">
@@ -9,7 +9,6 @@
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
         <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
-        <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}" @click="showListFlag = !showListFlag"></div>
       </div>
       <div class="title dropSelf" v-else @click="showListFlag = !showListFlag">
         <!-- 全部固定监控设备 -->
@@ -17,25 +16,24 @@
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
         <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
-        <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
-      <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef" style="display: none">
+      <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef">
         <div v-if="showAll" class="checkbox">
           <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         </div>
-        <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
+        <el-radio-group  v-model="checkedCities">
           <div class="btnItem checkbox" v-for="(item,index) in useListData" :key="index">
             <div class="noCheck selectItem"><el-checkbox  @click.native="showHide($event, item)"><div class="selectD" :class="{'routeR':item['isShow']}"><i class="iconfont icon-xiala"></i><span>{{ item['type'] }}</span></div></el-checkbox></div>
               <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
                 <div class="selectItem"   v-for="(child, Cindex) in item['children']" :key="Cindex">
                   <el-tooltip class="item" effect="dark" :content="child['item']['describeName']" placement="top">
-                    <el-checkbox   :disabled="(disabled && !child['item']['isActive'])"  :label="child['item']['monitorDeviceId']" :key="child['item']['monitorDeviceId']" @click.native="handleActive(child['index'],(disabled && !child['item']['isActive']))">
-                      {{child['item']['describeName']}}</el-checkbox>
+                    <el-radio   :disabled="(isDisabled(child['item']['monitorDeviceId']))"  :label="child['item']['monitorDeviceId']" :key="child['item']['monitorDeviceId']" @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])">
+                      {{child['item']['describeName']}}</el-radio>
                   </el-tooltip>
                 </div>
               </div>
           </div>
-        </el-checkbox-group>
+        </el-radio-group>
       </div>
       <div v-else class="btn_main dropSelf" ref="showListRef" style="display: none; margin-top: 0; padding: 5px 0">
         <div class="btnItem checkbox" v-for="(item,index) in dataList" :key="index" style="margin:inherit">
@@ -84,7 +82,7 @@
     import dunoBtnTopItem  from '../duno-btn-topItem'
     export default {
         mixins: [mixinViewModule],
-        name: 'dunoBtnTopM',
+        name: 'dunoBtnTopS',
         data (){
             return {
                 dataInput: '',
@@ -127,6 +125,7 @@
             dunoBtnTopItem
         },
         props: {
+            dataMonitorIds:{},
             keyChange:{
                 type: Boolean,
                 default: false
@@ -278,6 +277,13 @@
             }
         },
         methods:{
+            isDisabled(id){
+                if(this.dataMonitorIds.indexOf(id)>-1){
+                    return true
+                }else{
+                    return false
+                }
+            },
             showHide(event, item){
               item['isShow'] = !item['isShow']
               event.preventDefault()
@@ -350,7 +356,7 @@
             },
             onFocusd(){
                 const that = this
-                this.showListFlag = true
+                // this.showListFlag = true
                 /* if(that.isCheck) {
                      $(that.$refs.showListRef).slideDown('normal')
                  }*/
@@ -361,7 +367,7 @@
                     return
                 }
                 $(that.$refs.showListRef).slideUp('normal')
-                that.showListFlag = false
+                // that.showListFlag = false
             },
             singleSelect(item, index){
                 this.$emit('on-select', item, index)
@@ -387,11 +393,11 @@
                 this.topBtnList[index]['active'] = true
                 this.$forceUpdate()
             },
-            handleCheckedCitiesChange(value, index, before) {
+            handleCheckedCitiesChange(value) {
                 let checkedCount = value.length;
                 this.checkAll = checkedCount === this.dataListName.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.dataListName.length;
-                this.$emit('on-disabled', this.checkedCities, index, before)
+                this.$emit('on-disabled', this.checkedCities)
             },
             handleCheckAllChange(val) {
                 if(!val){
@@ -409,18 +415,13 @@
                 }
 
             },
-            handleActive(index,flag, self){
-                if(flag){
-                    return
+            handleActive(id, item){
+                if(this.isDisabled(id)){
+                    return true
                 }
                 if(!this.isClick){
-                    this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
-                    // this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']
-                    this.$forceUpdate();
-                    if(this.isCheck && this.dataBackup.length){
-                        this.$emit('on-active',this.dataList, self)
-                    }
-                    this.isNow = true
+                    this.$emit('on-chosen', item, this.checkedCities)
+                    console.log(this.checkedCities)
                     this.isClick = true
                     setTimeout(()=>{
                         this.isClick = false
@@ -455,23 +456,20 @@
             },
             bindEvent(event){
                 const that = this
-                if(that.showListFlag){
                     if(!(event.target.className.indexOf('checkbox')>-1) && that.isCheck){
-                        that.showListFlag = !that.showListFlag
-                        that.$refs.selfInput.blur()
+                        // that.showListFlag = !that.showListFlag
+                        that.$refs.dunoBtnTopS.style.display = "none"
                     }
-                }
             }
         },
         created(){
-
+            this.$refs.dunoBtnTopS.style.display = "none"
         },
         beforeDestroy(){
             window.removeEventListener('click', that.bindEvent)
         },
         mounted(){
             const that = this
-            $(this.$refs.showListRef).hide('normal')
             window.addEventListener('click', that.bindEvent)
             this.handleCheckAllChange(true)
             this.checkAll = true
@@ -485,12 +483,22 @@
       opacity: 0;
     }
   }
-  .dunoBtnTopM{
+  .dunoBtnTopS{
     min-height: 38px;
     z-index: 10;
     display: flex;
     justify-content: space-between;
     padding-bottom: 13px;
+    .el-radio__input.is-disabled.is-checked .el-radio__inner{
+      background-color: #515970 !important;
+      border-color: #515970 !important;
+    }
+    .el-radio__input.is-checked + .el-radio__label{
+      color: #1c2225;
+    }
+    .el-radio__label{
+      color: white;
+    }
     .groupCheck{
       max-height: 9999px;
       position: relative;
@@ -503,9 +511,10 @@
       }
     }
     .selectItem{
-      margin:  5px 0;
+      margin:  12px 0;
     }
     .noCheck{
+      margin-bottom: 5px;
       .selectD{
         &.routeR{
           .icon-xiala{
