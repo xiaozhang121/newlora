@@ -202,7 +202,6 @@ export default {
       isEnlarge: false,
       dialogVisible: false,
       queryForm: {},
-      dataForm: {},
       echartForm: {},
       echartData: [],
       typeList: [],
@@ -433,7 +432,8 @@ export default {
       timeData: "",
       meterTypeListD: [],
       frequencyTypeList: [],
-      instancePic: ' '
+      instancePic: ' ',
+      dataForm: {'monitorDeviceId': ''}
     };
   },
   computed:{
@@ -450,6 +450,7 @@ export default {
          handler(now){
              if(now){
                  getAxiosData('/lenovo-device/api/device/power-device/list',{meterType: now}).then(res=>{
+                     debugger
                      this.meterTypeListD = res.data
                      this.powerDeviceId = res.data[0]['value']
                  })
@@ -487,6 +488,7 @@ export default {
       this.instancePic = item['group']
     },
     startCheck(){
+        debugger
         let query = {
             meterType: this.meterType,
             powerDeviceId: this.powerDeviceId,
@@ -774,12 +776,15 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
+        debugger
         this.isLock = Number(res.data.status);
-        this.meterType = res.data.meterType
-        this.powerDeviceId = res.data.powerDeviceId
-        this.frequencyType = res.data.frequencyType
-        this.monitorDeviceId = res.data.monitorDeviceId
-        this.dataForm.monitorDeviceId = res.data.monitorDeviceId
+        if(this.isLock){
+          this.meterType = res.data.meterType
+          this.powerDeviceId = res.data.powerDeviceId
+          this.frequencyType = res.data.frequencyType
+          this.monitorDeviceId = res.data.monitorDeviceId
+          this.dataForm.monitorDeviceId = res.data.monitorDeviceId
+        }
       });
     },
     changeDate(now) {
@@ -972,8 +977,9 @@ export default {
     }
   },
   created() {
+     debugger
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-    this.monitorDeviceId = this.dataForm.monitorDeviceId
+    this.monitorDeviceId = this.$route.query.monitorDeviceId
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
@@ -1256,7 +1262,7 @@ export default {
       .caseImg{
         background: black;
         width: 80%;
-        padding-bottom: 47%;
+        /*padding-bottom: 47%;*/
         display: block;
       }
       .submitBtn{
