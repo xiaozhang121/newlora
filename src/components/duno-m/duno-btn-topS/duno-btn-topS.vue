@@ -26,10 +26,10 @@
             <div class="noCheck selectItem"><el-checkbox  @click.native="showHide($event, item)"><div class="selectD" :class="{'routeR':item['isShow']}"><i class="iconfont icon-xiala"></i><span>{{ item['type'] }}</span></div></el-checkbox></div>
               <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
                 <div class="selectItem"   v-for="(child, Cindex) in item['children']" :key="Cindex">
-                  <el-tooltip class="item" effect="dark" :content="child['item']['describeName']" placement="top">
-                    <el-radio   :disabled="(isDisabled(child['item']['monitorDeviceId']))"  :label="child['item']['monitorDeviceId']" :key="child['item']['monitorDeviceId']" @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])">
+                  <!--<el-tooltip class="item" effect="dark" :content="child['item']['describeName']" placement="top">-->
+                    <el-radio  :title="child['item']['describeName']"  :disabled="(isDisabled(child['item']['monitorDeviceId']))"  :label="child['item']['monitorDeviceId']" :key="child['item']['monitorDeviceId']" @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])">
                       {{child['item']['describeName']}}</el-radio>
-                  </el-tooltip>
+                  <!--</el-tooltip>-->
                 </div>
               </div>
           </div>
