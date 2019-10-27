@@ -167,7 +167,7 @@ export default {
         this.taskKindList = res.data;
         if (!this.rowDataLength) that.form.taskKind = res.data[0].value;
         this.$forceUpdate();
-        let query = { pageIndex: 1, pageRows: 888888 };
+        let query = { pageIndex: 1, pageRows: 888888 }; 
         query["planType"] = that.form.taskKind;
         getAxiosData("/lenovo-plan/api/device/multi", query).then(res => {
           let data = res.data.tableData;
