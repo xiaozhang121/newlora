@@ -451,9 +451,10 @@ export default {
          handler(now){
              if(now){
                  getAxiosData('/lenovo-device/api/device/power-device/list',{meterType: now}).then(res=>{
-                     debugger
                      this.meterTypeListD = res.data
-                     this.powerDeviceId = res.data[0]['value']
+                     if(!this.isLock) {
+                         this.powerDeviceId = res.data[0]['value']
+                     }
                  })
              }
          },
