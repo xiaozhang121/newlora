@@ -1289,6 +1289,12 @@ export default {
       }
     }
   }
+  .control_slider{
+    top: 105% !important;
+  }
+  .cameraSpeed{
+    bottom: -25% !important;
+  }
 }
 .el-popper[x-placement^="top"],
 .el-popper[x-placement^="bottom"] {
