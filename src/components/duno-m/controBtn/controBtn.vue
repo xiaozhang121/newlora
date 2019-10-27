@@ -24,6 +24,7 @@
                 <el-slider class="elSlider" :disabled="disabled" @change="cameraSF" v-model="sliderValue" :min="1" :max="20"></el-slider>
                 <i class="iconfont icon-fangda1"></i>
             </div>
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -78,6 +79,10 @@ export default {
         }
     },
     props: {
+        speed: {
+            type: [String, Number],
+            default: 8
+        },
         controlAble: {
             type: Boolean,
             default: () => {
@@ -112,7 +117,7 @@ export default {
             if(!flag)
                 this.activeNum = command
             let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                .replace("{step}", 8).replace("{flag}", Number(flag));
+                .replace("{step}", Number(that.speed)).replace("{flag}", Number(flag));
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
                     try{
