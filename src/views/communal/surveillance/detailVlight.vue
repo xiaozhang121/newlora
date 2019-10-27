@@ -1039,15 +1039,29 @@ export default {
         & > div {
           margin-left: 10px;
         }
-        & > div:nth-child(2) {
-          & > div {
-            width: 140px;
-            line-height: 40px;
-            text-align: center;
-            background-color: #192f41;
-            cursor: pointer;
+        .dunoBtnTop {
+            width: 150px;
+            position: relative;
+            left: 10px;
+            display: inline-flex;
+            padding-bottom: 0;
+            .btnList {
+              top: inherit !important;
+              width: 150px;
+              .title {
+                padding: 8px 20px;
+              }
+            }
           }
-        }
+        // & > div:nth-child(2) {
+        //   & > div {
+        //     width: 140px;
+        //     line-height: 40px;
+        //     text-align: center;
+        //     background-color: #192f41;
+        //     cursor: pointer;
+        //   }
+        // }
         // & > div:last-child {
         //   font-size: 22px;
         // }

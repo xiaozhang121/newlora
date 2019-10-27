@@ -1492,15 +1492,29 @@ export default {
         & > div {
           margin-left: 10px;
         }
-        & > div:nth-child(2) {
-          & > div {
-            width: 140px;
-            line-height: 40px;
-            text-align: center;
-            background-color: #192f41;
-            cursor: pointer;
+        .dunoBtnTop {
+            width: 150px;
+            position: relative;
+            left: 10px;
+            display: inline-flex;
+            padding-bottom: 0;
+            .btnList {
+              top: inherit !important;
+              width: 150px;
+              .title {
+                padding: 8px 20px;
+              }
+            }
           }
-        }
+        // & > div:nth-child(2) {
+        //   & > div {
+        //     width: 140px;
+        //     line-height: 40px;
+        //     text-align: center;
+        //     background-color: #192f41;
+        //     cursor: pointer;
+        //   }
+        // }
         // & > div:last-child {
         //   font-size: 22px;
         // }
@@ -1579,59 +1593,6 @@ export default {
       .el-pagination .btn-next {
         background-color: rgba(0, 0, 0, 0);
         color: #ffffff;
-      }
-    }
-  }
-  .historicalData {
-    .top {
-      color: #ffffff;
-      height: 40px;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      & > div:first-child {
-        font-size: 20px;
-        line-height: 40px;
-      }
-      .btn {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        & > div {
-          margin-left: 10px;
-          .dunoBtnTop {
-            width: 145px;
-            display: inline-flex;
-            padding-bottom: 0;
-            .btnList {
-              top: inherit !important;
-              width: 145px;
-              .title {
-                padding: 8px 20px;
-              }
-            }
-          }
-        }
-        & > div:nth-child(5) {
-          & > div {
-            width: 140px;
-            line-height: 40px;
-            text-align: center;
-            background-color: #192f41;
-            cursor: pointer;
-          }
-        }
-      }
-    }
-    .con-chart {
-      width: 100%;
-      height: 340px;
-      .chartBox {
-        height: 340px;
-        .charts {
-          height: 340px;
-        }
       }
     }
   }
