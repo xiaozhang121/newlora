@@ -24,7 +24,10 @@
                 <el-slider class="elSlider" :disabled="disabled" @change="cameraSF" v-model="sliderValue" :min="1" :max="20"></el-slider>
                 <i class="iconfont icon-fangda1"></i>
             </div>
-            <slot></slot>
+            <div class="cameraSpeed">
+                速度：
+                <el-slider class="elSlider"  v-model="speed" :min="1" :max="8"></el-slider>
+            </div>
         </div>
     </div>
 </template>
@@ -38,6 +41,7 @@ export default {
     },
     data() {
     return {
+        speed: 8,
         sliderValueold: 1,
         disabled: false,
         sliderValue: 1,
@@ -79,10 +83,6 @@ export default {
         }
     },
     props: {
-        speed: {
-            type: [String, Number],
-            default: 8
-        },
         controlAble: {
             type: Boolean,
             default: () => {
@@ -239,6 +239,17 @@ export default {
                     background-size: contain !important;
                     background-repeat: no-repeat !important;
                 }
+            }
+        }
+        .cameraSpeed{
+            width: 100%;
+            color: white;
+            position: absolute;
+            bottom: -35%;
+            display: flex;
+            align-items: center;
+            .el-slider{
+                flex: 1;
             }
         }
     }
