@@ -75,7 +75,7 @@
             ref="selectTop"
             :showBtnList="false"
             :dataList="optionsListB"
-            :showData="showDataList"
+            :showData="showDataListB"
             :showAll="false"
             :keyChange="true"
             :dataMonitorIds="dataMonitorIds"
@@ -114,6 +114,7 @@
         data() {
             return {
                 showDataList: [],
+                showDataListB: [],
                 routeName: '',
                 routeNamed: '',
                 initCount: 0,
@@ -587,6 +588,7 @@
                         let info = that.handleData(dataB)
                         debugger
                         that.showDataList = info
+                        that.showDataListB = JSON.parse(JSON.stringify(info))
                         that.optionsListB = JSON.parse(JSON.stringify(dataB))
                         that.optionsList = dataB;
                     }
