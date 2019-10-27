@@ -256,7 +256,7 @@
         />
       </div>
     </div>
-    <wraning :popData="popData" :visible="visible" detailsType="alarm" @handleClose="handleClose" />
+    <wraning :popData="popData" :visible="visible" :detailsType="detailsType" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     <enlarge
       :isShow="isEnlarge"
@@ -332,6 +332,7 @@ export default {
       nowPostion: 0,
       isVisible: false,
       lockPress: false,
+      detailsType:'',
       addOrEdit: "添加",
       disabled: false,
       mixinViewModuleOptions: {
@@ -435,14 +436,14 @@ export default {
         },
         {
           title: "识别结果",
-          key: "alarmDetailType",
+          key: "result",
           minWidth: 120,
           align: "center",
           tooltip: true,
-          render: (h, params) => {
-            const content = params.row.monitorDevice['monitorDeviceType']
-            return h("div", { class: { member_operate_div: true } }, content);
-          }
+          // render: (h, params) => {
+          //   const content = params.row.monitorDevice['monitorDeviceType']
+          //   return h("div", { class: { member_operate_div: true } }, content);
+          // }
         },
         {
           title: "缺陷等级",
@@ -658,6 +659,7 @@ export default {
                     props: { type: "text" },
                     on: {
                       click: () => {
+                        that.detailsType=''
                         that.handleNotes = [];
                         that.handleNotes.push({
                           dealTime: params.row.dealTime,
@@ -864,6 +866,7 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      that.detailsType='alarm'
                       that.handleNotes = [];
                       that.handleNotes.push({
                         dealTime: params.row.dealTime,
