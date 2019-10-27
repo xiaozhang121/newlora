@@ -401,9 +401,13 @@ export default {
       let netUrl = "/lenovo-mon/api/monitoring/net/zabbix/getNetByHostId";
       let diskUrl = "/lenovo-mon/api/monitoring/disk/zabbix/getDiskByHostId";
       let cupUrl = "/lenovo-mon/api/monitoring/pro/zabbix/getCpuByHostId";
+      let gupUrl = "/lenovo-mon/api/monitoring/host/zabbix/gpu/load";
       let query = {
         hostid: that.pieData.hostId
       };
+      let queryGpu = {
+        hostId: that.pieData.hostId
+      }
       getAxiosData(netUrl, query).then(res => {
         let netData = res.data;
         let outData = [];
@@ -451,9 +455,29 @@ export default {
             timeData.push(el.createTime);
           });
         }
-        that.xAxisIo.data = timeData;
+        that.xAxisCpu.data = timeData;
         that.seriesCpu[0].data = usedData;
         that.isChangeCpu = !that.isChangeCpu;
+        that.$forceUpdate();
+      });
+      getAxiosData(gupUrl, queryGpu).then(res => {
+        let gupData = res.data;
+        let usedData = [];
+        let timeData = [];
+        if (that.serve == "") {
+          gupData.forEach(el => {
+            usedData.push(el.used);
+            timeData.push(el.time);
+          });
+        } else {
+          gupData.forEach(el => {
+            usedData.push(el.used);
+            timeData.push(el.time);
+          });
+        }
+        that.xAxisGpu.data = timeData;
+        that.seriesGpu[0].data = usedData;
+        that.isChangeGpu = !that.isChangeGpu;
         that.$forceUpdate();
       });
     },

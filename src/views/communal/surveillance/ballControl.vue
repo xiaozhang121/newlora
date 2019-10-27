@@ -38,21 +38,6 @@
                   :deviceId="dataForm.monitorDeviceId"
                 />
               </div>
-              <!-- <div class="controlTitle">
-                <div v-if="isControl =='1'" class="controlT">
-                  <span>云台控制中</span>
-                  <span @click="getControl">获取控制权</span>
-                </div>
-                <div v-if="isControl =='2'" class="controlT">
-                  <span>已获取云台控制</span>
-                  <span @click="getControl">结束控制</span>
-                </div>
-                <div v-if="isControl =='3'" class="controlT">
-                  <span>结束控制倒计时</span>
-                  <i>{{ currentTime }} s</i>
-                  <span @click="getControl">结束控制</span>
-                </div>
-              </div>-->
             </div>
           </div>
           <control-check
@@ -236,6 +221,7 @@ import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import wraning from "_c/duno-j/warning";
 import Remarks from "_c/duno-c/Remarks";
+import { dealRemarks } from "@/api/configuration/configuration.js";
 import {
   getAxiosData,
   postAxiosData,
@@ -278,7 +264,7 @@ export default {
         getDataListURL: "/lenovo-alarm/api/security/list",
         exportURL: "/lenovo-alarm/api/security/history/export"
       },
-      videoList: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      videoList: [],
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
       isControl: "1",
