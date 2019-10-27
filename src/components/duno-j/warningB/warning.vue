@@ -23,8 +23,12 @@
           <div v-if="!discriminate" class="temperature">
             <!--<p class="monitorTitle">温度正常</p>-->
             <p>
-              {{ warnData['valueShow'] }}
-              <!--<i-dropdown-->
+              {{ warnData['valueShow'] }} <span class="greyFont">(机器人识别)</span>
+            </p>
+            <p>
+              {{ warnData['yinShiResult'] }} <span  class="greyFont">(音视识别)</span>
+            </p>
+            <!--<i-dropdown-->
                 <!--v-if="hasSelect && !discriminate"-->
                 <!--trigger="click"-->
                 <!--placement="bottom-start"-->
@@ -48,7 +52,6 @@
                   <!--</i-dropdownItem>-->
                 <!--</i-dropdownMenu>-->
               <!--</i-dropdown>-->
-            </p>
           </div>
           <div v-else class="discriminate">
             <div class="title">识别</div>
@@ -310,6 +313,10 @@ export default {
     .el-dialog.el-dialog--center{
       margin-top: 0vh !important;
     }
+  }
+  .greyFont{
+    color: grey;
+    font-size: 14px;
   }
   .iconfont.icon-xiala {
     color: #999999;

@@ -161,11 +161,56 @@ export default {
           tooltip: true
         },
           {
-              title: "识别结果",
+              title: "机器人识别",
+              key: "valueShow",
+              minWidth: 90,
+              align: "center",
+              tooltip: true,
+              render: (h, params) => {
+                  let newArr = [];
+                  newArr.push([
+                      h(
+                          "div",
+                          {
+                              class: { redFont: !params.row.warnLevel},
+                          },
+                          params.row.valueShow
+                      )
+                  ]);
+                  return h(
+                      "div",
+                      {
+
+                      },
+                      newArr
+                  );
+              }
+          },
+          {
+              title: "音视识别",
               key: "yinShiResult",
               minWidth: 90,
               align: "center",
-              tooltip: true
+              tooltip: true,
+              render: (h, params) => {
+                  let newArr = [];
+                  newArr.push([
+                      h(
+                          "div",
+                          {
+                              class: { redFont: !params.row.warnLevel},
+                          },
+                          params.row.yinShiResult
+                      )
+                  ]);
+                  return h(
+                      "div",
+                      {
+
+                      },
+                      newArr
+                  );
+              }
           },
           {
           title: "缺陷等级",
@@ -796,6 +841,9 @@ export default {
     font-size: 30px;
     padding-right: 5px;
   }
+}
+.redFont{
+  color: red;
 }
 .el-picker-panel {
   background-color: rgba(27, 59, 71, 0.7);

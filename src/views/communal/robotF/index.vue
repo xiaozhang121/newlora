@@ -53,6 +53,7 @@
                     :imgData="taskCurreny['taskCurLinkImg']"
                     :taskCurreny="taskCurreny"
                     :analysisResult="taskCurreny['valueShow']"
+                    :yinShiResult="taskCurreny['yinShiResult']"
                     :dataType="taskCurreny['recognType']"
                     :deviceName="taskCurreny['deviceName']"
                     :stepCount="taskCurreny['doneStepsCnt']"
