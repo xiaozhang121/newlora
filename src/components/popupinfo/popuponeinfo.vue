@@ -105,8 +105,8 @@
                 <video-player
                         class="vjs-custom-skin realtime_video"
                         :options="{
-                  width:160,
-                  height: 120,
+                   width:355,
+                  height: 320,
                   sources: sourcesd,
                   techOrder: ['flash'],
                   autoplay: true,
@@ -118,8 +118,8 @@
                 <video-player
                         class="vjs-custom-skin realtime_video"
                         :options="{
-                  width:160,
-                  height: 120,
+                   width:355,
+                  height: 320,
                   sources: sources,
                   techOrder: ['flash'],
                   autoplay: true,
@@ -534,7 +534,7 @@ export default {
 <style lang="scss">
   .popuponeinfoBox {
     .realtime_video > div {
-      transform: scale(2.2095, 2.8) !important;
+      /*transform: scale(2.2095, 2.8) !important;*/
       transform-origin: left top;
     }
   }
