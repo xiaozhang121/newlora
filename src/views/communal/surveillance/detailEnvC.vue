@@ -1689,6 +1689,12 @@ export default {
       }
     }
   }
+  .control_slider{
+    top: 105% !important;
+  }
+  .cameraSpeed{
+    bottom: -25% !important;
+  }
 }
 .el-popper[x-placement^="bottom"] {
   background: #192f41;
