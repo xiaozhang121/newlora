@@ -28,10 +28,10 @@
             <div class="noCheck selectItem"><el-checkbox  @click.native="showHide($event, item)"><div class="selectD" :class="{'routeR':item['isShow']}"><i class="iconfont icon-xiala"></i><span>{{ item['type'] }}</span></div></el-checkbox></div>
               <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
                 <div class="selectItem"   v-for="(child, Cindex) in item['children']" :key="Cindex">
-                  <el-tooltip class="item" effect="dark" :content="child['item']['describeName']" placement="top">
-                    <el-checkbox   :disabled="(disabled && !child['item']['isActive'])"  :label="child['item']['monitorDeviceId']" :key="child['item']['monitorDeviceId']" @click.native="handleActive(child['index'],(disabled && !child['item']['isActive']))">
+                  <!--<el-tooltip class="item" effect="dark" :content="child['item']['describeName']" placement="top">-->
+                    <el-checkbox :title="child['item']['describeName']"  :disabled="(disabled && !child['item']['isActive'])"  :label="child['item']['monitorDeviceId']" :key="child['item']['monitorDeviceId']" @click.native="handleActive(child['index'],(disabled && !child['item']['isActive']))">
                       {{child['item']['describeName']}}</el-checkbox>
-                  </el-tooltip>
+                  <!--</el-tooltip>-->
                 </div>
               </div>
           </div>
