@@ -348,9 +348,12 @@ export default {
           't': this.user.token,
           ...this.queryForm
         })
-        window.location.href = `${baseUrl}${this.mixinViewModuleOptions.exportURL}?${params}`
+        let url = `${baseUrl}${this.mixinViewModuleOptions.exportURL}?${params}`
+        window.open(url,"_blank");
+        // window.location.href = `${baseUrl}${this.mixinViewModuleOptions.exportURL}?${params}`
       } else {
-        window.location.href = url
+          window.open(url,"_blank");
+        // window.location.href = url
       }
     },
     /*

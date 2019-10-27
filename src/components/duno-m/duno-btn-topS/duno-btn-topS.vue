@@ -460,6 +460,11 @@
                         // that.showListFlag = !that.showListFlag
                         that.$refs.dunoBtnTopS.style.display = "none"
                     }
+            },
+            onScroll(event){
+                if(!(event.target.className.indexOf('checkbox')>-1)) {
+                    this.$refs.dunoBtnTopS.style.display = "none"
+                }
             }
         },
         created(){
@@ -467,10 +472,12 @@
         },
         beforeDestroy(){
             window.removeEventListener('click', that.bindEvent)
+            window.removeEventListener("scroll", that.onScroll);
         },
         mounted(){
             const that = this
             window.addEventListener('click', that.bindEvent)
+            window.addEventListener("scroll", that.onScroll, true);
             this.handleCheckAllChange(true)
             this.checkAll = true
         }

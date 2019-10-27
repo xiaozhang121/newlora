@@ -10,7 +10,7 @@
       @mouseenter="enter()"
       @mouseleave="leave()"
     >
-      <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}">
+      <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
           v-loading="loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -414,8 +414,10 @@ export default {
     }
   },
   methods: {
+    toPrevent(event){
+    },
     clickNative(event){
-      if(event.button == 0){
+      if(event.button == 2){
           this.$emit('change-video', this.monitorInfo, event)
       }
     },
