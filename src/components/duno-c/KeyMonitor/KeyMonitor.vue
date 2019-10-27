@@ -427,6 +427,8 @@ export default {
         }
         if(now.indexOf("m3u8") > -1){
           delete this.playerOptions['techOrder'];
+        }else{
+          this.playerOptions['techOrder']=["flash"]
         }
         this.playerOptions["sources"][0]["src"] = now; 
     },

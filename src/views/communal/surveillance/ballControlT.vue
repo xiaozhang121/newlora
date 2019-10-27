@@ -5,19 +5,6 @@
         </div>
         <div class="controlTitle">
             <div> 周界入侵监控 </div>
-            <!--   <div v-if="isControl =='1'" class="control">
-              云台控制中
-              <span @click="getControl">获取控制权</span>
-            </div>
-            <div v-if="isControl =='2'" class="control">
-              已获取云台控制
-              <span @click="getControl">结束控制</span>
-            </div>
-            <div v-if="isControl =='3'" class="control">
-              结束控制倒计时
-              <i>{{ currentTime }} s</i>
-              <span @click="getControl">结束控制</span>
-            </div>-->
         </div>
         <div class="Main_contain">
             <div class="middle_table">
@@ -113,7 +100,7 @@
                 />
             </div>
         </div>
-        <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+        <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
         <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
         <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     </div>
@@ -392,50 +379,50 @@
                     //     align: "center",
                     //     tooltip: true
                     // },
-                    {
-                        title: " ",
-                        width: 200,
-                        align: "center",
-                        render: (h, params) => {
-                            let newArr = [];
-                            if (params.row.isReturn == "0") {
-                                newArr.push(
-                                    h(
-                                        "el-button",
-                                        {
-                                            class: "btn_pre",
-                                            style: { background: "#305e83!important" },
-                                            props: { type: "text" },
-                                            on: {
-                                                click: () => {
-                                                    that.addReturn(params.row);
-                                                }
-                                            }
-                                        },
-                                        "复归"
-                                    )
-                                );
-                            }
-                            if (params.row.isReturn == "1") {
-                                newArr.push(
-                                    h(
-                                        "el-button",
-                                        {
-                                            class: "btn_pre",
-                                            style: {
-                                                background: "#979797",
-                                                color: "#767676",
-                                                pointerEvents: "none"
-                                            },
-                                            props: { type: "text" }
-                                        },
-                                        "已复归"
-                                    )
-                                );
-                            }
-                            return h("div", newArr);
-                        }
-                    },
+                    // {
+                    //     title: " ",
+                    //     width: 200,
+                    //     align: "center",
+                    //     render: (h, params) => {
+                    //         let newArr = [];
+                    //         if (params.row.isReturn == "0") {
+                    //             newArr.push(
+                    //                 h(
+                    //                     "el-button",
+                    //                     {
+                    //                         class: "btn_pre",
+                    //                         style: { background: "#305e83!important" },
+                    //                         props: { type: "text" },
+                    //                         on: {
+                    //                             click: () => {
+                    //                                 that.addReturn(params.row);
+                    //                             }
+                    //                         }
+                    //                     },
+                    //                     "复归"
+                    //                 )
+                    //             );
+                    //         }
+                    //         if (params.row.isReturn == "1") {
+                    //             newArr.push(
+                    //                 h(
+                    //                     "el-button",
+                    //                     {
+                    //                         class: "btn_pre",
+                    //                         style: {
+                    //                             background: "#979797",
+                    //                             color: "#767676",
+                    //                             pointerEvents: "none"
+                    //                         },
+                    //                         props: { type: "text" }
+                    //                     },
+                    //                     "已复归"
+                    //                 )
+                    //             );
+                    //         }
+                    //         return h("div", newArr);
+                    //     }
+                    // },
                     {
                         title: " ",
                         key: "id",
@@ -481,7 +468,6 @@
                 ],
                 allDataK: [],
                 addOrEdit: "添加",
-                titleTypeK: "全部识别类型",
                 disabled: false,
                 mixinViewModuleOptions: {
                     getDataListURL: "/lenovo-plan/api/statistics/plan/view",
@@ -841,16 +827,6 @@
             closeEnlarge() {
                 this.isEnlarge = false;
             },
-            onEdit(name) {
-                this.presetName = name;
-                this.addOrEdit = "编辑";
-            },
-            addPoint() {
-                this.$refs.inspectionRef.addPosInput = this.presetName;
-                this.$refs.inspectionRef.addPosition();
-                this.addOrEdit = "添加";
-                this.presetName = "";
-            },
             initCamera() {
                 const that = this;
                 that.disabled = true;
@@ -925,9 +901,6 @@
                 } else if (item.title == "titleTypeR") {
                     this.dataForm.alarmLevel = item.monitorDeviceType;
                     this.getDataList();
-                } else if (item.title == "titleTypeK") {
-                    this.echartForm.getEchasrts = item.monitorDeviceType;
-                    this.getEchasrts();
                 }
             },
             onChangeSecond(data) {
@@ -940,128 +913,6 @@
                 this.secondForm.startTime = startTime;
                 this.secondForm.endTime = endTime;
                 this.initData();
-            },
-            onChangeHis(data) {
-                let startTime = "";
-                let endTime = "";
-                if (data) {
-                    startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
-                    endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
-                }
-                this.dataForm.startTime = startTime;
-                this.dataForm.endTime = endTime;
-                this.getDataList();
-            },
-            onChangeTime(data) {
-                let startTime = "";
-                let endTime = "";
-                if (data) {
-                    startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
-                    endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
-                }
-                /* this.echartTitle =
-                  moment(data[0]).format("YYYY/MM/DD") +
-                  "-" +
-                  moment(data[1]).format("YYYY/MM/DD");*/
-                this.echartForm.startTime = startTime;
-                this.echartForm.endTime = endTime;
-                this.getEchasrts();
-            },
-            getSelectType() {
-                getVType().then(res => {
-                    const resData = res.data;
-                    const map = resData.map(item => {
-                        const obj = {
-                            describeName: item.label,
-                            monitorDeviceType: item.value,
-                            title: "titleTypeL"
-                        };
-                        return obj;
-                    });
-                    map.unshift({
-                        describeName: "所有数据类型",
-                        monitorDeviceType: "",
-                        title: "titleTypeL"
-                    });
-                    this.allDataKind = map;
-                });
-
-                getAxiosData("/lenovo-device/api/recognize-type/select-list", {
-                    monitorDeviceId: this.dataForm.monitorDeviceId
-                }).then(res => {
-                    const resData = res.data;
-                    const map = resData.map(item => {
-                        const obj = {
-                            describeName: item.label,
-                            monitorDeviceType: item.value,
-                            title: "titleTypeK"
-                        };
-                        return obj;
-                    });
-                    map.unshift({
-                        describeName: "全部识别类型",
-                        monitorDeviceType: "",
-                        title: "titleTypeK"
-                    });
-                    this.allDataK = map;
-                });
-            },
-            getSelcetGrade() {
-                getVGrade().then(res => {
-                    const resData = res.data;
-                    const map = resData.map(item => {
-                        const obj = {
-                            describeName: item.label,
-                            monitorDeviceType: item.value,
-                            title: "titleTypeR"
-                        };
-                        return obj;
-                    });
-                    map.unshift({
-                        describeName: "所有异常等级",
-                        monitorDeviceType: "",
-                        title: "titleTypeR"
-                    });
-                    this.allDataLevel = map;
-                });
-            },
-            getSelectPreset() {
-                getPosition().then(res => {
-                    const resData = res.data;
-                    const map = resData.map(item => {
-                        const obj = {
-                            describeName: item.label,
-                            monitorDeviceType: item.value,
-                            title: "titleTypeR"
-                        };
-                        return obj;
-                    });
-                    this.typeList = map;
-                });
-            },
-            createDownLoadClick(content, fileName) {
-                const link = document.createElement("a");
-                link.href = encodeURI(content);
-                link.download = fileName;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            },
-            // 判断是否IE浏览器
-            MyBrowserIsIE() {
-                let isIE = false;
-                if (
-                    navigator.userAgent.indexOf("compatible") > -1 &&
-                    navigator.userAgent.indexOf("MSIE") > -1
-                ) {
-                    // ie浏览器
-                    isIE = true;
-                }
-                if (navigator.userAgent.indexOf("Trident") > -1) {
-                    // edge 浏览器
-                    isIE = true;
-                }
-                return isIE;
             },
             selectDownloadType(item) {
                 const that = this;
@@ -1095,22 +946,6 @@
             //     })*/
             //     that.exportHandle();
             // },
-            getEchasrts() {
-                let query = {
-                    recognizeType: this.echartForm.getEchasrts,
-                    startTime: this.echartForm.startTime,
-                    endTime: this.echartForm.endTime,
-                    deviceType: "2",
-                    powerDeviceId: this.echartForm.sources,
-                    monitorDeviceId: this.$route.query.monitorDeviceId
-                };
-                getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-                    this.echartData = res.data.dataList;
-                    this.echartsKind = res.data.flag;
-                    this.echartTitle = res.data.title;
-                    this.unit = res.data.unit;
-                });
-            },
             handleClose() {
                 this.popData = {};
                 this.visible = false;
@@ -1118,79 +953,13 @@
             onClose() {
                 this.visibleSettingOption = false;
             },
-            getInit() {
-                let time = moment()
-                    .add(-1, "days")
-                    .format("YYYY-MM-DD");
-                this.echartForm.startTime = `${time} 00:00:00`;
-                this.echartForm.endTime = `${time} 23:59:59`;
-                /* this.echartTitle = moment()
-                  .add(-1, "days")
-                  .format("YYYY/MM/DD");*/
-            },
-            getControl() {
-                if (this.isControl == "1") {
-                    this.isControl = "2";
-                    this.endControl();
-                } else if (this.isControl == "2" || this.isControl == "3") {
-                    this.isControl = "1";
-                }
-            },
-            endControl() {
-                if (this.isControl == "2") {
-                    let that = this;
-                    let num = 10;
-                    clearInterval(that.timeOut);
-                    that.timeOut = setInterval(function() {
-                        that.isControl = "3";
-                        let countDown = setInterval(function() {
-                            that.currentTime--;
-                            num--;
-                            if (num == 0) {
-                                clearInterval(countDown);
-                                that.isControl = "1";
-                            }
-                        }, 1000);
-                    }, 1000 * 60 * 5);
-                }
-            },
-            getMonitorDeviceName() {
-                /*   let url = "/lenovo-device/api/device-monitor/device";
-                   let query = {
-                       monitorDeviceId: this.$route.query.monitorDeviceId
-                   };
-                   getAxiosData(url, query).then(res => {
-                       this.dataForm.monitorDeviceName = res.data.deviceName;
-                   });*/
-            },
-            /* getEnvData() {
-                 getAxiosData("/lenovo-alarm/api/security/list", {
-                     startTime: this.secondForm.startTime,
-                     endTime: this.secondForm.endTime,
-                     monitorDeviceId: this.$route.query.monitorDeviceId,
-                     pageIndex: this.envPageIndex,
-                     pageRows: this.pageRows
-                 }).then(res => {
-                     this.envDataList = res.data.tableData;
-                     this.envTotalNum = res.data.pageParam.totalRows;
-                 });
-             }*/
         },
         created() {
             this.dataForm.planId = this.$route.query.planId;
             this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-            this.getMonitorDeviceName();
-            // this.getDataList();
-            // this.initCamera();
-            // this.getEchasrts();
             this.initData()
         },
         mounted() {
-            // this.getInit();
-            // this.getSelectType();
-            // this.getSelcetGrade();
-            // this.getSelectPreset();
-            // window.addEventListener("onmousemove", this.endControl());
             document.querySelector(".mainAside").style.height = "inherit";
             document.querySelector(".mainAside").style.minHeight = "100%";
         },
@@ -1311,68 +1080,6 @@
                 }
             }
         }
-        .content {
-            display: flex;
-            .left {
-                width: 75%;
-                &.nr {
-                    display: flex;
-                    flex-direction: column;
-                    padding-bottom: 3px;
-                    .item {
-                        /*background: #132838;*/
-                        display: flex;
-                        &:first-child {
-                            /*margin-bottom: 15px;*/
-                        }
-                        .camera_surveillanceDetail {
-                            width: 68%;
-                            .contain {
-                                position: relative;
-                                width: 100%;
-                                padding-bottom: 56%;
-                                background: black;
-                                .monitor {
-                                    position: absolute;
-                                    width: 100% !important;
-                                    top: 0;
-                                    left: 0;
-                                }
-                            }
-                        }
-                        .control {
-                            position: relative;
-                            display: flex;
-                            margin-left: 3.4%;
-                            flex-direction: column;
-                            justify-content: center;
-                            /*margin-right: 15px;*/
-                            width: 25%;
-                            .controBtnContain {
-                                margin-bottom: 26%;
-                            }
-                            .inputGroup {
-                                display: flex;
-                                text-align: right;
-                                padding-left: 12px;
-                                .el-input el-input--small {
-                                    margin-left: 10px;
-                                }
-                                .addPoint {
-                                    margin-left: 9px;
-                                    border-radius: 20px;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .right {
-                width: 25%;
-                margin-left: 20px;
-                /*background: #132838;*/
-            }
-        }
         .middle_table {
             margin-top: 20px;
             width: 100%;
@@ -1392,7 +1099,30 @@
                     display: flex;
                     & > div {
                         margin-right: 10px;
-                        .dunoBtnTop {
+                        // .dunoBtnTop {
+                        //     width: 170px;
+                        //     position: relative;
+                        //     left: 10px;
+                        //     display: inline-flex;
+                        //     padding-bottom: 0;
+                        //     .btnList {
+                        //         top: inherit !important;
+                        //         // line-height: 30px;
+                        //         width: 160px;
+                        //         .title {
+                        //             // font-size: 16px;
+                        //             padding: 8px 20px;
+                        //         }
+                        //     }
+                        // }
+                    }
+                }
+                .btn {
+                    display: flex;
+                    & > div {
+                        margin-left: 10px;
+                    }
+                    .dunoBtnTop {
                             width: 170px;
                             position: relative;
                             left: 10px;
@@ -1408,22 +1138,6 @@
                                 }
                             }
                         }
-                    }
-                }
-                .btn {
-                    display: flex;
-                    & > div {
-                        margin-left: 10px;
-                    }
-                    & > div:nth-child(2) {
-                        & > div {
-                            width: 140px;
-                            line-height: 40px;
-                            text-align: center;
-                            /*background-color: #192f41;*/
-                            cursor: pointer;
-                        }
-                    }
                     // & > div:last-child {
                     //   font-size: 22px;
                     // }
@@ -1496,59 +1210,6 @@
                 .el-pagination .btn-next {
                     background-color: rgba(0, 0, 0, 0);
                     color: #ffffff;
-                }
-            }
-        }
-        .historicalData {
-            .top {
-                color: #ffffff;
-                height: 40px;
-                margin-top: 20px;
-                margin-bottom: 20px;
-                display: flex;
-                justify-content: space-between;
-                & > div:first-child {
-                    font-size: 20px;
-                    line-height: 40px;
-                }
-                .btn {
-                    display: flex;
-                    justify-content: space-between;
-                    position: relative;
-                    & > div {
-                        margin-left: 10px;
-                        .dunoBtnTop {
-                            width: 145px;
-                            display: inline-flex;
-                            padding-bottom: 0;
-                            .btnList {
-                                top: inherit !important;
-                                width: 145px;
-                                .title {
-                                    padding: 8px 20px;
-                                }
-                            }
-                        }
-                    }
-                    & > div:nth-child(5) {
-                        & > div {
-                            width: 140px;
-                            line-height: 40px;
-                            text-align: center;
-                            background-color: #192f41;
-                            cursor: pointer;
-                        }
-                    }
-                }
-            }
-            .con-chart {
-                width: 100%;
-                height: 340px;
-                .chartBox {
-                    height: 340px;
-                    .charts {
-                        height: 340px;
-                    }
                 }
             }
         }
