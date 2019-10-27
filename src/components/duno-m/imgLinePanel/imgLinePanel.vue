@@ -237,8 +237,8 @@ export default {
         }
         console.log(x - bbox.left, y - bbox.top)
         return {
-            x: xx,
-            y: yy
+            x: xx.toFixed(3),
+            y: yy.toFixed(3)
         };
     },
     drawRubberbandShape(loc, flag) {
