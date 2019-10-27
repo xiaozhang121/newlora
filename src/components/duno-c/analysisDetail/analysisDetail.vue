@@ -483,19 +483,26 @@ export default {
     this.getDataList();
   },
   created() {
-    this.dataForm.planId = this.$route.query.planId;
-    this.dataForm.planType = this.$route.query.planType;
-    this.dataForm.batchId = this.$route.query.batchId;
-    this.dataForm.isRobot = this.$route.query.isRobot;
-    this.detailsType = this.$route.query.detailsType;
-    this.mixinViewModuleOptions.getDataListURL = this.$route.query.url;
-    this.mixinViewModuleOptions.exportURL = this.downloadURL;
-    this.queryForm.monitorDeviceType = this.monitorDeviceType;
-    this.getRegion();
-    this.getStart();
-    this.getType();
+    this.init();
   },
   methods: {
+    init() {
+      let that = this;
+      that.dataForm.planId = that.$route.query.planId;
+      that.dataForm.planType = that.$route.query.planType;
+      that.dataForm.batchId = that.$route.query.batchId;
+      that.dataForm.isRobot = that.$route.query.isRobot;
+      that.detailsType = that.$route.query.detailsType;
+      debugger;
+      if (that.downloadURL != "") {
+        that.mixinViewModuleOptions.exportURL = that.downloadURL;
+      }
+      that.mixinViewModuleOptions.getDataListURL = that.$route.query.url;
+      that.queryForm.monitorDeviceType = that.monitorDeviceType;
+      that.getRegion();
+      that.getStart();
+      that.getType();  
+    },
     // clickExcel() {
     //   const that = this;
     //   that.queryForm = that.dataForm;
@@ -611,19 +618,6 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         const resData = res.data;
-        // const map = resData.map(item => {
-        //   const obj = {
-        //     describeName: item.label,
-        //     monitorDeviceType: item.value,
-        //     title: "titleType"
-        //   };
-        //   return obj;
-        // });
-        // map.unshift({
-        //   describeName: "所有设备",
-        //   monitorDeviceType: "",
-        //   title: "titleType"
-        // });
         this.regionList = resData;
       });
     },
