@@ -28,12 +28,18 @@
               </div>
               <div class="controBtnContain">
                 <contro-btn
+                  :speed="sliderValue"
                   :controlAble="controlAble"
                   url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}"
                   :disabledOption="disabled"
                   ref="controBtnRef"
                   :deviceId="dataForm.monitorDeviceId"
-                />
+               >
+                  <div class="cameraSpeed">
+                    速度：
+                    <el-slider class="elSlider"  v-model="sliderValue" :min="1" :max="8"></el-slider>
+                  </div>
+                </contro-btn>
               </div>
               <!-- <div class="controlTitle">
                 <div v-if="isControl =='1'" class="controlT">
@@ -157,6 +163,7 @@ export default {
   data() {
     const that = this;
     return {
+      sliderValue: 8,
       meterTypeList: [],
       meterType: '',
       powerDeviceId: '',
@@ -1015,6 +1022,17 @@ export default {
 .perimeterMonitorR {
   width: 100%;
   min-height: 100%;
+  .cameraSpeed{
+    width: 100%;
+    color: white;
+    position: absolute;
+    bottom: -35%;
+    display: flex;
+    align-items: center;
+    .el-slider{
+      flex: 1;
+    }
+  }
   .el-form-item--small .el-form-item__label{
     line-height: 40px !important;
     color: #999999;
@@ -1230,6 +1248,7 @@ export default {
       padding: 20px;
       margin-left: 20px;
       background: #132838;
+      position: relative;
       .checking{
         margin-top: 3%;
         .checking_explain{
