@@ -670,7 +670,7 @@ export default {
   methods: {
     getLock() {
       let that = this;
-      let url = "/lenovo-smartlock/permit/record";
+      let url = "/lenovo-smartlock/permit/getDevicesStatus";
       postAxiosData(url).then(res => {
         let data = res.data;
         if (data.open == 0 && data.close == 0) {
