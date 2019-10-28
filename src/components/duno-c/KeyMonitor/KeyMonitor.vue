@@ -9,6 +9,7 @@
       :style="{'paddingBottom': paddingBottom}"
       @mouseenter="enter()"
       @mouseleave="leave()"
+      style="position: relative"
     >
       <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
@@ -38,6 +39,11 @@
           @mousedown.native="clickNative"
         ></video-player>
         <img v-else class="cameraImg" :src="picUrl" />
+        <div class="backImgK" id="backImgK">
+          <div class="back_child">
+            <slot></slot>
+          </div>
+        </div>
       </div>
       <div v-if="isIniializa" class="Initialization">
         <!--<p>
@@ -828,6 +834,19 @@ export default {
   }
 }
 .keyMonitor {
+  .backImgK{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    .back_child{
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+  }
   .cameraImg{
     z-index: 0 !important;
   }

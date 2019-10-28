@@ -20,7 +20,9 @@ export default {
     return {
         zoomRate: {x: 1, y: 1},
         drawingSurfacsImageData: [],
-        drawPoint: []
+        drawPoint: [],
+        imgOriginWidth: 1920,
+        imgOriginHeight: 1080
     }
   },
   computed: {
@@ -46,6 +48,12 @@ export default {
       },
       imgsrc: {},
       drawPress: {
+          type: Boolean,
+          default: ()=>{
+              return false
+          }
+      },
+      transparent: {
           type: Boolean,
           default: ()=>{
               return false
@@ -149,8 +157,12 @@ export default {
     clearCanvas(){
         const that = this
         that.context.clearRect(0, 0, that.canvas.width, that.canvas.height);
+        if(this.transparent){
+            that.context.fillStyle="transparent"
+        }
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        that.context.drawImage(that.img,0,0, this.width, this.height);
+        if(!this.transparent)
+          that.context.drawImage(that.img,0,0, this.width, this.height);
         that.saveDrawingSurface();
     },
     canvasBindEvent(){
@@ -277,6 +289,9 @@ export default {
         this.canvas.setAttribute('width', this.width)
         this.canvas.setAttribute('height', this.height)
         this.context = this.canvas.getContext("2d");
+        if(this.transparent){
+            this.context.fillStyle="transparent"
+        }
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.pointList = []
         this.drawingSurfacsImageData = [];
@@ -285,6 +300,8 @@ export default {
         this.loc = null;
         this.canvasBindEvent()
         this.initImg(this.width, this.height)
+        if(this.transparent)
+            this.ajaxToDraw(this.picData)
     }
   },
   created() {

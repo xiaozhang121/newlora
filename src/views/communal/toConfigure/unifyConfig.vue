@@ -35,7 +35,9 @@
                       :kilovolt="item['monitorDeviceName']"
                       :showBtmOption="true"
                       :Initialization="true"
-              ></key-monitor>
+              >
+                <img-line-panel :isLock="isLock" :transparent="true" :picData="cameraInfo[index]['areaRect']"   v-if="cameraInfo[index]['areaRect']"  ref="imgLinePanel" :zIndex="index" pId="backImgK"/>
+              </key-monitor>
             </div>
           </div>
         </div>
@@ -132,6 +134,7 @@
     import { DunoTablesTep } from "_c/duno-tables-tep";
     import warningSetting from "_c/duno-j/warningSetting";
     import wraning from "_c/duno-j/warning";
+    import imgLinePanel from '_c/duno-m/imgLinePanel'
     import {
         getVLIght,
         getVType,
@@ -158,11 +161,13 @@
             wraning,
             enlarge,
             Remarks,
-            buttonCustom
+            buttonCustom,
+            imgLinePanel
         },
         data() {
             const that = this;
             return {
+                updateTimer: null,
                 dataTimeEE: "",
                 alarmId: 0,
                 dialogVisible: false,
@@ -656,7 +661,10 @@
                 dataBread: [{ name: "摄像头详情" }],
                 timeData: "",
                 cameraList: [],
-                tableList: []
+                cameraInfo: [],
+                tableList: [],
+                isLock: 0,
+                isInit: false
             };
         },
         props: {
@@ -666,7 +674,25 @@
             }
         },
         methods: {
+            getCameraInfo(){
+                getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId}).then(res=>{
+                    this.isLock = Number(res.data.planStatus)
+                    let data = res.data.cameraList
+                    data.map(item=>{
+                        if(!this.isLock){
+                            item['areaRect'] = ""
+                        }
+                    })
+                    this.cameraInfo = data
+                    if(!this.isInit)
+                      this.initCameraM()
+                })
+            },
             initData(){
+                const that = this
+                this.getCameraInfo()
+            },
+            initCameraM(){
                 const that = this
                 let obj = {pageIndex: that.pageIndex, pageRows: 10, planId: this.dataForm.planId}
                 getAxiosData('/lenovo-plan/api/unified/plan/camera/list', {...obj, ...that.secondForm}).then(res=>{
@@ -674,6 +700,7 @@
                         that.cameraList = res.data.cameraList
                     that.tableList = res.data.tableData.tableData
                     that.totalPage = res.data.tableData.pageParam.totalRows
+                    that.isInit = true
                 })
             },
             toRouter(){
@@ -891,8 +918,12 @@
         mounted() {
             document.querySelector(".mainAside").style.height = "inherit";
             document.querySelector(".mainAside").style.minHeight = "100%";
+            this.updateTimer = setInterval(()=>{
+                this.getCameraInfo()
+            },4000)
         },
         beforeDestroy() {
+            clearImmediate(this.updateTimer)
             document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
             document.querySelector(".mainAside").style.minHeight = "inherit";
         }
@@ -917,6 +948,13 @@
     min-height: 100%;
     padding-bottom: 100px;
     /*overflow-y: hidden;*/
+    .imgLinePanel{
+      height: 100%;
+      position: relative;
+      #canvas{
+        background: transparent;
+      }
+    }
     .el-button:hover {
       background: transparent !important;
     }
