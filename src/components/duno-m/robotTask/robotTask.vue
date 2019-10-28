@@ -113,7 +113,7 @@ export default {
       this.drawList.forEach(item => {
         arr = [...arr, item["linkId"]];
       });
-      postAxiosData("/lenovo-robot/rest/deviceTask", {
+      postAxiosData("/lenovo-robot-indoor/rest/deviceTask", {
         lunengDeviceIds: arr,
         taskName: this.inspectionName
       }).then(res => {
