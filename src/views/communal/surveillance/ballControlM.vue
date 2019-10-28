@@ -227,7 +227,7 @@
             </div>
             <div>
               <duno-btn-top
-                @on-select="selectDownloadType"
+                @on-select="selectDownloadTypeD"
                 class="dunoBtnTo"
                 :isCheck="false"
                 :dataList="downLoadList"
@@ -1209,8 +1209,22 @@ export default {
     },
     selectDownloadType(item) {
       const that = this;
-      that.queryForm.type = item.monitorDeviceType;
-      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.mixinViewModuleOptions.exportURL = "/lenovo-alarm/api/security/history/export";
+      that.queryForm ={};
+      that.dataForm.type = item.monitorDeviceType;
+      that.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      this.queryForm = this.dataForm;
+      that.exportHandle();
+    },
+    selectDownloadTypeD(item) {
+      const that = this;
+      that.mixinViewModuleOptions.exportURL = "/lenovo-plan/api/task/result/list/export";
+      that.queryForm ={
+          monitorDeviceId : this.$route.query.monitorDeviceId,
+          type : item.monitorDeviceType,
+          startTime: this.startTimeR, 
+          endTime: this.endTimeR
+      };
       that.exportHandle();
     },
     // clickExcel() {

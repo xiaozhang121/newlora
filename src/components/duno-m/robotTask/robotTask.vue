@@ -114,7 +114,7 @@ export default {
         arr = [...arr, item["linkId"]];
       });
       postAxiosData("/lenovo-robot/rest/deviceTask", {
-        lenovoDeviceIds: arr,
+        lunengDeviceIds: arr,
         taskName: this.inspectionName
       }).then(res => {
         if (res.data.resConf) {

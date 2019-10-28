@@ -501,7 +501,7 @@ export default {
       that.queryForm.monitorDeviceType = that.monitorDeviceType;
       that.getRegion();
       that.getStart();
-      that.getType();  
+      that.getType();
     },
     // clickExcel() {
     //   const that = this;
@@ -902,6 +902,7 @@ export default {
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
+            line-height: 24px;
             width: 150px;
             .title {
               padding: 8px 20px;

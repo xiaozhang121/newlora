@@ -100,6 +100,7 @@ export default {
   }
   .el-breadcrumb__inner.is-link{
     font-weight: normal;
+    text-decoration: none;
   }
 }
 </style>

@@ -12,6 +12,18 @@
     >
       <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
+          :style="{display:'none'}"
+          :class="{'infraredList':routeName == 'infraredList'}"
+          v-if="isPlayback"
+          ref="videoPlayer"
+          class="vjs-custom-skin"
+          :options="playerOptionsD"
+          :playsinline="true"
+          @play="onPlayerPlay($event)"
+          @pause="onPlayerPause($event)"
+          @mousedown.native="clickNative"
+        ></video-player>
+        <video-player
           v-loading="loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
           element-loading-text="加载中"
@@ -40,13 +52,15 @@
               :style="isShowNone"
               class="block"
               :class="{'hidden': isPic}"
-              v-if="!isCamera"
+              v-if="second"
             >
+            <!-- v-if="!isCamera" 上面的判断 -->
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2" :step="15" @change='sliderChange'></el-slider>
               <span class="nowNR">当前</span>
             </div>
-            <div class="block" v-else>
+            <div class="block" v-else></div>
+            <div class="block" v-if="!second && isCamera">
               视频录制 {{timeIncreateD}}
               <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>-->
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
@@ -297,7 +311,13 @@ export default {
     streamAddr: {
       handler(now) {
         if (now) {
+          if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
+            this.playerOptions["sources"][0]["type"] = "video/mp4";
+          } else {
+            this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
+          }
           this.getHLS(now);
+          this.playerOptionsD["sources"][0]["src"] = now; 
           this.monitorSrc = now;
           this.showView = true;
           clearTimeout(this.timer);
@@ -320,6 +340,7 @@ export default {
       handler(now) {
         if (now) {
           this.playerOptions.poster = now;
+          this.playerOptionsD.poster = now;
         }
       },
       immediate: true
@@ -334,10 +355,15 @@ export default {
           // visibility: "hidden"
         };
       }
+    },
+    kilovolt(now){
+      this.judgeIp()
     }
   },
   data() {
     return {
+      isPlayback:false,
+      second:false,
       picTurnTimer: null,
       picUrl: '',
       taskId: 0,
@@ -391,6 +417,22 @@ export default {
         notSupportedMessage: "此视频暂无法播放，请稍后再试",
         poster: ""
       },
+      playerOptionsD: {
+        sources: [
+          {
+            type: "rtmp/flv",
+            type: "application/x-mpegURL",
+            src: ""
+          }
+        ],
+        aspectRatio: "16:9",
+        fluid: true,
+        techOrder: ["flash"],
+        autoplay: false,
+        controls: true,
+        notSupportedMessage: "此视频暂无法播放，请稍后再试",
+        poster: ""
+      },
       maxSecond: 0
     };
   },
@@ -414,6 +456,21 @@ export default {
     }
   },
   methods: {
+    judgeIp(){
+      let kilovolt;
+      if(this.kilovolt==' '){
+        kilovolt=this.$route.query.monitorDeviceName
+      }else{
+        kilovolt=this.kilovolt;
+      }
+      let str = kilovolt.slice(-2);
+      let array = ['47','48','49','50','51','52','53','54','55','57','58','59'];
+      array.forEach(item=>{
+        if(str==item){
+          this.second=true
+        }
+      })
+    },
     toPrevent(event){
     },
     clickNative(event){
@@ -438,6 +495,7 @@ export default {
       let url = '/lenovo-device/api/stream/videoMove';
       if(item==0){
         let nowRtmp = this.monitorSrc;
+        this.isPlayback = false;
         this.getHLS(nowRtmp)
         this.$forceUpdate()
       }else{
@@ -448,6 +506,7 @@ export default {
         }
         postAxiosData(url,query).then(res=>{
           let now = res.data.hlsUrl;
+          this.isPlayback = true;
           this.getHLS(now)
         })
       }
@@ -737,7 +796,9 @@ export default {
     this.$store.state.app.isPic = false;
   },
   created() {
+    this.judgeIp()
     this.playerOptions.autoplay = this.autoplay;
+    this.playerOptionsD.autoplay = this.autoplay;
     /* if(this.optionWidth && this.optionHeight){
           this.playerOptions.width = this.optionWidth
           this.playerOptions.height = this.optionHeight

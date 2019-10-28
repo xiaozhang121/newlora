@@ -535,7 +535,7 @@ export default {
       disabled: false,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
-        exportURL: "/lenovo-plan/api/task/result/list/export"
+        exportURL: "/lenovo-alarm/api/security/history/export"
       },
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
@@ -1006,8 +1006,8 @@ export default {
       let startTime = "";
       let endTime = "";
       if (data) {
-        startTime = moment(data[0]).format("YYYY-MM-DD");
-        endTime = moment(data[1]).format("YYYY-MM-DD");
+        startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
+        endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
       }
       this.secondForm.startTime = startTime;
       this.secondForm.endTime = endTime;

@@ -336,11 +336,11 @@ export default {
         let data = [];
         data.push(that.selectValue);
         let query = {
-          powerDeviceId: that.powerDeviceId,
+          // powerDeviceId: that.powerDeviceId,
           monitorDeviceId: that.monitorDeviceId,
           alarmFileAddress: `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`,
-          recognizeType: data,
-          remake: this.textarea
+          // recognizeType: data,
+          // remake: this.textarea
         };
         postAxiosData(url, query).then(res => {
           this.$emit("closeShot");

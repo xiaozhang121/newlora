@@ -689,8 +689,9 @@ export default {
     },
     selectDownloadType(item) {
       const that = this;
-      that.queryForm.type = item.monitorDeviceType;
-      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.dataForm.type = item.monitorDeviceType;
+      that.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.queryForm = this.dataForm
       that.exportHandle();
     },
     // clickExcel() {
