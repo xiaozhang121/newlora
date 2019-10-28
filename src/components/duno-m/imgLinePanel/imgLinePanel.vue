@@ -78,12 +78,12 @@ export default {
         let obj = { x: 0, y: 0 };
         // 原始-->页面
         if (type) {
-            obj["x"] = (w0 / w1) * x0;
-            obj["y"] = (h0 / h1) * y0;
+            obj["x"] = ((w0 / w1) * x0).toFixed(3);
+            obj["y"] = ((h0 / h1) * y0).toFixed(3);
         } else {
             // 页面-->原始
-            obj["x"] = (w1 / w0) * x0;
-            obj["y"] = (h1 / h0) * y0;
+            obj["x"] = ((w1 / w0) * x0).toFixed(3);
+            obj["y"] = ((h1 / h0) * y0).toFixed(3);
         }
         return obj;
     },
