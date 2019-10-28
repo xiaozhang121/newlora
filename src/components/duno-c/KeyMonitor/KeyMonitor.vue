@@ -203,7 +203,7 @@ export default {
     autoplay: {
       type: Boolean,
       default: () => {
-        return false;
+        return true;
       }
     },
     imgAdress: {
@@ -418,7 +418,7 @@ export default {
         fluid: true,
         // width:document.getElementsById("videoPlayer").offsetWidth,
         techOrder: ["flash"],
-        autoplay: false,
+        autoplay: true,
         controls: true,
         notSupportedMessage: "此视频暂无法播放，请稍后再试",
         poster: ""
@@ -434,7 +434,7 @@ export default {
         aspectRatio: "16:9",
         fluid: true,
         techOrder: ["flash"],
-        autoplay: false,
+        autoplay: true,
         controls: true,
         notSupportedMessage: "此视频暂无法播放，请稍后再试",
         poster: ""
