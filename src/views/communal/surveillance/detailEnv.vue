@@ -342,7 +342,7 @@ export default {
         },
         {
           title: "警告类型",
-          key: "alarmType",
+          key: "alarmDetailType",
           minWidth: 120,
           align: "center",
           tooltip: true
