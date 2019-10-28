@@ -146,7 +146,8 @@ export default {
         that.img.onload = function(){
             that.imgOriginWidth = this.width
             that.imgOriginHeight = this.height
-            that.context.drawImage(that.img,0,0, that.width, that.height);
+            if(!that.transparent)
+              that.context.drawImage(that.img,0,0, that.width, that.height);
             that.initWinResize()
             if(that.picData && that.isLock)
               that.ajaxToDraw(that.picData)
@@ -300,8 +301,6 @@ export default {
         this.loc = null;
         this.canvasBindEvent()
         this.initImg(this.width, this.height)
-        if(this.transparent)
-            this.ajaxToDraw(this.picData)
     }
   },
   created() {

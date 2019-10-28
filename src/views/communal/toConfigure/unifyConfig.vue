@@ -36,7 +36,7 @@
                       :showBtmOption="true"
                       :Initialization="true"
               >
-                <img-line-panel :isLock="isLock" :transparent="true" :picData="cameraInfo[index]['areaRect']"   v-if="cameraInfo[index]['areaRect']"  ref="imgLinePanel" :zIndex="index" pId="backImgK"/>
+                <img-line-panel :isLock="isLock" :transparent="true" :imgsrc="cameraInfo[index]['pic']" :picData="cameraInfo[index]['areaRect']"   v-if="cameraInfo[index]['areaRect']"  ref="imgLinePanel" :zIndex="index" pId="backImgK"/>
               </key-monitor>
             </div>
           </div>
