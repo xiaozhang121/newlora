@@ -222,20 +222,6 @@
                         tooltip: true
                     },
                     {
-                        title: "处理记录",
-                        key: "dealRecord",
-                        minWidth: 120,
-                        align: "center",
-                        tooltip: true,
-                    },
-                    {
-                        title: "处理时间",
-                        key: "dealTime",
-                        minWidth: 90,
-                        align: "center",
-                        tooltip: true,
-                    },
-                    {
                         title: "视频/图片",
                         key: "id",
                         minWidth: 120,
@@ -259,9 +245,9 @@
                                 ]);
                             } else if (params.row.fileType == "2") {
                                 newArr.push([
-                                    h("video", {
-                                        class: "imgOrMv",
-                                        attrs: { src: params.row.alarmFileAddress },
+                                    h("img", {
+                                        class: "imgOrMvV",
+                                        attrs: { src: params.row.pic },
                                         draggable: false,
                                         on: {
                                             click: () => {
@@ -698,7 +684,20 @@
                 getAxiosData('/lenovo-plan/api/unified/plan/camera/list', {...obj, ...that.secondForm}).then(res=>{
                     if(!this.cameraList.length)
                         that.cameraList = res.data.cameraList
-                    that.tableList = res.data.tableData.tableData
+                    let data = res.data.tableData.tableData
+                    data.map(item=>{
+                        item['pic'] = ''
+                    })
+                    that.tableList = data
+                    data.forEach((item, index) => {
+                        postAxiosData("/lenovo-alarm/api/info/video/pic", {
+                            videoPath: item["alarmFileAddress"],
+                            positionIndex: index
+                        }).then(res => {
+                            this.tableList[res.data["positionIndex"]]["pic"] = res.data.pic;
+                            this.$forceUpdate();
+                        });
+                    })
                     that.totalPage = res.data.tableData.pageParam.totalRows
                     that.isInit = true
                 })
@@ -1004,6 +1003,12 @@
     }
     .imgOrMv {
       width: 50%;
+      height: 35px;
+      position: relative;
+      top: 2px;
+    }
+    .imgOrMvV{
+      width: auto;
       height: 35px;
       position: relative;
       top: 2px;
