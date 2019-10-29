@@ -6,7 +6,14 @@
         xx全面巡视任务报告
       </div>
       <div class="search">
-        <duno-btn-top
+        <el-date-picker
+                v-model="timeRange"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+        </el-date-picker>
+        <!--<duno-btn-top
                 style="position: absolute;
                 top: -30px;
                 right: 356px;"
@@ -16,11 +23,11 @@
                 :dataList="numberCameras"
                 :title="titleValueL"
                 :showBtnList="false"
-        ></duno-btn-top>
-        <div  class="clickBtn">
+        ></duno-btn-top>-->
+       <!-- <div  class="clickBtn">
           <i class="iconfont icon-daochu1"></i>
           导出表格
-        </div>
+        </div>-->
       </div>
     </div>
     <duno-main>
@@ -52,7 +59,7 @@
             </div>
           </template>
         </div>-->
-        <div class="tip">
+        <div class="tip" v-if="false">
           备注：状态识别显示“表计读数异常”/ “表计读数正常”/ “无法识别”
         </div>
       </div>
@@ -67,7 +74,9 @@
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import dunoMain from "_c/duno-m/duno-main";
+import moment from 'moment'
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
+import {getAxiosData} from "../../../api/axiosType";
 export default {
   components: {
     Breadcrumb,
@@ -78,6 +87,7 @@ export default {
   name: "server",
   data() {
     return {
+      timeRange: '',
       titleValueL: '监控摄像头数量',
       splitHeaderVisible: true,
       numberCameras: [
@@ -256,11 +266,26 @@ export default {
               width: 200
           }
       ],
+      keys: [],
+      searchData: {
+          startDate: '',
+          endDate: '',
+          templateIds: '626719305252552704'
+      },
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "", name: "报表详情" },
       ],
     };
+  },
+  watch: {
+      timeRange:{
+         handler(now){
+             this.searchData.startDate = moment(now[0]).format('YYYY-MM-DD')
+             this.searchData.endDate = moment(now[1]).format('YYYY-MM-DD')
+         },
+         immediate: true
+      }
   },
   methods:{
       mergeCol(colN, rowN, count){
@@ -309,14 +334,63 @@ export default {
       },
       addHeader(){
         $('.tablesTep .ivu-table-wrapper .ivu-table tr:first-child th:first-child').append(this.$refs.tableName)
-      }
+      },
+      getAllKey(columns, data){
+          for(let i=0; i<columns.length; i++){
+              if('children' in columns[i]){
+                  this.getAllKey(columns[i].children, data)
+              }else{
+                  if('key' in columns[i]){
+                      data.push(columns[i]['key'])
+                  }
+              }
+          }
+      },
+      handleData(){
+
+      },
+      getReportView(){
+        /*  getAxiosData('/lenovo-plan/api/report/view', { ...this.searchData }).then(res=>{
+              debugger
+          })*/
+          let data = []
+          Array(10).fill(0).forEach(item=>{
+              let obj = {}
+              Array(12).fill(0).forEach((child, index)=>{
+                  obj[index+1] = 'index: '+ index +  " " +Math.random()*1000
+              })
+              data.push(obj)
+          })
+          return data
+          this.handleData(data)
+      },
+      initDate(){
+          let date = new Date()
+          this.timeRange = [ date, date ]
+      },
+      initTable(){
+          this.data10 = []
+          this.columns11 = []
+          let tableColumns = require(`@/static/tableData/${this.searchData.templateIds}.js`).default
+          this.columns11 = tableColumns
+          debugger
+          this.getAllKey(this.columns11, this.keys)
+          debugger
+          this.getReportView()
+          this.$forceUpdate()
+      },
+  },
+  created(){
+      this.initDate()
+      this.initTable()
   },
   mounted(){
       this.$nextTick(()=>{
           this.addHeader()
 
       })
-     this.tableHeight = $('.dunoMain_nr').height() - $('.tab').height()-140
+      // 140
+     this.tableHeight = $('.dunoMain_nr').height() - $('.tab').height()-60
 /*     document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border-left: 1px solid grey !important")
      document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border:none !important; border-left: 1px solid grey !important")
   */
@@ -329,16 +403,44 @@ export default {
       },3000)
       this.$nextTick(()=>{
           this.noSplit()
+        /*  this.noSplit()
           this.mergeRow(1, 1, 3)
           this.mergeRow(2, 1, 3)
           this.mergeRow(3, 1, 3)
-          this.mergeCol(1, 1, 3)
+          this.mergeCol(1, 1, 3)*/
       })
   }
 };
 </script>
 <style lang="scss">
   .taskReport{
+    .el-range-editor--small.el-input__inner{
+      background: #102332;
+      border: none;
+    }
+    .el-range-editor--small .el-range-input{
+      background: #102332;
+      color: white;
+    }
+    .el-picker-panel  {
+      background: #152e3a !important;
+      border: none !important;
+    }
+    .el-date-table td.disabled div{
+      color: 	#606266  !important;
+      background-color: rgba(27, 59, 71, 0.7)  !important;
+    }
+    .el-time-panel{
+      border: solid 1px rgba(27, 59, 71, 0.7)  !important;
+      background-color: rgba(27, 59, 71, 0.7)  !important;
+    }
+    .el-time-panel__footer{
+      border-top:none
+    }
+    .el-time-panel__btn,
+    .el-time-panel__btn.confirm{
+      color:#fff;
+    }
     .tableName{
       color: white;
       z-index: 9;
