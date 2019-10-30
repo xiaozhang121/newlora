@@ -618,7 +618,7 @@
                 }
             },
             onDisable(flag){
-                this.disabled = flag
+                this.disabled = !flag
             },
             closeShot() {
                 this.isShow = false;
