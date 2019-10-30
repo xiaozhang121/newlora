@@ -622,7 +622,7 @@
                     if(item['monitorDeviceId']){
                         count ++
                     }
-                    query["camera0" + (count + 1) + "Id"] = item['monitorDeviceId'];
+                    query["camera0" + (count) + "Id"] = item['monitorDeviceId'];
                 })
               /*  that.$refs.btnTopRef.checkedCities.forEach((item, index) => {
                     query["camera0" + (index + 1) + "Id"] = item;
