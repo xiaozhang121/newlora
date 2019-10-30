@@ -380,8 +380,7 @@ export default {
     }
   }
   .keyEreaContain{
-    position: relative;
-    z-index: 1;
+    z-index: 0;
   }
   .mainContamin {
     height: 560px;

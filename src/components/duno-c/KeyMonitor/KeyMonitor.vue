@@ -963,7 +963,7 @@ export default {
       padding-left: 10px;
       padding-right: 10px;
       width: 100%;
-      z-index: 1;
+      /*z-index: 1;*/
       span {
         display: flex;
         margin-left: 2%;
