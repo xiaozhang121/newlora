@@ -26,6 +26,8 @@
           @canplaythrough="toPlay"
           @ready="toPlay"
           @mousedown.native="clickNative"
+          @playing="onPlayerPlaying($event)"
+          @waiting="onPlayerWaiting($event)"
           @error="onPlayerError($event)"
         ></video-player>
         <video-player
@@ -40,9 +42,11 @@
           :playsinline="true"
           @play="onPlayerPlay($event)"
           @pause="onPlayerPause($event)"
+          @playing="onPlayerPlaying($event)"
           @canplay="toPlay"
           @canplaythrough="toPlay"
           @ready="toPlay"
+          @waiting="onPlayerWaiting($event)"
           @mousedown.native="clickNative"
           @error="onPlayerError($event)"
         ></video-player>
@@ -332,6 +336,7 @@ export default {
           }
           this.getHLS(now);
           this.playerOptionsD["sources"][0]["src"] = now; 
+          this.playerOptions["sources"][0]["src"] = now;
           this.monitorSrc = now;
           this.showView = true;
           clearTimeout(this.timer);
@@ -411,6 +416,7 @@ export default {
         // visibility: "hidden"
       },
       isSecond: false,
+      waitTimer: null,
       playerOptions: {
         sources: [
           {
@@ -472,8 +478,19 @@ export default {
     }
   },
   methods: {
+    onPlayerWaiting(){
+      this.waitTimer = setTimeout(() => {
+        this.$refs.videoPlayer.player.load()
+        this.$refs.videoPlayer.player.src(this.playerOptions["sources"][0]["src"])    // 重新设置src（会导致播放器报错，这样就能调用 onPlayerError，并且当直播继续时，刷新播放器即可播放）
+      }, 8000)
+    },
+    onPlayerPlaying(player) {
+      // console.log('player Playing!', player)
+      clearTimeout(this.waitTimer)
+    },
     onPlayerError(){
-      this.$message.error('error')
+      clearTimeout(this.waitTimer)
+      this.$refs.videoPlayer.player.load()
     },
     toPlay(){
       if (this.autoplay)
