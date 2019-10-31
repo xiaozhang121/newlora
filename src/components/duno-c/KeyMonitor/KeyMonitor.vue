@@ -22,6 +22,9 @@
           :playsinline="true"
           @play="onPlayerPlay($event)"
           @pause="onPlayerPause($event)"
+          @canplay="toPlay"
+          @canplaythrough="toPlay"
+          @ready="toPlay"
           @mousedown.native="clickNative"
         ></video-player>
         <video-player
@@ -36,6 +39,9 @@
           :playsinline="true"
           @play="onPlayerPlay($event)"
           @pause="onPlayerPause($event)"
+          @canplay="toPlay"
+          @canplaythrough="toPlay"
+          @ready="toPlay"
           @mousedown.native="clickNative"
         ></video-player>
         <img v-else class="cameraImg" :src="picUrl" />
@@ -464,6 +470,12 @@ export default {
     }
   },
   methods: {
+    toPlay(){
+      this.$nextTick(() => {
+        if (this.autoplay)
+          this.$refs.videoPlayer.player.play()
+      })
+    },
     judgeIp(){
       let kilovolt;
       if(this.kilovolt==' '){
