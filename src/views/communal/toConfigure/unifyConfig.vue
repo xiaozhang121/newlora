@@ -244,7 +244,7 @@
                                     })
                                 ]);
                             } else if (params.row.fileType == "2") {
-                               /* newArr.push([
+                                newArr.push([
                                     h("img", {
                                         class: "imgOrMvV",
                                         attrs: { src: params.row.pic },
@@ -256,8 +256,8 @@
                                             }
                                         }
                                     })
-                                ]);*/
-                                newArr.push([
+                                ]);
+                                /*newArr.push([
                                     h("i", {
                                         class: "iconfont icon-bofang",
                                         draggable: false,
@@ -268,7 +268,7 @@
                                             }
                                         }
                                     })
-                                ]);
+                                ]);*/
                             }
                             return h("div", newArr);
                         }
@@ -701,7 +701,7 @@
                         item['pic'] = ''
                     })
                     that.tableList = data
-                   /* data.forEach((item, index) => {
+                    data.forEach((item, index) => {
                         postAxiosData("/lenovo-alarm/api/info/video/pic", {
                             videoPath: item["alarmFileAddress"],
                             positionIndex: index
@@ -709,7 +709,7 @@
                             this.tableList[res.data["positionIndex"]]["pic"] = res.data.pic;
                             this.$forceUpdate();
                         });
-                    })*/
+                    })
                     that.totalPage = res.data.tableData.pageParam.totalRows
                     that.isInit = true
                 })
