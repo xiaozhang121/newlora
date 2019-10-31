@@ -16,7 +16,7 @@
         element-loading-background="rgba(0, 0, 0, 0.8)"
         element-loading-text="加载中"
       >
-        <div v-for="(item,index) in inspecReport" :key="index">
+        <div class="inspection_item" v-for="(item,index) in inspecReport" :key="index">
           <ReportTable :url="url" :reportData="item" />
         </div>
       </div>
@@ -353,7 +353,7 @@ export default {
       justify-content: flex-start;
       flex-wrap: wrap;
       flex-direction: row;
-      & > div {
+      & > .inspection_item {
         width: calc(20% - 16px);
         margin-right: 20px;
         .reportTable {
