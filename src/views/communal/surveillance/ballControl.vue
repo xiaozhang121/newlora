@@ -30,6 +30,7 @@
             </div>
             <div class="control">
               <div class="controBtnContain">
+                <connect-state :deviceId="dataForm.monitorDeviceId" />
                 <contro-btn
                   :controlAble="controlAble"
                   url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}"
@@ -215,6 +216,7 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import cover from "_c/duno-c/cover";
+import connectState from "_c/duno-c/connectState";
 import controBtn from "_c/duno-m/controBtn";
 import pattery from "_c/duno-m/pattery";
 import mixinViewModule from "@/mixins/view-module";
@@ -252,6 +254,7 @@ export default {
     Remarks,
     pattery,
     cover,
+    connectState,
     controlCheck
   },
   data() {

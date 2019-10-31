@@ -22,7 +22,19 @@
           <el-cascader :data="cascaderData" :load-data="loadData"></el-cascader>
         </el-form-item>
         <el-form-item label="被监测设备">
-          <el-select v-model="form.divice" placeholder="请选择" :automatic-dropdown="true"></el-select>
+          <el-input v-model="form.divice" placeholder="请选择"></el-input>
+          <div class="diviceSelect">
+            <el-input placeholder="请输入内容" v-model="diviceSelect" clearable></el-input>
+            <div>
+              <div>
+                <p>
+                  <i class="el-icon-arrow-down"></i>
+                  1000千伏区域
+                </p>
+                
+              </div>
+            </div>
+          </div>
         </el-form-item>
         <el-form-item label="上传图片">
           <el-upload
@@ -70,6 +82,7 @@ export default {
       form: {
         divice: ""
       },
+      diviceSelect: "",
       fileList: [],
       diviceData: [
         {
