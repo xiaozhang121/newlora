@@ -26,6 +26,7 @@
           @canplaythrough="toPlay"
           @ready="toPlay"
           @mousedown.native="clickNative"
+          @error="onPlayerError($event)"
         ></video-player>
         <video-player
           v-loading="loading"
@@ -43,6 +44,7 @@
           @canplaythrough="toPlay"
           @ready="toPlay"
           @mousedown.native="clickNative"
+          @error="onPlayerError($event)"
         ></video-player>
         <img v-else class="cameraImg" :src="picUrl" />
         <div class="backImgK" id="backImgK">
@@ -470,6 +472,9 @@ export default {
     }
   },
   methods: {
+    onPlayerError(){
+      this.$message.error('error')
+    },
     toPlay(){
       if (this.autoplay)
         this.$refs.videoPlayer.player.play()
