@@ -30,7 +30,6 @@
             </div>
             <div class="control">
               <div class="controBtnContain">
-                <connect-state :deviceId="dataForm.monitorDeviceId" />
                 <contro-btn
                   :controlAble="controlAble"
                   url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}"
@@ -41,6 +40,7 @@
               </div>
             </div>
           </div>
+          <connect-state :deviceId="dataForm.monitorDeviceId"  class="connetState" />
           <control-check
             @on-disable="onDisable"
             ref="controlCheckRef"
@@ -1088,6 +1088,10 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .connetState{
+    right: 220px;
+    color: white;
+  }
   .controlCheck {
     right: 0;
     width: 211px;

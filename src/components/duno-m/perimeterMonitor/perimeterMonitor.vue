@@ -23,7 +23,6 @@
             </div>
             <div class="control">
               <div class="controBtnContain">
-                <connect-state :deviceId="dataForm.monitorDeviceId" />
                 <contro-btn
                   :controlAble="controlAble"
                   url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}"
@@ -34,6 +33,7 @@
               </div>
             </div>
           </div>
+          <connect-state @on-show='showBtn' v-if="isShow" :deviceId="dataForm.monitorDeviceId"  class="connetState" />
           <control-check :zIndex="zIndex" @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
         </div>
         <div class="right nr contain">
@@ -154,6 +154,7 @@ export default {
       titleTypeR: "全部异常类型",
       isControl: "1",
       currentTime: 10,
+      isShow:false,
       initImgD: false,
       isCamera: true, //是否点击拍照
       isShowBox: false, //框选div是否显示
@@ -480,6 +481,9 @@ export default {
     }
   },
   methods: {
+    showBtn(data){
+      this.isShow=data
+    }
     onFinish(data){
         debugger
         this.drawArealist = data
@@ -982,6 +986,12 @@ export default {
 .perimeterMonitor {
   width: 100%;
   min-height: 100%;
+  .connetState{
+    height: 30px;
+    right: 250px;
+    color: white;
+    top: -40px;
+  }
   .controlCheck{
     right: 0;
     width: 211px;
