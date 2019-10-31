@@ -437,6 +437,7 @@
 
         },
         beforeDestroy(){
+            const that = this
             window.removeEventListener('click', that.bindEvent)
         },
         mounted(){
