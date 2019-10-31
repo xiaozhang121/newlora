@@ -41,6 +41,16 @@ export default {
       isMax: false
     };
   },
+  watch:{
+    isShow:{
+      handler(now){
+        this.$nextTick(()=>{
+          this.initDom()
+        })
+      },
+      immediate: true
+    }
+  },
   props: {
     modalBody: {
       type: Boolean,
@@ -79,22 +89,25 @@ export default {
     };
   },
   methods: {
+    initDom(){
+      if (document.documentElement.clientWidth > 3000) {
+        /* this.width = "45%";*/
+        this.isMax = true;
+        document.querySelector(
+            ".enlarge .el-dialog__wrapper"
+        ).children[0].style.height =
+            window.outerHeight * 0.826412614980289 + "px";
+      }
+      document.querySelector(
+          ".enlarge .el-dialog__wrapper"
+      ).children[0].style.height = window.outerHeight * 0.826412614980289 + "px";
+    },
     handleLarge() {
       this.$emit("closeEnlarge");
     }
   },
   mounted() {
-    if (document.documentElement.clientWidth > 3000) {
-      /* this.width = "45%";*/
-      this.isMax = true;
-      document.querySelector(
-        ".enlarge .el-dialog__wrapper"
-      ).children[0].style.height =
-        window.outerHeight * 0.826412614980289 + "px";
-    }
-    document.querySelector(
-      ".enlarge .el-dialog__wrapper"
-    ).children[0].style.height = window.outerHeight * 0.826412614980289 + "px";
+    this.initDom()
   }
 };
 </script>
