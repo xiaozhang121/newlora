@@ -1014,7 +1014,7 @@ export default {
     height: 30px;
     right: 250px;
     color: white;
-    top: -50px;
+    top: -60px;
   }
   .controlCheck{
     height: 30px;

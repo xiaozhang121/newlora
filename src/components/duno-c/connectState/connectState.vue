@@ -59,13 +59,11 @@ export default {
       let url = `/lenovo-visible/api/visible-equipment/equip-connect/${this.deviceId}/${this.status}`;
       debugger;
       putAxiosData(url).then(res => {
-        if (res.status == 200) {
-          this.$message.success("操作成功");
-          if (this.status == "1") {
-            this.title = "断开";
-          } else {
-            this.title = "连接";
-          }
+        this.$message.success("操作成功");
+        if (this.status == "1") {
+          this.title = "断开";
+        } else {
+          this.title = "连接";
         }
       });
     }
