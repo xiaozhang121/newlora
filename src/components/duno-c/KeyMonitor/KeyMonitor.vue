@@ -471,10 +471,8 @@ export default {
   },
   methods: {
     toPlay(){
-      this.$nextTick(() => {
-        if (this.autoplay)
-          this.$refs.videoPlayer.player.play()
-      })
+      if (this.autoplay)
+        this.$refs.videoPlayer.player.play()
     },
     judgeIp(){
       let kilovolt;

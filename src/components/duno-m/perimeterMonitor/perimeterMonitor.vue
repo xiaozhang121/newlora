@@ -483,7 +483,7 @@ export default {
   methods: {
     showBtn(data){
       this.isShow=data
-    }
+    },
     onFinish(data){
         debugger
         this.drawArealist = data
