@@ -473,6 +473,10 @@ export default {
     toPlay(){
       if (this.autoplay)
         this.$refs.videoPlayer.player.play()
+      setTimeout(()=>{
+        if (this.autoplay)
+          this.$refs.videoPlayer.player.play()
+      },8000)
     },
     judgeIp(){
       let kilovolt;
