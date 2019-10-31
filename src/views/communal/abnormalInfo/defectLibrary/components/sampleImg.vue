@@ -3,7 +3,7 @@
     <el-dialog
       title="批量导入样本图片"
       :visible.sync="visible"
-      width="600px"
+      width="500px"
       :close-on-click-modal="false"
       :before-close="handleClose"
     >
@@ -22,7 +22,23 @@
           <el-cascader :data="cascaderData" :load-data="loadData"></el-cascader>
         </el-form-item>
         <el-form-item label="被监测设备">
-          <el-select v-model="form.divice" placeholder="请选择"></el-select>
+          <el-select v-model="form.divice" placeholder="请选择" :automatic-dropdown="true"></el-select>
+        </el-form-item>
+        <el-form-item label="上传图片">
+          <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="3"
+            :on-exceed="handleExceed"
+            :file-list="fileList"
+          >
+            <el-input :readonly="true" placeholder="点击上传图片"></el-input>
+            <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+          </el-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -35,6 +51,7 @@
 
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   name: "sampleImg",
   components: {
@@ -53,6 +70,7 @@ export default {
       form: {
         divice: ""
       },
+      fileList: [],
       diviceData: [
         {
           label: "设备组件",
@@ -80,43 +98,56 @@ export default {
     };
   },
   methods: {
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+      );
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
     handleClose() {
       this.$emit("on-close");
     },
+    getVoltage() {
+      let url = "/lenovo-sample/api/sample/getMainDevice";
+      postAxiosData(url).then(res => {
+        let data = res.data;
+        data.forEach(el => {
+          el.children = [];
+          el.loading = false;
+        });
+        this.cascaderData = data;
+      });
+    },
     loadData(item, callback) {
       item.loading = true;
-      setTimeout(() => {
-        if (item.value === "beijing") {
-          item.children = [
-            {
-              value: "talkingdata",
-              label: "TalkingData"
-            },
-            {
-              value: "baidu",
-              label: "百度"
-            },
-            {
-              value: "sina",
-              label: "新浪"
-            }
-          ];
-        } else if (item.value === "hangzhou") {
-          item.children = [
-            {
-              value: "ali",
-              label: "阿里巴巴"
-            },
-            {
-              value: "163",
-              label: "网易"
-            }
-          ];
-        }
-        item.loading = false;
-        callback();
-      }, 1000);
+      let url = "/lenovo-sample/api/sample/getPart";
+      let query = {
+        mainDevice: item.value
+      };
+      postAxiosData(url).then(res => {
+        let data = res.data;
+        data.forEach(el => {
+          el.children = [];
+          el.loading = false;
+        });
+        item.children = data;
+      });
+      item.loading = false;
+      callback();
     }
+  },
+  mounted() {
+    this.getVoltage();
   }
 };
 </script>
@@ -148,6 +179,20 @@ export default {
     }
     .el-dialog__body {
       background-color: #e0e0e0;
+      padding: 30px 40px 50px 20px;
+      .el-select,
+      .el-upload {
+        width: 100%;
+      }
+      .el-input__inner {
+        cursor: pointer;
+      }
+      .ivu-input {
+        padding: 0 15px;
+      }
+      .el-form-item {
+        margin-bottom: 24px;
+      }
     }
     .el-dialog__footer {
       background-color: #e0e0e0;

@@ -236,7 +236,7 @@ export default {
   justify-content: space-around;
   .img {
     width: 40%;
-    // height: 100%;
+    height: 180px;
     position: relative;
     img {
       width: 100%;
@@ -247,18 +247,9 @@ export default {
     .keyMonitor {
       width: 100% !important;
     }
-    // img {
-    //   display: block;
-    //   height: 100%;
-    //   width: 100%;
-    // }
-    // i {
-    //   position: absolute;
-    //   top: 39%;
-    //   left: 45%;
-    //   font-size: 30px;
-    //   color: #ffffff;
-    // }
+    .cover {
+      height: 180px;
+    }
   }
   .contentMain {
     cursor: pointer;
