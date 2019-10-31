@@ -36,7 +36,6 @@
                 v-else
                 class="KeyMonitor_screenshot"
                 width="100%"
-                :autoplay="true"
                 :isNav="false"
                 :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
               />

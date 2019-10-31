@@ -279,7 +279,8 @@
       >
         <div class="item">
           <key-monitor
-            :autoplay="true"
+            :autoplay="false"
+            :noButton="false"
             :aggregate="true"
             :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
             :imgAdress="item['pic']"
@@ -298,7 +299,8 @@
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
           <key-monitor
-            :autoplay="true"
+            :autoplay="false"
+            :noButton="false"
             :aggregate="true"
             :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
             :imgAdress="item['pic']"

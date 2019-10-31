@@ -329,6 +329,8 @@ export default {
           clearTimeout(this.timer);
           this.$nextTick(() => {
             setTimeout(() => {
+              if(this.autoplay)
+                this.$refs.videoPlayer.player.play()
               this.loading = false;
             }, 1500);
           });
@@ -802,7 +804,9 @@ export default {
     this.$store.state.app.isPic = false;
   },
   created() {
+    try{
     this.judgeIp()
+    }catch (e) {}
     this.playerOptions.autoplay = this.autoplay;
     this.playerOptionsD.autoplay = this.autoplay;
     /* if(this.optionWidth && this.optionHeight){
