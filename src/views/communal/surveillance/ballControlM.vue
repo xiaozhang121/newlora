@@ -38,23 +38,9 @@
                   :deviceId="dataForm.monitorDeviceId"
                 />
               </div>
-              <!-- <div class="controlTitle">
-                <div v-if="isControl =='1'" class="controlT">
-                  <span>云台控制中</span>
-                  <span @click="getControl">获取控制权</span>
-                </div>
-                <div v-if="isControl =='2'" class="controlT">
-                  <span>已获取云台控制</span>
-                  <span @click="getControl">结束控制</span>
-                </div>
-                <div v-if="isControl =='3'" class="controlT">
-                  <span>结束控制倒计时</span>
-                  <i>{{ currentTime }} s</i>
-                  <span @click="getControl">结束控制</span>
-                </div>
-              </div>-->
             </div>
           </div>
+          <connect-state :deviceId="dataForm.monitorDeviceId"  class="connetState" />
           <control-check
             @on-disable="onDisable"
             ref="controlCheckRef"
@@ -278,6 +264,7 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import cover from "_c/duno-c/cover";
+import connectState from "_c/duno-c/connectState";
 import controBtn from "_c/duno-m/controBtn";
 import pattery from "_c/duno-m/pattery";
 import mixinViewModule from "@/mixins/view-module";
@@ -317,7 +304,8 @@ export default {
     cover,
     controlCheck,
     buttonCustom,
-    ReportTable
+    ReportTable,
+    connectState
   },
   data() {
     const that = this;
@@ -1607,12 +1595,18 @@ export default {
   .reportTable .btn{
     margin-bottom: 0 !important;
   }
+  .connetState{
+    height: 30px;
+    right: 250px;
+    color: white;
+    top: -40px;
+  }
   .controlCheck {
     height: 30px;
     right: 0;
     width: 211px;
     color: white;
-    top: -35px;
+    top: -40px;
   }
   .el-input--small .el-input__inner {
     border-radius: 5px;

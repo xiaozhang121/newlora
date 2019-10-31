@@ -57,7 +57,6 @@ export default {
     },
     connentSatus() {
       let url = `/lenovo-visible/api/visible-equipment/equip-connect/${this.deviceId}/${this.status}`;
-      debugger;
       putAxiosData(url).then(res => {
         this.$message.success("操作成功");
         if (this.status == "1") {
