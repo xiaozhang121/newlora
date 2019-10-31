@@ -1,6 +1,7 @@
 <template>
   <div class="enlarge">
     <el-dialog
+      v-if="isShow"
       :visible.sync="isShow"
       :show-close="false"
       :modal="true"
