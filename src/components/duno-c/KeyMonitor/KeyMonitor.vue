@@ -480,6 +480,7 @@ export default {
   methods: {
     onPlayerWaiting(){
       this.waitTimer = setTimeout(() => {
+        this.$message.info('重新加载')
         this.$refs.videoPlayer.player.load()
         this.$refs.videoPlayer.player.src(this.playerOptions["sources"][0]["src"])    // 重新设置src（会导致播放器报错，这样就能调用 onPlayerError，并且当直播继续时，刷新播放器即可播放）
       }, 8000)
