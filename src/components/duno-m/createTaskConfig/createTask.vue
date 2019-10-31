@@ -5,6 +5,7 @@
       :model="true"
       class="elDialogClass"
       :visible.sync="visibleOption"
+      :close-on-click-modal="false"
       width="700px"
       center
       @close="handleClose"
