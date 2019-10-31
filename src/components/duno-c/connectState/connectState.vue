@@ -61,8 +61,10 @@ export default {
         this.$message.success("操作成功");
         if (this.status == "1") {
           this.title = "断开";
+          this.status = "0";
         } else {
           this.title = "连接";
+          this.status = "1";
         }
       });
     }
