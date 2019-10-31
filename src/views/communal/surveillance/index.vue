@@ -564,9 +564,13 @@ export default {
       } catch (e) {}
     },
     layoutTypeName() {
+      try{
       return this.dataList[
         this.$store.state.user.configInfo["displayType"] - 1
       ]["describeName"];
+      }catch (e) {
+        
+      }
     }
   },
   watch: {
@@ -717,7 +721,8 @@ export default {
           });
         });
         this.oltagevLevelList = arr;
-        this.titleValue = arr[0]["describeName"];
+        if(arr[0])
+          this.titleValue = arr[0]["describeName"];
         this.getCamera(arr[0]["areaId"]);
         this.$forceUpdate();
       });
@@ -862,7 +867,7 @@ export default {
     }
     this.getArea();
     this.initData();
-    this.initConfigure();
+    this.initConfigure(1);
     this.getCameraType();
   }
 };
