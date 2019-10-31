@@ -215,6 +215,7 @@ export default {
       bottom: 3px;
       right: 9px;
       cursor: pointer;
+      z-index: 9;
     }
     img {
       width: 100%;
