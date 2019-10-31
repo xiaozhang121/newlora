@@ -636,6 +636,17 @@ export default [{
                     },
                     component: () => import('@/views/communal/abnormalInfo/report/detail.vue')
                 },
+                {
+                  path: 'defectLibrary',
+                  name: 'defectLibrary',
+                  meta: {
+                      topNav: '1',
+                      title: '缺陷库管理',
+                      hideInMenu: true,
+                      isDetails: true
+                  },
+                  component: () => import('@/views/communal/abnormalInfo/defectLibrary/index.vue')
+              },
             ]
         }]
     },
