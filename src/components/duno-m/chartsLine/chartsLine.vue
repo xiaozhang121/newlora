@@ -335,7 +335,7 @@
             data: ['上行', '下行'],
             icon: "path://M78.304,273.281c-3.942,0-7.137,3.063-7.137,6.836c0,3.776,3.195,6.838,7.137,6.838s7.137-3.063,7.137-6.838C85.441,276.344,82.247,273.281,78.304,273.281z M96.995,280.96H59.614v-1.683h37.381V280.96z M86.483,280.96H70.136v-1.683h16.347V280.96z",
             textStyle: {
-              color: '#374856'
+              color: '#6c767e'
             }
           },
           xAxis: {
@@ -343,7 +343,10 @@
             boundaryGap: false,
             name: '(min)',
             nameTextStyle: {
-              color: '#374856'
+              color: '#6c767e'
+            },
+            axisLabel:{
+              color: '#6c767e'
             },
             axisLine: {
               lineStyle: {
@@ -357,7 +360,10 @@
             name: '(MB)',
             type: 'value',
             nameTextStyle: {
-              color: '#374856'
+              color: '#6c767e'
+            },
+            axisLabel:{
+              color: '#6c767e'
             },
             splitLine: {
               show: true,
