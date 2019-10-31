@@ -27,6 +27,7 @@
                   {{ meterTitle }}
               </div>
               <div class="controBtnContain">
+                <connect-state :deviceId="dataForm.monitorDeviceId" />
                 <contro-btn
                   :controlAble="controlAble"
                   url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}"
@@ -36,21 +37,6 @@
                >
                 </contro-btn>
               </div>
-              <!-- <div class="controlTitle">
-                <div v-if="isControl =='1'" class="controlT">
-                  <span>云台控制中</span>
-                  <span @click="getControl">获取控制权</span>
-                </div>
-                <div v-if="isControl =='2'" class="controlT">
-                  <span>已获取云台控制</span>
-                  <span @click="getControl">结束控制</span>
-                </div>
-                <div v-if="isControl =='3'" class="controlT">
-                  <span>结束控制倒计时</span>
-                  <i>{{ currentTime }} s</i>
-                  <span @click="getControl">结束控制</span>
-                </div>
-              </div>-->
             </div>
           </div>
           <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
@@ -114,6 +100,7 @@ import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
 import cover from "_c/duno-c/cover";
+import connectState from "_c/duno-c/connectState";
 import controBtn from "_c/duno-m/controBtn";
 import pattery from "_c/duno-m/pattery";
 import mixinViewModule from "@/mixins/view-module";
@@ -153,7 +140,8 @@ export default {
     pattery,
     cover,
     controlCheck,
-    imgLinePanel
+    imgLinePanel,
+    connectState
   },
   data() {
     const that = this;
