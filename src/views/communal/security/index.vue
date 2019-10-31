@@ -26,6 +26,7 @@
               :showBtmOption="true"
               :pushCamera="false"
               :noButton="false"
+              :autoplay="false"
               configType="2"
               :monitorInfo="item"
               :imgAdress="item['pic']"
