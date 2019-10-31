@@ -176,7 +176,7 @@ export default {
           render: (h, params) => {
             return h(
               "div",
-              params.row.part ? params.row.part : params.row.phase
+              params.row.part ? params.row.part : (params.row.phase?params.row.phase:'/')
             );
           }
         },

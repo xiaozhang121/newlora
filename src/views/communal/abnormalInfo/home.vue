@@ -498,7 +498,11 @@ export default {
           key: "part",
           minWidth: 100,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let data = params.row.part?params.row.part:'/'
+            return h("div", data);
+          }
         },
         {
           title: "描述",

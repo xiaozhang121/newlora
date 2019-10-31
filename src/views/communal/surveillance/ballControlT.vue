@@ -193,7 +193,7 @@
                         render: (h, params) => {
                             return h(
                                 "div",
-                                params.row.part ? params.row.part : params.row.phase
+                                params.row.part ? params.row.part : (params.row.phase?params.row.phase:'/')
                             );
                         }
                     },
@@ -521,7 +521,11 @@
                         key: "part",
                         minWidth: 120,
                         align: "center",
-                        tooltip: true
+                        tooltip: true,
+                      render: (h, params) => {
+                        let data = params.row.part?params.row.part:'/'
+                        return h("div", data);
+                      }
                     },
                     {
                         title: "描述",
