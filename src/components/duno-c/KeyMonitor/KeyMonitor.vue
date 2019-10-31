@@ -832,7 +832,7 @@
       initVideo(){
         if(!this.waitTimer && !this.isPic){
           this.waitTimer = setInterval(() => {
-            this.$message.info('error')
+            // this.$message.info('error')
             let url = this.playerOptions["sources"][0]["src"]
             this.playerOptions["sources"][0]["src"] = ""
             this.$nextTick(()=>{
