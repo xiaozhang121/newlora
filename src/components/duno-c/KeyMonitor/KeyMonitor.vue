@@ -841,7 +841,7 @@
             this.$nextTick(()=>{
               this.playerOptions["sources"][0]["src"] = url
             })
-          }, 5000)
+          }, 6000)
         }
       }
     },
