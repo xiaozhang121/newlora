@@ -27,7 +27,7 @@
             </div>
             <div class="item result" :style="{marginLeft:'0'}">
                 <div class="name">分析结果：</div>
-                <div class="nr"><span :class="{'redColor': taskCurreny['alarmFlag']}">{{ analysisResult }}</span><span class="smallGrey" v-if="analysisResult">(机器人识别)</span>&nbsp;{{yinShiResult}}<span class="smallGrey" v-if="yinShiResult">(音视识别)</span></div>
+                <div class="nr"><span>{{ analysisResult }}</span></div>
                <!-- <i-dropdown
                         v-if="taskCurreny['alarmLevel']"
                         class="dropAlarmDown"
