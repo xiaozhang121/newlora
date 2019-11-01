@@ -20,8 +20,9 @@
             <div class="M_nr">
               <div  class="item_n">{{item.alarmTime}}</div>
               <div  class="item_n">
-                <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;
-                <span>{{item.alarmContent}}</span>
+                <el-tooltip effect="dark" :content="item.powerDeviceName +'  '+ item.alarmContent" placement="top">
+                  <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;<span>{{item.alarmContent}}</span>
+                </el-tooltip>
               </div>
               <div class="item_n">
                 <p>
