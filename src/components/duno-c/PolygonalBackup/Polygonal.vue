@@ -113,6 +113,9 @@ export default {
       default: () => {
         return "";
       }
+    },
+    flag: {
+      type: Number
     }
   },
   data() {
@@ -156,8 +159,10 @@ export default {
       yAxisOption: {
         type: "value",
         name: that.yName,
-        max: that.yMax,
-        min: that.yMin,
+        minInterval: 1,
+        data: ["关", "开"],
+        // max: that.yMax,
+        // min: that.yMin,
         splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
         axisLine: {
@@ -357,6 +362,12 @@ export default {
         this.xAxisOption.data = arr;
       },
       deep: true
+    },
+    flag(now) {
+      if (now == 1) {
+        this.yAxisOption['type'] = "category";
+        this.yAxisOption.splitLine.show = false;
+      }
     },
     yName(now) {
       this.yAxisOption["name"] = now;

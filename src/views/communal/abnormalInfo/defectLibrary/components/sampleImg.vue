@@ -24,7 +24,7 @@
         <el-form-item label="被监测设备" class="dropDown">
           <el-input v-model="form.divice" placeholder="请选择" @focus="show3 = true"></el-input>
           <!-- @blur="show3 = false" -->
-          <i class="el-icon-arrow-down dropDown-i" :class="{rotate:show3}"></i>
+          <i class="el-icon-arrow-down dropDown-i" :class="{rotate:show3}" @click="changeDrop"></i>
           <el-collapse-transition>
             <div class="diviceSelect" v-show="show3">
               <el-input placeholder="请输入内容" v-model="diviceSelect" clearable></el-input>
