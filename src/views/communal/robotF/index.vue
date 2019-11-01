@@ -63,7 +63,7 @@
       </div>
       <div class="bottom">
         <div class="title">
-          <span>最新巡视报告</span>
+          <span>历史巡视报告</span>
           <div class="moreInfo" @click="toMore()">查看更多</div>
         </div>
         <div class="main">

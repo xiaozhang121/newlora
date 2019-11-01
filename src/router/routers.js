@@ -687,7 +687,7 @@ export default [{
                         name: 'record-all',
                         meta: {
                             topNav: '2',
-                            title: '24小时监测记录',
+                            title: '历史监测记录',
                             hideInMenu: true,
                             isDetails: true,
                             active: 'environmentalList'

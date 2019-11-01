@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>24小时监测记录</div>
+      <div>历史监测记录</div>
       <div class="btn" style="width: 740px">
         <div>
           <!--<el-date-picker v-model="chosenDate" type="date" placeholder="全部日期"></el-date-picker>-->

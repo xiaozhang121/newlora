@@ -23,7 +23,7 @@ Vue.use(ElementUI, { size: 'small', zIndex: 3000, transfer: true })
 Vue.prototype.$config = config
 
 /* 全局引入iview ui组件中的Poptip组件，并且以 el-poptip使用 */
-import { Poptip, Input, Dropdown, DropdownMenu, DropdownItem, Radio, RadioGroup,Select, Option,Cascader }  from 'iview'
+import { Poptip, Input, Dropdown, DropdownMenu, DropdownItem, Radio, RadioGroup,Select, Option,Cascader,Collapse,Panel }  from 'iview'
 Vue.component('el-poptip', Poptip)
 Vue.component('i-input', Input)
 Vue.component('i-dropdown', Dropdown)
@@ -35,6 +35,8 @@ Vue.component('i-radioGroup', RadioGroup)
 Vue.component('i-select', Select)
 Vue.component('i-option', Option)
 Vue.component('el-cascader', Cascader)
+Vue.component('el-collapse', Collapse)
+Vue.component('el-panel', Panel)
 
 // v-dialogDrag: 弹窗拖拽
 Vue.directive('dialogDrag', {

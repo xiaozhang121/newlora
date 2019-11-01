@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="bottom">
-        <div class="title">最新巡视报告</div>
+        <div class="title">历史巡视报告</div>
         <div class="main">
           <template v-for="(item, index) in newsReportLength">
             <div class="item" :key="index">

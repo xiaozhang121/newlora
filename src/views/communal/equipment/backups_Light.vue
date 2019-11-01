@@ -6,7 +6,7 @@
     <div class="titleLight">可见光监测</div>
     <div class="reportRecode">
       <div class="report">
-        <div>最新生成的巡检报告</div>
+        <div>历史生成的巡检报告</div>
         <div @click="getMoreReport">查看更多 ></div>
       </div>
       <div
@@ -31,7 +31,7 @@
     </div>
     <div class="reportRecode">
       <div class="recode">
-        <div>最新24小时记录信息</div>
+        <div>历史记录信息</div>
         <div @click="getMore">查看更多 ></div>
       </div>
       <div
@@ -134,7 +134,6 @@ export default {
       valueSelect: "",
       dataMonitor: [],
       url: "/lenovo-plan/api/plan/visible-report/download",
-      timeQueryData: {},
       inspecReport: [],
       isEmpty: true,
       isEmptyHour: true,
@@ -196,7 +195,7 @@ export default {
         this.loadingOptionS = false;
       }, 1000000000);
       let query = {
-        ...this.timeQueryData,
+        playtype: "1",
         pageIndex: 1,
         pageRows: 4
       };
@@ -211,7 +210,7 @@ export default {
         }
       });
       let data = {
-        ...this.timeQueryData,
+        playtype: "1",
         pageIndex: 1,
         pageRows: 4
       };
@@ -225,25 +224,11 @@ export default {
           this.isEmptyHour = true;
         }
       });
-    },
-    getInit() {
-      let startTime = "";
-      let endTime = "";
-      endTime = moment().format("YYYY-MM-DD HH:mm:ss");
-      startTime = moment()
-        .add(-1, "days")
-        .format("YYYY-MM-DD HH:mm:ss");
-      this.timeQueryData.startTime = startTime;
-      this.timeQueryData.endTime = endTime;
-      this.timeQueryData.playtype = "1";
     }
   },
   mounted() {
     this.getlightData();
     this.initImg();
-  },
-  created() {
-    this.getInit();
   }
 };
 </script>

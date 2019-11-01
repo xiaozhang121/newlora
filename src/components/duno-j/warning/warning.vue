@@ -84,6 +84,7 @@
                     </i-dropdownMenu>
                   </i-dropdown>
                 </p>
+                <p v-else>{{ dataList.alarmValue }}{{ dataList.alarmValue?dataList.unit:'' }}</p>
               </div>
               <div v-else class="btn-printbtn-printbtn-print">
                 <!-- <div class="title">识别</div> -->

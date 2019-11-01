@@ -9,7 +9,7 @@
     <div class="mainContamin">
       <div class="item">
         <div class="alarmTitle">
-          <div>24小时监测记录</div>
+          <div>历史监测记录</div>
           <div>
             <div @click="clickToDetail(1)">查看更多 ></div>
           </div>
@@ -39,7 +39,7 @@
         </div>
         <div v-else class="monitorContain empty">
           <div>
-            <p>近24小时内没有监测记录</p>
+            <p>近期内没有监测记录</p>
             <p>
               <a href="javascript:;" @click="clickToDetail(1)">查看更多历史</a>
             </p>
@@ -48,7 +48,7 @@
       </div>
       <div class="item">
         <div class="alarmTitle">
-          <div>3天内动态环境异常记录</div>
+          <div>历史动态环境异常记录</div>
           <div>
             <div @click="clickToDetail(2)">查看更多 ></div>
           </div>
@@ -74,7 +74,7 @@
           </div>
           <div v-else class="empty">
             <div>
-              <p>近3日没有人员违规、异物入侵和车辆出入记录</p>
+              <p>近期没有人员违规、异物入侵和车辆出入记录</p>
               <p>
                 <a href="javascript:;" @click="clickToDetail(2)">查看更多历史</a>
               </p>
@@ -83,7 +83,6 @@
         </div>
       </div>
     </div>
-    <!-- <push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" /> -->
   </div>
 </template>
 
@@ -123,7 +122,10 @@ export default {
       isEmptyHour: true,
       time: "",
       remarks: [],
-      dataForm: {},
+      dataForm: {
+        pageIndex: 1,
+        pageRows: 6
+      },
       valueSelect: "",
       showBtnList: false,
       isSecond: false,
@@ -183,9 +185,9 @@ export default {
       let date = this.oneDayAgo();
       let query = {
         pageIndex: 1,
-        pageRows: 6,
-        startTime: moment(date).format("YYYY-MM-DD HH:mm:ss"),
-        endTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+        pageRows: 6
+        // startTime: moment(date).format("YYYY-MM-DD HH:mm:ss"),
+        // endTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
       };
       getAxiosData("/lenovo-device/device/video/record/videos", query).then(
         res => {
@@ -225,18 +227,9 @@ export default {
           name: "record-all"
         });
       }
-    },
-    getTime() {
-      let endTime = moment().format("YYYY-MM-DD HH:mm:ss");
-      let startTime = moment()
-        .subtract(3, "days")
-        .format("YYYY-MM-DD HH:mm:ss");
-      this.dataForm.startTime = startTime;
-      this.dataForm.endTime = endTime;
     }
   },
   created() {
-    this.getTime();
     this.initData();
     this.loading = true;
     this.timer = setTimeout(() => {
@@ -380,7 +373,7 @@ export default {
       margin-left: 0 !important;
     }
   }
-  .keyEreaContain{
+  .keyEreaContain {
     z-index: 0;
   }
   .mainContamin {

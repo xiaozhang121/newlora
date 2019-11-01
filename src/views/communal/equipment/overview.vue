@@ -9,7 +9,7 @@
     <div class="reportRecode">
       <div class="right">
         <div class="report">
-          <div>最新生成的巡检报告</div>
+          <div>历史生成的巡检报告</div>
           <div @click="getMoreReport">查看更多 ></div>
         </div>
         <div
@@ -25,7 +25,7 @@
       </div>
       <div class="left">
         <div class="recode">
-          <div>最新24小时记录信息</div>
+          <div>历史记录信息</div>
           <div @click="getMore">查看更多 ></div>
         </div>
         <div
@@ -130,7 +130,6 @@ export default {
       valueSelect: "",
       dataMonitor: [],
       url: "/lenovo-plan/api/information/overview/report/list/export",
-      timeQueryData: {},
       inspecReport: [],
       lightInformation: [],
       titleValueR: "监控摄像头选择",
@@ -225,7 +224,6 @@ export default {
         this.loadingOptionS = false;
       }, 1000000000);
       let query = {
-        ...this.timeQueryData,
         pageIndex: 1,
         pageRows: 4
       };
@@ -246,25 +244,11 @@ export default {
         clearTimeout(this.timerS);
         this.loadingOptionS = false;
       });
-    },
-    getInit() {
-      let startTime = "";
-      let endTime = "";
-      endTime = moment().format("YYYY-MM-DD HH:mm:ss");
-      startTime = moment()
-        .add(-1, "days")
-        .format("YYYY-MM-DD HH:mm:ss");
-      this.timeQueryData.startTime = startTime;
-      this.timeQueryData.endTime = endTime;
-      //   this.timeQueryData.playtype = "1";
     }
   },
   mounted() {
     this.getlightData();
     this.initImg();
-  },
-  created() {
-    this.getInit();
   }
 };
 </script>
