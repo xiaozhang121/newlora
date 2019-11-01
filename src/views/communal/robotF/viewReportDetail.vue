@@ -160,58 +160,58 @@ export default {
           align: "center",
           tooltip: true
         },
-          {
-              title: "机器人识别",
-              key: "valueShow",
-              minWidth: 90,
-              align: "center",
-              tooltip: true,
-              render: (h, params) => {
-                  let newArr = [];
-                  newArr.push([
-                      h(
-                          "div",
-                          {
-                              class: { redFont: !params.row.warnLevel},
-                          },
-                          params.row.valueShow
-                      )
-                  ]);
-                  return h(
-                      "div",
-                      {
+          // {
+          //     title: "机器人识别",
+          //     key: "valueShow",
+          //     minWidth: 90,
+          //     align: "center",
+          //     tooltip: true,
+          //     render: (h, params) => {
+          //         let newArr = [];
+          //         newArr.push([
+          //             h(
+          //                 "div",
+          //                 {
+          //                     class: { redFont: !params.row.warnLevel},
+          //                 },
+          //                 params.row.valueShow
+          //             )
+          //         ]);
+          //         return h(
+          //             "div",
+          //             {
 
-                      },
-                      newArr
-                  );
-              }
-          },
-          {
-              title: "音视识别",
-              key: "yinShiResult",
-              minWidth: 90,
-              align: "center",
-              tooltip: true,
-              render: (h, params) => {
-                  let newArr = [];
-                  newArr.push([
-                      h(
-                          "div",
-                          {
-                              class: { redFont: !params.row.warnLevel},
-                          },
-                          params.row.yinShiResult
-                      )
-                  ]);
-                  return h(
-                      "div",
-                      {
+          //             },
+          //             newArr
+          //         );
+          //     }
+          // // },
+          // {
+          //     title: "音视识别",
+          //     key: "yinShiResult",
+          //     minWidth: 90,
+          //     align: "center",
+          //     tooltip: true,
+          //     render: (h, params) => {
+          //         let newArr = [];
+          //         newArr.push([
+          //             h(
+          //                 "div",
+          //                 {
+          //                     class: { redFont: !params.row.warnLevel},
+          //                 },
+          //                 params.row.yinShiResult
+          //             )
+          //         ]);
+          //         return h(
+          //             "div",
+          //             {
 
-                      },
-                      newArr
-                  );
-              }
-          },
+          //             },
+          //             newArr
+          //         );
+          //     }
+          // },
          {
           title: "结果",
           key: "realResult",
