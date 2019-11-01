@@ -17,13 +17,13 @@
             </div>
           </transition>
           <div class="mainMli">
-            <div>
-              <div>{{item.alarmTime}}</div>
-              <div>
+            <div class="M_nr">
+              <div  class="item_n">{{item.alarmTime}}</div>
+              <div  class="item_n">
                 <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;
                 <span>{{item.alarmContent}}</span>
               </div>
-              <div>
+              <div class="item_n">
                 <p>
                   内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}
                   <span
@@ -296,6 +296,14 @@ export default {
     display: flex;
     justify-content: space-between;
     position: relative;
+    .M_nr{
+      .item_n{
+        max-width: 338px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
     .itemdetail {
       position: absolute;
       top: 20px;

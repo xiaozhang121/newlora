@@ -4,7 +4,7 @@
             <Breadcrumb :dataList="dataBread" />
         </div>
         <div class="controlTitle">
-            <div> 周界入侵监控 </div>
+            <div> 表计识别监测 </div>
         </div>
         <div class="Main_contain">
             <div class="middle_table">

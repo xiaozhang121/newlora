@@ -5,7 +5,7 @@
     </div>
     <div class="topTitle">
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
-      <div>布控球</div>
+      <div>{{ dataForm.monitorDeviceName }}</div>
       <div class="Battery">
         <div :style="{visibility: isMonitor?'hidden':'visible'}">正在巡视中</div>
         <pattery />
@@ -1491,6 +1491,7 @@ export default {
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.dataForm.monitorDeviceName = this.$route.query.monitorDeviceName;
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();

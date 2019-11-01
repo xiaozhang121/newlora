@@ -5,7 +5,7 @@
     </div>
     <div class="topTitle">
       <!-- <div>{{ dataForm.monitorDeviceName }}</div> -->
-      <div>布控球</div>
+      <div>周界入侵监测</div>
       <div class="Battery">
         <div :style="{visibility: isMonitor?'hidden':'visible'}">正在巡视中</div>
         <pattery />
