@@ -893,8 +893,8 @@ export default {
         index = pageIndex;
       }
       getAxiosData("/lenovo-device/device/video/record/videos", {
-        startTime: this.timeData,
-        endTime: this.timeData,
+        startTime: `${this.timeData} 00:00:00`,
+        endTime: `${this.timeData} 23:59:59`,
         pageIndex: index,
         pageRows: 10,
         monitorDeviceId: this.dataForm.monitorDeviceId
