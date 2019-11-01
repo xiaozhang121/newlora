@@ -342,6 +342,7 @@
               setTimeout(() => {
                 if(this.autoplay)
                   this.$refs.videoPlayer.player.play()
+                this.initVideo()
                 this.loading = false;
               }, 1500);
             });
@@ -830,6 +831,8 @@
         this.isShow = false;
       },
       initVideo(){
+        clearInterval(this.waitTimer)
+        this.waitTimer = null
         if(!this.waitTimer && !this.isPic){
           this.waitTimer = setInterval(() => {
             // this.$message.info('error')
@@ -838,12 +841,11 @@
             this.$nextTick(()=>{
               this.playerOptions["sources"][0]["src"] = url
             })
-          }, 8000)
+          }, 5000)
         }
       }
     },
     mounted() {
-      this.initVideo()
       this.loading = true;
       this.timer = setTimeout(() => {
         this.loading = false;
