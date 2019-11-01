@@ -166,17 +166,6 @@ export default {
         data: ["关", "开"],
         splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
-        axisLabel: {
-          // formatter: function(value) {
-          //   var texts = [];
-          //   if (value === 0 || value === "0") {
-          //     texts.push("关");
-          //   } else if (value === 1 || value === "1") {
-          //     texts.push("开");
-          //   }
-          //   return texts;
-          // }
-        },
         axisLine: {
           show: true, //Y轴的线
           lineStyle: {
@@ -289,20 +278,8 @@ export default {
             type: "line",
             data: []
           };
-
           if (res.data.flag) {
             obj["step"] = "start";
-            // that.yAxisOption.axisLabel = {
-            //   formatter: function(value) {
-            //     var texts = [];
-            //     if (value === 0 || value === "0") {
-            //       texts.push("关");
-            //     } else if (value === 1 || value === "1") {
-            //       texts.push("开");
-            //     }
-            //     return texts;
-            //   }
-            // };
           }
           xAxisData = [];
           for (let item in itemDataList) {
@@ -397,7 +374,7 @@ export default {
     },
     flag(now) {
       if (now == 1) {
-        this.yAxisOption.type = "category";
+        this.yAxisOption['type'] = "category";
         this.yAxisOption.splitLine.show = false;
       }
     },

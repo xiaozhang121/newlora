@@ -31,7 +31,7 @@
     </div>
     <div class="reportRecode">
       <div class="recode">
-        <div>最新24小时记录信息</div>
+        <div>历史记录信息</div>
         <div @click="getMore">查看更多 ></div>
       </div>
       <div
