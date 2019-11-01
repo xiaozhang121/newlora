@@ -8,7 +8,7 @@
       <div>{{ dataForm.monitorDeviceName }}</div>
       <div class="Battery">
         <div :style="{visibility: isMonitor?'hidden':'visible'}">正在巡视中</div>
-        <pattery />
+        <!--<pattery />-->
       </div>
     </div>
     <div class="Main_contain">

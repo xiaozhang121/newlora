@@ -19,11 +19,11 @@
           <div class="mainMli">
             <div class="M_nr">
               <div  class="item_n">{{item.alarmTime}}</div>
-              <div  class="item_n">
-                <el-tooltip effect="dark" :content="item.powerDeviceName +'  '+ item.alarmContent" placement="top">
-                  <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;<span>{{item.alarmContent}}</span>
-                </el-tooltip>
-              </div>
+              <el-tooltip effect="dark" :content="item.powerDeviceName +'  '+ item.alarmContent" placement="top">
+                <div  class="item_n">
+                    <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;<span>{{item.alarmContent}}</span>
+                </div>
+              </el-tooltip>
               <div class="item_n">
                 <p>
                   内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}
