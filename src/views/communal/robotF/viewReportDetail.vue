@@ -214,7 +214,7 @@ export default {
           },
          {
           title: "结果",
-          key: "valueShow",
+          key: "realResult",
           minWidth: 90,
           align: "center",
           tooltip: true,
@@ -225,7 +225,7 @@ export default {
                   "div",
                   {
                   },
-                  params.row.valueShow
+                  params.row.realResult
               )
             ]);
             return h(

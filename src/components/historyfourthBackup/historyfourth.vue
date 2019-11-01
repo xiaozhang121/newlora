@@ -9,6 +9,7 @@
     <div class="historyfourthBox">
       <div
         :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']"
+        style="position: relative"
         @mouseenter.stop="mouseNum = index"
         @mouseleave.stop="mouseNum = -1"
         v-for="(item, index) in alarmHistoryData"
@@ -25,13 +26,14 @@
           >{{item.alarmLevelName}}</span>
         </div>
         <div class="itemdetail" :key="index">
-          <span @click="handleClick(index)">详情</span>
+          <span @click="handleClick(item)">详情</span>
         </div>
       </div>
     </div>
     <wraning
       :popData="popData"
       :top="0"
+      :modal="false"
       detailsType="alarm"
       :visible="visible"
       @handleClose="handleClose"
@@ -109,8 +111,8 @@ export default {
         }
       });
     },
-    handleClick(index) {
-      this.popData = this.dataList[index];
+    handleClick(item) {
+      this.popData = item;
       this.visible = true;
     },
     handleClose() {
@@ -127,6 +129,11 @@ export default {
 <style lang="scss">
   .el-loading-text{
     color: #969696   !important;
+  }
+  .historyfourth{
+    .el-dialog__wrapper{
+      background: rgba(0,0,0, 0.8) !important;
+    }
   }
 </style>
 <style lang="scss" scoped>
