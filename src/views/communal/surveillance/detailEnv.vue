@@ -896,9 +896,19 @@ export default {
       if (pageIndex) {
         index = pageIndex;
       }
+      let startTime = ''
+      let endTime = ''
+      debugger
+      if(this.timeData){
+        startTime = this.timeData+' 00:00:00'
+        endTime = this.timeData+' 23:59:59'
+      }else{
+        startTime = ''
+        endTime = ''
+      }
       getAxiosData("/lenovo-device/device/video/record/videos", {
-        startTime: `${this.timeData} 00:00:00`,
-        endTime: `${this.timeData} 23:59:59`,
+        startTime: startTime,
+        endTime: endTime,
         pageIndex: index,
         pageRows: 10,
         monitorDeviceId: this.dataForm.monitorDeviceId
