@@ -212,6 +212,31 @@ export default {
                   );
               }
           },
+         {
+          title: "结果",
+          key: "valueShow",
+          minWidth: 90,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push([
+              h(
+                  "div",
+                  {
+                  },
+                  params.row.valueShow
+              )
+            ]);
+            return h(
+                "div",
+                {
+
+                },
+                newArr
+            );
+          }
+        },
           {
           title: "缺陷等级",
           key: "warnContent",

@@ -452,7 +452,8 @@
                         this.$router.push({
                             path:'/surveillancePath/ballControlM',
                             query:{
-                                monitorDeviceId: item['monitorDeviceId']
+                                monitorDeviceId: item['monitorDeviceId'],
+                                monitorDeviceName: item['monitorDeviceName']
                             }
                         })
                     }else{

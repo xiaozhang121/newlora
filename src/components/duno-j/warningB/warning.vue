@@ -23,10 +23,7 @@
           <div v-if="!discriminate" class="temperature">
             <!--<p class="monitorTitle">温度正常</p>-->
             <p>
-              {{ warnData['valueShow'] }} <span class="greyFont" v-if="warnData['valueShow']">(机器人识别)</span>
-            </p>
-            <p>
-              {{ warnData['yinShiResult'] }} <span  class="greyFont" v-if="warnData['yinShiResult']">(音视识别)</span>
+              {{ warnData['valueShow'] }}
             </p>
             <!--<i-dropdown-->
                 <!--v-if="hasSelect && !discriminate"-->
