@@ -20,9 +20,10 @@
       </div>-->
     </div>
     <div class="Main_contain">
-      <div class="content">
+      <div class="content" style="position: relative">
         <div class="left nr">
           <div class="item">
+            <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -52,7 +53,6 @@
           </div>
         </div>
         <div class="right nr contain"   style="position: relative">
-          <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
           <inspection-red-control
             @on-edit="onEdit"
             ref="inspectionRef"

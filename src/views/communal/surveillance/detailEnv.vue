@@ -20,9 +20,10 @@
       </div>-->
     </div>
     <div class="Main_contain">
-      <div class="content">
+      <div class="content" style="position: relative">
         <div class="left nr">
           <div class="item">
+            <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -249,6 +250,7 @@
 </template>
 
 <script>
+import controlCheck from '_c/duno-m/controlCheck'
 import cover from "_c/duno-c/cover";
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
@@ -288,11 +290,13 @@ export default {
     wraning,
     enlarge,
     Remarks,
-    cover
+    cover,
+    controlCheck
   },
   data() {
     const that = this;
     return {
+      lockPress: false,
       dataTimeEE: "",
       alarmId: 0,
       loading: true,
@@ -1263,6 +1267,7 @@ export default {
   },
   mounted() {
     // this.getInit();
+    this.lockPress = this.getAuthority("10075002")
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();
@@ -1271,6 +1276,7 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
+    this.$refs.controlCheckRef.releaseNow()
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }
@@ -1295,6 +1301,13 @@ export default {
   min-height: 100%;
   padding-bottom: 100px;
   /*overflow-y: hidden;*/
+  .controlCheck {
+    right: 0;
+    width: 211px;
+    color: white;
+    top: -35px;
+    height: 27px;
+  }
   .el-button:hover {
     background: transparent !important;
   }
