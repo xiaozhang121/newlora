@@ -861,6 +861,7 @@
         clearInterval(this.picTurnTimer)
         this.picTurnTimer = null
       }
+      clearInterval(this.waitTimer)
       this.$store.state.app.isPic = false;
     },
     created() {
