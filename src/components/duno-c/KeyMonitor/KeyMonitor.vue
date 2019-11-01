@@ -840,6 +840,8 @@
             this.playerOptions["sources"][0]["src"] = ""
             this.$nextTick(()=>{
               this.playerOptions["sources"][0]["src"] = url
+              if (this.autoplay)
+                this.$refs.videoPlayer.player.play()
             })
           }, 6000)
         }
