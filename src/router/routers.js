@@ -646,7 +646,18 @@ export default [{
                       isDetails: true
                   },
                   component: () => import('@/views/communal/abnormalInfo/defectLibrary/index.vue')
-              },
+                },
+                {
+                  path: 'defectLibrary/sampleDetail',
+                  name: 'sampleDetail',
+                  meta: {
+                      topNav: '1',
+                      title: '缺陷库详情',
+                      hideInMenu: true,
+                      isDetails: true
+                  },
+                  component: () => import('@/views/communal/abnormalInfo/defectLibrary/sampleDetail.vue')
+                },
             ]
         }]
     },
