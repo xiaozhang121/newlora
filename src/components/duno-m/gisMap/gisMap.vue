@@ -171,6 +171,12 @@
 
         },
         methods:{
+          removeAFeature(){
+            let feature = this.vector.getSource().getFeatures()
+            feature.forEach(item=>{
+              this.vector.getSource().removeFeature(item)
+            })
+          },
             getPan() {
                 let pan;
                 this.mapTarget.getInteractions().forEach(function(element, index, array) {
@@ -1433,6 +1439,7 @@
             })
         },
         beforeDestroy(){
+            this.removeAFeature()
             this.coverList = []
             this.pointListObj = []
             this.mapTarget.getOverlays().clear()
