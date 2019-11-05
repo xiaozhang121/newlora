@@ -1408,8 +1408,11 @@
             })
         },
         beforeDestroy(){
+            this.coverList = []
+            this.pointListObj = []
             this.mapTarget.getOverlays().clear()
             this.clearAllEvent()
+            this.mapTarget = null
         }
     }
 </script>

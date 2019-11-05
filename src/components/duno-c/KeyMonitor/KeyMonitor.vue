@@ -863,6 +863,12 @@
       }
       clearInterval(this.waitTimer)
       this.$store.state.app.isPic = false;
+      if(typeof(this.$refs.videoPlayer) == "object"){
+          this.$refs.videoPlayer.player.dispose()
+      }else{
+        this.$refs.videoPlayer[0].player.dispose()
+        this.$refs.videoPlayer[1].player.dispose()
+      }
     },
     created() {
       try{
