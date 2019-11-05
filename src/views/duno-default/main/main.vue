@@ -50,9 +50,7 @@
           <el-container class="main-layout-con">
             <el-main class="content-wrapper">
               <!--<custom-bread-crumb show-icon :list="breadCrumbList"></custom-bread-crumb>-->
-              <keep-alive :include="cacheList">
                 <router-view class="duno-cons" />
-              </keep-alive>
               <!--<duno-footer />-->
             </el-main>
           </el-container>
@@ -99,9 +97,7 @@
               <el-main class="main-content-con">
                 <el-container class="main-layout-con">
                   <el-main class="content-wrapper">
-                    <keep-alive :include="cacheList">
-                      <router-view class="duno-cons" />
-                    </keep-alive>
+                    <router-view class="duno-cons" />
                   </el-main>
                 </el-container>
               </el-main>
@@ -226,8 +222,7 @@
             },
             cacheList() {
                 return this.tagNavList.length
-                    ? this.tagNavList
-                        .filter(item => !(item.meta && item.meta.notCache))
+                    ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache))
                         .map(item => item.name)
                     : [];
             },
