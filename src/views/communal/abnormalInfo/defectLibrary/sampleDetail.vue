@@ -70,7 +70,7 @@
     <div class="list">
       <div class="top">
         <div>标定结果列表</div>
-        <div :style="{backgroundImage:background}">
+        <div :style="{backgroundImage:background}" @click="addCalibration">
           <i class="el-icon-plus"></i>新增标定
         </div>
       </div>
@@ -88,12 +88,14 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
+    <frame-selection v-if="isShow" :isShow="isShow" @closeShot="closeShot"></frame-selection>
   </div>
 </template>
 
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import survey from "_c/duno-c/survey";
+import frameSelection from "_c/duno-c/frameSelection";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
@@ -103,11 +105,13 @@ export default {
   components: {
     Breadcrumb,
     DunoTablesTep,
-    survey
+    survey,
+    frameSelection
   },
   data() {
     const that = this;
     return {
+      isShow: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/alarm/history"
@@ -144,7 +148,7 @@ export default {
       background: "url(" + require("@/assets/images/btn/moreBtn.png") + ")",
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
-        { path: "/abnormalInfoPath/platformMonitor", name: "缺陷库管理" },
+        { path: "/abnormalInfoPath/defectLibrary", name: "缺陷库管理" },
         { path: "", name: "样本详情" }
       ],
       columns: [
@@ -241,6 +245,12 @@ export default {
     };
   },
   methods: {
+    closeShot() {
+      this.isShow = false;
+    },
+    addCalibration() {
+      this.isShow = true;
+    },
     loadData(item, callback) {
       item.loading = true;
       let url = "/lenovo-sample/api/sample/getPart";
