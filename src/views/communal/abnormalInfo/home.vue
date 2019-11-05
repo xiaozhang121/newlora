@@ -3,7 +3,7 @@
     <div class="topNav">
       <scroller :listOption="messageList"></scroller>
     </div>
-    <div class="middle not-print">
+    <div class="middle">
       <div class="abnormalInfo">
         <div class="contain borderTX">
           <duno-main :controlOver="true" class="main_contain">
@@ -40,7 +40,61 @@
           </duno-main>
         </div>
       </div>
-      <div class="reportForm">
+      <div class="bottom">
+        <div class="iconcen" @click="handleJump(1)">
+          <duno-main :controlOver="true" class="main_contain contain">
+            <div class="iconTop">
+              <img src="../../../assets/iconFunction/icon_weather.png" alt />
+              微气象环境
+            </div>
+            <div class="weater">
+              <div class="gauge">
+                <p>
+                  <span style="white-space:pre;">{{ toDay }}</span>
+                </p>
+                <div>
+                  <i class="iconfont icon-wendu"></i>
+                  <span>{{ tempEnv['envTemp'] }}℃</span>
+                </div>
+              </div>
+              <div class="gauge">
+                <div class="gauge_top">
+                  <i class="iconfont icon-shidu1"></i>
+                  <p>{{ tempEnv['humidity'] }}%</p>
+                  <span>当前湿度</span>
+                </div>
+                <div class="gauge_btm">
+                  <i class="iconfont icon-fengsu"></i>
+                  <p>{{ tempEnv['windSpeed'] }}m/s</p>
+                  <span>当前风速</span>
+                </div>
+              </div>
+            </div>
+          </duno-main>
+        </div>
+        <div class="iconcen" @click="handleJump(2)">
+          <duno-main :controlOver="true" class="main_contain contain">
+            <div class="iconTop">
+              <img src="../../../assets/iconFunction/icon_space.png" alt />
+              泛在盒子
+            </div>
+            <div class="gauge" id="mountNode"></div>
+            <div class="gauge">
+              <div class="gauge_top">
+                <i class="iconfont icon-wendu1"></i>
+                <p>{{envData['temp']}}℃</p>
+                <span>当前温度</span>
+              </div>
+              <div class="gauge_btm">
+                <i class="iconfont icon-shidu"></i>
+                <p>{{envData['humid']}}%RH</p>
+                <span>当前湿度</span>
+              </div>
+            </div>
+          </duno-main>
+        </div>
+      </div>
+      <!-- <div class="reportForm">
         <div class="contain borderTX">
           <duno-main :controlOver="true" class="main_contain">
             <div class="iconTop" @click="handleJump(6)">
@@ -75,100 +129,37 @@
             </div>
           </duno-main>
         </div>
-      </div>
-      <!--  <div class="ARRange">
-        <div class="iconcen">
-          <div class="iconTop">
-            <img src="../../../assets/iconFunction/icon_remote.png" alt />
-            机柜
-          </div>
-          <div class="icondev">
-            <img src="../../../assets/iconFunction/img_developing.png" alt />
-            <p>功能开发中</p>
-          </div>
-        </div>
-        <div class="iconcen">
-          <div class="iconTop">
-            <img src="../../../assets/iconFunction/icon_ar.png" alt />
-            算法指标
-          </div>
-          <div class="icondev">
-            <img src="../../../assets/iconFunction/img_developing.png" alt />
-            <p>功能开发中</p>
-          </div>
-        </div>
       </div>-->
     </div>
-    <div class="bottom">
-      <div class="left">
-        <div class="iconcen" @click="handleJump(1)">
+    <div class="middle-center">
+      <div>
+        <div class="defect iconcen" @click="handleJump(7)">
           <duno-main :controlOver="true" class="main_contain contain">
             <div class="iconTop">
-              <img src="../../../assets/iconFunction/icon_weather.png" alt />
-              微气象环境
+              <i class="iconfont icon-quexianku"></i>
+              缺陷库管理
             </div>
-            <div class="weater">
-              <div class="gauge">
-                <p>
-                  <span style="white-space:pre;">{{ toDay }}</span>
-                </p>
-                <div>
-                  <i class="iconfont icon-wendu"></i>
-                  <span>{{ tempEnv['envTemp'] }}℃</span>
-                </div>
-              </div>
-              <div class="gauge">
-                <div class="gauge_top">
-                  <i class="iconfont icon-shidu1"></i>
-                  <p>{{ tempEnv['humidity'] }}%</p>
-                  <span>当前湿度</span>
-                </div>
-                <div class="gauge_btm">
-                  <i class="iconfont icon-fengsu"></i>
-                  <p>{{ tempEnv['windSpeed'] }}m/s</p>
-                  <span>当前风速</span>
-                </div>
-              </div>
-              <!-- <div>
-              <p>7月20日 周六</p>
-              <p>多云 32℃/21℃</p>
-            </div>
-            <div>
-              <span>32℃</span>
-              <img src="../../../assets/iconFunction/img_cloudy.png" alt />
-            </div>
-          </div>
-          <div class="btmWeater">
-            <div>
-              <img src="../../../assets/iconFunction/icon_humidity.png" alt />
-              <span>相对湿度 70%</span>
-            </div>
-            <div>
-              <img src="../../../assets/iconFunction/icon_wind.png" alt />
-              <span>西北风 二级</span>
-              </div>-->
+            <div class="defectInfo">
+              <progress-d v-for="(item,index) in defectData" :key="index" :dataList="item"></progress-d>
             </div>
           </duno-main>
         </div>
-        <div class="iconcen" @click="handleJump(2)">
+        <div class="conter iconcen" @click="handleJump(4)">
           <duno-main :controlOver="true" class="main_contain contain">
             <div class="iconTop">
-              <img src="../../../assets/iconFunction/icon_space.png" alt />
-              泛在盒子
+              <img src="../../../assets/iconFunction/icon_system.png" alt />
+              平台监控
             </div>
-            <div class="gauge" id="mountNode"></div>
-            <div class="gauge">
-              <div class="gauge_top">
-                <i class="iconfont icon-wendu1"></i>
-                <p>{{envData['temp']}}℃</p>
-                <span>当前温度</span>
-              </div>
-              <div class="gauge_btm">
-                <i class="iconfont icon-shidu"></i>
-                <p>{{envData['humid']}}%RH</p>
-                <span>当前湿度</span>
-              </div>
-            </div>
+            <duno-charts
+              paddingBottom="50%"
+              :seriesOption="seriesOptionBar"
+              :xAxisOption="xAxisOptionBar"
+              :yAxisOption="yAxisOptionBar"
+              :gridOption="gridOptionBar"
+              :tooltipOption="tooltipOptionBar"
+              :isItemEchart="isItemEchartBar"
+              :isChange="isChangeBar"
+            />
           </duno-main>
         </div>
       </div>
@@ -191,26 +182,105 @@
           </div>
         </duno-main>
       </div>
-      <div class="conter iconcen" @click="handleJump(4)">
+    </div>
+    <div class="middle-right">
+      <div class="defect iconcen">
         <duno-main :controlOver="true" class="main_contain contain">
           <div class="iconTop">
-            <img src="../../../assets/iconFunction/icon_system.png" alt />
-            平台监控
+            <img src="../../../assets/iconFunction/icon_statement.png" alt />
+            报表
           </div>
-          <!-- <div class="echartsBar" id="echartsBar"></div> -->
-          <duno-charts
-            paddingBottom="55%"
-            :seriesOption="seriesOptionBar"
-            :xAxisOption="xAxisOptionBar"
-            :yAxisOption="yAxisOptionBar"
-            :tooltipOption="tooltipOptionBar"
-            :isItemEchart="isItemEchartBar"
-            :isChange="isChangeBar"
-          />
+          <div class="report">
+            <span>全面巡视报告</span>
+            <p>查看更多-></p>
+          </div>
+          <div
+            class="reportLoad"
+            v-loading="loadingOption"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            element-loading-text="加载中"
+          >
+            <div class="re-middle">
+              <ReportTable
+                v-for="(item,index) in mockData"
+                :key="index"
+                :url="url"
+                :reportData="item"
+                :isAllInfo="false"
+              />
+            </div>
+          </div>
+          <div class="report">
+            <span>其他巡视报告</span>
+            <p @click="handleJump(6)">查看更多-></p>
+          </div>
+          <div
+            class="reportLoad"
+            v-loading="loadingOption"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            element-loading-text="加载中"
+          >
+            <div class="re-middle">
+              <ReportTable
+                v-for="(item,index) in mockData"
+                :key="index"
+                :url="url"
+                :reportData="item"
+                :isAllInfo="false"
+              />
+            </div>
+          </div>
+          <div class="re-table">
+            <duno-tables-tep
+              class="table_analysis"
+              :columns="RecodeColumns"
+              :data="RecodeList"
+              :isShowPage="false"
+              @on-select="dataListSelectionChangeHandle"
+              @clickPage="pageCurrentChangeHandle"
+              @on-page-size-change="pageSizeChangeHandle"
+            />
+          </div>
         </duno-main>
       </div>
+      <!-- <div class="reportForm">
+        <div class="contain borderTX">
+          <duno-main :controlOver="true" class="main_contain">
+            <div class="iconTop" @click="handleJump(6)">
+              <img src="../../../assets/iconFunction/icon_statement.png" alt />
+              报表
+            </div>
+            <div
+              class="reportLoad"
+              v-loading="loadingOption"
+              element-loading-background="rgba(0, 0, 0, 0.8)"
+              element-loading-text="加载中"
+            >
+              <div class="re-middle">
+                <ReportTable
+                  v-for="(item,index) in mockData"
+                  :key="index"
+                  :url="url"
+                  :reportData="item"
+                />
+              </div>
+            </div>
+            <div class="re-table">
+              <duno-tables-tep
+                class="table_analysis"
+                :columns="RecodeColumns"
+                :data="RecodeList"
+                :isShowPage="false"
+                @on-select="dataListSelectionChangeHandle"
+                @clickPage="pageCurrentChangeHandle"
+                @on-page-size-change="pageSizeChangeHandle"
+              />
+            </div>
+          </duno-main>
+        </div>
+      </div>-->
     </div>
-    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
+    <!-- <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" /> -->
     <wraning
       @on-fresh="getDataList"
       :popData="popData"
@@ -218,7 +288,6 @@
       :visible="visible"
       @handleClose="handleClose"
     />
-    <!--<wraning-t :popData="popData" detailsType="alarm" :visible="true" @handleClose="handleClose"></wraning-t>-->
   </div>
 </template>
 
@@ -231,10 +300,10 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
-// import DunoCharts from "_c/duno-charts/charts.vue";
-import warningSetting from "_c/duno-j/warningSetting";
+// import warningSetting from "_c/duno-j/warningSetting";
 import wraningT from "_c/duno-j/warningT";
 import wraning from "_c/duno-j/warning";
+import progressD from "./components/progressD";
 import { DunoCharts } from "_c/duno-charts";
 import { DunoChartPieLoop, DunoChartBarLine } from "_c/duno-charts/index";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
@@ -252,10 +321,10 @@ export default {
     ReportTable,
     DunoChartPieLoop,
     DunoChartBarLine,
-    warningSetting,
     DunoCharts,
     wraning,
-    wraningT
+    wraningT,
+    progressD
   },
   computed: {
     isAlarm() {
@@ -292,7 +361,7 @@ export default {
       url: "/lenovo-plan/api/statistics/plan/download",
       RecodeList: [],
       popData: {},
-      visibleSettingOption: false,
+      // visibleSettingOption: false,
       visible: false,
       isItemEchart: true,
       isChange: true,
@@ -311,6 +380,32 @@ export default {
         temp: 0,
         humid: 0
       },
+      defectData: [
+        {
+          name: "总体",
+          num: "320",
+          flex: 1,
+          color: "#fff"
+        },
+        {
+          name: "手动导入",
+          num: "130",
+          flex: 0.4,
+          color: "#1B6697"
+        },
+        {
+          name: "摄像机标定",
+          num: "100",
+          flex: 0.35,
+          color: "#53CBC3"
+        },
+        {
+          name: "设别结果",
+          num: "90",
+          flex: 0.3,
+          color: "#FFDB29"
+        }
+      ],
       columns: [
         {
           title: "时间",
@@ -494,20 +589,9 @@ export default {
           tooltip: true
         },
         {
-          title: "部件/相别",
-          key: "part",
-          minWidth: 100,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let data = params.row.part?params.row.part:'/'
-            return h("div", data);
-          }
-        },
-        {
-          title: "描述",
+          title: "识别结果",
           key: "description",
-          minWidth: 90,
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
@@ -566,7 +650,7 @@ export default {
       },
       titleOption: {
         text: "锁具状态",
-        right: "25%",
+        right: "17%",
         top: "45%",
         textStyle: {
           color: "#fff",
@@ -633,6 +717,9 @@ export default {
           }
         }
       ],
+      gridOptionBar: {
+        // top: "5%"
+      },
       seriesOptionBar: [
         {
           name: "已占用",
@@ -687,7 +774,10 @@ export default {
           let total = data.close + data.open;
           let close = Math.round((data.close / total) * 100);
           let open = Math.round((data.open / total) * 100);
-          that.legendOption.data = [`解锁 : ${open}%（${data.open}）`, `闭锁 : ${close}%（${data.close}）`];
+          that.legendOption.data = [
+            `解锁 : ${open}%（${data.open}）`,
+            `闭锁 : ${close}%（${data.close}）`
+          ];
           that.seriesOption[0].data = [
             { value: data.open, name: that.legendOption.data[0] },
             { value: data.close, name: that.legendOption.data[1] }
@@ -811,6 +901,8 @@ export default {
         route = "list";
       } else if (item == 6) {
         route = "taskForm";
+      } else if (item == 7) {
+        route = "defectLibrary";
       } else {
         route = "platformMonitor";
       }
@@ -822,7 +914,7 @@ export default {
       let url = "/lenovo-plan/api/statistics/plan/list";
       let query = {
         pageIndex: 1,
-        pageRows: 3
+        pageRows: 2
       };
       getAxiosData(url, query).then(res => {
         this.mockData = res.data.tableData;
@@ -896,9 +988,9 @@ export default {
         that.messageList = res.data.tableData;
       });
     },
-    onClose() {
-      this.visibleSettingOption = false;
-    },
+    // onClose() {
+    //   this.visibleSettingOption = false;
+    // },
     handleClose() {
       this.popData = {};
       this.visible = false;
@@ -1026,7 +1118,10 @@ export default {
 <style lang="scss">
 @import "@/style/tableStyle.scss";
 .abnormalInfoHome {
-  height: 80%;
+  height: 90%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   .reportTable .btn > div:first-child {
     border-right: 2px solid #203e52;
   }
@@ -1075,29 +1170,28 @@ export default {
     background: rgba(20, 40, 56, 0.8);
   }
   .topNav {
+    width: 100%;
     background-color: rgba(20, 40, 56, 0.8);
     height: 80px;
   }
   .middle {
     margin-top: 20px;
+    margin-bottom: 20px;
     overflow: hidden;
     height: 100%;
-    @media screen and (max-width: 1366px) {
-      height: 70%;
-    }
-    @media screen and (max-width: 1366px), screen and (max-height: 1080px) {
-      height: 80%;
-    }
-    & > div {
-      float: left;
-    }
+    width: calc(50% - 10px);
+    // @media screen and (max-width: 1366px) {
+    //   height: 70%;
+    // }
+    // @media screen and (max-width: 1366px), screen and (max-height: 1080px) {
+    //   height: 80%;
+    // }
     .abnormalInfo {
-      width: calc(60% - 20px);
+      width: 100%;
       margin-right: 20px;
       position: relative;
-      // height: 557px;
       padding: 2px;
-      height: 100%;
+      height: 64%;
       .ivu-table-cell {
         padding-left: 0;
         padding-right: 0;
@@ -1131,172 +1225,20 @@ export default {
         }
       }
     }
-    .reportLoad {
-      min-height: 270px;
-    }
-    .reportForm {
-      position: relative;
-      width: calc(40% - 10px);
-      padding: 2px;
-      height: 100%;
-      background-color: rgba(20, 40, 56, 0.8);
-      .contain {
-        padding: 20px;
-        width: 100%;
-        height: 100%;
-        border: 2px solid transparent;
-        transition: border 0.5s;
-        &:hover {
-          border: 2px solid white;
-          transition-duration: 0.5s;
-        }
-      }
-      .re-middle {
-        overflow: hidden;
-        margin-top: 20px;
-        /*height: 380px;*/
-        & > div:last-child {
-          margin-right: 0;
-        }
-        .reportTable {
-          float: left;
-          height: 100%;
-          margin-right: 2%;
-          width: calc(32%);
-          .content {
-            padding: 10px;
-            h3 {
-              margin-bottom: 5px;
-              font-size: 14px;
-            }
-            p {
-              font-size: 12px;
-            }
-          }
-          .btn {
-            div {
-              font-size: 12px;
-            }
-          }
-        }
-      }
-      .re-table {
-        margin-top: 20px;
-        .ivu-table {
-          font-size: 12px;
-        }
-        .ivu-table th {
-          font-size: 14px;
-          height: 32px;
-        }
-        .ivu-table-wrapper {
-          tr {
-            td {
-              height: 32px;
-            }
-          }
-        }
-      }
-    }
-    .ARRange {
-      width: calc(25% - 10px);
-      height: 557px;
-      & > div {
-        height: calc(50% - 10px);
-        background-color: rgba(32, 62, 82, 0.8);
-      }
-      & > div:first-child {
-        margin-bottom: 20px;
-      }
-    }
   }
-  .bottom {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    width: 100%;
-    & > div {
-      float: left;
-    }
-    .left {
-      width: calc(50% - 20px);
-      margin-right: 20px;
-      overflow: hidden;
-      & > div {
-        float: left;
-        height: 267px;
-      }
-      & > div:first-child {
-        width: calc(55% - 20px);
-        margin-right: 20px;
-        background-color: rgba(0, 70, 101, 0.8);
-        // background-size: 100% 100%;
-        // background-image: url("../../../assets/iconFunction/img_bg_weather.jpg");
-      }
-      & > div:nth-child(2) {
-        /*height: 100%;*/
-        width: 45%;
-        background-color: rgba(32, 62, 82, 0.8);
-      }
-      .weater {
-        & > div:first-child {
-          padding-top: 36px;
-          p {
-            padding-left: 30px;
-            font-size: 18px;
-            color: #aaa;
-            @media screen and (max-width: 1366px) {
-              padding-left: 20px;
-            }
-          }
-          div {
-            color: #fff;
-            @media screen and (max-width: 1366px) {
-              margin-left: -10px;
-            }
-            i {
-              font-size: 100px;
-              @media screen and (max-width: 1366px) {
-                font-size: 90px;
-              }
-            }
-            span {
-              font-size: 36px;
-              @media screen and (max-width: 1366px) {
-                font-size: 30px;
-              }
-            }
-          }
-        }
-      }
-      .btmWeater {
-        margin-top: 50px;
-        display: flex;
-        justify-content: space-between;
-        & > div {
-          color: #fff;
-          img {
-            vertical-align: bottom;
-          }
-        }
-        & > div:first-child {
-          margin-left: 25px;
-        }
-        & > div:nth-child(2) {
-          margin-right: 11%;
-        }
-      }
-    }
-    .conter {
-      width: calc(25% - 10px);
-      height: 267px;
-      background-color: rgba(0, 70, 101, 0.8);
+  .middle-center {
+    width: calc(25% - 20px);
+    height: 100%;
+    margin: 20px 20px 0;
+    & > div:first-child {
+      width: 100%;
+      height: 64%;
     }
     .right {
-      height: 267px;
-      width: calc(25% - 10px);
-      margin-right: 20px;
       background-color: rgba(32, 62, 82, 0.8);
+      width: 100%;
+      height: 32%;
+      margin-top: 20px;
       & > div:nth-child(2) {
         width: 100%;
         height: 88%;
@@ -1305,6 +1247,236 @@ export default {
         padding-top: 30px;
       }
     }
+    .defect {
+      background-color: rgba(32, 62, 82, 0.8);
+      width: 100%;
+      height: calc(50% - 10px);
+      margin-bottom: 20px;
+      .defectInfo {
+        margin: 30px 20px 20px 20px;
+      }
+    }
+    .conter {
+      width: 100%;
+      height: calc(50% - 10px);
+      background-color: rgba(0, 70, 101, 0.8);
+      margin-bottom: 20px;
+    }
+  }
+  .middle-right {
+    width: calc(25% - 10px);
+    height: 100%;
+    margin-top: 20px;
+    & > div {
+      height: 100%;
+    }
+    .report {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      span {
+        color: #aaa;
+      }
+      p {
+        color: #5fafff;
+        text-decoration: underline;
+        text-decoration-color: #5fafff;
+      }
+    }
+    .re-middle {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      & > div:last-child {
+        margin-left: 10px;
+      }
+      .reportTable {
+        height: 100%;
+        width: calc(50% - 5px);
+        margin-bottom: 0;
+        .content {
+          padding: 10px 10px 0 10px;
+          h3 {
+            margin-bottom: 5px;
+            font-size: 14px;
+          }
+          p {
+            font-size: 12px;
+          }
+        }
+        .btn {
+          div {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    .reportLoad {
+      height: 34.5%;
+    }
+    .re-table {
+      margin-top: 20px;
+      .ivu-table {
+        font-size: 12px;
+      }
+      .ivu-table th {
+        font-size: 14px;
+        height: 32px;
+      }
+      .ivu-table-wrapper {
+        tr {
+          td {
+            height: 32px;
+          }
+        }
+      }
+    }
+    // .reportForm {
+    // position: relative;
+    // width: calc(40% - 10px);
+    // padding: 2px;
+    // height: 100%;
+    // background-color: rgba(20, 40, 56, 0.8);
+    // .contain {
+    //   padding: 20px;
+    //   width: 100%;
+    //   height: 100%;
+    //   border: 2px solid transparent;
+    //   transition: border 0.5s;
+    //   &:hover {
+    //     border: 2px solid white;
+    //     transition-duration: 0.5s;
+    //   }
+    // }
+    // .re-middle {
+    //   overflow: hidden;
+    //   margin-top: 20px;
+    //   /*height: 380px;*/
+    //   & > div:last-child {
+    //     margin-right: 0;
+    //   }
+    //   .reportTable {
+    //     float: left;
+    //     height: 100%;
+    //     margin-right: 2%;
+    //     width: calc(32%);
+    //     .content {
+    //       padding: 10px;
+    //       h3 {
+    //         margin-bottom: 5px;
+    //         font-size: 14px;
+    //       }
+    //       p {
+    //         font-size: 12px;
+    //       }
+    //     }
+    //     .btn {
+    //       div {
+    //         font-size: 12px;
+    //       }
+    //     }
+    //   }
+    // }
+    // .re-table {
+    //   margin-top: 20px;
+    //   .ivu-table {
+    //     font-size: 12px;
+    //   }
+    //   .ivu-table th {
+    //     font-size: 14px;
+    //     height: 32px;
+    //   }
+    //   .ivu-table-wrapper {
+    //     tr {
+    //       td {
+    //         height: 32px;
+    //       }
+    //     }
+    //   }
+    // }
+    // }
+  }
+  .bottom {
+    margin-top: 20px;
+    // margin-bottom: 20px;
+    width: 100%;
+    height: 32%;
+    display: flex;
+    justify-content: flex-start;
+    & > div {
+      height: 100%;
+    }
+    & > div:first-child {
+      width: calc(55% - 20px);
+      margin-right: 20px;
+      background-color: rgba(0, 70, 101, 0.8);
+    }
+    & > div:nth-child(2) {
+      width: 45%;
+      background-color: rgba(32, 62, 82, 0.8);
+    }
+    .weater {
+      overflow: hidden;
+      & > div:first-child {
+        padding-top: 30px;
+        p {
+          padding-left: 30px;
+          font-size: 18px;
+          color: #aaa;
+          @media screen and (max-width: 1366px) {
+            padding-left: 20px;
+          }
+        }
+        div {
+          color: #fff;
+          @media screen and (max-width: 1366px) {
+            margin-left: -10px;
+          }
+          i {
+            font-size: 100px;
+            @media screen and (max-width: 1366px) {
+              font-size: 90px;
+            }
+          }
+          span {
+            font-size: 36px;
+            @media screen and (max-width: 1366px) {
+              font-size: 30px;
+            }
+          }
+        }
+      }
+    }
+    .btmWeater {
+      margin-top: 50px;
+      display: flex;
+      justify-content: space-between;
+      & > div {
+        color: #fff;
+        img {
+          vertical-align: bottom;
+        }
+      }
+      & > div:first-child {
+        margin-left: 25px;
+      }
+      & > div:nth-child(2) {
+        margin-right: 11%;
+      }
+    }
+    // .right {
+    //   height: 267px;
+    //   width: calc(25% - 10px);
+    //   margin-right: 20px;
+    //   background-color: rgba(32, 62, 82, 0.8);
+    //   & > div:nth-child(2) {
+    //     width: 100%;
+    //     height: 88%;
+    //   }
+    //   .echartBox {
+    //     padding-top: 30px;
+    //   }
+    // }
   }
   .iconTop {
     cursor: pointer;
@@ -1314,6 +1486,9 @@ export default {
     line-height: 30px;
     img {
       vertical-align: top;
+    }
+    .icon-quexianku {
+      font-size: 26px;
     }
   }
   .topTitle {
@@ -1330,12 +1505,13 @@ export default {
     padding: 20px;
     position: relative;
     .contain {
-      padding: 20px;
+      // padding: 20px;
       width: 100%;
       height: 100%;
       background-color: rgba(20, 40, 56, 0.8);
       border: 2px solid transparent;
       transition: border 0.5s;
+      overflow: hidden;
       &:hover {
         border: 2px solid #435360;
         transition-duration: 0.5s;
@@ -1364,10 +1540,6 @@ export default {
       overflow: hidden;
       background: transparent;
     }
-
-    .icondev {
-      text-align: center;
-    }
     .gauge {
       float: left;
       height: 198px;
@@ -1376,7 +1548,7 @@ export default {
       .gauge_btm {
         height: 50%;
         padding-left: 50%;
-        padding-top: 15%;
+        padding-top: 10%;
         position: relative;
         p {
           font-size: 20px;
@@ -1398,7 +1570,7 @@ export default {
           color: #fff;
           font-size: 30px;
           position: absolute;
-          top: 36%;
+          top: 30%;
           left: 30%;
           @media screen and (max-width: 1366px) {
             font-size: 25px;
