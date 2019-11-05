@@ -171,6 +171,12 @@
 
         },
         methods:{
+          removeAFeature(){
+            let feature = this.vector.getSource().getFeatures()
+            feature.forEach(item=>{
+              this.vector.getSource().removeFeature(item)
+            })
+          },
             getPan() {
                 let pan;
                 this.mapTarget.getInteractions().forEach(function(element, index, array) {
@@ -382,13 +388,13 @@
             containPoint(polygon, index){
                 let arr = []
                 this.powerPointList.forEach(item=>{
-                    if(polygon.intersectsExtent(transform([item['xReal'],item['yReal']], 'EPSG:3857', 'EPSG:4326'))){
+                    if(polygon.intersectsExtent(transform([item['cadX'],item['cadY']], 'EPSG:3857', 'EPSG:4326'))){
                         arr.push(item)
                     }
                 })
                 let value = []
                 arr.forEach((item)=>{
-                    value.push(item['deviceIdStr'])
+                    value.push(item['linkId'])
                 })
                 this.drawList[index]['value'] = value
                 this.drawList[index]['options'] = arr
@@ -979,83 +985,105 @@
                         })
                     })
                 })
-                arr.forEach((item,index)=>{
+                for(let z=0; z<arr.length; z++){
+                    let item = arr[z]
+                    let index = z
+                    if(z % 500 == 0){
+                      setTimeout(()=>{
+                        ~function (item, index) {
+                          that.addPoint(item, index, style)
+                        }(item, index)
+                      },2000)
+                    }else{
+                      this.addPoint(item, index, style)
+                    }
+                }
+              /* arr.forEach((item, index)=>{
+                     let anchor = new Overlay({
+                         element: document.getElementById('anchord'+index)
+                     });
+                     anchor.setPosition(transform([item['xReal'],item['yReal']], 'EPSG:3857' ,'EPSG:4326'));
+                     this.setZoom(anchor)
+                     that.pointListObj.push({anchor: anchor})
+                     that.mapTarget.addOverlay(anchor);
+                 })*/
+
+            },
+            addPoint(item, index, style){
+              const that = this
+                let anchor = null
+                if(that.isDiagram == 1){
+                  if(that.kind == ''){
+                    anchor = new Feature({
+                      geometry: new Point(transform([item['xLoc'],item['yLoc']], 'EPSG:3857' ,'EPSG:4326'))
+                    })
+                  }else{
+                    anchor = new Feature({
+                      geometry: new Point(transform([item['xLocReverse'],item['yLocReverse']], 'EPSG:3857' ,'EPSG:4326'))
+                    })
+                  }
+                }else if(that.isDiagram == 2){
+                  anchor = new Feature({
+                    geometry: new Point(transform([item['cadX'],item['cadY']], 'EPSG:3857' ,'EPSG:4326'))
+                  })
+                }else if(that.isDiagram == 3){
+                  anchor = new Feature({
+                    geometry: new Point(transform([item['realX'],item['realY']], 'EPSG:3857' ,'EPSG:4326'))
+                  })
+                }
+                anchor.setStyle( style )
+                anchor.setId(index)
+                anchor.set('dataInfo', JSON.stringify(item))
+                anchor.set('dataFlag', '1')
+                anchor.set('dataId', index)
+                this.vector.getSource().addFeature(anchor)
+                anchor.on('mousein',function (event) {
+                  that.isIn = true
+                  if(event.target.values_.dataFlag == 1 && (that.mapTarget.getView().getZoom()>15 || that.isDiagram == 1 || that.noZoomLimit)) {
+                    let item = JSON.parse(event.target.values_.dataInfo)
+                    that.clickTarget = item
                     let anchor = null
                     if(that.isDiagram == 1){
-                        if(that.kind == ''){
-                            anchor = new Feature({
-                                geometry: new Point(transform([item['xLoc'],item['yLoc']], 'EPSG:3857' ,'EPSG:4326'))
-                            })
-                        }else{
-                            anchor = new Feature({
-                                geometry: new Point(transform([item['xLocReverse'],item['yLocReverse']], 'EPSG:3857' ,'EPSG:4326'))
-                            })
-                        }
-                    }else{
+                      if(that.kind == ''){
                         anchor = new Feature({
-                            geometry: new Point(transform([item['xReal'],item['yReal']], 'EPSG:3857' ,'EPSG:4326'))
+                          geometry: new Point(transform([item['xLoc'],item['yLoc']], 'EPSG:3857' ,'EPSG:4326'))
                         })
+                      }else{
+                        anchor = new Feature({
+                          geometry: new Point(transform([item['xLocReverse'],item['yLocReverse']], 'EPSG:3857' ,'EPSG:4326'))
+                        })
+                      }
+                    }else if(that.isDiagram == 2){
+                      anchor = new Feature({
+                        geometry: new Point(transform([item['cadX'],item['cadY']], 'EPSG:3857' ,'EPSG:4326'))
+                      })
+                    }else if(that.isDiagram == 3){
+                      anchor = new Feature({
+                        geometry: new Point(transform([item['realX'],item['realY']], 'EPSG:3857' ,'EPSG:4326'))
+                      })
                     }
-                    anchor.setStyle( style )
-                    anchor.setId(index)
-                    anchor.set('dataInfo', JSON.stringify(item))
-                    anchor.set('dataFlag', '1')
-                    anchor.set('dataId', index)
-                    this.vector.getSource().addFeature(anchor)
-                    anchor.on('mousein',function (event) {
-                        that.isIn = true
-                        if(event.target.values_.dataFlag == 1 && (that.mapTarget.getView().getZoom()>15 || that.isDiagram == 1 || that.noZoomLimit)) {
-                            let item = JSON.parse(event.target.values_.dataInfo)
-                            that.clickTarget = item
-                            let anchor = null
-                            if(that.isDiagram == 1){
-                                if(that.kind == ''){
-                                    anchor = new Feature({
-                                        geometry: new Point(transform([item['xLoc'],item['yLoc']], 'EPSG:3857' ,'EPSG:4326'))
-                                    })
-                                }else{
-                                    anchor = new Feature({
-                                        geometry: new Point(transform([item['xLocReverse'],item['yLocReverse']], 'EPSG:3857' ,'EPSG:4326'))
-                                    })
-                                }
-                            }else{
-                                anchor = new Feature({
-                                    geometry: new Point(transform([item['xReal'], item['yReal']], 'EPSG:3857', 'EPSG:4326'))
-                                })
-                            }
-                            let text = new Text({
-                                scale: 2,
-                                text: item['deviceName'],
-                                fill: new Fill({
-                                    color: 'red'
-                                }),
-                            })
-                            text.setOffsetY(-10)
-                            anchor.setStyle(new Style({
-                                text: text,
-                                zIndex: 99,
-                            }));
-                            anchor.setId('pointName')
-                            that.vector.getSource().addFeature(anchor)
-                            /*   let feature = that.vector.getSource().getFeatureById(event.target.values_.dataId)
-                        that.vector.getSource().removeFeature(feature)*/
-                        }else{
-                            let feature = that.vector.getSource().getFeatureById('pointName')
-                            that.vector.getSource().removeFeature(feature)
-                            that.clickTarget = null
-                        }
+                    let text = new Text({
+                      scale: 2,
+                      text: item['deviceName'],
+                      fill: new Fill({
+                        color: 'red'
+                      }),
                     })
+                    text.setOffsetY(-10)
+                    anchor.setStyle(new Style({
+                      text: text,
+                      zIndex: 99,
+                    }));
+                    anchor.setId('pointName')
+                    that.vector.getSource().addFeature(anchor)
+                    /*   let feature = that.vector.getSource().getFeatureById(event.target.values_.dataId)
+                that.vector.getSource().removeFeature(feature)*/
+                  }else{
+                    let feature = that.vector.getSource().getFeatureById('pointName')
+                    that.vector.getSource().removeFeature(feature)
+                    that.clickTarget = null
+                  }
                 })
-                /* arr.forEach((item, index)=>{
-                       let anchor = new Overlay({
-                           element: document.getElementById('anchord'+index)
-                       });
-                       anchor.setPosition(transform([item['xReal'],item['yReal']], 'EPSG:3857' ,'EPSG:4326'));
-                       this.setZoom(anchor)
-                       that.pointListObj.push({anchor: anchor})
-                       that.mapTarget.addOverlay(anchor);
-                   })*/
-
             },
             findPoint(point){
                 let deviceId =  'deviceIdStr' in  point?point['deviceIdStr']:point.powerDeviceId
@@ -1094,9 +1122,12 @@
                         pointX = data['xLocReverse']
                         pointY = data['yLocReverse']
                     }
-                }else{
-                    pointX = data['xReal']
-                    pointY = data['yReal']
+                }else if(this.isDiagram == 2){
+                    pointX = data['cadX']
+                    pointY = data['cadY']
+                }else if(this.isDiagram == 3){
+                  pointX = data['realX']
+                  pointY = data['realY']
                 }
                 if(point['alarmConfig'] != 3){
                     try{
@@ -1408,6 +1439,7 @@
             })
         },
         beforeDestroy(){
+            this.removeAFeature()
             this.coverList = []
             this.pointListObj = []
             this.mapTarget.getOverlays().clear()

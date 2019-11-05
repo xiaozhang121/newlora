@@ -22,7 +22,7 @@
            </div>-->
           <!--<gis-map :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>-->
           <div v-if="isDiagram == 2">
-            <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
+            <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointListB" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"  ></gis-map>
           </div>
           <div :class="['allShowPic']" v-else-if="isDiagram == 1">
             <!--<drappable class="drappable_assembly" width="1900px" height="675px" >
@@ -32,7 +32,7 @@
             </drappable>-->
             <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8203" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
-          <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice" mapUrl="http://10.0.10.45:8202" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
+          <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointListB" @toDetail="toDevice" mapUrl="http://10.0.10.45:8202" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
         </div>
         <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -69,7 +69,7 @@
           <div class="toward" style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"  v-if="isDiagram == 2"></gis-map>
+          <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"  v-if="isDiagram == 2"></gis-map>
           <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
            <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
@@ -79,7 +79,7 @@
               <div class="toward" style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.45:8202"  @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202"  @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"></gis-map>
             </div>
           </div>
           <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -128,7 +128,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag"  :powerPointList="powerPointList" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag"  :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"></gis-map>
               <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                   <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
             </div>
@@ -167,7 +167,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 2"></gis-map>
+          <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 2"></gis-map>
           <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
            <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
@@ -177,7 +177,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 3"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 3"></gis-map>
               <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
             </div>
@@ -216,7 +216,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 2"></gis-map>
+          <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 2"></gis-map>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
@@ -226,7 +226,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 3"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 3"></gis-map>
               <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                  <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
             </div>
@@ -268,7 +268,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 2"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 2"></gis-map>
               <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                  <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
             </div>
@@ -281,7 +281,7 @@
                 <div class="toward"  style="left: 60px">
                   <img :src="towardAround"/>
                 </div>
-                <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 3"></gis-map>
+                <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 3"></gis-map>
                 <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                    <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
 
@@ -498,6 +498,7 @@
                 alarmId: '',
                 visible: false,
                 powerPointList: [],
+                powerPointListB: [],
                 isAlarm: false,
                 timer: null,
                 tempObj: {},
@@ -567,6 +568,7 @@
                     this.mainlistShow = true
                     this.getDeviceList()
                     this.initOtherPoint()
+                    this.initOthersP()
                     this.initDisgram()
                 })
                 this.onClose(false ,'all')
@@ -702,6 +704,39 @@
                         }
                     })
                 }
+            },
+            initOthersP(){
+                const that = this
+                getAxiosData('/lenovo-robot/rest/device/list').then(res=>{
+                  let data = res.data
+                  debugger
+                  if(that.kilovoltKind == 10){
+                    data = data.filter(item=>{
+                      return item['areaId'] == '6'
+                    })
+                  }else if(that.kilovoltKind == 35){
+                    data = data.filter(item=>{
+                      return item['areaId'] == '5'
+                    })
+                  }else if(that.kilovoltKind == 110){
+                    data = data.filter(item=>{
+                      return item['areaId'] == '4'
+                    })
+                  }else if(that.kilovoltKind == 220){
+                    data = data.filter(item=>{
+                      return item['areaId'] == '3'
+                    })
+                  }else if(that.kilovoltKind == 500){
+                    data = data.filter(item=>{
+                      return item['areaId'] == '2'
+                    })
+                  }else if(that.kilovoltKind == 1000){
+                    data = data.filter(item=>{
+                      return item['areaId'] == '1'
+                    })
+                  }
+                  this.powerPointListB = data
+                })
             },
             initOtherPoint(){
                 const that = this
@@ -853,6 +888,7 @@
                 this.isDiagram = now
                 this.getDeviceList()
                 this.initOtherPoint()
+                this.initOthersP()
                 this.initDisgram()
                 this.$forceUpdate()
             },
@@ -979,6 +1015,7 @@
                 this.getDeviceList()
                 this.initDisgram()
                 this.initOtherPoint()
+                this.initOthersP()
             })
             this.$store.state.app.kilovolt = this.$route.meta.kind
         },

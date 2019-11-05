@@ -26,9 +26,9 @@
                         <el-select multiple  v-model="item['value']" placeholder="请选择">
                             <el-option
                                     v-for="item in item['options']"
-                                    :key="item.deviceIdStr"
+                                    :key="item.linkId"
                                     :label="item.deviceName"
-                                    :value="item.deviceIdStr">
+                                    :value="item.linkId">
                             </el-option>
                         </el-select>
                     </div>
@@ -97,7 +97,7 @@ export default {
     methods:{
         initDisgram(){
             const that = this
-            getAxiosData('/lenovo-device/api/device/list').then(res=>{
+            getAxiosData('/lenovo-robot/rest/device/list').then(res=>{
                 let data = res.data
                 that.disgramList = data
             })
