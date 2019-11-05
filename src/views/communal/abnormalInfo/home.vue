@@ -94,42 +94,6 @@
           </duno-main>
         </div>
       </div>
-      <!-- <div class="reportForm">
-        <div class="contain borderTX">
-          <duno-main :controlOver="true" class="main_contain">
-            <div class="iconTop" @click="handleJump(6)">
-              <img src="../../../assets/iconFunction/icon_statement.png" alt />
-              报表
-            </div>
-            <div
-              class="reportLoad"
-              v-loading="loadingOption"
-              element-loading-background="rgba(0, 0, 0, 0.8)"
-              element-loading-text="加载中"
-            >
-              <div class="re-middle">
-                <ReportTable
-                  v-for="(item,index) in mockData"
-                  :key="index"
-                  :url="url"
-                  :reportData="item"
-                />
-              </div>
-            </div>
-            <div class="re-table">
-              <duno-tables-tep
-                class="table_analysis"
-                :columns="RecodeColumns"
-                :data="RecodeList"
-                :isShowPage="false"
-                @on-select="dataListSelectionChangeHandle"
-                @clickPage="pageCurrentChangeHandle"
-                @on-page-size-change="pageSizeChangeHandle"
-              />
-            </div>
-          </duno-main>
-        </div>
-      </div>-->
     </div>
     <div class="middle-center">
       <div>
@@ -243,44 +207,7 @@
           </div>
         </duno-main>
       </div>
-      <!-- <div class="reportForm">
-        <div class="contain borderTX">
-          <duno-main :controlOver="true" class="main_contain">
-            <div class="iconTop" @click="handleJump(6)">
-              <img src="../../../assets/iconFunction/icon_statement.png" alt />
-              报表
-            </div>
-            <div
-              class="reportLoad"
-              v-loading="loadingOption"
-              element-loading-background="rgba(0, 0, 0, 0.8)"
-              element-loading-text="加载中"
-            >
-              <div class="re-middle">
-                <ReportTable
-                  v-for="(item,index) in mockData"
-                  :key="index"
-                  :url="url"
-                  :reportData="item"
-                />
-              </div>
-            </div>
-            <div class="re-table">
-              <duno-tables-tep
-                class="table_analysis"
-                :columns="RecodeColumns"
-                :data="RecodeList"
-                :isShowPage="false"
-                @on-select="dataListSelectionChangeHandle"
-                @clickPage="pageCurrentChangeHandle"
-                @on-page-size-change="pageSizeChangeHandle"
-              />
-            </div>
-          </duno-main>
-        </div>
-      </div>-->
     </div>
-    <!-- <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" /> -->
     <wraning
       @on-fresh="getDataList"
       :popData="popData"
@@ -300,7 +227,6 @@ import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import mixinViewModule from "@/mixins/view-module";
 import ReportTable from "_c/duno-c/ReportTable";
-// import warningSetting from "_c/duno-j/warningSetting";
 import wraningT from "_c/duno-j/warningT";
 import wraning from "_c/duno-j/warning";
 import progressD from "./components/progressD";
@@ -361,7 +287,6 @@ export default {
       url: "/lenovo-plan/api/statistics/plan/download",
       RecodeList: [],
       popData: {},
-      // visibleSettingOption: false,
       visible: false,
       isItemEchart: true,
       isChange: true,
@@ -1331,74 +1256,9 @@ export default {
         }
       }
     }
-    // .reportForm {
-    // position: relative;
-    // width: calc(40% - 10px);
-    // padding: 2px;
-    // height: 100%;
-    // background-color: rgba(20, 40, 56, 0.8);
-    // .contain {
-    //   padding: 20px;
-    //   width: 100%;
-    //   height: 100%;
-    //   border: 2px solid transparent;
-    //   transition: border 0.5s;
-    //   &:hover {
-    //     border: 2px solid white;
-    //     transition-duration: 0.5s;
-    //   }
-    // }
-    // .re-middle {
-    //   overflow: hidden;
-    //   margin-top: 20px;
-    //   /*height: 380px;*/
-    //   & > div:last-child {
-    //     margin-right: 0;
-    //   }
-    //   .reportTable {
-    //     float: left;
-    //     height: 100%;
-    //     margin-right: 2%;
-    //     width: calc(32%);
-    //     .content {
-    //       padding: 10px;
-    //       h3 {
-    //         margin-bottom: 5px;
-    //         font-size: 14px;
-    //       }
-    //       p {
-    //         font-size: 12px;
-    //       }
-    //     }
-    //     .btn {
-    //       div {
-    //         font-size: 12px;
-    //       }
-    //     }
-    //   }
-    // }
-    // .re-table {
-    //   margin-top: 20px;
-    //   .ivu-table {
-    //     font-size: 12px;
-    //   }
-    //   .ivu-table th {
-    //     font-size: 14px;
-    //     height: 32px;
-    //   }
-    //   .ivu-table-wrapper {
-    //     tr {
-    //       td {
-    //         height: 32px;
-    //       }
-    //     }
-    //   }
-    // }
-    // }
   }
   .bottom {
     margin-top: 20px;
-    // margin-bottom: 20px;
     width: 100%;
     height: 32%;
     display: flex;
@@ -1464,19 +1324,6 @@ export default {
         margin-right: 11%;
       }
     }
-    // .right {
-    //   height: 267px;
-    //   width: calc(25% - 10px);
-    //   margin-right: 20px;
-    //   background-color: rgba(32, 62, 82, 0.8);
-    //   & > div:nth-child(2) {
-    //     width: 100%;
-    //     height: 88%;
-    //   }
-    //   .echartBox {
-    //     padding-top: 30px;
-    //   }
-    // }
   }
   .iconTop {
     cursor: pointer;
