@@ -23,7 +23,7 @@
         日期: {{reportData.date}}
         <!-- <span>{{reportData.date}}</span> -->
       </p>
-      <p>
+      <p v-if="isAllInfo">
         时长: {{reportData.timeLong}}
         <!-- <span>{{reportData.timeLong}}</span> -->
       </p>
@@ -31,7 +31,7 @@
         异常信息数量: {{reportData.alarmNum}}
         <!-- <span>{{reportData.alarmNum}}</span> -->
       </p>
-      <p>
+      <p v-if="isAllInfo">
         <!-- <i>来源:</i> -->
         来源:
         <span
@@ -100,6 +100,12 @@ export default {
       default: () => {
         return "/lenovo-plan/api/statistics/plan/download";
       }
+    },
+    isAllInfo: {
+      type: Boolean,
+      default: () => {
+        return "true";
+      }
     }
   },
   methods: {
@@ -127,8 +133,8 @@ export default {
             planId: this.reportData.planId,
             taskRunHisId: this.reportData.ID,
             planType: this.reportData.taskType,
-            path:'/robot-one/reportList?substationId=1&robotId=1',
-            name:'最新巡视报告'
+            path: "/robot-one/reportList?substationId=1&robotId=1",
+            name: "最新巡视报告"
           }
         });
         return;
