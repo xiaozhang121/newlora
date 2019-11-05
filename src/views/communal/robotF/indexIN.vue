@@ -265,7 +265,6 @@
         beforeDestroy() {
             clearInterval(this.$refs.rouTineInspection.timer);
             clearInterval(this.timer);
-            
         },
         mounted() {
             this.routeName = this.$route.name;

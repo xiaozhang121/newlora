@@ -31,12 +31,12 @@
       </div>
     </div>
     <duno-main>
-      <div class="tab">
+      <!--<div class="tab">
         <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
           <el-tab-pane v-for="(item, index) in tabList" :key="index" :label="item" :name="'item'+index"></el-tab-pane>
         </el-tabs>
-      </div>
-      <div class="table">
+      </div>-->
+      <div class="table MainTable" :class="{'hasReMark': reMark}">
         <duno-tables-tep
                 class="mainTable"
                 ref="table"
@@ -59,14 +59,14 @@
             </div>
           </template>
         </div>-->
-        <div class="tip" v-if="false">
-          备注：状态识别显示“表计读数异常”/ “表计读数正常”/ “无法识别”
+        <div class="tip" v-if="reMark">
+          备注：{{ reMarkInfo }}
         </div>
       </div>
     </duno-main>
     <div ref="tableName" class="tableName" v-if="splitHeaderVisible">
-      <div class="top">名称1</div>
-      <div class="bottom">名称2</div>
+      <div class="top">{{ topName }}</div>
+      <div class="bottom">{{ bottomName }}</div>
     </div>
   </div>
 </template>
@@ -87,6 +87,10 @@ export default {
   name: "server",
   data() {
     return {
+      reMark: false,
+      reMarkInfo: '',
+      topName: '',
+      bottomName: '',
       timeRange: '',
       titleValueL: '监控摄像头数量',
       splitHeaderVisible: true,
@@ -288,43 +292,6 @@ export default {
       }
   },
   methods:{
-      mergeCol(colN, rowN, count){
-        let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')
-        let lineDom = dom[colN]
-        let firstDom = dom[colN].children[rowN]
-        firstDom.setAttribute('colspan', count)
-        let next = firstDom
-        for(let i=0; i<count-1; i++){
-            next = next.nextElementSibling
-            next.classList.add('removeF')
-        }
-        next = firstDom
-        for(let i=0; i<lineDom.children.length; i++){
-            if(lineDom.children[i].classList.contains('removeF')){
-                lineDom.children[i].remove()
-                i--
-            }
-        }
-      },
-      mergeRow(childN, rowN, count){
-         let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')
-         let lineDom = dom[rowN]
-         let firstDom = dom[rowN].children[childN]
-         firstDom.setAttribute('rowspan', count)
-         let next = lineDom
-         for(let i=0; i<count-1; i++){
-             next = next.nextElementSibling
-             next.children[childN].classList.add('removeF')
-         }
-         for(let i=0; i<dom.length; i++){
-             for(let j=0; j<dom[i].children.length; j++){
-                 if(dom[i].children[j].classList.contains('removeF')){
-                     dom[i].children[j].remove()
-                     j--
-                 }
-             }
-         }
-      },
       noSplit(){
         this.splitHeaderVisible = false
         document.querySelector('.tablesTep   .ivu-table-wrapper .ivu-table tr:first-child th:first-child').classList.add('no-split')
@@ -346,36 +313,59 @@ export default {
               }
           }
       },
-      handleData(){
-
+      handleData(data, keys){
+        let arr = []
+        for(let i=0; i<data.length; i++){
+          let obj = {}
+          let child = data[i]
+          let length = JSON.stringify(child).split(',').length
+          for(let j=0; j<length; j++){
+            obj[keys[j]] = child[j+1]
+          }
+          arr.push(obj)
+        }
+        this.data10 = arr
       },
       getReportView(){
         /*  getAxiosData('/lenovo-plan/api/report/view', { ...this.searchData }).then(res=>{
               debugger
           })*/
           let data = []
-          Array(10).fill(0).forEach(item=>{
+          Array(30).fill(0).forEach(item=>{
               let obj = {}
               Array(12).fill(0).forEach((child, index)=>{
-                  obj[index+1] = 'index: '+ index +  " " +Math.random()*1000
+                  obj[index+1] = 'index: '+ index +  "<br/>" +Math.random()*1000
               })
               data.push(obj)
           })
-          return data
-          this.handleData(data)
+          this.handleData(data, this.keys)
       },
       initDate(){
           let date = new Date()
           this.timeRange = [ date, date ]
       },
+      bindEvent(){
+        const that = this
+        this.tableHeight = $('.dunoMain_nr').height() - 60
+        window.addEventListener('resize', function () {
+          that.tableHeight = $('.dunoMain_nr').height() - 60
+        })
+      },
       initTable(){
           this.data10 = []
           this.columns11 = []
-          let tableColumns = require(`@/static/tableData/${this.searchData.templateIds}.js`).default
-          this.columns11 = tableColumns
-          debugger
+          this.$nextTick(()=>{
+            this.addHeader()
+          })
+        // let tableData = require(`@/static/tableConfig/${this.searchData.templateIds}.js`)
+          let tableData = require(`@/static/tableConfig/l13.js`)
+          this.columns11 = tableData.columns
+          this.topName = tableData.topName
+          this.bottomName = tableData.bottomName
+          this.reMark = tableData.reMark?tableData.reMark: false
+          if(this.reMark)
+            this.reMarkInfo = tableData.reMarkInfo
           this.getAllKey(this.columns11, this.keys)
-          debugger
           this.getReportView()
           this.$forceUpdate()
       },
@@ -385,12 +375,8 @@ export default {
       this.initTable()
   },
   mounted(){
-      this.$nextTick(()=>{
-          this.addHeader()
-
-      })
+      this.bindEvent()
       // 140
-     this.tableHeight = $('.dunoMain_nr').height() - $('.tab').height()-60
 /*     document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border-left: 1px solid grey !important")
      document.querySelectorAll('.ivu-table-tbody .ivu-table-row')[3].children[0].setAttribute("style","border:none !important; border-left: 1px solid grey !important")
   */
@@ -402,7 +388,7 @@ export default {
             //   this.mergeCol(1, 1, 3)
       },3000)
       this.$nextTick(()=>{
-          this.noSplit()
+          // this.noSplit()
         /*  this.noSplit()
           this.mergeRow(1, 1, 3)
           this.mergeRow(2, 1, 3)
@@ -441,10 +427,16 @@ export default {
     .el-time-panel__btn.confirm{
       color:#fff;
     }
+    .ivu-table-overflowY{
+      padding-bottom: 3px;
+    }
+    .hasReMark .ivu-table-overflowY{
+      padding-bottom: 55px !important;
+    }
     .tableName{
       color: white;
       z-index: 9;
-      position: absolute;
+      position: relative;
       top: 0;
       left: 0;
       width: 100%;
@@ -452,16 +444,17 @@ export default {
       text-align: center;
       .top{
         position: absolute;
-        top: 17px;
-        width: 64%;
-        left: 72px;
+        top: 4%;
+        /*width: 64%;*/
+        /*left: 72px;*/
+        right: 13px;
       }
       .bottom{
         position: absolute;
-        bottom: 0;
-        width: 63%;
-        top: 65px;
-        left: -1px;
+        bottom: 21%;
+        /*width: 63%;*/
+        /*top: 39%;*/
+        left: 13px;
         text-align: center;
       }
     }
@@ -486,7 +479,14 @@ export default {
       position: relative;
       &:after{
         content: '';
-        background: linear-gradient(27deg, transparent 49.5%, grey 49.5%, grey 50.5%, transparent 50.5%);
+        background: linear-gradient(
+                        to top right,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 0) calc(50% - 1.5px),
+                        rgba(128, 128, 128, 1) 50%,
+                        rgba(0, 0, 0, 0) calc(50% + 1.5px),
+                        rgba(0, 0, 0, 0) 100%
+        );
         width: 100%;
         display: block;
         height: 100%;
@@ -507,7 +507,9 @@ export default {
       height: 60px;
     }
     .ivu-table-cell{
-      white-space: nowrap;
+      /*white-space: nowrap;*/
+      padding-left: 7px;
+      padding-right: 7px;
     }
     .ivu-table-stripe .ivu-table-body tr.ivu-table-row-hover td{
       background-color: rgba(32, 54, 68, 0.7) !important;
@@ -589,6 +591,7 @@ export default {
       .table{
         position: relative;
         padding: 0 37px;
+        margin-top: 35px;
         .mainTable{
           width: 100%;
         }
@@ -603,6 +606,7 @@ export default {
           align-items: center;
           color: white;
           font-size: 14px;
+          position: relative;
         }
         .col_main{
           height: calc(100vh - 498px);
