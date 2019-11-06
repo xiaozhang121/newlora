@@ -1,161 +1,126 @@
 <template>
   <div class="frameSelection">
-    <el-dialog
-      v-dialogDrag
-      :close-on-click-modal="false"
-      :show-close="false"
-      @close="close"
-      :visible.sync="isShow"
-      width="500px"
-      :top="top"
-      :modal="false"
-      :center="true"
-    >
-      <div class="dialog-content">
-        <canvas id="myCanvas" width="450px"></canvas>
-      </div>
-    </el-dialog>
+    <div class="dialog-content">
+      <canvas
+        ref="myCanvas"
+        width="450px"
+        @mousedown="canvasDown($event)"
+        @mousemove="canvasMove($event)"
+        @mouseup="canvasUp($event)"
+        @mouseleave="canvasUp($event)"
+      ></canvas>
+      <div v-if="isPoint" @click="handleDraw" class="btn">手动标定</div>
+      <div v-if="!isPoint" @click="cleanRect" class="btn">清除</div>
+    </div>
   </div>
 </template>
 
 <script>
-import {
-  getAxiosData,
-  postAxiosData,
-  putAxiosData,
-  deleteDataId
-} from "@/api/axiosType";
-import {
-  sampleMark,
-  getMainDevice,
-  getPart,
-  getPartSub,
-  getRecognizeType,
-  snapshoot
-} from "@/api/configuration/configuration.js";
-import moment from "moment";
 export default {
   name: "frameSelection",
-  props: {
-    isShow: {
-      type: Boolean,
-      default: () => {
-        return false;
-      }
-    },
-    shotData: {
-      type: [Object, Array],
-      default: () => {
-        return {};
-      }
-    },
-    monitorDeviceId: {
-      type: [String, Number],
-      default: () => {
-        return "";
-      }
-    },
-    top: {
-      type: String,
-      default: () => {
-        return "15vh";
-      }
-    },
-    isVideo: {
-      type: Boolean,
-      default: () => {
-        return true;
-      }
-    }
-  },
-  watch: {
-    shotData(now) {
-      this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${now.cephBucket}&fileName=${now.cephFileName}`;
-    }
-  },
+  props: {},
   data() {
     let that = this;
     return {
-      picWigth: "",
-      picHeigh: "",
-      picSize: "",
-      powerDeviceId: "",
-      isInput: false,
-      isCalibrat: false,
-      startPointX: null,
-      endPointX: null,
-      startPointY: null,
-      endPointY: null,
-      clickFlage: 0,
-      x0: null,
-      y0: null,
-      x1: null,
-      y1: null,
-      imgsrc: ""
+      isPoint: true,
+      isDrew: false,
+      context: {},
+      ctxHeight: null,
+      img: new Image(),
+      beginRec: {
+        x0: null,
+        y0: null,
+        x1: null,
+        y1: null
+      }
     };
   },
+  watch: {
+    beginRec: {
+      handler(now) {
+        if (this.isDrew) {
+          this.drawRect();
+        }
+      },
+      deep: true
+    }
+  },
+
   methods: {
     init() {
-      let c = document.getElementById("myCanvas");
-      let ctx = c.getContext("2d");
-      let img = new Image();
-      img.src =
-        "https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg"; // 设置图片源地址
-      img.onload = function() {
-        let w = img.width;
-        let h = img.height;
-        let ctxHeight = Math.round((h * 450) / w);
-        c.height = ctxHeight;
-        ctx.drawImage(img, 0, 0, 450, ctxHeight);
+      let that = this;
+      let c = this.$refs.myCanvas;
+      that.context = c.getContext("2d");
+      // that.img.src = "https://static.runoob.com/images/demo/demo2.jpg";
+      that.img.src =
+        "https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg";
+      that.img.onload = function() {
+        let w = that.img.width;
+        let h = that.img.height;
+        that.ctxHeight = Math.round((h * 450) / w);
+        c.height = that.ctxHeight;
+        that.context.drawImage(that.img, 0, 0, 450, that.ctxHeight);
       };
     },
-
-    getCircle(e) {
-      if (this.clickFlage == 1) {
-        console.log(e.offsetX, e.offsetY);
-        let width = Math.abs(e.offsetX - this.startPointX);
-        let height = Math.abs(e.offsetY - this.startPointY);
-        if (e.offsetY - this.startPointY <= 0) {
-          this.$refs.box.style.top = e.offsetY + "px";
-        } else {
-          this.$refs.box.style.top = this.startPointY + "px";
-        }
-        if (e.offsetX - this.startPointX <= 0) {
-          this.$refs.box.style.left = e.offsetX + "px";
-        } else {
-          this.$refs.box.style.left = this.startPointX + "px";
-        }
-        this.$refs.box.style.width = width + "px";
-        this.$refs.box.style.height = height + "px";
+    // 鼠标按下
+    canvasDown(e) {
+      if (!this.isPoint) {
+        this.isDrew = true;
+        this.beginRec.x0 = e.offsetX;
+        this.beginRec.y0 = e.offsetY;
+        this.beginRec.x1 = e.offsetX;
+        this.beginRec.y1 = e.offsetY;
       }
     },
-    getFirstCode(e) {
-      if (this.clickFlage == 0 && this.isCalibrat) {
-        this.$refs.box.style.width = null;
-        this.$refs.box.style.height = null;
-        this.startPointX = e.offsetX;
-        this.startPointY = e.offsetY;
-        this.$refs.box.style.left = this.startPointX + "px";
-        this.$refs.box.style.top = this.startPointY + "px";
-        this.clickFlage = 1;
+    //鼠标移动/移出
+    canvasMove(e) {
+      if (this.isDrew) {
+        this.beginRec.x1 = e.offsetX;
+        this.beginRec.y1 = e.offsetY;
       }
     },
-    getEndCode(e) {
-      if (this.clickFlage == 1) {
-        this.endPointY = e.offsetY;
-        this.endPointX = e.offsetX;
-        this.clickFlage = 0;
+    //鼠标松开
+    canvasUp(e) {
+      if (this.isDrew) {
+        this.isDrew = false;
+        this.beginRec.x1 = e.offsetX;
+        this.beginRec.y1 = e.offsetY;
       }
     },
-    //手动标定
-    addTag() {
-      this.isCalibrat = true;
+    //重新绘制canvas
+    drawRect(e) {
+      let that = this;
+      that.context.clearRect(
+        that.beginRec.x0,
+        that.beginRec.y0,
+        that.beginRec.x1 - that.beginRec.x0,
+        that.beginRec.y1 - that.beginRec.y0
+      );
+      that.context.beginPath();
+      that.context.strokeStyle = "red";
+      that.context.lineWidth = 1;
+      that.context.drawImage(that.img, 0, 0, 450, that.ctxHeight);
+      that.context.strokeRect(
+        that.beginRec.x0,
+        that.beginRec.y0,
+        that.beginRec.x1 - that.beginRec.x0,
+        that.beginRec.y1 - that.beginRec.y0
+      );
     },
-    //清除标定
-    delTag() {
-      //   this.isCalibrat = false;
-      this.$refs.box.style.width = null;
-      this.$refs.box.style.height = null;
+    //清除矩形
+    cleanRect() {
+      let that = this;
+      that.isPoint = true;
+      that.context.clearRect(
+        that.beginRec.x0,
+        that.beginRec.y0,
+        that.beginRec.x1 - that.beginRec.x0,
+        that.beginRec.y1 - that.beginRec.y0
+      );
+      that.context.drawImage(that.img, 0, 0, 450, that.ctxHeight);
+    },
+    handleDraw() {
+      this.isPoint = false;
     },
     close() {
       this.$emit("closeShot");
@@ -165,32 +130,23 @@ export default {
     this.$nextTick(() => {
       this.init();
     });
-    this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
   }
 };
 </script>
 
 <style lang="scss">
 .frameSelection {
-  .el-dialog {
-    background-color: #e0e0e0;
-    box-shadow: 8px 8px 20px 0px rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
-    border: none;
-    .el-dialog__body {
-      padding-top: 0;
-      padding-bottom: 20px;
-      background-color: #e0e0e0;
-    }
-    .dialog-content {
+  .dialog-content {
+    position: relative;
+    .btn {
+      position: absolute;
+      right: 10px;
+      bottom: 20px;
+      background: rgba(255, 144, 0, 0.8);
+      color: #fff;
+      padding: 5px 10px;
+      cursor: pointer;
     }
   }
 }
-#box1 {
-  position: absolute;
-  background: none;
-  border: 1px solid red;
-}
 </style>
-
-

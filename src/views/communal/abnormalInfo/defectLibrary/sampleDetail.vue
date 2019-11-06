@@ -6,7 +6,7 @@
     <div class="info">
       <div class="top">
         <div>样本详情</div>
-        <div :style="{backgroundImage:background}">
+        <div @click="deleteDetail" :style="{backgroundImage:background}">
           <i class="iconfont icon-shanchu"></i>删除样本
         </div>
       </div>
@@ -16,20 +16,20 @@
             <img slot="placeholder" :src="require('@/assets/noPic.png')" />
           </el-image>
           <div class="infoNews">
-            <div>图片编号15465564</div>
-            <p>大小：108KB</p>
-            <p>分辨率：1920*1080</p>
-            <p>导入时间：2019-10-01 15:45:45</p>
+            <div>{{ImgInfo.picFilePath}}</div>
+            <p>大小：{{ImgInfo.picSize/1024}}kb</p>
+            <p>分辨率：{{ImgInfo.picWidth}}*{{ImgInfo.picHeight}}</p>
+            <p>导入时间：{{ImgInfo.picTime}}</p>
             <p>导入类型：手动导入</p>
           </div>
         </div>
         <div class="infoRight">
           <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="设备组件">
-              <el-cascader :data="cascaderData" :load-data="loadData"></el-cascader>
+              <el-cascader :data="cascaderData" :disabled="isEdit" :load-data="loadData"></el-cascader>
             </el-form-item>
             <el-form-item label="变电站名">
-              <el-select v-model="form.substationName" placeholder="请选择">
+              <el-select v-model="form.substationName" :disabled="isEdit" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in substationData"
                   :label="item.label"
@@ -39,7 +39,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="摄像头名">
-              <el-select v-model="form.cameraName" placeholder="请选择">
+              <el-select v-model="form.cameraName" :disabled="isEdit" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in cameraData"
                   :label="item.label"
@@ -49,7 +49,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="电压区域">
-              <el-select v-model="form.diviceName" placeholder="请选择">
+              <el-select v-model="form.diviceName" :disabled="isEdit" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in diviceData"
                   :label="item.label"
@@ -58,10 +58,11 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-            <survey :monitor="form.monitor"></survey>
+            <survey :monitor="form.monitor" :isEdit="isEdit"></survey>
             <div class="submit">
-              <span>删除</span>
-              <span>确认</span>
+              <span v-if="isEdit" @click="isEdit=false">编辑</span>
+              <span v-if="!isEdit" @click="isEdit=true">取消</span>
+              <span v-if="!isEdit" @click="handleSubmit">确认</span>
             </div>
           </el-form>
         </div>
@@ -88,14 +89,14 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
-    <frame-selection v-if="isShow" :isShow="isShow" @closeShot="closeShot"></frame-selection>
+    <calibration v-if="isShow" :isShow="isShow" @closeShot="closeShot"></calibration>
   </div>
 </template>
 
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import survey from "_c/duno-c/survey";
-import frameSelection from "_c/duno-c/frameSelection";
+import calibration from "./components/calibration.vue";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
@@ -106,16 +107,20 @@ export default {
     Breadcrumb,
     DunoTablesTep,
     survey,
-    frameSelection
+    calibration
   },
   data() {
     const that = this;
     return {
       isShow: false,
-      mixinViewModuleOptions: {
-        activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history"
-      },
+      isEdit: true,
+      imgsrc: "",
+      dataList: [],
+      ImgInfo: {},
+      // mixinViewModuleOptions: {
+      //   activatedIsNeed: true,
+      //   getDataListURL: "/venus/crud/PokerCustomer"
+      // },
       form: {
         cameraName: ""
       },
@@ -128,8 +133,12 @@ export default {
         { value: "1", label: "新视界-练塘站-500KV-4号主变" }
       ],
       diviceData: [
-        { value: "0", label: "1000KV" },
-        { value: "1", label: "500KV" }
+        { label: "1000KV", value: "0" },
+        { label: "500KV", value: "1" },
+        { label: "220KV", value: "2" },
+        { label: "110KV", value: "3" },
+        { label: "35KV", value: "4" },
+        { label: "10KV", value: "5" }
       ],
       cascaderData: [
         {
@@ -160,28 +169,36 @@ export default {
         },
         {
           title: "识别类型",
-          key: "monitorDeviceName",
+          key: "recognizeType",
           minWidth: 180,
           align: "center",
           tooltip: true
         },
         {
           title: "起始点位",
-          key: "part",
+          key: "x0",
           minWidth: 120,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let data = `${params.row.x0},${params.row.y0}`;
+            return h("div", data);
+          }
         },
         {
           title: "结束点位",
           key: "content",
           minWidth: 90,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let data = `${params.row.x1},${params.row.y1}`;
+            return h("div", data);
+          }
         },
         {
           title: "标记时间",
-          key: "alarmValue",
+          key: "markTime",
           minWidth: 120,
           align: "center",
           tooltip: true
@@ -267,6 +284,39 @@ export default {
       });
       item.loading = false;
       callback();
+    },
+    init() {
+      let url = "/lenovo-sample/api/mark/pic-flow";
+      let query = {
+        picFilePath: this.$route.query.picFilePath
+      };
+      getAxiosData(url, query).then(res => {
+        this.imgsrc = res.data;
+      });
+      let urlList = "/lenovo-sample/api/mark/list";
+      let data = {
+        pageIndex: this.pageIndex,
+        pageRows: 10,
+        sampleId: this.$route.query.sampleId
+      };
+      getAxiosData(urlList, data).then(res => {
+        this.dataList = res.data.tableData[0];
+        this.ImgInfo = res.data.tableData[1];
+        this.totalNum = res.data.pageParam.totalRows;
+      });
+    },
+    handleSubmit() {
+      let url = "/lenovo-sample/api/sample/edit";
+      let query = {};
+    },
+    deleteDetail() {
+      let url = "/lenovo-sample/api/sample/del";
+      let query = {
+        id: this.$route.query.id
+      };
+      deleteDataId(url, query).then(res => {
+        this.$message.success(res.errorMessage);
+      });
     }
   }
 };
