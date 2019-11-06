@@ -118,7 +118,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <gis-map ref="gisMapObj" @on-drag="drag" @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"  v-if="isDiagram == 2"></gis-map>
+          <gis-map ref="gisMapObj" @on-drag="drag" @toDetail="toDevice" :kind="500" :powerPointList="powerPointListB" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"  v-if="isDiagram == 2"></gis-map>
           <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
               <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
         </div>
