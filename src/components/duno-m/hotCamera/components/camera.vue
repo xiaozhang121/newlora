@@ -15,14 +15,18 @@
          <span @click="videotape()">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
         </span>
-            <span  @click="isSample()"><i class="iconfont icon-jietu"></i>截图</span>
+            <span  @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>
             <span @click="fullScreen(domName)"><i class="iconfont icon-quanping"></i>全屏</span>
         </div>
         <screenshot
+                v-if="isShow"
                 :isShow="isShow"
+                :isVideo='isVideo'
+                :taskId='taskId'
                 :shotData="shotData"
                 @closeShot="closeShot"
                 :monitorInfo="monitorInfo"
+                :monitorDeviceId="monitorInfo['monitorDeviceId']"
                 top="5vh"
         />
     </div>
@@ -50,6 +54,7 @@
                 taskId: '',
                 monitorInfo: {},
                 isShow: false,
+                isVideo:true,
                 shotData: [],
                 passTime: 0,
                 timeSeed: null,
@@ -358,7 +363,12 @@
             closeShot() {
                 this.isShow = false;
             },
-            isSample() {
+            isSample(index) {
+                if(index){
+                  this.isVideo = true;
+                }else{
+                  this.isVideo = false;
+                }
                 this.isShow = true;
                 let url = "/lenovo-device/api/stream/snapshoot";
                 let query = {
@@ -420,6 +430,7 @@
                         clearInterval(this.timerTime)
                         this.timeIncreateD = '0:00:00'
                         this.$message.info(res.msg)
+                        this.isSample(0);
                     })
                 }
             },
