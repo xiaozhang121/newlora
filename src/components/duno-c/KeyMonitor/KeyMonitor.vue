@@ -708,7 +708,7 @@
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
         }).then(res => {
            this.monitorDeviceType = res.data["monitorDeviceType"];
-        }
+        })
       },
       getJump() {
         if (this.aggregate) {
