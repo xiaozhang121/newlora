@@ -14,7 +14,7 @@
         ref="form"
         :model="form"
         label-width="120px"
-        :label-position="left"
+        label-position="left"
         :hide-required-asterisk="true"
       >
         <el-form-item :rules="rules" prop="dangerAction" label="缺陷告警">

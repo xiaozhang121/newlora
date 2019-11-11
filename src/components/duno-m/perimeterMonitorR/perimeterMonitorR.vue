@@ -478,7 +478,6 @@ export default {
       this.instancePic = item['group']
     },
     startCheck(){
-        debugger
         let query = {
             meterType: this.meterType,
             powerDeviceId: this.powerDeviceId,
@@ -766,7 +765,6 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
-        debugger
         this.isLock = Number(res.data.status);
         if(this.isLock){
           this.meterType = res.data.meterType
@@ -967,7 +965,6 @@ export default {
     }
   },
   created() {
-     debugger
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.monitorDeviceId = this.$route.query.monitorDeviceId
     this.getMonitorDeviceName();

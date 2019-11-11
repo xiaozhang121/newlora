@@ -113,6 +113,7 @@
         },
         data() {
             return {
+                optionsListB: [],
                 showDataList: [],
                 showDataListB: [],
                 routeName: '',
@@ -300,7 +301,6 @@
             },
             onDisabled(now, Gindex, before){
                 const that = this
-                debugger
                 if(Gindex != undefined) {
                     let searchData = JSON.parse(JSON.stringify(now))
                     let findIndex = -1
@@ -379,7 +379,6 @@
               })
             },
             deviceShowHandle(arr, flag){
-                debugger
                 let type = 'renew'
                 let monitorLength = -1
                 let searchData = null
@@ -387,7 +386,6 @@
                     this.$refs.btnTopRef.disabled = false
                 }
                 const that = this
-                debugger
                 let target = arr.filter(item=>{
                     return item['isActive'] == true
                 })
@@ -429,7 +427,6 @@
                     userId: this.$store.state.user.userId
                 }).then(res => {
                     // that.titleValueL = "监控摄像头数量";
-                    debugger
                     let data = res.data.tableData
                     data.map(item=>{
                         item['isShow'] = true
@@ -584,9 +581,7 @@
                                 item['isActive'] = true
                             item['describeName'] = item['monitorDeviceName']
                         })
-                        debugger
                         let info = that.handleData(dataB)
-                        debugger
                         that.showDataList = info
                         that.showDataListB = JSON.parse(JSON.stringify(info))
                         that.optionsListB = JSON.parse(JSON.stringify(dataB))

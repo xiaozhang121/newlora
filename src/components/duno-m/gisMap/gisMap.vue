@@ -145,7 +145,7 @@
                 default: true
             },
             powerPointList:{
-                type: Array,
+                type: [Array, Object],
                 default: () => []
             },
             mapUrl:{

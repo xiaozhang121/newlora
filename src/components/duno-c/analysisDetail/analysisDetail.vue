@@ -493,7 +493,6 @@ export default {
       that.dataForm.batchId = that.$route.query.batchId;
       that.dataForm.isRobot = that.$route.query.isRobot;
       that.detailsType = that.$route.query.detailsType;
-      debugger;
       if (that.downloadURL != "") {
         that.mixinViewModuleOptions.exportURL = that.downloadURL;
       }

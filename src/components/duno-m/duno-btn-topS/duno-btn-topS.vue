@@ -468,9 +468,14 @@
             }
         },
         created(){
+            try{
             this.$refs.dunoBtnTopS.style.display = "none"
+            }catch (e) {
+              
+            }
         },
         beforeDestroy(){
+            const that = this
             window.removeEventListener('click', that.bindEvent)
             window.removeEventListener("scroll", that.onScroll);
         },

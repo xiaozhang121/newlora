@@ -227,7 +227,6 @@
                 that.newsReport = []
                 let start = this.reportNow.currentPage - 1
                 postAxiosData('/lenovo-robot/rest/reportsByPage',{substationId: that.substationId, robotId: that.robotId, length: 10, start:  start}).then(res=>{
-                    debugger
                     that.reportsList = res.data
                     let data = res.data.tableData
                     this.reportNow.dataNum = Number(res.data.pageParam.totalRows)

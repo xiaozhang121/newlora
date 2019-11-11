@@ -90,6 +90,7 @@ export default {
   },
   methods: {
     initDom(){
+      try{
       if (document.documentElement.clientWidth > 3000) {
         /* this.width = "45%";*/
         this.isMax = true;
@@ -101,6 +102,9 @@ export default {
       document.querySelector(
           ".enlarge .el-dialog__wrapper"
       ).children[0].style.height = window.outerHeight * 0.826412614980289 + "px";
+      }catch (e) {
+        
+      }
     },
     handleLarge() {
       this.$emit("closeEnlarge");

@@ -3,7 +3,8 @@ export default [
         title: ' ',
         align: 'center',
         key: 'fCol',
-        minWidth: 30
+        minWidth: 30,
+        type: 'html'
     },
     {
         title: '4号主变主体变A相（℃）',
@@ -12,22 +13,26 @@ export default [
             {
                 title: '本体',
                 key: 'noumenon',
-                align: 'center'
+                align: 'center',
+                type: 'html'
             },
             {
                 title: '套管',
                 key: 'drivepipe',
-                align: 'center'
+                align: 'center',
+                type: 'html'
             },
             {
                 title: '冷却室',
                 key: 'cooler',
-                align: 'center'
+                align: 'center',
+                type: 'html'
             },
             {
                 title: '引线接头',
                 key: 'lead',
-                align: 'center'
+                align: 'center',
+                type: 'html'
             }
         ]
     },
@@ -38,22 +43,26 @@ export default [
             {
               title: '本体',
               key: 'noumenonQ',
-              align: 'center'
+              align: 'center',
+              type: 'html'
             },
             {
               title: '套管',
               key: 'drivepipeQ',
-              align: 'center'
+              align: 'center',
+              type: 'html'
             },
             {
               title: '冷却室',
               key: 'coolerQ',
-              align: 'center'
+              align: 'center',
+              type: 'html'
             },
             {
               title: '引线接头',
               key: 'leadQ',
-              align: 'center'
+              align: 'center',
+              type: 'html'
             }
         ]
     },
@@ -64,22 +73,26 @@ export default [
           {
             title: '本体',
             key: 'noumenonW',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           },
           {
             title: '套管',
             key: 'drivepipeW',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           },
           {
             title: '冷却室',
             key: 'coolerW',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           },
           {
             title: '引线接头',
             key: 'leadW',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           }
         ]
     },
@@ -90,22 +103,26 @@ export default [
           {
             title: '本体',
             key: 'noumenonE',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           },
           {
             title: '套管',
             key: 'drivepipeE',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           },
           {
             title: '冷却室',
             key: 'coolerE',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           },
           {
             title: '引线接头',
             key: 'leadE',
-            align: 'center'
+            align: 'center',
+            type: 'html'
           }
         ]
     },
@@ -116,22 +133,26 @@ export default [
       {
         title: '本体',
         key: 'noumenonR',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '套管',
         key: 'drivepipeR',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '冷却室',
         key: 'coolerR',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '引线接头',
         key: 'leadR',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       }
     ]
   },
@@ -142,22 +163,26 @@ export default [
       {
         title: '本体',
         key: 'noumenonS',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '套管',
         key: 'drivepipeS',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '冷却室',
         key: 'coolerS',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '引线接头',
         key: 'leadS',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       }
     ]
   }

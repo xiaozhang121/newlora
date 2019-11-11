@@ -162,7 +162,6 @@ export default {
               temp = this.orangePointP;
             let newArr = [];
             // if (params.row.flag == "play") {
-            if (this.isViwe) {
               newArr.push(
                 h(
                   "Tooltip",
@@ -185,7 +184,6 @@ export default {
                   ]
                 )
               );
-            }
             // } else {
             //   newArr.push(
             //     h("el-button", {
@@ -196,7 +194,6 @@ export default {
             //       }
             //     })
             //   );
-            if (this.isEdite) {
               newArr.push(
                 h(
                   "Tooltip",
@@ -216,8 +213,6 @@ export default {
                   ]
                 )
               );
-            }
-            if (this.isDel) {
               newArr.push(
                 h(
                   "Tooltip",
@@ -250,7 +245,6 @@ export default {
                   ]
                 )
               );
-            }
             // }
             return h("div", newArr);
           }

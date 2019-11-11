@@ -898,7 +898,6 @@ export default {
       }
       let startTime = ''
       let endTime = ''
-      debugger
       if(this.timeData){
         startTime = this.timeData+' 00:00:00'
         endTime = this.timeData+' 23:59:59'

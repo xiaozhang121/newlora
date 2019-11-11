@@ -485,7 +485,6 @@ export default {
       this.isShow=data
     },
     onFinish(data){
-        debugger
         this.drawArealist = data
     },
     onDisable(flag){

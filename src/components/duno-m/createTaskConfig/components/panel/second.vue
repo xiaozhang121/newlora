@@ -143,7 +143,6 @@
 
                                 }
                             }
-                            debugger
                             for(let i=0; i<that.dataList2.length; i++){
                                 for(let w=0; w<that.rowData.devicePresets.length; w++){
                                     if(that.dataList2[i]['monitorDeviceId'] == that.rowData.devicePresets[w]['monitorDeviceId']){

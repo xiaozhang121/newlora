@@ -118,18 +118,6 @@
                 autoHide: true
             }
         },
-        watch: {
-            isDiagram(now){
-                this.$emit('on-diagram', now)
-            },
-            showListFlag(now){
-                if(now){
-                    $(this.$refs.showListRef).slideDown('normal')
-                }else{
-                    $(this.$refs.showListRef).slideUp('normal')
-                }
-            }
-        },
         components: {
             Icons,
             dunoBtnTopItem
@@ -210,9 +198,7 @@
                             isActive: true
                         }
                     ]
-                },
-                isDiagram: 2,
-                isClick: false
+                }
             }
         },
         watch: {

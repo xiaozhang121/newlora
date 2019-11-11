@@ -1,5 +1,4 @@
 export  function  mergeCol(colN, rowN, count){
-  debugger
   let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')
   let lineDom = dom[colN]
   let firstDom = dom[colN].children[rowN]
@@ -18,7 +17,6 @@ export  function  mergeCol(colN, rowN, count){
   }
 }
 export  function  mergeRow(childN, rowN, count){
-  debugger
   let dom = document.querySelectorAll('.ivu-table-tbody .ivu-table-row')
   let lineDom = dom[rowN]
   let firstDom = dom[rowN].children[childN]

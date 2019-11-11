@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack');
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const resolve = dir => {
   return path.join(__dirname, dir)
@@ -52,6 +52,19 @@ module.exports = {
                   }
               }
           ]
+      },
+      optimization: {
+        minimizer: [
+          new UglifyJsPlugin({
+            uglifyOptions: {
+              compress: {
+                warnings: true,
+                drop_console: true, //删除console
+                drop_debugger: true // 删除debugger
+              }
+            }
+          })
+        ]
       },
       plugins: [
           new webpack.ProvidePlugin({

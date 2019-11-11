@@ -21,11 +21,9 @@
                 :options="playerOptionsD"
                 :playsinline="true"
                 @play="onPlayerPlay($event)"
-                @pause="onPlayerPause($event)"
-                @canplay="toPlay"
-                @canplaythrough="toPlay"
                 @ready="toPlay"
                 @mousedown.native="clickNative"
+                @playing="onPlayerPlaying($event)"
                 @error="onPlayerError($event)"
         ></video-player>
         <video-player
@@ -39,10 +37,7 @@
                 :options="playerOptions"
                 :playsinline="true"
                 @play="onPlayerPlay($event)"
-                @pause="onPlayerPause($event)"
                 @playing="onPlayerPlaying($event)"
-                @canplay="toPlay"
-                @canplaythrough="toPlay"
                 @ready="toPlay"
                 @waiting="onPlayerWaiting($event)"
                 @mousedown.native="clickNative"
@@ -340,10 +335,12 @@
             clearTimeout(this.timer);
             this.$nextTick(() => {
               setTimeout(() => {
+                try{
                 if(this.autoplay)
                   this.$refs.videoPlayer.player.play()
                 this.initVideo()
                 this.loading = false;
+                }catch (e) {}
               }, 1500);
             });
           }
@@ -492,11 +489,15 @@
         // this.$refs.videoPlayer.player.load()
       },
       toPlay(){
-        if (this.autoplay)
-          this.$refs.videoPlayer.player.play()
-        setTimeout(()=>{
+        try {
           if (this.autoplay)
             this.$refs.videoPlayer.player.play()
+        }catch(e){}
+        setTimeout(()=>{
+         try{ 
+          if (this.autoplay)
+            this.$refs.videoPlayer.player.play()
+         }catch (e) {}
         },8000)
       },
       judgeIp(){
@@ -536,7 +537,7 @@
       },
       sliderChange(item){
         let url = '/lenovo-device/api/stream/videoMove';
-        if(item==0){
+        if(item == 0){
           let nowRtmp = this.monitorSrc;
           this.isPlayback = false;
           this.getHLS(nowRtmp)
@@ -831,18 +832,21 @@
         this.isShow = false;
       },
       initVideo(){
+        const that = this
         clearInterval(this.waitTimer)
         this.waitTimer = null
         if(!this.waitTimer && !this.isPic){
           this.waitTimer = setInterval(() => {
             // this.$message.info('error')
-            let url = this.playerOptions["sources"][0]["src"]
-            this.playerOptions["sources"][0]["src"] = ""
-            this.$nextTick(()=>{
-              this.playerOptions["sources"][0]["src"] = url
-              if (this.autoplay)
-                this.$refs.videoPlayer.player.play()
-            })
+            try{
+              let url = that.playerOptions["sources"][0]["src"]
+              that.playerOptions["sources"][0]["src"] = ""
+              this.$nextTick(()=>{
+                that.playerOptions["sources"][0]["src"] = url
+                if (this.autoplay)
+                  that.$refs.videoPlayer.player.play()
+              })
+            }catch (e) {}
           }, 6000)
         }
       }

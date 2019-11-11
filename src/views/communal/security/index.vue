@@ -160,8 +160,12 @@ export default {
               videoPath: item["alarmFileAddress"],
               positionIndex: index
             }).then(res => {
-              this.dataList[res.data["positionIndex"]]["pic"] = res.data.pic;
-              this.$forceUpdate();
+              try{
+                this.dataList[res.data["positionIndex"]]["pic"] = res.data.pic;
+                this.$forceUpdate();
+              }catch (e) {
+
+              }
             });
           });
         }
@@ -191,25 +195,29 @@ export default {
       };
       getAxiosData("/lenovo-device/device/video/record/videos", query).then(
         res => {
-          this.safeList = res.data.tableData;
-          for (let i = 0; i < this.safeList.length; i++) {
-            postAxiosData("/lenovo-device/device/video/record/video/pic", {
-              positionIndex: i,
-              videoPath: res.data.tableData[i]["streamAddr"]
-            }).then(res => {
-              let data = res.data;
-              that.$set(
-                that.safeList[data["positionIndex"]],
-                "pic",
-                data["pic"]
-              );
-              that.$forceUpdate();
-            });
-          }
-          if (this.safeList.length == 0) {
-            this.isEmptyHour = false;
-          } else {
-            this.isEmptyHour = true;
+          try {
+            this.safeList = res.data.tableData;
+            for (let i = 0; i < this.safeList.length; i++) {
+              postAxiosData("/lenovo-device/device/video/record/video/pic", {
+                positionIndex: i,
+                videoPath: res.data.tableData[i]["streamAddr"]
+              }).then(res => {
+                let data = res.data;
+                that.$set(
+                    that.safeList[data["positionIndex"]],
+                    "pic",
+                    data["pic"]
+                );
+                that.$forceUpdate();
+              });
+            }
+            if (this.safeList.length == 0) {
+              this.isEmptyHour = false;
+            } else {
+              this.isEmptyHour = true;
+            }
+          }catch (e) {
+            
           }
         }
       );

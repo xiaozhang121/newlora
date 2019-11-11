@@ -12,17 +12,20 @@ export default [
       {
         title: '一母侧引线接头',
         key: 'noumenonF',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '二母侧引线接头',
         key: 'drivepipeF',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '灭弧室',
         key: 'coolerF',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       }
     ]
   },
@@ -33,17 +36,20 @@ export default [
       {
         title: '一母侧引线接头',
         key: 'noumenonS',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '二母侧引线接头',
         key: 'drivepipeS',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '灭弧室',
         key: 'coolerS',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       }
     ]
   },
@@ -54,23 +60,27 @@ export default [
       {
         title: '一母侧引线接头',
         key: 'noumenonG',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '二母侧引线接头',
         key: 'drivepipeG',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       },
       {
         title: '灭弧室',
         key: 'coolerG',
-        align: 'center'
+        align: 'center',
+        type: 'html'
       }
     ]
   },
   {
     title: '环境温度（℃）',
     align: 'center',
-    key: 'envTemp'
+    key: 'envTemp',
+    type: 'html'
   }
 ]

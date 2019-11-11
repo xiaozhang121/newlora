@@ -364,7 +364,6 @@ export default {
       deep: true
     },
     flag(now) {
-      debugger;
       if (now == 1) {
         this.yAxisOption["type"] = "category";
         this.yAxisOption.splitLine.show = false;

@@ -594,7 +594,6 @@
                         return info.monitorDeviceType == '4' && info['monitorDeviceId'] == this.controlBallDeviceId
                     })
                     this.selectBallControl = controlBallD[controlBallD.length - 1]
-                    debugger
                     this.$store.state.user.mapX =  controlBallD[controlBallD.length - 1].getPosition()[0]
                     this.$store.state.user.mapY =  controlBallD[controlBallD.length - 1].getPosition()[1]
                     this.$refs.gisMapObj.setPosition(controlBallD[controlBallD.length - 1], '', '')
@@ -635,7 +634,6 @@
           },
           showPen(){
               const that = this
-              debugger
               $('.dunoMain_nr').css({cursor:`url(${this.drawPoint}) -32 27,auto`})
               $('.dunoMain_nr')[0].addEventListener('click', that.savePoint)
               $('.dunoMain_nr')[0].addEventListener('mousemove', that.moveEvent)
@@ -709,7 +707,6 @@
                 const that = this
                 getAxiosData('/lenovo-robot/rest/device/list').then(res=>{
                   let data = res.data
-                  debugger
                   if(that.kilovoltKind == 10){
                     data = data.filter(item=>{
                       return item['areaId'] == '6'

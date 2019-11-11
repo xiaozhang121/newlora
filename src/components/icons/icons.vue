@@ -7,8 +7,7 @@ export default {
   name: 'Icons',
   props: {
     type: {
-      type: String,
-      required: true
+      type: String
     },
     color: {
       type: String
