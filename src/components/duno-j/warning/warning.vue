@@ -88,7 +88,7 @@
               </div>
               <div v-else class="btn-printbtn-printbtn-print">
                 <!-- <div class="title">识别</div> -->
-                <div class="nr">{{ dataList.result?dataList.result:dataList.alarmContent }}</div>
+                <div class="nr">{{ dataList.alarmContent?dataList.alarmContent:dataList.result }}</div>
               </div>
               <div class="btn-print">
                 <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
@@ -783,9 +783,13 @@ export default {
       padding: 0 20px;
       .title {
         margin-right: 40px;
+        font-size: 14px;
+        color: #333;
       }
       .info {
         flex-grow: 1;
+        font-size: 14px;
+        color: #333;
       }
       &:nth-last-child(odd) {
         background: #c7c7c7;

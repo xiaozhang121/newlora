@@ -30,7 +30,7 @@
         placeholder="机械判断数值"
       ></el-input>
       <el-select
-        v-if="formData.alarmTypeValue=='设备缺陷类'&&fourValue=='603530204484345859'"
+        v-if="formData.alarmTypeValue=='设备缺陷类'&&(formData.alarmSuperDetailType='设备缺陷类'||fourValue=='603530204484345859')"
         class="itemInput"
         v-model="formData.inputT"
         placeholder="开关类型"
