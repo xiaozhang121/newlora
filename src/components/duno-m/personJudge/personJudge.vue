@@ -16,8 +16,8 @@
         @change="handlerSelectFour"
       >
         <el-option
-          v-for="item in optionsData"
-          :key="item.value"
+          v-for="(item,index) in optionsData"
+          :key="index"
           :label="item.label"
           :value="item.value"
         ></el-option>
@@ -29,6 +29,20 @@
         v-model="formData.inputT"
         placeholder="机械判断数值"
       ></el-input>
+      <el-select
+        v-if="formData.alarmTypeValue=='设备缺陷类'&&fourValue=='603530204484345859'"
+        class="itemInput"
+        v-model="formData.inputT"
+        placeholder="开关类型"
+        @change="handlerSelectT"
+      >
+        <el-option
+          v-for="item in stateData"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
       <el-select
         class="itemInput"
         v-model="formData.input"
@@ -73,15 +87,25 @@ export default {
       options: [],
       dialogVisible: false,
       isChange: false,
-      query: null
+      query: null,
+      stateData: [
+        {
+          value: "0",
+          label: "关"
+        },
+        {
+          value: "1",
+          label: "开"
+        }
+      ]
     };
   },
   props: {
     modal: {
-        type: Boolean,
-        default: () => {
-            return true;
-        }
+      type: Boolean,
+      default: () => {
+        return true;
+      }
     },
     isTemperture: {
       type: Boolean,
@@ -119,6 +143,7 @@ export default {
   },
   computed: {},
   methods: {
+    handlerSelectT(item) {},
     handleSubmit() {
       let url;
       console.log(this.formData);
@@ -163,6 +188,7 @@ export default {
       this.$emit("on-close");
     },
     handlerSelectFour(item) {
+      debugger; //debugger;603530204484345859
       this.fourValue = item;
       this.formData.input = "";
       this.initFive(this.fourValue);

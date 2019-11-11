@@ -176,7 +176,11 @@ export default {
           render: (h, params) => {
             return h(
               "div",
-              params.row.part ? params.row.part : (params.row.phase?params.row.phase:'/')
+              params.row.part
+                ? params.row.part
+                : params.row.phase
+                ? params.row.phase
+                : "/"
             );
           }
         },
@@ -968,5 +972,8 @@ export default {
 }
 .el-select-dropdown {
   border: solid 1px #1a2f42;
+}
+.analysis-detail .el-breadcrumb .is-link {
+  border-bottom: none;
 }
 </style>
