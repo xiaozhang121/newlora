@@ -590,6 +590,8 @@ export default {
         });
         that.dataList[0]["dataList"] = data;
         that.dataListd[0]["dataList"] = data;
+      }, error => {
+        this.$message.error(error.response.data.message)
       });
     },
     fullScreen() {
@@ -605,6 +607,8 @@ export default {
           pid+"/"+that.deviceId
       ).then(res=>{
           this.$message.info(res.msg)
+      }, error => {
+        this.$message.error(error.response.data.message)
       });
     },
     editTableData(params) {
@@ -640,6 +644,8 @@ export default {
         ).then(res => {
           that.getListData();
             this.$message.info(res.msg)
+        }, error => {
+          this.$message.error(error.response.data.message)
         });
         that.addPosInput = "";
       } else {
@@ -654,6 +660,8 @@ export default {
           presetName: temp
         }).then(res => {
           that.getListData();
+        }, error => {
+          this.$message.error(error.response.data.message)
         });
       }
     },

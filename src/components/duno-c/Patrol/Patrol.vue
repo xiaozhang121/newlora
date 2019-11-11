@@ -185,8 +185,11 @@ export default {
               );
             }
             if (that.isDel) {
-              newArr.push(
-                h(
+              newArr.push(h('el-poptip', {
+                props: { confirm: true, title: '确定删除吗？', type: 'primary', size: 'small' },
+                style: { margin: '0 2px' },
+                on: { 'on-ok': () => { self.toDel(params) } }
+              }, [ h(
                   "el-button",
                   {
                     class: "btn_pre",
@@ -194,16 +197,10 @@ export default {
                     props: {
                       type: "text",
                       content: "删除"
-                    },
-                    on: {
-                      click: () => {
-                        self.toDel(params);
-                      }
                     }
                   },
                   "删除"
-                )
-              );
+              )]))
             }
             newArr.push([
               h(

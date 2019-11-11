@@ -772,7 +772,8 @@
                     postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId}).then(res=>{
                         that.getListData()
                         this.$message.info(res.msg)
-
+                    }, error => {
+                      this.$message.error(error.response.data.message)
                     })
                     that.addPosInput = ''
                 }else{
@@ -784,6 +785,8 @@
                     putAxiosData('/lenovo-visible/api/visible-equipment/preset/edit', { deviceId: that.deviceId.toString(), id: that.temparams.row.id.toString(), presetName:temp }).then(res=>{
                         that.getListData()
                         this.$message.info(res.msg)
+                    }, error => {
+                      this.$message.error(error.response.data.message)
                     })
                     sessionStorage.setItem('dataList',JSON.stringify( that.dataListd[0]['dataList']))
                 }
@@ -925,6 +928,8 @@
                              },5000)
                          })
                      },500)*/
+                }, error => {
+                  this.$message.error(error.response.data.message)
                 });
             }
         },
