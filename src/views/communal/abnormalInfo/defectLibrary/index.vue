@@ -8,21 +8,21 @@
       <div class="btn">
         <div>
           <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTo"
-            :isCheck="false"
-            :dataList="regionList"
-            :title="titleTypeL"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div>
-          <duno-btn-top
             @on-select="onSelectType"
             class="dunoBtnTo"
             :isCheck="false"
             :dataList="typeList"
             :title="titleTypeR"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <div>
+          <duno-btn-top
+            @on-select="onSelect"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="regionList"
+            :title="titleTypeL"
             :showBtnList="false"
           ></duno-btn-top>
         </div>
@@ -87,8 +87,8 @@ export default {
     const that = this;
     return {
       mixinViewModuleOptions: {
-        getDataListURL: "",
-        exportURL: ""
+        getDataListURL: "/lenovo-sample/api/sample/list"
+        // exportURL: ""
       },
       dataForm: {},
       title: "缺陷库管理",
@@ -97,7 +97,20 @@ export default {
       value: "",
       titleTypeL: "全部设备",
       titleTypeR: "全部类型",
-      typeList: [],
+      typeList: [
+        {
+          describeName: "手动导入",
+          monitorType: "0"
+        },
+        {
+          describeName: "摄像机标定",
+          monitorType: "1"
+        },
+        {
+          describeName: "识别结果",
+          monitorType: "3"
+        }
+      ],
       regionList: [],
       visible: false,
       dataBread: [
@@ -106,41 +119,49 @@ export default {
       ],
       columns: [
         {
+          title: "序号",
           type: "index",
-          width: 60,
+          width: 90,
           align: "center"
         },
         {
           title: "导入日期",
-          key: "executeTime",
+          key: "picImportTime",
           minWidth: 100,
           align: "center",
           tooltip: true
         },
         {
           title: "类型",
-          key: "monitorDeviceName",
-          minWidth: 180,
+          key: "markType",
+          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "设备组件",
-          key: "part",
+          key: "monitorDeviceName",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "标注量",
-          key: "content",
+          key: "markNum",
           minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "电压区域",
-          key: "alarmValue",
+          key: "areaName",
+          minWidth: 120,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "被监控设备",
+          key: "powerDeviceName",
           minWidth: 120,
           align: "center",
           tooltip: true
@@ -161,7 +182,17 @@ export default {
                   style: { marginRight: "20px" },
                   props: { type: "text" },
                   on: {
-                    click: () => {}
+                    click: () => {
+                      this.$router.push({
+                        name: "sampleDetail",
+                        query: {
+                          id: params.row.id,
+                          sampleId: params.row.sampleId,
+                          picFilePath: params.row.picFilePath,
+                          markType: params.row.markType
+                        }
+                      });
+                    }
                   }
                 },
                 "样本详情"
@@ -186,13 +217,13 @@ export default {
       this.visible = false;
     },
     onSelect(item, index) {
-      this[item.title] = item["describeName"];
-      this.dataForm.powerDeviceId = item.monitorDeviceType;
+      this.titleTypeL = item["describeName"];
+      this.dataForm.monitorDeviceName = item.monitorDeviceType;
       this.getDataList();
     },
     onSelectType(item, index) {
-      this[item.title] = item["describeName"];
-      this.dataForm.planType = item.monitorType;
+      this.titleTypeR = item["describeName"];
+      this.dataForm.markType = item.monitorType;
       this.getDataList();
     },
     onChangeTime(data) {
@@ -202,8 +233,8 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
         endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
       }
-      this.dataForm.startTime = startTime;
-      this.dataForm.endTime = endTime;
+      this.dataForm.importTimeStart = startTime;
+      this.dataForm.importTimeEnd = endTime;
       this.getDataList();
     },
     getRegion() {
@@ -225,26 +256,6 @@ export default {
           title: "titleTypeL"
         });
         this.regionList = map;
-      });
-    },
-    getType() {
-      const url = "";
-      postAxiosData(url).then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "所有类型",
-          monitorType: "",
-          title: "titleTypeR"
-        });
-        this.typeList = map;
       });
     }
   }
@@ -376,7 +387,7 @@ export default {
     .btn {
       display: flex;
       justify-content: space-between;
-      & > div:first-child {
+      & > div:nth-child(2) {
         margin-left: 10px;
         .dunoBtnTop {
           width: 250px;
@@ -394,7 +405,7 @@ export default {
           }
         }
       }
-      & > div:not(:first-child) {
+      & > div:not(:nth-child(2)) {
         margin-left: 10px;
         .dunoBtnTop {
           width: 150px;

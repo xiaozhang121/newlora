@@ -12,7 +12,7 @@
           <el-cascader :data="cascaderData" :load-data="loadData"></el-cascader>
         </el-form-item>
         <el-form-item label="电压区域">
-          <el-select v-model="form.divice" placeholder="请选择">
+          <el-select v-model="form.divice" placeholder="请选择（非必选）">
             <el-option
               v-for="(item,index) in diviceData"
               :label="item.label"
@@ -74,12 +74,28 @@ export default {
       fileList: [],
       diviceData: [
         {
-          label: "设备组件",
+          label: "1000KV",
           value: "0"
         },
         {
-          label: "设备组件",
+          label: "500KV",
           value: "1"
+        },
+        {
+          label: "220KV",
+          value: "2"
+        },
+        {
+          label: "110KV",
+          value: "3"
+        },
+        {
+          label: "35KV",
+          value: "4"
+        },
+        {
+          label: "10KV",
+          value: "5"
         }
       ],
       cascaderData: [

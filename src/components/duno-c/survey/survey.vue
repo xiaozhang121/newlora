@@ -1,10 +1,15 @@
 <template>
   <el-form-item label="被监测设备" class="survey-dropDown">
-    <el-input v-model="monitorValue" placeholder="请选择" @focus="show3 = true"></el-input>
+    <el-input
+      v-model="monitorValue"
+      placeholder="请选择（非必选）"
+      :disabled="isEdit"
+      @focus="show3 = true"
+    ></el-input>
     <!-- @blur="show3 = false" -->
     <i class="el-icon-arrow-down dropDown-i" :class="{rotate:show3}" @click="changeDrop"></i>
     <el-collapse-transition>
-      <div class="diviceSelect" v-show="show3">
+      <div class="diviceSelect" v-show="!isEdit&&show3">
         <el-input placeholder="请输入内容" v-model="diviceSelect" clearable></el-input>
         <div class="drop-scroll">
           <!--数据格式 [{title:"1000千伏区域",data:[{},{},{}]},{title:"500千伏区域",data:[{},{},{}]},] -->
@@ -35,6 +40,12 @@
 </template>
 
 <script>
+import {
+  getAxiosData,
+  postAxiosData,
+  putAxiosData,
+  deleteDataId
+} from "@/api/axiosType";
 export default {
   name: "survey",
   props: {
@@ -42,6 +53,12 @@ export default {
       type: String,
       default: () => {
         return "";
+      }
+    },
+    isEdit: {
+      type: Boolean,
+      default: () => {
+        return true;
       }
     }
   },
