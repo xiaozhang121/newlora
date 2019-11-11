@@ -58,7 +58,7 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
-    <sample-img :visible="visible" @on-close="onClose" />
+    <sample-img v-if="visible" :visible="visible" @on-close="onClose" />
   </div>
 </template>
 

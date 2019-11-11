@@ -38,7 +38,13 @@
         >清除</div>
         <div class="shotInput" v-if="isInput">
           <div>
-            <el-cascader placeholder="选择设备-部件-类型" @change="handleChange" :props="props"></el-cascader>
+            <el-cascader
+              placeholder="选择设备-部件-类型"
+              @on-change="handleChange"
+              :data="cascaderData"
+              :load-data="loadData"
+            ></el-cascader>
+            <!-- <el-cascader placeholder="选择设备-部件-类型" @change="handleChange" :props="props"></el-cascader> -->
           </div>
           <div>
             <el-select v-model="selectValue" placeholder="选择识别结果">
@@ -141,6 +147,7 @@ export default {
     let that = this;
     return {
       value: "",
+      cascaderData: [],
       optionsFirst: [],
       options: [],
       selectValue: "",
@@ -175,6 +182,48 @@ export default {
     };
   },
   methods: {
+    getVoltage() {
+      let url = "/lenovo-sample/api/sample/getMainDevice";
+      postAxiosData(url).then(res => {
+        let data = res.data;
+        data.forEach(el => {
+          el.children = [];
+          el.loading = false;
+        });
+        this.cascaderData = data;
+      });
+    },
+    loadData(item, callback) {
+      item.loading = true;
+      let index = item.__label.split(" / ").length - 1;
+      let url = "";
+      let query = {};
+      if (index == 0) {
+        url = "/lenovo-sample/api/sample/getPart";
+        query = {
+          mainDevice: item.value
+        };
+        this.mainDevice = item.value;
+      } else {
+        url = "/lenovo-sample/api/sample/getPartSub";
+        query = {
+          mainDevice: this.mainDevice,
+          part: item.value
+        };
+      }
+      postAxiosData(url, query).then(res => {
+        let data = res.data;
+        if (index == 0) {
+          data.forEach(el => {
+            el.children = [];
+            el.loading = false;
+          });
+        }
+        item.children = data;
+        item.loading = false;
+        callback();
+      });
+    },
     handleChange(value) {
       let query = {
         mainDevice: value[0],
@@ -338,7 +387,7 @@ export default {
         let query = {
           // powerDeviceId: that.powerDeviceId,
           monitorDeviceId: that.monitorDeviceId,
-          alarmFileAddress: `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`,
+          alarmFileAddress: `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`
           // recognizeType: data,
           // remake: this.textarea
         };
@@ -385,6 +434,7 @@ export default {
   },
   mounted() {
     this.getPowerDeviceId();
+    this.getVoltage();
     this.imgsrc = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
   }
 };

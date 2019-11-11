@@ -71,6 +71,7 @@ export default {
         divice: "",
         monitor: ""
       },
+      mainDevice: "",
       fileList: [],
       diviceData: [
         {
@@ -147,20 +148,34 @@ export default {
     },
     loadData(item, callback) {
       item.loading = true;
-      let url = "/lenovo-sample/api/sample/getPart";
-      let query = {
-        mainDevice: item.value
-      };
-      postAxiosData(url).then(res => {
+      let index = item.__label.split(" / ").length - 1;
+      let url = "";
+      let query = {};
+      if (index == 0) {
+        url = "/lenovo-sample/api/sample/getPart";
+        query = {
+          mainDevice: item.value
+        };
+        this.mainDevice = item.value;
+      } else {
+        url = "/lenovo-sample/api/sample/getPartSub";
+        query = {
+          mainDevice: this.mainDevice,
+          part: item.value
+        };
+      }
+      postAxiosData(url, query).then(res => {
         let data = res.data;
-        data.forEach(el => {
-          el.children = [];
-          el.loading = false;
-        });
+        if (index == 0) {
+          data.forEach(el => {
+            el.children = [];
+            el.loading = false;
+          });
+        }
         item.children = data;
+        item.loading = false;
+        callback();
       });
-      item.loading = false;
-      callback();
     }
   },
   mounted() {

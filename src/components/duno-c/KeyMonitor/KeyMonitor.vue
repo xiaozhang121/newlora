@@ -65,7 +65,6 @@
                     :class="{'hidden': isPic}"
                     v-if="second"
             >
-              <!-- v-if="!isCamera" 上面的判断 -->
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2" :step="15" @change='sliderChange'></el-slider>
               <span class="nowNR">当前</span>
@@ -77,7 +76,7 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span @click="videotape()" v-if="!isPic && !onlyCanel && isRecord">
+          <span @click="videotape()" v-if="monitorDeviceType=='3'">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
@@ -704,6 +703,13 @@
       leave() {
         this.showBtm = false;
       },
+      initCamera(){
+        getAxiosData("/lenovo-device/api/preset/type", {
+          monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
+        }).then(res => {
+           this.monitorDeviceType = res.data["monitorDeviceType"];
+        }
+      },
       getJump() {
         if (this.aggregate) {
           this.$router.push({
@@ -858,6 +864,7 @@
       }, 1000000000);
       this.isIniializa = this.Initialization;
       this.isNavbar = this.isNav;
+      this.initCamera()
       // console.log(document.getElementsById("videoPlayer").offsetWidth);
     },
     beforeDestroy() {

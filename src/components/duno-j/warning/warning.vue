@@ -39,7 +39,7 @@
                 :isNav="false"
                 :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
               />
-              <img :src="ImgScreenshot" class="Img_screenshot" v-if="!isImgVideo"/>
+              <img :src="ImgScreenshot" class="Img_screenshot" v-if="!isImgVideo" />
               <i
                 v-if="isImgVideo"
                 class="fullScreen iconfont icon-quanping"
@@ -339,11 +339,16 @@ export default {
     }
   },
   methods: {
-    getCameraPic(){
-        let videoPath = this.dataList.fileAddress?this.dataList.fileAddress:this.dataList.alarmFileAddress
-        postAxiosData('/lenovo-alarm/api/info/video/pic', {videoPath: videoPath, positionIndex: ''}).then(res=>{
-            this.ImgScreenshot = res.data.pic
-        })
+    getCameraPic() {
+      let videoPath = this.dataList.fileAddress
+        ? this.dataList.fileAddress
+        : this.dataList.alarmFileAddress;
+      postAxiosData("/lenovo-alarm/api/info/video/pic", {
+        videoPath: videoPath,
+        positionIndex: ""
+      }).then(res => {
+        this.ImgScreenshot = res.data.pic;
+      });
     },
     handleBtn() {
       if (this.dataList.alarmTypeValue == "设备缺陷类") {
@@ -397,7 +402,10 @@ export default {
           obj.info = el.dealContent;
           that.handleList.push(obj);
         });
-        if (that.dataList.alarmTypeValue == "动态环境类") {
+        if (
+          that.dataList.alarmTypeValue == "动态环境类" ||
+          that.dataList.alarmTypeValue == "设备缺陷类"
+        ) {
           that.discriminate = true;
         }
         if (that.dataList.result == "正常") {
@@ -419,12 +427,12 @@ export default {
           inputT: that.dataList.alarmValue,
           select: that.dataList.alarmSuperDetailType,
           alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
+          alarmTypeValue: that.dataList.alarmTypeValue,
           result: that.dataList.result,
           isRobot: that.isRobot
         };
         this.handleBtn();
-        if(!this.isImgVideo)
-          this.getCameraPic()
+        if (!this.isImgVideo) this.getCameraPic();
         that.$forceUpdate();
       });
     },
@@ -586,15 +594,15 @@ export default {
   .el-dialog.el-dialog--center {
     margin-top: 0vh !important;
   }
-  .KeyMonitor_screenshot{
+  .KeyMonitor_screenshot {
     display: none !important;
   }
-  .Img_screenshot{
+  .Img_screenshot {
     display: block !important;
   }
 }
 .mainDialog {
-  .Img_screenshot{
+  .Img_screenshot {
     display: none !important;
   }
   .vjs-fluid {
