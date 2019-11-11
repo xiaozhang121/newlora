@@ -470,6 +470,7 @@ export default {
       }).then(res => {
         this.warnData = res.data;
       });
+      this.getDataList()
     },
     closeEnlarge() {
       this.isEnlarge = false;

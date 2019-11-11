@@ -78,7 +78,7 @@
       </div>
       <div style="clear: both"></div>
     </el-dialog>
-    <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="warnData" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
+    <personJudge @on-close="onClose" :visible="visibleJudge" v-if="visibleJudge" :taskCurreny="warnData" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
   </div>
 </template>
 <script>

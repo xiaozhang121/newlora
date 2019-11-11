@@ -16,7 +16,7 @@
                 :style="{display:'none'}"
                 :class="{'infraredList':routeName == 'infraredList'}"
                 v-if="isPlayback"
-                ref="videoPlayer"
+                ref="videoPlayerD"
                 class="vjs-custom-skin"
                 :options="playerOptionsD"
                 :playsinline="true"
@@ -867,12 +867,10 @@
       }
       clearInterval(this.waitTimer)
       this.$store.state.app.isPic = false;
-      if(typeof(this.$refs.videoPlayer) == "object"){
-          this.$refs.videoPlayer.player.dispose()
-      }else{
-        this.$refs.videoPlayer[0].player.dispose()
-        this.$refs.videoPlayer[1].player.dispose()
-      }
+      if(this.$refs.videoPlayer && this.$refs.videoPlayer.player)
+        this.$refs.videoPlayer.player.dispose()
+      if(this.$refs.videoPlayerD && this.$refs.videoPlayerD.player)
+        this.$refs.videoPlayerD.player.dispose()
     },
     created() {
       try{
