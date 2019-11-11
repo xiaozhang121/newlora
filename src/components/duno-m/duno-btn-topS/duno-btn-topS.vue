@@ -457,12 +457,14 @@
                 const that = this
                     if(!(event.target.className.indexOf('checkbox')>-1) && that.isCheck){
                         // that.showListFlag = !that.showListFlag
-                        that.$refs.dunoBtnTopS.style.display = "none"
+                        if(that.$refs.dunoBtnTopS)
+                          that.$refs.dunoBtnTopS.style.display = "none"
                     }
             },
             onScroll(event){
                 if(!(event.target.className.indexOf('checkbox')>-1)) {
-                    this.$refs.dunoBtnTopS.style.display = "none"
+                    if(this.$refs.dunoBtnTopS)
+                      this.$refs.dunoBtnTopS.style.display = "none"
                 }
             }
         },

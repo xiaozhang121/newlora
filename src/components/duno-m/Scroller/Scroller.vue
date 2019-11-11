@@ -158,9 +158,9 @@ export default {
     // clearInterval(this.timer);
   },
   mounted() {
-    this.$nextTick(() => {
+    /*this.$nextTick(() => {
       this.move(true);
-    });
+    });*/
     /*   for (let i = 0; i < this.lists.length; i++) {
             this.text += ' ' + this.lists[i]
         }*/

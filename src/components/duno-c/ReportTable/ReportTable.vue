@@ -102,7 +102,7 @@ export default {
       }
     },
     isAllInfo: {
-      type: Boolean,
+      type: [Boolean, String],
       default: () => {
         return "true";
       }

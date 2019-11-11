@@ -48,7 +48,7 @@
         >
           <div class="reportData">
             <report-data
-                    v-if="('taskType' in taskStatus && taskStatus['taskType'])"
+                    v-if="taskStatus['taskType']"
                     :taskStatus="taskStatus"
                     :imgData="taskCurreny['taskCurLinkImg']"
                     :taskCurreny="taskCurreny"

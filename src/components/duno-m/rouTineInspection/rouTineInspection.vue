@@ -26,7 +26,7 @@
                     <div class="name">工作时长：</div>
                     <div class="info">{{  workTime  }}</div>
                 </div>
-                <div v-if="('taskType' in taskStatus && taskStatus['taskType'])">
+                <div v-if="taskStatus['taskType']">
                     <button-custom class="stopTask" @click.native="changeTaskStatus" :title="taskName" />
                 </div>
             </div>

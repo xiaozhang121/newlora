@@ -581,7 +581,7 @@ export default {
     },
     getListData() {
       const that = this;
-      let url = '/lenovo-iir/manager/preset/list?='+ that.deviceId
+      let url = '/lenovo-iir/manager/preset/list?deviceId='+ that.deviceId
       getAxiosData(url, { pageNo: 1, pageSize: 9999999 }).then(res => {
         let data = res.data.data.records
         data.map(item => {
