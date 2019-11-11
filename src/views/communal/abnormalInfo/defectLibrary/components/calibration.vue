@@ -1,6 +1,6 @@
 <template>
   <div class="duno-calibrat">
-    <el-dialog title="新增标定" :visible.sync="isShow" width="500px" :before-close="handleClose">
+    <el-dialog title="新增标定" :visible.sync="isShow" width="500px" :before-close="handleCancel">
       <div class="content">
         <el-input v-model="input" placeholder="图⽚编号058214新增标定-1（点击修改名称）"></el-input>
         <el-select v-model="value" placeholder="选择识别类型">

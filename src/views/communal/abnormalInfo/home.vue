@@ -115,7 +115,7 @@
               平台监控
             </div>
             <duno-charts
-              paddingBottom="50%"
+              paddingBottom="200px"
               :seriesOption="seriesOptionBar"
               :xAxisOption="xAxisOptionBar"
               :yAxisOption="yAxisOptionBar"
@@ -139,7 +139,7 @@
               :isItemEchart="isItemEchart"
               :legendOption="legendOption"
               :titleOption="titleOption"
-              paddingBottom="45%"
+              paddingBottom="200px"
               :seriesOption="seriesOption"
               :colorOption="colorOption"
             ></duno-charts>
@@ -502,14 +502,14 @@ export default {
         {
           title: "时间",
           key: "date",
-          minWidth: 100,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "对象",
           key: "monitorDeviceName",
-          minWidth: 180,
+          minWidth: 120,
           align: "center",
           tooltip: true
         },

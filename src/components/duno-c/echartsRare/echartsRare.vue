@@ -76,7 +76,7 @@ export default {
     paddingBottom: {
       type: String,
       default: () => {
-        return "60%";
+        return "310px";
       }
     },
     pieData: {
@@ -407,7 +407,7 @@ export default {
       };
       let queryGpu = {
         hostId: that.pieData.hostId
-      }
+      };
       getAxiosData(netUrl, query).then(res => {
         let netData = res.data;
         let outData = [];
