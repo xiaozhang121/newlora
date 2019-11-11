@@ -3,7 +3,7 @@
     <breadcrumb :dataList="dataBread"/>
     <div class="main">
       <div class="title">
-        xx全面巡视任务报告
+        {{ tableName }}
       </div>
       <div class="search">
         <el-date-picker
@@ -24,10 +24,10 @@
                 :title="titleValueL"
                 :showBtnList="false"
         ></duno-btn-top>-->
-       <!-- <div  class="clickBtn">
+        <div  class="clickBtn">
           <i class="iconfont icon-daochu1"></i>
           导出表格
-        </div>-->
+        </div>
       </div>
     </div>
     <duno-main>
@@ -87,6 +87,7 @@ export default {
   name: "server",
   data() {
     return {
+      tableName: 'xx全面巡视任务报告',
       reMark: false,
       reMarkInfo: '',
       topName: '',
@@ -358,7 +359,9 @@ export default {
             this.addHeader()
           })
         // let tableData = require(`@/static/tableConfig/${this.searchData.templateIds}.js`)
-          let tableData = require(`@/static/tableConfig/l13.js`)
+          let tableFn = require(`@/static/tableJson/mapping.js`)
+          let key = tableFn.getTable('626719305252552740')
+          let tableData = require(`@/static/tableConfig/${key}.js`)
           this.columns11 = tableData.columns
           this.topName = tableData.topName
           this.bottomName = tableData.bottomName
@@ -570,9 +573,12 @@ export default {
       justify-content: space-between;
       .title{
         font-size: 17px;
+        display: flex;
+        align-items: center;
       }
       .search{
         position: relative;
+        display: flex;
       /*  width: 200px;
         height: 0;
         position: relative;
@@ -652,9 +658,12 @@ export default {
         }
       }
     }
+    .el-range-separator{
+      color: white;
+    }
     .clickBtn {
       line-height: 40px;
-      position: absolute;
+      position: relative;
       width: 139px;
       background-image: url(../../../assets/images/btn/moreBtn.png);
       text-align: center;
@@ -662,7 +671,8 @@ export default {
       cursor: pointer;
       color: #ffffff;
       right: 0;
-      bottom: -2px;
+      bottom: 3px;
+      transform: scale(0.9);
     }
   }
 </style>
