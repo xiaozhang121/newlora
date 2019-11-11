@@ -1,5 +1,5 @@
 <template>
-  <div class="visiblelight">
+  <div class="visiblelightD">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
@@ -250,7 +250,7 @@ export default {
   position: relative;
   top: -5px;
 }
-.visiblelight {
+.visiblelightD {
   .el-loading-text {
     color: #969696 !important;
   }
@@ -339,8 +339,8 @@ export default {
       flex-wrap: wrap;
       flex-direction: row;
       & > .inspection_item {
-        width: calc(20% - 16px);
-        margin-right: 20px;
+        width: calc(16%);
+        margin-right: 13px;
         .reportTable {
           height: 425px;
           img {
@@ -399,7 +399,7 @@ export default {
     width: 100% !important;
   }
 }
-.visiblelight .reportRecode > div {
+.visiblelightD .reportRecode > div {
   width: 100% !important;
 }
 </style>

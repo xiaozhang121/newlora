@@ -57,7 +57,7 @@
                   :style="{color:(dataList.alarmContent || dataList.result)=='正常'?'#333':'red'}"
                 >{{dataList.alarmContent?dataList.alarmContent:dataList.result}}</p>
                 <p v-if="hasSelect && !discriminate && popData['alarmLevel']">
-                  {{dataList.alarmValue?dataList.alarmValue:dataList.result}}{{dataList.result=='正常'?'':'℃'}}
+                  {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
                   <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                   <i-dropdown
                     v-if="hasSelect && !discriminate && popData['alarmLevel']"
