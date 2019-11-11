@@ -58,7 +58,7 @@ export default {
     isEdit: {
       type: Boolean,
       default: () => {
-        return true;
+        return false;
       }
     }
   },

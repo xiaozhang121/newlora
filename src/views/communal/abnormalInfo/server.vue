@@ -126,7 +126,7 @@
           <div class="server_con">
             <div class="serFirst">
               <div :style="{width:serviceLength=='0'?'100%':'75%'}">
-                <dunoPie :pieData="pieData" paddingBottom="60%" ref="dunoPie"></dunoPie>
+                <dunoPie :pieData="pieData" paddingBottom="250px" ref="dunoPie"></dunoPie>
               </div>
               <div :style="{width:serviceLength=='0'?'0':'25%'}">
                 <service :pieData="pieData" @on-length="onLength" ref="dunoService" height="160px"></service>
@@ -138,7 +138,6 @@
                 :pieData="pieData"
                 :serve="serve"
                 :width="width"
-                paddingBottom="paddingBottom"
                 @changeWidth="changeWidth"
               ></echartsRare>
             </div>
@@ -176,7 +175,7 @@ export default {
       serve: "",
       serviceLength: "",
       width: "25%",
-      paddingBottom: "80%",
+      // paddingBottom: "80%",
       selectTitle: "选择服务器",
       selectHost: "全部",
       dataBread: [

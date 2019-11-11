@@ -12,8 +12,8 @@
       </div>
       <div class="infoDetail">
         <div class="infoLeft">
-          <el-image :src="require('@/assets/noPic.png')" placeholder>
-            <img slot="placeholder" :src="require('@/assets/noPic.png')" />
+          <el-image :src="require('@/assets/noPic.png')" fit="fill">
+            <!-- <img slot="placeholder" :src="require('@/assets/noPic.png')" /> -->
           </el-image>
           <div class="infoNews">
             <div>{{ImgInfo.picFilePath}}</div>
@@ -99,7 +99,7 @@ import survey from "_c/duno-c/survey";
 import calibration from "./components/calibration.vue";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
-import { getAxiosData, postAxiosData } from "@/api/axiosType";
+import { getAxiosData, postAxiosData, deleteDataId } from "@/api/axiosType";
 export default {
   name: "sample-detail",
   mixins: [mixinViewModule],
@@ -358,13 +358,15 @@ export default {
         color: #ffffff;
         .el-image {
           height: 100%;
+          width: 60%;
           .el-image__inner {
             height: 100%;
+            width: 100%;
           }
         }
         .infoNews {
-          margin-left: 10%;
-          width: 30%;
+          margin-left: 7%;
+          width: 40%;
           div {
             line-height: 60px;
             border-bottom: 2px solid #305e83;

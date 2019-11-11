@@ -9,8 +9,8 @@
         @mouseup="canvasUp($event)"
         @mouseleave="canvasUp($event)"
       ></canvas>
-      <div v-if="isPoint" @click="handleDraw" class="btn">手动标定</div>
-      <div v-if="!isPoint" @click="cleanRect" class="btn">清除</div>
+      <div v-if="isPoint&&!isDrew" @click="handleDraw" class="btn">手动标定</div>
+      <div v-if="!isPoint&&!isDrew" @click="cleanRect" class="btn">清除</div>
     </div>
   </div>
 </template>
@@ -47,6 +47,7 @@ export default {
   },
 
   methods: {
+    //初始化
     init() {
       let that = this;
       let c = this.$refs.myCanvas;
@@ -72,7 +73,7 @@ export default {
         this.beginRec.y1 = e.offsetY;
       }
     },
-    //鼠标移动/移出
+    //鼠标移动/移出canvas
     canvasMove(e) {
       if (this.isDrew) {
         this.beginRec.x1 = e.offsetX;
