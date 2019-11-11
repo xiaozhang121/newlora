@@ -186,7 +186,7 @@
                             img:require('@/assets/buttonPng/intelLock.png'),
                             circleColor:'#ffca28',
                             describeName: '智能锁具',
-                            monitorDeviceType: 5,
+                            monitorDeviceType: 999,
                             isActive: true
                         },
                         {

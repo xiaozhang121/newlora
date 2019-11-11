@@ -10,7 +10,7 @@
       center
       @close="handleClose"
     >
-      <div slot="title">创建新的任务配置</div>
+      <div slot="title"><span v-if="rowDataLength == 0">创建新的</span><span v-if="rowDataLength != 0">编辑</span>任务配置</div>\
       <div class="main">
         <!-- <div class="steps">
           <steps :step="stepValue" />

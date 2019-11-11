@@ -352,7 +352,7 @@ export default {
     monitorInfo01() {
       try {
         if (this.cameraList[0]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[0]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[0]["monitorDeviceId"], monitorDeviceName: this.cameraList[0]["monitorDeviceName"]};
         else {
           return {};
         }
@@ -361,7 +361,7 @@ export default {
     monitorInfo02() {
       try {
         if (this.cameraList[1]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[1]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[1]["monitorDeviceId"], monitorDeviceName: this.cameraList[1]["monitorDeviceName"] };
         else {
           return {};
         }
@@ -370,7 +370,7 @@ export default {
     monitorInfo03() {
       try {
         if (this.cameraList[2]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[2]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[2]["monitorDeviceId"], monitorDeviceName: this.cameraList[2]["monitorDeviceName"] };
         else {
           return {};
         }
@@ -379,7 +379,7 @@ export default {
     monitorInfo04() {
       try {
         if (this.cameraList[3]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[3]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[3]["monitorDeviceId"], monitorDeviceName: this.cameraList[3]["monitorDeviceName"] };
         else {
           return {};
         }
@@ -388,7 +388,7 @@ export default {
     monitorInfo05() {
       try {
         if (this.cameraList[4]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[4]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[4]["monitorDeviceId"], monitorDeviceName: this.cameraList[4]["monitorDeviceName"] };
         else {
           return {};
         }
@@ -397,7 +397,7 @@ export default {
     monitorInfo06() {
       try {
         if (this.cameraList[5]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[5]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[5]["monitorDeviceId"], monitorDeviceName: this.cameraList[5]["monitorDeviceName"] };
         else {
           return {};
         }
@@ -406,7 +406,7 @@ export default {
     monitorInfo07() {
       try {
         if (this.cameraList[6]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[6]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[6]["monitorDeviceId"], monitorDeviceName: this.cameraList[6]["monitorDeviceName"] };
         else {
           return {};
         }
@@ -415,7 +415,7 @@ export default {
     monitorInfo08() {
       try {
         if (this.cameraList[7]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[7]["monitorDeviceId"] };
+          return { monitorDeviceId: this.cameraList[7]["monitorDeviceId"], monitorDeviceName: this.cameraList[7]["monitorDeviceName"] };
         else {
           return {};
         }
