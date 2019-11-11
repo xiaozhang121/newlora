@@ -1285,7 +1285,8 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
-    this.$refs.controlCheckRef.releaseNow()
+    if(this.$refs.controlCheckRef)
+      this.$refs.controlCheckRef.releaseNow()
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }

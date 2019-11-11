@@ -536,7 +536,7 @@
                 putAxiosData(url).then(res=>{
                     this.$message.info(res.msg)
                 }, error => {
-                  this.$message.error(error.response.data.message)
+                  this.$message.error(error.response.data.msg)
                 })
             },
             toStop(flag){
@@ -633,7 +633,7 @@
                         that.getListData()
                         that.$message.info(res.msg)
                     }, error => {
-                      this.$message.error(error.response.data.message)
+                      this.$message.error(error.response.data.msg)
                     })
                     that.addPosInput = ''
                 }else{
@@ -646,7 +646,7 @@
                         that.getListData()
                         that.$message.info(res.msg)
                     }, error => {
-                      this.$message.error(error.response.data.message)
+                      this.$message.error(error.response.data.msg)
                     })
                     // sessionStorage.setItem('dataList',JSON.stringify( that.dataListd[0]['dataList']))
                 }
@@ -662,7 +662,7 @@
                     that.dataList[0]['dataList'] = data
                     that.dataListd[0]['dataList'] = data
                 }, error => {
-                  this.$message.error(error.response.data.message)
+                  this.$message.error(error.response.data.msg)
                 })
             },
             startBoat(){
@@ -781,7 +781,7 @@
 
                     }
                 }, error => {
-                  this.$message.error(error.response.data.message)
+                  this.$message.error(error.response.data.msg)
                 })
                 /*  controlCamera({command: command, flag:flag}).then(res=>{
                   })*/
@@ -800,12 +800,12 @@
                 getAxiosData('/lenovo-iir/device/video/url/rtmp/'+this.deviceId).then(res=>{
                     this.playerOptiond.sources[0].src = res.data.data;
                 }, error => {
-                  this.$message.error(error.response.data.message)
+                  this.$message.error(error.response.data.msg)
                 })
                 getAxiosData('/lenovo-iir/device/visible/url/rtmp/'+this.deviceId).then(res=>{
                     this.playerOptions.sources[0].src = res.data.data;
                 }, error => {
-                  this.$message.error(error.response.data.message)
+                  this.$message.error(error.response.data.msg)
                 })
             }
         },
@@ -835,6 +835,7 @@
             this.isDel = this.getAuthority('10000104');
         },
         beforeDestroy(){
+          if(this.$refs.controlCheckRef)
             this.$refs.controlCheckRef.releaseNow()
         }
     }

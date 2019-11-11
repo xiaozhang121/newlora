@@ -590,7 +590,7 @@ export default {
         that.dataList[0]["dataList"] = data;
         that.dataListd[0]["dataList"] = data;
       }, error => {
-        this.$message.error(error.response.data.message)
+        this.$message.error(error.response.data.msg)
       });
     },
     fullScreen() {
@@ -605,7 +605,7 @@ export default {
       putAxiosData(url).then(res=>{
           this.$message.info(res.msg)
       }, error => {
-        this.$message.error(error.response.data.message)
+        this.$message.error(error.response.data.msg)
       })
     },
     editTableData(params) {
@@ -637,7 +637,7 @@ export default {
         postAxiosData('/lenovo-iir/manager/preset/add',{'deviceId': that.deviceId, 'name':that.addPosInput}).then(res=>{
             that.getListData()
         }, error => {
-          this.$message.error(error.response.data.message)
+          this.$message.error(error.response.data.msg)
         })
         that.addPosInput = "";
       } else {
@@ -649,7 +649,7 @@ export default {
         putAxiosData('/lenovo-iir/manager/preset/update', { deviceId: that.deviceId, id: that.temparams.row.id.toString(), name:temp }).then(res=>{
             that.getListData()
         }, error => {
-          this.$message.error(error.response.data.message)
+          this.$message.error(error.response.data.msg)
         })
       }
     },
@@ -783,7 +783,7 @@ export default {
           },
           error => {
             reject(res);
-            this.$message.error(error.message);
+            this.$message.error(error.msg);
           }
         );
       });

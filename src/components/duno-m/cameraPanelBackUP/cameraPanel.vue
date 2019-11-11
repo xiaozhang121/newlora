@@ -949,7 +949,8 @@
             this.isDel = this.getAuthority('10000104');
         },
         beforeDestroy(){
-            this.$refs.controlCheckRef.releaseNow()
+            if(this.$refs.controlCheckRef)
+                this.$refs.controlCheckRef.releaseNow()
         }
     }
 </script>
