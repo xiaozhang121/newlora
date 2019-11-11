@@ -16,7 +16,7 @@
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"     @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
         <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef" style="display: none">
@@ -90,13 +90,12 @@
 
 <script>
     import Icons from '_c/icons'
-    import mixinViewModule from '@/mixins/view-module'
     import dunoBtnTopItem  from '../duno-btn-topItem'
     export default {
-        mixins: [mixinViewModule],
         name: 'dunoBtnTop',
         data (){
             return {
+                ball: require('@/assets/runDevice/ball.png'),
                 dataInput: '',
                 disabled: false,
                 isFullscreen: false,
@@ -166,7 +165,7 @@
                 }
             },
             dataList:{
-                type:Array,
+                type: Array,
                 default:()=>{
                     return [
                         {
@@ -420,7 +419,6 @@
             }
         },
         created(){
-
         },
         beforeDestroy(){
             const that = this

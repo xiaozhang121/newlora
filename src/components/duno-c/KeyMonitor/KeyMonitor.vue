@@ -336,7 +336,7 @@
             this.$nextTick(() => {
               setTimeout(() => {
                 try{
-                if(this.autoplay)
+                if(this.autoplay && this.$refs.videoPlayer.player)
                   this.$refs.videoPlayer.player.play()
                 this.initVideo()
                 this.loading = false;
@@ -490,12 +490,12 @@
       },
       toPlay(){
         try {
-          if (this.autoplay)
+          if (this.autoplay && this.$refs.videoPlayer.player)
             this.$refs.videoPlayer.player.play()
         }catch(e){}
         setTimeout(()=>{
          try{ 
-          if (this.autoplay)
+          if (this.autoplay && this.$refs.videoPlayer.player)
             this.$refs.videoPlayer.player.play()
          }catch (e) {}
         },8000)
@@ -843,7 +843,7 @@
               that.playerOptions["sources"][0]["src"] = ""
               this.$nextTick(()=>{
                 that.playerOptions["sources"][0]["src"] = url
-                if (this.autoplay)
+                if (this.autoplay && this.$refs.videoPlayer.player)
                   that.$refs.videoPlayer.player.play()
               })
             }catch (e) {}

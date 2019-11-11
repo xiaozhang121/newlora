@@ -264,7 +264,7 @@
                     })
                     that.newsReport = data
                 })
-                postAxiosData('/lenovo-robot/getRobotVedioPath',{stationID: that.substationId, robotID: that.robotId}).then(res=>{
+                postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
                     that.cameraPath = res.data
                 })
             }

@@ -78,13 +78,12 @@
 
 <script>
     import Icons from '_c/icons'
-    import mixinViewModule from '@/mixins/view-module'
     import dunoBtnTopItem  from '../duno-btn-topItem'
     export default {
-        mixins: [mixinViewModule],
         name: 'dunoBtnTopS',
         data (){
             return {
+                ball: require('@/assets/runDevice/ball.png'),
                 dataInput: '',
                 disabled: false,
                 isFullscreen: false,
