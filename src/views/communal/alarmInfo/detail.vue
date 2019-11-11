@@ -18,7 +18,7 @@ export default {
         { path: "/report/list", name: "巡检任务报表" },
         { path: "", name: "查看报告" }
       ],
-      downloadURL: "/lenovo-plan/api/statistics/plan/downLoad"
+      downloadURL: "/lenovo-plan/api/statistics/plan/download"
     };
   },
   methods: {}
