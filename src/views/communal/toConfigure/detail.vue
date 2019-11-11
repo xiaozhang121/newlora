@@ -887,6 +887,10 @@ export default {
 <style lang="scss">
 .configDetail {
   width: 100%;
+  .ivu-poptip-confirm .ivu-poptip-body{
+    text-align: left;
+    color: black;
+  }
   & > .top {
     color: #ffffff;
     margin: 10px 0;
