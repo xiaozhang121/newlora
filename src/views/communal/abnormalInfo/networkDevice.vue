@@ -40,6 +40,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
+        :isShowPage='mixinViewModuleOptions.isShowPage'
         @clickPage="pageCurrentChangeHandle"
       />
     </duno-main>

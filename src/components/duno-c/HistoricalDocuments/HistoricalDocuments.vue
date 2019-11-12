@@ -57,7 +57,6 @@
   </div>
 </template>
 <script>
-import { DunoTablesTep } from "_c/duno-tables-tep";
 import { method } from "bluebird";
 import { mapState } from "vuex";
 import screenfull from "screenfull";

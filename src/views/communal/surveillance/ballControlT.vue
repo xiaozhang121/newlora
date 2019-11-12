@@ -96,6 +96,7 @@
                         :current="pageIndex"
                         :border="true"
                         :showSizer="true"
+                        :isShowPage='showPage'
                         @clickPage="changePage"
                 />
             </div>
@@ -155,6 +156,7 @@
             return {
                 dataTimeEE: "",
                 alarmId: 0,
+                showPage:true,
                 dialogVisible: false,
                 envPageIndex: 1,
                 envTotalNum: 1,
@@ -763,6 +765,9 @@
                         that.cameraList = res.data.cameraList
                     that.tableList = res.data.tableData
                     that.totalPage = res.data.tableData.pageParam.totalRows
+                    if(res.data.tableData.length==0){
+                       that.showPage=false
+                    }
                 })
             },
             toRouter(){

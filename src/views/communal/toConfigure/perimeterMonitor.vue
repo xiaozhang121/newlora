@@ -30,7 +30,6 @@ import cover from "_c/duno-c/cover";
 import controBtn from "_c/duno-m/controBtn";
 import pattery from "_c/duno-m/pattery";
 import mixinViewModule from "@/mixins/view-module";
-import { DunoTablesTep } from "_c/duno-tables-tep";
 import wraning from "_c/duno-j/warning";
 import Remarks from "_c/duno-c/Remarks";
 import {
