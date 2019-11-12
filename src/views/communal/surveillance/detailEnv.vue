@@ -168,6 +168,7 @@
           :pageSize="pageRows"
           :current="envPageIndex"
           :border="true"
+          :isShowPage='showPage'
           :showSizer="true"
           @clickPage="changePage"
         />
@@ -239,6 +240,7 @@
           :current="pageIndex"
           :border="true"
           :showSizer="true"
+          :isShowPage='mixinViewModuleOptions.isShowPage'
           @clickPage="pageCurrentChangeHandle"
         />
       </div>
@@ -296,6 +298,7 @@ export default {
   data() {
     const that = this;
     return {
+      showPage:true,
       lockPress: false,
       dataTimeEE: "",
       alarmId: 0,
@@ -1262,6 +1265,9 @@ export default {
       }).then(res => {
         this.envDataList = res.data.tableData;
         this.envTotalNum = res.data.pageParam.totalRows;
+        if(res.data.tableData.length==0){
+          this.showPage=false
+        }
       });
     }
   },

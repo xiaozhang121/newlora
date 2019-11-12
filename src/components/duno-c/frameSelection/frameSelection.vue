@@ -1,6 +1,11 @@
 <template>
   <div class="frameSelection">
-    <div class="dialog-content">
+    <div
+      class="dialog-content"
+      v-loading="loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      element-loading-text="加载中"
+    >
       <canvas
         ref="myCanvas"
         width="450px"
@@ -9,8 +14,9 @@
         @mouseup="canvasUp($event)"
         @mouseleave="canvasUp($event)"
       ></canvas>
-      <div v-if="isPoint&&!isDrew" @click="handleDraw" class="btn">手动标定</div>
-      <div v-if="!isPoint&&!isDrew" @click="cleanRect" class="btn">清除</div>
+      <i v-if="!isVideo" class="iconfont icon-bofang"></i>
+      <div v-if="isPoint&&!isDrew&&isVideo" @click="handleDraw" class="btn">手动标定</div>
+      <div v-if="!isPoint&&!isDrew&&isVideo" @click="cleanRect" class="btn">清除</div>
     </div>
   </div>
 </template>
@@ -18,10 +24,24 @@
 <script>
 export default {
   name: "frameSelection",
-  props: {},
+  props: {
+    shotData: {
+      type: [Object, Array],
+      default: () => {
+        return {};
+      }
+    },
+    isVideo: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    }
+  },
   data() {
     let that = this;
     return {
+      loading: true,
       isPoint: true,
       isDrew: false,
       context: {},
@@ -36,6 +56,11 @@ export default {
     };
   },
   watch: {
+    shotData(now) {
+      this.loading = false;
+      this.img.src = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${now.cephBucket}&fileName=${now.cephFileName}`;
+      this.init();
+    },
     beginRec: {
       handler(now) {
         if (this.isDrew) {
@@ -52,9 +77,8 @@ export default {
       let that = this;
       let c = this.$refs.myCanvas;
       that.context = c.getContext("2d");
-      // that.img.src = "https://static.runoob.com/images/demo/demo2.jpg";
-      that.img.src =
-        "https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg";
+      // that.img.src =
+      //   "https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg";
       that.img.onload = function() {
         let w = that.img.width;
         let h = that.img.height;
@@ -86,6 +110,11 @@ export default {
         this.isDrew = false;
         this.beginRec.x1 = e.offsetX;
         this.beginRec.y1 = e.offsetY;
+        let imgFile = {
+          width: this.img.width,
+          height: this.img.height
+        };
+        this.$emit("on-send", this.beginRec, imgFile);
       }
     },
     //重新绘制canvas
@@ -122,9 +151,6 @@ export default {
     },
     handleDraw() {
       this.isPoint = false;
-    },
-    close() {
-      this.$emit("closeShot");
     }
   },
   mounted() {
@@ -147,6 +173,14 @@ export default {
       color: #fff;
       padding: 5px 10px;
       cursor: pointer;
+    }
+    .icon-bofang {
+      cursor: pointer;
+      color: #fff;
+      font-size: 66px;
+      position: absolute;
+      top: 32%;
+      left: 42%;
     }
   }
 }

@@ -76,6 +76,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
+        :isShowPage='mixinViewModuleOptions.isShowPage'
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"

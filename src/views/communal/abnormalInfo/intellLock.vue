@@ -16,6 +16,7 @@
         :current="offset"
         :border="true"
         :showSizer="true"
+        :isShowPage='mixinViewModuleOptions.isShowPage'
         @clickPage="pageCurrentChangeHandle"
       />
     </duno-main>

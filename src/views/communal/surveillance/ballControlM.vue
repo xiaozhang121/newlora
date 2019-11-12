@@ -165,6 +165,7 @@
           :current="pageIndex"
           :border="true"
           :showSizer="true"
+          :isShowPage='mixinViewModuleOptions.isShowPage'
           @on-select="dataListSelectionChangeHandle"
           @clickPage="pageCurrentChangeHandle"
           @on-page-size-change="pageSizeChangeHandle"
@@ -238,6 +239,7 @@
                 :current="pageIndexR"
                 :border="true"
                 :showSizer="true"
+                :isShowPage='showPage'
                 @clickPage="pageChange"
         />
       </div>
@@ -310,6 +312,7 @@ export default {
   data() {
     const that = this;
     return {
+      showPage:true,
       dataTimeD: '',
       dataListR: [],
       totalNumR: 1,
@@ -939,6 +942,9 @@ export default {
     initTableData(){
       getAxiosData('/lenovo-plan/api/statistics/plan/view',{monitorDeviceId: this.dataForm.monitorDeviceId, pageIndex: this.pageIndexR, pageRows: this.pageRowsR, startTime: this.startTimeR, endTime: this.endTimeR}).then(res=>{
           this.dataListR = res.data.tableData
+          if(res.data.tableData.length==0){
+            this.showPage=false
+          }
       })
     },
     pageChange (val) {
