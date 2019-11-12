@@ -5,7 +5,7 @@
     </div>
     <div class="top not-print">
       <dir>任务配置</dir>
-      <div @click="addTask()" v-if="place">+创建新的任务配置</div>
+      <div @click="addTask()" v-if="place">+编辑任务配置</div>
     </div>
     <duno-main class="dunoMain">
       <Patrol

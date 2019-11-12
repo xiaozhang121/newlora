@@ -1019,6 +1019,7 @@ export default {
         align-items: center;
         display: flex;
         flex: 1;
+        font-size: 20px
       }
       & > .select {
         display: flex;
