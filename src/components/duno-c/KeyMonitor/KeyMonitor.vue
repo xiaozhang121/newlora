@@ -378,6 +378,7 @@
     },
     data() {
       return {
+        monitorDeviceType: false,
         isPlayback:false,
         second:false,
         picTurnTimer: null,
@@ -878,6 +879,8 @@
         this.$refs.videoPlayer.player.dispose()
       if(this.$refs.videoPlayerD && this.$refs.videoPlayerD.player)
         this.$refs.videoPlayerD.player.dispose()
+      this.showView = false
+      this.isPlayback = false
     },
     created() {
       try{
