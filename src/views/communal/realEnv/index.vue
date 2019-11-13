@@ -502,7 +502,7 @@
                 isAlarm: false,
                 timer: null,
                 tempObj: {},
-                isDiagram: 2,
+                isDiagram: -1,
                 mainlistShow: true,
                 isFullscreen: false,
                 visibleCamera: false,
@@ -1052,6 +1052,9 @@
                 })
                 that.modeList = data
                 this.$forceUpdate()
+            })
+            this.$nextTick(()=>{
+              this.isDiagram = 2
             })
         }
     }
