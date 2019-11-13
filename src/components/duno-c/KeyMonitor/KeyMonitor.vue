@@ -845,7 +845,7 @@
           this.$refs.videoPlayerD.player.dispose()
       },
       initVideo(){
-        const that = this
+        /*const that = this
         clearInterval(this.waitTimer)
         this.waitTimer = null
         if(!this.waitTimer && !this.isPic && !this.imgAdress){
@@ -863,7 +863,7 @@
               })
             }catch (e) {}
           }, 6000)
-        }
+        }*/
       }
     },
     mounted() {
