@@ -114,7 +114,9 @@ export default {
             that.totalNum = res.data.total || res.data.pageParam.totalRows
         }
         if(that.dataList.length==0){
-          that.mixinViewModuleOptions.isShowPage=false
+          that.mixinViewModuleOptions.isShowPage = false
+        }else{
+          that.mixinViewModuleOptions.isShowPage = true
         }
         that.$forceUpdate()
       }, error => {

@@ -8,7 +8,7 @@
       <statistics class="not-print" :warningList="circleData" />
     </div>
     <div class="thRecord">
-      <PageHisRecords :areaId="areaId" :titleCode="titleData" />
+      <PageHisRecords v-if="isRender" :areaId="areaId" :titleCode="titleData" />
     </div>
   </div>
 </template>
@@ -37,6 +37,7 @@ export default {
       deviceList: [],
       circleData: {},
       areaId: null,
+      isRender: true,
       areaName: "",
       selectAreaId: [],
       routeName: "",
@@ -46,6 +47,11 @@ export default {
   watch: {
     $route(to) {
       this.routeName = to.name;
+      let that = this;
+      that.isRender = false;
+      that.$nextTick(() => {
+        that.isRender = true;
+      });
     },
     routeName(now) {
       this.getAreaData();
@@ -167,7 +173,6 @@ export default {
             break;
           default:
         }
-        console.log(that.areaId);
         circleMonth({ areaId: that.areaId }).then(res => {
           that.circleData = res.data;
         });
