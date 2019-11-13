@@ -61,6 +61,7 @@ import { method } from "bluebird";
 import { mapState } from "vuex";
 import screenfull from "screenfull";
 import qs from "qs";
+import { DunoTablesTep } from "_c/duno-tables-tep";
 export default {
   name: "HistoricalDocuments",
   props: {
