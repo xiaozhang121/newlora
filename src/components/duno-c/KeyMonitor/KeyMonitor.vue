@@ -838,20 +838,28 @@
       closeShot() {
         this.isShow = false;
       },
+      destory(){
+        if(this.$refs.videoPlayer && this.$refs.videoPlayer.player)
+          this.$refs.videoPlayer.player.dispose()
+        if(this.$refs.videoPlayerD && this.$refs.videoPlayerD.player)
+          this.$refs.videoPlayerD.player.dispose()
+      },
       initVideo(){
         const that = this
         clearInterval(this.waitTimer)
         this.waitTimer = null
-        if(!this.waitTimer && !this.isPic){
+        if(!this.waitTimer && !this.isPic && !this.imgAdress){
           this.waitTimer = setInterval(() => {
             // this.$message.info('error')
             try{
-              let url = that.playerOptions["sources"][0]["src"]
-              that.playerOptions["sources"][0]["src"] = ""
-              this.$nextTick(()=>{
-                that.playerOptions["sources"][0]["src"] = url
-                if (this.autoplay && this.$refs.videoPlayer.player)
-                  that.$refs.videoPlayer.player.play()
+              that.$refs.videoPlayer.player.dispose()
+              this.showView = false
+              that.$nextTick(()=>{
+                setTimeout(()=>{
+                  this.showView = true
+                  if (this.autoplay && this.$refs.videoPlayer.player)
+                    that.$refs.videoPlayer.player.play()
+                },0)
               })
             }catch (e) {}
           }, 6000)
@@ -869,18 +877,21 @@
       // console.log(document.getElementsById("videoPlayer").offsetWidth);
     },
     beforeDestroy() {
+      try{
       if(this.picTurnTimer){
         clearInterval(this.picTurnTimer)
         this.picTurnTimer = null
       }
       clearInterval(this.waitTimer)
       this.$store.state.app.isPic = false;
-      if(this.$refs.videoPlayer && this.$refs.videoPlayer.player)
-        this.$refs.videoPlayer.player.dispose()
-      if(this.$refs.videoPlayerD && this.$refs.videoPlayerD.player)
-        this.$refs.videoPlayerD.player.dispose()
+      this.playerOptionsD["sources"][0]["src"] = ''
+      this.playerOptions["sources"][0]["src"] = ''
+      this.destory()
       this.showView = false
       this.isPlayback = false
+      }catch (e) {
+
+      }
     },
     created() {
       try{
