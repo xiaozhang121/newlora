@@ -1493,10 +1493,14 @@ export default {
           .el-range-editor--small .el-range__icon,
           .el-range-editor--small .el-range__close-icon {
             line-height: 35px;
+            color: #fff;
           }
           .el-range-editor--small .el-range-input {
             font-size: 16px;
           }
+          ::placeholder {
+              color: #fff;
+            }
         }
       }
     }

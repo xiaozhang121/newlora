@@ -812,12 +812,16 @@ export default {
         .el-range-editor--small .el-range__icon,
         .el-range-editor--small .el-range__close-icon {
           line-height: 35px;
+          color: #fff;
         }
         .el-range-editor--small .el-range-input {
           font-size: 16px;
           @media screen and (min-width: 3500px) {
             font-size: 14px;
           }
+        }
+        ::placeholder {
+          color: #fff;
         }
       }
     }

@@ -1075,6 +1075,9 @@ export default {
             .el-range-editor--small .el-range-input {
               font-size: 16px;
             }
+            ::placeholder {
+              color: #fff;
+            }
           }
         }
       }
@@ -1095,6 +1098,7 @@ export default {
         align-items: center;
         display: flex;
         flex: 1;
+        font-size: 20px;
       }
       & > .select {
         display: flex;
@@ -1172,6 +1176,9 @@ export default {
           .el-range-editor--small .el-range-input {
             font-size: 16px;
           }
+          ::placeholder {
+          color: #fff;
+        }
         }
       }
     }

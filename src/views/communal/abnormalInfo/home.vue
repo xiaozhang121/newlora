@@ -150,7 +150,7 @@
     <div class="middle-right">
       <div class="defect iconcen">
         <duno-main :controlOver="true" class="main_contain contain">
-          <div class="iconTop">
+          <div class="iconTop" @click="handleJump(6)">
             <img src="../../../assets/iconFunction/icon_statement.png" alt />
             报表
           </div>
@@ -176,7 +176,7 @@
           </div>
           <div class="report">
             <span>其他巡视报告</span>
-            <p @click="handleJump(6)">查看更多-></p>
+            <p @click="handleReport">查看更多-></p>
           </div>
           <div
             class="reportLoad"
@@ -684,6 +684,11 @@ export default {
     });
   },
   methods: {
+    handleReport(){
+      this.$router.push({
+        name:"reportFrom",
+      })
+    },
     getLock() {
       let that = this;
       let url = "/lenovo-smartlock/permit/getDevicesStatus";

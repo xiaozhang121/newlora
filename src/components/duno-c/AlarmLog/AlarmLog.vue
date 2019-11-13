@@ -275,6 +275,7 @@ export default {
         color: #ffffff;
         display: flex;
         justify-content: flex-start;
+        white-space: nowrap;
         i {
           font-style: normal;
         }
@@ -285,6 +286,7 @@ export default {
         }
       }
       & > div:nth-child(2) {
+        margin-top: 2px;
         height: 36px;
         i {
           width: 56px;

@@ -657,6 +657,9 @@ export default {
             font-size: 14px;
           }
         }
+        ::placeholder {
+          color: #fff;
+        }
       }
     }
   }
@@ -693,6 +696,9 @@ export default {
                 height: 48px;
               }
             }
+          }
+          .ivu-table-tip{
+            min-height: 300px;
           }
         }
         .ivu-table:before,

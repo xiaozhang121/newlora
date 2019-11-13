@@ -48,7 +48,7 @@
       </div>
       <div class="item">
         <div class="alarmTitle">
-          <div>历史动态环境异常记录</div>
+          <div>历史现场安全管控异常记录</div>
           <div>
             <div @click="clickToDetail(2)">查看更多 ></div>
           </div>

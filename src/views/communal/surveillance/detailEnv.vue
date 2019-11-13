@@ -23,7 +23,14 @@
       <div class="content" style="position: relative">
         <div class="left nr">
           <div class="item">
-            <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
+            <control-check
+              @on-disable="onDisable"
+              ref="controlCheckRef"
+              v-if="dataForm.monitorDeviceId && lockPress"
+              :deviceType="1"
+              :deviceId="dataForm.monitorDeviceId"
+              class="controlCheck"
+            />
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
@@ -46,7 +53,7 @@
                 />
               </div>
               <div class="inputGroup">
-                <el-input  @input="checkSpecial" v-model="presetName" placeholder="添加预置位名称"></el-input>
+                <el-input @input="checkSpecial" v-model="presetName" placeholder="添加预置位名称"></el-input>
                 <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
               </div>
             </div>
@@ -70,13 +77,15 @@
             </div>
           </div>
         </div>
-        <div 
+        <div
           class="video"
           v-loading="loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
-          element-loading-text="加载中">
+          element-loading-text="加载中"
+        >
           <div>
-            <div class="videoItem" v-for="(item,index) in videoList" :key="index">
+            <div v-if="videoList.length==0" class='noVideo'>暂无数据</div>
+            <div v-else class="videoItem" v-for="(item,index) in videoList" :key="index">
               <!-- <key-monitor
                 :monitorInfo="item"
                 paddingBottom="56%"
@@ -88,12 +97,13 @@
                 :showBtmOption="false"
                 :Initialization="true"
               ></key-monitor>
-              <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p> -->
+              <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>-->
               <cover :srcData="item" :isSecond="false"></cover>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }}</p>
             </div>
           </div>
           <el-pagination
+            v-if="videoList.length>0"
             :current-page="pageParam['pageIndex']"
             layout="pager"
             :total="pageParam['totalRows']"
@@ -157,7 +167,7 @@
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
               </div>
-            </div> -->
+            </div>-->
           </div>
         </div>
         <duno-tables-tep
@@ -168,7 +178,7 @@
           :pageSize="pageRows"
           :current="envPageIndex"
           :border="true"
-          :isShowPage='showPage'
+          :isShowPage="showPage"
           :showSizer="true"
           @clickPage="changePage"
         />
@@ -228,7 +238,7 @@
                 <i class="iconfont icon-daochu1"></i>
                 导出表格
               </div>
-            </div> -->
+            </div>-->
           </div>
         </div>
         <duno-tables-tep
@@ -240,7 +250,7 @@
           :current="pageIndex"
           :border="true"
           :showSizer="true"
-          :isShowPage='mixinViewModuleOptions.isShowPage'
+          :isShowPage="mixinViewModuleOptions.isShowPage"
           @clickPage="pageCurrentChangeHandle"
         />
       </div>
@@ -252,7 +262,7 @@
 </template>
 
 <script>
-import controlCheck from '_c/duno-m/controlCheck'
+import controlCheck from "_c/duno-m/controlCheck";
 import cover from "_c/duno-c/cover";
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
@@ -298,7 +308,7 @@ export default {
   data() {
     const that = this;
     return {
-      showPage:true,
+      showPage: true,
       lockPress: false,
       dataTimeEE: "",
       alarmId: 0,
@@ -590,7 +600,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let data = params.row.part?params.row.part:'/'
+            let data = params.row.part ? params.row.part : "/";
             return h("div", data);
           }
         },
@@ -839,12 +849,12 @@ export default {
           });
         }
       }
-      if(value.length>20){
+      if (value.length > 20) {
         this.$message({
-            message: "字符长度超出限制",
-            type: "warning"
-          });
-          this.presetName=value.slice(0,20)
+          message: "字符长度超出限制",
+          type: "warning"
+        });
+        this.presetName = value.slice(0, 20);
       }
     },
     changeDate(now) {
@@ -899,14 +909,14 @@ export default {
       if (pageIndex) {
         index = pageIndex;
       }
-      let startTime = ''
-      let endTime = ''
-      if(this.timeData){
-        startTime = this.timeData+' 00:00:00'
-        endTime = this.timeData+' 23:59:59'
-      }else{
-        startTime = ''
-        endTime = ''
+      let startTime = "";
+      let endTime = "";
+      if (this.timeData) {
+        startTime = this.timeData + " 00:00:00";
+        endTime = this.timeData + " 23:59:59";
+      } else {
+        startTime = "";
+        endTime = "";
       }
       getAxiosData("/lenovo-device/device/video/record/videos", {
         startTime: startTime,
@@ -924,7 +934,7 @@ export default {
           }).then(res => {
             this.videoList[res.data["positionIndex"]]["pic"] = res.data.pic;
             this.$forceUpdate();
-            this.loading=false
+            this.loading = false;
           });
         });
         this.pageParam = res.data.pageParam;
@@ -1265,8 +1275,8 @@ export default {
       }).then(res => {
         this.envDataList = res.data.tableData;
         this.envTotalNum = res.data.pageParam.totalRows;
-        if(res.data.tableData.length==0){
-          this.showPage=false
+        if (res.data.tableData.length == 0) {
+          this.showPage = false;
         }
       });
     }
@@ -1282,7 +1292,7 @@ export default {
   },
   mounted() {
     // this.getInit();
-    this.lockPress = this.getAuthority("10075002")
+    this.lockPress = this.getAuthority("10075002");
     this.getSelectType();
     this.getSelcetGrade();
     this.getSelectPreset();
@@ -1291,8 +1301,7 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
-    if(this.$refs.controlCheckRef)
-      this.$refs.controlCheckRef.releaseNow()
+    if (this.$refs.controlCheckRef) this.$refs.controlCheckRef.releaseNow();
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }
@@ -1526,19 +1535,19 @@ export default {
           margin-left: 10px;
         }
         .dunoBtnTop {
+          width: 150px;
+          position: relative;
+          left: 10px;
+          display: inline-flex;
+          padding-bottom: 0;
+          .btnList {
+            top: inherit !important;
             width: 150px;
-            position: relative;
-            left: 10px;
-            display: inline-flex;
-            padding-bottom: 0;
-            .btnList {
-              top: inherit !important;
-              width: 150px;
-              .title {
-                padding: 8px 20px;
-              }
+            .title {
+              padding: 8px 20px;
             }
           }
+        }
         // & > div:nth-child(2) {
         //   & > div {
         //     width: 140px;
@@ -1593,6 +1602,12 @@ export default {
       padding: 20px 0 20px 20px;
       & > div:first-child {
         overflow: hidden;
+      }
+      .noVideo{
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        color: #fff;
       }
       .videoItem {
         float: left;
@@ -1733,10 +1748,10 @@ export default {
       }
     }
   }
-  .control_slider{
+  .control_slider {
     top: 105% !important;
   }
-  .cameraSpeed{
+  .cameraSpeed {
     bottom: -25% !important;
   }
 }
