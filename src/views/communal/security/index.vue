@@ -437,6 +437,7 @@ export default {
       }
     }
     .item {
+      width: calc(50% - 10px);
       flex-grow: 1;
       flex-basis: 0;
     }

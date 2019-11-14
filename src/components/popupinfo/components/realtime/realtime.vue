@@ -3,7 +3,7 @@
     <h3 class="title">{{title}}</h3>
     <el-row :gutter="20">
       <el-col :span="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3 || monitorDeviceType == 5)?24:12" :class="{'lightPanel': (isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)}">
-        <div class="itemImgBox" v-if="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3  || monitorDeviceType == 5)">
+        <div class="itemImgBox" ref="mapContain" v-if="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3  || monitorDeviceType == 5)">
           <video-player
                   @mousemove.native="pointerPos($event)"
                   @mouseout.native="clearTimer()"
@@ -11,23 +11,26 @@
                   class="vjs-custom-skin realtime_video"
                   :options="playerOptiond"
           ></video-player>
+          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.mapContain)"></i>
         </div>
-        <div class="itemImgBox"   style="width: 226px; height: 150px;transform-origin: left top;" v-else>
+        <div class="itemImgBox" ref="mapContain"  style="width: 226px; height: 150px;transform-origin: left top;" v-else>
           <video-player
                   ref="videoPlayer"
                   class="vjs-custom-skin realtime_video"
                   :options="playerOptionf"
           ></video-player>
           <!--<img style="width: 100%; height: 100%" :src="demoImage">-->
+          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.mapContain)"></i>
         </div>
       </el-col>
       <el-col :span="12" v-if="monitorDeviceType != 1 && monitorDeviceType != 3  && monitorDeviceType != 5 && !isShowClassify">
         <div class="itemImgBox"
              style="width: 228px; height: 150px"
         >
-          <div class="picVideo" v-if="itemData['deviceMessage']['typeId'] == 3">
+          <div class="picVideo" ref="mapContain" v-if="itemData['deviceMessage']['typeId'] == 3">
             <img   @mousemove="pointerPos($event)"
                    @mouseout="clearTimer()" :src="cameraPic"/>
+                   <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.mapContain)"></i>
           </div>
           <video-player
                   v-else
@@ -37,7 +40,7 @@
                   class="vjs-custom-skin realtime_video"
                   :options="playerOptions"
           ></video-player>
-
+          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.videoPlayerd)"></i>
         </div>
       </el-col>
     </el-row>
@@ -72,6 +75,7 @@
       postAxiosData,
       putAxiosData
   } from "@/api/axiosType";
+  import screenfull from "screenfull";
   import videojs from 'video.js'
   import "video.js/dist/video-js.css";
   import { videoPlayer } from "vue-video-player";
@@ -183,6 +187,10 @@
         }
     },
     methods: {
+        changeFullScreen(target) {
+            const that = this;
+            screenfull.toggle(target);
+            },
         clearTimer() {
             clearInterval(this.timer);
             this.timer = null;
@@ -353,6 +361,11 @@
         width: 100%;
         height: 100%;
         position: absolute;
+      }
+      .fullScreen{
+          position: absolute;
+          bottom: 20px;
+          right: 0;
       }
     }
     .progress {

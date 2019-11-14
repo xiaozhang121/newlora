@@ -1,7 +1,8 @@
 <template>
   <div class="historicalwarning" @mouseenter="noEvent = false">
     <h3 class="title">{{title}}</h3>
-    <div class="historicalwarningBox" :class="{'noEvent': noEvent}">
+    <div class="center" v-if="dataList.length==0">暂无历史告警内容</div>
+    <div v-else class="historicalwarningBox" :class="{'noEvent': noEvent}">
       <div v-for="(item, index) in dataList" :key="index" class="itemData">
         <div
           class="historicalwarningItem"
@@ -216,6 +217,16 @@ export default {
       #203644 10%
     ); /* 标准的语法（必须放在最后） */
   }
+  .center{
+      min-height: 300px;
+      width: 100%;
+      margin-top: -15px;
+      color: #aaa;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   .noEvent {
     pointer-events: none;
   }

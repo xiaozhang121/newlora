@@ -23,6 +23,7 @@
 </template>
 
 <script>
+    import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     import { deviceLocation, deviceList, lastDeviceList } from '@/api/currency/currency.js'
     import platformLine from "_c/duno-m/platformLine"
     import platformBox from "_c/duno-m/platformBox"
@@ -72,6 +73,25 @@
             }
         },
         methods: {
+            getExchange(){
+              let query={
+                hostId:"",
+                ip:''
+              };
+              let url='/lenovo-mon/api/monitoring/popup/exchange'
+              getAxiosData(url,query).then(res=>{
+                this.dataInfo = res.data
+              })
+            },
+            getAPData(){
+              let query={
+                mac:""
+              };
+              let url='/lenovo-mon/api/monitoring/popup/ap'
+              getAxiosData(url,query).then(res=>{
+                this.dataInfo = res.data
+              })
+            },
             onClose(){
                 this.visible = false
             },

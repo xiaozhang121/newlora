@@ -167,6 +167,10 @@ export default {
   .ivu-tooltip-popper{
     z-index: 9999 !important;
   }
+  .el-loading-spinner .path{
+    stroke-width: 5!important;
+    stroke: #325d81!important;
+  }
   .el-loading-mask{
     z-index: 0 !important;
   }
