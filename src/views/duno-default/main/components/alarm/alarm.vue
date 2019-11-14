@@ -3,45 +3,45 @@
     popper-class="promptBox"
     placement="bottom"
     width="440"
-    class="alarmBell"
+    class="alarmBell alarmPopHeader"
     v-model="visible"
     trigger="manual"
   >
-    <div @click="visible = !visible" slot="reference" class="header-icon">
-      <el-badge :max="99" :value="value" :hidden="!isDot">
-        <i class="iconfont icon-gaojingxinxi"></i>
+    <div @click="visible = !visible" slot="reference" class="header-icon alarmPopHeader">
+      <el-badge :max="99" :value="value" :hidden="!isDot" class="alarmPopHeader">
+        <i class="iconfont icon-gaojingxinxi alarmPopHeader"></i>
       </el-badge>
     </div>
-    <div class="promptContent">
-      <h3>
+    <div class="promptContent alarmPopHeader">
+      <h3 class="alarmPopHeader">
         当前异常信息
-        <span class="DotNum" v-if="isDot">{{value}}</span>
-        <i @click="visible = !visible" class="iconfont icon-guanbi" />
+        <span class="DotNum alarmPopHeader" v-if="isDot">{{value}}</span>
+        <i @click="visible = !visible" class="iconfont icon-guanbi alarmPopHeader" />
       </h3>
-      <div class="promptItemBox">
-        <div class="itemData" v-for="(item, index) in itemData" :key="'alarm'+index">
-          <div class="title">{{!isFakeData ? item.mainDevice : item.monitorDeviceName}}</div>
-          <div class="itemTitle">
+      <div class="promptItemBox alarmPopHeader">
+        <div class="itemData alarmPopHeader" v-for="(item, index) in itemData" :key="'alarm'+index">
+          <div class="title alarmPopHeader">{{!isFakeData ? item.mainDevice : item.monitorDeviceName}}</div>
+          <div class="itemTitle alarmPopHeader">
             <!--<span v-if="!isFakeData">当前温度：{{item.alarmValue}}℃</span>-->
             <!--<span v-if="!isFakeData">超出阈值：{{item.threshold}}</span>-->
             <!--<span v-if="isFakeData">当前状态：{{item.status}}</span>-->
-            <span>{{item.powerDeviceName}}</span>
+            <span class="alarmPopHeader">{{item.powerDeviceName}}</span>
           </div>
           <!--    <div class="itemTitle">
             <p>缺陷评估：<span :class="[item.alarmLevel == '1'?'general':(item.alarmLevel == '2'?'warning':'alarm')]">{{item.alarmLevelName}}</span></p>
           </div>-->
-          <div class="itemTitle" v-if="item['isPhaseAlarm'] != 1">
-            <p>
+          <div class="itemTitle alarmPopHeader" v-if="item['isPhaseAlarm'] != 1">
+            <p class="alarmPopHeader">
               内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}
-              <i-dropdown class="dropAlarmDown" trigger="click" placement="bottom-start">
+              <i-dropdown class="dropAlarmDown alarmPopHeader" trigger="click" placement="bottom-start">
                 <div
-                  class="table_select"
+                  class="table_select alarmPopHeader"
                   :class="[{'serious': item.alarmLevel == '2'},{'commonly': item.alarmLevel == '1'},{'danger': item.alarmLevel == '3'}]"
                 >
-                  <span class="member_operate_div">
-                    <span>{{ alarmLevelName(item.alarmLevelName) }}</span>
+                  <span class="member_operate_div alarmPopHeader">
+                    <span class="alarmPopHeader">{{ alarmLevelName(item.alarmLevelName) }}</span>
                   </span>
-                  <i class="iconfont icon-xiala"></i>
+                  <i class="iconfont icon-xiala alarmPopHeader"></i>
                 </div>
                 <i-dropdownMenu slot="list">
                   <i-dropdownItem
@@ -218,6 +218,20 @@ export default {
         this.alarmId = item.alarmId;
       }
     },
+    eventEl(event){
+      let path = event.path || (event.composedPath && event.composedPath());
+      for(let i=0; i<path.length; i++){
+          if(path[i].classList && path[i].classList.length && path[i].classList.contains('alarmBell')){
+            this.visible = true
+            return
+          }
+      }
+      this.visible = false
+      return false
+    },
+    bindEvent(){
+      document.addEventListener('click', this.eventEl)
+    },
     getData() {
       const that = this;
       const url = that.isFakeData
@@ -257,7 +271,11 @@ export default {
     //   });
     // }
   },
+  beforeDestroy(){
+    document.removeEventListener('click', this.eventEl)
+  },
   mounted() {
+    this.bindEvent()
     this.getData();
   }
 };
