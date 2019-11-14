@@ -234,6 +234,7 @@ export default {
       padding: 8px 10px;
       margin: 0 10px;
       background-color: rgba(32, 54, 68, 0.8);
+      min-height: 300px;
       .el-dialog__header {
         padding: 20px 20px 0 20px;
       }

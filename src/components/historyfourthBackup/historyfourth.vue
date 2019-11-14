@@ -6,7 +6,8 @@
     element-loading-text="加载中"
   >
     <h4 class="title">{{title}}</h4>
-    <div class="historyfourthBox">
+    <div class="center" v-if="alarmHistoryData.length==0">暂无历史告警内容</div>
+    <div v-else class="historyfourthBox">
       <div
         :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']"
         style="position: relative"
@@ -143,6 +144,16 @@ export default {
     font-size: 22px;
     font-weight: bold;
   }
+  .center{
+      min-height: 300px;
+      width: 100%;
+      margin-top: 50px;
+      color: #aaa;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   &Box {
     width: 100%;
     max-height: 300px;
