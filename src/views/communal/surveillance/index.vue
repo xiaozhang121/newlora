@@ -36,6 +36,8 @@
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr01"
             :showBtmOption="true"
@@ -49,6 +51,8 @@
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr01"
             :showBtmOption="true"
@@ -67,6 +71,8 @@
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr02"
             :showBtmOption="true"
@@ -79,6 +85,8 @@
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr03"
             :showBtmOption="true"
@@ -91,6 +99,8 @@
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr04"
             :showBtmOption="true"
@@ -107,6 +117,8 @@
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr02"
             :showBtmOption="true"
@@ -121,6 +133,8 @@
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr03"
             :showBtmOption="true"
@@ -135,6 +149,8 @@
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr04"
             :showBtmOption="true"
@@ -151,6 +167,8 @@
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr01"
             :showBtmOption="true"
@@ -165,6 +183,8 @@
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr02"
             :showBtmOption="true"
@@ -179,6 +199,8 @@
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr03"
             :showBtmOption="true"
@@ -193,6 +215,8 @@
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr04"
             :showBtmOption="true"
@@ -207,6 +231,8 @@
             :monitorInfo="monitorInfo05"
             :kilovolt="$store.state.user.configInfo['camera05Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr05"
             :showBtmOption="true"
@@ -221,6 +247,8 @@
             :monitorInfo="monitorInfo06"
             :kilovolt="$store.state.user.configInfo['camera06Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr06"
             :showBtmOption="true"
@@ -235,6 +263,8 @@
             :monitorInfo="monitorInfo07"
             :kilovolt="$store.state.user.configInfo['camera07Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr07"
             :showBtmOption="true"
@@ -249,6 +279,8 @@
             :monitorInfo="monitorInfo08"
             :kilovolt="$store.state.user.configInfo['camera08Name']"
             :autoplay="true"
+            :isLive='false'
+            :isNav='false'
             imgAdress
             :streamAddr="streamAddr08"
             :showBtmOption="true"
