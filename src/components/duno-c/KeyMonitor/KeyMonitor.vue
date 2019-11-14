@@ -359,7 +359,7 @@
             this.$nextTick(() => {
               setTimeout(() => {
                 try{
-                if(this.autoplay && this.$refs.videoPlayer.player)
+                if(this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player)
                   this.$refs.videoPlayer.player.play()
                 this.initVideo()
                 this.loading = false;
@@ -407,7 +407,7 @@
         isPlayback:false,
         second:false,
         picTurnTimer: null,
-        picUrl: '',
+        picUrl: require('@/assets/transperant.png'),
         taskId: 0,
         passTime: 0,
         timeSeed: null,
@@ -901,12 +901,11 @@
           this.$refs.videoPlayerD.player.dispose()
       },
       initVideo(){
-        /*const that = this
+        const that = this
         clearInterval(this.waitTimer)
         this.waitTimer = null
         if(!this.waitTimer && !this.isPic && !this.imgAdress){
           this.waitTimer = setInterval(() => {
-            // this.$message.info('error')
             try{
               that.$refs.videoPlayer.player.dispose()
               this.showView = false
@@ -915,11 +914,11 @@
                   this.showView = true
                   if (this.autoplay && this.$refs.videoPlayer.player)
                     that.$refs.videoPlayer.player.play()
-                },0)
+                },6000)
               })
             }catch (e) {}
           }, 6000)
-        }*/
+        }
       }
     },
     mounted() {
@@ -932,23 +931,27 @@
       this.initCamera()
       // console.log(document.getElementsById("videoPlayer").offsetWidth);
     },
-    beforeDestroy() {
-      try{
-      if(this.picTurnTimer){
-        clearInterval(this.picTurnTimer)
-        this.picTurnTimer = null
-      }
-      clearInterval(this.waitTimer)
-      this.$store.state.app.isPic = false;
-      this.playerOptionsL["sources"][0]["src"] = ''
-      this.playerOptionsD["sources"][0]["src"] = ''
-      this.playerOptions["sources"][0]["src"] = ''
-      this.destory()
+    destroyed(){
       this.showView = false
       this.isPlayback = false
-      }catch (e) {
-
-      }
+    },
+    beforeDestroy() {
+      try{
+        if(this.picTurnTimer){
+          clearInterval(this.picTurnTimer)
+          this.picTurnTimer = null
+        }
+        clearInterval(this.waitTimer)
+        this.$store.state.app.isPic = false;
+      }catch (e) {}
+      this.playerOptionsD["sources"][0]["src"] = ''
+      this.playerOptions["sources"][0]["src"] = ''
+      try{
+        this.destory()
+      }catch (e) {}
+      this.showView = false
+      this.isPlayback = false
+      this.$forceUpdate()
     },
     created() {
       try{
@@ -999,6 +1002,7 @@
       }
     }
     .cameraImg{
+      background: black;
       z-index: 0 !important;
     }
     .el-dialog.el-dialog--center {

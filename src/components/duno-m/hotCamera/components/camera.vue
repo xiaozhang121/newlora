@@ -620,6 +620,9 @@
                 })
             }
         },
+        beforeDestroy(){
+          eval(`this.$refs.${this.domName}.player.dispose()`)
+        },
         created(){
             const that = this
 

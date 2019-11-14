@@ -960,6 +960,9 @@
             this.isDel = this.getAuthority('10000104');
         },
         beforeDestroy(){
+          try{
+            this.$refs.videoPlayer.player.dispose()
+          }catch (e) {}
             if(this.$refs.controlCheckRef)
                 this.$refs.controlCheckRef.releaseNow()
         }
