@@ -303,6 +303,12 @@
         // videojs.options.flash.swf = this.videoTarget
     },
     beforeDestroy(){
+        try{
+          this.$refs.videoPlayer.player.dispose()
+        }catch (e) {}
+        try{
+          this.$refs.videoPlayerd.player.dispose()
+        }catch (e) {}
         clearInterval(this.picTimer)
     },
     mounted() {
