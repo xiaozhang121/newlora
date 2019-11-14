@@ -57,6 +57,8 @@
               v-for="(item,index) in dataMonitor"
               v-if="item['isShow']"
               :isPic="item['isPic'] == 1"
+              :isLive='false'
+              :isNav='false'
               :autoplay="true"
               :class="{'noMargin': (index+1) % active == 0}"
               :key="index"

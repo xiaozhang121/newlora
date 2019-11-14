@@ -11,14 +11,29 @@
             @mouseleave="leave()"
             style="position: relative"
     >
-      <div class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
+      <div v-if="isLive" class="main vjsLive" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
+        <video-player
+                :class="{'infraredList':routeName == 'infraredList'}"
+                ref="videoPlayer"
+                class="vjs-custom-skin videoPlayer"
+                :options="playerOptionsL"
+                :playsinline="true"
+                @play="onPlayerPlay($event)"
+                @playing="onPlayerPlaying($event)"
+                @ready="toPlay"
+                @waiting="onPlayerWaiting($event)"
+                @mousedown.native="clickNative"
+                @error="onPlayerError($event)"
+        ></video-player>
+      </div>
+      <div v-else class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
                 :style="{display:'none'}"
                 :class="{'infraredList':routeName == 'infraredList'}"
                 v-if="isPlayback"
                 ref="videoPlayerD"
                 class="vjs-custom-skin"
-                :options="playerOptionsD"
+                :options="playerOptions"
                 :playsinline="true"
                 @play="onPlayerPlay($event)"
                 @ready="toPlay"
@@ -154,6 +169,12 @@
     props: {
       showType: {},
       powerDeviceId: {},
+      isLive: {//是否为直播视频流
+        type: Boolean,
+        default: () => {
+          return true;
+        }
+      },
       isRecord: {
         type: Boolean,
         default: () => {
@@ -259,7 +280,7 @@
       isNav: {
         type: Boolean,
         default: () => {
-          return true;
+          return false;
         }
       },
       aggregate: {
@@ -323,10 +344,13 @@
           if (now) {
             if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
               this.playerOptions["sources"][0]["type"] = "video/mp4";
+              this.playerOptionsL["sources"][0]["type"] = "video/mp4";
             } else {
               this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
+              this.playerOptionsL["sources"][0]["type"] = "application/x-mpegURL";
             }
             this.getHLS(now);
+            this.playerOptionsL["sources"][0]["src"] = now;
             this.playerOptionsD["sources"][0]["src"] = now;
             this.playerOptions["sources"][0]["src"] = now;
             this.monitorSrc = now;
@@ -357,6 +381,7 @@
           if (now) {
             this.playerOptions.poster = now;
             this.playerOptionsD.poster = now;
+            this.playerOptionsL.poster = now;
           }
         },
         immediate: true
@@ -450,6 +475,32 @@
           notSupportedMessage: "此视频暂无法播放，请稍后再试",
           poster: ""
         },
+        playerOptionsL: {
+          sources: [
+            {
+              type: "rtmp/flv",
+              type: "application/x-mpegURL",
+              src: ""
+            }
+          ],
+          aspectRatio: "16:9",
+          fluid: true,
+          techOrder: ["flash"],
+          autoplay: false,
+          controls: true,
+          notSupportedMessage: "此视频暂无法播放，请稍后再试",
+          poster: "",
+          controlBar: {
+            timeDivider: false,
+            durationDisplay: false,
+            remainingTimeDisplay: false,
+            currentTimeDisplay: true, // 当前时间
+            volumeControl: true, // 声音控制键
+            playToggle: true, // 暂停和播放键
+            progressControl: true, // 进度条
+            fullscreenToggle: true // 全屏按钮
+          }
+        },
         maxSecond: 0
       };
     },
@@ -525,15 +576,20 @@
       getHLS(now){
         if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
           this.playerOptions["sources"][0]["type"] = "video/mp4";
+          this.playerOptionsL["sources"][0]["type"] = "video/mp4";
         } else {
           this.playerOptions["sources"][0]["type"] = "application/x-mpegURL";
+          this.playerOptionsL["sources"][0]["type"] = "application/x-mpegURL";
         }
         if(now.indexOf("m3u8") > -1){
           delete this.playerOptions['techOrder'];
+          delete this.playerOptionsL['techOrder'];
         }else{
           this.playerOptions['techOrder']=["flash"]
+          this.playerOptionsL['techOrder']=["flash"]
         }
         this.playerOptions["sources"][0]["src"] = now;
+        this.playerOptionsL["sources"][0]["src"] = now;
       },
       sliderChange(item){
         let url = '/lenovo-device/api/stream/videoMove';
@@ -884,6 +940,7 @@
       }
       clearInterval(this.waitTimer)
       this.$store.state.app.isPic = false;
+      this.playerOptionsL["sources"][0]["src"] = ''
       this.playerOptionsD["sources"][0]["src"] = ''
       this.playerOptions["sources"][0]["src"] = ''
       this.destory()
@@ -1033,6 +1090,11 @@
       left: 0;
       margin: auto;
     }
+    .vjsLive:hover{
+      .vjs-control-bar {
+          display: flex!important;
+        }
+    }
     .camera {
       width: 100%;
       height: 0;
@@ -1164,5 +1226,6 @@
         }
       }
     }
+
   }
 </style>

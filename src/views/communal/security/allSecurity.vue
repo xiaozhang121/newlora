@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>所有动态环境异常信息</div>
+      <div>现场安全管控异常信息</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -147,7 +147,7 @@ export default {
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/environmental/list", name: "现场安全管控" },
         { path: "/environmental/list", name: "信息总览" },
-        { path: "", name: "所有动态环境异常信息" }
+        { path: "", name: "现场安全管控异常信息" }
       ],
       downLoadList: [
         {
