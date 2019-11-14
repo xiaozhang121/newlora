@@ -385,7 +385,7 @@ export default {
     z-index: 0;
   }
   .mainContamin {
-    height: 560px;
+    // height: 560px;
     overflow: hidden;
     display: flex;
     position: relative;
