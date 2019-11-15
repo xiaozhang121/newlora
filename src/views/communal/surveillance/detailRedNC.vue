@@ -36,7 +36,7 @@
                   :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
                   :isLive='false'
-                  :isNav='false'
+                  :isNav='true'
                 ></key-monitor>
                 <span
                   v-show="overFlag"
@@ -60,7 +60,7 @@
                   :showBtmOption="false"
                   :Initialization="true"
                   :isLive='false'
-                  :isNav='false'
+                  :isNav='true'
                 ></key-monitor>
               </div>
             </div>

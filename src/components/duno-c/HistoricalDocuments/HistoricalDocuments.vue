@@ -11,10 +11,12 @@
       @close="close"
     >
       <div slot="title">
-        <span class="title titleSpan" v-if="!isShowTab || showHeader">
-          <img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px" />
-          {{title}}
-        </span>
+        <el-tooltip class="item" effect="light" content="点击查看摄像头详情" placement="top">
+          <span @click="getJump" class="title titleSpan" v-if="!isShowTab || showHeader">
+            <img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px" />
+              {{title}}
+          </span>
+        </el-tooltip>
         <div v-if="isShowTab" class="titleBtn">
           <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()">
             <i class="iconfont icon-daochu"></i>
@@ -61,6 +63,7 @@ import { method } from "bluebird";
 import { mapState } from "vuex";
 import screenfull from "screenfull";
 import qs from "qs";
+import { getAxiosData } from '@/api/axiosType'
 import { DunoTablesTep } from "_c/duno-tables-tep";
 export default {
   name: "HistoricalDocuments",
@@ -190,7 +193,70 @@ export default {
     handleClick(tab) {
       this.activeName = tab.name;
       this.$emit("on-show", this.activeName);
-    }
+    },
+    getJump() {
+        getAxiosData("/lenovo-device/api/preset/type", {
+          monitorDeviceId: this.itemId
+        }).then(res => {
+          let supportPreset = res.data["supportPreset"];
+          let monitorDeviceType = res.data["monitorDeviceType"];
+          if (monitorDeviceType == 1) {
+            if (supportPreset) {
+              this.$router.push({
+                path: "/surveillancePath/detailLight",
+                query: {
+                  monitorDeviceId: this.itemId,
+                  monitorDeviceName: this.title
+                }
+              });
+            } else {
+              this.$router.push({
+                path: "/surveillancePath/detailLightN",
+                query: {
+                  monitorDeviceId: this.itemId,
+                  monitorDeviceName: this.title
+                }
+              });
+            }
+          } else if (monitorDeviceType == 2) {
+            if (supportPreset) {
+              this.$router.push({
+                path: "/surveillancePath/detailRed",
+                query: {
+                  monitorDeviceId: this.itemId,
+                  monitorDeviceName: this.title,
+                  typeId: res.data["typeId"]
+                }
+              });
+            }else{
+              this.$router.push({
+                path: "/surveillancePath/detailRedN",
+                query: {
+                  monitorDeviceId: this.itemId,
+                  monitorDeviceName: this.title,
+                  typeId: res.data["typeId"]
+                }
+              });
+            }
+          } else if (monitorDeviceType == 3) {
+            this.$router.push({
+              path: "/surveillancePath/detailEnv",
+              query: {
+                monitorDeviceId: this.itemId,
+                monitorDeviceName: this.title
+              }
+            });
+          }else if (monitorDeviceType == 6) {
+            this.$router.push({
+              path: "/surveillancePath/detailUbiquitou",
+              query: {
+                monitorDeviceId: this.itemId,
+                monitorDeviceName: this.title
+              }
+            });
+          }
+        });
+      },
   },
   mounted() {
     this.isOpen = this.dialogTableVisible;
@@ -218,6 +284,9 @@ export default {
     display: block;
     background: rgba(50, 95, 125, 0.8);
     padding-right: 36px;
+    .item{
+      cursor: pointer;
+    }
   }
   .el-dialog {
     // box-shadow: 5px 0px 10px #333, 0px 5px 10px #333;

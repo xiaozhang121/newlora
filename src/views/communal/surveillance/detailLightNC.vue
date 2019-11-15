@@ -23,7 +23,7 @@
                   :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
                   :isLive='false'
-                  :isNav='false'
+                  :isNav='true'
                 ></key-monitor>
               </div>
             </div>

@@ -58,7 +58,7 @@
         }
         .explain{
             color: white;
-            font-size: 14px;
+            font-size: 16px;
             text-align: center;
             margin-top: -8px;
         }

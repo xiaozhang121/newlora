@@ -13,8 +13,8 @@
         v-if="isEmpty"
         class="inspection"
         v-loading="loadingOptionF"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
-        element-loading-text="加载中"
+         element-loading-background="rgba(0, 0, 0, 0)"
+        element-loading-text="请稍后，正在加载数据…"
       >
         <div class="inspection_item" v-for="(item,index) in inspecReport" :key="index">
           <ReportTable :url="url" :reportData="item" />
@@ -38,8 +38,8 @@
         v-if="isEmptyHour"
         class="hours"
         v-loading="loadingOptionS"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
-        element-loading-text="加载中"
+         element-loading-background="rgba(0, 0, 0, 0)"
+        element-loading-text="请稍后，正在加载数据…"
       >
         <template v-for="(item,index) in lightInformation">
           <MonitorWarn

@@ -26,7 +26,7 @@
                   :showBtmOption="false"
                   :Initialization="true"
                   :isLive='false'
-                  :isNav='false'
+                  :isNav='true'
                 ></key-monitor>
               </div>
             </div>

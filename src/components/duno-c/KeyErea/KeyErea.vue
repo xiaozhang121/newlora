@@ -58,7 +58,7 @@
               v-if="item['isShow']"
               :isPic="item['isPic'] == 1"
               :isLive='false'
-              :isNav='false'
+              :isNav='true'
               :autoplay="true"
               :class="{'noMargin': (index+1) % active == 0}"
               :key="index"

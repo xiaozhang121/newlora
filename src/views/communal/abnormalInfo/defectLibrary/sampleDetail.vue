@@ -84,7 +84,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
@@ -319,6 +319,9 @@ export default {
         this.$message.success(res.errorMessage);
       });
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

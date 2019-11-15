@@ -27,7 +27,7 @@
       <div class="mainMain">
         <div>
           拍摄时间:
-          <span>{{remarkData.alarmTime}}</span>
+          <span :style="{paddingLeft:'5px'}">{{remarkData.alarmTime}}</span>
         </div>
         <div>
           <i>处理记录:</i>

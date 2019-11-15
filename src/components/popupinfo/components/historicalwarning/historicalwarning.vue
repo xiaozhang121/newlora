@@ -20,11 +20,14 @@
           <div class="mainMli">
             <div class="M_nr">
               <div  class="item_n">{{item.alarmTime}}</div>
-              <el-tooltip effect="dark" :content="item.powerDeviceName +'  '+ item.alarmContent" placement="top">
+              <el-tooltip effect="dark" :content="item.powerDeviceName" placement="top">
                 <div  class="item_n">
-                    <span>{{item.powerDeviceName}}</span>&nbsp;&nbsp;<span>{{item.alarmContent}}</span>
+                    <span>{{item.powerDeviceName}}</span>
                 </div>
               </el-tooltip>
+                <div  class="item_n">
+                    <span>{{item.alarmContent}}</span>
+                </div>
               <div class="item_n">
                 <p>
                   内容：{{item.alarmValue?item.alarmValue:item.alarmDetailType}}
@@ -209,12 +212,12 @@ export default {
 .historicalwarning {
   .itemData {
     position: relative;
-    height: 100px;
+    height: 130px;
     margin-bottom: 10px;
     background: linear-gradient(
       to right,
       transparent 26%,
-      #203644 10%
+      #203644 20%
     ); /* 标准的语法（必须放在最后） */
   }
   .center{
@@ -232,7 +235,7 @@ export default {
   }
   .clip {
     /*pointer-events: none;*/
-    clip: rect(0px, 613px, 99px, 157px);
+    clip: rect(0px, 613px, 130px, 157px);
   }
   .itemData:last-child {
     margin-bottom: 0px;
@@ -254,13 +257,13 @@ export default {
     .picDetail {
       position: absolute;
       width: 137px;
-      height: 99px;
+      height: 100px;
       left: 4px;
-      margin-top: -10px;
+      margin-top: 20px;
       background: pink;
       img {
         width: 137px;
-        height: 99px;
+        height: 100px;
       }
       i {
         position: absolute;

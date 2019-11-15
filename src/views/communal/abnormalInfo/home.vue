@@ -161,8 +161,8 @@
           <div
             class="reportLoad"
             v-loading="loadingOption"
-            element-loading-background="rgba(0, 0, 0, 0.8)"
-            element-loading-text="加载中"
+            element-loading-background="rgba(0, 0, 0, 0)"
+            element-loading-text="请稍后，正在加载数据…"
           >
             <div class="re-middle">
               <ReportTable
@@ -181,8 +181,8 @@
           <div
             class="reportLoad"
             v-loading="loadingOption"
-            element-loading-background="rgba(0, 0, 0, 0.8)"
-            element-loading-text="加载中"
+            element-loading-background="rgba(0, 0, 0, 0)"
+            element-loading-text="请稍后，正在加载数据…"
           >
             <div class="re-middle">
               <ReportTable
@@ -671,6 +671,7 @@ export default {
     };
   },
   created() {
+    this.getdefectData();
     this.getRecodeList();
     this.getData();
     this.getMockData();
@@ -684,10 +685,16 @@ export default {
     });
   },
   methods: {
-    handleReport(){
+    getdefectData() {
+      let url = "/lenovo-sample/api/sample/statistics";
+      getAxiosData(url).then(res => {
+        let data = res.data;
+      });
+    },
+    handleReport() {
       this.$router.push({
-        name:"reportFrom",
-      })
+        name: "reportFrom"
+      });
     },
     getLock() {
       let that = this;

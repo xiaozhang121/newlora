@@ -13,8 +13,8 @@
         :streamAddr="playerOptions.streamAddr"
         :showBtmOption="false"
         :Initialization="true"
-        :isLive='false'
-        :isNav='false'
+        :isLive="false"
+        :isNav="true"
       ></key-monitor>
     </div>
     <div class="dynamic">
@@ -40,6 +40,7 @@
           </div>
         </div>
         <el-pagination
+          v-if="videoList.length>0"
           :current-page="pageParam['pageIndex']"
           layout="pager"
           :total="pageParam['totalRows']"

@@ -42,7 +42,7 @@
                   :showBtmOption="false"
                   :Initialization="true"
                   :isLive='false'
-                  :isNav='false'
+                  :isNav='true'
                 ></key-monitor>
               </div>
             </div>
@@ -82,8 +82,8 @@
         <div
           class="video"
           v-loading="loading"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
-          element-loading-text="加载中"
+          element-loading-background="rgba(0, 0, 0, 0)"
+          element-loading-text="请稍后，正在加载数据…"
         >
           <div>
             <div v-if="videoList.length==0" class='noVideo'>暂无数据</div>
@@ -1610,6 +1610,7 @@ export default {
         justify-content: center;
         align-items:center;
         color: #fff;
+        font-size: 18px;
       }
       .videoItem {
         float: left;

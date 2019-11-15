@@ -5,8 +5,8 @@
             <polygonal-backup :yName="yName" :flag='flag'  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth-backup   v-loading="loadingOption"
-                                    element-loading-background="rgba(0, 0, 0, 0.8)"
-                                    element-loading-text="加载中"
+                                     element-loading-background="rgba(0, 0, 0, 0)"
+                                    element-loading-text="请稍后，正在加载数据…"
             :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
         </historical-documents>
     </div>

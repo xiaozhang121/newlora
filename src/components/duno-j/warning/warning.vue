@@ -92,14 +92,19 @@
               </div>
               <div class="btn-print">
                 <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
-                <button-custom
+                <!-- <button-custom
                   v-if="showBtn"
                   :class="{}"
                   class="button"
                   :title="titleReturn"
                   @click.native="handleReturn"
-                />
+                />-->
               </div>
+              <div
+                @click="handleReturn"
+                v-if="showBtn"
+                :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
+              >{{ titleReturn }}</div>
               <div class="from">
                 <span class="origin">
                   来源：
@@ -838,6 +843,21 @@ export default {
   }
   .keyMonitor {
     width: 100%;
+  }
+  .showBtn {
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    width: 68px;
+    line-height: 32px;
+    background: rgba(48, 94, 131, 1);
+    opacity: 1;
+    border-radius: 16px;
+  }
+  .showBtnAl {
+    margin-top: 10px;
+    color: #999;
   }
 }
 </style>

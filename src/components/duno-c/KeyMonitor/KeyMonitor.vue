@@ -43,8 +43,8 @@
         ></video-player>
         <video-player
                 v-loading="loading"
-                element-loading-background="rgba(0, 0, 0, 0.8)"
-                element-loading-text="加载中"
+                element-loading-background="rgba(0, 0, 0, 0)"
+                element-loading-text="请稍后，正在加载数据…"
                 :class="{'infraredList':routeName == 'infraredList'}"
                 v-if="showView && !isPic"
                 ref="videoPlayer"

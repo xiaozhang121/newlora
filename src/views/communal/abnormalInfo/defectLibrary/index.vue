@@ -53,7 +53,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
@@ -88,6 +88,7 @@ export default {
     const that = this;
     return {
       mixinViewModuleOptions: {
+        activatedIsNeed: true,
         getDataListURL: "/lenovo-sample/api/sample/list"
         // exportURL: ""
       },
@@ -128,21 +129,21 @@ export default {
         {
           title: "导入日期",
           key: "picImportTime",
-          minWidth: 100,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "类型",
           key: "markType",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "设备组件",
           key: "monitorDeviceName",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
@@ -156,21 +157,21 @@ export default {
         {
           title: "电压区域",
           key: "areaName",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "被监控设备",
           key: "powerDeviceName",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: " ",
           key: "id",
-          width: 90,
+          width: 120,
           align: "center",
           render: (h, params) => {
             const that = this;

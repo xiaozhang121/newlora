@@ -33,8 +33,8 @@
       class="dunoMain"
       style="position: relative; top: -5px"
       v-loading="loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-      element-loading-text="加载中"
+       element-loading-background="rgba(0, 0, 0, 0)"
+      element-loading-text="请稍后，正在加载数据…"
     >
       <div class="task">
         <ReportTable

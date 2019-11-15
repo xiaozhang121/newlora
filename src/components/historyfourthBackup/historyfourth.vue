@@ -2,11 +2,11 @@
   <div
     class="historyfourth"
     v-loading="loadingOption"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-    element-loading-text="加载中"
+    element-loading-background="rgba(0, 0, 0, 0)"
+    element-loading-text="请稍后，正在加载数据…"
   >
     <h4 class="title">{{title}}</h4>
-    <div class="center" v-if="alarmHistoryData.length==0">暂无历史告警内容</div>
+    <div class="center" v-if="isVoid">暂无历史告警内容</div>
     <div v-else class="historyfourthBox">
       <div
         :class="['historyfourthItem', mouseNum == index ? 'activeItem':'']"
@@ -51,8 +51,9 @@ export default {
   data() {
     return {
       timer: null,
-      loadingOption: false,
+      loadingOption: true,
       visible: false,
+      isVoid:false,
       alarmHistoryData: [],
       popData: {},
       mouseNum: -1
@@ -107,8 +108,17 @@ export default {
         this.loadingOption = false;
         if (res.code == 200) {
           that.alarmHistoryData = res.data.tableData;
+          if(that.alarmHistoryData.length>0){
+            that.isVoid=false
+          }else{
+            let timeVoid=setTimeout(() => {
+              that.isVoid = true;
+              clearTimeout(timeVoid);
+            }, 500);
+          }
         } else {
           that.alarmHistoryData = [];
+          that.isVoid=true
         }
       });
     },
@@ -145,14 +155,12 @@ export default {
     font-weight: bold;
   }
   .center{
-      min-height: 300px;
+      line-height: 300px;
       width: 100%;
       margin-top: 50px;
       color: #aaa;
       font-size: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      text-align: center;
     }
   &Box {
     width: 100%;
