@@ -8,7 +8,9 @@
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+        <div @click="onFocusd()">
+          <input class="selfInput"  :class="{iconLayout:isLayout}" @keyup="onKeyup($event)" disabled="disabled"     @blur="hiddenDrapdown" :readonly="true"  v-model="selectTitleName" />
+        </div>
       </div>
       <div class="title dropSelf" v-else @click="showListFlag = !showListFlag">
         <!-- 全部固定监控设备 -->
@@ -20,6 +22,10 @@
       <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef">
         <div v-if="showAll" class="checkbox">
           <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        </div>
+        <div class="searchContain">
+          <i class="iconfont icon-sousuo"></i>
+          <input class="inputSearch selfInput checkbox" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    :readonly="!isCheck" placeholder="搜索摄像头名称" v-model="titleMain" />
         </div>
         <el-radio-group  v-model="checkedCities">
           <div class="btnItem checkbox" v-for="(item,index) in useListData" :key="index">
@@ -83,6 +89,8 @@
         name: 'dunoBtnTopS',
         data (){
             return {
+                dataMonitorIdsT: [],
+                selectTitleName: '切换摄像头',
                 ball: require('@/assets/runDevice/ball.png'),
                 dataInput: '',
                 disabled: false,
@@ -212,17 +220,20 @@
             }
         },
         watch: {
+          dataMonitorIds:{
+            handler(now, old){
+                this.dataMonitorIdsT = now
+            },
+            deep: true,
+            immediate: true
+          },
             showData: {
                 handler(now, old){
-                    if(this.isCheck){
-                        if(now.length && !this.showDataBackUp.length){
-                            this.showDataBackUp = now
-                            this.useListData = now
-                        }
+                    this.showDataBackUp = now
+                    this.useListData = now
                        /* if(now.length == this.showDataBackUp.length){
                             this.onKeyup()
                         }*/
-                    }
                 },
                 deep: true
             },
@@ -277,7 +288,7 @@
         },
         methods:{
             isDisabled(id){
-                if(this.dataMonitorIds.indexOf(id)>-1){
+                if(this.$parent.$refs.btnTopRef.checkedCities.indexOf(id)>-1){
                     return true
                 }else{
                     return false
@@ -502,6 +513,28 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 13px;
+    .searchContain{
+      display: flex;
+      position: relative;
+      i{
+        position: absolute;
+        left: 15px;
+        top: 4px;
+        color: white;
+      }
+      .inputSearch{
+        padding-left: 40px;
+        flex: 1;
+        background: #6d8289;
+        border: none;
+        outline: none;
+        text-align: center;
+        border-radius: 15px;
+        line-height: 31px;
+        font-size: 14px;
+        color: white;
+      }
+    }
     .el-radio__input.is-disabled.is-checked .el-radio__inner{
       background-color: #515970 !important;
       border-color: #515970 !important;

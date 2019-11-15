@@ -8,7 +8,9 @@
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+        <div @click="onFocusd()">
+          <input class="selfInput"  :class="{iconLayout:isLayout}" @keyup="onKeyup($event)" disabled="disabled"     @blur="hiddenDrapdown" :readonly="true"  v-model="selectTitleName" />
+        </div>
         <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}" @click="showListFlag = !showListFlag"></div>
       </div>
       <div class="title dropSelf" v-else @click="showListFlag = !showListFlag">
@@ -16,15 +18,19 @@
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocus()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)" disabled="disabled"   @click="onFocus()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
         <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef" style="display: none">
         <div v-if="showAll" class="checkbox">
           <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         </div>
+        <div class="searchContain">
+          <i class="iconfont icon-sousuo"></i>
+          <input class="inputSearch selfInput checkbox" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    :readonly="!isCheck" placeholder="搜索摄像头名称" v-model="titleMain" />
+        </div>
         <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
-          <div class="btnItem checkbox" v-for="(item,index) in useListData" :key="index">
+          <div class="btnItem inputSearch checkbox" v-for="(item,index) in useListData" :key="index">
             <div class="noCheck selectItem"><el-checkbox  @click.native="showHide($event, item)"><div class="selectD" :class="{'routeR':item['isShow']}"><i class="iconfont icon-xiala"></i><span>{{ item['type'] }}</span></div></el-checkbox></div>
               <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
                 <div class="selectItem"   v-for="(child, Cindex) in item['children']" :key="Cindex">
@@ -85,6 +91,7 @@
         name: 'dunoBtnTopM',
         data (){
             return {
+                selectTitleName: '监控摄像头选择',
                 ball: require('@/assets/runDevice/ball.png'),
                 dataInput: '',
                 disabled: false,
@@ -213,6 +220,17 @@
             }
         },
         watch: {
+          checkedCities:{
+            handler(now){
+              if(now.length == 0){
+                this.selectTitleName = "监控摄像头数量"
+              }else{
+                this.selectTitleName = `监控摄像头选择 (${now.length}/${this.dataList.length})`
+              }
+            },
+            deep: true,
+            immediate: true
+          },
             showData: {
                 handler(now, old){
                     if(this.isCheck){
@@ -490,6 +508,28 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 13px;
+    .searchContain{
+      display: flex;
+      position: relative;
+      i{
+        position: absolute;
+        left: 15px;
+        top: 4px;
+        color: white;
+      }
+      .inputSearch{
+        padding-left: 40px;
+        flex: 1;
+        background: #6d8289;
+        border: none;
+        outline: none;
+        text-align: center;
+        border-radius: 15px;
+        line-height: 31px;
+        font-size: 14px;
+        color: white;
+      }
+    }
     .groupCheck{
       max-height: 9999px;
       position: relative;
@@ -617,7 +657,7 @@
         padding: 5px 20px;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
+        overflow-y: auto;
         .btnItem{
           /*margin: 12px 0;*/
           img{
