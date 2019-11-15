@@ -25,6 +25,8 @@
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
                   :Initialization="true"
+                  :isLive='false'
+                  :isNav='false'
                 ></key-monitor>
               </div>
             </div>

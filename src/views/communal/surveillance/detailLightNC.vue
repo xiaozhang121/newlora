@@ -22,6 +22,8 @@
                   :autoplay="playerOptionsd.autoplay"
                   :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
+                  :isLive='false'
+                  :isNav='false'
                 ></key-monitor>
               </div>
             </div>

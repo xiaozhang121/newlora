@@ -33,6 +33,8 @@
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
                   :Initialization="true"
+                  :isLive='false'
+                  :isNav='false'
                 ></key-monitor>
               </div>
             </div>
@@ -82,6 +84,8 @@
                 :streamAddr="item['streamAddr']"
                 :showBtmOption="false"
                 :Initialization="true"
+                :isLive='false'
+                  :isNav='false'
               ></key-monitor>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>
             </div>
