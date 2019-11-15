@@ -47,7 +47,8 @@
         </div>
       </div>
     </div>
-    <div class="monitorArea" :class="{'center': isCenter}">
+    <div class="monitorArea" :class="{'center': isCenter}" v-loading="containOuter"
+         element-loading-text="请稍后，正在加载数据..."  element-loading-background="rgba(0, 0, 0, 0)">
       <!--@on-push="onPush"-->
       <KeyMonitor
               class="monitorN"
@@ -115,6 +116,7 @@
         },
         data() {
             return {
+                containOuter: true,
                 optionsListB: [],
                 showDataList: [],
                 showDataListB: [],
@@ -544,7 +546,8 @@
                         that.selectCount = res.data.cameraNum;
                         that.initCount = that.selectCount;
                         that.dataMonitor = data.slice(0, that.selectCount);
-                        this.onDisabled(that.$refs.btnTopRef.checkedCities)
+                      that.containOuter = false
+                      this.onDisabled(that.$refs.btnTopRef.checkedCities)
                     }
                 });
             },

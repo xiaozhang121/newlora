@@ -1010,7 +1010,7 @@
             }
         }
         .vjs-custom-skin{
-            transform: scale(0.62, 0.6);
+            transform: scale(0.62, 0.43);
             transform-origin: left top;
             position: relative;
             left: -7px;
