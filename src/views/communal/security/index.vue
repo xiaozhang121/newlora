@@ -48,7 +48,7 @@
       </div>
       <div class="item">
         <div class="alarmTitle">
-          <div>历史现场安全管控异常记录</div>
+          <div>历史<span :style="{color:'#F5A623'}">异常</span>记录</div>
           <div>
             <div @click="clickToDetail(2)">查看更多 ></div>
           </div>
@@ -122,10 +122,7 @@ export default {
       isEmptyHour: true,
       time: "",
       remarks: [],
-      dataForm: {
-        pageIndex: 1,
-        pageRows: 6
-      },
+      pageRows: 6,
       valueSelect: "",
       showBtnList: false,
       isSecond: false,
