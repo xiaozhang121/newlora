@@ -352,8 +352,9 @@
             alarmInfo: {
                 handler(now) {
                     this.visible = false
-                    if (this.frameLength() && isAlarmVisible(this.$store.state.user.alarmConfig, now)) {
+                    if ((this.frameLength() && isAlarmVisible(this.$store.state.user.alarmConfig, now))  || this.$store.state.user.popPanel) {
                         this.visible = true;
+                        this.$store.state.user.popPanel = false
                     }
                 },
                 deep: true
