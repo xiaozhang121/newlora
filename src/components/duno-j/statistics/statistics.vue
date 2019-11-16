@@ -150,17 +150,26 @@ export default {
       deviceLocation().then(res => {
         let data = res.data;
         data.map(item => {
-          if (
-            item["monitorDeviceType"] == 1 ||
-            item["monitorDeviceType"] == 99
-          ) {
+          if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99 || item['monitorDeviceType'] == 5) {
             if (item.deviceMessage.supportPreset) {
-              item["src"] = that.light;
-            } else {
-              item["src"] = that.lightNoCamera;
+              item['src'] = that.light
+              if(item.deviceMessage.cameraType == '3'){
+                item['src'] = that.ballJ
+              }
+            }else{
+              item['src'] = that.lightNoCamera
             }
-          } else if (item["monitorDeviceType"] == 2) {
-            item["src"] = that.redLight;
+            if(item['monitorDeviceType'] == 5){
+              item['src'] = that.lightD
+            }
+          } else if(item['monitorDeviceType'] == 2){
+            if(item.deviceMessage.supportPreset){
+              item['src'] = that.redLightCamera
+            }else{
+              item['src'] = that.redLight
+            }
+          }else if(item['monitorDeviceType'] == 4){
+            item['src'] = that.ball
           }
           item["show"] = true;
           item["isShow"] = true;

@@ -496,7 +496,9 @@
                     stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
                 },
                 playerOptions:{
-                    width:720,
+                  aspectRatio: "16:9",
+                  fluid: true,
+                  width:350,
                     sources: [{
                         type: "rtmp/flv",
                         src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks2'
@@ -1026,7 +1028,7 @@
             }
         }
         .vjs-custom-skin{
-            transform: scale(0.62, 0.43);
+            transform: scale(1.1, 1.1);
             transform-origin: left top;
             position: relative;
             left: -7px;

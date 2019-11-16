@@ -12,7 +12,7 @@
     >
       <div slot="title">
         <el-tooltip class="item" effect="light" content="点击查看摄像头详情" placement="top">
-          <span @click="getJump" class="title titleSpan" v-if="!isShowTab || showHeader">
+          <span @mouseup="getJump" @mousedown="savePoint" class="title titleSpan" v-if="!isShowTab || showHeader">
             <img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px" />
               {{title}}
           </span>
@@ -165,6 +165,10 @@ export default {
     }
   },
   methods: {
+    savePoint(event){
+        this.getPageX = event.pageX
+        this.getPageY = event.pageY
+    },
     clickClassify(type, flag) {
       this.classifyActive = type;
       this.$emit("clickClassify", type, flag);
@@ -194,7 +198,10 @@ export default {
       this.activeName = tab.name;
       this.$emit("on-show", this.activeName);
     },
-    getJump() {
+    getJump(event) {
+        if(this.getPageX != event.pageX || this.getPageY != event.pageY){
+            return
+        }
         getAxiosData("/lenovo-device/api/preset/type", {
           monitorDeviceId: this.itemId
         }).then(res => {

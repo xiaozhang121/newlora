@@ -5,7 +5,7 @@
       <div class="selectBtn">
         <div>
           <duno-btn-top
-                  zIndex="10"
+                  zIndex="initial"
                   @on-select="onSelect"
                   class="dunoBtnTopM"
                   :isCheck="false"
@@ -16,9 +16,11 @@
         </div>
         <div>
           <duno-btn-top-m
+                  zIndex="initial"
                   class="selectDevice"
                   ref="btnTopRef"
                   :showBtnList="false"
+                  :selectCount="selectCount"
                   :dataList="optionsList"
                   :showData="showDataList"
                   :showAll="false"
@@ -789,7 +791,7 @@
         width: 850px !important;
         margin-top: 14px;
         height: 50px;
-
+        z-index: 1;
         .dunoBtnTopM {
           width: 150px;
           display: inline-flex;
@@ -820,11 +822,12 @@
     .monitorArea {
       box-sizing: border-box;
       width: 100%;
-      min-height: 491px;
+      min-height: 300px;
       background-color: rgba(20, 40, 56, 0.8) !important;
       opacity: 1 !important;
       padding: 20px 20px;
       overflow: hidden;
+      padding-bottom: 10px;
       &.center {
         display: flex;
         justify-content: center;

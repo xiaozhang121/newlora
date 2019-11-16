@@ -91,7 +91,7 @@
         name: 'dunoBtnTopM',
         data (){
             return {
-                selectTitleName: '监控摄像头选择',
+                selectCamera: 0,
                 ball: require('@/assets/runDevice/ball.png'),
                 dataInput: '',
                 disabled: false,
@@ -133,6 +133,10 @@
             dunoBtnTopItem
         },
         props: {
+            selectCount: {
+              type: [String, Number],
+              default: '0'
+            },
             keyChange:{
                 type: Boolean,
                 default: false
@@ -220,13 +224,16 @@
             }
         },
         watch: {
+          selectCount:{
+            handler(now){
+              this.selectCamera = now
+            },
+            deep: true,
+            immediate: true
+          },
           checkedCities:{
             handler(now){
-              if(now.length == 0){
-                this.selectTitleName = "监控摄像头数量"
-              }else{
-                this.selectTitleName = `监控摄像头选择 (${now.length}/${this.dataList.length})`
-              }
+
             },
             deep: true,
             immediate: true
@@ -279,6 +286,14 @@
             }
         },
         computed: {
+            selectTitleName(){
+                let now = this.checkedCities.length
+                if(!now){
+                  return  "监控摄像头数量"
+                }else{
+                  return `监控摄像头选择 (${now}/${this.selectCamera})`
+                }
+            },
             dataListName(){
                 let data = []
                 if(this.isCheck && this.dataBackup.length){

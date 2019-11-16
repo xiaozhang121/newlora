@@ -321,11 +321,12 @@ export default {
   .monitorArea {
     box-sizing: border-box;
     width: 100%;
-    min-height: 491px;
+    min-height: 300px;
     background-color: rgba(20, 40, 56, 0.8) !important;
     opacity: 1 !important;
     padding: 20px 20px;
     overflow: hidden;
+    padding-bottom: 10px;
     &.center {
       display: flex;
       justify-content: center;
@@ -379,14 +380,14 @@ export default {
     }
   }
   .keyEreaContain {
-    z-index: 0;
+    z-index: inherit;
   }
   .mainContamin {
     // height: 560px;
     overflow: hidden;
     display: flex;
     position: relative;
-    z-index: 0;
+    z-index: 1;
     .keyMonitor .camera .explain .text {
       display: flex;
     }
