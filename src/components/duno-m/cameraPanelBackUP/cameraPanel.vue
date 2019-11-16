@@ -29,26 +29,27 @@
                         调整镜头
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 32 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 0 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 33 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 3 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 34 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 1 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 35 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
                         <el-slider class="elSlider" :disabled="disabled"   @change="cameraSF" v-model="sliderValue"  :min="1" :max="20"></el-slider>
                         <i class="iconfont icon-fangda1"></i>
                     </div>
-                    <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="lockPress && deviceId"  :deviceType="1"  :deviceId="deviceId" />
+                    <!---->
+                    <control-check @on-disable="onDisable"  ref="controlCheckRef" v-if="lockPress && deviceId"  :deviceType="1"  :deviceId="deviceId" />
                 </div>
             </div>
         </template>
@@ -135,19 +136,19 @@
                         调整镜头
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 32}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 0}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 33}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 32 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(32, false)" @mouseup="viewCamera(32, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 0 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(0, false)"  @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 33 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(33, false)"   @mouseup="viewCamera(33, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 2}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(2, false)" @mouseup="viewCamera(2, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 3}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 3 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(3, false)" @mouseup="viewCamera(3, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 34}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 1}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 35}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 34 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(34, false)" @mouseup="viewCamera(34, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 1 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 35 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(35, false)" @mouseup="viewCamera(35, true)"></div>
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>
@@ -158,7 +159,7 @@
             </div>
             <div class="addPosition" style="">
                 <div class="left" v-if="isAdd">
-                    <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="lockPress && deviceId" :deviceType="1" :deviceId="deviceId" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit"/>
+                    <control-check @on-disable="onDisable"  ref="controlCheckRef" v-if="lockPress && deviceId" :deviceType="1" :deviceId="deviceId" style="text-align: left; margin-bottom: 27px; margin-top: 10px; position: inherit; top: inherit"/>
                     <div class="title">新增预置位名称：</div>
                     <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" @input="checkSpecial" v-model="addPosInput" placeholder=""></el-input></div>
                     <div class="btnEx">
@@ -280,6 +281,7 @@
         mixins: [mixinViewModule],
         data() {
             return {
+                activeStyle: false,
                 lockPress: false,
                 taskId: '',
                 monitorInfo: {},
@@ -482,8 +484,8 @@
                 topBtnListFlag: 0,
                 Wfs: require('@/libs/wfs'),
                 xjBtn: require('@/assets/camera/xjBtn.png'),
-                xjBtnClick: require('@/assets/camera/xjBtnClick.png'),
                 squera: require('@/assets/camera/squera.png'),
+                xjBtnClick: require('@/assets/camera/xjBtnClick.png'),
                 squeraClick: require('@/assets/camera/squeraClick.png'),
                 edit: require('@/assets/images/btn/edit.png'),
                 del:require('@/assets/images/btn/del.png'),
@@ -623,6 +625,19 @@
                 }
             },
             onDisable(flag){
+                if(flag){
+                  this.activeStyle = true
+                  this.xjBtn = require('@/assets/camera/xjBtnClick.png')
+                  this.squera = require('@/assets/camera/squeraClick.png')
+                  this.xjBtnClick = require('@/assets/camera/xjBtnClick.png')
+                  this.squeraClick = require('@/assets/camera/squeraClick.png')
+                }else{
+                  this.activeStyle = false
+                  this.xjBtn = require('@/assets/camera/xjBtn.png')
+                  this.squera = require('@/assets/camera/squera.png')
+                  this.xjBtnClick = require('@/assets/camera/xjBtn.png')
+                  this.squeraClick = require('@/assets/camera/squera.png')
+                }
                 this.disabled = !flag
             },
             closeShot() {
@@ -946,6 +961,7 @@
         },
         created(){
             const that = this
+            // this.onDisable(false)
         },
         mounted(){
             const that = this
@@ -1171,17 +1187,21 @@
                         margin: 3px;
                         background-size: contain !important;
                         background-repeat: no-repeat !important;
+                        position: relative;
                     }
                     .btn.active{
-                        background: url("../../../../src/assets/camera/xjBtnClick.png") !important;
+                        background: url("../../../../src/assets/camera/xjBtnActive.png") !important;
                         background-size: contain !important;
                         background-repeat: no-repeat !important;
+                        position: relative;
                     }
+
                     .btn.actived{
-                        background: url("../../../../src/assets/camera/squeraClick.png")  !important;
+                        background: url("../../../../src/assets/camera/squeraActive.png")  !important;
                         background-size: contain !important;
                         background-repeat: no-repeat !important;
                     }
+
                 }
             }
         }
