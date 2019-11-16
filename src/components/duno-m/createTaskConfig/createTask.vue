@@ -211,7 +211,14 @@ export default {
       this.$emit("on-close");
     },
     toNext() {
-      this.stepValue++;
+      let data = this.$refs['panel[0]'].$data.infoData
+      for(let i=0; i<data.length; i++){
+        if(data[i].isCheck){
+          this.stepValue++;
+          return
+        }
+      }
+      this.$message.info('提示：必须选择电力设备')
     }
   },
   mounted() {}
