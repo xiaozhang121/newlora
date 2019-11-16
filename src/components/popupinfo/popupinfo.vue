@@ -117,6 +117,7 @@ export default {
         handler(now) {
             if(now['realMonitorDeviceType']==3 || now['realMonitorDeviceType'] == 7){
                 this.tabPaneData.splice(this.tabPaneData.length-1,1)
+                this.tabPaneData.splice(this.tabPaneData.length-1,1)
             }
         },
         deep: true,
