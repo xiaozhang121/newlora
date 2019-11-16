@@ -10,7 +10,7 @@
       center
       @close="handleClose"
     >
-      <div slot="title"><span v-if="rowDataLength == 0">创建新的</span><span v-if="rowDataLength != 0">编辑</span>任务配置</div>\
+      <div slot="title"><span v-if="rowDataLength == 0">创建新的</span><span v-if="rowDataLength != 0">编辑</span>任务配置</div>
       <div class="main">
         <!-- <div class="steps">
           <steps :step="stepValue" />
@@ -243,7 +243,21 @@ export default {
       this.$emit("on-close");
     },
     toNext() {
-      this.stepValue++;
+      let data = this.$refs['panel[0]'].$data.dataList
+      for(let i=0; i<data.length; i++) {
+        if (data[i].isCheck) {
+          this.stepValue++;
+          return
+        }
+        let children = data[i]['children']
+        for (let j = 0; j < children.length; j++) {
+          if (children[j].isCheck) {
+            this.stepValue++;
+            return
+          }
+        }
+      }
+      this.$message.info('提示：必须选择电力设备')
     }
   },
   mounted() {}

@@ -280,26 +280,32 @@
                 );
                 const urldd = "/lenovo-iir/device/video/url/rtmp/" + that.deviceId;
                 getAxiosData(urldd, {}).then(res => {
+                    let urlPlay = res.data.data
                     console.log(that.itemData['deviceMessage']['typeId'])
                     if(that.itemData['deviceMessage']['typeId'] == 3){
                         getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                             that.cameraPic = res.data
+                          that.playerOptiond.sources[0].src = urlPlay;
+                          that.playerOptionf.sources[0].src = urlPlay;
                         })
                         that.picTimer = setInterval(()=>{
                             getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                                   that.cameraPic = res.data
+                              that.playerOptiond.sources[0].src = urlPlay;
+                              that.playerOptionf.sources[0].src = urlPlay;
                             })
                         },200)
                     }
                     that.playerOptions.sources[0].src = res.data.data;
                     that.$forceUpdate();
                 });
-                const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
-                getAxiosData(urld, {}).then(res => {
+                if(that.itemData['deviceMessage']['typeId'] != 3){
+                  const urld = "/lenovo-iir/device/visible/url/rtmp/" + that.deviceId;
+                  getAxiosData(urld, {}).then(res => {
                     that.playerOptionf.sources[0].src = res.data.data;
                     that.$forceUpdate();
-                });
-
+                  });
+                }
             }
         }
     },
