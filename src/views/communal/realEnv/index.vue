@@ -30,9 +30,9 @@
                   <img :src="kilovoltAllAround" />
                 </div>
             </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8203" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8203" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
-          <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointListB" @toDetail="toDevice" mapUrl="http://10.0.10.45:8202" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
+          <gis-map @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="powerPointList" @toDetail="toDevice" mapUrl="http://10.0.10.35:8202" :isDiagram="isDiagram" :deviceList="deviceList"  v-if="isDiagram == 3"></gis-map>
         </div>
         <!--     <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -60,7 +60,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="1000" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8204" :kind="1000" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -79,7 +79,7 @@
               <div class="toward" style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202"  @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.35:8202"  @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"></gis-map>
             </div>
           </div>
           <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -109,7 +109,7 @@
                   </div>
                 </div>
               </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="500" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8204" :kind="500" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--  <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
             <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -128,7 +128,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag"  :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag"  :powerPointList="powerPointList" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"></gis-map>
               <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                   <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
             </div>
@@ -158,7 +158,7 @@
                   </div>
                 </div>
               </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="220" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8204" :kind="220" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
              <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -177,7 +177,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 3"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 3"></gis-map>
               <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
             </div>
@@ -207,7 +207,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="110" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8204" :kind="110" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
                 <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
@@ -226,7 +226,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 3"></gis-map>
+              <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 3"></gis-map>
               <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                  <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
             </div>
@@ -256,7 +256,7 @@
                  </div>
                </div>
              </drappable>-->
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="35" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8204" :kind="35" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
             <!--      <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.firstElE)"></i>
                   <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.firstElE)"></i>-->
 
@@ -281,7 +281,7 @@
                 <div class="toward"  style="left: 60px">
                   <img :src="towardAround"/>
                 </div>
-                <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.45:8202" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 3"></gis-map>
+                <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointList" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 3"></gis-map>
                 <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
                    <i class="fullScreen iconfont icon-suoxiao" v-else @click="changeFullScreen($refs.secondElE)"></i>-->
 
@@ -296,7 +296,7 @@
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.45:8204" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
+            <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8204" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
           <!--  <drappable class="drappable_assembly" width="1900px" height="675px">
               <div class="allShowPic">
@@ -691,14 +691,20 @@
                 this.$refs.gisMapObj.clearAlarm()
             },
             onAlarm(now){
-                if(now['powerDeviceId'] && isAlarmMap(this.$store.state.user.alarmConfig, now)){
-                    this.$refs.gisMapObj.isAlarm(now)
+                if((now['powerDeviceId']  && isAlarmMap(this.$store.state.user.alarmConfig, now)) || this.$store.state.user.popPanel){
+                    try{
+                        this.$refs.gisMapObj.clearAlarm()
+                    }catch (e) {}
+                    try{
+                        this.$refs.gisMapObj.isAlarm(now)
+                    }catch (e) {}
                 }
-                if(isAlarmVisible(this.$store.state.user.alarmConfig, now)){
+                if(isAlarmVisible(this.$store.state.user.alarmConfig, now) || this.$store.state.user.popPanel){
                     this.visible = true
                     this.$nextTick(()=>{
                         if(now['powerDeviceId']) {
                             document.querySelector('.HistoricalDocuments').style.transform = "translateX(-328px)"
+                            this.$store.state.user.popPanel = false
                         }
                     })
                 }

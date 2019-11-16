@@ -521,6 +521,7 @@ export default {
       }
       img {
         width: 100%;
+        height: 100%;
         left: 0;
         bottom: 0px;
         position: absolute;

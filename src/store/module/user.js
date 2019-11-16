@@ -3,6 +3,7 @@ import { setToken, getToken } from '@/libs/util'
 import avatorImg from '@/assets/images/avatar.jpg'
 export default {
   state: {
+    popPanel: false,
     getPress: Array(10).fill(false),
     mapX: '',
     mapY: '',

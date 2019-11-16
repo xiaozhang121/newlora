@@ -152,7 +152,10 @@ export default {
       if(item['isPhaseAlarm'] == 1){
           query['type'] = 'phase'
       }
-      getAxiosData("/lenovo-alarm/api/alarm/sendWithType",query)
+      this.$store.state.user.popPanel = true
+      getAxiosData("/lenovo-alarm/api/alarm/sendWithType",query).then(res=>{
+
+      })
     },
     beforeClose() {
       this.dialogVisible = false;
