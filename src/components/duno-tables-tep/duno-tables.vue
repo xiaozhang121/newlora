@@ -15,6 +15,7 @@
             :highlight-row="highlightRow"
             :row-class-name="rowClassName"
             :size="size"
+            :no-data-text='noDataText'
             @on-select="onSelect"
             @on-select-cancel="onSelectCancel"
             @on-select-all="onSelectAll"
@@ -181,7 +182,8 @@
                 ajaxHistoryData: [],
                 columnsHistoryData: [],
                 checkList: [],
-                lietNum:0
+                lietNum:0,
+                noDataText:""
             }
         },
         computed: {
@@ -323,6 +325,7 @@
                 this.handleTableData()
                 clearTimeout(this.timer)
                 this.loadingOption = false
+                this.noDataText='暂无数据'
                 if (val.length > this.pageSize) {
                     this.handleListApproveHistory(val, val.length)
                 } else {
@@ -348,6 +351,9 @@
   .tablesTep{
     .el-loading-text{
       color: #969696   !important;
+    }
+    table{
+        min-height: 300px;
     }
   }
 </style>

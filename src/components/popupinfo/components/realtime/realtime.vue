@@ -9,7 +9,6 @@
             :isLive="false"
             width="100%"
             :isNav="true"
-            imgAdress
             :streamAddr="streamAddrD"
             :showBtmOption="false"
           ></key-monitor>

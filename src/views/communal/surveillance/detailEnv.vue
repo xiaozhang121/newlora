@@ -1611,6 +1611,7 @@ export default {
         align-items:center;
         color: #fff;
         font-size: 18px;
+        margin-top: 150px;
       }
       .videoItem {
         float: left;
