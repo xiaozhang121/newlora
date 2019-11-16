@@ -27,6 +27,7 @@
               :pushCamera="false"
               :noButton="false"
               :autoplay="false"
+              :bottom="{bottom:'-65px'}"
               configType="2"
               :monitorInfo="item"
               :imgAdress="item['pic']"
@@ -401,6 +402,7 @@ export default {
     .monitorItem {
       width: 49%;
       float: left;
+      margin-bottom: 30px;
       &.marginRight {
         margin-right: 2%;
       }
