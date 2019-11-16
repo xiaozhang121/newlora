@@ -33,9 +33,10 @@
       class="dunoMain"
       style="position: relative; top: -5px"
       v-loading="loading"
-       element-loading-background="rgba(0, 0, 0, 0)"
+      element-loading-background="rgba(0, 0, 0, 0)"
       element-loading-text="请稍后，正在加载数据…"
     >
+      <div v-if="!loading&&dataList.tableData.length==0" class="noData">暂无数据</div>
       <div class="task">
         <ReportTable
           v-for="(item,index) in dataList.tableData"
@@ -44,7 +45,12 @@
           :reportData="item"
         />
       </div>
-      <el-pagination layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
+      <el-pagination
+        v-if="!loading&&dataList.tableData.length>0"
+        layout="pager"
+        :total="totalRows"
+        @current-change="sizeChange"
+      ></el-pagination>
     </duno-main>
   </div>
 </template>
@@ -73,6 +79,7 @@ export default {
       loading: false,
       pageIndex: 1,
       totalRows: 1,
+      planType: "",
       dataList: [],
       // mixinViewModuleOptions: {
       //   activatedIsNeed: true,
@@ -108,6 +115,7 @@ export default {
       let query = {
         pageIndex: this.pageIndex,
         pageRows: 10,
+        planType: this.planType,
         ...this.dataForm
       };
       getAxiosData(url, query).then(res => {
@@ -164,6 +172,9 @@ export default {
     this.timer = setTimeout(() => {
       this.loading = false;
     }, 1000000000);
+    if (this.$route.query.planType) {
+      this.planType = this.$route.query.planType;
+    }
     this.getPlayTypeData();
     this.init();
   }
@@ -177,6 +188,15 @@ export default {
   .dunoMain {
     // border: 1px solid #fff;
     width: 100%;
+    .noData {
+      width: 100%;
+      min-height: 360px;
+      color: #fff;
+      font-size: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
   .el-loading-text {
     color: #969696 !important;

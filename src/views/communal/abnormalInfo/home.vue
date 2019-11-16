@@ -156,7 +156,7 @@
           </div>
           <div class="report">
             <span>全面巡视报告</span>
-            <p>查看更多-></p>
+            <p @click="handleReport(1)">查看更多-></p>
           </div>
           <div
             class="reportLoad"
@@ -176,7 +176,7 @@
           </div>
           <div class="report">
             <span>其他巡视报告</span>
-            <p @click="handleReport">查看更多-></p>
+            <p @click="handleReport(0)">查看更多-></p>
           </div>
           <div
             class="reportLoad"
@@ -691,9 +691,18 @@ export default {
         let data = res.data;
       });
     },
-    handleReport() {
+    handleReport(item) {
+      let planType;
+      if (item) {
+        planType = "1";
+      } else {
+        planType = "2,3,4,5";
+      }
       this.$router.push({
-        name: "reportFrom"
+        name: "reportFrom",
+        query: {
+          planType: planType
+        }
       });
     },
     getLock() {

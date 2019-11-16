@@ -33,7 +33,8 @@
         </div>
       </div>
       <div class="dy-concent">
-        <div>
+        <div class="noData" v-if="videoList.length==0">暂无数据</div>
+        <div v-else>
           <div class="videoItem" v-for="(item,index) in videoList" :key="index">
             <cover :srcData="item" :isSecond="false"></cover>
             <p>{{ item['startTime'] }}-{{ item['endTime'] }}</p>
@@ -203,6 +204,15 @@ export default {
       background: #132838;
       min-height: 400px;
       padding: 20px 0 20px 20px;
+      .noData {
+        width: 100%;
+        min-height: 360px;
+        color: #fff;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       & > div:first-child {
         overflow: hidden;
       }
