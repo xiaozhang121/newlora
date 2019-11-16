@@ -116,7 +116,7 @@
         <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
           <div class="text">
             <span>{{kilovolt}}</span>
-            <span>{{patrol}}</span>
+            <span>{{patrolMt}}</span>
           </div>
           <span>
             <i class="iconfont icon-jiantou"></i>
@@ -517,8 +517,16 @@
         let str = ''
         if(this.kilovolt)
           str+=this.kilovolt+' '
-        if(this.patrol)
-          str+=this.patrol+' '
+        if(this.patrol){
+            let pat=this.patrol
+            console.log(this.patrol)
+            pat=pat.replace(new RegExp(/-/g),'.');
+            pat=pat.replace(/至/,'-');
+            pat=pat.substring(0,22) + pat.substring(27,pat.length);
+            pat=pat.substring(0,19) + pat.substring(21,pat.length);
+            pat=pat.substring(0,pat.length-2);
+            this.patrolMt=pat
+          }
         str+='点击查看摄像头详情'
         return str
       }
@@ -1174,10 +1182,11 @@
         }
         .text {
           overflow: hidden;
-          display: block;
-          justify-content: flex-start;
+          display: block!important;
+          // flex:none;
+          // justify-content: flex-start;
           width: 100%;
-          span:first-child {
+          span {
             padding-right: 10px;
             font-size: 14px;
             overflow: hidden;
@@ -1186,11 +1195,11 @@
             white-space: nowrap;
             text-align: left !important;
           }
-          span:nth-child(2) {
-            padding-right: 10px;
-            font-size: 12px;
-            color: #a0a0a0;
-          }
+          // span:nth-child(2) {
+          //   padding-right: 10px;
+          //   font-size: 12px;
+          //   color: #a0a0a0;
+          // }
         }
       }
       .detailIcon {
