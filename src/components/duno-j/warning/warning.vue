@@ -724,7 +724,7 @@ export default {
         }
       }
       .temperature {
-        margin-bottom: 30px;
+        margin-bottom: 10px;
         p {
           font-size: 20px;
           font-weight: bold;

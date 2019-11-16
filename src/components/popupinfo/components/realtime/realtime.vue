@@ -371,7 +371,7 @@
     .itemImgBox {
       width: 100%;
       height: 0;
-      padding-bottom: 69%;
+      padding-bottom: 56%;
       margin-bottom: 15px;
       position: relative;
       img {

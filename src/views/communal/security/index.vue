@@ -123,7 +123,7 @@ export default {
       isEmptyHour: true,
       time: "",
       remarks: [],
-      pageRows: 6,
+      pageRows: 4,
       valueSelect: "",
       showBtnList: false,
       isSecond: false,
