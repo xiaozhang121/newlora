@@ -14,7 +14,8 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <a href="javascript:void(0)" class="selectAll" @click="chosenAll">全选</a>
+      <el-checkbox  @change="chosenAll" class="selectAll">全选</el-checkbox>
+      <!--<a href="javascript:void(0)" class="selectAll">全选</a>-->
       <chosen-list :isOver='isOver' :dataListOption="dataList" ref="choseChild" :isInput="true" @inputChange="inputChange" />
     </el-form>
   </div>
@@ -87,9 +88,9 @@ export default {
     };
   },
   methods: {
-    chosenAll(){
+    chosenAll(value){
         this.dataList.map((item, index)=>{
-            item['isCheck'] = true
+          item['isCheck'] = value
         })
         this.$forceUpdate()
     },

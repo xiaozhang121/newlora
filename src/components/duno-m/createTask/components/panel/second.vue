@@ -2,7 +2,8 @@
     <div class="taskPanel">
         <el-form  :model="form" label-width="80px">
             <div>确认执行巡检的设备</div>
-            <a href="javascript:void(0)" class="selectAlld" @click="chosenAll">全选</a>
+            <el-checkbox  @change="chosenAll" class="selectAlld">全选</el-checkbox>
+            <!--<a href="javascript:void(0)" class="selectAlld" @click="chosenAll">全选</a>-->
             <chosen-list v-for="(item, index) in dataList" :key="index" :titleOption="item['powerDeviceName']" :controlOption="true" :dataListOption="item['monitorDevices']" />
         </el-form>
     </div>
@@ -127,10 +128,10 @@
             }
         },
         methods: {
-            chosenAll(){
+            chosenAll(value){
                 for(let i=0; i<this.dataList.length; i++){
                     this.dataList[i].monitorDevices.forEach(item=>{
-                        item['isCheck'] = true
+                        item['isCheck'] = value
                     })
                 }
                 this.$forceUpdate()

@@ -3,7 +3,7 @@
     <div class="title">
       <div>
         <span style="font-weight:700;font-size:18px">{{ title }}</span>
-        <el-input placeholder="请输入内容" v-show="isInput" v-model="input" @input="inputChange" clearable></el-input>
+        <el-input   class="inputContent" placeholder="请输入内容" v-show="isInput" v-model="input" @input="inputChange" clearable><template slot="prepend"><i class="iconfont icon-sousuo"></i></template></el-input>
       </div>
       <span class="last" v-if="control" @click="toHide()">
         收起
@@ -254,7 +254,25 @@ export default {
 .chosenList {
   overflow-y: scroll;
 }
-
+.inputContent{
+  .el-input__clear{
+    display: none !important;
+  }
+  input{
+    border-radius: 20px;
+    text-align: center;
+    padding: 0;
+    padding-left: 28px;
+    width: 144px;
+  }
+  .el-input-group__prepend{
+    position: absolute;
+    background: transparent;
+    border: none;
+    top: 7px;
+    left: -10px;
+  }
+}
 .item2 {
   margin-left: 10px;
 }
