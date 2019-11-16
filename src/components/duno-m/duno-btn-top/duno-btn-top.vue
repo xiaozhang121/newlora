@@ -169,7 +169,7 @@
                 default:()=>{
                     return [
                         {
-                            img:[require('@/assets/buttonPng/light.svg'),require('@/assets/buttonPng/lightCamera.png')],
+                            img:[require('@/assets/buttonPng/light.svg'),require('@/assets/buttonPng/lightCamera.png'), require('@/assets/runDevice/ballJ.png'),  require('@/assets/buttonPng/lightD.png')],
                             circleColor:'#00b4ff',
                             describeName: '可见光',
                             monitorDeviceType: 1,
