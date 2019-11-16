@@ -26,17 +26,15 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                  :isPic="isPic"
-                  @mousemove.native="pointerPos($event)"
-                  @mouseout.native="clearTimer()"
-                  :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
-                  paddingBottom="56%"
-                  class="monitor child"
-                  :autoplay="playerOptionsd.autoplay"
-                  :streamAddr="playerOptionsd.streamAddr"
-                  :showBtmOption="false"
-                  :isLive='false'
-                  :isNav='true'
+                        :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+                        paddingBottom="56%"
+                        class="monitor child"
+                        :autoplay="playerOptions.autoplay"
+                        :streamAddr="playerOptions.streamAddr"
+                        :showBtmOption="false"
+                        :Initialization="true"
+                        :isLive='false'
+                        :isNav='true'
                 ></key-monitor>
                 <span
                   v-show="overFlag"
@@ -52,15 +50,17 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                  :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
-                  paddingBottom="56%"
-                  class="monitor child"
-                  :autoplay="playerOptions.autoplay"
-                  :streamAddr="playerOptions.streamAddr"
-                  :showBtmOption="false"
-                  :Initialization="true"
-                  :isLive='false'
-                  :isNav='true'
+                        :isPic="isPic"
+                        @mousemove.native="pointerPos($event)"
+                        @mouseout.native="clearTimer()"
+                        :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+                        paddingBottom="56%"
+                        class="monitor child"
+                        :autoplay="playerOptionsd.autoplay"
+                        :streamAddr="playerOptionsd.streamAddr"
+                        :showBtmOption="false"
+                        :isLive='false'
+                        :isNav='true'
                 ></key-monitor>
               </div>
             </div>
@@ -604,15 +604,19 @@ export default {
     initCamera() {
       const that = this;
       that.disabled = true;
-      const url =
-        "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
-      getAxiosData(url, {}).then(res => {
-        that.playerOptions.streamAddr = res.data.data;
-      });
+      if(!this.isPic){
+        const url =
+          "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
+        getAxiosData(url, {}).then(res => {
+          that.playerOptions.streamAddr = res.data.data;
+        });
+      }
       const urld =
         "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(urld, {}).then(res => {
         that.playerOptionsd.streamAddr = res.data.data;
+        if(this.isPic)
+          that.playerOptions.streamAddr = res.data.data;
       });
     },
     cutOut(data) {
