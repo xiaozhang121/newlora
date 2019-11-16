@@ -9,7 +9,6 @@
             :isLive="false"
             width="100%"
             :isNav="true"
-            imgAdress
             :streamAddr="streamAddrD"
             :showBtmOption="false"
           ></key-monitor>
@@ -254,7 +253,7 @@
                     '/lenovo-visible/api/visible-equipment/sdk/rtmp/' + that.deviceId;
                 getAxiosData(url, {}).then(res => {
                     // that.playerOptiond.sources[0].src = res.data;
-                    that.streamAddrD = res.data.addr;
+                    that.streamAddrD = res.data;
                     that.$forceUpdate();
                 });
                 //先隐藏  勿删
@@ -285,13 +284,15 @@
                     if(that.itemData['deviceMessage']['typeId'] == 3){
                         getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                             that.cameraPic = res.data
-                          that.playerOptiond.sources[0].src = urlPlay;
+                          // that.playerOptiond.sources[0].src = urlPlay;
+                          that.streamAddrD.sources[0].src = urlPlay;
                           that.playerOptionf.sources[0].src = urlPlay;
                         })
                         that.picTimer = setInterval(()=>{
                             getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                                   that.cameraPic = res.data
-                              that.playerOptiond.sources[0].src = urlPlay;
+                              // that.playerOptiond.sources[0].src = urlPlay;
+                              that.streamAddrD.sources[0].src = urlPlay;
                               that.playerOptionf.sources[0].src = urlPlay;
                             })
                         },200)
