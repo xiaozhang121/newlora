@@ -43,7 +43,7 @@ Vue.directive('dialogDrag', {
     bind(el, binding, vnode, oldVnode) {
         const dialogHeaderEl = el.querySelector('.el-dialog__header')
         const dragDom = el.querySelector('.el-dialog')
-        dialogHeaderEl.style.cursor = 'move'
+        dialogHeaderEl.style.cursor = 'pointer'
 
         // 获取原有属性 ie dom元素.currentStyle 火狐谷歌 window.getComputedStyle(dom元素, null);
         const sty = dragDom.currentStyle || window.getComputedStyle(dragDom, null)
