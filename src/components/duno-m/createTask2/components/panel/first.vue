@@ -19,7 +19,9 @@
       </div>
       <div class="titleInput">
         <span>选择电力设备</span>
-        <el-input placeholder="请输入内容" :isInput='true' v-model="input" @input="inputChange" clearable></el-input>
+        <el-input
+                class="inputContent"
+                placeholder="请输入内容" :isInput='true' v-model="input" @input="inputChange" clearable><template slot="prepend"><i class="iconfont icon-sousuo"></i></template></el-input>
       </div>
       <chosen-list :dataListOption="dataList" />
     </el-form>
@@ -237,6 +239,25 @@ export default {
 </script>
 <style lang="scss">
 .taskPanel {
+  .inputContent{
+    .el-input__clear{
+      display: none !important;
+    }
+    input{
+      border-radius: 20px;
+      text-align: center;
+      padding: 0;
+      padding-left: 28px;
+      width: 144px;
+    }
+    .el-input-group__prepend{
+      position: absolute;
+      background: transparent;
+      border: none;
+      top: 7px;
+      left: -10px;
+    }
+  }
   .el-select {
     width: 100%;
   }

@@ -4,12 +4,13 @@
       <div>
         <span>{{ title }}</span>
         <el-input
+          class="inputContent"
           v-show="isInput"
           placeholder="请输入内容"
           v-model="input"
           @input="inputChange"
           clearable
-        ></el-input>
+        ><template slot="prepend"><i class="iconfont icon-sousuo"></i></template></el-input>
       </div>
       <span class="last" v-if="control" @click="toHide()">
         收起
@@ -131,6 +132,25 @@ export default {
 </script>
 <style lang="scss">
 .chosenList {
+  .inputContent{
+    .el-input__clear{
+      display: none !important;
+    }
+      input{
+        border-radius: 20px;
+        text-align: center;
+        padding: 0;
+        padding-left: 28px;
+        width: 144px;
+      }
+    .el-input-group__prepend{
+      position: absolute;
+      background: transparent;
+      border: none;
+      top: 7px;
+      left: -10px;
+    }
+  }
   .turnA {
     transform: rotate(180deg);
     position: relative;
