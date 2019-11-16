@@ -20,6 +20,8 @@
                     class="keyMonitor"
                     :autoplay="true"
                     :pushCamera="false"
+                    :isLive='false'
+                    :isNav='true'
                     :streamAddr="video"
             />
           </div>

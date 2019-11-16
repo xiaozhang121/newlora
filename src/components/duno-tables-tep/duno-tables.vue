@@ -352,8 +352,5 @@
     .el-loading-text{
       color: #969696   !important;
     }
-    table{
-        min-height: 300px;
-    }
   }
 </style>

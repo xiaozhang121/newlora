@@ -20,6 +20,8 @@
                     class="keyMonitor"
                     :autoplay="true"
                     :pushCamera="false"
+                    :isLive='false'
+                    :isNav='true'
                     streamAddr="rtmp://10.0.10.39/rtsp59/stream"
             />
           </div>
@@ -31,6 +33,8 @@
                     class="keyMonitor noLoading"
                     :autoplay="true"
                     :pushCamera="false"
+                    :isLive='false'
+                    :isNav='true'
                     streamAddr="rtmp://10.0.10.39/rtsp60/stream"
             />
           </div>
