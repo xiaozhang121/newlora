@@ -6,7 +6,7 @@
     <div class="titleLight">可见光监测</div>
     <div class="reportRecode">
       <div class="report">
-        <div>历史生成的巡检报告</div>
+        <div>历史巡检报告</div>
         <div @click="getMoreReport">查看更多 ></div>
       </div>
       <div

@@ -49,16 +49,17 @@
               <p class="monitorTitle">判定结果:</p>
               <p>{{dataList.judgeResult}}</p>
             </div>
-            <div v-if="!discriminate" class="temperature">
+            <div class="temperature">
               <p
                 class="monitorTitle"
                 :style="{color:(dataList.alarmContent || dataList.result)=='正常'?'#333':'red'}"
               >{{dataList.alarmContent?dataList.alarmContent:dataList.result}}</p>
-              <p v-if="hasSelect && !discriminate && popData['alarmLevel']">
+              <p v-if="hasSelect&& popData['alarmLevel'] && dataList.result !='正常'">
                 {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
+                {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
                 <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                 <i-dropdown
-                  v-if="hasSelect && !discriminate && popData['alarmLevel']"
+                  v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'"
                   trigger="click"
                   placement="bottom-start"
                 >
@@ -82,14 +83,10 @@
                   </i-dropdownMenu>
                 </i-dropdown>
               </p>
-              <p v-else>{{ dataList.alarmValue }}{{ dataList.alarmValue?dataList.unit:'' }}</p>
-            </div>
-            <div v-else class="btn-printbtn-printbtn-print">
-              <!-- <div class="title">识别</div> -->
-              <div class="nr">{{ dataList.alarmContent?dataList.alarmContent:dataList.result }}</div>
+              <!-- <p v-else>{{ dataList.alarmValue }}{{ dataList.alarmValue?dataList.unit:'' }}</p> -->
             </div>
             <div class="btn-print">
-              <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
+              <a class="not-print origin" href="javascript:;" @click="clickJudge">结果修订</a>
               <!-- <button-custom
                 v-if="showBtn"
                 :class="{}"
@@ -104,9 +101,13 @@
               :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
             >{{ titleReturn }}</div>
             <div class="from">
-              <span class="origin">
+              <span>
                 来源：
-                <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
+                <a
+                  class="origin"
+                  href="javascript:;"
+                  @click="getJump"
+                >{{dataList['monitorDeviceName']}}</a>
               </span>
             </div>
           </div>
@@ -146,7 +147,6 @@ export default {
       isThree: false,
       userNameD: "",
       isdeal: true,
-      //   isTemperture: true,
       hasSelect: true,
       detailsType: "",
       popData: null,
@@ -165,7 +165,8 @@ export default {
       isImgVideo: true,
       isTemperture: true,
       formData: {},
-      alarmValue: null
+      alarmValue: null,
+      showBtn: true
     };
   },
   props: {
@@ -239,6 +240,7 @@ export default {
     popData: {
       handler(now) {
         this.isPhaseAlarm = now["isPhaseAlarm"];
+        this.isRobot = now["isRobot"];
         this.isThree = now["isPhaseAlarm"] == 1;
         this.isImgVideo = now["fileType"] == 1;
         if ("alarmId" in now && now["alarmId"]) {
@@ -260,22 +262,22 @@ export default {
           this.searchId = now["id"];
           this.searchType = "id";
         }
-        if (this.searchId != "") {
+        if (this.searchId != "" && !this.isThree) {
           this.initData();
+        }
+        if ("isRobot" in now && now["isRobot"]) {
+          this.searchId = now["taskId"] + "," + now["batchId"];
+          this.searchType = "alarmId";
+        }
+        if (now["isReturn"] == "1") {
+          this.titleReturn = "已复归";
+        } else {
+          this.titleReturn = "复归";
         }
       },
       deep: true,
       immediate: true
     },
-    // handleNotes(now) {
-    //   this.handleList = [];
-    //   let obj = {};
-    //   now.forEach(el => {
-    //     obj.time = el.dealTime;
-    //     obj.info = el.dealType;
-    //     this.handleList.push(obj);
-    //   });
-    // },
     alarmLevel: {
       handler(now) {
         this.alarmLevelN = now;
@@ -289,17 +291,26 @@ export default {
     }
   },
   methods: {
-    // openPage() {
-    //   let routeData = this.$router.resolve({
-    //     name: "newPage",
-    //     params: {
-    //       name: Base64.encode(this.searchType),
-    //       value: Base64.encode(this.searchId),
-    //       info: Base64.encode(JSON.stringify(this.popData))
-    //     }
-    //   });
-    //   window.open(routeData.href, "_blank");
-    // },
+    getCameraPic() {
+      let videoPath = this.dataList.fileAddress
+        ? this.dataList.fileAddress
+        : this.dataList.alarmFileAddress;
+      postAxiosData("/lenovo-alarm/api/info/video/pic", {
+        videoPath: videoPath,
+        positionIndex: ""
+      }).then(res => {
+        this.ImgScreenshot = res.data.pic;
+      });
+    },
+    handleBtn() {
+      if (this.dataList.alarmTypeValue == "设备缺陷类") {
+        if (this.dataList.result.indexOf("正常") > -1) {
+          this.showBtn = false;
+        } else {
+          this.showBtn = true;
+        }
+      }
+    },
     toPrint(e) {
       this.target = e.path[5];
     },
@@ -314,33 +325,40 @@ export default {
       let url = "/lenovo-plan/api/task-result/view";
       if (this.detailsType == "alarm") {
         url = "/lenovo-alarm/api/alarm/phase/view";
+      } else if (this.detailsType == "robot") {
+        url = "/lenovo-plan/api/information/overview/frame/detail";
       }
       getAxiosData(url, {
         [that.searchType]: that.searchId,
-        isPhaseAlarm: that.isPhaseAlarm
+        isPhaseAlarm: that.isPhaseAlarm,
+        isRobot: that.isRobot
       }).then(res => {
         that.handleList = [];
         that.dataList = res.data;
         (res.data.dealList || []).forEach(el => {
           let obj = {};
           obj.time = el.dealTime;
-          obj.info = el.dealType;
+          obj.info = el.dealContent;
           that.handleList.push(obj);
         });
-        console.log(that.handleList);
-        if (that.handleList.length < 1) {
-          that.isdeal = false;
-        }
-        if (that.dataList.alarmTypeValue == "动态环境类") {
+        if (
+          that.dataList.alarmTypeValue == "动态环境类" ||
+          that.dataList.alarmTypeValue == "设备缺陷类"
+        ) {
           that.discriminate = true;
         }
-        if (that.dataList.result == "温度正常") {
+        if (that.dataList.result == "正常") {
           that.hasSelect = false;
+        }
+        if (that.dataList.isReturn == "1") {
+          this.titleReturn = "已复归";
+        } else {
+          this.titleReturn = "复归";
         }
         if (isNaN(that.dataList.alarmValue)) {
           that.alarmValue = that.dataList.alarmValue;
         } else {
-          that.alarmValue = that.dataList.alarmValue + "℃";
+          that.alarmValue = that.dataList.alarmValue + that.dataList.unit;
         }
         that.formData = {
           alarmId: that.searchId,
@@ -348,8 +366,12 @@ export default {
           inputT: that.dataList.alarmValue,
           select: that.dataList.alarmSuperDetailType,
           alarmDetailTypeCode: that.dataList.alarmDetailTypeCode,
-          result: that.dataList.result
+          alarmTypeValue: that.dataList.alarmTypeValue,
+          result: that.dataList.result,
+          isRobot: that.isRobot
         };
+        this.handleBtn();
+        if (!this.isImgVideo) this.getCameraPic();
         that.$forceUpdate();
       });
     },
@@ -400,54 +422,58 @@ export default {
       this.$emit("handleClose");
     },
     getJump() {
-      getAxiosData("/lenovo-device/api/preset/type", {
-        monitorDeviceId: this.popData.monitorDeviceId
-      }).then(res => {
-        let supportPreset = res.data["supportPreset"];
-        let monitorDeviceType = res.data["monitorDeviceType"];
-        if (monitorDeviceType == 1) {
-          if (supportPreset) {
-            this.$router.push({
-              path: "/surveillancePath/detailLight",
-              query: {
-                monitorDeviceId: this.popData.monitorDeviceId
-              }
-            });
-          } else {
-            this.$router.push({
-              path: "/surveillancePath/detailLightN",
-              query: {
-                monitorDeviceId: this.popData.monitorDeviceId
-              }
-            });
-          }
-        } else if (monitorDeviceType == 2) {
-          if (supportPreset) {
-            this.$router.push({
-              path: "/surveillancePath/detailRed",
-              query: {
-                monitorDeviceId: this.popData.monitorDeviceId,
-                typeId: res.data["typeId"]
-              }
-            });
-          } else {
-            this.$router.push({
-              path: "/surveillancePath/detailRedN",
-              query: {
-                monitorDeviceId: this.popData.monitorDeviceId,
-                typeId: res.data["typeId"]
-              }
-            });
-          }
-        } else if (monitorDeviceType == 3) {
-          this.$router.push({
-            path: "/surveillancePath/detailEnv",
-            query: {
-              monitorDeviceId: this.popData.monitorDeviceId
+      if (!this.$route.meta.isMain) {
+        getAxiosData("/lenovo-device/api/preset/type", {
+          monitorDeviceId: this.popData.monitorDeviceId
+        }).then(res => {
+          let supportPreset = res.data["supportPreset"];
+          let monitorDeviceType = res.data["monitorDeviceType"];
+          if (monitorDeviceType == 1) {
+            if (supportPreset) {
+              this.$router.push({
+                path: "/surveillancePath/detailLight",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId
+                }
+              });
+            } else {
+              this.$router.push({
+                path: "/surveillancePath/detailLightN",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId
+                }
+              });
             }
-          });
-        }
-      });
+          } else if (monitorDeviceType == 2) {
+            if (supportPreset) {
+              this.$router.push({
+                path: "/surveillancePath/detailRed",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId,
+                  typeId: res.data["typeId"]
+                }
+              });
+            } else {
+              this.$router.push({
+                path: "/surveillancePath/detailRedN",
+                query: {
+                  monitorDeviceId: this.popData.monitorDeviceId,
+                  typeId: res.data["typeId"]
+                }
+              });
+            }
+          } else if (monitorDeviceType == 3) {
+            this.$router.push({
+              path: "/surveillancePath/detailEnv",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId
+              }
+            });
+          }
+        });
+      } else {
+        this.$message.info("已在当前页");
+      }
     },
     clickJudge() {
       let that = this;
@@ -455,6 +481,28 @@ export default {
     },
     onClose() {
       this.visibleJudge = false;
+    },
+    handleReturn() {
+      const that = this;
+      if (that.titleReturn == "已复归") {
+        return;
+      } else {
+        let url = "/lenovo-alarm/api/alarm/deal";
+        const query = {
+          alarmId: that.dataList.alarmId,
+          type: "1"
+        };
+        postAxiosData(url, query).then(res => {
+          if (res.data.isSuccess) {
+            that.$message.success(res.msg);
+            this.titleReturn = "已复归";
+            that.initData();
+            this.$emit("on-fresh");
+          } else {
+            that.$message.error(res.msg);
+          }
+        });
+      }
     }
   },
   mounted() {
@@ -626,6 +674,9 @@ export default {
       .from {
         position: absolute;
         bottom: 0;
+      }
+      .origin {
+        text-decoration: underline;
       }
     }
   }

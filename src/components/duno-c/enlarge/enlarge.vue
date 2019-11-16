@@ -128,6 +128,9 @@ export default {
     left: 0;
     height: 100%;
   }
+  .el-dialog{
+    background: rgba(0,0,0,0);
+  }
   .el-dialog__header,
   .el-dialog__body {
     padding: 0;

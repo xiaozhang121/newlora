@@ -4,14 +4,15 @@
     <el-row :gutter="20">
       <el-col :span="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3 || monitorDeviceType == 5)?24:12" :class="{'lightPanel': (isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3)}">
         <div class="itemImgBox" ref="mapContain" v-if="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3  || monitorDeviceType == 5)">
-          <video-player
-                  @mousemove.native="pointerPos($event)"
-                  @mouseout.native="clearTimer()"
-                  ref="videoPlayer"
-                  class="vjs-custom-skin realtime_video"
-                  :options="playerOptiond"
-          ></video-player>
-          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.mapContain)"></i>
+          <key-monitor
+            :autoplay="true"
+            :isLive="false"
+            width="100%"
+            :isNav="true"
+            imgAdress
+            :streamAddr="streamAddrD"
+            :showBtmOption="false"
+          ></key-monitor>
         </div>
         <div class="itemImgBox" ref="mapContain"  style="width: 226px; height: 150px;transform-origin: left top;" v-else>
           <video-player
@@ -76,6 +77,7 @@
       putAxiosData
   } from "@/api/axiosType";
   import screenfull from "screenfull";
+  import KeyMonitor from "_c/duno-c/KeyMonitor";
   import videojs from 'video.js'
   import "video.js/dist/video-js.css";
   import { videoPlayer } from "vue-video-player";
@@ -84,10 +86,11 @@
   videojs.options.flash.swf = SWF_URL
   export default {
     name: "realtimeTem",
-    components: { videoPlayer },
+    components: { videoPlayer , KeyMonitor },
     data() {
         return {
             picTimer: null,
+            streamAddrD:"",
             cameraPic: '',
             templateList: [],
             demoImage: require('@/assets/images/clock.png'),
@@ -234,7 +237,8 @@
             const that = this;
             if(this.isShowClassify && this.deviceOptionId){
                 getAxiosData('lenovo-device/api/device/rtmp',{'powerDeviceId': this.deviceOptionId}).then(res=>{
-                    that.playerOptiond.sources[0].src = res.data.addr;
+                    // that.playerOptiond.sources[0].src = res.data.addr;
+                    that.streamAddrD = res.data.addr;
                     that.$forceUpdate();
                 })
                 return
@@ -249,7 +253,8 @@
                 const url =
                     '/lenovo-visible/api/visible-equipment/sdk/rtmp/' + that.deviceId;
                 getAxiosData(url, {}).then(res => {
-                    that.playerOptiond.sources[0].src = res.data;
+                    // that.playerOptiond.sources[0].src = res.data;
+                    that.streamAddrD = res.data.addr;
                     that.$forceUpdate();
                 });
                 //先隐藏  勿删

@@ -302,6 +302,7 @@ export default {
     .el-dialog__body {
       padding: 8px 10px;
       margin: 0 10px;
+      margin-bottom: 10px;
       background-color: rgba(32, 54, 68, 0.8);
       min-height: 300px;
       .el-dialog__header {

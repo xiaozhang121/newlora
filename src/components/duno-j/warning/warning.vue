@@ -51,16 +51,18 @@
                 <p class="monitorTitle">判定结果:</p>
                 <p>{{dataList.judgeResult}}</p>
               </div>
-              <div v-if="!discriminate" class="temperature">
+              <!-- v-if="!discriminate" -->
+              <div class="temperature">
                 <p
                   class="monitorTitle"
                   :style="{color:(dataList.alarmContent || dataList.result)=='正常'?'#333':'red'}"
                 >{{dataList.alarmContent?dataList.alarmContent:dataList.result}}</p>
-                <p v-if="hasSelect && !discriminate && popData['alarmLevel']">
+                <p v-if="hasSelect && popData['alarmLevel'] && dataList.result !='正常'">
                   {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
+                  {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
                   <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                   <i-dropdown
-                    v-if="hasSelect && !discriminate && popData['alarmLevel']"
+                    v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'"
                     trigger="click"
                     placement="bottom-start"
                   >
@@ -84,14 +86,16 @@
                     </i-dropdownMenu>
                   </i-dropdown>
                 </p>
-                <p v-else>{{ dataList.alarmValue }}{{ dataList.alarmValue?dataList.unit:'' }}</p>
+                <!-- <p v-else>{{ dataList.alarmValue }}{{ dataList.alarmValue?dataList.unit:'' }}</p> -->
               </div>
-              <div v-else class="btn-printbtn-printbtn-print">
-                <!-- <div class="title">识别</div> -->
-                <div class="nr">{{ dataList.alarmContent?dataList.alarmContent:dataList.result }}</div>
-              </div>
+              <!-- <div v-else class="btn-printbtn-printbtn-print">
+                <div
+                  class="nr"
+                  :style="{color:(dataList.alarmContent || dataList.result)=='正常'?'#333':'red'}"
+                >{{ dataList.alarmContent?dataList.alarmContent:dataList.result }}</div>
+              </div>-->
               <div class="btn-print">
-                <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
+                <a class="not-print origin" href="javascript:;" @click="clickJudge">结果修订</a>
                 <!-- <button-custom
                   v-if="showBtn"
                   :class="{}"
@@ -106,9 +110,13 @@
                 :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
               >{{ titleReturn }}</div>
               <div class="from">
-                <span class="origin">
+                <span>
                   来源：
-                  <a href="javascript:;" @click="getJump">{{dataList['monitorDeviceName']}}</a>
+                  <a
+                    class="origin"
+                    href="javascript:;"
+                    @click="getJump"
+                  >{{dataList['monitorDeviceName']}}</a>
                 </span>
               </div>
             </div>
@@ -322,15 +330,6 @@ export default {
       deep: true,
       immediate: true
     },
-    // handleNotes(now) {
-    //   this.handleList = [];
-    //   let obj = {};
-    //   now.forEach(el => {
-    //     obj.time = el.dealTime;
-    //     obj.info = el.dealType;
-    //     this.handleList.push(obj);
-    //   });
-    // },
     alarmLevel: {
       handler(now) {
         this.alarmLevelN = now;
@@ -770,6 +769,9 @@ export default {
       .from {
         position: absolute;
         bottom: 0;
+      }
+      .origin {
+        text-decoration: underline;
       }
     }
   }

@@ -143,7 +143,7 @@ export default {
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/environmental/list", name: "现场安全管控" },
-        { path: "", name: "24小时监测记录" }
+        { path: "", name: "历史监测记录" }
       ],
       columns: [
         {

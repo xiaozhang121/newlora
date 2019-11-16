@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="dunoDrap">
-      <div>全面巡视任务详情</div>
+      <div>{{$route.query.planType}}任务详情</div>
       <div class="selectBtn">
         <div style="visibility: hidden">
           <duno-btn-top

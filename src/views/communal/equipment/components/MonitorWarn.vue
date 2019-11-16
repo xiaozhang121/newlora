@@ -20,7 +20,7 @@
           <span>{{remarkData.content}}</span>
         </div>
         <div>
-          <i style="{width:31px}">记录:</i>
+          <i>记录:</i>
           <el-tooltip class="item" effect="dark" :content="dealContent[0]" placement="top">
             <p>
               <span v-for="(item,index) in dealContent.slice(0,1)" :key="index">{{item}}</span>
@@ -45,28 +45,6 @@
         </p>
       </div>
     </div>
-    <!-- <div class="remarks not-print">
-      <el-dialog
-        title="备注"
-        :center="true"
-        top="20vh"
-        :visible.sync="dialogVisible"
-        :modal="false"
-        width="500px"
-        :before-close="beforeClose"
-      >
-        <el-input
-          type="textarea"
-          placeholder="请输入备注内容"
-          :autosize="{ minRows: 3}"
-          v-model="textarea"
-        ></el-input>
-        <span slot="footer" class="dialog-footer">
-          <button-custom class="button" @click.native="closeRemarks" title="取消" />
-          <button-custom class="button" @click.native="clickRemarks" title="确定" />
-        </span>
-      </el-dialog>
-    </div>-->
     <Remarks
       :isShow="dialogVisible"
       :overview="overview"
@@ -166,28 +144,10 @@ export default {
       });
       this.$emit("beforeClose");
     },
-    // closeRemarks() {
-    //   this.dialogVisible = false;
-    // },
     beforeClose() {
       this.dialogVisible = false;
       this.$emit("handleListData");
     },
-    // clickRemarks() {
-    //   const that = this;
-    //   this.dialogVisible = false;
-    //   let query = {
-    //     alarmId: that.remarkData.taskId + "," + that.remarkData.batchId,
-    //     type: "2",
-    //     content: that.textarea
-    //   };
-    //   dealRemarks(query).then(res => {
-    //     that.textarea = "";
-    //     if (res.data.isSuccess) that.$message.success(res.msg);
-    //     else that.$message.error(res.msg);
-    //     this.$emit("handleListData");
-    //   });
-    // },
     getJump() {
       getAxiosData("/lenovo-device/api/preset/type", {
         monitorDeviceId: this.remarkData.monitorDeviceId
@@ -237,12 +197,6 @@ export default {
           });
         }
       });
-      /*  this.$router.push({
-        path: "/surveillancePath/detailLight",
-        query: {
-          monitorDeviceId: this.remarkData.monitorDeviceId
-        }
-      });*/
     }
   },
   mounted() {
@@ -295,10 +249,14 @@ export default {
         width: 100%;
         display: flex;
         justify-content: flex-start;
+        white-space: nowrap;  
+        text-overflow:ellipsis; 
+        overflow:hidden;
         & > span {
           padding-left: 10px;
         }
         i {
+          white-space: nowrap;  
           font-style: normal;
           width: 32px;
         }
@@ -357,20 +315,5 @@ export default {
       }
     }
   }
-  //   .remarks {
-  //     .dialog-footer {
-  //       color: #ffffff;
-  //       display: flex;
-  //       justify-content: center;
-  //       .button {
-  //         height: 37px;
-  //         line-height: 31px;
-  //         font-size: 14px;
-  //         &:first-child {
-  //           margin-right: 30px;
-  //         }
-  //       }
-  //     }
-  //   }
 }
 </style>
