@@ -113,7 +113,7 @@
         </div>
       </transition>
       <el-tooltip effect="dark" :content="contentTip" placement="top">
-        <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon">
+        <div v-if="isSecond" @click="getJump" class="explain iconList detailIcon" :style="bottom">
           <div class="text">
             <span>{{kilovolt}}</span>
             <span>{{patrolMt}}</span>
@@ -197,6 +197,12 @@
         type: Boolean,
         default: () => {
           return false;
+        }
+      },
+      bottom: {
+        type: Object,
+        default() {
+          return {};
         }
       },
       isPic: {
