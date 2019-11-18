@@ -20,16 +20,22 @@
             <p>大小：{{ImgInfo.picSize/1024}}kb</p>
             <p>分辨率：{{ImgInfo.picWidth}}*{{ImgInfo.picHeight}}</p>
             <p>导入时间：{{ImgInfo.picTime}}</p>
-            <p>导入类型：手动导入</p>
+            <p>导入类型：{{$route.query.markType}}</p>
           </div>
         </div>
         <div class="infoRight">
           <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="设备组件">
-              <el-cascader :data="cascaderData" :disabled="isEdit" :load-data="loadData"></el-cascader>
+              <el-cascader
+                :data="cascaderData"
+                @on-change="handleChange"
+                :placeholder="placeholder"
+                :disabled="isEdit"
+                :load-data="loadData"
+              ></el-cascader>
             </el-form-item>
             <el-form-item label="变电站名">
-              <el-select v-model="form.substationName" :disabled="isEdit" placeholder="请选择">
+              <el-select v-model="form.stationName" :disabled="isEdit" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in substationData"
                   :label="item.label"
@@ -39,7 +45,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="摄像头名">
-              <el-select v-model="form.cameraName" :disabled="isEdit" placeholder="请选择">
+              <el-select v-model="form.monitorDeviceName" :disabled="isEdit" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in cameraData"
                   :label="item.label"
@@ -49,7 +55,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="电压区域">
-              <el-select v-model="form.diviceName" :disabled="isEdit" placeholder="请选择">
+              <el-select v-model="form.areaName" :disabled="isEdit" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in diviceData"
                   :label="item.label"
@@ -58,7 +64,7 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-            <survey :monitor="form.monitor" :isEdit="isEdit"></survey>
+            <survey :monitor="form.powerDeviceName" :isEdit="isEdit"></survey>
             <div class="submit">
               <span v-if="isEdit" @click="isEdit=false">编辑</span>
               <span v-if="!isEdit" @click="isEdit=true">取消</span>
@@ -113,9 +119,13 @@ export default {
   data() {
     const that = this;
     return {
+      mainDevice: "",
+      part: "",
+      partSub: "",
       isShow: false,
       isEdit: true,
       imgsrc: "",
+      placeholder: "请选择",
       dataList: [],
       ImgInfo: {},
       // mixinViewModuleOptions: {
@@ -123,38 +133,25 @@ export default {
       //   getDataListURL: "/venus/crud/PokerCustomer"
       // },
       form: {
-        cameraName: ""
+        stationName: "",
+        monitorDeviceName: "",
+        areaName: "",
+        powerDeviceName: ""
       },
-      substationData: [
-        { value: "0", label: "练塘站" },
-        { value: "1", label: "朱光站" }
-      ],
+      substationData: [],
       cameraData: [
         { value: "0", label: "新视界-练塘站-1000KV-4号主变" },
         { value: "1", label: "新视界-练塘站-500KV-4号主变" }
       ],
       diviceData: [
-        { label: "1000KV", value: "0" },
-        { label: "500KV", value: "1" },
-        { label: "220KV", value: "2" },
-        { label: "110KV", value: "3" },
-        { label: "35KV", value: "4" },
-        { label: "10KV", value: "5" }
+        { label: "1000KV", value: "1" },
+        { label: "500KV", value: "2" },
+        { label: "220KV", value: "3" },
+        { label: "110KV", value: "4" },
+        { label: "35KV", value: "5" },
+        { label: "10KV", value: "6" }
       ],
-      cascaderData: [
-        {
-          value: "beijing",
-          label: "北京",
-          children: [],
-          loading: false
-        },
-        {
-          value: "hangzhou",
-          label: "杭州",
-          children: [],
-          loading: false
-        }
-      ],
+      cascaderData: [],
       background: "url(" + require("@/assets/images/btn/moreBtn.png") + ")",
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
@@ -271,20 +268,34 @@ export default {
     },
     loadData(item, callback) {
       item.loading = true;
-      let url = "/lenovo-sample/api/sample/getPart";
-      let query = {
-        mainDevice: item.value
-      };
-      postAxiosData(url).then(res => {
+      let index = item.__label.split(" / ").length - 1;
+      let url = "";
+      let query = {};
+      if (index == 0) {
+        url = "/lenovo-sample/api/sample/getPart";
+        query = {
+          mainDevice: item.value
+        };
+        this.mainDevice = item.value;
+      } else {
+        url = "/lenovo-sample/api/sample/getPartSub";
+        query = {
+          mainDevice: this.mainDevice,
+          part: item.value
+        };
+      }
+      postAxiosData(url, query).then(res => {
         let data = res.data;
-        data.forEach(el => {
-          el.children = [];
-          el.loading = false;
-        });
+        if (index == 0) {
+          data.forEach(el => {
+            el.children = [];
+            el.loading = false;
+          });
+        }
         item.children = data;
+        item.loading = false;
+        callback();
       });
-      item.loading = false;
-      callback();
     },
     init() {
       let url = "/lenovo-sample/api/mark/pic-flow";
@@ -308,7 +319,6 @@ export default {
     },
     handleSubmit() {
       let url = "/lenovo-sample/api/sample/edit";
-      let query = {};
     },
     deleteDetail() {
       let url = "/lenovo-sample/api/sample/del";
@@ -316,12 +326,55 @@ export default {
         id: this.$route.query.id
       };
       deleteDataId(url, query).then(res => {
-        this.$message.success(res.errorMessage);
+        // this.$message.success(res.errorMessage);
+        this.$router.push({
+          path: "/abnormalInfoPath/defectLibrary"
+        });
       });
+    },
+    getVoltage() {
+      let url = "/lenovo-sample/api/sample/getMainDevice";
+      postAxiosData(url).then(res => {
+        let data = res.data;
+        data.forEach(el => {
+          el.children = [];
+          el.loading = false;
+        });
+        this.cascaderData = data;
+      });
+    },
+    initDevice() {
+      let url = "/lenovo-sample/api/sample/view";
+      let query = {
+        id: this.$route.query.id
+      };
+      getAxiosData(url, query).then(res => {
+        let deviceData = res.data.sample;
+        this.substationData = res.data.stationList;
+        this.form.stationName = deviceData.stationName;
+        this.form.monitorDeviceName = deviceData.monitorDeviceName;
+        this.form.areaName = deviceData.areaName;
+        this.form.powerDeviceName = deviceData.powerDeviceName;
+        let picFilePath = deviceData.picFilePath;
+        picFilePath = picFilePath.replace(".", "");
+        picFilePath = picFilePath.replace(new RegExp(/\./g), "/");
+        let num = picFilePath.indexOf("/");
+        for (let i = 0; i < 2; i++) {
+          num = picFilePath.indexOf("/", num + 1);
+        }
+        this.placeholder = picFilePath.substring(0, num);
+      });
+    },
+    handleChange(value) {
+      this.mainDevice = value[0];
+      this.part = value[1];
+      this.partSub = value[2];
     }
   },
   mounted() {
     this.init();
+    this.initDevice();
+    this.getVoltage();
   }
 };
 </script>

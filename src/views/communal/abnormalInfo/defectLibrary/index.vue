@@ -16,7 +16,7 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <div>
+        <!-- <div>
           <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTo"
@@ -25,7 +25,7 @@
             :title="titleTypeL"
             :showBtnList="false"
           ></duno-btn-top>
-        </div>
+        </div>-->
         <div class="dateChose">
           <el-date-picker
             unlink-panels
@@ -37,7 +37,7 @@
             @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div class="exportExcel" @click="visible=true">
+        <div class="exportExcel" @click="openImport">
           <i class="iconfont icon-daoru"></i>
           批量导入
         </div>
@@ -92,25 +92,26 @@ export default {
         getDataListURL: "/lenovo-sample/api/sample/list"
         // exportURL: ""
       },
+      taskId: "",
       dataForm: {},
       title: "缺陷库管理",
       totalNum: 20,
       pageRows: 20,
       value: "",
-      titleTypeL: "全部设备",
+      // titleTypeL: "全部设备",
       titleTypeR: "全部类型",
       typeList: [
         {
           describeName: "手动导入",
-          monitorType: "0"
+          monitorType: "2"
         },
         {
           describeName: "摄像机标定",
-          monitorType: "1"
+          monitorType: "3"
         },
         {
           describeName: "识别结果",
-          monitorType: "3"
+          monitorType: "4"
         }
       ],
       regionList: [],
@@ -215,14 +216,21 @@ export default {
   mounted() {},
   created() {},
   methods: {
+    openImport() {
+      this.visible = true;
+      let url = "/lenovo-sample/api/sample/getConfInfo";
+      getAxiosData(url).then(res => {
+        this.taskId = res.data.taskId;
+      });
+    },
     onClose() {
       this.visible = false;
     },
-    onSelect(item, index) {
-      this.titleTypeL = item["describeName"];
-      this.dataForm.monitorDeviceName = item.monitorDeviceType;
-      this.getDataList();
-    },
+    // onSelect(item, index) {
+    //   this.titleTypeL = item["describeName"];
+    //   this.dataForm.monitorDeviceName = item.monitorDeviceType;
+    //   this.getDataList();
+    // },
     onSelectType(item, index) {
       this.titleTypeR = item["describeName"];
       this.dataForm.markType = item.monitorType;
@@ -238,28 +246,28 @@ export default {
       this.dataForm.importTimeStart = startTime;
       this.dataForm.importTimeEnd = endTime;
       this.getDataList();
-    },
-    getRegion() {
-      const that = this;
-      const url = "";
-      getAxiosData(url).then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeL"
-          };
-          return obj;
-        });
-        map.unshift({
-          describeName: "全部设备",
-          monitorDeviceType: "",
-          title: "titleTypeL"
-        });
-        this.regionList = map;
-      });
     }
+    // getRegion() {
+    //   const that = this;
+    //   const url = "";
+    //   getAxiosData(url).then(res => {
+    //     const resData = res.data;
+    //     const map = resData.map(item => {
+    //       const obj = {
+    //         describeName: item.label,
+    //         monitorDeviceType: item.value,
+    //         title: "titleTypeL"
+    //       };
+    //       return obj;
+    //     });
+    //     map.unshift({
+    //       describeName: "全部设备",
+    //       monitorDeviceType: "",
+    //       title: "titleTypeL"
+    //     });
+    //     this.regionList = map;
+    //   });
+    // }
   }
 };
 </script>

@@ -10,26 +10,14 @@
     <i class="el-icon-arrow-down dropDown-i" :class="{rotate:show3}" @click="changeDrop"></i>
     <el-collapse-transition>
       <div class="diviceSelect" v-show="!isEdit&&show3">
-        <el-input placeholder="请输入内容" v-model="diviceSelect" clearable></el-input>
+        <el-input placeholder="请输入内容" v-model="diviceSelect" @input="search" clearable></el-input>
         <div class="drop-scroll">
           <!--数据格式 [{title:"1000千伏区域",data:[{},{},{}]},{title:"500千伏区域",data:[{},{},{}]},] -->
-          <el-collapse v-model="value1">
-            <el-panel name="1">
-              1000千伏区域
-              <el-checkbox-group v-model="checkList" slot="content">
-                <el-checkbox label="复选框 A"></el-checkbox>
-                <el-checkbox label="复选框 B"></el-checkbox>
-                <el-checkbox label="复选框 C"></el-checkbox>
-              </el-checkbox-group>
-            </el-panel>
-          </el-collapse>
-          <el-collapse v-model="value1">
-            <el-panel name="2">
-              500千伏区域
-              <el-checkbox-group v-model="checkList" slot="content">
-                <el-checkbox label="复选框 A"></el-checkbox>
-                <el-checkbox label="复选框 B"></el-checkbox>
-                <el-checkbox label="复选框 C"></el-checkbox>
+          <el-collapse v-model="value1" v-for="(item,index) in dataList" :key="index">
+            <el-panel :name="index+'1'">
+              {{item.areaName}}区域
+              <el-checkbox-group v-model="checkList" @change="handleCheck(index)" slot="content">
+                <el-checkbox v-for="(data,i) in item.deviceList" :key="i" :label="data.deviceName"></el-checkbox>
               </el-checkbox-group>
             </el-panel>
           </el-collapse>
@@ -72,14 +60,57 @@ export default {
       monitorValue: "",
       show3: false,
       diviceSelect: "",
+      dataList: [],
+      allData: [],
       checkList: [],
-      value1: ["1", "2"]
+      value1: ["1", "2", "3"]
     };
   },
   methods: {
     changeDrop() {
       this.show3 = !this.show3;
+    },
+    initDevice() {
+      let url = "/lenovo-device/api/device/area/list";
+      getAxiosData(url).then(res => {
+        this.dataList = res.data;
+        this.allData = res.data;
+        let len = this.dataList.length;
+      });
+    },
+    handleCheck(index) {
+      console.log(index);
+      console.log(this.checkList);
+    },
+    search() {
+      let title = this.diviceSelect;
+      let data = this.dataList;
+      let len = data.length;
+      let selectData = [];
+      let deviceData = [];
+      if (title == "") {
+        this.dataList = this.allData;
+      } else {
+        for (let i = 0; i < len; i++) {
+          data[i].deviceList.forEach(el => {
+            if (el["deviceName"].indexOf(title) > -1) {
+              deviceData.push(el);
+            }
+          });
+          if (deviceData.length > 0) {
+            selectData.push({
+              areaId: data.areaId,
+              areaName: data.areaName,
+              deviceList: deviceData
+            });
+          }
+        }
+        this.dataList = selectData;
+      }
     }
+  },
+  mounted() {
+    this.initDevice();
   }
 };
 </script>

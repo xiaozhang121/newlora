@@ -9,10 +9,10 @@
     >
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="设备组件">
-          <el-cascader :data="cascaderData" :load-data="loadData"></el-cascader>
+          <el-cascader :data="cascaderData" @on-change="handleChange" :load-data="loadData"></el-cascader>
         </el-form-item>
         <el-form-item label="电压区域">
-          <el-select v-model="form.divice" placeholder="请选择（非必选）">
+          <el-select v-model="form.areaName" placeholder="请选择（非必选）">
             <el-option
               v-for="(item,index) in diviceData"
               :label="item.label"
@@ -25,13 +25,13 @@
         <el-form-item label="上传图片">
           <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
+            action="/lenovo-sample/api/sample/pic-upload"
             :before-remove="beforeRemove"
-            multiple
-            :limit="3"
+            accept="image/*"
+            :multiple="false"
+            :limit="1"
             :on-exceed="handleExceed"
+            :on-change="changeUpload"
             :file-list="fileList"
           >
             <el-input :readonly="true" :style="{cursor:'pointer'}" placeholder="点击上传图片"></el-input>
@@ -41,7 +41,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <button-custom class="button" @click.native="handleClose" title="取 消" />
-        <button-custom class="button" @click.native="handleClose" title="确 定" />
+        <button-custom class="button" @click.native="handleSubmit" title="确 定" />
       </span>
     </el-dialog>
   </div>
@@ -68,10 +68,12 @@ export default {
   data() {
     return {
       form: {
-        divice: "",
+        areaName: "",
         monitor: ""
       },
       mainDevice: "",
+      part: "",
+      partSub: "",
       fileList: [],
       diviceData: [
         {
@@ -118,19 +120,32 @@ export default {
   methods: {
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
+        `当前限制选择 1 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList.length} 个文件`
       );
     },
+    changeUpload() {},
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    handleChange(value) {
+      this.mainDevice = value[0];
+      this.part = value[1];
+      this.partSub = value[2];
     },
-    handlePreview(file) {
-      console.log(file);
+    handleSubmit() {
+      let query = {
+        taskId: this.taskId,
+        mainDevice: this.mainDevice,
+        part: this.part,
+        partSub: this.partSub,
+        areaName: this.form.areaName,
+        stationId: this.stationId //变电站
+        // picFilePath: JSON.stringify(this.picFilePath),
+        // imgsInfo: JSON.stringify(arr)
+      };
+      this.$emit("on-close");
     },
     handleClose() {
       this.$emit("on-close");

@@ -11,7 +11,7 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <frame-selection></frame-selection>
+        <frame-selection @on-send="onSend"></frame-selection>
       </div>
       <span slot="footer" class="dialog-footer">
         <button-custom class="button" @click.native="handleCancel" title="取消" />
@@ -24,6 +24,7 @@
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
 import frameSelection from "_c/duno-c/frameSelection";
+import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   name: "calibration",
   components: {
@@ -42,16 +43,55 @@ export default {
     return {
       input: "",
       value: "",
-      options: []
+      options: [],
+      mainDevice: "",
+      part: "",
+      partSub: "",
+      imgFile: {},
+      pointData: {}
     };
   },
   methods: {
+    onSend(data, imgData) {
+      this.pointData = data;
+      this.imgFile = imgData;
+    },
     handleSubmit() {
-      this.$emit("closeShot");
+      let url = "/lenovo-sample/api/mark/add";
+      let query = {
+        mainDevice: this.mainDevice,
+        part: this.part,
+        partSub: this.partSub,
+        recognizeType: this.value,
+        sampleId: this.$route.query.sampleId,
+        x1: this.pointData.x0,
+        y1: this.pointData.y0,
+        x2: this.pointData.x1,
+        y2: this.pointData.y1
+      };
+      postAxiosData(url, query).then(res => {
+        this.$message.success("新增成功");
+        this.$emit("closeShot");
+      });
     },
     handleCancel() {
       this.$emit("closeShot");
+    },
+    getTypelist() {
+      let query = {
+        sampleId: this.$route.query.sampleId
+      };
+      let url = "/lenovo-sample/api/mark/getRecognize";
+      getAxiosData(url, query).then(res => {
+        this.options = res.data.RecognizeList;
+        this.mainDevice = res.data.mainDevice;
+        this.part = res.data.part;
+        this.partSub = res.data.partSub;
+      });
     }
+  },
+  mounted() {
+    this.getTypelist();
   }
 };
 </script>

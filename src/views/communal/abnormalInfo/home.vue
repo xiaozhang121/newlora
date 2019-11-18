@@ -686,9 +686,16 @@ export default {
   },
   methods: {
     getdefectData() {
-      let url = "/lenovo-sample/api/sample/statistics";
+      let url = "/lenovo-sample/api/sample/data/statistics";
       getAxiosData(url).then(res => {
         let data = res.data;
+        this.defectData[0].num = data.totalNum;
+        this.defectData[1].num = data.handleNum;
+        this.defectData[1].flex = (data.handleNum / data.totalNum).toFixed(2);
+        this.defectData[2].num = data.cameraNum;
+        this.defectData[2].flex = (data.cameraNum / data.totalNum).toFixed(2);
+        this.defectData[3].num = data.resultNum;
+        this.defectData[3].flex = (data.resultNum / data.totalNum).toFixed(2);
       });
     },
     handleReport(item) {
