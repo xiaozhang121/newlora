@@ -51,7 +51,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
@@ -594,7 +594,8 @@ export default {
     // },
     changeSelect(item) {
       this.dataForm.powerDeviceId = item;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     handleClose() {
       this.popData = {};

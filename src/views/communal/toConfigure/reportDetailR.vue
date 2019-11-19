@@ -213,7 +213,8 @@
             onSelect(item) {
                 this.titleValue = item["describeName"];
                 this.dataForm.planType = item["monitorType"];
-                this.getDataList();
+                // this.getDataList();
+                this.clickQuery(this.dataForm);
             },
             onChangeTime(data) {
                 let startTime = "";
@@ -224,7 +225,8 @@
                 }
                 this.dataForm.startTime = startTime;
                 this.dataForm.endTime = endTime;
-                this.getDataList();
+                // this.getDataList();
+                this.clickQuery(this.dataForm);
             },
             getPlayTypeData() {
                 /* getPlayType().then(res => {

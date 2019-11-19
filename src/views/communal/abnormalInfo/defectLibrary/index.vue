@@ -234,7 +234,8 @@ export default {
     onSelectType(item, index) {
       this.titleTypeR = item["describeName"];
       this.dataForm.markType = item.monitorType;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     onChangeTime(data) {
       let startTime = "";
@@ -245,7 +246,8 @@ export default {
       }
       this.dataForm.importTimeStart = startTime;
       this.dataForm.importTimeEnd = endTime;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     }
     // getRegion() {
     //   const that = this;

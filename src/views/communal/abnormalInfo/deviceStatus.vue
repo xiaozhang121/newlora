@@ -318,7 +318,6 @@ export default {
         this.$refs.btnTopRef.handleCheckAllChange(true);
         this.$refs.btnTopRef.checkAll = true;
         this.$refs.btnTopRef.checkedCities = this.onSelectDevice(map);
-        console.log(this.TestEquipment);
         this.getDataList();
       });
     },
@@ -354,7 +353,8 @@ export default {
       });
       this.dataForm.deviceType = arr.join(",");
       if (this.dataForm.deviceType != "") {
-        this.getDataList();
+        // this.getDataList();
+        this.clickQuery(this.dataForm);
       }
       return value;
       // this.titleTypeL = item["describeName"];
@@ -366,12 +366,14 @@ export default {
           delete this.dataForm["areaId"];
         }
       }
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
       this.titleTypeC = item["describeName"];
     },
     onSelectState(item) {
       this.dataForm.status = item["value"];
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
       this.titleTypeR = item["describeName"];
     },
     onChangeTime(data) {

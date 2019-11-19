@@ -703,10 +703,12 @@ export default {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
         this.dataForm.dataType = item.monitorDeviceType;
-        this.getDataList();
+        // this.getDataList();
+        this.clickQuery(this.dataForm);
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
-        this.getDataList();
+        // this.getDataList();
+        this.clickQuery(this.dataForm);
       }
     },
     onChangeHis(data) {
@@ -718,7 +720,8 @@ export default {
       }
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     getSelectType() {
       getVType().then(res => {

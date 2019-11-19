@@ -601,10 +601,12 @@ export default {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
         this.dataForm.deviceType = item.monitorDeviceType;
-        this.getDataList();
+        // this.getDataList();
+        this.clickQuery(this.dataForm);
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmLevel = item.monitorDeviceType;
-        this.getDataList();
+        // this.getDataList();
+        this.clickQuery(this.dataForm);
       } else if (item.title == "titleTypeK") {
         this.echartForm.getEchasrts = item.monitorDeviceType;
         this.getEchasrts();
@@ -619,7 +621,8 @@ export default {
       }
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     onChangeTime(data) {
       let startTime = "";

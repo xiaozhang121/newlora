@@ -404,7 +404,8 @@ export default {
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmType = item.monitorDeviceType;
       }
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     onChangeTime(data) {
       let startTime = "";
@@ -415,7 +416,8 @@ export default {
       }
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     handleClose() {
       this.popData = {};

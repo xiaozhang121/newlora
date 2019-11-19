@@ -76,7 +76,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
@@ -221,7 +221,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let data = params.row.part?params.row.part:'/'
+            let data = params.row.part ? params.row.part : "/";
             return h("div", data);
           }
         },
@@ -639,19 +639,22 @@ export default {
       this[item.title] = item["describeName"];
       this.dataForm.powerDeviceId = item.monitorDeviceType;
       this.queryForm.powerDeviceId = item.monitorDeviceType;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     onSelectDevice(item, index) {
       this.deviceTitleType = item["describeName"];
       this.queryForm.dataSource = item.monitorDeviceType;
       this.dataForm.dataSource = item.monitorDeviceType;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     onSelectType(item, index) {
       this[item.title] = item["describeName"];
       this.dataForm.planType = item.monitorType;
       this.queryForm.planType = item.monitorType;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     onChangeTime(data) {
       let startTime = "";
@@ -664,7 +667,8 @@ export default {
       this.dataForm.endTime = endTime;
       this.queryForm.startTime = startTime;
       this.queryForm.endTime = endTime;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     handleClose() {
       this.popData = {};

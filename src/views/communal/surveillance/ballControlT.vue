@@ -906,10 +906,12 @@
                 this[item.title] = item["describeName"];
                 if (item.title == "titleTypeL") {
                     this.dataForm.dataType = item.monitorDeviceType;
-                    this.getDataList();
+                    // this.getDataList();
+                    this.clickQuery(this.dataForm);
                 } else if (item.title == "titleTypeR") {
                     this.dataForm.alarmLevel = item.monitorDeviceType;
-                    this.getDataList();
+                    // this.getDataList();
+                    this.clickQuery(this.dataForm);
                 }
             },
             onChangeSecond(data) {

@@ -419,7 +419,8 @@ export default {
     areaId(now) {
       this.dataForm.areaId = now;
       this.queryForm.areaId = now;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     titleCode(now) {
       this.value = now.value;
@@ -451,7 +452,8 @@ export default {
     onSelect(item) {
       this.titleType = item["describeName"];
       this.dataForm.alarmType = item["monitorDeviceType"];
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     onChangeTime(data) {
       let startTime = "";
@@ -462,7 +464,8 @@ export default {
       }
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     selectDownloadType(item) {
       const that = this;

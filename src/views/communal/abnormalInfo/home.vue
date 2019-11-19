@@ -821,7 +821,8 @@ export default {
     onSelect(item) {
       this.titleType = item["describeName"];
       this.dataForm.alarmLevel = item["monitorDeviceType"];
-      this.getDataList();
+      // this.getDataList();
+      this.clickQuery(this.dataForm);
     },
     getLevel() {
       postAxiosData("/lenovo-alarm/api/alarm/level").then(res => {

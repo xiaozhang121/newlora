@@ -232,11 +232,13 @@ export default {
     onSelectDevice(item) {
       this.titleTypeL = item["describeName"];
       this.dataForm.type = item["value"];
+      this.mixinViewModuleOptions.isShowPage = true;
       this.init();
     },
     onSelectState(item) {
       this.titleTypeR = item["describeName"];
       this.dataForm.status = item["value"];
+      this.mixinViewModuleOptions.isShowPage = true;
       this.init();
     }
   },
