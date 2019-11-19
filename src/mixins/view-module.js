@@ -136,6 +136,7 @@ export default {
       const that = this
       const newObj = {}
       const newVal = JSON.parse(JSON.stringify(val))
+      that.mixinViewModuleOptions.isShowPage = true
       for (let key in this.dataForm) {
         newObj[key] = this.dataForm[key]
       }
