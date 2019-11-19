@@ -920,17 +920,19 @@
         this.waitTimer = null
         if(!this.waitTimer && !this.isPic && !this.imgAdress){
           this.waitTimer = setInterval(() => {
-            try{
-              that.$refs.videoPlayer.player.dispose()
-              this.showView = false
-              that.$nextTick(()=>{
-                setTimeout(()=>{
-                  this.showView = true
-                  if (this.autoplay && this.$refs.videoPlayer.player)
-                    that.$refs.videoPlayer.player.play()
-                },6000)
-              })
-            }catch (e) {}
+            that.$refs.videoPlayer.player.load()
+            that.$refs.videoPlayer.player.play()
+            // try{
+            //   that.$refs.videoPlayer.player.dispose()
+            //   this.showView = false
+            //   that.$nextTick(()=>{
+            //     setTimeout(()=>{
+            //       this.showView = true
+            //       if (this.autoplay && this.$refs.videoPlayer.player)
+            //         that.$refs.videoPlayer.player.play()
+            //     },6000)
+            //   })
+            // }catch (e) {}
           }, 6000)
         }
       }
@@ -960,9 +962,7 @@
       }catch (e) {}
       this.playerOptionsD["sources"][0]["src"] = ''
       this.playerOptions["sources"][0]["src"] = ''
-      try{
-        this.destory()
-      }catch (e) {}
+      this.destory()
       this.showView = false
       this.isPlayback = false
       this.$forceUpdate()
