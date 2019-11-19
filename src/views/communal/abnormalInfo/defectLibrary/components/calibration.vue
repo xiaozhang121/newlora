@@ -2,7 +2,7 @@
   <div class="duno-calibrat">
     <el-dialog title="新增标定" :visible.sync="isShow" width="500px" :before-close="handleCancel">
       <div class="content">
-        <el-input v-model="input" placeholder="图⽚编号058214新增标定-1（点击修改名称）"></el-input>
+        <!-- <el-input v-model="input" placeholder="图⽚编号058214新增标定-1（点击修改名称）"></el-input> -->
         <el-select v-model="value" placeholder="选择识别类型">
           <el-option
             v-for="item in options"
@@ -11,7 +11,7 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <frame-selection @on-send="onSend"></frame-selection>
+        <frame-selection @on-send="onSend" :keepData="frameData"></frame-selection>
       </div>
       <span slot="footer" class="dialog-footer">
         <button-custom class="button" @click.native="handleCancel" title="取消" />
@@ -37,6 +37,9 @@ export default {
       default: () => {
         return false;
       }
+    },
+    dataList: {
+      type: Object
     }
   },
   data() {
@@ -47,6 +50,7 @@ export default {
       mainDevice: "",
       part: "",
       partSub: "",
+      frameData: {},
       imgFile: {},
       pointData: {}
     };
@@ -92,6 +96,8 @@ export default {
   },
   mounted() {
     this.getTypelist();
+    this.frameData = this.dataList;
+    this.value = this.dataList.recognizeType;
   }
 };
 </script>

@@ -1,10 +1,6 @@
 <template>
   <div class="frameSelection">
-    <div
-      class="dialog-content"
-      v-loading="loading"
-      element-loading-text="请稍后，正在加载数据..."
-    >
+    <div class="dialog-content" v-loading="loading" element-loading-text="请稍后，正在加载数据...">
       <canvas
         ref="myCanvas"
         width="450px"
@@ -34,6 +30,12 @@ export default {
       type: Boolean,
       default: () => {
         return true;
+      }
+    },
+    keepData: {
+      type: Object,
+      default: () => {
+        return {};
       }
     }
   },
@@ -67,6 +69,11 @@ export default {
         }
       },
       deep: true
+    },
+    keepData(now) {
+      this.loading = false;
+      this.img.src = now.picFilePath;
+      this.init();
     }
   },
 
@@ -153,6 +160,10 @@ export default {
     }
   },
   mounted() {
+    if (this.keepData) {
+      this.loading = false;
+      this.img.src = this.keepData.picFilePath;
+    }
     this.$nextTick(() => {
       this.init();
     });

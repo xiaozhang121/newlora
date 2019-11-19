@@ -2,7 +2,7 @@
   <div class="duno-progress">
     <div>{{dataList.name}}</div>
     <div :style="{background:dataList.color,flex:dataList.flex}"></div>
-    <div>{{dataList.num}}张</div>
+    <div>{{dataList.num?dataList.num:0}}张</div>
   </div>
 </template>
 

@@ -191,7 +191,7 @@ export default {
                         query: {
                           id: params.row.id,
                           sampleId: params.row.sampleId,
-                          picFilePath: params.row.picFilePath,
+                          picFileName: params.row.picFileName,
                           markType: params.row.markType
                         }
                       });

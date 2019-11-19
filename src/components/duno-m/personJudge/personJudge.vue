@@ -91,11 +91,11 @@ export default {
       stateData: [
         {
           value: "0",
-          label: "关"
+          label: "合状态"
         },
         {
           value: "1",
-          label: "开"
+          label: "分状态"
         }
       ]
     };
