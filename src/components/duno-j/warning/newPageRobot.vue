@@ -1,6 +1,6 @@
 <template>
     <div class="warningDialogbNew">
-        <el-dialog class="elDialogClass" :close-on-press-escape="false" :close-on-click-modal="false"  :visible="true" width="900px" center @close="handleClose">
+        <el-dialog class="elDialogClass" :close-on-press-escape="false" :close-on-click-modal="false" :fullscreen="true"  :visible="true" width="900px" center @close="handleClose">
             <div slot="title">
                 <div class="title_top">
                     <span>{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</span>
@@ -52,7 +52,7 @@
             </div>
             <div style="clear: both"></div>
         </el-dialog>
-        <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="{taskDeviceId: taskDeviceId}" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
+        <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="warnData" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
     </div>
 </template>
 <script>
@@ -179,7 +179,7 @@
         },
         methods: {
             initDataD(taskDeviceId) {
-                let id = this.taskDeviceId?this.taskDeviceId:taskDeviceId
+                let id = this.warnData['taskDeviceId']?this.warnData['taskDeviceId']:taskDeviceId
                 postAxiosData("/lenovo-robot/rest/taskCurLink", {
                     taskDeviceId: id
                 }).then(res => {
@@ -419,7 +419,7 @@
             }
         }
         .el-dialog {
-            background: #e0e0e0;
+            background: white;
         }
         .el-dialog__header {
             text-align: left;
