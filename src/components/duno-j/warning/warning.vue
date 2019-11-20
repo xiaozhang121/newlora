@@ -826,6 +826,8 @@ export default {
   }
   .title_top {
     font-weight: bold;
+    text-align: left;
+    padding-left: 48px;
     .iconfontList {
       float: right;
       position: relative;
@@ -842,6 +844,7 @@ export default {
   .extend {
     font-size: 14px;
     margin-top: 3px;
+    padding-left: 6px;
   }
   .keyMonitor {
     width: 100%;

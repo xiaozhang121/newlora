@@ -427,6 +427,8 @@
         }
         .title_top {
             font-weight: bold;
+            text-align: left;
+            padding-left: 48px;
             .iconList{
                 position: absolute;
                 right: 33px;
@@ -441,6 +443,7 @@
         .extend {
             font-size: 14px;
             margin-top: 3px;
+            padding-left: 6px;
         }
     }
 </style>

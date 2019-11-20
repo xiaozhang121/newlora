@@ -632,6 +632,7 @@ export default {
   .title_top {
     font-weight: bold;
     text-align: left;
+    padding-left: 48px;
     & > span:first-child {
       p:last-child {
         color: #969696;
@@ -653,6 +654,7 @@ export default {
   .extend {
     font-size: 14px;
     margin-top: 3px;
+    padding-left: 6px;
   }
 }
 </style>
