@@ -3,11 +3,13 @@
         <el-dialog class="elDialogClass" :close-on-press-escape="false" :close-on-click-modal="false" :fullscreen="true"  :visible="true" width="900px" center @close="handleClose">
             <div slot="title">
                 <div class="title_top">
-                    <span>{{ (warnData.deviceName?warnData.deviceName:'')+'-'+ (warnData.recognType?warnData.recognType:'')}}</span>
+                    <p>记录{{ warnData.time}}</p>
+                    <p style="font-weight: normal; font-size: 13px">{{ warnData.recognType?warnData.recognType:'' }}</p>
                     <span class="iconList">
-            <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
-          </span>
+                        <i class="iconfont icon-dayin" @click="toPrint($event)"  v-print="target"></i>
+                    </span>
                 </div>
+                <!--<div class="extend">{{ dataList.alarmTypeValue }}</div>-->
             </div>
             <div class="main">
                 <div class="monitor">
@@ -16,6 +18,7 @@
                 <div class="info">
                     <div class="info_top">
                         <p class="monitorTitle">判定结果:</p>
+                        <p style="position: relative; top: -13px">{{ (warnData.deviceName?warnData.deviceName:'') }}</p>
                         <p>{{dataList.alarmType}}</p>
                     </div>
                     <div v-if="!discriminate" class="temperature">
@@ -32,7 +35,7 @@
                         <a class="not-print" href="javascript:;" @click="clickJudge">结果修订</a>
                     </div>
                     <div class="from">
-            <span class="origin">
+            <span class="origin" style="text-decoration: none">
               来源：
               <a href="javascript:;" @click="getJump">机器人</a>
             </span>
@@ -428,7 +431,7 @@
         .title_top {
             font-weight: bold;
             text-align: left;
-            padding-left: 48px;
+            /*padding-left: 48px;*/
             .iconList{
                 position: absolute;
                 right: 33px;

@@ -5,14 +5,16 @@
     </div>
     <el-form :model="form" label-width="80px">
       <div style="font-weight:700;font-size:18px">选择预置位和时间</div>
-      <chosen-list
-              v-for="(item, index) in dataList2"
-              :key="index"
-              @change="getDataList"
-              :titleOption="item['monitorDeviceName']"
-              :controlOption="true"
-              :dataListOption="item['presets']"
-      />
+      <div class="chosenGroupR">
+        <chosen-list
+                v-for="(item, index) in dataList2"
+                :key="index"
+                @change="getDataList"
+                :titleOption="item['monitorDeviceName']"
+                :controlOption="true"
+                :dataListOption="item['presets']"
+        />
+      </div>
     </el-form>
   </div>
 </template>
@@ -199,6 +201,24 @@
   .taskPanel {
     .el-select {
       width: 100%;
+    }
+    .chosenGroupR{
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .chosenGroupR::-webkit-scrollbar {/*滚动条整体样式*/
+      width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+      height: 4px;
+    }
+    .chosenGroupR::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+      border-radius: 5px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.2);
+    }
+    .chosenGroupR::-webkit-scrollbar-track {/*滚动条里面轨道*/
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      border-radius: 0;
+      background: rgba(0,0,0,0.1);
     }
   }
 </style>

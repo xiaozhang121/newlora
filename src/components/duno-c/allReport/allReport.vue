@@ -367,17 +367,18 @@ export default {
                 {
                   props: {
                     placement: "top",
+                    maxWidth: "200",
                     content: params.row.monitorDeviceName
                       ? params.row.monitorDeviceName
                       : params.row.source,
                     transfer: true
                   },
                   style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
+                    // display: "inline-block",
+                    // width: "100%",
+                    // overflow: "hidden",
+                    // textOverflow: "ellipsis",
+                    // whiteSpace: "nowrap"
                   }
                 },
                 [
@@ -926,6 +927,11 @@ export default {
     top: 2px;
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;

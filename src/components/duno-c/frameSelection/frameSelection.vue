@@ -133,8 +133,8 @@ export default {
         that.beginRec.y1 - that.beginRec.y0
       );
       that.context.beginPath();
-      that.context.strokeStyle = "red";
-      that.context.lineWidth = 1;
+      that.context.strokeStyle = "#9deeff";
+      that.context.lineWidth = 2;
       that.context.drawImage(that.img, 0, 0, 450, that.ctxHeight);
       that.context.strokeRect(
         that.beginRec.x0,

@@ -3,7 +3,7 @@
         <div class="rouTineInspection_left" :class="{'noWidth': hidden}">
             <div class="nr">
                 <div class="main">
-                    <gis-map v-if="mapShow" :rebot="true" :deviceList="deviceList" :zoom="16"  ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
+                    <gis-map v-if="mapShow" cursor="default" :rebot="true" :deviceList="deviceList" :zoom="16"  ref="gisMapObj" fillColor="#0f1c22" :small="true"  :controlBtn="false" :isDiagram="2"  ></gis-map>
                 </div>
             </div>
         </div>

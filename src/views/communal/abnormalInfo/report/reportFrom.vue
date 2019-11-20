@@ -259,7 +259,7 @@ export default {
   }
   .dunoMain {
     margin-bottom: 15px;
-    height: inherit !important;
+    height: auto !important;
   }
   .task {
     padding: 20px 0 20px 20px;

@@ -17,7 +17,7 @@
                 </div>
             </div>
         </duno-main>
-        <platform-line :showList="false" :visible="visible" @on-close="onClose()" :dataInfo="dataInfo"></platform-line>
+        <platform-line :showList="showList" :visible="visible" @on-close="onClose()" :dataInfo="dataInfo"></platform-line>
         <!--<platform-box></platform-box>-->
     </div>
 </template>
@@ -49,6 +49,7 @@
         data() {
             const that = this;
             return {
+                showList: false,
                 dataInfo: null,
                 visible: false,
                 deviceList: [],
@@ -98,48 +99,42 @@
             toDevice(item, index, targetd, modelIndex = 0, flag){
                 let type = item['monitorDeviceType']
                 this.dataInfo = item
-                if(type == 1 || type == 2)
-                    this.visible = true
+                if(type == 1 || type == 2 || type == 5 || type == 'AP') {
+                  this.visible = true
+                  this.showList = false
+                }
             },
-            setAP(){
+            setAP(data){
               const that = this
-              let data = that.wirelessAP.default
-              let arr = []
-              data.forEach((item, index)=>{
-                  arr.push({
-                      cadX: item['location'][0],
-                      cadY: item['location'][1],
-                      realX:item['location'][0],
-                      realY:item['location'][1],
-                      xCad:item['location'][0],
-                      yCad:item['location'][1],
-                      show: true,
-                      isShow: true,
-                      monitorDeviceName: item['name'].trim(),
-                      src: that.AP
-                  })
+              data.map(item=>{
+                item['cadX'] = item['xlocation']
+                item['cadY'] = item['ylocation']
+                item['realX'] = item['xlocation']
+                item['realY'] = item['ylocation']
+                item['xCad'] = item['xlocation']
+                item['yCad'] = item['ylocation']
+                item['src'] = that.AP
+                item['show'] = true
+                item['isShow'] = true
+                item['monitorDeviceType'] = 'AP'
               })
-                return arr
+              return data
             },
-            setCaisson(){
-                const that = this
-                let data = that.caisson.default
-                let arr = []
-                data.forEach((item, index)=>{
-                    arr.push({
-                        cadX: item['location'][0],
-                        cadY: item['location'][1],
-                        realX:item['location'][0],
-                        realY:item['location'][1],
-                        xCad:item['location'][0],
-                        yCad:item['location'][1],
-                        show: true,
-                        isShow: true,
-                        monitorDeviceName: item['name'].trim(),
-                        src: that.waterBox
-                    })
-                })
-                return arr
+            setCaisson(data){
+              const that = this
+              data.map(item=>{
+                item['cadX'] = item['xlocation']
+                item['cadY'] = item['ylocation']
+                item['realX'] = item['xlocation']
+                item['realY'] = item['ylocation']
+                item['xCad'] = item['xlocation']
+                item['yCad'] = item['ylocation']
+                item['src'] = that.waterBox
+                item['show'] = true
+                item['isShow'] = true
+                item['monitorDeviceType'] = 'Caisson'
+              })
+              return data
             },
             getDeviceList(){
                 const that = this
@@ -165,13 +160,16 @@
                         item['show'] = true
                         item['isShow'] = true
                     })
-                    let ap = that.setAP()
-                    let waterBox = that.setCaisson()
-                    // debugger
-                    data = data.concat(ap)
-                    data = data.concat(waterBox)
-                    that.deviceList = data
-                    that.tempDeviceList = data
+                    Promise.all([getAxiosData('/lenovo-mon/api/home/ap/location'), getAxiosData('/lenovo-mon/api/home/box/location')]).then(
+                      list => {
+                        let ap = that.setAP(list[0].data)
+                        let waterBox = that.setCaisson(list[1].data)
+                        data = data.concat(ap)
+                        data = data.concat(waterBox)
+                        that.deviceList = data
+                        that.tempDeviceList = data
+                      }
+                    )
                 })
             },
             arrHandle(data){

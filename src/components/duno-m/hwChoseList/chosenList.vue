@@ -11,8 +11,7 @@
       <div class="contain" :class="{'overShow': dataLength>6}" v-show="collapse">
         <div v-for="(item,index) in dataList" class="outBox">
           <div class="item" :key="index">
-            <el-checkbox v-model="item['isCheck']" @change="change">{{ item['title'] }}</el-checkbox>
-       
+            <el-checkbox v-model="item['isCheck']" @change="selectAll(index)">{{ item['title'] }}</el-checkbox>
           </div>
           <div class="demo">
             <div v-for="(val,i) in item['children']" class="innerbox">
@@ -127,6 +126,20 @@ export default {
     }
   },
   methods: {
+    selectAll(index){
+      let target = this.dataList[index]
+      let data = this.dataList[index].children
+      if(target.isCheck){
+        data.map(item=>{
+          item['isCheck'] = true
+        })
+      }else{
+        data.map(item=>{
+          item['isCheck'] = false
+        })
+      }
+      this.change()
+    },
     change() {
       this.$forceUpdate();
       this.$emit("change", this.dataList);
@@ -178,6 +191,7 @@ export default {
   }
 }
 .chosenList::-webkit-scrollbar {
+  display: none;
   /*滚动条整体样式*/
   width: 6px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 10px;

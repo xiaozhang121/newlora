@@ -78,14 +78,14 @@
                     :style="isShowNone"
                     class="block"
                     :class="{'hidden': isPic}"
-                    v-if="second"
+                    v-if="second && !isCamera"
             >
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2" :step="15" @change='sliderChange'></el-slider>
               <span class="nowNR">当前</span>
             </div>
-            <div class="block" v-else></div>
-            <div class="block" v-if="!second && isCamera">
+            <div class="block" v-else  v-show="!isCamera"></div>
+            <div class="block" v-if="isCamera">
               视频录制 {{timeIncreateD}}
               <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>-->
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
