@@ -75,9 +75,8 @@ export default {
         },
         controlAble:{
             handler(now){
-                if(now){
-                   this.disabled = !now
-                }
+               this.activeStyle = now
+               this.disabled = !now
             },
             immediate: true
         },

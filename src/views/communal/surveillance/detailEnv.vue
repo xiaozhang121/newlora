@@ -834,6 +834,9 @@ export default {
     }
   },
   methods: {
+    onDisable(flag){
+      this.disabled = !flag
+    },
     checkSpecial(value) {
       let myreg =
         "[`_+@~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，'、？]‘'";

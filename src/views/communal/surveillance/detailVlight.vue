@@ -550,7 +550,7 @@ export default {
       }
     },
     onDisable(flag){
-        this.disabled = flag
+        this.disabled = !flag
     },
     closeEnlarge() {
       this.isEnlarge = false;
@@ -567,7 +567,7 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = false;
+      that.disabled = true;
       if(this.dataForm.monitorDeviceId){
         const url =
           "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +

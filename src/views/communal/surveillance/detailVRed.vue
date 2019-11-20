@@ -567,7 +567,7 @@ export default {
       }
     },
     onDisable(flag){
-        this.disabled = flag
+        this.disabled = !flag
     },
     closeEnlarge() {
       this.isEnlarge = false;
@@ -584,7 +584,7 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = false;
+      that.disabled = true;
       const url =
         "/lenovo-iir/device/visible/url/rtmp/" + this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
