@@ -77,14 +77,14 @@ export default {
             handler(now){
                 if(now){
                    this.disabled = !now
-                   this.activeStyle = now
                 }
             },
             immediate: true
         },
         disabledOption:{
             handler(now){
-                this.disabled = now
+              this.activeStyle = !now
+              this.disabled = now
             },
             immediate: true
         },
