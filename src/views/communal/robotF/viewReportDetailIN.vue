@@ -63,7 +63,7 @@ import enlarge from "_c/duno-c/enlarge";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
-import wraning from "_c/duno-j/warningB";
+import wraning from "_c/duno-j/warningBB";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
