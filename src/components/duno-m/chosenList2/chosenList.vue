@@ -14,7 +14,7 @@
       <div class="contain" :class="{'overShow': dataLength>6}" v-show="collapse">
         <div v-for="(item,index) in dataList" class="outBox">
           <div class="item" :key="index">
-            <el-checkbox v-model="item['isCheck']" @change="change">{{ item['title'] }}</el-checkbox>
+            <el-checkbox v-model="item['isCheck']" @change="change(-1, index)">{{ item['title'] }}</el-checkbox>
             <template v-if="item['presetName']!=undefined&&item['presetName']!=null">
               <span class="datapick">
                 <el-time-picker
@@ -152,16 +152,29 @@ export default {
       this.$emit("inputChange", item);
     },
     change(val, i) {
-      if (val.value == 0) {
-        if (val.isCheck) {
-          this.dataList[i].listArr.map(res => {
-            res.isCheck = true;
-          });
+      if(val == -1){
+        let target = this.dataList[index]
+        let data = this.dataList[index].children
+        if(target.isCheck){
+          data.map(item=>{
+            item['isCheck'] = true
+          })
+        }else{
+          data.map(item=>{
+            item['isCheck'] = false
+          })
         }
       }else{
-        this.dataList[i].listArr[0].isCheck=false;
+        if (val.value == 0) {
+          if (val.isCheck) {
+            this.dataList[i].listArr.map(res => {
+              res.isCheck = true;
+            });
+          }
+        }else{
+          this.dataList[i].listArr[0].isCheck=false;
+        }
       }
-   
       this.$forceUpdate();
       this.$emit("change", this.dataList);
     },
@@ -232,6 +245,7 @@ export default {
   }
 }
 .chosenList::-webkit-scrollbar {
+  display: none;
   /*滚动条整体样式*/
   width: 6px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 10px;

@@ -33,20 +33,20 @@
         planType="特殊巡视 "
       />
       <Patrol
-        :columns="columnsData1D"
-        :dataList="environmentInspectList"
-        :title="title1"
-        :isShowBtn="false"
-        :titleCon="titleCon"
-        planType="现场安全管控巡视"
-      />
-      <Patrol
         :columns="columnsDataD"
         :dataList="handHeldInfraredPlanList"
         :title="title2"
         :isShowBtn="false"
         :titleCon="titleCon"
         planType="手持红外巡视"
+      />
+      <Patrol
+              :columns="columnsData1D"
+              :dataList="environmentInspectList"
+              :title="title1"
+              :isShowBtn="false"
+              :titleCon="titleCon"
+              planType="现场安全管控巡视"
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
@@ -198,7 +198,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 200,
+          minWidth: 240,
           align: "right",
           tooltip: true,
           render: (h, params) => {

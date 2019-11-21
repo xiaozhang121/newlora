@@ -247,7 +247,7 @@ export default {
   }
   .dunoMain {
     // min-height: 100%;
-    height: inherit !important;
+    height: auto !important;
     margin-bottom: 20px;
     .el-pagination {
       text-align: center;

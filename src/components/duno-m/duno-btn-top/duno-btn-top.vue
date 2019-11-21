@@ -412,7 +412,7 @@
                 const that = this
                 if(that.showListFlag){
                     if(!(event.target.className.indexOf('checkbox')>-1) && that.isCheck){
-                        that.showListFlag = !that.showListFlag
+                        that.showListFlag = false
                         that.$refs.selfInput.blur()
                     }
                 }

@@ -54,7 +54,7 @@
           v-if="rowDataLength != 0 && stepValue == 3"
           class="button"
           @click.native="toEdit()"
-          title="编辑"
+          title="完成编辑"
         />
       </span>
     </el-dialog>

@@ -49,7 +49,7 @@
             <div class="info">
               <div class="info_top">
                 <p class="monitorTitle">判定结果:</p>
-                <p>{{dataList.judgeResult}}</p>
+                <p>{{dataList.judgeResult || dataList.powerDeviceName}}</p>
               </div>
               <!-- v-if="!discriminate" -->
               <div class="temperature">

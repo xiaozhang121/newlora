@@ -3,11 +3,11 @@
         <historical-documents  :tabPaneData="tabPaneData" :picSrc="picSrc" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="visibleOption" class="historical">
             <div class="mainPanel">
                 <div class="explain">
-                    <div class="p_title">安装时间：</div>
+                    <div class="p_title">{{ Ftitle }}</div>
                     <div class="nr">{{ installTime }}</div>
                 </div>
                 <div class="explain">
-                    <div class="p_title">IP：</div>
+                    <div class="p_title">{{ Stitle }}</div>
                     <div class="nr">{{ IP }}</div>
                 </div>
                 <div class="status">
@@ -41,6 +41,7 @@
 <script>
     import mixinViewModule from "@/mixins/view-module";
     import HistoricalDocuments from '_c/duno-c/HistoricalDocuments'
+    import {getAxiosData} from "../../../api/axiosType";
     export default {
         name: 'platformLine',
         mixins: [mixinViewModule],
@@ -49,6 +50,8 @@
         },
         data() {
             return {
+                Ftitle: '安装时间：',
+                Stitle: 'IP：',
                 picSrc: null,
                 installTime: '',
                 IP: '',
@@ -81,7 +84,7 @@
             dataInfo:{
                   handler(now){
                       let type = now['monitorDeviceType']
-                      if(type == 1){
+                      if(type == 1 || type == 5){
                           this.installTime = now['deviceMessage']['instTime']?now['deviceMessage']['instTime']:'/'
                           this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
                           this.deviceType = now['deviceMessage']['status']?'正常':'异常'
@@ -90,8 +93,12 @@
                           }else{
                               this.picSrc = this.lightNoCamera
                           }
+                          if(type == 5){
+                             this.picSrc = this.lightD
+                          }
                           this.title = now['deviceMessage']['cameraName']
-                      }else if(type == 2){
+                      }
+                      else if(type == 2){
                           this.installTime = now['deviceMessage']['installDate']?now['deviceMessage']['installDate']:'/'
                           this.IP = now['deviceMessage']['ip']?now['deviceMessage']['ip']:'/'
                           this.deviceType = now['deviceMessage']['connect']?'正常':'异常'
@@ -101,6 +108,9 @@
                               this.picSrc = this.redLight
                           }
                           this.title = now['deviceMessage']['name']
+                      }
+                      else if(type == 'AP'){
+                         this.getAP(now)
                       }
                   },
                   deep: true
@@ -122,6 +132,16 @@
             }
         },
         methods:{
+            getAP(data){
+              getAxiosData('/lenovo-mon/api/monitoring/popup/ap', {mac: data.apMac}).then(res=>{
+                this.title = '802.11ac Wave2天线一一体化室外无无线AP'
+                this.Ftitle = '型号：'
+                this.Stitle = 'IP：'
+                this.installTime = res.model
+                this.IP = res.ip
+                this.deviceType = res.data['status']?'正常':'异常'
+              })
+            },
             onChange(){
 
             },
@@ -139,6 +159,11 @@
 </script>
 
 <style lang="scss">
+    .platformLine{
+        .el-dialog__body{
+            min-height: auto !important;
+        }
+    }
     .mainPanel{
         display: flex;
         flex-direction: column;

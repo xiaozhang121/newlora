@@ -4,7 +4,9 @@
             <div>确认执行巡检的设备</div>
             <el-checkbox  @change="chosenAll" class="selectAlld">全选</el-checkbox>
             <!--<a href="javascript:void(0)" class="selectAlld" @click="chosenAll">全选</a>-->
-            <chosen-list v-for="(item, index) in dataList" :key="index" :titleOption="item['powerDeviceName']" :controlOption="true" :dataListOption="item['monitorDevices']" />
+            <div class="chosenGroup">
+                <chosen-list v-for="(item, index) in dataList" :key="index" :titleOption="item['powerDeviceName']" :controlOption="true" :dataListOption="item['monitorDevices']" />
+            </div>
         </el-form>
     </div>
 </template>
@@ -144,6 +146,13 @@
 </script>
 <style lang="scss">
     .taskPanel{
+        .chosenGroup{
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .chosenGroup::-webkit-scrollbar {
+            display: none;
+        }
         .el-select{
             width: 100%;
         }
