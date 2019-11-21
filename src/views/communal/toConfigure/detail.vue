@@ -616,7 +616,7 @@ export default {
           render: (h, params) => {
             let newArr = [];
             let self = that;
-            if (params.row.statusName == "任务间隔中") {
+            if (params.row.statusName == "任务间隔中"  && params.row.planType != 6) {
               newArr.push(
                 h(
                   "el-button",
@@ -638,7 +638,7 @@ export default {
                 )
               );
             }
-            if (params.row.statusName == "正在巡视中") {
+            if (params.row.statusName == "正在巡视中"  && params.row.planType != 6) {
               newArr.push(
                 h(
                   "el-button",
@@ -660,7 +660,7 @@ export default {
                 )
               );
             }
-            if (that.isEdit) {
+            if (that.isEdit  && params.row.planType != 6) {
               newArr.push(
                 h(
                   "el-button",
@@ -679,7 +679,7 @@ export default {
                 )
               );
             }
-            if (that.isDel) {
+            if (that.isDel && params.row.planType != 6) {
               newArr.push(h('el-poptip', {
                 props: { confirm: true, title: '确定删除吗？', type: 'primary', size: 'small' },
                 style: { margin: '0 2px' },

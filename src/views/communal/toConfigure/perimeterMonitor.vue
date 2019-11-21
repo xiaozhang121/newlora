@@ -55,7 +55,6 @@ export default {
     KeyMonitor,
     Breadcrumb,
     controBtn,
-    DunoTablesTep,
     echarts,
     wraning,
     enlarge,
