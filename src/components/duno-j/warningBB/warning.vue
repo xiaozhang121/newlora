@@ -460,6 +460,7 @@ export default {
   .title_top {
     font-weight: bold;
     text-align: left;
+    padding-left: 5px;
     /*padding-left: 48px;*/
     & > span:first-child{
       width: 643px;

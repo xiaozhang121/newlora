@@ -341,7 +341,6 @@ export default {
         },
         {
           title: " ",
-          width: 180,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -403,7 +402,6 @@ export default {
         },
         {
           title: " ",
-          width: 90,
           align: "center",
           render: (h, params) => {
             let newArr = [];

@@ -505,6 +505,7 @@
         },
         methods:{
               onDisable(flag){
+                this.activeNum = -1
                 if(flag){
                   this.activeStyle = true
                   this.xjBtn = require('@/assets/camera/xjBtnClick.png')

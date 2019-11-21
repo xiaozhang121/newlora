@@ -178,7 +178,9 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
+    max-height: 300px;
     overflow: hidden;
+    overflow-y: auto;
     .el-tree-node__expand-icon {
       color: #707070;
     }
