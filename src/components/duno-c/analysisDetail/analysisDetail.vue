@@ -840,10 +840,9 @@ export default {
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;
-
     text-align: center;
     display: inline-block;
-    // width: 100%;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -525,12 +525,12 @@
           str+=this.kilovolt+' '
         if(this.patrol){
             let pat=this.patrol
-            console.log(this.patrol)
-            pat=pat.replace(new RegExp(/-/g),'.');
+            // console.log(this.patrol)
+            // pat=pat.replace(new RegExp(/-/g),'.');
             pat=pat.replace(/至/,'-');
-            pat=pat.substring(0,22) + pat.substring(27,pat.length);
-            pat=pat.substring(0,19) + pat.substring(21,pat.length);
-            pat=pat.substring(0,pat.length-2);
+            // pat=pat.substring(0,22) + pat.substring(27,pat.length);
+            // pat=pat.substring(0,19) + pat.substring(21,pat.length);
+            // pat=pat.substring(0,pat.length-2);
             this.patrolMt=pat
           }
         str+='点击查看摄像头详情'

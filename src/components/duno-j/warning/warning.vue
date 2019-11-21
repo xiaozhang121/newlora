@@ -720,7 +720,7 @@ export default {
           margin-bottom: 10px;
         }
         & > p {
-          margin-bottom: 17px;
+          margin-bottom: 10px;
         }
       }
       .temperature {
@@ -730,7 +730,7 @@ export default {
           font-weight: bold;
         }
         .monitorTitle {
-          margin-bottom: 17px;
+          margin-bottom: 10px;
         }
         & > p {
           .ivu-dropdown {
