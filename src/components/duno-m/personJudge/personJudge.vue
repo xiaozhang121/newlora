@@ -30,7 +30,7 @@
         placeholder="机械判断数值"
       ></el-input>
       <el-select
-        v-if="formData.alarmTypeValue=='设备缺陷类'&&(formData.alarmSuperDetailType='设备缺陷类'||fourValue=='603530204484345859')"
+        v-if="formData.alarmTypeValue=='设备缺陷类'&&((fourLabel==''&&formData.select=='设备状态类')||fourLabel=='设备状态类')"
         class="itemInput"
         v-model="formData.inputT"
         placeholder="开关类型"
@@ -78,6 +78,7 @@ export default {
     return {
       value: "",
       fourValue: "",
+      fourLabel: "",
       formData: {
         input: "",
         inputT: "",
@@ -136,6 +137,7 @@ export default {
     dataList: {
       handler(now) {
         this.formData = JSON.parse(JSON.stringify(now));
+        console.log(this.formData);
       },
       deep: true,
       immediate: true
@@ -187,9 +189,13 @@ export default {
       this.formData.select = this.dataList.select;
       this.$emit("on-close");
     },
-    handlerSelectFour(item) {
-      debugger; //debugger;603530204484345859
-      this.fourValue = item;
+    handlerSelectFour(val) {
+      this.fourValue = val;
+      this.optionsData.find(item => {
+        if (item.value === val) {
+          this.fourLabel = item.label;
+        }
+      });
       this.formData.input = "";
       this.initFive(this.fourValue);
     },
@@ -240,9 +246,10 @@ export default {
       }
     }
   }
-}
-.el-input--small .el-input__inner {
-  background-color: #fff;
+  .el-input--small .el-input__inner {
+    background-color: #fff;
+    border: none;
+  }
 }
 .el-select-dropdown {
   background: #fff !important;
