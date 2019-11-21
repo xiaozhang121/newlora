@@ -952,6 +952,7 @@ export default {
     text-overflow: ellipsis;
     overflow: hidden;
     display: block;
+    width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;

@@ -770,6 +770,21 @@ export default {
       });
     },
     getJump(row) {
+      try{
+        if(row.monitorDeviceName.indexOf('室内')>-1){
+          this.$router.push({
+            path: "/robot-two/list"
+          });
+          return
+        }else if(row.monitorDeviceName.indexOf('室外')>-1){
+          this.$router.push({
+            path: "/robot-one/list"
+          });
+          return
+        }
+      }catch (e) {
+
+      }
       let monitorDeviceId =
         "monitorDeviceId" in row && row.monitorDeviceId
           ? row.monitorDeviceId

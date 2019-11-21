@@ -354,7 +354,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+          <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
 
           <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
             <div class="allShowPic center" style="position: absolute;top:-80px;transform: scale(1.3)">

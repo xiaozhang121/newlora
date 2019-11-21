@@ -850,7 +850,7 @@ export default {
     text-decoration: underline;
     text-align: center;
     display: inline-block;
-    width: 100%;
+    width: 140px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -410,6 +410,7 @@
         }
         .el-dialog {
             background: white;
+            padding: 20px 50px;
         }
         .el-dialog__header {
             text-align: left;
