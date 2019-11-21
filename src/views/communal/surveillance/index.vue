@@ -16,7 +16,13 @@
           title="切换布局"
           :showBtnList="false"
         ></duno-btn-top>
-        <duno-btn-top
+        <btn-select
+          ref="btnTopRef"
+          :setDefault="setDefault"
+          :userId="$store.state.user.configInfo['userId']"
+          @on-active="handleActiveBtn"
+        ></btn-select>
+        <!-- <duno-btn-top
           ref="btnTopRef"
           class="dunoBtnTop"
           :dataList="TypeData"
@@ -25,7 +31,7 @@
           :showBtnList="false"
           @on-disabled="onDisabled"
           @on-active="deviceShowHandle"
-        ></duno-btn-top>
+        ></duno-btn-top>-->
       </div>
     </div>
     <div class="main" :class="{widthA : displayType == '2'}">
@@ -36,8 +42,8 @@
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr01"
             :showBtmOption="true"
@@ -51,8 +57,8 @@
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr01"
             :showBtmOption="true"
@@ -71,8 +77,8 @@
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr02"
             :showBtmOption="true"
@@ -85,8 +91,8 @@
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr03"
             :showBtmOption="true"
@@ -99,8 +105,8 @@
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr04"
             :showBtmOption="true"
@@ -117,8 +123,8 @@
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr02"
             :showBtmOption="true"
@@ -133,8 +139,8 @@
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr03"
             :showBtmOption="true"
@@ -149,8 +155,8 @@
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr04"
             :showBtmOption="true"
@@ -167,8 +173,8 @@
             :monitorInfo="monitorInfo01"
             :kilovolt="$store.state.user.configInfo['camera01Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr01"
             :showBtmOption="true"
@@ -183,8 +189,8 @@
             :monitorInfo="monitorInfo02"
             :kilovolt="$store.state.user.configInfo['camera02Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr02"
             :showBtmOption="true"
@@ -199,8 +205,8 @@
             :monitorInfo="monitorInfo03"
             :kilovolt="$store.state.user.configInfo['camera03Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr03"
             :showBtmOption="true"
@@ -215,8 +221,8 @@
             :monitorInfo="monitorInfo04"
             :kilovolt="$store.state.user.configInfo['camera04Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr04"
             :showBtmOption="true"
@@ -231,8 +237,8 @@
             :monitorInfo="monitorInfo05"
             :kilovolt="$store.state.user.configInfo['camera05Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr05"
             :showBtmOption="true"
@@ -247,8 +253,8 @@
             :monitorInfo="monitorInfo06"
             :kilovolt="$store.state.user.configInfo['camera06Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr06"
             :showBtmOption="true"
@@ -263,8 +269,8 @@
             :monitorInfo="monitorInfo07"
             :kilovolt="$store.state.user.configInfo['camera07Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr07"
             :showBtmOption="true"
@@ -279,8 +285,8 @@
             :monitorInfo="monitorInfo08"
             :kilovolt="$store.state.user.configInfo['camera08Name']"
             :autoplay="true"
-            :isLive='false'
-            :isNav='true'
+            :isLive="false"
+            :isNav="true"
             imgAdress
             :streamAddr="streamAddr08"
             :showBtmOption="true"
@@ -314,6 +320,8 @@
             :autoplay="false"
             :noButton="false"
             :aggregate="true"
+            :isLive="false"
+            :isNav="true"
             :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
             :imgAdress="item['pic']"
             :kilovolt="item['areaName']"
@@ -334,6 +342,8 @@
             :autoplay="false"
             :noButton="false"
             :aggregate="true"
+            :isLive="false"
+            :isNav="true"
             :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
             :imgAdress="item['pic']"
             :kilovolt="item['areaName']"
@@ -359,11 +369,12 @@ import { swiper, swiperSlide } from "vue-awesome-swiper";
 import { initConfigure } from "@/api/user";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import btnSelect from "_c/duno-c/btnSelect";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import mixinViewModule from "@/mixins/view-module";
 import { editConfig, getAreaList } from "@/api/currency/currency.js";
 import { mapState } from "vuex";
-const MAXAJAX = 6
+const MAXAJAX = 6;
 export default {
   mixins: [mixinViewModule],
   name: "surveillance",
@@ -371,7 +382,8 @@ export default {
     dunoBtnTop,
     KeyMonitor,
     swiper,
-    swiperSlide
+    swiperSlide,
+    btnSelect
   },
   computed: {
     ...mapState(["user"]),
@@ -384,7 +396,10 @@ export default {
     monitorInfo01() {
       try {
         if (this.cameraList[0]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[0]["monitorDeviceId"], monitorDeviceName: this.cameraList[0]["monitorDeviceName"]};
+          return {
+            monitorDeviceId: this.cameraList[0]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[0]["monitorDeviceName"]
+          };
         else {
           return {};
         }
@@ -393,7 +408,10 @@ export default {
     monitorInfo02() {
       try {
         if (this.cameraList[1]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[1]["monitorDeviceId"], monitorDeviceName: this.cameraList[1]["monitorDeviceName"] };
+          return {
+            monitorDeviceId: this.cameraList[1]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[1]["monitorDeviceName"]
+          };
         else {
           return {};
         }
@@ -402,7 +420,10 @@ export default {
     monitorInfo03() {
       try {
         if (this.cameraList[2]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[2]["monitorDeviceId"], monitorDeviceName: this.cameraList[2]["monitorDeviceName"] };
+          return {
+            monitorDeviceId: this.cameraList[2]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[2]["monitorDeviceName"]
+          };
         else {
           return {};
         }
@@ -411,7 +432,10 @@ export default {
     monitorInfo04() {
       try {
         if (this.cameraList[3]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[3]["monitorDeviceId"], monitorDeviceName: this.cameraList[3]["monitorDeviceName"] };
+          return {
+            monitorDeviceId: this.cameraList[3]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[3]["monitorDeviceName"]
+          };
         else {
           return {};
         }
@@ -420,7 +444,10 @@ export default {
     monitorInfo05() {
       try {
         if (this.cameraList[4]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[4]["monitorDeviceId"], monitorDeviceName: this.cameraList[4]["monitorDeviceName"] };
+          return {
+            monitorDeviceId: this.cameraList[4]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[4]["monitorDeviceName"]
+          };
         else {
           return {};
         }
@@ -429,7 +456,10 @@ export default {
     monitorInfo06() {
       try {
         if (this.cameraList[5]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[5]["monitorDeviceId"], monitorDeviceName: this.cameraList[5]["monitorDeviceName"] };
+          return {
+            monitorDeviceId: this.cameraList[5]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[5]["monitorDeviceName"]
+          };
         else {
           return {};
         }
@@ -438,7 +468,10 @@ export default {
     monitorInfo07() {
       try {
         if (this.cameraList[6]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[6]["monitorDeviceId"], monitorDeviceName: this.cameraList[6]["monitorDeviceName"] };
+          return {
+            monitorDeviceId: this.cameraList[6]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[6]["monitorDeviceName"]
+          };
         else {
           return {};
         }
@@ -447,84 +480,87 @@ export default {
     monitorInfo08() {
       try {
         if (this.cameraList[7]["monitorDeviceId"])
-          return { monitorDeviceId: this.cameraList[7]["monitorDeviceId"], monitorDeviceName: this.cameraList[7]["monitorDeviceName"] };
+          return {
+            monitorDeviceId: this.cameraList[7]["monitorDeviceId"],
+            monitorDeviceName: this.cameraList[7]["monitorDeviceName"]
+          };
         else {
           return {};
         }
       } catch (e) {}
     },
     isPicAddr01() {
-        try {
-            if (this.cameraList[0]["isPic"])
-                return this.cameraList[0]["isPic"] == 1;
-            else {
-                return "";
-            }
-        } catch (e) {}
+      try {
+        if (this.cameraList[0]["isPic"])
+          return this.cameraList[0]["isPic"] == 1;
+        else {
+          return "";
+        }
+      } catch (e) {}
     },
     isPicAddr02() {
       try {
-          if (this.cameraList[1]["isPic"])
-              return this.cameraList[1]["isPic"] == 1;
-          else {
-              return "";
-          }
+        if (this.cameraList[1]["isPic"])
+          return this.cameraList[1]["isPic"] == 1;
+        else {
+          return "";
+        }
       } catch (e) {}
-  },
+    },
     isPicAddr03() {
       try {
-          if (this.cameraList[2]["isPic"])
-              return this.cameraList[2]["isPic"] == 1;
-          else {
-              return "";
-          }
+        if (this.cameraList[2]["isPic"])
+          return this.cameraList[2]["isPic"] == 1;
+        else {
+          return "";
+        }
       } catch (e) {}
-  },
+    },
     isPicAddr04() {
       try {
-          if (this.cameraList[3]["isPic"])
-              return this.cameraList[3]["isPic"] == 1;
-          else {
-              return "";
-          }
+        if (this.cameraList[3]["isPic"])
+          return this.cameraList[3]["isPic"] == 1;
+        else {
+          return "";
+        }
       } catch (e) {}
-  },
+    },
     isPicAddr05() {
       try {
-          if (this.cameraList[4]["isPic"])
-              return this.cameraList[4]["isPic"] == 1;
-          else {
-              return "";
-          }
+        if (this.cameraList[4]["isPic"])
+          return this.cameraList[4]["isPic"] == 1;
+        else {
+          return "";
+        }
       } catch (e) {}
-  },
+    },
     isPicAddr06() {
       try {
-          if (this.cameraList[5]["isPic"])
-              return this.cameraList[5]["isPic"] == 1;
-          else {
-              return "";
-          }
+        if (this.cameraList[5]["isPic"])
+          return this.cameraList[5]["isPic"] == 1;
+        else {
+          return "";
+        }
       } catch (e) {}
-  },
+    },
     isPicAddr07() {
       try {
-          if (this.cameraList[6]["isPic"])
-              return this.cameraList[6]["isPic"] == 1;
-          else {
-              return "";
-          }
+        if (this.cameraList[6]["isPic"])
+          return this.cameraList[6]["isPic"] == 1;
+        else {
+          return "";
+        }
       } catch (e) {}
-  },
+    },
     isPicAddr08() {
       try {
-          if (this.cameraList[7]["isPic"])
-              return this.cameraList[7]["isPic"] == 1;
-          else {
-              return "";
-          }
+        if (this.cameraList[7]["isPic"])
+          return this.cameraList[7]["isPic"] == 1;
+        else {
+          return "";
+        }
       } catch (e) {}
-  },
+    },
     streamAddr01() {
       try {
         if (this.cameraList[0]["streamAddr"])
@@ -598,13 +634,11 @@ export default {
       } catch (e) {}
     },
     layoutTypeName() {
-      try{
-      return this.dataList[
-        this.$store.state.user.configInfo["displayType"] - 1
-      ]["describeName"];
-      }catch (e) {
-        
-      }
+      try {
+        return this.dataList[
+          this.$store.state.user.configInfo["displayType"] - 1
+        ]["describeName"];
+      } catch (e) {}
     }
   },
   watch: {
@@ -668,11 +702,34 @@ export default {
       oltagevLevelList: [],
       oltagevLevel: "所有电压等级",
       layoutType: 1,
-      setDefault: '1',
+      setDefault: "1",
       ajaxCount: 0
     };
   },
   methods: {
+    handleActiveBtn(data) {
+      this.ajaxCount++;
+      if (this.ajaxCount > MAXAJAX) {
+        this.setDefault = "0";
+      }
+      let cameraPos0 = null;
+      let obj = {};
+      for (let i = 0; i < data.length; i++) {
+        obj["cameraPos0" + (i + 1)] = data[i];
+      }
+      let query = {
+        ...obj,
+        userId: this.$store.state.user.configInfo["userId"],
+        id: this.$store.state.user.configInfo.id,
+        setDefault: this.setDefault
+      };
+      editConfig(query).then(res => {
+        if (res.data.isSuccess) {
+          that.initConfigure(type);
+          that.$forceUpdate();
+        } else that.$message.error(res.msg);
+      });
+    },
     onDisabled(now) {
       let type = this.$store.state.user.configInfo["displayType"];
       let length = this.lastSelect.length;
@@ -708,9 +765,9 @@ export default {
       for (let i = 0; i < data.length; i++) {
         obj["cameraPos0" + (i + 1)] = data[i];
       }
-      this.ajaxCount++
-      if(this.ajaxCount > MAXAJAX){
-          this.setDefault = '0'
+      this.ajaxCount++;
+      if (this.ajaxCount > MAXAJAX) {
+        this.setDefault = "0";
       }
       let query = {
         ...obj,
@@ -720,31 +777,35 @@ export default {
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
-          that.initConfigure(type)
+          that.initConfigure(type);
           that.$forceUpdate();
         } else that.$message.error(res.msg);
       });
     },
     initConfigure(type) {
-      this.ajaxCount++
-      if(this.ajaxCount > MAXAJAX){
-          this.setDefault = '0'
+      this.ajaxCount++;
+      if (this.ajaxCount > MAXAJAX) {
+        this.setDefault = "0";
       }
       const that = this;
-      if(type != null){
-        initConfigure({ userId: this.$store.state.user.userId, type: type, setDefault: this.setDefault }).then(
-          res => {
-            that.$store.state.user.configInfo = res.data;
-          }
-        );
+      if (type != null) {
+        initConfigure({
+          userId: this.$store.state.user.userId,
+          type: type,
+          setDefault: this.setDefault
+        }).then(res => {
+          that.$store.state.user.configInfo = res.data;
+        });
       }
     },
     getArea() {
-      this.ajaxCount++
-      if(this.ajaxCount > MAXAJAX){
-          this.setDefault = '0'
+      this.ajaxCount++;
+      if (this.ajaxCount > MAXAJAX) {
+        this.setDefault = "0";
       }
-      getAxiosData("/lenovo-device/api/area-circuit/select-list", {setDefault: this.setDefault}).then(res => {
+      getAxiosData("/lenovo-device/api/area-circuit/select-list", {
+        setDefault: this.setDefault
+      }).then(res => {
         let data = res.data;
         let arr = [];
         data.forEach(item => {
@@ -755,8 +816,7 @@ export default {
           });
         });
         this.oltagevLevelList = arr;
-        if(arr[0])
-          this.titleValue = arr[0]["describeName"];
+        if (arr[0]) this.titleValue = arr[0]["describeName"];
         this.getCamera(arr[0]["areaId"]);
         this.$forceUpdate();
       });
@@ -775,9 +835,9 @@ export default {
       });*/
     },
     initData() {
-      this.ajaxCount++
-      if(this.ajaxCount > MAXAJAX){
-          this.setDefault = '0'
+      this.ajaxCount++;
+      if (this.ajaxCount > MAXAJAX) {
+        this.setDefault = "0";
       }
       const that = this;
       getAxiosData("/lenovo-device/api/monitor/layout-list", {
@@ -826,9 +886,9 @@ export default {
       this.getCamera(item["areaId"]);
     },
     getCameraType() {
-      this.ajaxCount++
-      if(this.ajaxCount > MAXAJAX){
-          this.setDefault = '0'
+      this.ajaxCount++;
+      if (this.ajaxCount > MAXAJAX) {
+        this.setDefault = "0";
       }
       let that = this;
       let type = this.$store.state.user.configInfo["displayType"];
@@ -857,12 +917,12 @@ export default {
                 arr.push(item["monitorDeviceName"]);
             });
             that.$nextTick(() => {
-              that.$refs.btnTopRef.checkedCities = arr;
+              // that.$refs.btnTopRef.checkedCities = arr;
               that.onDisabled(arr);
             });
           } else {
             that.$nextTick(() => {
-              that.$refs.btnTopRef.checkedCities = [];
+              // that.$refs.btnTopRef.checkedCities = [];
             });
           }
           let dataB = res.data;
@@ -876,16 +936,16 @@ export default {
       });
     },
     getCamera(areaId) {
-      this.ajaxCount++
-      if(this.ajaxCount > MAXAJAX){
-          this.setDefault = '0'
+      this.ajaxCount++;
+      if (this.ajaxCount > MAXAJAX) {
+        this.setDefault = "0";
       }
       const that = this;
       let query = {};
       if (areaId) {
         query["showType"] = areaId;
       }
-      query['setDefault'] = this.setDefault
+      query["setDefault"] = this.setDefault;
       getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
         if (res.code == 200) {
           let data = res.data;
@@ -917,7 +977,7 @@ export default {
     margin-right: 0 !important;
   }
   width: 100%;
-  .cameraImg{
+  .cameraImg {
     z-index: 0 !important;
   }
   .monitorM {
@@ -954,6 +1014,7 @@ export default {
   .title {
     color: white;
     display: flex;
+    height: 38px;
     // align-items: center;
     justify-content: space-between;
     .icon-zuoyoubuju,
@@ -961,27 +1022,31 @@ export default {
       font-size: 18px;
       margin-right: 7px;
     }
+    & > div:first-child {
+      line-height: 38px;
+    }
     .nr {
       font-size: 16px;
       margin-right: 10px;
     }
     .btnSelect {
       width: 551px;
-      & > div:nth-child(2) {
-        margin-left: 20px;
-        // .dunoBtnTop {
-        width: 225px;
-        display: inline-flex;
-        padding-bottom: 0;
-        .btnList {
-          top: inherit !important;
-          width: 370px;
-          .title {
-            font-size: 15px;
-          }
-        }
-        // }
-      }
+      display: -webkit-box;
+      // & > div:nth-child(2) {
+      //   margin-left: 20px;
+      //   // .dunoBtnTop {
+      //   width: 225px;
+      //   display: inline-flex;
+      //   padding-bottom: 0;
+      //   .btnList {
+      //     top: inherit !important;
+      //     width: 370px;
+      //     .title {
+      //       font-size: 15px;
+      //     }
+      //   }
+      //   // }
+      // }
     }
   }
   .main {

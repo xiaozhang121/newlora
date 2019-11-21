@@ -41,8 +41,8 @@
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
                   :Initialization="true"
-                  :isLive='false'
-                  :isNav='true'
+                  :isLive="false"
+                  :isNav="true"
                 ></key-monitor>
               </div>
             </div>
@@ -86,7 +86,7 @@
           element-loading-text="请稍后，正在加载数据…"
         >
           <div>
-            <div v-if="videoList.length==0" class='noVideo'>暂无数据</div>
+            <div v-if="videoList.length==0" class="noVideo">暂无数据</div>
             <div v-else class="videoItem" v-for="(item,index) in videoList" :key="index">
               <!-- <key-monitor
                 :monitorInfo="item"
@@ -562,7 +562,8 @@ export default {
       disabled: false,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
-        exportURL: "/lenovo-alarm/api/security/history/export"
+        // exportURL: "/lenovo-alarm/api/security/history/export"
+        exportURL: "/lenovo-plan/api/task/result/list/export"
       },
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
@@ -842,8 +843,8 @@ export default {
     }
   },
   methods: {
-    onDisable(flag){
-      this.disabled = !flag
+    onDisable(flag) {
+      this.disabled = !flag;
     },
     checkSpecial(value) {
       let myreg =
@@ -1621,10 +1622,10 @@ export default {
       & > div:first-child {
         overflow: hidden;
       }
-      .noVideo{
+      .noVideo {
         display: flex;
         justify-content: center;
-        align-items:center;
+        align-items: center;
         color: #fff;
         font-size: 18px;
         margin-top: 150px;
