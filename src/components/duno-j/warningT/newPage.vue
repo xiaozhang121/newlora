@@ -557,7 +557,7 @@
         .title_top {
             font-weight: bold;
             text-align: left;
-            padding-left: 48px;
+            /*padding-left: 48px;*/
             & > span:first-child{
                 p:last-child{
                     color: #969696;
