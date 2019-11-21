@@ -827,11 +827,7 @@ export default {
   .title_top {
     font-weight: bold;
     text-align: left;
-<<<<<<< HEAD
-    // padding-left: 48px;
-=======
     /*padding-left: 48px;*/
->>>>>>> 28614c22a1aa68dc2bb961028d40a07ff973daf7
     .iconfontList {
       float: right;
       position: relative;
