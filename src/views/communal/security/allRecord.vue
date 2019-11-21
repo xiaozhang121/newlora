@@ -167,24 +167,48 @@ export default {
         {
           title: "来源",
           key: "monitorDeviceName",
-          minWidth: 120,
+          minWidth: 150,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
               h(
-                "a",
-                {
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      this.getJump(params.row);
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      maxWidth: "200",
+                      content: params.row.monitorDeviceName
+                          ? params.row.monitorDeviceName
+                          : params.row.source,
+                      transfer: true
+                    },
+                    style: {
+                      // display: "inline-block",
+                      // width: "100%",
+                      // overflow: "hidden",
+                      // textOverflow: "ellipsis",
+                      // whiteSpace: "nowrap"
                     }
-                  }
-                },
-                params.row.monitorDeviceName
+                  },
+                  [
+                    h(
+                        "a",
+                        {
+                          class: "table_link",
+                          props: { type: "text" },
+                          on: {
+                            click: () => {
+                              this.getJump(params.row);
+                            }
+                          }
+                        },
+                        params.row.monitorDeviceName
+                            ? params.row.monitorDeviceName
+                            : params.row.source
+                    )
+                  ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -829,8 +853,12 @@ export default {
     top: 2px;
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 140px;
     font-size: 16px;
-    text-align: center;
     color: #5fafff !important;
     text-decoration: underline;
     @media screen and (min-width: 3500px) {

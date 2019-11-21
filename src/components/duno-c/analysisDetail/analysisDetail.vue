@@ -321,40 +321,41 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source,
-                    transfer: true
-                  },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
-                },
-                [
-                  h(
-                    "a",
-                    {
-                      class: "table_link",
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          this.getJump(params.row);
-                        }
-                      }
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      maxWidth: "200",
+                      content: params.row.monitorDeviceName
+                          ? params.row.monitorDeviceName
+                          : params.row.source,
+                      transfer: true
                     },
-                    params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source
-                  )
-                ]
+                    style: {
+                      // display: "inline-block",
+                      // width: "100%",
+                      // overflow: "hidden",
+                      // textOverflow: "ellipsis",
+                      // whiteSpace: "nowrap"
+                    }
+                  },
+                  [
+                    h(
+                        "a",
+                        {
+                          class: "table_link",
+                          props: { type: "text" },
+                          on: {
+                            click: () => {
+                              this.getJump(params.row);
+                            }
+                          }
+                        },
+                        params.row.monitorDeviceName
+                            ? params.row.monitorDeviceName
+                            : params.row.source
+                    )
+                  ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -423,16 +424,23 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: data, transfer: true },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
+                  props: { placement: "top", content: data, transfer: true, maxWidth: "200" }
                 },
-                data
+                [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        data
+                    )
+                ]
               )
             ]);
           }

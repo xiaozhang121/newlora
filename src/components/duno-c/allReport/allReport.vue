@@ -470,16 +470,23 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: data, transfer: true },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
+                  props: { placement: "top", content: data, transfer: true, maxWidth: "200" }
                 },
-                data
+                [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        data
+                    )
+                ]
               )
             ]);
           }

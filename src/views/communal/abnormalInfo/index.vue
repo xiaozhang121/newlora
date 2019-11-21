@@ -166,16 +166,23 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: timeDay, transfer: true },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
+                  props: { placement: "top", content: timeDay, transfer: true, maxWidth: "200" }
                 },
-                timeDay
+                [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        timeDay
+                    )
+                ]
               )
             ]);
           }
@@ -207,29 +214,32 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: params.row.powerDeviceName,
-                    transfer: true
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      content: params.row.powerDeviceName,
+                      transfer: true,
+                      maxWidth: "200"
+                    }
                   },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    params.row.powerDeviceName == null
-                      ? "/"
-                      : params.row.powerDeviceName
-                  )
-                ]
+                  [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        params.row.powerDeviceName == null
+                            ? "/"
+                            : params.row.powerDeviceName
+                    )
+                  ]
               )
 
               // h(
@@ -357,30 +367,45 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            newArr.push(
+            newArr.push([
               h(
-                "Tooltip",
-                {
-                  props: { content: params.row.monitorDeviceName }
-                },
-                [
-                  h(
-                    "a",
-                    {
-                      class: "table_link",
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          console.log("摄像头ID：", params.row.monitorDeviceId);
-                          this.getJump(params.row);
-                        }
-                      }
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      maxWidth: "200",
+                      content: params.row.monitorDeviceName
+                          ? params.row.monitorDeviceName
+                          : params.row.source,
+                      transfer: true
                     },
-                    params.row.monitorDeviceName
-                  )
-                ]
+                    style: {
+                      // display: "inline-block",
+                      // width: "100%",
+                      // overflow: "hidden",
+                      // textOverflow: "ellipsis",
+                      // whiteSpace: "nowrap"
+                    }
+                  },
+                  [
+                    h(
+                        "a",
+                        {
+                          class: "table_link",
+                          props: { type: "text" },
+                          on: {
+                            click: () => {
+                              this.getJump(params.row);
+                            }
+                          }
+                        },
+                        params.row.monitorDeviceName
+                            ? params.row.monitorDeviceName
+                            : params.row.source
+                    )
+                  ]
               )
-            );
+            ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
           }
         },

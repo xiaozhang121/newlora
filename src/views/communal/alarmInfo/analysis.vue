@@ -365,16 +365,23 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: timeDay, transfer: true },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
+                  props: { placement: "top", content: timeDay, transfer: true, maxWidth: "200" }
                 },
-                timeDay
+                [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        timeDay
+                    )
+                ]
               )
             ]);
           }
@@ -505,44 +512,48 @@ export default {
         {
           title: "来源",
           key: "monitorDeviceName",
-          minWidth: 120,
+          minWidth: 150,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
               h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: params.row.monitorDeviceName,
-                    transfer: true
-                  },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
-                },
-                [
-                  h(
-                    "a",
-                    {
-                      class: "table_link",
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          console.log("摄像头ID：", params.row.monitorDeviceId);
-                          this.getJump(params.row);
-                        }
-                      }
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      maxWidth: "200",
+                      content: params.row.monitorDeviceName
+                          ? params.row.monitorDeviceName
+                          : params.row.source,
+                      transfer: true
                     },
-                    params.row.monitorDeviceName
-                  )
-                ]
+                    style: {
+                      // display: "inline-block",
+                      // width: "100%",
+                      // overflow: "hidden",
+                      // textOverflow: "ellipsis",
+                      // whiteSpace: "nowrap"
+                    }
+                  },
+                  [
+                    h(
+                        "a",
+                        {
+                          class: "table_link",
+                          props: { type: "text" },
+                          on: {
+                            click: () => {
+                              this.getJump(params.row);
+                            }
+                          }
+                        },
+                        params.row.monitorDeviceName
+                            ? params.row.monitorDeviceName
+                            : params.row.source
+                    )
+                  ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -1169,6 +1180,11 @@ export default {
     background: transparent !important;
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;

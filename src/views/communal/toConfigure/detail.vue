@@ -140,7 +140,7 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          minWidth: 50,
+          width: 250,
           align: "center",
           tooltip: true
         },
@@ -292,7 +292,7 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          minWidth: 50,
+          width: 250,
           align: "center",
           tooltip: true
         },
@@ -435,7 +435,7 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          minWidth: 50,
+          width: 250,
           align: "center",
           tooltip: true
         },
@@ -566,7 +566,7 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          minWidth: 50,
+          width: 250,
           align: "center",
           tooltip: true
         },
@@ -908,6 +908,12 @@ export default {
     }
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 140px;
+    font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;
   }

@@ -79,7 +79,7 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          minWidth: 50,
+          width: 250,
           align: "center",
           tooltip: true
         },
