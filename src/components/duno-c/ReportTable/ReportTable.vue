@@ -39,7 +39,7 @@
           :key="index"
           @click="getJump(item)"
           :style="{cursor:'pointer'}"
-        >{{item.monitorDeviceName}},</span>
+        >{{item.monitorDeviceName}}<i v-if="index*1+1 != reportData.monitorDeviceList.length">,</i></span>
       </p>
     </div>
     <div class="btn">

@@ -75,6 +75,7 @@ export default {
         },
         controlAble:{
             handler(now){
+               this.activeNum = -1
                this.activeStyle = now
                this.disabled = !now
             },
@@ -82,6 +83,7 @@ export default {
         },
         disabledOption:{
             handler(now){
+              this.activeNum = -1
               this.activeStyle = !now
               this.disabled = now
             },

@@ -378,7 +378,7 @@
       font-size: 16px;
       color: #5fafff !important;
       text-decoration: underline;
-
+      width: 140px;
       text-align: center;
       display: inline-block;
       // width: 100%;

@@ -37,7 +37,7 @@
                     <div class="from">
             <span class="origin" style="text-decoration: none">
               来源：
-              <a href="javascript:;" @click="getJump">机器人</a>
+              <a style="text-decoration: underline;" href="javascript:;" @click="getJump">室外巡检机器人</a>
             </span>
                     </div>
                 </div>
@@ -225,21 +225,9 @@
                 this.$emit("handleClose");
             },
             getJump() {
-                if (this.popData.monitorDeviceType == "1") {
-                    this.$router.push({
-                        path: "/surveillancePath/detailLight",
-                        query: {
-                            monitorDeviceId: this.popData.monitorDeviceId
-                        }
-                    });
-                } else if (this.popData.monitorDeviceType == "2") {
-                    this.$router.push({
-                        path: "/surveillancePath/detailRed",
-                        query: {
-                            monitorDeviceId: this.popData.monitorDeviceId
-                        }
-                    });
-                }
+              this.$router.push({
+                path: "/robot-one/list",
+              });
             },
             clickJudge() {
                 //   debugger;
@@ -331,8 +319,8 @@
         .main {
             display: flex;
             .monitor {
-                width: 540px;
-                height: 303.75px;
+                width: calc(50% - 25px);
+                height: 480.5px;
                 background-color: #000;
                 float: left;
                 img {
@@ -423,6 +411,7 @@
         }
         .el-dialog {
             background: white;
+            padding: 20px 50px;
         }
         .el-dialog__header {
             text-align: left;

@@ -260,18 +260,25 @@ export default {
             let timeDay = params.row.executeTime.slice(5);
             return h("div", [
               h(
-                "Tooltip",
-                {
-                  props: { placement: "top", content: timeDay, transfer: true },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
-                },
-                timeDay
+                  "Tooltip",
+                  {
+                    props: { placement: "top", content: timeDay, transfer: true, maxWidth: "200" }
+                  },
+                  [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        timeDay
+                    )
+                  ]
               )
             ]);
           }
@@ -873,6 +880,11 @@ export default {
     }
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;

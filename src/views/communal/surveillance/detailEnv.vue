@@ -344,17 +344,25 @@ export default {
                   props: {
                     placement: "top",
                     content: params.row.alarmTime,
-                    transfer: true
-                  },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
+                    transfer: true,
+                    maxWidth: "200"
                   }
                 },
-                params.row.alarmTime
+                [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        params.row.alarmTime
+                    )
+                ]
               )
             ]);
           }
@@ -1399,6 +1407,11 @@ export default {
     /*}*/
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;

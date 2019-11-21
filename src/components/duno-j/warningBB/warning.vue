@@ -1,5 +1,5 @@
 <template>
-  <div class="warningDialog robot">
+  <div class="warningDialogBB robot">
     <el-dialog :close-on-click-modal="false"  class="elDialogClass" :visible="newVisible" width="900px" center @close="handleClose">
       <div slot="title">
         <div class="title_top">
@@ -62,7 +62,7 @@
           <div class="from">
             <span class="origin" style="text-decoration: none">
               来源：
-              <a href="javascript:;" @click="getJump">机器人</a>
+              <a style="text-decoration: underline;" href="javascript:;" @click="getJump">室内轨道机器人</a>
             </span>
           </div>
         </div>
@@ -249,21 +249,9 @@ export default {
       this.$emit("handleClose");
     },
     getJump() {
-      if (this.popData.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: this.popData.monitorDeviceId
-          }
-        });
-      } else if (this.popData.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: this.popData.monitorDeviceId
-          }
-        });
-      }
+      this.$router.push({
+        path: "/robot-two/list",
+      });
     },
     clickJudge() {
       //   debugger;
@@ -285,12 +273,12 @@ export default {
     top: 20px;
   }
 }
-.warningDialog.robot .handleInfo > div{
+.warningDialogBB.robot .handleInfo > div{
   max-height: 200px;
   height: inherit !important;
   overflow-y: auto;
 }
-.warningDialog {
+.warningDialogBB {
   @media print {
     .not-print {
       opacity: 0;
@@ -306,7 +294,7 @@ export default {
         width: 710px !important;
       }
     }
-    .warningDialog .handleInfo > div{
+    .warningDialogBB .handleInfo > div{
       max-height: inherit;
     }
     .el-dialog.el-dialog--center{
@@ -482,7 +470,7 @@ export default {
     .iconList{
       position: absolute;
       right: 33px;
-      top: 20px;
+      top: 15px;
       .iconfont{
         font-size: 22px;
         cursor: pointer;

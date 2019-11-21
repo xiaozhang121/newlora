@@ -199,17 +199,25 @@
                                         props: {
                                             placement: "top",
                                             content: params.row.alarmTime,
-                                            transfer: true
-                                        },
-                                        style: {
-                                            display: "inline-block",
-                                            width: "100%",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            whiteSpace: "nowrap"
+                                            transfer: true,
+                                            maxWidth: "200"
                                         }
                                     },
-                                    params.row.alarmTime
+                                    [
+                                        h(
+                                            "div",
+                                            {
+                                              style: {
+                                                display: "inline-block",
+                                                width: "100px",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                whiteSpace: "nowrap"
+                                              }
+                                            },
+                                            params.row.alarmTime
+                                        )
+                                    ]
                                 )
                             ]);
                         }
@@ -677,7 +685,7 @@
         },
         methods: {
             getCameraInfo(){
-                getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId}).then(res=>{
+                getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId, startTime: this.secondForm.startTime+" 00:00:00", endTime: this.secondForm.endTime+ " 23:59:59"}).then(res=>{
                     this.isLock = Number(res.data.planStatus)
                     let data = res.data.cameraList
                     data.map(item=>{
@@ -1038,10 +1046,14 @@
       /*}*/
     }
     .table_link {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inline-block;
+      width: 140px;
       font-size: 16px;
       color: #5fafff !important;
       text-decoration: underline;
-      background: transparent;
       border: none;
     }
     .table_select {

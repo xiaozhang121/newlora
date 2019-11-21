@@ -307,6 +307,12 @@ export default {
     top: 2px;
   }
   .table_link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 140px;
+    font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;
   }

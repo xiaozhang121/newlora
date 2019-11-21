@@ -70,15 +70,15 @@ export default {
         },
         controlAble:{
             handler(now){
-                if(now){
-                  this.activeStyle = now
-                  this.disabled = !now
-                }
+              this.activeNum = -1
+              this.activeStyle = now
+              this.disabled = !now
             },
             immediate: true
         },
         disabledOption:{
             handler(now){
+              this.activeNum = -1
               this.activeStyle = !now
               this.disabled = now
             },

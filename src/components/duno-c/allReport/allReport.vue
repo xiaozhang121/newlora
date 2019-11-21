@@ -470,16 +470,23 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: data, transfer: true },
-                  style: {
-                    display: "inline-block",
-                    width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }
+                  props: { placement: "top", content: data, transfer: true, maxWidth: "200" }
                 },
-                data
+                [
+                    h(
+                        "div",
+                        {
+                          style: {
+                            display: "inline-block",
+                            width: "100px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }
+                        },
+                        data
+                    )
+                ]
               )
             ]);
           }
@@ -763,6 +770,21 @@ export default {
       });
     },
     getJump(row) {
+      try{
+        if(row.monitorDeviceName.indexOf('室内')>-1){
+          this.$router.push({
+            path: "/robot-two/list"
+          });
+          return
+        }else if(row.monitorDeviceName.indexOf('室外')>-1){
+          this.$router.push({
+            path: "/robot-one/list"
+          });
+          return
+        }
+      }catch (e) {
+
+      }
       let monitorDeviceId =
         "monitorDeviceId" in row && row.monitorDeviceId
           ? row.monitorDeviceId

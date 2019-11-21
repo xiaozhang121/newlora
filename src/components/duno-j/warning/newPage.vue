@@ -722,7 +722,7 @@ export default {
   .title_top {
     font-weight: bold;
     text-align: left;
-    padding-left: 48px;
+    /*padding-left: 48px;*/
     .iconfontList {
       float: right;
       position: relative;
