@@ -685,7 +685,7 @@
         },
         methods: {
             getCameraInfo(){
-                getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId}).then(res=>{
+                getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId, startTime: this.secondForm.startTime+" 00:00:00", endTime: this.secondForm.endTime+ " 23:59:59"}).then(res=>{
                     this.isLock = Number(res.data.planStatus)
                     let data = res.data.cameraList
                     data.map(item=>{
