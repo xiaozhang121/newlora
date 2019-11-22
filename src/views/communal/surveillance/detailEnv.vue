@@ -333,7 +333,6 @@ export default {
         {
           title: "拍摄时间",
           key: "alarmTime",
-          minWidth: 100,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -370,14 +369,12 @@ export default {
         {
           title: "警告类型",
           key: "alarmDetailType",
-          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "处理记录",
           key: "dealList",
-          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -393,7 +390,6 @@ export default {
         {
           title: "处理时间",
           key: "content",
-          minWidth: 90,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -409,7 +405,6 @@ export default {
         {
           title: "视频/图片",
           key: "id",
-          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -449,13 +444,11 @@ export default {
         {
           title: "自动/手动",
           key: "sourceType",
-          width: 120,
           align: "center",
           tooltip: true
         },
         {
           title: " ",
-          width: 200,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -517,7 +510,6 @@ export default {
         },
         {
           title: " ",
-          width: 90,
           align: "center",
           render: (h, params) => {
             let newArr = [];
