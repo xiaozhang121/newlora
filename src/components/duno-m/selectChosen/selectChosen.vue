@@ -68,6 +68,10 @@ export default {
        }
     },
     props: {
+        maxSelect: {
+          type: [String, Number],
+          default: 3
+        },
         activeIndex: {
           type: [String, Number],
           default: '0'
@@ -86,7 +90,7 @@ export default {
     computed: {
         activeList(){
           return this.selectList.filter(item => {
-            return item['active']? true: false
+            return item['active'] == true || !isNaN(item['active'])? true: false
           })
         }
     },
@@ -123,9 +127,10 @@ export default {
         if(this.typeChosen === 'Single'){
           this.resetList()
           this.selectList[index].active = true
-        }else{
+        }else if(this.activeList.length >= 3){
 
         }
+        this.$emit('on-active', this.activeList)
         this.$forceUpdate()
       },
       closeEvent(event){
