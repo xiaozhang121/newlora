@@ -116,10 +116,12 @@ export default {
   watch: {
     itemData: {
         handler(now) {
-            if(now['realMonitorDeviceType']==3 || now['realMonitorDeviceType'] == 7){
-                this.tabPaneData.splice(this.tabPaneData.length-1,1)
-                this.tabPaneData.splice(this.tabPaneData.length-1,1)
-            }
+          if(now['realMonitorDeviceType']==7){
+            this.tabPaneData.splice(this.tabPaneData.length-1,1)
+            this.tabPaneData.splice(this.tabPaneData.length-1,1)
+          }else if(now['realMonitorDeviceType']==3){
+            this.tabPaneData.splice(this.tabPaneData.length-1,1)
+          }
         },
         deep: true,
         immediate: true
