@@ -164,9 +164,6 @@ export default {
   @import "./assets/icons/iconfont.css";  // 项目引用图标库
   @import "./style/index.scss";
   /*@import "@/style/noselect.scss";*/
-  .el-button:hover{
-    background: transparent !important;
-  }
   .ivu-tooltip-popper{
     z-index: 9999 !important;
   }

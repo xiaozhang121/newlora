@@ -349,6 +349,9 @@
 <style lang="scss">
   @import './index.scss';
   .tablesTep{
+    .el-button:hover{
+      background: transparent !important;
+    }
     .el-loading-text{
       color: #969696   !important;
     }

@@ -1049,6 +1049,7 @@
       color: #5fafff !important;
       text-decoration: underline;
       border: none;
+      background: transparent;
     }
     .table_select {
       cursor: pointer;
