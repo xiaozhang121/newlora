@@ -138,6 +138,7 @@
               :isChange="isChange"
               :isItemEchart="isItemEchart"
               :legendOption="legendOption"
+              :gridOption="gridOption"
               :titleOption="titleOption"
               paddingBottom="200px"
               :seriesOption="seriesOption"
@@ -563,13 +564,17 @@ export default {
           }
         }
       ],
+      gridOption: {
+        top: 10
+      },
       legendOption: {
         orient: "vertical",
         right: "20%",
         top: "60%",
         data: ["解锁", "闭锁"],
         textStyle: {
-          color: "#fff"
+          color: "#fff",
+          fontSize: 14
         }
       },
       titleOption: {
@@ -578,7 +583,7 @@ export default {
         top: "45%",
         textStyle: {
           color: "#fff",
-          fontSize: 18
+          fontSize: 16
         }
       },
       seriesOption: [
@@ -670,6 +675,8 @@ export default {
     };
   },
   created() {
+    let screen = window.screen.availWidth;
+    console.log(screen);
     this.getdefectData();
     this.getRecodeList();
     this.getData();
@@ -806,15 +813,15 @@ export default {
       );
     },
     isScreen() {
-      let distinguish = document.documentElement.clientWidth;
+      let distinguish = window.screen.availWidth;
       let that = this;
-      if (distinguish < 1366) {
+      if (distinguish > 3500) {
         let legendOption = that.legendOption;
-        that.radiusOption = "60%";
+        that.radiusOption = "30%";
         legendOption.right = "-2%";
         legendOption.textStyle.fontSize = 12;
         that.isShowEchart = true;
-        // that.$forceUpdate();
+        that.seriesOption[0].radius = "35%";
       }
     },
     onSelect(item) {
@@ -1183,6 +1190,10 @@ export default {
     width: calc(25% - 20px);
     height: 100%;
     margin: 20px 20px 0;
+    @media screen and (max-width: 1366px) {
+      // margin: 10px 10px 0;
+      font-size: 12px;
+    }
     & > div:first-child {
       width: 100%;
       height: 64%;
@@ -1207,6 +1218,9 @@ export default {
       margin-bottom: 20px;
       .defectInfo {
         margin: 30px 20px 20px 20px;
+        @media screen and (max-width: 1366px) {
+          margin: 20px 10px;
+        }
       }
     }
     .conter {
@@ -1266,6 +1280,9 @@ export default {
     }
     .reportLoad {
       height: 34.5%;
+      @media screen and (max-width: 1366px) {
+        height: 26%;
+      }
     }
     .re-table {
       margin-top: 20px;
@@ -1323,13 +1340,13 @@ export default {
           i {
             font-size: 100px;
             @media screen and (max-width: 1366px) {
-              font-size: 90px;
+              font-size: 80px;
             }
           }
           span {
             font-size: 36px;
             @media screen and (max-width: 1366px) {
-              font-size: 30px;
+              font-size: 24px;
             }
           }
         }
@@ -1464,7 +1481,7 @@ export default {
       margin: 0;
       @media screen and (max-width: 1366px) {
         font-size: 12px;
-        margin-top: -20px;
+        margin-top: -10px;
       }
     }
     .gaugeClass1 {

@@ -37,6 +37,9 @@ export default {
     text-align: right;
     width: 90px;
     color: #aaaaaa;
+    @media screen and (max-width: 1366px) {
+      width: 60px;
+    }
   }
   & > div:nth-child(2) {
     margin: 0 20px;

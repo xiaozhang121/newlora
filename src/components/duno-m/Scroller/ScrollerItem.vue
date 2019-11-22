@@ -123,7 +123,6 @@
                     if(that.saveWidth) {
                         width = that.saveWidth
                     }
-                    console.log(width)
                     that.distance = that.distance - 1;
                     // 如果位移超过文字宽度，则回到起点
                     /*       console.log(-that.distance)

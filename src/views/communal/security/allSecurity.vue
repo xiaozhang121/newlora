@@ -65,7 +65,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
@@ -188,41 +188,34 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                  "Tooltip",
-                  {
-                    props: {
-                      placement: "top",
-                      maxWidth: "200",
-                      content: params.row.monitorDeviceName
-                          ? params.row.monitorDeviceName
-                          : params.row.source,
-                      transfer: true
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    maxWidth: "200",
+                    content: params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source,
+                    transfer: true
+                  }
+                },
+                [
+                  h(
+                    "a",
+                    {
+                      class: "table_link",
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          this.getJump(params.row);
+                        }
+                      }
                     },
-                    style: {
-                      // display: "inline-block",
-                      // width: "100%",
-                      // overflow: "hidden",
-                      // textOverflow: "ellipsis",
-                      // whiteSpace: "nowrap"
-                    }
-                  },
-                  [
-                    h(
-                        "a",
-                        {
-                          class: "table_link",
-                          props: { type: "text" },
-                          on: {
-                            click: () => {
-                              this.getJump(params.row);
-                            }
-                          }
-                        },
-                        params.row.monitorDeviceName
-                            ? params.row.monitorDeviceName
-                            : params.row.source
-                    )
-                  ]
+                    params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source
+                  )
+                ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -405,6 +398,7 @@ export default {
     };
   },
   created() {
+    this.getWidth();
     this.getRegion();
     this.getType();
   },
@@ -459,10 +453,6 @@ export default {
         this.getDataList();
       });
     },
-    // clickExcel() {
-    //   const that = this;
-    //   that.exportHandle();
-    // },
     getRegion() {
       const that = this;
       getRegionData().then(res => {
@@ -560,24 +550,203 @@ export default {
           });
         }
       });
-      /* if (row.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      } else if (row.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: row.monitorDeviceId
-          }
-        });
-      }*/
     },
     beforeClose() {
       this.dialogVisible = false;
+    },
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns = [
+          {
+            title: "拍摄时间",
+            key: "alarmTime",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let timeDay = params.row.alarmTime.slice(5);
+              return h("div", timeDay);
+            }
+          },
+          {
+            title: "告警类型",
+            key: "alarmDetailType",
+            minWidth: 120,
+            align: "center",
+            tooltip: true
+          },
+          {
+            title: "处理记录",
+            key: "dealType",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let dealList = params.row.dealList;
+              return h("div", dealList.length > 0 ? dealList[0].dealType : "");
+            }
+          },
+          {
+            title: "处理时间",
+            key: "dealTime",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let dealList = params.row.dealList;
+              let timeDay;
+              if (dealList.length > 0) {
+                timeDay = dealList[0].dealTime.slice(5);
+              } else {
+                timeDay = "";
+              }
+              return h("div", timeDay);
+            }
+          },
+          {
+            title: "视频/图片",
+            key: "fileType",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let newArr = [];
+              if (params.row.fileType == "1") {
+                newArr.push([
+                  h("img", {
+                    class: "imgOrMv",
+                    attrs: { src: params.row.pic },
+                    draggable: false,
+                    on: {
+                      click: () => {
+                        that.isEnlarge = true;
+                        that.srcData = params.row;
+                      }
+                    }
+                  })
+                ]);
+              } else if (params.row.fileType == "2") {
+                newArr.push([
+                  h("img", {
+                    class: "imgOrMv",
+                    attrs: { src: params.row.pic },
+                    draggable: false,
+                    on: {
+                      click: () => {
+                        that.isEnlarge = true;
+                        that.srcData = params.row;
+                      }
+                    }
+                  })
+                ]);
+              }
+              return h("div", newArr);
+            }
+          },
+          {
+            title: " ",
+            width: 200,
+            align: "center",
+            render: (h, params) => {
+              let newArr = [];
+              if (params.row.isReturn == "0") {
+                newArr.push(
+                  h(
+                    "el-button",
+                    {
+                      class: "btn_pre",
+                      style: { background: "#305e83!important" },
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          that.addReturn(params.row);
+                        }
+                      }
+                    },
+                    "复归"
+                  )
+                );
+              }
+              if (params.row.isReturn == "1") {
+                newArr.push(
+                  h(
+                    "el-button",
+                    {
+                      class: "btn_pre",
+                      style: {
+                        background: "#979797",
+                        color: "#767676",
+                        pointerEvents: "none"
+                      },
+                      props: { type: "text" }
+                    },
+                    "已复归"
+                  )
+                );
+              }
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#3a81a1!important" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        this.dialogVisible = true;
+                        this.alarmId = params.row.alarmId;
+                      }
+                    }
+                  },
+                  "备注"
+                )
+              );
+              return h("div", newArr);
+            }
+          },
+          {
+            title: " ",
+            width: 90,
+            align: "center",
+            render: (h, params) => {
+              let newArr = [];
+              newArr.push([
+                h(
+                  "el-button",
+                  {
+                    class: "table_link",
+                    style: { marginRight: "20px" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.handleNotes = [];
+                        that.handleNotes.push({
+                          dealTime: params.row.dealTime,
+                          dealType: params.row.dealRecord
+                        });
+                        that.alarmType = params.row.alarmType;
+                        that.popData = params.row;
+                        that.alarmLevel = params.row.alarmLevel;
+                        that.visible = true;
+                        that.$forceUpdate();
+                      }
+                    }
+                  },
+                  "详情"
+                )
+              ]);
+              return h(
+                "div",
+                {
+                  class: "flexPos"
+                },
+                newArr
+              );
+            }
+          }
+        ];
+      }
     }
   }
 };

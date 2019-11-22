@@ -38,15 +38,15 @@
           ></el-date-picker>
         </div>
         <div class="downloadExc">
-              <duno-btn-top
-                @on-select="selectDownloadType"
-                class="dunoBtnTo"
-                :isCheck="false"
-                :dataList="downLoadList"
-                title="导出表格/PDF"
-                :showBtnList="false"
-              ></duno-btn-top>
-            </div>
+          <duno-btn-top
+            @on-select="selectDownloadType"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="downLoadList"
+            title="导出表格/PDF"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
         <!-- <div>
           <div @click="clickExcel">
             <i class="iconfont icon-daochu1"></i>
@@ -68,7 +68,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
@@ -144,15 +144,15 @@ export default {
       titleTypeC: "所有状态",
       titleTypeR: "所有来源",
       downLoadList: [
-                  {
-                    describeName: "导出表格",
-                    monitorDeviceType: "1"
-                  },
-                  {
-                    describeName: "导出PDF",
-                    monitorDeviceType: "2"
-                  }
-                ],
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
+        }
+      ],
       columns: [
         {
           title: "时间",
@@ -166,22 +166,27 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: timeDay, transfer: true, maxWidth: "200" }
+                  props: {
+                    placement: "top",
+                    content: timeDay,
+                    transfer: true,
+                    maxWidth: "200"
+                  }
                 },
                 [
-                    h(
-                        "div",
-                        {
-                          style: {
-                            display: "inline-block",
-                            width: "100px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }
-                        },
-                        timeDay
-                    )
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        width: "100px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    timeDay
+                  )
                 ]
               )
             ]);
@@ -214,32 +219,32 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                  "Tooltip",
-                  {
-                    props: {
-                      placement: "top",
-                      content: params.row.powerDeviceName,
-                      transfer: true,
-                      maxWidth: "200"
-                    }
-                  },
-                  [
-                    h(
-                        "div",
-                        {
-                          style: {
-                            display: "inline-block",
-                            width: "100px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }
-                        },
-                        params.row.powerDeviceName == null
-                            ? "/"
-                            : params.row.powerDeviceName
-                    )
-                  ]
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    content: params.row.powerDeviceName,
+                    transfer: true,
+                    maxWidth: "200"
+                  }
+                },
+                [
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        width: "100px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    params.row.powerDeviceName == null
+                      ? "/"
+                      : params.row.powerDeviceName
+                  )
+                ]
               )
 
               // h(
@@ -369,41 +374,41 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                  "Tooltip",
-                  {
-                    props: {
-                      placement: "top",
-                      maxWidth: "200",
-                      content: params.row.monitorDeviceName
-                          ? params.row.monitorDeviceName
-                          : params.row.source,
-                      transfer: true
-                    },
-                    style: {
-                      // display: "inline-block",
-                      // width: "100%",
-                      // overflow: "hidden",
-                      // textOverflow: "ellipsis",
-                      // whiteSpace: "nowrap"
-                    }
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    maxWidth: "200",
+                    content: params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source,
+                    transfer: true
                   },
-                  [
-                    h(
-                        "a",
-                        {
-                          class: "table_link",
-                          props: { type: "text" },
-                          on: {
-                            click: () => {
-                              this.getJump(params.row);
-                            }
-                          }
-                        },
-                        params.row.monitorDeviceName
-                            ? params.row.monitorDeviceName
-                            : params.row.source
-                    )
-                  ]
+                  style: {
+                    // display: "inline-block",
+                    // width: "100%",
+                    // overflow: "hidden",
+                    // textOverflow: "ellipsis",
+                    // whiteSpace: "nowrap"
+                  }
+                },
+                [
+                  h(
+                    "a",
+                    {
+                      class: "table_link",
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          this.getJump(params.row);
+                        }
+                      }
+                    },
+                    params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source
+                  )
+                ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -525,11 +530,286 @@ export default {
     };
   },
   created() {
+    this.getWidth();
     this.getRegion();
     this.getStart();
     this.getType();
   },
   methods: {
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns = [
+          {
+            title: "时间",
+            key: "alarmTime",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let timeDay = params.row.alarmTime.slice(5);
+              return h("div", [
+                h(
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      content: timeDay,
+                      transfer: true,
+                      maxWidth: "200"
+                    }
+                  },
+                  [
+                    h(
+                      "div",
+                      {
+                        style: {
+                          display: "inline-block",
+                          width: "100px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap"
+                        }
+                      },
+                      timeDay
+                    )
+                  ]
+                )
+              ]);
+            }
+          },
+          {
+            title: "报警对象",
+            key: "mainDevice",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let newArr = [];
+              newArr.push([
+                h(
+                  "div",
+                  params.row.mainDevice == null ? "/" : params.row.mainDevice
+                )
+              ]);
+              return h("div", newArr);
+            }
+          },
+          {
+            title: "报警部位",
+            key: "powerDeviceName",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let newArr = [];
+              newArr.push([
+                h(
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      content: params.row.powerDeviceName,
+                      transfer: true,
+                      maxWidth: "200"
+                    }
+                  },
+                  [
+                    h(
+                      "div",
+                      {
+                        style: {
+                          display: "inline-block",
+                          width: "100px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap"
+                        }
+                      },
+                      params.row.powerDeviceName == null
+                        ? "/"
+                        : params.row.powerDeviceName
+                    )
+                  ]
+                )
+
+                // h(
+                //   "div",
+                //   params.row.powerDeviceName == null
+                //     ? "/"
+                //     : params.row.powerDeviceName
+                // )
+              ]);
+              return h("div", newArr);
+            }
+          },
+          {
+            title: "区域",
+            key: "areaName",
+            minWidth: 90,
+            align: "center",
+            tooltip: true
+          },
+          {
+            title: "描述",
+            key: "alarmContent",
+            minWidth: 120,
+            align: "center",
+            tooltip: true
+          },
+          {
+            title: "缺陷等级",
+            key: "alarmLevelName",
+            minWidth: 120,
+            align: "center",
+            tooltip: true,
+            render: (h, params) => {
+              let newArr = [];
+              newArr.push(
+                h(
+                  "i-dropdown",
+                  {
+                    props: { trigger: "click", placement: "bottom-start" },
+                    style: { marginLeft: "5px" },
+                    on: {
+                      "on-click": value => {
+                        console.log(value);
+                      }
+                    }
+                  },
+                  [
+                    h("div", { class: { member_operate_div: true } }, [
+                      h(
+                        "div",
+                        {
+                          class: {
+                            table_select: true,
+                            serious: params.row.alarmLevel === "2",
+                            commonly: params.row.alarmLevel === "1",
+                            danger: params.row.alarmLevel === "3"
+                          }
+                        },
+                        [
+                          h("span", this.cutOut(params.row.alarmLevelName), {
+                            class: { member_operate_div: true }
+                          }),
+                          h("i", {
+                            style: { marginLeft: "5px" },
+                            class: { "iconfont icon-xiala": true }
+                          })
+                        ]
+                      )
+                    ]),
+                    h("i-dropdownMenu", { slot: "list" }, [
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "一般", "1");
+                              }
+                            }
+                          },
+                          "一般"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "严重", "2");
+                              }
+                            }
+                          },
+                          "严重"
+                        )
+                      ]),
+                      h("i-dropdownItem", {}, [
+                        h(
+                          "div",
+                          {
+                            class: { alarmLevel: true },
+                            on: {
+                              click: () => {
+                                that.onClickDropdown(params.row, "危急", "3");
+                              }
+                            }
+                          },
+                          "危急"
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              );
+              return h("div", newArr);
+            }
+          },
+          {
+            title: " ",
+            key: "id",
+            width: 200,
+            align: "center",
+            render: (h, params) => {
+              let newArr = [];
+              newArr.push([
+                h(
+                  "el-button",
+                  {
+                    class: ["btnClass", { grey: params.row.isReturn == "1" }],
+                    props: { disabled: params.row.isReturn == "1" },
+                    style: { marginRight: "20px" },
+                    on: {
+                      click: () => {
+                        that.restoration(params.row, params.row.isReturn);
+                      }
+                    }
+                  },
+                  params.row.isReturn == "0" ? "复归" : "已复归"
+                )
+              ]);
+              newArr.push([
+                h(
+                  "el-button",
+                  {
+                    class: "table_link",
+                    style: { marginRight: "20px" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        that.handleNotes = [];
+                        that.handleNotes.push({
+                          dealTime: params.row.dealTime,
+                          dealType: params.row.dealRecord
+                        });
+                        that.alarmType = params.row.alarmType;
+                        that.popData = params.row;
+                        that.alarmLevel = params.row.alarmLevel;
+                        that.visible = true;
+                        that.$forceUpdate();
+                      }
+                    }
+                  },
+                  "详情"
+                )
+              ]);
+              return h(
+                "div",
+                {
+                  class: "flexPos"
+                },
+                newArr
+              );
+            }
+          }
+        ];
+      }
+    },
     changeFullScreen(target) {
       const that = this;
       screenfull.toggle(target);
@@ -1019,10 +1299,10 @@ export default {
           }
         }
       }
-      .downloadExc{
-        .dunoBtnTop{
+      .downloadExc {
+        .dunoBtnTop {
           width: 150px;
-          .btnList{
+          .btnList {
             width: 150px;
           }
         }
