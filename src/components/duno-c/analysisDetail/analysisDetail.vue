@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>{{dataForm.planType}}{{dataForm.planId}}</div>
+      <div>{{dataForm.planType}} {{dataForm.executeTime}}</div>
       <div class="btn">
         <div>
           <el-select
@@ -408,7 +408,7 @@ export default {
         {
           title: "记录时间",
           key: "executeTime",
-          minWidth: 100,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -503,6 +503,7 @@ export default {
       let that = this;
       that.dataForm.planId = that.$route.query.planId;
       that.dataForm.planType = that.$route.query.planType;
+      that.dataForm.executeTime = that.$route.query.executeTime.substring(0,10);
       that.dataForm.batchId = that.$route.query.batchId;
       that.dataForm.isRobot = that.$route.query.isRobot;
       that.detailsType = that.$route.query.detailsType;

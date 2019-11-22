@@ -76,7 +76,7 @@ export default {
     },
     yName: {
       type: String,
-      default: "(温度℃)"
+      default: ""
     },
     yMax: {
       type: Number,
@@ -172,7 +172,7 @@ export default {
         minInterval: 1,
         // max: that.yMax,
         // min: that.yMin,
-        data: ["关", "开"],
+        data: ["合", "分"],
         splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
         axisLine: {

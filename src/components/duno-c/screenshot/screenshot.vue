@@ -13,7 +13,7 @@
     >
       <div class="dialog-content">
         <frame-selection :isVideo="isVideo" :shotData="shotData" @on-send="onSend"></frame-selection>
-        <div class="shotInput" v-if="isVideo">
+        <div class="shotInput">
           <div>
             <el-cascader
               placeholder="选择设备-部件-类型"

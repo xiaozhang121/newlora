@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>{{planType}}&nbsp;{{dataForm.taskRunHisId}}</div>
+      <div>{{planType}}&nbsp;{{dataForm.executeTime}}</div>
       <div class="btn">
         <div>
           <!-- <duno-btn-top
@@ -449,6 +449,8 @@ export default {
   },
   created() {
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId?this.$route.query.taskRunHisId:'';
+    this.dataForm.executeTime = this.$route.query.executeTime;
+    console.log(this.$route.query.executeTime)
     this.planType = this.$route.query.planType;
     if (this.planType == "1501") this.planType = "全面巡视";
     else if (this.planType == "1502") this.planType = "例行巡视";

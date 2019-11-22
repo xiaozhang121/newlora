@@ -22,8 +22,9 @@
           :value="item.value"
         ></el-option>
       </el-select>
+      <!-- v-if="!isTemperture" -->
       <el-input
-        v-if="!isTemperture"
+        v-if="formData.select=='红外温度类'||fourLabel=='红外温度类'"
         class="itemInput"
         type="number"
         v-model="formData.inputT"

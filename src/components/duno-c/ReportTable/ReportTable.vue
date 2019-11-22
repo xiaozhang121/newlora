@@ -4,15 +4,15 @@
       <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg" />
     </div>
     <div class="content">
-      <el-tooltip class="item" effect="dark" :content="reportData.planId" placement="top">
+      <el-tooltip class="item" effect="dark" :content="reportData.planName" placement="top">
         <h3 v-if="kind != 'robot'">
-          <span class="taskid">任务ID:{{reportData.planId}}</span>
+          <span class="taskid">{{reportData.planName}}</span>
         </h3>
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" :content="reportData.planId" placement="top">
+      <el-tooltip class="item" effect="dark" :content="reportData.planName" placement="top">
         <h3 v-if="kind == 'robot'">
-          {{ reportData.name }}
-          <span class="taskid">任务ID:{{reportData.planId}}</span>
+          {{ reportData.planName }}
+          <!-- <span class="taskid">{{reportData.planId}}</span> -->
         </h3>
       </el-tooltip>
       <p v-if="kind != 'robot'">
@@ -43,10 +43,10 @@
       </p>
     </div>
     <div class="btn">
-      <div @click="clickExcel">
+      <!-- <div @click="clickExcel">
         <i class="iconfont icon-xiazai"></i>
         <span>下载报告</span>
-      </div>
+      </div> -->
       <div @click="viewReports">
         <i class="iconfont icon-chakan"></i>
         <span>查看报告</span>
@@ -125,6 +125,7 @@ export default {
       that.exportHandle();
     },
     viewReports() {
+      console.log(this.reportData)
       if (this.path) {
         this.$router.push({
           path: this.path,
@@ -133,6 +134,7 @@ export default {
             planId: this.reportData.planId,
             taskRunHisId: this.reportData.ID,
             planType: this.reportData.taskType,
+            executeTime: this.reportData.date,
             path: "/robot-one/reportList?substationId=1&robotId=1",
             name: "最新巡视报告"
           }
@@ -149,6 +151,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            executeTime: this.reportData.date,
             url: "/lenovo-plan/api/plan/visible-report/view/detail"
           }
         });
@@ -162,6 +165,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            executeTime: this.reportData.date,
             url: "/lenovo-plan/api/plan/iir-report/view/detail"
           }
         });
@@ -172,6 +176,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
@@ -185,6 +190,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
@@ -195,6 +201,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
@@ -205,6 +212,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
         });
@@ -219,6 +227,7 @@ export default {
             planType: this.reportData.planType,
             isRobot: this.reportData.isRobot,
             batchId: this.reportData.batchId,
+            executeTime: this.reportData.date,
             url: "/lenovo-plan/api/information/overview/plan/report/detail"
           }
         });
@@ -350,7 +359,8 @@ export default {
       cursor: pointer;
       box-sizing: border-box;
       float: left;
-      width: calc(50% - 1px);
+      // width: calc(50% - 1px);
+      width: 100%;
       line-height: 40px;
       text-align: center;
       font-size: 16px;
@@ -362,12 +372,12 @@ export default {
         padding-left: 5px;
       }
     }
-    & > div:first-child {
-      border-right: 2px solid #ffffff;
-      @media screen and (min-width: 3500px) {
-        border-right: 1px solid #ffffff;
-      }
-    }
+    // & > div:first-child {
+    //   border-right: 2px solid #ffffff;
+    //   @media screen and (min-width: 3500px) {
+    //     border-right: 1px solid #ffffff;
+    //   }
+    // }
   }
 }
 </style>
