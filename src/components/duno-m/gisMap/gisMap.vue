@@ -1,8 +1,8 @@
 <template>
     <div class="gisMap">
         <div id="map" ref="rootmap" style="height: 100%"></div>
-        <div v-for="(item, index) in deviceList" :key="index" @dragstart="drag($event, item)" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" :style="cursor" alt="示例锚点"/></div>
-        <div v-for="(item, index) in powerPointList" :key="index"  @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :style="cursor" :src="item['src']" alt="示例锚点"/></div>
+        <div v-for="(item, index) in deviceList" :key="index" @dragstart="drag($event, item)" :style="'transform:rotate('+ item['direct'] +'deg)'"  @click="toDeviced(item,index,null,1)" v-show="item['show']" class="anchorList" :id="'anchor'+index" ><img :src="item['src']" :style="{cursor: cursor}" alt="示例锚点"/></div>
+        <div v-for="(item, index) in powerPointList" :key="index"  @click="toDeviced(item,index,null,1)"  class="anchorList" :id="'anchord'+index" ><img style="width: 5px ;height: 5px" :style="{cursor: cursor}" :src="item['src']" alt="示例锚点"/></div>
         <!--<el-button v-if="boxSelect" type="primary" style="position: absolute;z-index: 999; top: 0; left: 90px" @click="startDraw('Box')">四边形</el-button>-->
         <a v-if="boxSelect" class="boxSelect" @click="startDraw('Box')">框选区域</a>
         <!--<div class="toolTip"></div>-->
@@ -101,10 +101,8 @@
         },
         props: {
             cursor:{
-              type:Object,
-              default: () => {
-                cursor: 'pointer'
-              }
+              type: String,
+              default: 'pointer'
             },
             polygonData: {
                 type: Array,
