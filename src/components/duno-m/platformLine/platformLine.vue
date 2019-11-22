@@ -112,6 +112,9 @@
                       else if(type == 'AP'){
                          this.getAP(now)
                       }
+                      else if(type == 'Caisson'){
+                         // this.getCaission()
+                      }
                   },
                   deep: true
             },
@@ -121,7 +124,7 @@
         },
         computed: {
             isNormal(){
-                return this.deviceType == '正常'?"":"unNormal"
+              return (this.deviceType == '正常' || this.deviceType == '上线')?"":"unNormal"
             },
             deviceLength(){
                 if(this.deviceList.length > 6){
@@ -137,8 +140,8 @@
                 this.title = '802.11ac Wave2天线一一体化室外无无线AP'
                 this.Ftitle = '型号：'
                 this.Stitle = 'IP：'
-                this.installTime = res.model
-                this.IP = res.ip
+                this.installTime = res.data.model
+                this.IP = res.data.ip
                 this.deviceType = res.data['status']?'正常':'异常'
               })
             },

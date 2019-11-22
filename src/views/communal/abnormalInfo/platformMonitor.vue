@@ -100,9 +100,11 @@
                 let type = item['monitorDeviceType']
                 this.dataInfo = item
                 if(type == 1 || type == 2 || type == 5 || type == 'AP') {
-                  this.visible = true
                   this.showList = false
+                }else if(type == 'Caisson'){
+                  this.showList = true
                 }
+                this.visible = true
             },
             setAP(data){
               const that = this
@@ -166,6 +168,9 @@
                         let waterBox = that.setCaisson(list[1].data)
                         data = data.concat(ap)
                         data = data.concat(waterBox)
+                        data = data.filter(item => {
+                          return item['monitorDeviceType'] != 4
+                        })
                         that.deviceList = data
                         that.tempDeviceList = data
                       }

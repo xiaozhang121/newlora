@@ -21,11 +21,15 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <survey :monitor="form.monitor"></survey>
+        <el-form-item  label="被监测设备">
+          <el-input v-model.trim="form.monitor" placeholder="请输入被监测设备名" />
+        </el-form-item>
+        <!--<survey :monitor="form.monitor"></survey>-->
         <el-form-item label="上传图片">
           <el-upload
+            :headers="headers"
             class="upload-demo"
-            action="/lenovo-sample/api/sample/pic-upload"
+            :action="actionUrl"
             :before-remove="beforeRemove"
             accept="image/*"
             :multiple="false"
@@ -56,6 +60,20 @@ export default {
   components: {
     buttonCustom,
     survey
+  },
+  computed:{
+    actionUrl(){
+      return 'http://10.0.10.35:8080'+'/lenovo-sample/api/sample/pic-upload'
+    },
+    headers(){
+      let obj = {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+      Object.assign(obj, {Authorization: this.$store.state.user.token})
+      return obj
+    }
   },
   props: {
     visible: {
@@ -135,6 +153,7 @@ export default {
       this.partSub = value[2];
     },
     handleSubmit() {
+      debugger
       let query = {
         taskId: this.taskId,
         mainDevice: this.mainDevice,
