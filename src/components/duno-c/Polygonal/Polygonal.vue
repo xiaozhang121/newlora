@@ -19,6 +19,9 @@
           @change="onChangeTime"
         ></el-date-picker>
       </div>
+      <!--<div>-->
+        <!--dsfasdfsdf-->
+      <!--</div>-->
     </div>
     <div class="echarts">
       <duno-charts
@@ -45,6 +48,12 @@ export default {
   name: "Polygonal",
   components: { DunoCharts },
   props: {
+    itemData:{
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     width: {
       type: String,
       default: ""

@@ -19,6 +19,9 @@
           @change="onChangeTime"
         ></el-date-picker>
       </div>
+      <!--<div>-->
+        <!--<select-chosen />-->
+      <!--</div>-->
     </div>
     <div class="echarts">
       <duno-charts
@@ -40,11 +43,18 @@
 import moment from "moment";
 import { getAxiosData } from "@/api/axiosType";
 import { DunoCharts } from "_c/duno-charts";
+import selectChosen  from "_c/duno-m/selectChosen";
 import { constants } from "crypto";
 export default {
   name: "Polygonal",
-  components: { DunoCharts },
+  components: { DunoCharts, selectChosen },
   props: {
+    itemData:{
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     width: {
       type: String,
       default: ""

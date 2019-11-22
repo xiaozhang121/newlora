@@ -28,6 +28,7 @@
         />
         <polygonal
           @onChange="setTime"
+          :itemData="itemData"
           :legendData="legendData"
           :yName="yName"
           :xAxisData="xAxisData"

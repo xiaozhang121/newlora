@@ -2,7 +2,7 @@
     <div class="cameraPop" >
         <historical-documents :tabPaneData="tabPaneData" :showHeader="true"  :title="title" :itemId="itemId" width="744px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vLight">
             <camera-panel-back-u-p  :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-panel-back-u-p>
-            <polygonal-backup :yName="yName" :flag='flag'  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
+            <polygonal-backup :itemData="itemData" :yName="yName" :flag='flag'  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth-backup   v-loading="loadingOption"
                                      element-loading-background="rgba(0, 0, 0, 0)"
