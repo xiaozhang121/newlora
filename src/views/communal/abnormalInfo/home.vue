@@ -270,8 +270,7 @@ export default {
       handler(now) {
         this.getData();
       },
-      deep: true,
-      immediate: true
+      deep: true
     }
   },
   data() {
