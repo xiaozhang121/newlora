@@ -6,9 +6,20 @@
     <div class="info">
       <div class="top">
         <div>样本详情</div>
-        <div @click="deleteDetail" :style="{backgroundImage:background}">
-          <i class="iconfont icon-shanchu"></i>删除样本
-        </div>
+        <!--@click="deleteDetail"-->
+        <el-popover
+          placement="top"
+          width="160"
+          v-model="visible2">
+            <p style="margin-bottom: 10px">确定删除吗？</p>
+            <div style="text-align: right; margin: 0">
+              <a href="javascript:void(0)" style="margin-right: 10px" @click="cancelVisible">取消</a>
+              <a href="javascript:void(0)" @click="deleteDetail">确定</a>
+            </div>
+            <div slot="reference" :style="{backgroundImage:background}">
+              <i class="iconfont icon-shanchu"></i>删除样本
+            </div>
+        </el-popover>
       </div>
       <div class="infoDetail">
         <div class="infoLeft">
@@ -27,6 +38,7 @@
           <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="设备组件">
               <el-cascader
+                 v-model="form.initCascader"
                 :data="cascaderData"
                 @on-change="handleChange"
                 :placeholder="placeholder"
@@ -79,7 +91,10 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-            <survey :monitor="form.powerDeviceName" :isEdit="isEdit"></survey>
+            <el-form-item  label="被监测设备">
+              <el-input v-model.trim="form.powerDeviceName" placeholder="请输入被监测设备名" />
+            </el-form-item>
+            <!--<survey :monitor="form.powerDeviceName" :isEdit="isEdit"></survey>-->
             <div class="submit">
               <span v-if="isEdit" @click="isEdit=false">编辑</span>
               <span v-if="!isEdit" @click="isEdit=true">取消</span>
@@ -139,6 +154,7 @@ export default {
   data() {
     const that = this;
     return {
+      visible2: false,
       mainDevice: "",
       part: "",
       partSub: "",
@@ -159,7 +175,8 @@ export default {
         stationName: "",
         monitorDeviceName: "",
         areaName: "",
-        powerDeviceName: ""
+        powerDeviceName: "",
+        initCascader: ""
       },
       substationData: [],
       cameraData: [
@@ -301,6 +318,11 @@ export default {
     };
   },
   methods: {
+    cancelVisible(){
+      let e = document.createEvent("MouseEvents");
+      e.initEvent("click", true, true);
+      document.dispatchEvent(e)
+    },
     handleEdit(params) {
       let url = "/lenovo-sample/api/mark/view";
       let query = {
@@ -389,7 +411,7 @@ export default {
         markType: this.sampleData.markType,
         picFilePath: this.sampleData.picFilePath,
         powerDeviceId: this.sampleData.powerDeviceId,
-        powerDeviceName: this.sampleData.powerDeviceName,
+        powerDeviceName: this.form.powerDeviceName,
         stationId: this.sampleData.stationId,
         taskId: this.sampleData.taskId
       };
@@ -398,6 +420,7 @@ export default {
       });
     },
     deleteDetail() {
+      this.visible2 = false
       let url = "/lenovo-sample/api/sample/del";
       let query = {
         id: this.$route.query.id
@@ -432,6 +455,7 @@ export default {
         this.form.stationName = deviceData.stationName;
         this.form.monitorDeviceName = deviceData.monitorDeviceName;
         this.form.areaName = deviceData.areaName;
+        this.form.initCascader = [deviceData.mainDevice, deviceData.part, deviceData.partSub]
         this.form.powerDeviceName = deviceData.powerDeviceName;
         this.src = deviceData.picFilePath;
         // let picFilePath = deviceData.picFilePath;
@@ -478,6 +502,9 @@ export default {
 
 <style lang='scss'>
 .sample-detail {
+  .el-input__inner, .ivu-input{
+      color: white;
+  }
   .info,
   .list {
     margin-top: 10px;

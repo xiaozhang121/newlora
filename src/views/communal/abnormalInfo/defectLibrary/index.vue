@@ -89,11 +89,15 @@ export default {
     return {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-sample/api/sample/list"
+        getDataListURL: "/lenovo-sample/api/sample/system/list"
         // exportURL: ""
       },
       taskId: "",
-      dataForm: {},
+      dataForm: {
+        importTimeStart: '',
+        importTimeEnd: '',
+        markType: ''
+      },
       title: "缺陷库管理",
       totalNum: 20,
       pageRows: 20,
@@ -217,6 +221,7 @@ export default {
     },
     onClose() {
       this.visible = false;
+      this.getDataList()
     },
     // onSelect(item, index) {
     //   this.titleTypeL = item["describeName"];

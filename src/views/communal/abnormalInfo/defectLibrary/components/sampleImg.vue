@@ -12,7 +12,7 @@
           <el-cascader :data="cascaderData" @on-change="handleChange" :load-data="loadData"></el-cascader>
         </el-form-item>
         <el-form-item label="电压区域">
-          <el-select v-model="form.areaName" placeholder="请选择（非必选）">
+          <el-select v-model="form.areaId" placeholder="请选择（非必选）">
             <el-option
               v-for="(item,index) in diviceData"
               :label="item.label"
@@ -30,12 +30,15 @@
             :headers="headers"
             class="upload-demo"
             :action="actionUrl"
+            :data="dataOption"
             :before-remove="beforeRemove"
             accept="image/*"
             :multiple="false"
-            :limit="1"
+            :limit="10"
             :on-exceed="handleExceed"
             :on-change="changeUpload"
+            :on-remove="onRemove"
+            :on-success="onSuccess"
             :file-list="fileList"
           >
             <el-input :readonly="true" :style="{cursor:'pointer'}" placeholder="点击上传图片"></el-input>
@@ -63,16 +66,12 @@ export default {
   },
   computed:{
     actionUrl(){
-      return 'http://10.0.10.35:8080'+'/lenovo-sample/api/sample/pic-upload'
+      return `http://10.0.10.35:8080/lenovo-storage/api/storageService/file/upload`
     },
     headers(){
-      let obj = {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json;charset=UTF-8',
-        'X-Requested-With': 'XMLHttpRequest'
+      return {
+        Authorization: this.$store.state.user.token
       }
-      Object.assign(obj, {Authorization: this.$store.state.user.token})
-      return obj
     }
   },
   props: {
@@ -85,8 +84,10 @@ export default {
   },
   data() {
     return {
+      dataOption: {bucketName: '1', fileName: ''},
+      taskId: '',
       form: {
-        areaName: "",
+        areaId: "",
         monitor: ""
       },
       mainDevice: "",
@@ -136,6 +137,15 @@ export default {
     };
   },
   methods: {
+    onSuccess(res, file){
+      debugger
+    },
+    openImport(){
+      let url = "/lenovo-sample/api/sample/getConfInfo"
+      getAxiosData(url).then(res => {
+        this.taskId = res.data.taskId
+      })
+    },
     handleExceed(files, fileList) {
       this.$message.warning(
         `当前限制选择 1 个文件，本次选择了 ${
@@ -143,7 +153,29 @@ export default {
         } 个文件，共选择了 ${files.length + fileList.length} 个文件`
       );
     },
-    changeUpload() {},
+    changeUpload(file, fileList) {
+      const that = this
+      let picIndex = this.fileList.length
+      let date = new Date()
+      this.fileList.push({name: file.name, src: date})
+      let fileObj = $('.el-upload.el-upload--text')[0].children[1].files[0]
+      let lastModifiedDate = fileObj.lastModifiedDate
+      let size = fileObj.size
+      let reader = new FileReader();
+      reader.readAsDataURL(fileObj)
+      reader.onload = function (e) {
+        let img = new Image();
+        img.src = e.target.result; //获取编码后的值,也可以用this.result获取
+        img.onload = function() {
+          that.fileList[picIndex]['imgsInfo'] = {name: file.name, width: this.width, height: this.height, photoTime: lastModifiedDate, size: size, fileImportTime: lastModifiedDate}
+          that.fileList[picIndex]['picFilePath'] = file.name
+        };
+      }
+      this.dataOption['fileName'] = file.name.replace(/-|\//g,'')
+    },
+    onRemove(file, fileList){
+      this.fileList = fileList
+    },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
@@ -152,18 +184,32 @@ export default {
       this.part = value[1];
       this.partSub = value[2];
     },
+    handleData(){
+      let imgsInfo = []
+      let picFilePath = []
+      let data = this.fileList
+      for(let i=0; i<data.length; i++){
+        imgsInfo.push(data[i]['imgsInfo'])
+        picFilePath.push(data[i]['picFilePath'])
+      }
+      return {imgsInfo: imgsInfo, picFilePath: picFilePath}
+    },
     handleSubmit() {
-      debugger
+      let data = this.handleData()
       let query = {
         taskId: this.taskId,
         mainDevice: this.mainDevice,
+        powerDeviceName: this.form.monitor,
         part: this.part,
         partSub: this.partSub,
-        areaName: this.form.areaName,
-        stationId: this.stationId //变电站
-        // picFilePath: JSON.stringify(this.picFilePath),
-        // imgsInfo: JSON.stringify(arr)
+        areaId: this.form.areaId,
+        stationId: this.stationId, //变电站
+        picFilePath: JSON.stringify(data.picFilePath),
+        imgsInfo: JSON.stringify(data.imgsInfo)
       };
+      postAxiosData('/lenovo-sample/api/sample/system/import', query).then(res=>{
+        this.$message.info(res.msg)
+      })
       this.$emit("on-close");
     },
     handleClose() {
@@ -214,6 +260,7 @@ export default {
   },
   mounted() {
     this.getVoltage();
+    this.openImport();
   }
 };
 </script>
