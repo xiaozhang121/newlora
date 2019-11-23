@@ -219,11 +219,19 @@ export default {
     };
   },
   methods: {
+    getWidth() {
+      let screenWidth = window.screen.availWidth;
+      let screenHeight = window.screen.availHeight;
+      console.log(screenWidth, screenHeight);
+      if (screenWidth == 3840 && screenHeight == 2160) {
+        this.pageRows = 15;
+      }
+    },
     init() {
       let url = "/lenovo-mon/api/monitoring/ap/zabbix/getNetDevicePage";
       let query = {
         pageIndex: this.pageIndex,
-        pageRows: 10,
+        pageRows: this.pageRows,
         type: this.dataForm.type,
         status: this.dataForm.status
       };
@@ -251,6 +259,9 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  created() {
+    this.getWidth();
   }
 };
 </script>
