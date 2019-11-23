@@ -124,55 +124,47 @@ export default {
         {
           title: "序号",
           type: "index",
-          width: 90,
           align: "center"
         },
         {
           title: "导入日期",
           key: "picImportTime",
-          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "类型",
           key: "markType",
-          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "设备组件",
           key: "monitorDeviceName",
-          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "标注量",
           key: "markNum",
-          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "电压区域",
           key: "areaName",
-          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "被监控设备",
           key: "powerDeviceName",
-          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: " ",
           key: "id",
-          width: 120,
           align: "center",
           render: (h, params) => {
             const that = this;
