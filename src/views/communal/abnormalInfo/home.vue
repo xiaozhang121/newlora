@@ -335,14 +335,14 @@ export default {
         {
           title: "时间",
           key: "alarmTime",
-          minWidth: 150,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "报警对象",
           key: "mainDevice",
-          minWidth: 150,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -359,7 +359,7 @@ export default {
         {
           title: "描述",
           key: "alarmContent",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },

@@ -813,6 +813,7 @@ export default {
     }
     .el-dialog__header {
       color: #515a6e;
+      background-color: #e0e0e0;
       text-align: left;
       padding-bottom: 0;
     }

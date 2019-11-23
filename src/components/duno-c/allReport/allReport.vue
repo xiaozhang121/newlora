@@ -457,7 +457,13 @@ export default {
           key: "alarmValue",
           minWidth: 90,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let data = params.row.alarmValue
+              ? params.row.alarmValue
+              : params.row.resultValue;
+            return h("div", data);
+          }
         },
         {
           title: "记录时间",
