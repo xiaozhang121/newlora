@@ -508,10 +508,12 @@ export default {
       let that = this;
       that.dataForm.planId = that.$route.query.planId;
       that.dataForm.planType = that.$route.query.planType;
-      that.dataForm.executeTime = that.$route.query.executeTime.substring(
-        0,
-        10
-      );
+      try{
+        that.dataForm.executeTime = that.$route.query.executeTime.substring(
+          0,
+          10
+        );
+      }catch (e) {}
       that.dataForm.batchId = that.$route.query.batchId;
       that.dataForm.isRobot = that.$route.query.isRobot;
       that.detailsType = that.$route.query.detailsType;
