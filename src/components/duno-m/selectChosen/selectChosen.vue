@@ -27,6 +27,7 @@ export default {
     },
     data() {
         return {
+            isClick: false,
             dom: null,
             nowActive: [],
             isActive: false,
@@ -37,7 +38,7 @@ export default {
               { type: '预置位1' },
               { name: '4号主变1000Kv侧套管A相接线柱'},
               { name: '4号主变1000Kv侧套管AA相接线柱'},
-              { name: '4号主变1000Kv侧套管AA相接线柱'},
+              { name: '4号主变1000Kv侧套管AAA相接线柱'},
               { type: '预置位2' },
               { name: '4号主变1000Kv侧套管B相接线柱'},
               { name: '4号主变1000Kv侧套管BB相接线柱'},
@@ -91,7 +92,7 @@ export default {
     computed: {
         activeList(){
           return this.selectList.filter(item => {
-            return item['active'] == true || !isNaN(item['active'])? true: false
+            return item['active']
           })
         }
     },
@@ -126,24 +127,43 @@ export default {
       },
       clearOverItem(){
         let removeItem = this.nowActive[0]
-        this.nowActive.splice(0, 1)
-        for(let i=0; i < this.selectList.length; i++){
-          if(JSON.stringify(this.selectList[i]) == JSON.stringify(removeItem)){
-             this.selectList[i]['active'] = false
-          }
+        let data = this.activeList
+        for(let i=0; i<data.length; i++){
+            if(JSON.stringify(data[i]) == JSON.stringify(removeItem)){
+              data[i]['active'] = false
+            }
         }
+        this.nowActive.splice(0, 1)
+        this.$forceUpdate()
       },
       chosenItem(index){
+        if(this.isClick){
+          return
+        }
         if(this.typeChosen === 'Single'){
           this.resetList()
           this.selectList[index].active = true
         }else{
-          if(this.activeList.length >= 3){
+          if(!this.nowActive.length){
+            this.nowActive = JSON.parse(JSON.stringify(this.activeList))
+          }
+          if(this.activeList.length >= this.maxSelect){
             this.clearOverItem()
           }
           this.nowActive.push(this.selectList[index])
         }
-        this.$emit('on-active', this.activeList)
+        this.isClick = true
+        setTimeout(()=>{
+          this.isClick = false
+        },50)
+        let emitData = null
+        if(this.typeChosen === 'Single'){
+          emitData = [this.selectList[index]]
+        }else{
+          emitData = JSON.parse(JSON.stringify(this.nowActive))
+        }
+        this.$emit('on-active', emitData)
+        console.log(emitData)
         this.$forceUpdate()
       },
       closeEvent(event){
