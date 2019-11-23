@@ -366,6 +366,7 @@ export default {
     }
   },
   created() {
+    this.getWidth()
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId?this.$route.query.taskRunHisId:'';
     this.planType = this.$route.query.planType;
     if (this.planType == "1501") this.planType = "全面巡视";
@@ -379,6 +380,12 @@ export default {
     // this.getType();
   },
   methods: {
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns.splice(5, 1);
+      }
+    },
     initDD(taskDeviceId) {
       this.taskDeviceId = taskDeviceId;
       this.initDataD();

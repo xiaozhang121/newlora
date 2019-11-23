@@ -219,14 +219,14 @@ export default {
     };
   },
   methods: {
-    getWidth() {
-      let screenWidth = window.screen.availWidth;
-      let screenHeight = window.screen.availHeight;
-      console.log(screenWidth, screenHeight);
-      if (screenWidth == 3840 && screenHeight == 2160) {
-        this.pageRows = 15;
-      }
-    },
+    // getWidth() {
+    //   let screenWidth = window.screen.availWidth;
+    //   let screenHeight = window.screen.availHeight;
+    //   console.log(screenWidth, screenHeight);
+    //   if (screenWidth == 3840 && screenHeight == 2160) {
+    //     this.pageRows = 15;
+    //   }
+    // },
     init() {
       let url = "/lenovo-mon/api/monitoring/ap/zabbix/getNetDevicePage";
       let query = {
@@ -260,9 +260,9 @@ export default {
   mounted() {
     this.init();
   },
-  created() {
-    this.getWidth();
-  }
+  // created() {
+  //   this.getWidth();
+  // }
 };
 </script>
 

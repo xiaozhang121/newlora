@@ -707,6 +707,7 @@ export default {
         display: flex;
         justify-content: flex-start;
         line-height: 30px;
+        color: #2d8cf0;
         .buttonCustom {
           line-height: 30px;
           color: #ffffff;
@@ -769,8 +770,10 @@ export default {
       .from {
         position: absolute;
         bottom: 0;
+        color: #2d8cf0;
       }
       .origin {
+        color: #2d8cf0;
         text-decoration: underline;
       }
     }
@@ -813,7 +816,7 @@ export default {
     }
     .el-dialog__header {
       color: #515a6e;
-      background-color: #e0e0e0!important;
+      background-color: #e0e0e0 !important;
       text-align: left;
       padding-bottom: 0;
     }

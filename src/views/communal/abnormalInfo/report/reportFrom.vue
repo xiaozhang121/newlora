@@ -268,7 +268,7 @@ export default {
     & > div {
       width: calc(20% - 20px);
       float: left;
-      height: 425px;
+      height: 400px;
       margin-right: 20px;
       img {
         height: 100%；;

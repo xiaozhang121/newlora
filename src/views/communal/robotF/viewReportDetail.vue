@@ -448,6 +448,7 @@ export default {
     }
   },
   created() {
+    this.getWidth();
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId?this.$route.query.taskRunHisId:'';
     this.dataForm.executeTime = this.$route.query.executeTime;
     console.log(this.$route.query.executeTime)
@@ -463,6 +464,12 @@ export default {
     // this.getType();
   },
   methods: {
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns.splice(7, 1);
+      }
+    },
     initDD(taskDeviceId) {
       this.taskDeviceId = taskDeviceId;
       this.initDataD();
