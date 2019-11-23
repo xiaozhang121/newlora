@@ -10,7 +10,7 @@
       >
         <span :style="{backgroundColor:item.serviceStatus=='passing'?'#7ed321':'#ee183b'}"></span>
         {{item.name}}
-        <div>{{item.countStatus}}{{item.serviceStatus}}</div>
+        <div v-if="isShow">{{item.countStatus}}{{item.serviceStatus}}</div>
       </div>
     </div>
   </div>
@@ -35,7 +35,8 @@ export default {
   },
   data() {
     return {
-      dataList: []
+      dataList: [],
+      isShow: true
     };
   },
   watch: {
@@ -58,16 +59,30 @@ export default {
         that.dataList = res.data;
         this.$emit("on-length", that.dataList.length);
       });
+    },
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.isShow = false;
+      } else {
+        this.isShow = true;
+      }
     }
   },
   mounted() {
     this.getConsul();
+  },
+  created() {
+    this.getWidth();
   }
 };
 </script>
 <style lang="scss">
 .duno-service {
   padding: 0 50px 0 30px;
+  @media screen and (max-width: 1366px) {
+    padding: 0 20px 0 10px;
+  }
   p {
     text-align: center;
     font-size: 20px;
@@ -89,6 +104,9 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      @media screen and (max-width: 1366px) {
+        justify-content: flex-start;
+      }
       span {
         display: block;
         height: 14px;

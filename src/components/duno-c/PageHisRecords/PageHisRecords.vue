@@ -52,7 +52,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
         @on-page-size-change="pageSizeChangeHandle"
@@ -154,22 +154,27 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: timeDay, transfer: true, maxWidth: "200" }
+                  props: {
+                    placement: "top",
+                    content: timeDay,
+                    transfer: true,
+                    maxWidth: "200"
+                  }
                 },
                 [
-                    h(
-                        "div",
-                        {
-                          style: {
-                            display: "inline-block",
-                            width: "100px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }
-                        },
-                        timeDay
-                    )
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        width: "100px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    timeDay
+                  )
                 ]
               )
             ]);
@@ -193,19 +198,19 @@ export default {
                   }
                 },
                 [
-                    h(
-                        "div",
-                        {
-                          style: {
-                            display: "inline-block",
-                            width: "100px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }
-                        },
-                        params.row.alarmDetailType
-                    )
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        width: "100px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    params.row.alarmDetailType
+                  )
                 ]
               )
             ]);
@@ -221,41 +226,41 @@ export default {
             let newArr = [];
             newArr.push([
               h(
-                  "Tooltip",
-                  {
-                    props: {
-                      placement: "top",
-                      maxWidth: "200",
-                      content: params.row.monitorDeviceName
-                          ? params.row.monitorDeviceName
-                          : params.row.source,
-                      transfer: true
-                    },
-                    style: {
-                      // display: "inline-block",
-                      // width: "100%",
-                      // overflow: "hidden",
-                      // textOverflow: "ellipsis",
-                      // whiteSpace: "nowrap"
-                    }
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    maxWidth: "200",
+                    content: params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source,
+                    transfer: true
                   },
-                  [
-                    h(
-                        "a",
-                        {
-                          class: "table_link",
-                          props: { type: "text" },
-                          on: {
-                            click: () => {
-                              this.getJump(params.row);
-                            }
-                          }
-                        },
-                        params.row.monitorDeviceName
-                            ? params.row.monitorDeviceName
-                            : params.row.source
-                    )
-                  ]
+                  style: {
+                    // display: "inline-block",
+                    // width: "100%",
+                    // overflow: "hidden",
+                    // textOverflow: "ellipsis",
+                    // whiteSpace: "nowrap"
+                  }
+                },
+                [
+                  h(
+                    "a",
+                    {
+                      class: "table_link",
+                      props: { type: "text" },
+                      on: {
+                        click: () => {
+                          this.getJump(params.row);
+                        }
+                      }
+                    },
+                    params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source
+                  )
+                ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -279,22 +284,27 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: timeDay, transfer: true, maxWidth: "200" }
+                  props: {
+                    placement: "top",
+                    content: timeDay,
+                    transfer: true,
+                    maxWidth: "200"
+                  }
                 },
                 [
-                    h(
-                        "div",
-                        {
-                          style: {
-                            display: "inline-block",
-                            width: "100px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }
-                        },
-                        timeDay
-                    )
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        width: "100px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    timeDay
+                  )
                 ]
               )
             ]);
@@ -342,6 +352,7 @@ export default {
         {
           title: " ",
           align: "center",
+          minWidth: "200",
           render: (h, params) => {
             let newArr = [];
             if (params.row.isReturn == "0") {
@@ -727,7 +738,7 @@ export default {
               }
             }
           }
-          .ivu-table-tip{
+          .ivu-table-tip {
             min-height: 300px;
           }
         }

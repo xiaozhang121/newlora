@@ -180,6 +180,23 @@ export default {
     }
   },
   methods: {
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.seriesProcessorFir[0].radius = "35%";
+        this.seriesProcessorSec[0].radius = "35%";
+        this.seriesProcessorThr[0].radius = "35%";
+        this.titleProcessorFir.textStyle.fontSize = 20;
+        this.titleProcessorSec.textStyle.fontSize = 20;
+        this.titleProcessorThr.textStyle.fontSize = 20;
+        this.titleProcessorFir.right = "15%";
+        this.titleProcessorSec.right = "15%";
+        this.titleProcessorThr.right = "15%";
+        this.legendProcessorFir.right = "5%";
+        this.legendProcessorSec.right = "5%";
+        this.legendProcessorThr.right = "5%";
+      }
+    },
     getPie() {
       let that = this;
       let cupUrl = "/lenovo-mon/api/monitoring/pro/zabbix/getCpuLoad";
@@ -252,6 +269,9 @@ export default {
     this.$nextTick(() => {
       this.getPie();
     });
+  },
+  created() {
+    this.getWidth();
   }
 };
 </script>

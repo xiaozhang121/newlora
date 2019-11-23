@@ -1106,6 +1106,7 @@ export default {
   }
   .dunoMain_nr {
     overflow-y: auto;
+    padding: 0;
   }
   .detail_main {
     color: #539ce3;
@@ -1208,7 +1209,7 @@ export default {
         height: 88%;
       }
       .echartBox {
-        padding-top: 30px;
+        // padding-top: 30px;
       }
     }
     .defect {
@@ -1281,7 +1282,7 @@ export default {
     .reportLoad {
       height: 34.5%;
       @media screen and (max-width: 1366px) {
-        height: 26%;
+        height: 28%;
       }
     }
     .re-table {
@@ -1389,6 +1390,9 @@ export default {
     & > div:nth-child(2) {
       .dunoBtnTop {
         width: 200px;
+        .btnList {
+          top: 0;
+        }
       }
     }
   }

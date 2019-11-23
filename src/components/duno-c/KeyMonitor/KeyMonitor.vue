@@ -91,11 +91,11 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span @click="videotape()" v-if="monitorDeviceType=='3'">
+          <span @click="videotape()" v-if="monitorDeviceType=='3' && isAux">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
-          <span @click="isSample(1)" v-if="!onlyCanel && picCut">
+          <span @click="isSample(1)" v-if="!onlyCanel && picCut && isAux">
             <i class="iconfont icon-jietu"></i>截图
           </span>
           <!--  <span @click="fullScreen()">
@@ -169,6 +169,12 @@
     props: {
       showType: {},
       powerDeviceId: {},
+      isAux: {//是否为多个视频的辅码流
+        type: Boolean,
+        default: () => {
+          return true;
+        }
+      },
       isLive: {//是否为直播视频流
         type: Boolean,
         default: () => {

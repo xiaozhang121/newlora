@@ -24,7 +24,7 @@
       </el-select>
       <!-- v-if="!isTemperture" -->
       <el-input
-        v-if="formData.select=='红外温度类'||fourLabel=='红外温度类'"
+        v-if="formData.select=='红外温度类'||formData.select=='表计类'||fourLabel=='表计类'||fourLabel=='红外温度类'"
         class="itemInput"
         type="number"
         v-model="formData.inputT"
@@ -209,6 +209,12 @@ export default {
       fourSample().then(res => {
         this.optionsData = res.data;
       });
+      // this.optionsData.find(item => {
+      //   if (item.value === this.formData.select) {
+      //     this.fourLabel = item.label;
+      //     console.log(this.fourLabel);
+      //   }
+      // });
     },
     initFive(query) {
       let data = {
