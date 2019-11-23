@@ -1261,29 +1261,43 @@ export default {
     padding-right: 5px;
   }
 }
-.el-picker-panel {
-  background-color: rgba(27, 59, 71, 0.7);
-  color: #fff;
-  border: none;
-  .el-picker-panel__body-wrapper {
-    .el-picker-panel__body {
-      .in-range {
-        div {
-          background-color: rgba(81, 89, 112, 0.7);
+.analysis-detail{
+  .el-input__inner {
+    background-color: #1a2f42;
+    border: 1px solid #1a2f42;
+    color: white;
+  }
+  .setting {
+    cursor: pointer;
+    i {
+      font-size: 30px;
+      padding-right: 5px;
+    }
+  }
+  .el-picker-panel {
+    background-color: rgba(27, 59, 71, 0.7);
+    color: #fff;
+    border: none;
+    .el-picker-panel__body-wrapper {
+      .el-picker-panel__body {
+        .in-range {
+          div {
+            background-color: rgba(81, 89, 112, 0.7);
+          }
         }
       }
     }
   }
-}
-.el-input--small .el-input__inner {
-  height: 40px;
-  background: #1a2f42;
-}
-.el-scrollbar {
-  background: #1a2f42;
-}
-.el-select-dropdown {
-  border: solid 1px #1a2f42;
+  .el-input--small .el-input__inner {
+    height: 40px;
+    background: #1a2f42;
+  }
+  .el-scrollbar {
+    background: #1a2f42;
+  }
+  .el-select-dropdown {
+    border: solid 1px #1a2f42;
+  }
 }
 .analysis-detail .el-breadcrumb .is-link {
   border-bottom: none;
