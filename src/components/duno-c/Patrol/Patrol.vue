@@ -79,7 +79,7 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          width: 250,
+          width: 180,
           align: "center",
           tooltip: true
         },
@@ -107,7 +107,7 @@ export default {
         {
           title: "已巡视次数",
           key: "inspectNum",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
@@ -137,7 +137,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 240,
+          minWidth: 250,
           align: "right",
           tooltip: true,
           render: (h, params) => {
@@ -234,6 +234,12 @@ export default {
     }
   },
   methods: {
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columnsData.splice(2, 1);
+      }
+    },
     toDel(param) {
       this.$emit("to-del", param);
     },
@@ -267,6 +273,9 @@ export default {
   mounted() {
     this.isEdit = this.getAuthority("10050102");
     this.isDel = this.getAuthority("10050103");
+  },
+  created(){
+    this.getWidth()
   }
 };
 </script>
@@ -410,6 +419,12 @@ export default {
       color: #53fec0;
     }
   }
+  .ivu-table-cell{
+     @media screen and (min-width: 3500px) {
+      padding: 0;
+    }
+  }
+  
 }
 </style>
 

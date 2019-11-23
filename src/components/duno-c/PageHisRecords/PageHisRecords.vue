@@ -148,119 +148,38 @@ export default {
           title: "拍摄时间",
           minWidth: 120,
           align: "center",
-          render: (h, params) => {
-            let timeDay = params.row.alarmTime.slice(5);
-            return h("div", [
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: timeDay,
-                    transfer: true,
-                    maxWidth: "200"
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      style: {
-                        display: "inline-block",
-                        width: "100px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"
-                      }
-                    },
-                    timeDay
-                  )
-                ]
-              )
-            ]);
-          }
+          tooltip: true
         },
         {
           key: "alarmDetailType",
           title: "告警类型",
           align: "center",
-          render: (h, params) => {
-            // let timeDay = params.row.alarmTime.slice(5);
-            return h("div", [
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: params.row.alarmDetailType,
-                    transfer: true,
-                    maxWidth: "200"
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      style: {
-                        display: "inline-block",
-                        width: "100px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"
-                      }
-                    },
-                    params.row.alarmDetailType
-                  )
-                ]
-              )
-            ]);
-          }
+          minWidth: 120,
+          tooltip: true
         },
         {
           title: "来源",
           key: "monitorDeviceName",
-          minWidth: 150,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
               h(
-                "Tooltip",
+                "a",
                 {
-                  props: {
-                    placement: "top",
-                    maxWidth: "200",
-                    content: params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source,
-                    transfer: true
-                  },
-                  style: {
-                    // display: "inline-block",
-                    // width: "100%",
-                    // overflow: "hidden",
-                    // textOverflow: "ellipsis",
-                    // whiteSpace: "nowrap"
+                  class: "table_link",
+                  props: { type: "text" },
+                  on: {
+                    click: () => {
+                      this.getJump(params.row);
+                    }
                   }
                 },
-                [
-                  h(
-                    "a",
-                    {
-                      class: "table_link",
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          this.getJump(params.row);
-                        }
-                      }
-                    },
-                    params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source
-                  )
-                ]
+                params.row.monitorDeviceName
+                  ? params.row.monitorDeviceName
+                  : params.row.source
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -270,6 +189,7 @@ export default {
           key: "dataType",
           title: "处理记录",
           align: "center",
+          tooltip: true,
           render: (h, params) => {
             return h("div", params.row.dealList[0].dealType);
           }
@@ -278,36 +198,10 @@ export default {
           key: "content",
           title: "处理时间",
           align: "center",
+          tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.dealList[0].dealTime.slice(5);
-            return h("div", [
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: timeDay,
-                    transfer: true,
-                    maxWidth: "200"
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      style: {
-                        display: "inline-block",
-                        width: "100px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"
-                      }
-                    },
-                    timeDay
-                  )
-                ]
-              )
-            ]);
+            return h("div", [h("div", timeDay)]);
           }
         },
         {
@@ -352,7 +246,8 @@ export default {
         {
           title: " ",
           align: "center",
-          minWidth: "200",
+          minWidth: 120,
+          tooltip: true,
           render: (h, params) => {
             let newArr = [];
             if (params.row.isReturn == "0") {
@@ -469,6 +364,13 @@ export default {
     }
   },
   methods: {
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns.splice(5, 1);
+        this.columns.splice(2, 1);
+      }
+    },
     handleClose() {
       this.popData = {};
       this.visible = false;
@@ -612,6 +514,9 @@ export default {
   },
   mounted() {
     this.getAlarmType();
+  },
+  created() {
+    this.getWidth();
   }
 };
 </script>
@@ -756,12 +661,12 @@ export default {
     }
   }
   .table_link {
-    white-space: nowrap;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
-    width: 140px;
+    // white-space: nowrap;
+    // text-align: center;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
+    // display: inline-block;
+    // width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;

@@ -140,42 +140,42 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          width: 250,
+          width: 180,
           align: "center",
           tooltip: true
         },
         {
           title: "巡视步骤",
           key: "stepNum",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "监测设备",
           key: "monitorDeviceName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "执行时间",
           key: "interval",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "已巡视次数",
           key: "inspectNum",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "状态",
           key: "statusName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -198,7 +198,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 240,
+          minWidth: 200,
           align: "right",
           tooltip: true,
           render: (h, params) => {
@@ -292,28 +292,28 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          width: 250,
+          width: 180,
           align: "center",
           tooltip: true
         },
         {
           title: "监测设备",
           key: "monitorDeviceName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "已巡视次数",
           key: "inspectNum",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "状态",
           key: "statusName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -341,7 +341,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 240,
+          minWidth: 200,
           align: "right",
           tooltip: true,
           render: (h, params) => {
@@ -435,42 +435,42 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          width: 250,
+          width: 180,
           align: "center",
           tooltip: true
         },
         {
           title: "巡视步骤",
           key: "stepNum",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "监测设备",
           key: "monitorDeviceName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "执行时间",
           key: "interval",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "已巡视次数",
           key: "inspectNum",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "状态",
           key: "statusName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -493,7 +493,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 240,
+          minWidth: 200,
           align: "right",
           tooltip: true,
           render: (h, params) => {
@@ -566,28 +566,28 @@ export default {
         {
           title: "巡视名称",
           key: "planName",
-          width: 250,
-          align: "center",
-          tooltip: true
-        },
-        {
-          title: "监测设备",
-          key: "monitorDeviceName",
-          minWidth: 50,
+          width: 180,
           align: "center",
           tooltip: true
         },
         {
           title: "已巡视次数",
           key: "inspectNum",
-          minWidth: 50,
+          minWidth: 90,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "状态",
           key: "statusName",
-          minWidth: 50,
+          minWidth: 90,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -610,7 +610,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 240,
+          minWidth: 200,
           align: "right",
           tooltip: true,
           render: (h, params) => {

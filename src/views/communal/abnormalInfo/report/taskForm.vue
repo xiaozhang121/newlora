@@ -1200,6 +1200,13 @@
                     }
                 });
             },
+            getWidth() {
+              let screen = window.screen.availWidth;
+              if (screen > 3500) {
+                this.columns.splice(7, 1);
+                this.columns.splice(5, 1);
+              }
+            },
             dataListSelectionChangeHandle() {},
             pageSizeChangeHandle() {}
         },
@@ -1213,6 +1220,7 @@
             // this.initTime();
         },
         created(){
+            this.getWidth()
             this.init()
             this.getReportNum()
         },
@@ -1486,7 +1494,7 @@
     //-------------------表格样式
     .ivu-table {
       font-size: 16px;
-      @media screen and (min-width: 3500px) {
+      @media screen and (max-width: 1366px) {
         font-size: 14px;
       }
     }
@@ -1497,15 +1505,15 @@
       background-color: #2d5980 !important;
       font-size: 18px;
       font-weight: normal;
-      @media screen and (min-width: 3500px) {
+      @media screen and (max-width: 1366px) {
         font-size: 15px;
         height: 50px;
       }
     }
     .ivu-table-cell {
-      @media screen and (min-width: 3500px) {
-        padding-left: 10px;
-        padding-right: 10px;
+      @media screen and (max-width: 1366px) {
+        padding-left: 0;
+        padding-right: 0;
       }
     }
     .ivu-page {

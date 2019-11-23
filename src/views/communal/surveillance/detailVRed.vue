@@ -828,9 +828,17 @@ export default {
       getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
       });
+    },
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns.splice(6, 1);
+        this.columns.splice(1, 1);
+      }
     }
   },
   created() {
+    this.getWidth();
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.getMonitorDeviceName();
     this.getDataList();
@@ -1218,11 +1226,11 @@ export default {
         left: 0;
         top: 50px;
         width: 100%;
-        height: 400px;
+        height: 300px;
         .chartBox {
-          height: 400px;
+          height: 300px;
           .charts {
-            height: 400px;
+            height: 300px;
           }
         }
       }

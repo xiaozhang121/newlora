@@ -20,17 +20,17 @@
     <div class="contentMain" @click="handleWain">
       <div class="top">
         <p>
-          机器判断:
+          机器判断：
           <span>{{remarkData.alarmDetailType}}</span>
         </p>
       </div>
       <div class="mainMain">
         <div>
-          拍摄时间:
-          <span :style="{paddingLeft:'5px'}">{{remarkData.alarmTime}}</span>
+          拍摄时间：
+          <span>{{remarkData.alarmTime}}</span>
         </div>
         <div>
-          <i>处理记录:</i>
+          <i>处理记录：</i>
           <p>
             <span v-for="(item,index) in dealList.slice(0,2)" :key="index">{{item}}</span>
           </p>
@@ -38,7 +38,7 @@
       </div>
       <div class="btn">
         <p>
-          来源:
+          来源：
           <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
         </p>
         <p v-if="isShow">
@@ -264,7 +264,7 @@ export default {
         font-size: 16px;
         color: #ffffff;
         span {
-          padding-left: 5px;
+          // padding-left: 5px;
         }
       }
     }
@@ -293,6 +293,7 @@ export default {
         }
         p {
           width: 88%;
+          margin-left: 4px;
           span {
             overflow: hidden;
             text-overflow: ellipsis;

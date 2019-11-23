@@ -335,14 +335,14 @@ export default {
         {
           title: "时间",
           key: "alarmTime",
-          minWidth: 150,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "报警对象",
           key: "mainDevice",
-          minWidth: 150,
+          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -359,7 +359,7 @@ export default {
         {
           title: "描述",
           key: "alarmContent",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
@@ -675,8 +675,6 @@ export default {
     };
   },
   created() {
-    let screen = window.screen.availWidth;
-    console.log(screen);
     this.getdefectData();
     this.getRecodeList();
     this.getData();
@@ -822,6 +820,7 @@ export default {
         legendOption.textStyle.fontSize = 12;
         that.isShowEchart = true;
         that.seriesOption[0].radius = "35%";
+        this.RecodeColumns.splice(1, 1);
       }
     },
     onSelect(item) {
@@ -1176,7 +1175,8 @@ export default {
           margin-top: 20px;
         }
         .dunoMain_nr {
-          padding: 20px;
+          // padding: 20px;
+          padding: 0;
           .tablesTep {
             height: 510px;
             .ivu-table {

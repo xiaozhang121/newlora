@@ -40,7 +40,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage="mixinViewModuleOptions.isShowPage"
         @clickPage="pageCurrentChangeHandle"
       />
     </duno-main>
@@ -119,8 +119,9 @@ export default {
         {
           key: "monitorDeviceId",
           title: "网络设备名称",
-          minWidth: 300,
+          minWidth: 210,
           align: "center",
+          tooltip: true,
           render: (h, params) => {
             return h("div", "802.11ac Wave2天线一一体化室外无无线AP");
           }
@@ -128,11 +129,13 @@ export default {
         {
           key: "model",
           title: "型号",
+          tooltip: true,
           align: "center"
         },
         {
           key: "areaName",
           title: "品牌",
+          tooltip: true,
           align: "center",
           render: (h, params) => {
             return h("div", "苏州汉明");
@@ -141,12 +144,14 @@ export default {
         {
           key: "ip",
           title: "IP地址",
+          tooltip: true,
           align: "center"
         },
         {
           key: "status",
           title: "当前状态",
           align: "center",
+          tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
@@ -167,6 +172,8 @@ export default {
         {
           key: "statusName",
           title: "端口流量",
+          minWidth: 150,
+          tooltip: true,
           align: "center",
           render: (h, params) => {
             let newArr = [];
@@ -212,11 +219,19 @@ export default {
     };
   },
   methods: {
+    getWidth() {
+      let screenWidth = window.screen.availWidth;
+      let screenHeight = window.screen.availHeight;
+      console.log(screenWidth, screenHeight);
+      if (screenWidth == 3840 && screenHeight == 2160) {
+        this.pageRows = 15;
+      }
+    },
     init() {
       let url = "/lenovo-mon/api/monitoring/ap/zabbix/getNetDevicePage";
       let query = {
         pageIndex: this.pageIndex,
-        pageRows: 10,
+        pageRows: this.pageRows,
         type: this.dataForm.type,
         status: this.dataForm.status
       };
@@ -244,6 +259,9 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  created() {
+    this.getWidth();
   }
 };
 </script>
