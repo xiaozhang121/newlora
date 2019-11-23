@@ -28,6 +28,7 @@ export default {
     data() {
         return {
             dom: null,
+            nowActive: [],
             isActive: false,
             isShow: false,
             comName: 'el-checkbox',
@@ -35,12 +36,12 @@ export default {
             selectList: [
               { type: '预置位1' },
               { name: '4号主变1000Kv侧套管A相接线柱'},
-              { name: '4号主变1000Kv侧套管A相接线柱'},
-              { name: '4号主变1000Kv侧套管A相接线柱'},
+              { name: '4号主变1000Kv侧套管AA相接线柱'},
+              { name: '4号主变1000Kv侧套管AA相接线柱'},
               { type: '预置位2' },
-              { name: '4号主变1000Kv侧套管A相接线柱'},
-              { name: '4号主变1000Kv侧套管A相接线柱'},
-              { name: '4号主变1000Kv侧套管A相接线柱'},
+              { name: '4号主变1000Kv侧套管B相接线柱'},
+              { name: '4号主变1000Kv侧套管BB相接线柱'},
+              { name: '4号主变1000Kv侧套管BBB相接线柱'},
             ]
         }
     },
@@ -84,7 +85,7 @@ export default {
         },
         typeChosen: {
            type: String,
-           default: 'el-checkbox'
+           default: 'Multiple'
         }
     },
     computed: {
@@ -123,12 +124,24 @@ export default {
         this.selectList = data
         this.$forceUpdate()
       },
+      clearOverItem(){
+        let removeItem = this.nowActive[0]
+        this.nowActive.splice(0, 1)
+        for(let i=0; i < this.selectList.length; i++){
+          if(JSON.stringify(this.selectList[i]) == JSON.stringify(removeItem)){
+             this.selectList[i]['active'] = false
+          }
+        }
+      },
       chosenItem(index){
         if(this.typeChosen === 'Single'){
           this.resetList()
           this.selectList[index].active = true
-        }else if(this.activeList.length >= 3){
-
+        }else{
+          if(this.activeList.length >= 3){
+            this.clearOverItem()
+          }
+          this.nowActive.push(this.selectList[index])
         }
         this.$emit('on-active', this.activeList)
         this.$forceUpdate()
