@@ -1200,6 +1200,13 @@
                     }
                 });
             },
+            getWidth() {
+              let screen = window.screen.availWidth;
+              if (screen > 3500) {
+                this.columns.splice(7, 1);
+                this.columns.splice(5, 1);
+              }
+            },
             dataListSelectionChangeHandle() {},
             pageSizeChangeHandle() {}
         },
@@ -1213,6 +1220,7 @@
             // this.initTime();
         },
         created(){
+            this.getWidth()
             this.init()
             this.getReportNum()
         },

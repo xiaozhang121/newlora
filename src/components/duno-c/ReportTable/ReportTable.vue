@@ -347,6 +347,9 @@ export default {
     }
     .item {
       cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   .btn {

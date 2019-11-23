@@ -675,8 +675,6 @@ export default {
     };
   },
   created() {
-    let screen = window.screen.availWidth;
-    console.log(screen);
     this.getdefectData();
     this.getRecodeList();
     this.getData();
@@ -822,6 +820,7 @@ export default {
         legendOption.textStyle.fontSize = 12;
         that.isShowEchart = true;
         that.seriesOption[0].radius = "35%";
+        this.RecodeColumns.splice(1, 1);
       }
     },
     onSelect(item) {
@@ -1176,7 +1175,8 @@ export default {
           margin-top: 20px;
         }
         .dunoMain_nr {
-          padding: 20px;
+          // padding: 20px;
+          padding: 0;
           .tablesTep {
             height: 510px;
             .ivu-table {

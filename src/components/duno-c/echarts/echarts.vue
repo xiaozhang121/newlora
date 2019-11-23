@@ -8,6 +8,7 @@
       :titleOption="titleOption"
       :gridOption="gridOption"
       :seriesOption="seriesOption"
+      paddingBottom="200px"
     />
   </div>
 </template>

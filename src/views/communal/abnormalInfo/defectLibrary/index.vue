@@ -172,17 +172,16 @@ export default {
         {
           title: " ",
           key: "id",
-          width: 120,
+          minWidth: 120,
           align: "center",
           render: (h, params) => {
             const that = this;
             let newArr = [];
             newArr.push([
               h(
-                "el-button",
+                "div",
                 {
-                  class: "table_link",
-                  style: { marginRight: "20px" },
+                  class: "ta_link",
                   props: { type: "text" },
                   on: {
                     click: () => {
@@ -201,13 +200,7 @@ export default {
                 "样本详情"
               )
             ]);
-            return h(
-              "div",
-              {
-                class: "flexPos"
-              },
-              newArr
-            );
+            return h("div", newArr);
           }
         }
       ]
@@ -370,12 +363,12 @@ export default {
     border-color: transparent !important;
     background: transparent;
   }
-  .table_link {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
-    width: 140px;
+  .ta_link {
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
+    // display: inline-block;
+    // width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;

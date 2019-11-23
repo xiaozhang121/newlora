@@ -34,7 +34,7 @@
               :streamAddr="item['streamAddr']"
               :kilovolt="item['monitorDeviceName']"
               :patrol="item['interval']"
-            /> 
+            />
             <!-- :patrol="`${item['startTime']}至${item['endTime']}`" -->
           </div>
           <div style="clear: both"></div>
@@ -50,7 +50,10 @@
       </div>
       <div class="item">
         <div class="alarmTitle">
-          <div>历史<span :style="{color:'#F5A623'}">异常</span>记录</div>
+          <div>
+            历史
+            <span :style="{color:'#F5A623'}">异常</span>记录
+          </div>
           <div>
             <div @click="clickToDetail(2)">查看更多 ></div>
           </div>
@@ -61,7 +64,7 @@
             class="alarmLogIn"
             :class="{'canelLoading': !loading}"
             v-loading="loading"
-             element-loading-background="rgba(0, 0, 0, 0)"
+            element-loading-background="rgba(0, 0, 0, 0)"
             element-loading-text="请稍后，正在加载数据…"
           >
             <AlarmLog
@@ -116,7 +119,6 @@ export default {
       timer: null,
       loading: false,
       mixinViewModuleOptions: {
-        activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/security/list"
       },
       isCenter: false,
@@ -159,12 +161,10 @@ export default {
               videoPath: item["alarmFileAddress"],
               positionIndex: index
             }).then(res => {
-              try{
+              try {
                 this.dataList[res.data["positionIndex"]]["pic"] = res.data.pic;
                 this.$forceUpdate();
-              }catch (e) {
-
-              }
+              } catch (e) {}
             });
           });
         }
@@ -203,9 +203,9 @@ export default {
               }).then(res => {
                 let data = res.data;
                 that.$set(
-                    that.safeList[data["positionIndex"]],
-                    "pic",
-                    data["pic"]
+                  that.safeList[data["positionIndex"]],
+                  "pic",
+                  data["pic"]
                 );
                 that.$forceUpdate();
               });
@@ -215,9 +215,7 @@ export default {
             } else {
               this.isEmptyHour = true;
             }
-          }catch (e) {
-            
-          }
+          } catch (e) {}
         }
       );
     },
@@ -234,16 +232,25 @@ export default {
           name: "record-all"
         });
       }
+    },
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.pageRows = 3;
+      }
     }
   },
   created() {
+    this.getWidth();
     this.initData();
     this.loading = true;
     this.timer = setTimeout(() => {
       this.loading = false;
     }, 10000);
   },
-  beforeDestroy() {}
+  mounted() {
+    this.getDataList();
+  }
 };
 </script>
 

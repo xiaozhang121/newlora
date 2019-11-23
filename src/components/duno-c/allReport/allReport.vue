@@ -18,7 +18,7 @@
         </div>
         <div>
           <duno-btn-top
-            v-if="dataSource"
+            v-if="dataSource&&isHidden"
             @on-select="onSelectDevice"
             class="dunoBtnTo"
             :isCheck="false"
@@ -159,6 +159,7 @@ export default {
         exportURL: ""
       },
       dataForm: {},
+      isHidden: true,
       title: "所有信息",
       handleNotes: [],
       alarmType: "",
@@ -452,6 +453,13 @@ export default {
           }
         },
         {
+          title: "数据",
+          key: "alarmValue",
+          minWidth: 90,
+          align: "center",
+          tooltip: true
+        },
+        {
           title: "记录时间",
           key: "executeTime",
           minWidth: 100,
@@ -558,241 +566,15 @@ export default {
     getWidth() {
       let screen = window.screen.availWidth;
       let routePage = this.$route.name;
-      console.log(screen, routePage);
-      if (screen > 3500 && routePage == "allReport-detail") {
-        this.columns = [
-          {
-            title: "对象",
-            key: "powerDeviceName",
-            minWidth: 180,
-            align: "center",
-            tooltip: true
-          },
-          {
-            title: "部件/相别",
-            key: "part",
-            minWidth: 120,
-            align: "center",
-            tooltip: true,
-            render: (h, params) => {
-              let data = params.row.part ? params.row.part : "/";
-              return h("div", data);
-            }
-          },
-          {
-            title: "描述",
-            key: "content",
-            minWidth: 90,
-            align: "center",
-            tooltip: true,
-            render: (h, params) => {
-              let content;
-              if (params.row.content) {
-                content = params.row.content;
-              } else if (params.row.description) {
-                content = params.row.description;
-              } else if (params.row.desc) {
-                content = params.row.desc;
-              }
-              return h("div", { class: { member_operate_div: true } }, content);
-            }
-          },
-          {
-            title: "缺陷等级",
-            key: "alarmLevel",
-            minWidth: 120,
-            align: "center",
-            tooltip: true,
-            render: (h, params) => {
-              let newArr = [];
-              let alarmLevelName;
-              if (
-                params.row.alarmLevelName &&
-                params.row.alarmLevelName.length > 2
-              ) {
-                alarmLevelName = params.row.alarmLevelName.slice(0, 2);
-              } else {
-                alarmLevelName = params.row.alarmLevelName;
-              }
-              if (
-                params.row.alarmLevel == "1" ||
-                params.row.alarmLevel == "2" ||
-                params.row.alarmLevel == "3"
-              ) {
-                newArr.push(
-                  h(
-                    "i-dropdown",
-                    {
-                      props: { trigger: "click", placement: "bottom-start" },
-                      style: { marginLeft: "5px" },
-                      on: {
-                        "on-click": value => {
-                          console.log(value);
-                        }
-                      }
-                    },
-                    [
-                      h("div", { class: { member_operate_div: true } }, [
-                        h(
-                          "div",
-                          {
-                            class: {
-                              table_select: true,
-                              serious: params.row.alarmLevel === "2",
-                              commonly: params.row.alarmLevel === "1",
-                              danger: params.row.alarmLevel === "3"
-                            }
-                          },
-                          [
-                            h("span", alarmLevelName, {
-                              class: { member_operate_div: true }
-                            }),
-                            h("i", {
-                              style: { marginLeft: "5px" },
-                              class: { "iconfont icon-xiala": true }
-                            })
-                          ]
-                        )
-                      ]),
-                      h("i-dropdownMenu", { slot: "list" }, [
-                        h("i-dropdownItem", {}, [
-                          h(
-                            "div",
-                            {
-                              class: { alarmLevel: true },
-                              on: {
-                                click: () => {
-                                  that.onClickDropdown(params.row, "一般", "1");
-                                }
-                              }
-                            },
-                            "一般"
-                          )
-                        ]),
-                        h("i-dropdownItem", {}, [
-                          h(
-                            "div",
-                            {
-                              class: { alarmLevel: true },
-                              on: {
-                                click: () => {
-                                  that.onClickDropdown(params.row, "严重", "2");
-                                }
-                              }
-                            },
-                            "严重"
-                          )
-                        ]),
-                        h("i-dropdownItem", {}, [
-                          h(
-                            "div",
-                            {
-                              class: { alarmLevel: true },
-                              on: {
-                                click: () => {
-                                  that.onClickDropdown(params.row, "危急", "3");
-                                }
-                              }
-                            },
-                            "危急"
-                          )
-                        ])
-                      ])
-                    ]
-                  )
-                );
-              } else {
-                newArr.push(h("div", "/"));
-              }
-              return h("div", newArr);
-            }
-          },
-          {
-            title: "记录时间",
-            key: "executeTime",
-            minWidth: 100,
-            align: "center",
-            tooltip: true,
-            render: (h, params) => {
-              let data;
-              if (params.row.executeTime) {
-                data = params.row.executeTime;
-              } else if (params.row.recordTime) {
-                data = params.row.recordTime;
-              } else if (params.row.date) {
-                data = params.row.date;
-              }
-              return h("div", [
-                h(
-                  "Tooltip",
-                  {
-                    props: {
-                      placement: "top",
-                      content: data,
-                      transfer: true,
-                      maxWidth: "200"
-                    }
-                  },
-                  [
-                    h(
-                      "div",
-                      {
-                        style: {
-                          display: "inline-block",
-                          width: "100px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap"
-                        }
-                      },
-                      data
-                    )
-                  ]
-                )
-              ]);
-            }
-          },
-          {
-            title: " ",
-            width: 90,
-            align: "center",
-            render: (h, params) => {
-              let newArr = [];
-              newArr.push([
-                h(
-                  "el-button",
-                  {
-                    class: "table_link",
-                    style: { marginRight: "20px" },
-                    props: { type: "text" },
-                    on: {
-                      click: () => {
-                        that.handleNotes = [];
-                        that.handleNotes.push({
-                          dealTime: params.row.dealTime,
-                          dealType: params.row.dealRecord
-                        });
-                        that.alarmType = params.row.alarmType;
-                        that.popData = params.row;
-                        that.alarmLevel = params.row.alarmLevel;
-                        that.visible = true;
-                        that.$forceUpdate();
-                      }
-                    }
-                  },
-                  "详情"
-                )
-              ]);
-              return h(
-                "div",
-                {
-                  class: "flexPos"
-                },
-                newArr
-              );
-            }
-          }
-        ];
+      console.log(routePage); //overview-detail
+      if (screen > 3500) {
+        this.columns.splice(4, 1);
+        if (routePage == "allReport-detail") {
+          this.columns.splice(4, 1);
+        }
+      }
+      if (screen > 3500 && routePage == "overview-detail") {
+        this.isHidden = false;
       }
     },
     selectDownloadType(item) {

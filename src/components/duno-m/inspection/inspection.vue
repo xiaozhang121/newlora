@@ -1021,5 +1021,33 @@ export default {
     font-size: 14px !important;
     height: 50px;
   }
+  @media screen and (min-width: 3500px) {
+      .cameraMaind{
+        .btnList{
+          overflow: hidden;
+          .duno-table{
+            width: 100%;
+                overflow-x: auto;
+            &>div{
+              width: 130%;
+            }
+          }
+        }
+      }
+  }
+  @media screen and (max-width: 1366px) {
+    .cameraMaind{
+        .btnList{
+          overflow: hidden;
+          .duno-table{
+            width: 100%;
+                overflow-x: auto;
+            &>div{
+              width: 130%;
+            }
+          }
+        }
+      }
+  }
 }
 </style>
