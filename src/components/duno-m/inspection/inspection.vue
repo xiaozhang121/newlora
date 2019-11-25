@@ -419,7 +419,7 @@ export default {
         play: "/lenovo-visible/api/visible-equipment/stable/play/{deviceId}", // 视频播放
         pause: "/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}", // 暂停
         ptzSet:
-          "/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{id}", //
+          "/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}", //
         stop: "/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}" // 停止播放
       },
       playerOptions: {
@@ -494,7 +494,7 @@ export default {
       // alert(now)
       console.log(now);
       putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8" +
+        "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
           "/" +
           this.dataList[0]["dataList"][now]["psIndex"]+"/"+that.deviceId
       );
@@ -602,7 +602,7 @@ export default {
     checkPostion(pid) {
       const that = this;
       putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8" +
+        "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
           "/" +
           pid+"/"+that.deviceId
       ).then(res=>{
@@ -785,14 +785,15 @@ export default {
       this.$emit("on-close");
     },
     viewCamera(command, flag) {
-      if(flag){
-        command = 0
-      }
+      // if(flag){
+      //   command = 0
+      // }
       this.activeNum = command;
       let url = this.operateUrl.ptzSet
         .replace("{cmd}", command)
         .replace("{id}", this.deviceId)
-        .replace("{step}", 8);
+        .replace("{step}", 8)
+        .replace("{flag}", Number(flag));
       return new Promise((resolve, reject) => {
         putAxiosData(url).then(
           res => {

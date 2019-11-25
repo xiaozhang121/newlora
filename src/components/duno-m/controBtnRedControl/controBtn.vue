@@ -49,7 +49,7 @@ export default {
         operateUrl: {
             play: '/lenovo-visible/api/visible-equipment/stable/play/{deviceId}',// 视频播放
             pause: '/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}',// 暂停
-            ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{id}/{cmd}/{step}',//
+            ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{id}/{cmd}/{flag}/{step}',//
             stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
         }
     }
