@@ -56,17 +56,21 @@ export default {
          deep: true
          // immediate: true
        },
-       typeChosen(now){
-         if(now){
-            switch (now){
-              case 'Multiple':
-                  this.comName = 'el-checkbox'
-                  break;
-              case 'Single':
-                  this.comName = 'el-radio'
-                  break;
-            }
-         }
+       typeChosen:{
+         handler(now){
+           if(now){
+             switch (now){
+               case 'Multiple':
+                 this.comName = 'el-checkbox'
+                 break;
+               case 'Single':
+                 this.comName = 'el-radio'
+                 break;
+             }
+           }
+         },
+         deep: true,
+         immediate: true
        }
     },
     props: {
@@ -75,7 +79,7 @@ export default {
           default: 3
         },
         activeIndex: {
-          type: [String, Number],
+          type: [String, Number, Array],
           default: '0'
         },
         dataList:{
@@ -127,14 +131,20 @@ export default {
       },
       clearOverItem(){
         let removeItem = this.nowActive[0]
-        let data = this.activeList
-        for(let i=0; i<data.length; i++){
-            if(JSON.stringify(data[i]) == JSON.stringify(removeItem)){
-              data[i]['active'] = false
-            }
-        }
-        this.nowActive.splice(0, 1)
+        this.removeItem(removeItem)
         this.$forceUpdate()
+      },
+      removeItem(removeItem, flag){
+        let data = this.activeList
+        let findIndex = -1
+        for(let i=0; i<data.length; i++){
+          if(JSON.stringify(data[i]) == JSON.stringify(removeItem)){
+            if(!flag)
+                data[i]['active'] = false
+            findIndex = i
+          }
+        }
+        !flag?this.nowActive.splice(0, 1):this.nowActive.splice(findIndex, 1)
       },
       chosenItem(index){
         if(this.isClick){
@@ -144,13 +154,17 @@ export default {
           this.resetList()
           this.selectList[index].active = true
         }else{
-          if(!this.nowActive.length){
-            this.nowActive = JSON.parse(JSON.stringify(this.activeList))
+          if(this.selectList[index]['active']){
+            this.removeItem(this.selectList[index], true)
+          }else{
+            if(!this.nowActive.length){
+              this.nowActive = JSON.parse(JSON.stringify(this.activeList))
+            }
+            if(this.activeList.length >= this.maxSelect){
+              this.clearOverItem()
+            }
+            this.nowActive.push(this.selectList[index])
           }
-          if(this.activeList.length >= this.maxSelect){
-            this.clearOverItem()
-          }
-          this.nowActive.push(this.selectList[index])
         }
         this.isClick = true
         setTimeout(()=>{
@@ -181,12 +195,14 @@ export default {
         document.removeEventListener('mousedown', that.closeEvent)
         window.removeEventListener('resize', that.domResize)
         document.removeEventListener('mousemove', that.domResize)
+        document.querySelector('.gisMap').removeEventListener('click', that.closeEvent)
       },
       bindEvent(){
         const that = this
         document.addEventListener('mousedown', that.closeEvent)
         document.addEventListener('mousemove', that.domResize)
         window.addEventListener('resize', that.domResize)
+        document.querySelector('.gisMap').addEventListener('click', that.closeEvent)
       },
       domResize(){
         let pos = document.querySelector('.activeTitle').getBoundingClientRect()
