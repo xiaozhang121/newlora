@@ -707,15 +707,20 @@ export default {
     };
   },
   methods: {
-    handleActiveBtn(data) {
+    handleActiveBtn(data,isCheck) {
+      let that = this;
       this.ajaxCount++;
       if (this.ajaxCount > MAXAJAX) {
         this.setDefault = "0";
       }
-      let cameraPos0 = null;
       let obj = {};
-      for (let i = 0; i < data.length; i++) {
-        obj["cameraPos0" + (i + 1)] = data[i];
+      if(isCheck){
+        let cameraPos0 = null;
+        for (let i = 0; i < data.length; i++) {
+          obj["cameraPos0" + (i + 1)] = data[i];
+        }
+      }else{
+        obj = data
       }
       let query = {
         ...obj,
@@ -725,7 +730,8 @@ export default {
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
-          that.initConfigure(type);
+          that.initConfigure(2);
+          this.$refs.btnTopRef.init()
           that.$forceUpdate();
         } else that.$message.error(res.msg);
       });
