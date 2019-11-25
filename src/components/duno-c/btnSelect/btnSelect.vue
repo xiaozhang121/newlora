@@ -196,24 +196,17 @@ export default {
       }
     },
     handleActive(index, flag) {
-      let isClick = this.isDisabled(index);
-      if (isClick) {
-        return false;
+      if (flag["isActive"]) {
+        this.checkedCities.forEach((item, i) => {
+          if (item == index) {
+            this.checkedCities.splice(i, 1);
+          }
+        });
       } else {
-        if (flag["isActive"]) {
-          this.checkedCities.forEach((item, i) => {
-            if (item == index) {
-              this.checkedCities.splice(i, 1);
-            }
-          });
-          this.$emit("on-active", this.checkedCities, true);
-        } else {
-          let length = this.checkedCities.length;
-          let obj = {};
-          obj["cameraPos0" + (length + 1)] = index;
-          this.$emit("on-active", obj, false);
-        }
+        this.checkedCities.push(index);
       }
+      console.log(this.checkedCities);
+      this.$emit("on-active", this.checkedCities);
     },
     isDisabled(id) {
       let length = this.checkedCities.length;
