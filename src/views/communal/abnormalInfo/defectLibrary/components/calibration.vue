@@ -1,9 +1,9 @@
 <template>
   <div class="duno-calibrat">
-    <el-dialog title="新增标定" :visible.sync="isShow" width="500px" :before-close="handleCancel">
+    <el-dialog :title="!onlyShow?'新增标定':'查看'" :visible.sync="isShow" width="500px" :before-close="handleCancel">
       <div class="content">
         <!-- <el-input v-model="input" placeholder="图⽚编号058214新增标定-1（点击修改名称）"></el-input> -->
-        <el-select v-model="value" placeholder="选择识别类型">
+        <el-select v-model="value" placeholder="选择识别类型" v-if="!onlyShow">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -11,11 +11,12 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <frame-selection @on-send="onSend" :keepData="frameData"></frame-selection>
+        <frame-selection :onlyShow="!onlyShow" @on-send="onSend" :keepData="frameData"></frame-selection>
       </div>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer" v-if="!onlyShow">
         <button-custom class="button" @click.native="handleCancel" title="取消" />
-        <button-custom class="button" @click.native="handleSubmit" title="提交" />
+        <button-custom v-if="!isEdit" class="button" @click.native="handleSubmit" title="提交" />
+        <button-custom v-else class="button" @click.native="handleEdit" title="完成编辑" />
       </span>
     </el-dialog>
   </div>
@@ -24,7 +25,7 @@
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
 import frameSelection from "_c/duno-c/frameSelection";
-import { getAxiosData, postAxiosData } from "@/api/axiosType";
+import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 export default {
   name: "calibration",
   components: {
@@ -32,6 +33,22 @@ export default {
     frameSelection
   },
   props: {
+    onlyShow: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
+    },
+    isEdit: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
+    },
+    imgUrl: {
+      type: String,
+      default: ''
+    },
     isShow: {
       type: Boolean,
       default: () => {
@@ -44,6 +61,7 @@ export default {
   },
   data() {
     return {
+      isSubmit: false,
       input: "",
       value: "",
       options: [],
@@ -56,11 +74,36 @@ export default {
     };
   },
   methods: {
+    handleEdit(){
+      let url = "/lenovo-sample/api/mark/edit";
+      let query = {
+        id: this.dataList.id,
+        mainDevice: this.mainDevice,
+        part: this.part,
+        partSub: this.partSub,
+        recognizeType: this.value,
+        sampleId: this.$route.query.sampleId,
+        x1: this.pointData.x0,
+        y1: this.pointData.y0,
+        x2: this.pointData.x1,
+        y2: this.pointData.y1
+      };
+      putAxiosData(url, query).then(res => {
+        this.$message.success("编辑成功");
+        this.isSubmit = false
+        this.$emit("closeShot");
+      });
+    },
     onSend(data, imgData) {
       this.pointData = data;
       this.imgFile = imgData;
     },
     handleSubmit() {
+      if(this.isSubmit){
+        this.$message.info('正在新增中，请稍后...')
+        return
+      }
+      this.isSubmit = true
       let url = "/lenovo-sample/api/mark/add";
       let query = {
         mainDevice: this.mainDevice,
@@ -75,6 +118,7 @@ export default {
       };
       postAxiosData(url, query).then(res => {
         this.$message.success("新增成功");
+        this.isSubmit = false
         this.$emit("closeShot");
       });
     },
@@ -94,9 +138,12 @@ export default {
       });
     }
   },
-  mounted() {
+  created(){
     this.getTypelist();
+  },
+  mounted() {
     this.frameData = this.dataList;
+    !this.frameData['picFilePath']?this.frameData['picFilePath'] = this.imgUrl: ''
     this.value = this.dataList.recognizeType;
   }
 };
@@ -120,6 +167,7 @@ export default {
     .el-input__inner {
       height: 40px;
       line-height: 40px;
+      color: black;
     }
     .el-select {
       width: 100%;
