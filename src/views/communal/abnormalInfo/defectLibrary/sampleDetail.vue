@@ -453,7 +453,7 @@ export default {
         // taskId: this.sampleData.taskId,
       };
       putAxiosData(url, query).then(res => {
-        this.$message.sucess("修改成功");
+        this.$message.info("修改成功");
       });
     },
     deleteDetail() {
@@ -489,9 +489,9 @@ export default {
         this.sampleData = res.data.sample;
         let deviceData = res.data.sample;
         this.substationData = res.data.stationList;
-        this.form.stationName = deviceData.stationName;
-        this.form.monitorDeviceName = deviceData.monitorDeviceName;
-        this.form.areaName = deviceData.areaName;
+        this.form.stationName = Number(deviceData.stationId);
+        this.form.monitorDeviceName = deviceData.monitorDeviceId;
+        this.form.areaName = deviceData.areaId;
         this.form.initCascader = [deviceData.mainDevice, deviceData.part, deviceData.partSub]
         this.handleChange(this.form.initCascader)
         this.form.powerDeviceName = deviceData.powerDeviceName;
