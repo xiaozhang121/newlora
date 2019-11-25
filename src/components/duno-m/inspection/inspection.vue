@@ -494,7 +494,7 @@ export default {
       // alert(now)
       console.log(now);
       putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
+        "/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8" +
           "/" +
           this.dataList[0]["dataList"][now]["psIndex"]+"/"+that.deviceId
       );
@@ -602,7 +602,7 @@ export default {
     checkPostion(pid) {
       const that = this;
       putAxiosData(
-        "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
+        "/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8" +
           "/" +
           pid+"/"+that.deviceId
       ).then(res=>{
@@ -785,12 +785,14 @@ export default {
       this.$emit("on-close");
     },
     viewCamera(command, flag) {
+      if(flag){
+        command = 0
+      }
       this.activeNum = command;
       let url = this.operateUrl.ptzSet
         .replace("{cmd}", command)
         .replace("{id}", this.deviceId)
-        .replace("{step}", 8)
-        .replace("{flag}", Number(flag));
+        .replace("{step}", 8);
       return new Promise((resolve, reject) => {
         putAxiosData(url).then(
           res => {

@@ -133,7 +133,7 @@ export default {
             if(!flag)
                 this.activeNum = command
             let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                .replace("{step}", Number(that.speed)).replace("{flag}", Number(flag));
+                .replace("{step}", Number(that.speed));
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
                     try{

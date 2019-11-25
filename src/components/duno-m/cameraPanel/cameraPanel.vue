@@ -495,7 +495,7 @@ import { debug } from 'util';
             flagNow(now){
                 const that = this
                 // alert(now)
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+this.dataList[0]['dataList'][now]['psIndex'])
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8/'+that.deviceId+'/'+this.dataList[0]['dataList'][now]['psIndex'])
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
                 that.lightTimer = setInterval(()=>{
@@ -586,7 +586,7 @@ import { debug } from 'util';
             },
             checkPostion(pid){
                 const that = this
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/'+that.deviceId+'/'+pid)
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8/'+that.deviceId+'/'+pid)
             },
             editTableData(params){
                 const that = this
@@ -729,9 +729,12 @@ import { debug } from 'util';
                 this.$emit('on-close')
             },
             viewCamera(command, flag){
+                if(flag){
+                  command = 0
+                }
                 this.activeNum = command
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                    .replace("{step}", 8).replace("{flag}", Number(flag));
+                    .replace("{step}", 8);
                 return new Promise((resolve, reject)=>{
                     putAxiosData(url).then(res => {
                         resolve(res)
