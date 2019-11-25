@@ -99,16 +99,16 @@ export default {
       this.imgFile = imgData;
     },
     handleSubmit() {
+      if(!this.pointData.x0 || !this.value){
+        this.$message.info('请完善标定信息！')
+        return
+      }
       if(this.isSubmit){
         this.$message.info('正在新增中，请稍后...')
         return
       }
       this.isSubmit = true
       let url = "/lenovo-sample/api/mark/add";
-      if(!this.pointData.x0 || !this.value){
-        this.$message.info('请完善标定信息！')
-        return
-      }
       let query = {
         mainDevice: this.mainDevice,
         part: this.part,
