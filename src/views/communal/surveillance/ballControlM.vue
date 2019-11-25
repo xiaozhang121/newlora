@@ -27,6 +27,7 @@
                   :Initialization="true"
                   :isLive='false'
                   :isNav='true'
+                  :isAux='true'
                 ></key-monitor>
               </div>
             </div>

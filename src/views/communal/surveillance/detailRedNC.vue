@@ -35,6 +35,7 @@
                         :Initialization="true"
                         :isLive='false'
                         :isNav='true'
+                        :isAux='true'
                 ></key-monitor>
                 <span
                   v-show="overFlag"
@@ -61,6 +62,7 @@
                         :showBtmOption="false"
                         :isLive='false'
                         :isNav='true'
+                        :isAux='true'
                 ></key-monitor>
               </div>
             </div>

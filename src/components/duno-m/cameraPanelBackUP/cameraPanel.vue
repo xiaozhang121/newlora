@@ -492,7 +492,7 @@
                 operateUrl: {
                     play: '/lenovo-visible/api/visible-equipment/stable/play/{deviceId}',// 视频播放
                     pause: '/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}',// 暂停
-                    ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}',//
+                    ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{id}',//
                     stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
                 },
                 playerOptions:{
@@ -567,7 +567,7 @@
             flagNow(now){
                 const that = this
                 // alert(now)
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/'+this.dataList[0]['dataList'][now]['psIndex']+'/'+that.deviceId)
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8'+'/'+this.dataList[0]['dataList'][now]['psIndex']+'/'+that.deviceId)
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
                 that.lightTimer = setInterval(()=>{
@@ -771,7 +771,7 @@
             },
             checkPostion(pid){
                 const that = this
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/'+pid+'/'+that.deviceId).then(res=>{
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8'+'/'+pid+'/'+that.deviceId).then(res=>{
                     this.$message.info(res.msg)
                 })
             },
@@ -919,9 +919,12 @@
             },
             viewCamera(command, flag){
                 const that = this
+                if(flag){
+                  command = 0
+                }
                 this.activeNum = command
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                    .replace("{step}", 8).replace("{flag}", Number(flag));
+                    .replace("{step}", 8);
                 return new Promise((resolve, reject)=>{
                     putAxiosData(url).then(res => {
                        try{ 

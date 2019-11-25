@@ -54,7 +54,7 @@ export default {
         operateUrl: {
             play: '/lenovo-visible/api/visible-equipment/stable/play/{deviceId}',// 视频播放
             pause: '/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}',// 暂停
-            ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}',//
+            ptzSet: '/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{id}',//
             stop: '/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}'// 停止播放
         }
     }
@@ -133,7 +133,7 @@ export default {
             if(!flag)
                 this.activeNum = command
             let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                .replace("{step}", Number(that.speed)).replace("{flag}", Number(flag));
+                .replace("{step}", Number(that.speed));
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
                     try{
