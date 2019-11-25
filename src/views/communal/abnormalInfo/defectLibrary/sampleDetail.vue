@@ -28,7 +28,7 @@
           </el-image>
           <div class="infoNews">
             <div>{{sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''}}</div>
-            <p>大小：{{sampleData.picSize}}kb</p>
+            <p>大小：{{ sizeData }}kb</p>
             <p>分辨率：{{sampleData.picWigth}}*{{sampleData.picHeigh}}</p>
             <p>导入时间：{{sampleData.picImportTime}}</p>
             <p>导入类型：{{$route.query.markType}}</p>
@@ -150,6 +150,14 @@ export default {
     DunoTablesTep,
     survey,
     calibration
+  },
+  computed: {
+    sizeData(){
+      if(this.sampleData && this.sampleData.picSize)
+        return (this.sampleData.picSize / 1024).toFixed(2)
+      else
+        return ''
+    }
   },
   data() {
     const that = this;
@@ -411,9 +419,11 @@ export default {
         markType: this.sampleData.markType,
         picFilePath: this.sampleData.picFilePath,
         powerDeviceId: this.sampleData.powerDeviceId,
+        monitorDeviceName: this.form.monitorDeviceName,
         powerDeviceName: this.form.powerDeviceName,
-        stationId: this.sampleData.stationId,
-        taskId: this.sampleData.taskId
+        stationId: this.form.stationName,
+        taskId: this.sampleData.taskId,
+        areaName: this.form.areaName
       };
       putAxiosData(url, query).then(res => {
         this.$message.sucess("修改成功");
