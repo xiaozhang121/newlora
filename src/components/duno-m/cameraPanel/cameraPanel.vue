@@ -494,7 +494,7 @@ import { debug } from 'util';
             },
             flagNow(now){
                 const that = this
-                // alert(now)
+                // alert(now)23333
                 putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move/20/8/'+that.deviceId+'/'+this.dataList[0]['dataList'][now]['psIndex'])
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
