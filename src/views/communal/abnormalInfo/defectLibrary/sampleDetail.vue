@@ -277,22 +277,20 @@ export default {
           render: (h, params) => {
             const that = this;
             let newArr = [];
-            newArr.push([
-              h(
+            newArr.push(h('el-poptip', {
+              props: { confirm: true, title: '确定删除吗？', type: 'primary', size: 'small' },
+              style: { margin: '0 2px' },
+              on: { 'on-ok': () => { this.deletItem(params.row) } }
+            }, [h(
                 "el-button",
                 {
                   class: "tab_link",
                   style: { marginRight: "20px", background: "##305E83" },
                   props: { type: "text" },
-                  on: {
-                    click: () => {
-                      this.deletItem(params.row);
-                    }
-                  }
                 },
                 "删除"
               )
-            ]);
+            ]));
             newArr.push([
               h(
                 "el-button",
@@ -541,6 +539,12 @@ export default {
 
 <style lang='scss'>
 .sample-detail {
+  .ivu-poptip-confirm .ivu-poptip-body-message{
+    padding-left: 0;
+    color: black;
+    text-align: left;
+    margin-left: -10px;
+  }
   .el-input__inner, .ivu-input{
       color: white;
   }

@@ -96,6 +96,11 @@ export default {
               clearInterval(this.timer)
               this.timer = null
               this.isPoint = false
+              let imgFile = {
+                width: this.img.width,
+                height: this.img.height
+              };
+              this.$emit("on-send", this.beginRec, imgFile)
             }
           },500)
         }
