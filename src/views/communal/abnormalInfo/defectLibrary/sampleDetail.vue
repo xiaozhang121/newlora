@@ -7,19 +7,9 @@
       <div class="top">
         <div>样本详情</div>
         <!--@click="deleteDetail"-->
-        <el-popover
-          placement="top"
-          width="160"
-          v-model="visible2">
-            <p style="margin-bottom: 10px">确定删除吗？</p>
-            <div style="text-align: right; margin: 0">
-              <a href="javascript:void(0)" style="margin-right: 10px" @click="cancelVisible">取消</a>
-              <a href="javascript:void(0)" @click="deleteDetail">确定</a>
-            </div>
-            <div slot="reference" :style="{backgroundImage:background}">
-              <i class="iconfont icon-shanchu"></i>删除样本
-            </div>
-        </el-popover>
+        <div  :style="{backgroundImage:background}" @click="removeOK">
+          <i class="iconfont icon-shanchu"></i>删除样本
+        </div>
       </div>
       <div class="infoDetail">
         <div class="infoLeft">
@@ -121,17 +111,17 @@
         :border="true"
         :showSizer="true"
         :isShowPage="mixinViewModuleOptions.isShowPage"
-        @on-select="dataListSelectionChangeHandle"
         @clickPage="pageCurrentChangeHandle"
-        @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
+    <sure-submit ref="submit" :visible="sureVisible" @on-close="closeSubmit" @on-sure="onSure"></sure-submit>
     <calibration :imgUrl="src" :onlyShow="onlyShow" :isEdit="isEditPanel" v-if="isShow" :isShow="isShow" :dataList="calibratData" @closeShot="closeShot"></calibration>
   </div>
 </template>
 
 <script>
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import sureSubmit from "_c/duno-m/sureSubmit";
 import survey from "_c/duno-c/survey";
 import calibration from "./components/calibration.vue";
 import mixinViewModule from "@/mixins/view-module";
@@ -149,7 +139,8 @@ export default {
     Breadcrumb,
     DunoTablesTep,
     survey,
-    calibration
+    calibration,
+    sureSubmit
   },
   data() {
     const that = this;
@@ -317,10 +308,20 @@ export default {
             );
           }
         }
-      ]
+      ],
+      sureVisible: false
     };
   },
   methods: {
+    onSure(){
+      this.deleteDetail()
+    },
+    closeSubmit(){
+      this.sureVisible = false
+    },
+    removeOK(){
+      this.$refs.submit.visibleOption = true
+    },
     getMapping(arr, id){
       let label = ''
       arr.forEach(item=>{
@@ -334,11 +335,6 @@ export default {
       getAxiosData('/lenovo-sample/api/sample/camera/list').then(res=>{
          this.cameraData = res.data
       })
-    },
-    cancelVisible(){
-      let e = document.createEvent("MouseEvents");
-      e.initEvent("click", true, true);
-      document.dispatchEvent(e)
     },
     handleEdit(params) {
       let url = "/lenovo-sample/api/mark/view";
@@ -400,6 +396,10 @@ export default {
         item.loading = false;
         callback();
       });
+    },
+    pageCurrentChangeHandle (val) {
+      this.pageIndex = val
+      this.init()
     },
     init() {
       // let url = "/lenovo-sample/api/mark/pic-flow";

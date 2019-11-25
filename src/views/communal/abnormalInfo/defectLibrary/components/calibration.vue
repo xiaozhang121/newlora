@@ -105,6 +105,10 @@ export default {
       }
       this.isSubmit = true
       let url = "/lenovo-sample/api/mark/add";
+      if(!this.pointData.x0 || !this.value){
+        this.$message.info('请完善标定信息！')
+        return
+      }
       let query = {
         mainDevice: this.mainDevice,
         part: this.part,
