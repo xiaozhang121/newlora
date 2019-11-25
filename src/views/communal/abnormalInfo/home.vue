@@ -167,9 +167,10 @@
           >
             <div class="re-middle">
               <ReportTable
-                v-for="(item,index) in mockData"
+                v-for="(item,index) in mockDataR"
                 :key="index"
                 :url="url"
+                path="taskReport"
                 :reportData="item"
                 :isAllInfo="false"
               />
@@ -277,6 +278,7 @@ export default {
   data() {
     const that = this;
     return {
+      mockDataR: [],
       detailsType: "alarm",
       loadingOption: true,
       mixinViewModuleOptions: {
@@ -679,6 +681,7 @@ export default {
     this.getRecodeList();
     this.getData();
     this.getMockData();
+    this.getTableD();
     this.getLevel();
     this.isScreen();
     this.getEnv();
@@ -868,6 +871,15 @@ export default {
       this.$router.push({
         path: route
       });
+    },
+    getTableD(){
+      getAxiosData('/lenovo-plan/api/report/template/list').then(res=>{
+        let data = res.data
+        data.map(item=>{
+          item['planName'] = data['label']
+        })
+        this.mockDataR = data.slice(0, 2)
+      })
     },
     getMockData() {
       let url = "/lenovo-plan/api/statistics/plan/list";

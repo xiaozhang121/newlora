@@ -7,6 +7,7 @@
       </div>
       <div class="search">
         <el-date-picker
+                v-show="false"
                 v-model="timeRange"
                 type="daterange"
                 range-separator="-"
@@ -24,7 +25,7 @@
                 :title="titleValueL"
                 :showBtnList="false"
         ></duno-btn-top>-->
-        <div  class="clickBtn">
+        <div  class="clickBtn" @click="outTable">
           <i class="iconfont icon-daochu1"></i>
           导出表格
         </div>
@@ -73,10 +74,14 @@
 <script>
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import qs from 'qs'
+import config from '@/config'
+import { mapState } from 'vuex'
 import dunoMain from "_c/duno-m/duno-main";
 import moment from 'moment'
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import {getAxiosData} from "../../../api/axiosType";
+const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
 export default {
   components: {
     Breadcrumb,
@@ -87,6 +92,7 @@ export default {
   name: "server",
   data() {
     return {
+      tableId: '',
       tableName: 'xx全面巡视任务报告',
       reMark: false,
       reMarkInfo: '',
@@ -283,6 +289,11 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
   watch: {
       timeRange:{
          handler(now){
@@ -293,6 +304,14 @@ export default {
       }
   },
   methods:{
+      outTable(){
+        let params = qs.stringify({
+          't': this.user.token,
+          ...this.query
+        })
+        let url = `${baseUrl}/lenovo-plan/api/report/export?${params}`
+        window.open(url,"_blank")
+      },
       noSplit(){
         this.splitHeaderVisible = false
         document.querySelector('.tablesTep   .ivu-table-wrapper .ivu-table tr:first-child th:first-child').classList.add('no-split')
@@ -328,18 +347,25 @@ export default {
         this.data10 = arr
       },
       getReportView(){
-        /*  getAxiosData('/lenovo-plan/api/report/view', { ...this.searchData }).then(res=>{
-              debugger
-          })*/
-          let data = []
-          Array(30).fill(0).forEach(item=>{
-              let obj = {}
-              Array(12).fill(0).forEach((child, index)=>{
-                  obj[index+1] = 'index: '+ index +  "<br/>" +Math.random()*1000
-              })
-              data.push(obj)
+          let date = new Date()
+          this.query = {
+            startDate: moment(date).subtract(1,'months').format('YYYY-MM-DD HH:mm:ss'),
+            endDate: moment(date).format('YYYY-MM-DD HH:mm:ss'),
+            templateIds: this.tableId
+          }
+          getAxiosData('/lenovo-plan/api/report/view', this.query).then(res=>{
+            let data = res.data[0].tableData
+            this.tableName = res.data[0].templateName
+            this.handleData(data, this.keys)
           })
-          this.handleData(data, this.keys)
+          // let data = []
+          // Array(30).fill(0).forEach(item=>{
+          //     let obj = {}
+          //     Array(12).fill(0).forEach((child, index)=>{
+          //         obj[index+1] = 'index: '+ index +  "<br/>" +Math.random()*1000
+          //     })
+          //     data.push(obj)
+          // })
       },
       initDate(){
           let date = new Date()
@@ -360,7 +386,7 @@ export default {
           })
         // let tableData = require(`@/static/tableConfig/${this.searchData.templateIds}.js`)
           let tableFn = require(`@/static/tableJson/mapping.js`)
-          let key = tableFn.getTable('626719305252552740')
+          let key = tableFn.getTable(this.tableId)
           let tableData = require(`@/static/tableConfig/${key}.js`)
           this.columns11 = tableData.columns
           this.topName = tableData.topName
@@ -374,6 +400,7 @@ export default {
       },
   },
   created(){
+      this.tableId = this.$route.query.value
       this.initDate()
       this.initTable()
   },

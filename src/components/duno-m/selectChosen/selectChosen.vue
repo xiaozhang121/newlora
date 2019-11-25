@@ -43,6 +43,10 @@ export default {
               { name: '4号主变1000Kv侧套管B相接线柱'},
               { name: '4号主变1000Kv侧套管BB相接线柱'},
               { name: '4号主变1000Kv侧套管BBB相接线柱'},
+              { name: '4号主变1000Kv侧套管BBBB相接线柱'},
+              { name: '4号主变1000Kv侧套管BBBBB相接线柱'},
+              { name: '4号主变1000Kv侧套管BBBBBB相接线柱'},
+              { name: '4号主变1000Kv侧套管BBBBBBB相接线柱'},
             ]
         }
     },
@@ -299,13 +303,34 @@ export default {
                 position: fixed;
                 top: 32px;
                 z-index: 8;
+                width: 288px;
+                background: rgb(55, 66, 74);
+                padding: 13px 0;
                 .container{
                     display: flex;
                     flex-direction: column;
                     background: #37424a;
                     color: white;
-                    padding: 16px;
                     max-width: 280px;
+                    max-height: 300px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    padding: 0 16px;
+                    &::-webkit-scrollbar {/*滚动条整体样式*/
+                        width: 7px;     /*高宽分别对应横竖滚动条的尺寸*/
+                        height: 1px;
+                        padding-right: 20px;
+                    }
+                    &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+                        border-radius: 10px;
+                        -webkit-box-shadow: inset 0 0 5px #9ba1a5;
+                        background: #9ba1a5;
+                    }
+                    &::-webkit-scrollbar-track {/*滚动条里面轨道*/
+                        -webkit-box-shadow: inset 0 0 5px transparent;
+                        border-radius: 10px;
+                        background: transparent;
+                    }
                     .contain-item{
                         width: 100%;
                         line-height: 30px;

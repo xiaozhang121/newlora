@@ -28,7 +28,7 @@
           </el-image>
           <div class="infoNews">
             <div>{{sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''}}</div>
-            <p>大小：{{ sizeData }}kb</p>
+            <p>大小：{{ this.sampleData.picSize }}kb</p>
             <p>分辨率：{{sampleData.picWigth}}*{{sampleData.picHeigh}}</p>
             <p>导入时间：{{sampleData.picImportTime}}</p>
             <p>导入类型：{{$route.query.markType}}</p>
@@ -150,14 +150,6 @@ export default {
     DunoTablesTep,
     survey,
     calibration
-  },
-  computed: {
-    sizeData(){
-      if(this.sampleData && this.sampleData.picSize)
-        return (this.sampleData.picSize / 1024).toFixed(2)
-      else
-        return ''
-    }
   },
   data() {
     const that = this;
@@ -418,7 +410,7 @@ export default {
         id: this.$route.query.id,
         markType: this.sampleData.markType,
         picFilePath: this.sampleData.picFilePath,
-        powerDeviceId: this.sampleData.powerDeviceId,
+        // powerDeviceId: this.sampleData.powerDeviceId,
         monitorDeviceName: this.form.monitorDeviceName,
         powerDeviceName: this.form.powerDeviceName,
         stationId: this.form.stationName,
@@ -466,6 +458,7 @@ export default {
         this.form.monitorDeviceName = deviceData.monitorDeviceName;
         this.form.areaName = deviceData.areaName;
         this.form.initCascader = [deviceData.mainDevice, deviceData.part, deviceData.partSub]
+        this.handleChange(this.form.initCascader)
         this.form.powerDeviceName = deviceData.powerDeviceName;
         this.src = deviceData.picFilePath;
         // let picFilePath = deviceData.picFilePath;
