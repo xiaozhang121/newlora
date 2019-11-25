@@ -9,9 +9,9 @@
         @mouseup="canvasUp($event)"
         @mouseleave="canvasUp($event)"
       ></canvas>
-      <i v-if="!isVideo" class="iconfont icon-bofang"></i>
-      <div v-if="isPoint&&!isDrew&&isVideo" @click="handleDraw" class="btn">手动标定</div>
-      <div v-if="!isPoint&&!isDrew&&isVideo" @click="cleanRect" class="btn">清除</div>
+      <i v-if="!isVideo&&onlyShow" class="iconfont icon-bofang"></i>
+      <div v-if="isPoint&&!isDrew&&isVideo&&onlyShow" @click="handleDraw" class="btn">手动标定</div>
+      <div v-if="!isPoint&&!isDrew&&isVideo&&onlyShow" @click="cleanRect" class="btn">清除</div>
     </div>
   </div>
 </template>
@@ -20,6 +20,12 @@
 export default {
   name: "frameSelection",
   props: {
+    onlyShow:{
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     shotData: {
       type: [Object, Array],
       default: () => {
@@ -42,6 +48,8 @@ export default {
   data() {
     let that = this;
     return {
+      timer: null,
+      isInit: false,
       loading: true,
       isPoint: true,
       isDrew: false,
@@ -70,10 +78,30 @@ export default {
       },
       deep: true
     },
-    keepData(now) {
-      this.loading = false;
-      this.img.src = now.picFilePath;
-      this.init();
+    keepData:{
+      handler(now){
+        this.loading = false;
+        this.img.src = now.picFilePath;
+        if(!this.timer){
+          this.timer = setInterval(()=>{
+            if(!this.isInit){
+              return
+            }
+            if('x1' in now && 'x2' in now){
+              this.beginRec.x0 = now['x1']
+              this.beginRec.y0 = now['y1']
+              this.beginRec.x1 = now['x2']
+              this.beginRec.y1 = now['y2']
+              this.drawRect()
+              clearInterval(this.timer)
+              this.timer = null
+              this.isPoint = false
+            }
+          },500)
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
 
@@ -91,6 +119,7 @@ export default {
         that.ctxHeight = Math.round((h * 450) / w);
         c.height = that.ctxHeight;
         that.context.drawImage(that.img, 0, 0, 450, that.ctxHeight);
+        that.isInit = true
       };
     },
     // 鼠标按下

@@ -92,7 +92,7 @@
               </el-select>
             </el-form-item>
             <el-form-item  label="被监测设备">
-              <el-input v-model.trim="form.powerDeviceName" placeholder="请输入被监测设备名" />
+              <el-input :disabled="isEdit" v-model.trim="form.powerDeviceName" placeholder="请输入被监测设备名" />
             </el-form-item>
             <!--<survey :monitor="form.powerDeviceName" :isEdit="isEdit"></survey>-->
             <div class="submit">
@@ -126,7 +126,7 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </div>
-    <calibration v-if="isShow" :isShow="isShow" :dataList="calibratData" @closeShot="closeShot"></calibration>
+    <calibration :imgUrl="src" :onlyShow="onlyShow" :isEdit="isEditPanel" v-if="isShow" :isShow="isShow" :dataList="calibratData" @closeShot="closeShot"></calibration>
   </div>
 </template>
 
@@ -154,6 +154,8 @@ export default {
   data() {
     const that = this;
     return {
+      onlyShow: false,
+      isEditPanel: false,
       visible2: false,
       mainDevice: "",
       part: "",
@@ -243,7 +245,7 @@ export default {
         },
         {
           title: "标记图片",
-          key: "id",
+          key: "pic",
           minWidth: 120,
           align: "center",
           tooltip: true,
@@ -256,6 +258,8 @@ export default {
                 draggable: false,
                 on: {
                   click: () => {
+                    this.onlyShow = true
+                    this.handleEdit(params.row);
                     // that.isEnlarge = true;
                     // that.srcData = params.row;
                   }
@@ -298,6 +302,7 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
+                      this.isEditPanel = true
                       this.handleEdit(params.row);
                     }
                   }
@@ -344,8 +349,8 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         this.calibratData = res.data;
+        this.isShow = true;
       });
-      this.isShow = true;
     },
     changeStation(value) {
       this.sampleData.stationId = value;
@@ -358,6 +363,10 @@ export default {
     },
     closeShot() {
       this.isShow = false;
+      this.onlyShow = false
+      this.isEditPanel = false
+      this.calibratData = {}
+      this.init()
     },
     addCalibration() {
       this.isShow = true;
@@ -409,7 +418,11 @@ export default {
         sampleId: this.$route.query.sampleId
       };
       getAxiosData(urlList, data).then(res => {
-        this.dataList = res.data.tableData[0];
+        let data = res.data.tableData[0]
+        data.map(item=>{
+          item['pic'] = this.src
+        })
+        this.dataList = data;
         // this.ImgInfo = res.data.tableData[1];
         this.totalNum = res.data.pageParam.totalRows;
       });
@@ -483,6 +496,7 @@ export default {
         this.handleChange(this.form.initCascader)
         this.form.powerDeviceName = deviceData.powerDeviceName;
         this.src = deviceData.picFilePath;
+        this.init();
         // let picFilePath = deviceData.picFilePath;
         // picFilePath = picFilePath.replace(".", "");
         // picFilePath = picFilePath.replace(new RegExp(/\./g), "/");
@@ -519,7 +533,6 @@ export default {
   },
   mounted() {
     this.getCameraData()
-    this.init();
     this.initDevice();
     this.getVoltage();
   }
@@ -533,6 +546,10 @@ export default {
   }
   .el-input.is-disabled .el-input__inner{
       color: white;
+  }
+  .imgOrMv{
+    width: 66px;
+    margin-top: 8px;
   }
   .info,
   .list {
