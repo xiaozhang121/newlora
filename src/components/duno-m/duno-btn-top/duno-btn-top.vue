@@ -428,12 +428,12 @@
         },
         beforeDestroy(){
             const that = this
-            window.removeEventListener('click', that.bindEvent)
+            document.removeEventListener('click', that.bindEvent)
         },
         mounted(){
             const that = this
             $(this.$refs.showListRef).hide('normal')
-            window.addEventListener('click', that.bindEvent)
+            document.addEventListener('click', that.bindEvent)
             this.handleCheckAllChange(true)
             this.checkAll = true
         }
