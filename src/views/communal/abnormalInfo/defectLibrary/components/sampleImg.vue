@@ -7,9 +7,9 @@
       :close-on-click-modal="false"
       :before-close="handleClose"
     >
-      <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="设备组件">
-          <el-cascader :data="cascaderData" @on-change="handleChange" :load-data="loadData"></el-cascader>
+      <el-form ref="form"  :rules="rules"  :model="form" label-width="100px">
+        <el-form-item label="设备组件" prop="cascaderName">
+          <el-cascader v-model="form.cascaderName" :data="cascaderData" @on-change="handleChange" :load-data="loadData"></el-cascader>
         </el-form-item>
         <el-form-item label="电压区域">
           <el-select v-model="form.areaId" placeholder="请选择（非必选）">
@@ -25,7 +25,7 @@
           <el-input v-model.trim="form.monitor" placeholder="请输入被监测设备名" />
         </el-form-item>
         <!--<survey :monitor="form.monitor"></survey>-->
-        <el-form-item label="上传图片">
+        <el-form-item label="上传图片" prop="fileList">
           <el-upload
             :headers="headers"
             class="upload-demo"
@@ -84,11 +84,16 @@ export default {
   },
   data() {
     return {
+      rules: {
+        cascaderName : [{ required: true, message: '请选择设备组件', trigger: 'change' }],
+        fileList: [{ required: true, message: '请上传图片', trigger: 'change' }]
+      },
       dataOption: {bucketName: '1', fileName: ''},
       taskId: '',
       form: {
         areaId: "",
-        monitor: ""
+        monitor: "",
+        cascaderName: ""
       },
       mainDevice: "",
       part: "",
@@ -196,6 +201,14 @@ export default {
     },
     handleSubmit() {
       let data = this.handleData()
+      if(!this.form.cascaderName){
+         this.$message.info('请选择设备组件!')
+         return
+      }
+      if(!data.picFilePath.length){
+        this.$message.info('请上传图片!')
+        return
+      }
       let query = {
         taskId: this.taskId,
         mainDevice: this.mainDevice,

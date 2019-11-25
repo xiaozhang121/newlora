@@ -180,8 +180,8 @@ export default {
       },
       substationData: [],
       cameraData: [
-        { value: "0", label: "新视界-练塘站-1000KV-4号主变" },
-        { value: "1", label: "新视界-练塘站-500KV-4号主变" }
+        // { value: "0", label: "新视界-练塘站-1000KV-4号主变" },
+        // { value: "1", label: "新视界-练塘站-500KV-4号主变" }
       ],
       diviceData: [
         { label: "1000KV", value: "1" },
@@ -318,6 +318,20 @@ export default {
     };
   },
   methods: {
+    getMapping(arr, id){
+      let label = ''
+      arr.forEach(item=>{
+        if(item['value'] == id){
+          label = item['label']
+        }
+      })
+      return label
+    },
+    getCameraData(){
+      getAxiosData('/lenovo-sample/api/sample/camera/list').then(res=>{
+         this.cameraData = res.data
+      })
+    },
     cancelVisible(){
       let e = document.createEvent("MouseEvents");
       e.initEvent("click", true, true);
@@ -401,21 +415,29 @@ export default {
       });
     },
     handleSubmit() {
-      let url = "/lenovo-sample/api/sample/edit";
+      if(!this.form.initCascader){
+        this.$message.info('请选择设备组件！')
+        return
+      }
+      let url = "/lenovo-sample/api/sample/system/edit";
       let query = {
+        id: this.$route.query.id,
         mainDevice: this.mainDevice,
         part: this.part,
         partSub: this.partSub,
-        areaId: this.sampleData.areaId,
-        id: this.$route.query.id,
-        markType: this.sampleData.markType,
-        picFilePath: this.sampleData.picFilePath,
-        // powerDeviceId: this.sampleData.powerDeviceId,
-        monitorDeviceName: this.form.monitorDeviceName,
-        powerDeviceName: this.form.powerDeviceName,
         stationId: this.form.stationName,
-        taskId: this.sampleData.taskId,
-        areaName: this.form.areaName
+        stationName: this.getMapping(this.substationData, this.form.stationName),
+        monitorDeviceId: this.form.monitorDeviceName,
+        monitorDeviceName: this.getMapping(this.cameraData, this.form.monitorDeviceName),
+        powerDeviceName: this.form.powerDeviceName,
+        areaId: this.form.areaName,
+        areaName: this.getMapping(this.diviceData, this.form.areaName)
+
+        // markType: this.sampleData.markType,
+        // picFilePath: this.sampleData.picFilePath,
+        // powerDeviceId: this.sampleData.powerDeviceId,
+        // powerDeviceName: this.form.powerDeviceName,
+        // taskId: this.sampleData.taskId,
       };
       putAxiosData(url, query).then(res => {
         this.$message.sucess("修改成功");
@@ -496,6 +518,7 @@ export default {
     }
   },
   mounted() {
+    this.getCameraData()
     this.init();
     this.initDevice();
     this.getVoltage();
@@ -506,6 +529,9 @@ export default {
 <style lang='scss'>
 .sample-detail {
   .el-input__inner, .ivu-input{
+      color: white;
+  }
+  .el-input.is-disabled .el-input__inner{
       color: white;
   }
   .info,
