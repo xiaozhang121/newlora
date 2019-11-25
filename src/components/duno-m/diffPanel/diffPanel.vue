@@ -101,8 +101,11 @@ export default {
             this.$emit('on-close')
         },
         viewCamera(command, flag){
-            if(!flag)
-                this.activeNum = command
+            if(!flag){
+              this.activeNum = command
+            }else{
+              command=0
+            }
             let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
                 .replace("{step}", 8);
             return new Promise((resolve, reject)=>{

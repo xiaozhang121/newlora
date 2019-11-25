@@ -130,8 +130,11 @@ export default {
                 this.activeNum = '-1'
                 return
             }
-            if(!flag)
-                this.activeNum = command
+            if(!flag){
+              this.activeNum = command
+            }else{
+              command=0
+            }
             let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
                 .replace("{step}", Number(that.speed));
             return new Promise((resolve, reject)=>{
