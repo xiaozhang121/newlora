@@ -24,6 +24,7 @@
                   :showBtmOption="false"
                   :isLive='false'
                   :isNav='true'
+                  :isAux='true'
                 ></key-monitor>
               </div>
             </div>

@@ -51,7 +51,7 @@
       <div class="item">
         <div class="alarmTitle">
           <div>
-            历史
+            <span>历史</span>
             <span :style="{color:'#F5A623'}">异常</span>记录
           </div>
           <div>

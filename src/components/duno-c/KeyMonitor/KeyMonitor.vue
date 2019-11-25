@@ -101,7 +101,7 @@
           <!--  <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>-->
-          <span @click="webFullScreen()" v-if="!onlyCanel">
+          <span @click="getMainstream()" v-if="!onlyCanel">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
           <span @click="pushMov()" v-if="!onlyCanel && pushCamera">
@@ -172,7 +172,7 @@
       isAux: {//是否为多个视频的辅码流
         type: Boolean,
         default: () => {
-          return true;
+          return false;
         }
       },
       isLive: {//是否为直播视频流
@@ -415,6 +415,7 @@
     },
     data() {
       return {
+        mainstream:"",
         monitorDeviceType: false,
         isPlayback:false,
         second:false,
@@ -715,7 +716,7 @@
       },
       webFullScreen() {
         if (self.frameElement && self.frameElement.tagName == "IFRAME") {
-          parent.webFullScreen(this.streamAddr, this.isPic);
+          parent.webFullScreen(this.mainstream, this.isPic);
         } else {
           this.$store.state.app.isPic = this.isPic;
           if(this.isPic){
@@ -723,8 +724,21 @@
           }
           this.$store.state.app.webFullVisable = !this.$store.state.app
               .webFullVisable;
-          this.$store.state.app.webFull = this.streamAddr;
+          this.$store.state.app.webFull = this.mainstream;
         }
+      },
+      getMainstream(){
+        let type=this.monitorDeviceType
+        let url
+        if(type==1||type==3||type==6){
+          url = `/lenovo-visible/api/visible-equipment/sdk/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
+        }else if(type==2){
+          url = `/lenovo-iir/device/video/url/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
+        }
+        getAxiosData(url).then(res=>{
+          this.mainstream=res.result ||res.data
+          this.webFullScreen()
+        })
       },
       onPlayerPlay(player) {
         //   alert("play");

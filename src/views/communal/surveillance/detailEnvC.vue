@@ -35,6 +35,7 @@
                   :Initialization="true"
                   :isLive='false'
                   :isNav='true'
+                  :isAux='true'
                 ></key-monitor>
               </div>
             </div>
@@ -85,7 +86,8 @@
                 :showBtmOption="false"
                 :Initialization="true"
                 :isLive='false'
-                  :isNav='true'
+                :isNav='true'
+                :isAux='true'
               ></key-monitor>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>
             </div>
