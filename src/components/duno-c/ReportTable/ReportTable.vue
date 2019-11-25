@@ -4,30 +4,30 @@
       <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg" />
     </div>
     <div class="content">
-      <el-tooltip class="item" effect="dark" :content="reportData.planName" placement="top">
+      <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top">
         <h3 v-if="kind != 'robot'">
           <span class="taskid">{{reportData.planName}}</span>
         </h3>
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" :content="reportData.planName" placement="top">
+      <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top">
         <h3 v-if="kind == 'robot'">
-          {{ reportData.planName }}
+          {{ reportData.planName?reportData.planName:'/' }}
           <!-- <span class="taskid">{{reportData.planId}}</span> -->
         </h3>
       </el-tooltip>
-      <p v-if="kind != 'robot'">
+      <p v-if="kind != 'robot' && reportData.planType">
         类型: {{reportData.planType}}
         <!-- <span>{{reportData.planType}}</span> -->
       </p>
       <p>
-        日期: {{reportData.date}}
+        日期: {{reportData.date?reportData.date:getPreWeekEnd()}}
         <!-- <span>{{reportData.date}}</span> -->
       </p>
-      <p v-if="isAllInfo">
+      <p v-if="isAllInfo && reportData.timeLong">
         时长: {{reportData.timeLong}}
         <!-- <span>{{reportData.timeLong}}</span> -->
       </p>
-      <p>
+      <p v-if="reportData.alarmNum">
         异常信息数量: {{reportData.alarmNum}}
         <!-- <span>{{reportData.alarmNum}}</span> -->
       </p>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import qs from "qs";
 import {
@@ -127,9 +128,9 @@ export default {
     viewReports() {
       console.log(this.reportData)
       if (this.path) {
-        this.$router.push({
-          path: this.path,
-          query: {
+        let query = {}
+        if(this.taskCurreny && this.taskCurreny.taskDeviceId){
+          query = {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,
             taskRunHisId: this.reportData.ID,
@@ -138,6 +139,13 @@ export default {
             path: "/robot-one/reportList?substationId=1&robotId=1",
             name: "最新巡视报告"
           }
+        }else{
+          if(this.reportData && this.reportData.value)
+            query = {value: this.reportData.value}
+        }
+        this.$router.push({
+          path: this.path,
+          query: query
         });
         return;
       }
@@ -282,7 +290,12 @@ export default {
           });
         }
       });
-    }
+    },
+    getPreWeekEnd(){
+      let dateM = moment(new Date())
+      let day = dateM.day(0).format('YYYY-MM-DD HH:mm:ss');//上周天
+      return day
+    },
   },
   created() {
     console.log(this.$route.name);

@@ -9,7 +9,7 @@
         fillColor="#0f1b21"
         :small="true"
         :zoom="13"
-        :cursor="{cursor:'auto'}"
+        cursor="default"
         :minZoom="13"
         :kind="mapKind"
         :controlBtn="false"
