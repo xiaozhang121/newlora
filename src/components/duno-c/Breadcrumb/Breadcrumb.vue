@@ -4,9 +4,10 @@
       <template>
         <el-breadcrumb-item v-for="(item,index) in pointData" :key="index">{{ item.name }}</el-breadcrumb-item>
         <el-breadcrumb-item
-          v-if="index>1"
+          v-if="index>length"
           v-for="(item,index) in breadData"
           :key="index"
+          :class="{cursor:item.name=='任务配置'}"
           :to="{path:item.path}"
         >{{ item.name }}</el-breadcrumb-item>
       </template>
@@ -51,6 +52,7 @@ export default {
     return {
       breadData: [],
       pointData: [],
+      length: 1,
       isOperation: true
     };
   },
@@ -80,9 +82,16 @@ export default {
     handleJump(now) {
       this.breadData = now;
       let name = now[0].name;
+      let name1 = now[1].name;
       if (name == "操作中台") {
         this.isOperation = true;
-        this.pointData = now.slice(0, 2);
+        if (name1 == "任务配置") {
+          this.pointData = now.slice(0, 1);
+          this.length = 0;
+        } else {
+          this.pointData = now.slice(0, 2);
+          this.length = 1;
+        }
       } else {
         this.isOperation = false;
       }
@@ -131,14 +140,20 @@ export default {
   .el-breadcrumb {
     .el-breadcrumb__item:last-child {
       .el-breadcrumb__inner {
-        color: #4b9bc1;
-        text-decoration: none;
+        color: #4b9bc1!important;
+        text-decoration: none!important;
       }
     }
   }
   .el-breadcrumb__inner.is-link {
     font-weight: normal;
     text-decoration: none;
+  }
+  .cursor {
+    .el-breadcrumb__inner {
+      color: #fff !important;
+      text-decoration: underline !important;
+    }
   }
 }
 </style>

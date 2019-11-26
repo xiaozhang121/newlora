@@ -22,6 +22,7 @@
                     :pushCamera="false"
                     :isLive='false'
                     :isNav='true'
+                    :isAux='true'
                     :streamAddr="video"
             />
           </div>
