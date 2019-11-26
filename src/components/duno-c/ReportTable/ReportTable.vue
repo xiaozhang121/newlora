@@ -83,6 +83,12 @@ export default {
     };
   },
   props: {
+    noRobot: {
+      type: Boolean,
+      default: ()=>{
+        return false
+      }
+    },
     taskRunHisId: {},
     taskCurreny: {},
     path: {
@@ -129,7 +135,7 @@ export default {
       console.log(this.reportData)
       if (this.path) {
         let query = {}
-        if(this.taskCurreny){
+        if(!this.noRobot){
           query = {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,

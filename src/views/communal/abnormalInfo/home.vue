@@ -169,6 +169,7 @@
               <ReportTable
                 v-for="(item,index) in mockDataR"
                 :key="index"
+                :noRobot="true"
                 :url="url"
                 path="taskReport"
                 :reportData="item"
@@ -876,7 +877,7 @@ export default {
       getAxiosData('/lenovo-plan/api/report/template/list').then(res=>{
         let data = res.data
         data.map(item=>{
-          item['planName'] = data['label']
+          item['planName'] = item['label']
         })
         this.mockDataR = data.slice(0, 2)
       })
