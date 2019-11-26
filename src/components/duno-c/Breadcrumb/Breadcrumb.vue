@@ -1,10 +1,21 @@
 <template>
   <div class="duno-breadcrumb not-print">
-    <el-breadcrumb :separator="separator">
+    <el-breadcrumb v-if="isOperation" :separator="separator" class="pointCrumb">
+      <template>
+        <el-breadcrumb-item v-for="(item,index) in pointData" :key="index">{{ item.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item
+          v-if="index>1"
+          v-for="(item,index) in breadData"
+          :key="index"
+          :to="{path:item.path}"
+        >{{ item.name }}</el-breadcrumb-item>
+      </template>
+    </el-breadcrumb>
+    <el-breadcrumb v-else :separator="separator">
       <template v-for="(item,index) in breadData">
         <el-breadcrumb-item
           v-if="item.path"
-          :class="{'pointer': index == breadData.length-2}"
+          :class="{'pointer': index == 0}"
           :key="index"
           :to="{path:item.path}"
         >{{ item.name }}</el-breadcrumb-item>
@@ -39,13 +50,16 @@ export default {
   },
   data() {
     return {
-      breadData: []
+      breadData: [],
+      pointData: [],
+      isOperation: true
     };
   },
   watch: {
     dataList: {
       handler(now) {
-        this.breadData = now;
+        // this.breadData = now;
+        this.handleJump(now);
         this.handleReturn();
       },
       deep: true
@@ -65,19 +79,22 @@ export default {
         };
         this.breadData.unshift(obj);
       }
+    },
+    handleJump(now) {
+      this.breadData = now;
+      let name = now[0].name;
+      if (name == "操作中台") {
+        this.isOperation = true;
+        this.pointData = now.slice(0, 2);
+        console.log(this.pointData);
+      } else {
+        this.isOperation = false;
+      }
     }
-    // handleJump(item, index) {
-    //   if (index == this.breadData.length - 2) {
-    //     this.$router.push({
-    //       path: item.path
-    //     });
-    //   } else {
-    //     return;
-    //   }
-    // }
   },
   mounted() {
     this.breadData = this.dataList;
+    this.handleJump(this.dataList);
     this.handleReturn();
   }
 };
@@ -97,19 +114,29 @@ export default {
     }
     .el-breadcrumb__item {
       .el-breadcrumb__inner {
-        cursor: text;
-        color: #aaa;
-      }
-    }
-    .el-breadcrumb__item:nth-last-child(2) {
-      .el-breadcrumb__inner {
-        text-decoration: underline;
         color: #fff;
+        text-decoration: underline;
       }
     }
     .el-breadcrumb__item:last-child {
       .el-breadcrumb__inner {
         color: #4b9bc1;
+      }
+    }
+  }
+  .pointCrumb {
+    .el-breadcrumb__item:nth-child(-n + 2) {
+      .el-breadcrumb__inner {
+        color: #aaa;
+        text-decoration: none;
+      }
+    }
+  }
+  .el-breadcrumb {
+    .el-breadcrumb__item:last-child {
+      .el-breadcrumb__inner {
+        color: #4b9bc1;
+        text-decoration: none;
       }
     }
   }
