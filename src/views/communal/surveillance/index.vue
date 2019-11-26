@@ -708,6 +708,7 @@ export default {
   },
   methods: {
     handleActiveBtn(data) {
+      let that = this;
       this.ajaxCount++;
       if (this.ajaxCount > MAXAJAX) {
         this.setDefault = "0";

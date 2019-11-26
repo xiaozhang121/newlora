@@ -91,7 +91,7 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span @click="videotape()" v-if="monitorDeviceType=='3' && isAux">
+          <span @click="videotape()" v-if="videoCut && isAux">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
@@ -182,12 +182,6 @@
         }
       },
       isRecord: {
-        type: Boolean,
-        default: () => {
-          return true;
-        }
-      },
-      picCut: {
         type: Boolean,
         default: () => {
           return true;
@@ -415,6 +409,8 @@
     },
     data() {
       return {
+        videoCut:false,//录像是否未指定类的摄像头
+        picCut:false,//截图是否未指定类的摄像头
         mainstream:"",
         monitorDeviceType: false,
         isPlayback:false,
@@ -799,6 +795,13 @@
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
         }).then(res => {
            this.monitorDeviceType = res.data["monitorDeviceType"];
+           let type=this.monitorDeviceType;
+           if(type=='1'||type=='4'||type=='5'||type=='7'){
+             this.picCut=true
+           }
+           if(type=='1'||type=='3'){
+             this.picCut=true
+           }
         })
       },
       getJump() {
