@@ -226,7 +226,7 @@ export default {
     getImgInfo() {
       let that = this;
       if (that.isVideo) {
-        let url = `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
+        let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
         getAxiosData(url).then(res => {
           let baseLen = res.data.length;
           this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
