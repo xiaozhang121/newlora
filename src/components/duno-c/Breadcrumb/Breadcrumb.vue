@@ -35,7 +35,6 @@ export default {
   name: "Breadcrumb",
   props: {
     dataList: {
-      //面包屑
       type: Array,
       default: () => {
         return [];
@@ -58,7 +57,6 @@ export default {
   watch: {
     dataList: {
       handler(now) {
-        // this.breadData = now;
         this.handleJump(now);
         this.handleReturn();
       },
@@ -68,7 +66,6 @@ export default {
   methods: {
     toBack(index) {
       if (this.breadData.length < 3) {
-        console.log(index);
         if (index == 0) this.$router.go(-1);
       }
     },
@@ -86,7 +83,6 @@ export default {
       if (name == "操作中台") {
         this.isOperation = true;
         this.pointData = now.slice(0, 2);
-        console.log(this.pointData);
       } else {
         this.isOperation = false;
       }

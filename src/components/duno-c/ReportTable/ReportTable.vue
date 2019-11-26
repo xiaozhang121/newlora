@@ -129,7 +129,7 @@ export default {
       console.log(this.reportData)
       if (this.path) {
         let query = {}
-        if(this.taskCurreny && this.taskCurreny.taskDeviceId){
+        // if(this.taskCurreny && this.taskCurreny.taskDeviceId){
           query = {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,
@@ -139,10 +139,10 @@ export default {
             path: "/robot-one/reportList?substationId=1&robotId=1",
             name: "最新巡视报告"
           }
-        }else{
-          if(this.reportData && this.reportData.value)
-            query = {value: this.reportData.value}
-        }
+        // }else{
+        //   if(this.reportData && this.reportData.value)
+        //     query = {value: this.reportData.value}
+        // }
         this.$router.push({
           path: this.path,
           query: query
