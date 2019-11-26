@@ -70,6 +70,7 @@
               :streamAddr="item['streamAddress']"
               :monitorInfo="item"
               :width="videoWidth"
+              paddingBottom='80%'
               :showBtmOption="true"
               :kilovolt="item['monitorDeviceName']"
               @change-video="changeVideo"
@@ -764,7 +765,7 @@
     }
     .monitorN{
       .vjs-fluid {
-        padding-top: 56%;
+        padding-top: 80%;
       }
     }
     .el-select .el-tag:first-child {

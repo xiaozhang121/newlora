@@ -176,6 +176,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr01"
             :showBtmOption="true"
             class="monitorM child"
@@ -192,6 +193,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr02"
             :showBtmOption="true"
             class="monitorM child"
@@ -208,6 +210,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr03"
             :showBtmOption="true"
             class="monitorM child"
@@ -224,6 +227,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr04"
             :showBtmOption="true"
             class="monitorM child"
@@ -240,6 +244,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr05"
             :showBtmOption="true"
             class="monitorM child"
@@ -256,6 +261,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr06"
             :showBtmOption="true"
             class="monitorM child"
@@ -272,6 +278,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr07"
             :showBtmOption="true"
             class="monitorM child"
@@ -288,6 +295,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
+            paddingBottom='80%'
             :streamAddr="streamAddr08"
             :showBtmOption="true"
             class="monitorM child"
@@ -708,6 +716,7 @@ export default {
   },
   methods: {
     handleActiveBtn(data) {
+      let that = this;
       this.ajaxCount++;
       if (this.ajaxCount > MAXAJAX) {
         this.setDefault = "0";
@@ -1138,7 +1147,7 @@ export default {
 
   .monitorM.child {
     .vjs-fluid {
-      padding-top: 56%;
+      padding-top:80%;
     }
   }
   .monitorM.first {
