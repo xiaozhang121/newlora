@@ -37,6 +37,7 @@
                   :isLive='false'
                   :isNav='true'
                   :isAux='true'
+                  :isRobot='true'
                 ></key-monitor>
               </div>
             </div>

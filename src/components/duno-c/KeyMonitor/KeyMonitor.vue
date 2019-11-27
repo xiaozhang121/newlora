@@ -169,6 +169,12 @@
     props: {
       showType: {},
       powerDeviceId: {},
+      isRobot: {
+        type: Boolean,
+        default: () => {
+          return false;
+        }
+      },
       isAux: {//是否为多个视频的辅码流
         type: Boolean,
         default: () => {
@@ -807,10 +813,10 @@
         }).then(res => {
            this.monitorDeviceType = res.data["monitorDeviceType"];
            let type=this.monitorDeviceType;
-           if(type=='1'||type=='4'||type=='5'||type=='7'){
+           if(this.isRobot||type=='1'||type=='4'||type=='5'||type=='9'){
              this.picCut=true
            }
-           if(type=='1'||type=='3'){
+           if(type=='3'||type=='9'||type=='9'){
              this.videoCut=true
            }
         })

@@ -553,17 +553,17 @@ export default {
       }
       this.disabled = true;
       if (now < old) {
-        this.viewCamera(10, false).then(res => {
+        this.viewCamera(9, false).then(res => {
           setTimeout(() => {
-            this.viewCamera(10, true).then(res => {
+            this.viewCamera(0, true).then(res => {
               that.disabled = false;
             });
           }, Math.abs(now - old) * timeSeed);
         });
       } else {
-        this.viewCamera(9, false).then(res => {
+        this.viewCamera(10, false).then(res => {
           setTimeout(() => {
-            this.viewCamera(9, true).then(res => {
+            this.viewCamera(0, true).then(res => {
               that.disabled = false;
             });
           }, Math.abs(now - old) * timeSeed);
