@@ -2,13 +2,13 @@
   <div class="polygonal" :style="{width:width+'px'}">
     <h4 class="title">{{title}}</h4>
     <div class="time">
-      <div>
+      <div class="radioChange" v-show="!isFullscreen">
         <el-radio-group v-model="radio" @change="onChangeRadio">
           <el-radio :label="1">今日</el-radio>
           <el-radio :label="2">昨日</el-radio>
         </el-radio-group>
       </div>
-      <div class="block">
+      <div class="block" v-show="!isFullscreen">
         <el-date-picker
           unlink-panels
           v-model="value"
@@ -19,9 +19,13 @@
           @change="onChangeTime"
         ></el-date-picker>
       </div>
-      <!--<div>-->
-        <!--<select-chosen />-->
-      <!--</div>-->
+      <div v-show="!isFullscreen">
+        <select-chosen ref="selectChosen" @on-active="onActive" :typeChosen="typeChosen" :monitorInfo="itemData" v-if="itemData"/>
+      </div>
+    </div>
+    <div class="chartsChange" v-if="chartsList.length" v-show="!isFullscreen">
+      <label>切换表计</label>
+      <span v-for="(item, index) in chartsList" @click="changeActive(index)" :class="{'active': item['active']}">{{ index+1 }}</span>
     </div>
     <div class="echarts">
       <duno-charts
@@ -59,25 +63,9 @@ export default {
       type: String,
       default: ""
     },
-    legendData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
-    xAxisData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
     xName: {
       type: String,
       default: "(时)"
-    },
-    yName: {
-      type: String,
-      default: ""
     },
     yMax: {
       type: Number,
@@ -90,12 +78,6 @@ export default {
     ySplitNumber: {
       type: Number,
       default: 5
-    },
-    seriesData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
     },
     isChange: {
       type: Boolean,
@@ -123,18 +105,24 @@ export default {
       default: () => {
         return "";
       }
-    },
-    flag: {
-      type: Number
     }
   },
   data() {
     const that = this;
     return {
+      isFullscreen: false,
+      chartsType: '',
+      yName: '',
+      flag: 0,
+      seriesData: [],
+      legendData: [],
+      xAxisData: [],
+      chartsList:[],
+      typeChosen: 'Single',
       isChangeFlag: false,
       startTime: "",
       endTime: "",
-      radio: 1,
+      radio: 2,
       value: "",
       datePeriod: "",
       legendOption: {
@@ -197,6 +185,57 @@ export default {
     };
   },
   methods: {
+    handleData(index, arr ,flag){
+      const that = this
+      let dataList = []
+      if(arr){
+        dataList = arr
+      }else{
+        dataList = this.chartsList
+      }
+      const legendData = []
+      const seriesData = []
+      that.yName = dataList[index].unit
+      that.flag = dataList[index].flag
+      legendData.push(dataList[index].itemName)
+      let elData = dataList[index]['itemDataList']
+      let obj = {
+        name: dataList[index].itemName,
+        type:'line',
+        data: elData
+      }
+      if(dataList[index].flag){
+        obj['step'] = 'start'
+      }
+      seriesData.push(obj)
+      if(that.chartsType == 'Single'){
+        let xAxisData = []
+        for(let i=0; i<elData.length; i++){
+          xAxisData.push(elData[i][0])
+        }
+        that.xAxisData = xAxisData
+      }
+      that.legendData = legendData
+      that.seriesData = seriesData
+      if(!flag)
+        that.isChangeFlag = !that.isChangeFlag
+      return {legendData: legendData, seriesData: seriesData}
+    },
+    changeActive(index){
+      this.chartsList.map(item=>{
+        item['active'] = false
+      })
+      this.chartsList[index]['active'] = true
+      this.handleData(index)
+      this.$forceUpdate()
+    },
+    onActive(data){
+      let arr = []
+      data.forEach(item=>{
+        arr.push(item['value'])
+      })
+      this.$emit('on-charts', arr)
+    },
     allowDrop(ev) {
       ev.preventDefault();
     },
@@ -240,12 +279,13 @@ export default {
           that.isChangeFlag = !that.isChangeFlag;
         });
       } else
-        this.getHistoryData(data["monitorDeviceId"], data["monitorDeviceType"]);
+        this.$message.info('仅可拖拽微型气象站')
+        // this.getHistoryData(data["monitorDeviceId"], data["monitorDeviceType"]);
     },
     getHistoryData(monitorDeviceId, monitorDeviceType) {
       this.isGetData = false;
       const that = this;
-      const url = "/lenovo-plan/api/plan/history";
+      const url = "/lenovo-plan/api/plan/history/new";
       const query = {
         monitorDeviceId: monitorDeviceId,
         monitorDeviceType: monitorDeviceType,
@@ -334,6 +374,19 @@ export default {
     }
   },
   watch: {
+    itemData: {
+      handler(now){
+        let supportPreset = now.deviceMessage.supportPreset
+        let monitorDeviceType = now.monitorDeviceType
+        if(monitorDeviceType == 1 && monitorDeviceType){
+          this.typeChosen = 'Single'
+        }else if(monitorDeviceType == 2){
+          this.typeChosen = 'Multiple'
+        }
+      },
+      deep: true,
+      immediate: true
+    },
     radio(now) {
       if (now != null) this.value = "";
     },
@@ -377,6 +430,9 @@ export default {
       if (now == 1) {
         this.yAxisOption["type"] = "category";
         this.yAxisOption.splitLine.show = false;
+      }else{
+        this.yAxisOption["type"] = "value";
+        this.yAxisOption.splitLine.show = false;
       }
     },
     yName(now) {
@@ -404,6 +460,9 @@ export default {
   },
   mounted() {
     const that = this;
+    document.addEventListener('fullscreenchange', function(event) {
+      that.isFullscreen = !that.isFullscreen
+    })
     if (this.radio) {
       this.onChangeRadio(this.radio);
     } else if (!this.radio && this.datePeriod) {
@@ -417,6 +476,42 @@ export default {
 <style lang="scss">
 .polygonal {
   height: 100%;
+  .chartsChange{
+    position: relative;
+    top: 13px;
+    label{
+      font-size: 13px;
+      color: #a0a2a3;
+      margin-right: 7px;
+    }
+    span{
+      cursor: pointer;
+      margin: 0 5px;
+      color: #a4a5a6;
+      padding: 2px 6px;
+      border-radius: 50%;
+      border: 1px solid #a4a5a6;
+      transform: scale(0.8);
+      &.active{
+        border: 1px solid #01f3f4;
+        color: #01f3f4;
+      }
+    }
+  }
+  .radioChange{
+    .el-radio__input.is-checked .el-radio__inner::after{
+      transform: translate(-50%, -50%) scale(1.3);
+      background: #00fefe;
+    }
+    .el-radio__input.is-checked .el-radio__inner{
+      border-color: #00fefe;
+      background: transparent;
+    }
+    .el-radio__inner{
+      background-color: transparent;
+      border: 1px solid #a4a5a6;
+    }
+  }
   .title {
     margin-bottom: 20px;
     font-size: 22px;
@@ -453,8 +548,10 @@ export default {
   }
   .block {
     .el-date-editor {
-      background-color: rgba(81, 89, 112, 0.7);
+      background-color: #2e3a41;
       border: none;
+      width: 300px;
+      margin-right: 20px;
       .el-range-input {
         background-color: rgba(81, 89, 112, 0);
       }

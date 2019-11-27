@@ -37,6 +37,7 @@
                   >一般</span>
                   <span class="serious" v-if="item.alarmLevel == '2'">严重</span>
                   <span class="danger" v-if="item.alarmLevel == '3'">危急</span>
+                  
                 </p>
               </div>
               <div class="itemdetail">

@@ -558,14 +558,25 @@
       },
       toPlay(){
         try {
-          if (this.autoplay && this.$refs.videoPlayer.player)
+          console.log('ready')
+          if (this.autoplay && this.$refs.videoPlayer.player){
+            this.$refs.videoPlayer.player.pause()
             this.$refs.videoPlayer.player.play()
+          }
+        }catch(e){}
+        try {
+          console.log('ready')
+          this.$nextTick(()=>{
+            if (this.autoplay && this.$refs.videoPlayer.player){
+              this.$refs.videoPlayer.player.play()
+            }
+          })
         }catch(e){}
         setTimeout(()=>{
-         try{ 
-          if (this.autoplay && this.$refs.videoPlayer.player)
-            this.$refs.videoPlayer.player.play()
-         }catch (e) {}
+          try{
+            if (this.autoplay && this.$refs.videoPlayer.player)
+              this.$refs.videoPlayer.player.play()
+          }catch (e) {}
         },8000)
       },
       judgeIp(){
@@ -932,10 +943,14 @@
         this.isShow = false;
       },
       destory(){
-        if(this.$refs.videoPlayer && this.$refs.videoPlayer.player)
+        if(this.$refs.videoPlayer && this.$refs.videoPlayer.player){
+          this.$refs.videoPlayer.player.reset()
           this.$refs.videoPlayer.player.dispose()
-        if(this.$refs.videoPlayerD && this.$refs.videoPlayerD.player)
+        }
+        if(this.$refs.videoPlayerD && this.$refs.videoPlayerD.player){
+          this.$refs.videoPlayerD.player.reset()
           this.$refs.videoPlayerD.player.dispose()
+        }
       },
       initVideo(){
         const that = this
@@ -943,6 +958,9 @@
         this.waitTimer = null
         if(!this.waitTimer && !this.isPic && !this.imgAdress){
           this.waitTimer = setInterval(() => {
+            console.log('reload')
+            that.$refs.videoPlayer.player.reset()
+            that.$refs.videoPlayer.player.src({type: this.playerOptions["sources"][0]["type"], src: this.playerOptions["sources"][0]["src"]})
             that.$refs.videoPlayer.player.load()
             that.$refs.videoPlayer.player.play()
             // try{
@@ -956,7 +974,7 @@
             //     },6000)
             //   })
             // }catch (e) {}
-          }, 6000)
+          }, 20000)
         }
       }
     },
