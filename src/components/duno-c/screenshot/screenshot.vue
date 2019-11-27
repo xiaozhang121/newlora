@@ -146,6 +146,11 @@ export default {
       let url = "/lenovo-sample/api/sample/getMainDevice";
       postAxiosData(url).then(res => {
         let data = res.data;
+        if (this.isVideo) {
+          data = data.slice(0, data.length - 2);
+        } else {
+          data = data.slice(-2);
+        }
         data.forEach(el => {
           el.children = [];
           el.loading = false;

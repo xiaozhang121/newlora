@@ -16,7 +16,7 @@
             v-model="titleMain"
           />
         </div>
-        <el-radio-group v-model="checkedCities">
+        <el-radio-group v-model="checkedCities" @change="handleCheckedCitiesChange">
           <div class="checkbox" v-for="(item,index) in useListData" :key="index">
             <div class="noCheck selectItem">
               <el-checkbox @click.native="showHide($event, item)">
@@ -28,19 +28,19 @@
             </div>
             <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
               <div class="selectItem" v-for="(child, Cindex) in item['children']" :key="Cindex">
-                <!-- <el-radio
-                  :title="child['item']['describeName']"
-                  :label="child['item']['monitorDeviceId']"
-                  :key="child['item']['monitorDeviceId']"
-                  @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])"
-                >{{child['item']['describeName']}}</el-radio>
-                :disabled="(isDisabled(child['item']['monitorDeviceId']))"-->
-                <el-checkbox
-                  :label="child['item']['monitorDeviceId']"
-                  :checked="child['item']['isSelected']=='1'"
-                  :disabled="(isDisabled(child['item']['monitorDeviceId']))"
-                  @click.stop.native="handleActive(child['item']['monitorDeviceId'], child['item'])"
-                >{{child['item']['describeName']}}</el-checkbox>
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  :content="child['item']['describeName']"
+                  placement="top-start"
+                >
+                  <el-checkbox
+                    :label="child['item']['monitorDeviceId']"
+                    :checked="child['item']['isSelected']=='1'"
+                    :disabled="(isDisabled(child['item']['monitorDeviceId']))"
+                    @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])"
+                  >{{child['item']['describeName']}}</el-checkbox>
+                </el-tooltip>
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@ export default {
   },
   data() {
     return {
-      isClick: false,
+      isClick: true,
       showData: false,
       titleMain: "",
       useListData: [],
@@ -137,6 +137,7 @@ export default {
           data = data.filter(item => {
             return item["isSelected"] == true || item["isSelected"] == 1;
           });
+          console.log(data);
           if (data.length) {
             let arr = [];
             data.forEach(item => {
@@ -154,8 +155,11 @@ export default {
           }
           let dataB = res.data;
           dataB.map(item => {
-            if (item["isSelected"] == true || item["isSelected"] == 1)
+            if (item["isSelected"] == true || item["isSelected"] == 1) {
               item["isActive"] = true;
+            } else {
+              item["isActive"] = false;
+            }
             item["describeName"] = item["monitorDeviceName"];
           });
           let info = that.handleData(dataB);
@@ -164,6 +168,23 @@ export default {
           that.TypeData = dataB;
         }
       });
+    },
+    changeState(id, flag) {
+      let that = this;
+      let data = that.useListData;
+      let length = data.length;
+      for (let i = 0; i < length; i++) {
+        data[i].children.map(item => {
+          if (item.item.id == id) {
+            if (flag) {
+              item["isActive"] = false;
+            } else {
+              item["isActive"] = true;
+            }
+          }
+        });
+      }
+      that.useListData = data;
     },
     handleData(arr) {
       let data = [];
@@ -196,17 +217,31 @@ export default {
       }
     },
     handleActive(index, flag) {
-      if (flag["isActive"]) {
-        this.checkedCities.forEach((item, i) => {
-          if (item == index) {
-            this.checkedCities.splice(i, 1);
-          }
-        });
-      } else {
-        this.checkedCities.push(index);
+      let isActive = this.isDisabled(index);
+      if (isActive) {
+        return false;
       }
-      console.log(this.checkedCities);
-      this.$emit("on-active", this.checkedCities);
+      if (this.isClick) {
+        if (flag["isActive"]) {
+          this.checkedCities.forEach((item, i) => {
+            if (item == index) {
+              this.checkedCities.splice(i, 1);
+              this.changeState(index, true);
+            }
+          });
+        } else {
+          this.checkedCities.push(index);
+          this.checkedCities = Array.from(new Set(this.checkedCities));
+          this.changeState(index, false);
+        }
+        this.isDisabled();
+        console.log(this.checkedCities);
+        this.$emit("on-active", this.checkedCities);
+        this.isClick = false;
+        setTimeout(() => {
+          this.isClick = true;
+        }, 50);
+      }
     },
     isDisabled(id) {
       let length = this.checkedCities.length;
@@ -219,6 +254,9 @@ export default {
           return true;
         }
       }
+    },
+    handleCheckedCitiesChange(value, index, before) {
+      console.log(value, index, before);
     }
   },
   mounted() {

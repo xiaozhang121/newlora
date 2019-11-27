@@ -338,7 +338,7 @@
             :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
-            class="monitorM child"
+            class="monitorM swip"
           ></key-monitor>
         </div>
       </div>
@@ -360,7 +360,7 @@
             :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
-            class="monitorM child"
+            class="monitorM swip"
           ></key-monitor>
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev"></div>
@@ -734,6 +734,7 @@ export default {
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
+          // that.$refs.btnTopRef.init();
           that.initConfigure(type);
           that.$forceUpdate();
         } else that.$message.error(res.msg);
@@ -912,7 +913,7 @@ export default {
           data = data.filter(item => {
             return item["isSelected"] == true || item["isSelected"] == 1;
           });
-          console.log(data);
+          // console.log(data);
           let dataA;
           if ((type == 1 || type == 2) && data.length > 4) {
             dataA = data.slice(0, 3);
@@ -1113,13 +1114,13 @@ export default {
     }
     .item_main {
       float: left;
-      width: calc(98% / 3);
+      width: calc(98% / 4);
       margin-right: 1%;
       margin-bottom: 3%;
       .item {
         position: relative;
         width: 100%;
-        padding-bottom: 56%;
+        padding-bottom: 80%;
         .swiper-slide {
           height: 100%;
         }
@@ -1144,7 +1145,11 @@ export default {
       }
     }
   }
-
+  .monitorM.swip{
+    .vjs-fluid {
+      padding-top:56%;
+    }
+  }
   .monitorM.child {
     .vjs-fluid {
       padding-top:80%;
