@@ -422,7 +422,7 @@ export default {
         play: "/lenovo-visible/api/visible-equipment/stable/play/{deviceId}", // 视频播放
         pause: "/lenovo-visible/api/visible-equipment/stable/pause/{deviceId}", // 暂停
         ptzSet:
-          "/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}", //
+          "/lenovo-visible/api/visible-equipment/ptz/direction-adjust/{cmd}/{step}/{id}", //
         stop: "/lenovo-visible/api/visible-equipment/stable/stop/{deviceId}" // 停止播放
       },
       playerOptions: {
@@ -553,17 +553,17 @@ export default {
       }
       this.disabled = true;
       if (now < old) {
-        this.viewCamera(5, false).then(res => {
+        this.viewCamera(10, false).then(res => {
           setTimeout(() => {
-            this.viewCamera(5, true).then(res => {
+            this.viewCamera(10, true).then(res => {
               that.disabled = false;
             });
           }, Math.abs(now - old) * timeSeed);
         });
       } else {
-        this.viewCamera(4, false).then(res => {
+        this.viewCamera(9, false).then(res => {
           setTimeout(() => {
-            this.viewCamera(4, true).then(res => {
+            this.viewCamera(9, true).then(res => {
               that.disabled = false;
             });
           }, Math.abs(now - old) * timeSeed);

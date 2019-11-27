@@ -158,6 +158,11 @@ export default {
       } else {
         url = "/lenovo-alarm/api/alarm/result/change";
       }
+      if (this.formData.inputT == "合状态") {
+          this.formData.inputT = "1";
+        } else if (this.formData.inputT == "分状态") {
+          this.formData.inputT = "0";
+        }
       if (this.isChange) {
         this.query = {
           userName: this.$store.state.user.userName,

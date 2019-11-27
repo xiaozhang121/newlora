@@ -82,8 +82,8 @@ export default {
     handleJump(now) {
       this.breadData = now;
       let name = now[0].name;
-      let name1 = now[1].name;
       if (name == "操作中台") {
+        let name1 = now[1].name;
         this.isOperation = true;
         if (name1 == "任务配置") {
           this.pointData = now.slice(0, 1);
@@ -140,8 +140,8 @@ export default {
   .el-breadcrumb {
     .el-breadcrumb__item:last-child {
       .el-breadcrumb__inner {
-        color: #4b9bc1!important;
-        text-decoration: none!important;
+        color: #4b9bc1 !important;
+        text-decoration: none !important;
       }
     }
   }

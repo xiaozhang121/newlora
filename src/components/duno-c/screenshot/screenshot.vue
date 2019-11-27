@@ -196,7 +196,10 @@ export default {
       });
     },
     handleSubmit() {
-      this.$emit("closeShot");
+      if (this.isVideo && (this.pointData.x0 == "" || this.selectValue == "")) {
+        this.$message.warning("请选择或标定区域");
+        return;
+      }
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorDeviceId,
@@ -221,6 +224,7 @@ export default {
           message: "标定成功",
           type: "success"
         });
+        this.$emit("closeShot");
       });
     },
     getImgInfo() {

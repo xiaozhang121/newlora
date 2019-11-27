@@ -800,7 +800,7 @@
              this.picCut=true
            }
            if(type=='1'||type=='3'){
-             this.picCut=true
+             this.videoCut=true
            }
         })
       },
