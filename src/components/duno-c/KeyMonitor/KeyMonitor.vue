@@ -847,7 +847,7 @@
                    }
                });
            }
-           else */if (monitorDeviceType == 1) {
+           else */if (monitorDeviceType == 1 || monitorDeviceType==5) {
             if (supportPreset) {
               this.$router.push({
                 path: "/surveillancePath/detailLight",

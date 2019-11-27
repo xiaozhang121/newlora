@@ -235,7 +235,6 @@ export default {
           let baseLen = res.data.length;
           this.picSize = parseInt(baseLen - (baseLen / 8) * 2);
           that.handleSubmit();
-          this.$emit("closeShot");
         });
       } else {
         let url = "/lenovo-device/device/video/record/file/alarm";
