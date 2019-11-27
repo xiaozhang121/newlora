@@ -23,6 +23,7 @@
                     :isLive='false'
                     :isNav='true'
                     :isAux='true'
+                    :isRobot='true'
                     streamAddr="rtmp://10.0.10.39/rtsp59/stream"
             />
           </div>
@@ -37,6 +38,7 @@
                     :isLive='false'
                     :isNav='true'
                     :isAux='true'
+                    :isRobot='true'
                     streamAddr="rtmp://10.0.10.39/rtsp60/stream"
             />
           </div>

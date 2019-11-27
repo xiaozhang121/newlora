@@ -23,6 +23,7 @@
                     :isLive='false'
                     :isNav='true'
                     :isAux='true'
+                    :isRobot='true'
                     :streamAddr="video"
             />
           </div>
