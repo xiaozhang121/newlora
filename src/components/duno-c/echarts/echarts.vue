@@ -21,6 +21,12 @@ export default {
     DunoCharts
   },
   props: {
+    dataOBJ: {
+      type: [Object, Array],
+      default: ()=>{
+        return {}
+      }
+    },
     unit: {},
     echartsKind:{
 
@@ -93,10 +99,12 @@ export default {
       },
       yAxisOption: {
         type: "value",
-        name: "(温度℃)",
-        max: 100,
-        min: 0,
-        splitNumber: 5,
+        name: that.yName,
+        minInterval: 1,
+        data: ["合", "分"],
+        // max: that.yMax,
+        // min: that.yMin,
+        splitNumber: that.ySplitNumber,
         // boundaryGap: ["0", "2"],
         axisLine: {
           show: true, //Y轴的线
@@ -120,6 +128,30 @@ export default {
     };
   },
   watch: {
+    dataOBJ: {
+      handler(now){
+        if(Object.keys(now).length){
+          const that = this
+          that.seriesOption = [];
+          that.legendOption.data = [];
+          that.xAxisOption.data = [];
+          if (that.echartsKind == 1) {
+            this.yAxisOption["type"] = "category";
+            this.yAxisOption.splitLine.show = false;
+          }else{
+            this.yAxisOption["type"] = "value";
+            this.yAxisOption.splitLine.show = false;
+          }
+          that.legendOption.data.push(...now.legendData);
+          that.seriesOption.push(...now.seriesData);
+          that.xAxisOption.data.push(...now.xAxisData);
+          that.$forceUpdate();
+          that.isChangeFlag = !that.isChangeFlag
+        }
+      },
+      deep: true,
+      immediate: true
+    },
     unit:{
         handler(now){
             if(now)
@@ -167,8 +199,8 @@ export default {
         }
         seriesData.push(obj);
       }
-      that.yAxisOption.max = Math.ceil(yMax.sort((a, b) => b - a)[0]);
-      that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
+      // that.yAxisOption.max = Math.ceil(yMax.sort((a, b) => b - a)[0]);
+      // that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
       that.legendOption.data.push(...legendData);
       that.seriesOption.push(...seriesData);
       that.xAxisOption.data.push(...xAxisData);

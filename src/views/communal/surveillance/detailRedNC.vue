@@ -157,6 +157,9 @@
                 :showBtnList="false"
               ></duno-btn-top>
             </div>-->
+            <div class="selectChosenContain">
+              <select-chosen ref="selectChosen" @on-active="onActive" v-if="dataForm.monitorDeviceId" :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"/>
+            </div>
             <div class="dateChose">
               <el-date-picker
                 unlink-panels
@@ -171,7 +174,7 @@
           </div>
         </div>
         <div class="con-chart">
-          <echarts :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
+          <echarts :dataOBJ="echartData" :title="echartTitle" gridOptionTop="120" />
         </div>
       </div>
     </div>
@@ -195,6 +198,7 @@
 
 <script>
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
+import selectChosen  from "_c/duno-m/selectChosen";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import echarts from "_c/duno-c/echarts";
@@ -228,7 +232,8 @@ export default {
     echarts,
     warningSetting,
     wraning,
-    enlarge
+    enlarge,
+    selectChosen
   },
   data() {
     const that = this;
@@ -533,7 +538,8 @@ export default {
       allDataLevel: [],
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }],
-      picTurnTimer: null
+      picTurnTimer: null,
+      recognizeType: ''
     };
   },
   props: {
@@ -543,6 +549,56 @@ export default {
     }
   },
   methods: {
+    handleData(index, arr ,flag){
+      const that = this
+      let dataList = []
+      if(arr){
+        dataList = arr
+      }else{
+        dataList = this.chartsList
+      }
+      const legendData = []
+      const seriesData = []
+      that.unit = dataList[index].unit
+      that.echartsKind = dataList[index].flag
+      legendData.push(dataList[index].itemName)
+      let elData = dataList[index]['itemDataList']
+      let obj = {
+        name: dataList[index].itemName,
+        type:'line',
+        data: elData
+      }
+      if(dataList[index].flag){
+        obj['step'] = 'start'
+      }
+      seriesData.push(obj)
+      that.legendData = legendData
+      that.seriesData = seriesData
+      if(!flag)
+        that.isChangeFlag = !that.isChangeFlag
+      return {legendData: legendData, seriesData: seriesData}
+    },
+    getAxisData(data){
+      let xAxisData = []
+      data.forEach(item=>{
+        item['itemDataList'].forEach(el =>{
+          if(xAxisData.indexOf(el[0]) < 0)
+            xAxisData.push(el[0])
+        })
+      })
+      xAxisData.sort(function (a, b) {
+        return a < b ? -1 : 1
+      })
+      return xAxisData
+    },
+    onActive(data){
+      let arr = []
+      data.forEach(item=>{
+        arr.push(item['value'])
+      })
+      this.recognizeType = arr.join(',')
+      this.getEchasrts()
+    },
     clearTimer() {
       clearInterval(this.timer);
       this.overFlag = false;
@@ -763,15 +819,27 @@ export default {
       });
     },
     getEchasrts() {
+      const that = this
       let query = {
         startTime: this.echartForm.startTime,
         endTime: this.echartForm.endTime,
         deviceType: "2",
         powerDeviceId: this.echartForm.sources,
-        monitorDeviceId: this.$route.query.monitorDeviceId
+        monitorDeviceId: this.$route.query.monitorDeviceId,
+        recognizeType: this.recognizeType
       };
-      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-        this.echartData = res.data.dataList;
+      getAxiosData("/lenovo-plan/api/plan/history/new", query).then(res => {
+        let dataList = res.data.dataList
+        let xAxisData = that.getAxisData(dataList)
+        let legendData = []
+        let seriesData = []
+        for(let i=0; i<dataList.length; i++){
+          let obj = this.handleData(i, dataList, true)
+          legendData.push(...obj.legendData)
+          seriesData.push(...obj.seriesData)
+        }
+        this.echartData = {legendData: legendData, seriesData: seriesData, xAxisData: xAxisData}
+        this.echartTitle = res.data.title;
       });
     },
     handleClose() {
@@ -879,6 +947,19 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .selectChosenContain{
+    width: 168px;
+    .mainContain{
+      background: #192f41 !important;
+    }
+    .activeTitle{
+      background: #192f41 !important;
+      line-height: 40px !important;
+    }
+    .container{
+      background: #192f41 !important;
+    }
+  }
   .monitor.child {
     .vjs-fluid {
       padding-top: 56%;

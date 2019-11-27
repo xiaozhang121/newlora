@@ -102,6 +102,9 @@
                     :showBtnList="false"
                   ></duno-btn-top>
                 </div>-->
+                <div class="selectChosenContain">
+                  <select-chosen ref="selectChosen" @on-active="onActive" v-if="dataForm.monitorDeviceId" :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"/>
+                </div>
                 <div class="dateChose">
                   <el-date-picker
                     unlink-panels
@@ -116,7 +119,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <echarts :dataAllList="echartData" :title="echartTitle" gridOptionTop="120" />
+              <echarts :dataOBJ="echartData" :title="echartTitle" gridOptionTop="120" />
             </div>
           </div>
         </div>
@@ -202,6 +205,7 @@
 
 <script>
 import controlCheck from '_c/duno-m/controlCheck'
+import selectChosen  from "_c/duno-m/selectChosen";
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -238,7 +242,8 @@ export default {
     enlarge,
     controBtnRedControl,
     inspectionRedControl,
-    controlCheck
+    controlCheck,
+    selectChosen
   },
   data() {
     const that = this;
@@ -545,11 +550,62 @@ export default {
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
+      recognizeType: '',
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }]
     };
   },
   methods: {
+    handleData(index, arr ,flag){
+      const that = this
+      let dataList = []
+      if(arr){
+        dataList = arr
+      }else{
+        dataList = this.chartsList
+      }
+      const legendData = []
+      const seriesData = []
+      that.unit = dataList[index].unit
+      that.echartsKind = dataList[index].flag
+      legendData.push(dataList[index].itemName)
+      let elData = dataList[index]['itemDataList']
+      let obj = {
+        name: dataList[index].itemName,
+        type:'line',
+        data: elData
+      }
+      if(dataList[index].flag){
+        obj['step'] = 'start'
+      }
+      seriesData.push(obj)
+      that.legendData = legendData
+      that.seriesData = seriesData
+      if(!flag)
+        that.isChangeFlag = !that.isChangeFlag
+      return {legendData: legendData, seriesData: seriesData}
+    },
+    getAxisData(data){
+      let xAxisData = []
+      data.forEach(item=>{
+        item['itemDataList'].forEach(el =>{
+          if(xAxisData.indexOf(el[0]) < 0)
+            xAxisData.push(el[0])
+        })
+      })
+      xAxisData.sort(function (a, b) {
+        return a < b ? -1 : 1
+      })
+      return xAxisData
+    },
+    onActive(data){
+      let arr = []
+      data.forEach(item=>{
+        arr.push(item['value'])
+      })
+      this.recognizeType = arr.join(',')
+      this.getEchasrts()
+    },
     checkSpecial(value) {
       let myreg =
         "[`_+@~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，'、？]‘'";
@@ -768,15 +824,27 @@ export default {
       });
     },
     getEchasrts() {
+      const that = this
       let query = {
         startTime: this.echartForm.startTime,
         endTime: this.echartForm.endTime,
         deviceType: "2",
         powerDeviceId: this.echartForm.sources,
-        monitorDeviceId: this.$route.query.monitorDeviceId
+        monitorDeviceId: this.$route.query.monitorDeviceId,
+        recognizeType: this.recognizeType
       };
-      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-        this.echartData = res.data.dataList;
+      getAxiosData("/lenovo-plan/api/plan/history/new", query).then(res => {
+        let dataList = res.data.dataList
+        let xAxisData = that.getAxisData(dataList)
+        let legendData = []
+        let seriesData = []
+        for(let i=0; i<dataList.length; i++){
+          let obj = this.handleData(i, dataList, true)
+          legendData.push(...obj.legendData)
+          seriesData.push(...obj.seriesData)
+        }
+        this.echartData = {legendData: legendData, seriesData: seriesData, xAxisData: xAxisData}
+        this.echartTitle = res.data.title;
       });
     },
     handleClose() {
@@ -845,7 +913,7 @@ export default {
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
-    this.getEchasrts();
+    // this.getEchasrts();
   },
   mounted() {
     this.place = this.getAuthority("10071002");
@@ -876,6 +944,19 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
+  .selectChosenContain{
+    width: 168px;
+    .mainContain{
+      background: #192f41 !important;
+    }
+    .activeTitle{
+      background: #192f41 !important;
+      line-height: 40px !important;
+    }
+    .container{
+      background: #192f41 !important;
+    }
+  }
   .controlCheck{
     height: 30px;
     bottom: inherit;
@@ -896,6 +977,8 @@ export default {
   }
   .echartsData {
     background: transparent;
+    position: relative;
+    top: 58px;
   }
   .el-input--small .el-input__inner {
     border-radius: 0;

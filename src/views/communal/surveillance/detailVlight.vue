@@ -148,6 +148,9 @@
                       :showBtnList="false"
               ></duno-btn-top>
             </div>-->
+            <div class="selectChosenContain">
+              <select-chosen ref="selectChosen" @on-active="onActive" typeChosen="Single" v-if="dataForm.monitorDeviceId" :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"/>
+            </div>
             <div class="dateChose">
               <el-date-picker
                 unlink-panels
@@ -162,9 +165,13 @@
           </div>
         </div>
         <div class="con-chart">
+          <div class="chartsChange" v-if="chartsList.length" v-show="!isFullscreen">
+            <label>切换表计</label>
+            <span v-for="(item, index) in chartsList" @click="changeActive(index)" :class="{'active': item['active']}">{{ index+1 }}</span>
+          </div>
           <echarts
             :echartsKind="echartsKind"
-            :dataAllList="echartData"
+            :dataOBJ="echartData"
             :title="echartTitle"
             :unit="unit"
             gridOptionTop="120"
@@ -180,6 +187,7 @@
 
 <script>
 import controlCheck from '_c/duno-m/controlCheck'
+import selectChosen  from "_c/duno-m/selectChosen";
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -215,11 +223,13 @@ export default {
     warningSetting,
     wraning,
     enlarge,
-    controlCheck
+    controlCheck,
+    selectChosen
   },
   data() {
     const that = this;
     return {
+      chartsList: [],
       allDataK: [],
       addOrEdit: "添加",
       titleTypeK: "全部识别类型",
@@ -532,6 +542,58 @@ export default {
     }
   },
   methods: {
+    changeActive(index){
+      this.chartsList.map(item=>{
+        item['active'] = false
+      })
+      this.chartsList[index]['active'] = true
+      this.handleData(index)
+      this.$forceUpdate()
+    },
+    handleData(index, arr ,flag){
+      const that = this
+      let dataList = []
+      if(arr){
+        dataList = arr
+      }else{
+        dataList = this.chartsList
+      }
+      const legendData = []
+      const seriesData = []
+      that.unit = dataList[index].unit
+      that.echartsKind = dataList[index].flag
+      legendData.push(dataList[index].itemName)
+      let elData = dataList[index]['itemDataList']
+      let obj = {
+        name: dataList[index].itemName,
+        type:'line',
+        data: elData
+      }
+      if(dataList[index].flag){
+        obj['step'] = 'start'
+      }
+      seriesData.push(obj)
+
+      let xAxisData = []
+      for(let i=0; i<elData.length; i++){
+        xAxisData.push(elData[i][0])
+      }
+      that.xAxisData = xAxisData
+      that.legendData = legendData
+      that.seriesData = seriesData
+      if(!flag)
+        that.isChangeFlag = !that.isChangeFlag
+      this.echartData = {legendData: legendData, seriesData: seriesData, xAxisData: xAxisData}
+      return this.echartData
+    },
+    onActive(data){
+      let arr = []
+      data.forEach(item=>{
+        arr.push(item['value'])
+      })
+      this.echartForm.getEchasrts = arr.join(',')
+      this.getEchasrts()
+    },
     checkSpecial(value) {
       let myreg =
         "[`_+@~!#$^&*()=|{}':;',\\[\\].<>/?~！%#￥……&*（）|{}【】‘；：”“'。，'、？]‘'";
@@ -775,11 +837,13 @@ export default {
         powerDeviceId: this.echartForm.sources,
         monitorDeviceId: this.$route.query.monitorDeviceId
       };
-      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-        this.echartData = res.data.dataList;
-        this.echartsKind = res.data.flag;
+      getAxiosData("/lenovo-plan/api/plan/history/new", query).then(res => {
+        this.chartsList = res.data.dataList
         this.echartTitle = res.data.title;
-        this.unit = res.data.unit;
+        this.changeActive(0)
+        // this.echartsKind = res.data.flag;
+        // this.unit = res.data.unit;
+        // this.echartData = res.data.dataList;
       });
     },
     handleClose() {
@@ -840,7 +904,7 @@ export default {
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
-    this.getEchasrts();
+    // this.getEchasrts();
   },
   mounted() {
     this.place = this.getAuthority("10071002");
@@ -870,6 +934,30 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .chartsChange{
+    position: relative;
+    top: 50px;
+    left: 20px;
+    z-index: 1;
+    label{
+      font-size: 13px;
+      color: #a0a2a3;
+      margin-right: 7px;
+    }
+    span{
+      cursor: pointer;
+      margin: 0 5px;
+      color: #a4a5a6;
+      padding: 2px 6px;
+      border-radius: 50%;
+      border: 1px solid #a4a5a6;
+      transform: scale(0.8);
+      &.active{
+        border: 1px solid #01f3f4;
+        color: #01f3f4;
+      }
+    }
+  }
   .controlCheck{
     height: 30px;
     bottom: inherit;
@@ -1061,9 +1149,6 @@ export default {
       }
       .btn {
         display: flex;
-        & > div {
-          margin-left: 10px;
-        }
         .dunoBtnTop {
             width: 150px;
             position: relative;
@@ -1161,6 +1246,22 @@ export default {
               }
             }
           }
+        }
+        .selectChosenContain{
+          width: 168px;
+          .mainContain{
+            background: #192f41;
+          }
+          .activeTitle{
+            background: #192f41;
+            line-height: 40px;
+          }
+          .container{
+            background: #192f41;
+          }
+        }
+        .dateChose{
+          width: auto;
         }
         & > div:nth-child(5) {
           & > div {

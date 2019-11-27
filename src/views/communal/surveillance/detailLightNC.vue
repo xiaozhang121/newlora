@@ -60,9 +60,13 @@
               </div>
             </div>
             <div class="contain_nr">
+              <div class="chartsChange" v-if="chartsList.length" v-show="!isFullscreen">
+                <label>切换表计</label>
+                <span v-for="(item, index) in chartsList" @click="changeActive(index)" :class="{'active': item['active']}">{{ index+1 }}</span>
+              </div>
               <echarts
                 :echartsKind="echartsKind"
-                :dataAllList="echartData"
+                :dataOBJ="echartData"
                 :title="echartTitle"
                 :unit="unit"
                 gridOptionTop="120"
@@ -203,6 +207,7 @@ export default {
   data() {
     const that = this;
     return {
+      chartsList: [],
       unit: "",
       echartsKind: 0,
       addOrEdit: "添加",
@@ -518,6 +523,50 @@ export default {
     };
   },
   methods: {
+    changeActive(index){
+      this.chartsList.map(item=>{
+        item['active'] = false
+      })
+      this.chartsList[index]['active'] = true
+      this.handleData(index)
+      this.$forceUpdate()
+    },
+    handleData(index, arr ,flag){
+      const that = this
+      let dataList = []
+      if(arr){
+        dataList = arr
+      }else{
+        dataList = this.chartsList
+      }
+      const legendData = []
+      const seriesData = []
+      that.unit = dataList[index].unit
+      that.echartsKind = dataList[index].flag
+      legendData.push(dataList[index].itemName)
+      let elData = dataList[index]['itemDataList']
+      let obj = {
+        name: dataList[index].itemName,
+        type:'line',
+        data: elData
+      }
+      if(dataList[index].flag){
+        obj['step'] = 'start'
+      }
+      seriesData.push(obj)
+
+      let xAxisData = []
+      for(let i=0; i<elData.length; i++){
+        xAxisData.push(elData[i][0])
+      }
+      that.xAxisData = xAxisData
+      that.legendData = legendData
+      that.seriesData = seriesData
+      if(!flag)
+        that.isChangeFlag = !that.isChangeFlag
+      this.echartData = {legendData: legendData, seriesData: seriesData, xAxisData: xAxisData}
+      return this.echartData
+    },
     closeEnlarge() {
       this.isEnlarge = false;
     },
@@ -749,11 +798,10 @@ export default {
         powerDeviceId: this.echartForm.sources,
         monitorDeviceId: this.$route.query.monitorDeviceId
       };
-      getAxiosData("/lenovo-plan/api/plan/history", query).then(res => {
-        that.echartData = res.data.dataList;
-        that.echartsKind = res.data.flag;
-        that.echartTitle = res.data.title;
-        that.unit = res.data.unit;
+      getAxiosData("/lenovo-plan/api/plan/history/new", query).then(res => {
+        this.chartsList = res.data.dataList
+        this.echartTitle = res.data.title;
+        this.changeActive(0)
       });
     },
     handleClose() {
@@ -841,6 +889,30 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
+  .chartsChange{
+    position: relative;
+    top: 0px;
+    left: 20px;
+    z-index: 1;
+    label{
+      font-size: 13px;
+      color: #a0a2a3;
+      margin-right: 7px;
+    }
+    span{
+      cursor: pointer;
+      margin: 0 5px;
+      color: #a4a5a6;
+      padding: 2px 6px;
+      border-radius: 50%;
+      border: 1px solid #a4a5a6;
+      transform: scale(0.8);
+      &.active{
+        border: 1px solid #01f3f4;
+        color: #01f3f4;
+      }
+    }
+  }
   .icon-xiala {
     /*width: 12px;
     height: 15px;*/
@@ -1186,6 +1258,7 @@ export default {
         top: 50px;
         width: 100%;
         height: 400px;
+        padding-top: 70px;
         .chartBox {
           height: 400px;
           .charts {

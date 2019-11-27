@@ -219,7 +219,7 @@ export default {
             }
           }else{
             data[activeIndex]['active'] = activeIndex
-            this.$emit('on-active', this.findActive(data, activeIndex))
+            this.$emit('on-active', [data[activeIndex]])
             console.log(this.findActive(data, activeIndex))
           }
         }
@@ -318,23 +318,31 @@ export default {
       },
       unBindEvent(){
         const that = this
-        document.removeEventListener('mousedown', that.closeEvent)
-        window.removeEventListener('resize', that.domResize)
-        document.removeEventListener('mousemove', that.domResize)
-        document.querySelector('.gisMap').removeEventListener('click', that.closeEvent)
+        try{
+            document.removeEventListener('mousedown', that.closeEvent)
+            window.removeEventListener('resize', that.domResize)
+            document.removeEventListener('mousemove', that.domResize)
+            document.querySelector('.el-main.main-content-con').removeEventListener('scroll', that.domResize)
+            document.querySelector('.gisMap').removeEventListener('click', that.closeEvent)
+        }catch (e) {}
       },
       bindEvent(){
         const that = this
-        document.addEventListener('mousedown', that.closeEvent)
-        document.addEventListener('mousemove', that.domResize)
-        window.addEventListener('resize', that.domResize)
-        document.querySelector('.gisMap').addEventListener('click', that.closeEvent)
+        try{
+            document.addEventListener('mousedown', that.closeEvent)
+            document.addEventListener('mousemove', that.domResize)
+            window.addEventListener('resize', that.domResize)
+            document.querySelector('.el-main.main-content-con').addEventListener('scroll', that.domResize)
+            document.querySelector('.gisMap').addEventListener('click', that.closeEvent)
+        }catch (e) {}
       },
       domResize(){
+        console.log('resize')
         let pos = document.querySelector('.activeTitle').getBoundingClientRect()
+        let offsetHeight = document.querySelector('.activeTitle').offsetHeight
         let width = $('.mainContain').width() - pos.width
         this.dom.style.left = pos.left - width  + 'px'
-        this.dom.style.top = Number(pos.top) + 32 + 'px'
+        this.dom.style.top = Number(pos.top) + offsetHeight + 'px'
       },
       runAnimate(){
         const that = this
@@ -364,6 +372,17 @@ export default {
 </script>
 <style lang="scss">
     .selectChosen{
+        .el-radio__input.is-checked + .el-radio__label{
+            color: white !important;
+        }
+        .el-radio__label{
+            width: 100%;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: bottom;
+        }
         .el-checkbox__input.is-checked + .el-checkbox__label, .el-checkbox__label{
             color: white !important;
             margin-left: 5px;
@@ -468,6 +487,7 @@ export default {
                         width: 100%;
                         line-height: 36px;
                         margin-right: 18px;
+                        color: white;
                     }
                 }
             }
