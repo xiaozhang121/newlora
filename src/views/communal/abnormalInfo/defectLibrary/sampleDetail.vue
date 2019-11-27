@@ -539,6 +539,9 @@ export default {
 
 <style lang='scss'>
 .sample-detail {
+  .tablesTep{
+    padding-bottom: 30px;
+  }
   .ivu-poptip-confirm .ivu-poptip-body-message{
     padding-left: 0;
     color: black;

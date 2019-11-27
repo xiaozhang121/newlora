@@ -878,6 +878,7 @@ export default {
         let data = res.data
         data.map(item=>{
           item['planName'] = item['label']
+          item['pic'] = require('@/assets/images/tablePic.png')
         })
         this.mockDataR = data.slice(0, 2)
       })

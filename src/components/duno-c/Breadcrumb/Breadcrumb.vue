@@ -68,7 +68,14 @@ export default {
   methods: {
     toBack(index) {
       if (this.breadData.length < 3) {
-        if (index == 0) this.$router.go(-1);
+        if(index == 0){
+          if(self.frameElement && self.frameElement.tagName == "IFRAME"){
+            let arr = self.frameElement.src.split('/')
+            this.$router.push({path: arr[arr.length-1]})
+          }else
+            this.$router.go(-1)
+        }
+        // if (index == 0) this.$router.go(-1);
       }
     },
     handleReturn() {

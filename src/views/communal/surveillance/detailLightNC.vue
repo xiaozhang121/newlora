@@ -894,6 +894,9 @@ export default {
     top: 0px;
     left: 20px;
     z-index: 1;
+    @media screen and (max-width: 1366px) {
+      top: 37px;
+    }
     label{
       font-size: 13px;
       color: #a0a2a3;
@@ -1259,6 +1262,10 @@ export default {
         width: 100%;
         height: 400px;
         padding-top: 70px;
+        @media screen and (max-width: 1366px) {
+          padding-top: 0;
+          top: 30px;
+        }
         .chartBox {
           height: 400px;
           .charts {

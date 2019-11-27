@@ -979,6 +979,9 @@ export default {
     background: transparent;
     position: relative;
     top: 58px;
+    @media screen and (max-width: 1366px) {
+      top: 0px;
+    }
   }
   .el-input--small .el-input__inner {
     border-radius: 0;
@@ -1433,6 +1436,11 @@ export default {
   }
   .cameraSpeed{
     bottom: -25% !important;
+  }
+}
+.detailVRed .content .right .top .btn .dateChose .el-range-editor--small.el-input__inner{
+  @media screen and (max-width: 1366px) {
+    width: 273px;
   }
 }
 .el-popper[x-placement^="top"],
