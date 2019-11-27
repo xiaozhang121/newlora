@@ -9,9 +9,9 @@
             </div>
             <div class="mainContain" ref="mainContain" v-show="isShow">
                 <div class="container">
-                    <div v-for="(item, index) in selectList" :key="index">
+                    <div v-for="(item, index) in selectList" :key="index" class="mainCon">
                         <label class="contain-item" v-if="item['type']">{{ item['type'] }}</label>
-                        <component :label="index" @click.native.stop="chosenItem(index)" class="contain-item" v-else :key="index" v-model="item['active']" :title="item['name']" :is="comName">{{ item['name'] }}</component>
+                        <component :label="index" @click.native.stop="chosenItem(index)" class="contain-item" v-else :key="index" v-model="item['active']" :title="item['label']" :is="comName">{{ item['label'] }}</component>
                     </div>
                 </div>
             </div>
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import {getAxiosData} from "../../../api/axiosType";
+
 export default {
     name: 'selectChosen',
     components: {
@@ -35,18 +37,18 @@ export default {
             comName: 'el-checkbox',
             activeTitle: '选择ROI',
             selectList: [
-              { type: '预置位1' },
-              { name: '4号主变1000Kv侧套管A相接线柱'},
-              { name: '4号主变1000Kv侧套管AA相接线柱'},
-              { name: '4号主变1000Kv侧套管AAA相接线柱'},
-              { type: '预置位2' },
-              { name: '4号主变1000Kv侧套管B相接线柱'},
-              { name: '4号主变1000Kv侧套管BB相接线柱'},
-              { name: '4号主变1000Kv侧套管BBB相接线柱'},
-              { name: '4号主变1000Kv侧套管BBBB相接线柱'},
-              { name: '4号主变1000Kv侧套管BBBBB相接线柱'},
-              { name: '4号主变1000Kv侧套管BBBBBB相接线柱'},
-              { name: '4号主变1000Kv侧套管BBBBBBB相接线柱'},
+              // { type: '预置位1' },
+              // { label: '4号主变1000Kv侧套管A相接线柱'},
+              // { label: '4号主变1000Kv侧套管AA相接线柱'},
+              // { label: '4号主变1000Kv侧套管AAA相接线柱'},
+              // { type: '预置位2' },
+              // { label: '4号主变1000Kv侧套管B相接线柱'},
+              // { label: '4号主变1000Kv侧套管BB相接线柱'},
+              // { label: '4号主变1000Kv侧套管BBB相接线柱'},
+              // { label: '4号主变1000Kv侧套管BBBB相接线柱'},
+              // { label: '4号主变1000Kv侧套管BBBBB相接线柱'},
+              // { label: '4号主变1000Kv侧套管BBBBBB相接线柱'},
+              // { label: '4号主变1000Kv侧套管BBBBBBB相接线柱'},
             ]
         }
     },
@@ -66,9 +68,11 @@ export default {
              switch (now){
                case 'Multiple':
                  this.comName = 'el-checkbox'
+                 this.activeTitle = '选择ROI'
                  break;
                case 'Single':
                  this.comName = 'el-radio'
+                 this.activeTitle = '选择预置位'
                  break;
              }
            }
@@ -78,6 +82,12 @@ export default {
        }
     },
     props: {
+        monitorInfo: {
+          type: Object,
+          default: ()=>{
+            return {}
+          }
+        },
         maxSelect: {
           type: [String, Number],
           default: 3
@@ -98,6 +108,9 @@ export default {
         }
     },
     computed: {
+        monitorDeviceId(){
+          return this.monitorInfo.monitorDeviceId?this.monitorInfo.monitorDeviceId:''
+        },
         activeList(){
           return this.selectList.filter(item => {
             return item['active']
@@ -105,6 +118,69 @@ export default {
         }
     },
     methods:{
+      initSelectList(){
+        getAxiosData('/lenovo-plan/api/plan/preset/select', {'monitorDeviceId': this.monitorDeviceId}).then(res=>{
+            let data = res.data
+            /*let data = [
+              {
+                "label": "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试",
+                "value": "2313",
+                "group": null,
+                "selected": "123123"
+              },
+              {
+                "label": "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试",
+                "value": "onAF2Nrrjw",
+                "group": null,
+                "selected": "123123"
+              },
+              {
+                "label": "label12",
+                "value": "onAF2Nrrjw",
+                "group": null,
+                "selected": "123123"
+              },
+              {
+                "label": "label22",
+                "value": "onAF2Nrrjw",
+                "group": null,
+                "selected": "SOMVcnGcVo"
+              }
+            ]*/
+            if(!data.length){
+              this.$emit('on-active', [])
+            }
+            let handleData = this.handleData(data)
+            this.selectList = handleData
+            this.bindEvent()
+            this.resetList()
+            this.setInitActive()
+        })
+      },
+      handleData(data){
+        let arr = {}
+        let outData = []
+        let type = data[0]["group"]
+        this.isSelected = []
+        data.forEach(item => {
+            if(!arr[item['group']]){
+              arr[item['group']] = []
+            }
+            arr[item['group']].push(item)
+        })
+        for(let key in arr){
+            if(type){
+              outData.push({ type: key })
+            }
+            arr[key].forEach(item=>{
+              if(item['selected'] == 1 && item['selected'] == true){
+                this.isSelected.push(item)
+              }
+              outData.push(item)
+            })
+        }
+        return outData
+      },
       setInitActive(){
         let data = this.selectList
         let count = 0
@@ -120,10 +196,42 @@ export default {
           count++
         }
         if(this.comName == 'el-checkbox'){
-          data[activeIndex]['active'] = true
+          if(this.isSelected.length){
+            this.isSelected.forEach(item=>{
+              let findIndex = this.findItem(data, item)
+              if(findIndex != -1){
+                data[findIndex]['active'] = true
+              }
+            })
+          }else{
+            data[activeIndex]['active'] = true
+          }
+          this.$emit('on-active', this.findActive(data, true))
+          console.log(this.findActive(data, true))
         }else{
-          data[activeIndex]['active'] = activeIndex
+          if(this.isSelected.length){
+            let arr = this.isSelected.slice(0, 1)
+            let findIndex = this.findItem(data, arr[0])
+            if(findIndex != -1){
+              data[findIndex]['active'] = findIndex
+              this.$emit('on-active', this.findActive(data, findIndex))
+              console.log(this.findActive(data, findIndex))
+            }
+          }else{
+            data[activeIndex]['active'] = activeIndex
+            this.$emit('on-active', this.findActive(data, activeIndex))
+            console.log(this.findActive(data, activeIndex))
+          }
         }
+      },
+      findActive(arr, symbol){
+        let arrB = []
+        arr.forEach(item=>{
+          if(item['active'] == symbol){
+            arrB.push(item)
+          }
+        })
+        return arrB
       },
       resetList(){
         let data = JSON.parse(JSON.stringify(this.selectList))
@@ -138,16 +246,30 @@ export default {
         this.removeItem(removeItem)
         this.$forceUpdate()
       },
+      findItem(arr, item , fn){
+        let findIndex = -1
+        for(let i=0; i<arr.length; i++){
+          let before = JSON.parse(JSON.stringify(arr[i]))
+          let after = JSON.parse(JSON.stringify(item))
+          delete before.active
+          delete after.active
+          if(JSON.stringify(before) == JSON.stringify(after)){
+            if(fn)
+                fn(i)
+            findIndex = i
+            break
+          }
+        }
+        return findIndex
+      },
       removeItem(removeItem, flag){
         let data = this.activeList
         let findIndex = -1
-        for(let i=0; i<data.length; i++){
-          if(JSON.stringify(data[i]) == JSON.stringify(removeItem)){
-            if(!flag)
-                data[i]['active'] = false
-            findIndex = i
-          }
-        }
+        this.findItem(data, removeItem, function (index) {
+          if(!flag)
+            data[index]['active'] = false
+          findIndex = index
+        })
         !flag?this.nowActive.splice(0, 1):this.nowActive.splice(findIndex, 1)
       },
       chosenItem(index){
@@ -232,11 +354,11 @@ export default {
     beforeDestroy(){
        this.unBindEvent()
     },
+    created(){
+       this.initSelectList()
+    },
     mounted(){
        this.dom = this.$refs.mainContain
-       this.bindEvent()
-       this.resetList()
-       this.setInitActive()
     }
 }
 </script>
@@ -244,6 +366,14 @@ export default {
     .selectChosen{
         .el-checkbox__input.is-checked + .el-checkbox__label, .el-checkbox__label{
             color: white !important;
+            margin-left: 5px;
+            letter-spacing: 1px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            position: relative;
+            top: 5px;
         }
         .el-checkbox__label{
             color: white !important;
@@ -316,6 +446,9 @@ export default {
                     overflow-y: auto;
                     overflow-x: hidden;
                     padding: 0 16px;
+                    & .mainCon{
+                        position: relative;
+                    }
                     &::-webkit-scrollbar {/*滚动条整体样式*/
                         width: 7px;     /*高宽分别对应横竖滚动条的尺寸*/
                         height: 1px;
@@ -333,10 +466,7 @@ export default {
                     }
                     .contain-item{
                         width: 100%;
-                        line-height: 30px;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        overflow: hidden;
+                        line-height: 36px;
                         margin-right: 18px;
                     }
                 }

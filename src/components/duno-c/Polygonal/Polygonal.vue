@@ -2,13 +2,13 @@
   <div class="polygonal" :style="{width:width+'px'}">
     <h4 class="title">{{ title }}</h4>
     <div class="time">
-      <div>
+      <div class="radioChange" v-show="!isFullscreen">
         <el-radio-group v-model="radio" @change="onChangeRadio">
           <el-radio :label="1">今日</el-radio>
           <el-radio :label="2">昨日</el-radio>
         </el-radio-group>
       </div>
-      <div class="block">
+      <div class="block"  v-show="!isFullscreen">
         <el-date-picker
           unlink-panels
           v-model="value"
@@ -19,9 +19,13 @@
           @change="onChangeTime"
         ></el-date-picker>
       </div>
-      <!--<div>-->
-        <!--dsfasdfsdf-->
-      <!--</div>-->
+      <div class="normalPanel" style="position: relative; left: -9px"  v-show="!isFullscreen">
+        <select-chosen  ref="selectChosen" @on-active="onActive" :typeChosen="typeChosen" :monitorInfo="itemData" v-if="itemData && isShow"/>
+      </div>
+    </div>
+    <div class="chartsChange" v-if="chartsList.length"  v-show="!isFullscreen">
+      <label>切换表计</label>
+      <span v-for="(item, index) in chartsList" @click="changeActive(index)" :class="{'active': item['active']}">{{ index+1 }}</span>
     </div>
     <div class="echarts">
       <duno-charts
@@ -42,11 +46,12 @@
 <script>
 import moment from "moment";
 import { getAxiosData } from "@/api/axiosType";
+import selectChosen  from "_c/duno-m/selectChosen";
 import { DunoCharts } from "_c/duno-charts";
 import { constants } from "crypto";
 export default {
   name: "Polygonal",
-  components: { DunoCharts },
+  components: { DunoCharts, selectChosen },
   props: {
     itemData:{
       type: Object,
@@ -58,25 +63,9 @@ export default {
       type: String,
       default: ""
     },
-    legendData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
-    xAxisData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
     xName: {
       type: String,
       default: "(时)"
-    },
-    yName: {
-      type: String,
-      default: ""
     },
     yMax: {
       type: Number,
@@ -89,12 +78,6 @@ export default {
     ySplitNumber: {
       type: Number,
       default: 5
-    },
-    seriesData: {
-      type: Array,
-      default: () => {
-        return [];
-      }
     },
     isChange: {
       type: Boolean,
@@ -122,18 +105,25 @@ export default {
       default: () => {
         return "";
       }
-    },
-    flag: {
-      type: Number
     }
   },
   data() {
     const that = this;
     return {
+      isFullscreen: false,
+      chartsType: '',
+      yName: '',
+      flag: 0,
+      chartsList: [],
+      seriesData: [],
+      legendData: [],
+      xAxisData: [],
+      typeChosen: 'Multiple',
+      isShow: true,
       isChangeFlag: false,
       startTime: "",
       endTime: "",
-      radio: 1,
+      radio: 2,
       value: "",
       datePeriod: "",
       // formatter: null,
@@ -197,6 +187,57 @@ export default {
     };
   },
   methods: {
+    handleData(index, arr ,flag){
+      const that = this
+      let dataList = []
+      if(arr){
+        dataList = arr
+      }else{
+        dataList = this.chartsList
+      }
+      const legendData = []
+      const seriesData = []
+      that.yName = dataList[index].unit
+      that.flag = dataList[index].flag
+      legendData.push(dataList[index].itemName)
+      let elData = dataList[index]['itemDataList']
+      let obj = {
+        name: dataList[index].itemName,
+        type:'line',
+        data: elData
+      }
+      if(dataList[index].flag){
+        obj['step'] = 'start'
+      }
+      seriesData.push(obj)
+      if(that.chartsType == 'Single'){
+        let xAxisData = []
+        for(let i=0; i<elData.length; i++){
+          xAxisData.push(elData[i][0])
+        }
+        that.xAxisData = xAxisData
+      }
+      that.legendData = legendData
+      that.seriesData = seriesData
+      if(!flag)
+        that.isChangeFlag = !that.isChangeFlag
+      return {legendData: legendData, seriesData: seriesData}
+    },
+    changeActive(index){
+      this.chartsList.map(item=>{
+        item['active'] = false
+      })
+      this.chartsList[index]['active'] = true
+      this.handleData(index)
+      this.$forceUpdate()
+    },
+    onActive(data){
+      let arr = []
+      data.forEach(item=>{
+        arr.push(item['value'])
+      })
+      this.$emit('on-charts', arr)
+    },
     allowDrop(ev) {
       ev.preventDefault();
     },
@@ -261,12 +302,13 @@ export default {
         that.$forceUpdate();
         that.isChangeFlag = !that.isChangeFlag;
       } else
-        this.getHistoryData(data["monitorDeviceId"], data["monitorDeviceType"]);
+        this.$message.info('仅可拖拽微型气象站')
+        // this.getHistoryData(data["monitorDeviceId"], data["monitorDeviceType"]);
     },
     getHistoryData(monitorDeviceId, monitorDeviceType) {
       this.isGetData = false;
       const that = this;
-      const url = "/lenovo-plan/api/plan/history";
+      const url = "/lenovo-plan/api/plan/history/new";
       const query = {
         monitorDeviceId: monitorDeviceId,
         monitorDeviceType: monitorDeviceType,
@@ -343,6 +385,21 @@ export default {
     }
   },
   watch: {
+    itemData: {
+      handler(now){
+        let supportPreset = now.deviceMessage.supportPreset
+        let monitorDeviceType = now.monitorDeviceType
+        if(monitorDeviceType == 1 && monitorDeviceType){
+          this.typeChosen = 'Single'
+          this.isShow = false
+        }else if(monitorDeviceType == 2){
+          this.typeChosen = 'Multiple'
+          this.isShow = true
+        }
+      },
+      deep: true,
+      immediate: true
+    },
     radio(now) {
       if (now != null) this.value = "";
     },
@@ -383,7 +440,10 @@ export default {
     },
     flag(now) {
       if (now == 1) {
-        this.yAxisOption['type'] = "category";
+        this.yAxisOption["type"] = "category";
+        this.yAxisOption.splitLine.show = false;
+      }else{
+        this.yAxisOption["type"] = "value";
         this.yAxisOption.splitLine.show = false;
       }
     },
@@ -412,6 +472,9 @@ export default {
   },
   mounted() {
     const that = this;
+    document.addEventListener('fullscreenchange', function(event) {
+      that.isFullscreen = !that.isFullscreen
+    })
     if (this.radio) {
       this.onChangeRadio(this.radio);
     } else if (!this.radio && this.datePeriod) {
@@ -433,6 +496,25 @@ export default {
 <style lang="scss">
 .polygonal {
   height: 100%;
+  .normalPanel{
+    .activeTitle{
+      width: 143px !important;
+    }
+  }
+  .radioChange{
+    .el-radio__input.is-checked .el-radio__inner::after{
+      transform: translate(-50%, -50%) scale(1.3);
+      background: #00fefe;
+    }
+    .el-radio__input.is-checked .el-radio__inner{
+      border-color: #00fefe;
+      background: transparent;
+    }
+    .el-radio__inner{
+      background-color: transparent;
+      border: 1px solid #a4a5a6;
+    }
+  }
   .title {
     margin-bottom: 20px;
     font-size: 22px;

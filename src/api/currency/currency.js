@@ -35,6 +35,15 @@ export const getPlanHistory = (query) => {
     })
 }
 
+
+export const getPlanHistoryN = (query) => {
+  return axios.request({
+    url: '/lenovo-plan/api/plan/history/new',
+    method: 'get',
+    params: { ...query }
+  })
+}
+
 export const deviceLocation = (query) => {
     return axios.request({
         url: '/lenovo-device/api/device/location',

@@ -199,6 +199,15 @@ export default {
       }
       return {imgsInfo: imgsInfo, picFilePath: picFilePath}
     },
+    getMapping(arr, id){
+      let label = ''
+      arr.forEach(item=>{
+        if(item['value'] == id){
+          label = item['label']
+        }
+      })
+      return label
+    },
     handleSubmit() {
       let data = this.handleData()
       if(!this.form.cascaderName){
@@ -216,6 +225,7 @@ export default {
         part: this.part,
         partSub: this.partSub,
         areaId: this.form.areaId,
+        areaName: this.getMapping(this.diviceData, this.form.areaId),
         stationId: this.stationId, //变电站
         picFilePath: JSON.stringify(data.picFilePath),
         imgsInfo: JSON.stringify(data.imgsInfo)

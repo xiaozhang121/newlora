@@ -2,7 +2,7 @@
     <div class="hotcameraPop" >
         <historical-documents :itemId="itemData['monitorDeviceId']" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vRed">
             <hot-camera :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera>
-            <polygonal-backup :itemData="itemData" :yName="yName"  @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
+            <polygonal-backup ref="polygonalRef" :itemData="itemData" :yName="yName" @on-charts="onCharts"   @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth-backup  :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
         </historical-documents>
@@ -36,6 +36,8 @@
         },
         data() {
             return {
+                typeChosen:'Multiple',
+                presetPos: [],
                 yName: '',
                 tabPaneData:[
                     {
@@ -67,7 +69,8 @@
                 legendData: [],
                 xAxisData: [],
                 seriesData: [],
-                isGetData: false
+                isGetData: false,
+                isInit: false
             }
         },
         props: {
@@ -97,18 +100,31 @@
                         this.tabPaneData.splice(this.tabPaneData.length-1,1)
                     }
                     this.disposeData(now)
+                    let supportPreset = now.deviceMessage.supportPreset
+                    let monitorDeviceType = now.monitorDeviceType
+                    if(monitorDeviceType == 1 && monitorDeviceType){
+                      this.typeChosen = 'Single'
+                    }else if(monitorDeviceType == 2){
+                      this.typeChosen = 'Multiple'
+                    }
                 },
                 deep: true,
                 immediate: true
             },
             cameraFlag (now) {
-                if (now == 'fifth' && this.itemData && this.isGetData) this.getHistoryData()
+                // if (now == 'fifth' && this.itemData && this.isGetData) this.getHistoryData()
             },
             isGetData (now) {
                 if (now)  this.getHistoryData()
             }
         },
         methods:{
+            onCharts(now){
+               if (this.cameraFlag == 'fifth'){
+                 this.presetPos = now
+                 this.getHistoryData()
+               }
+            },
             changeCameraShow(now){
                 this.cameraFlag = now
                 if(now == 'fifth'){
@@ -131,49 +147,87 @@
             },
             onChange (data) {
                 const startTime = moment(data[0]).format('YYYY-MM-DD')
-      const endTime = moment(data[1]).format('YYYY-MM-DD')
+                const endTime = moment(data[1]).format('YYYY-MM-DD')
                 this.startTime = JSON.parse(JSON.stringify(startTime))
                 this.endTime = JSON.parse(JSON.stringify(endTime))
-                this.isGetData = true
+                if(this.isInit)
+                    this.isGetData = true
+            },
+            getAxisData(data){
+              let xAxisData = []
+               data.forEach(item=>{
+                 item['itemDataList'].forEach(el =>{
+                   if(xAxisData.indexOf(el[0]) < 0)
+                    xAxisData.push(el[0])
+                 })
+               })
+              xAxisData.sort(function (a, b) {
+                return a < b ? -1 : 1
+              })
+              return xAxisData
             },
             getHistoryData () {
+                this.isInit = true
                 this.isGetData = false
                 const that = this
-                const url = '/lenovo-plan/api/plan/history'
+                const url = '/lenovo-plan/api/plan/history/new'
                 const query = {
                     monitorDeviceId: that.itemId,
                     monitorDeviceType: that.monitorDeviceType,
                     startTime: `${this.startTime} 00:00:00`,
                     endTime: `${this.endTime} 23:59:59`,
+                    recognizeType: this.presetPos.join(',')
                 }
                 getAxiosData(url, query).then( res => {
-                    const dataList = res.data.dataList
-                    that.yName = res.data.unit
-                    const legendData = []
-                    let xAxisData = []
-                    const seriesData = []
-                    for (let i = 0; i < dataList.length; i++) {
-                        legendData.push(dataList[i].itemName)
-                        const itemDataList = dataList[i].itemDataList
-                        let obj = {
-                            name: dataList[i].itemName,
-                            type:'line',
-                            data: []
-                        }
-                        if(res.data.flag){
-                            obj['step'] = 'start'
-                        }
-                        xAxisData = []
-                        for (let item in itemDataList) {
-                            xAxisData.push(itemDataList[item].time)
-                            obj.data.push(Number(itemDataList[item].data))
-                        }
-                        seriesData.push(obj)
+                  const dataList = res.data.dataList
+                  // let dataList = [
+                  //   {
+                  //     itemName: '项目名称（可见光为电网设备名称，热感为roi名称）222222222',
+                  //     itemDataList: [
+                  //       ['2019-01-01', '10'],
+                  //       ['2019-01-02', '20'],
+                  //       ['2019-01-06', '90']
+                  //     ],
+                  //     maxData: 100,
+                  //     minData: 30,
+                  //     unit: '单位',
+                  //     flag: 0
+                  //   },
+                  //   {
+                  //     itemName: '项目名称（可见光为电网设备名称，热感为roi名称）1111111111',
+                  //     itemDataList: [
+                  //       ['2019-01-01', 200],
+                  //       ['2019-01-09', 40],
+                  //       ['2019-01-20', 300]
+                  //     ],
+                  //     maxData: 100,
+                  //     minData: 30,
+                  //     unit: '单位123',
+                  //     flag: 0
+                  //   }
+                  // ]
+                  let xAxisData = that.getAxisData(dataList)
+                  let domData = this.$refs.polygonalRef.$data
+                  let dom = this.$refs.polygonalRef
+                  domData.chartsType = this.typeChosen
+                  if(this.typeChosen == 'Single'){
+                    domData.chartsList = dataList
+                    this.$refs.polygonalRef.changeActive(0)
+                  }else{
+                    this.$refs.polygonalRef.chartsList = []
+                    domData.xAxisData = xAxisData
+                    let legendData = []
+                    let seriesData = []
+                    for(let i=0; i<dataList.length; i++){
+                      let obj = dom.handleData(i, dataList, true)
+                      legendData.push(...obj.legendData)
+                      seriesData.push(...obj.seriesData)
                     }
-                    that.legendData = legendData
-                    that.xAxisData = xAxisData
-                    that.seriesData = seriesData
-                    that.isChange = !that.isChange
+                    domData.legendData = legendData
+                    domData.seriesData = seriesData
+                    domData.isChangeFlag = !domData.isChangeFlag
+                  }
+                  that.loadingOption = false
                 })
             }
         },

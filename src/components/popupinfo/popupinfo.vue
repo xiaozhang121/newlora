@@ -27,6 +27,8 @@
           v-if="activeName == 'fourth'"
         />
         <polygonal
+          ref="polygonalRef"
+          @on-charts="onCharts"
           @onChange="setTime"
           :itemData="itemData"
           :legendData="legendData"
@@ -46,13 +48,15 @@ import moment from "moment";
 import HistoricalDocuments from "_c/duno-c/HistoricalDocuments";
 import realtime from "./components/realtime";
 import Polygonal from "_c/duno-c/Polygonal";
-import { getAlarmHistory, getPlanHistory } from "@/api/currency/currency.js";
+import { getAlarmHistory, getPlanHistory, getPlanHistoryN } from "@/api/currency/currency.js";
 import historicalwarning from "./components/historicalwarning";
 export default {
   name: "popupinfo",
   components: { HistoricalDocuments, realtime, historicalwarning, Polygonal },
   data() {
     return {
+      typeChosen:'Single',
+      presetPos: [],
       yName: "",
       mainTitle: "",
       alarmHistoryData: [],
@@ -79,7 +83,8 @@ export default {
       xAxisData: [],
       seriesData: [],
       flag: null,
-      classifyData: "A"
+      classifyData: "A",
+      isInit: false
     };
   },
   props: {
@@ -122,6 +127,13 @@ export default {
           }else if(now['realMonitorDeviceType']==3){
             this.tabPaneData.splice(this.tabPaneData.length-1,1)
           }
+          let supportPreset = now.deviceMessage.supportPreset
+          let monitorDeviceType = now.monitorDeviceType
+          if(monitorDeviceType == 1 && monitorDeviceType){
+            this.typeChosen = 'Single'
+          }else if(monitorDeviceType == 2){
+            this.typeChosen = 'Multiple'
+          }
         },
         deep: true,
         immediate: true
@@ -149,6 +161,12 @@ export default {
     }
   },
   methods: {
+    onCharts(now){
+      if (this.activeName == 'fifth'){
+        this.presetPos = now
+        this.initData()
+      }
+    },
     clickClassify(data, flag) {
       console.log("当前为：", data, "相");
       this.classifyData = data;
@@ -156,7 +174,7 @@ export default {
     },
     onShow(data) {
       this.activeName = data;
-      this.initData();
+      // this.initData();
     },
     onClose(data) {
       this.$emit("onClose", data, this.index, "popupinfoVisable");
@@ -183,50 +201,85 @@ export default {
         that.alarmHistoryData = res.data.tableData;
       });
     },
+    getAxisData(data){
+      let xAxisData = []
+      data.forEach(item=>{
+        item['itemDataList'].forEach(el =>{
+          if(xAxisData.indexOf(el[0]) < 0)
+            xAxisData.push(el[0])
+        })
+      })
+      xAxisData.sort(function (a, b) {
+        return a < b ? -1 : 1
+      })
+      return xAxisData
+    },
     getFifthData() {
       const that = this;
+      this.isInit = true
       let queryT = {
         [this["deviceType"]]: this.deviceId,
         monitorDeviceType: this.monitorDeviceType,
         startTime: `${this.startTime} 00:00:00`,
-        endTime: `${this.endTime} 23:59:59`
+        endTime: `${this.endTime} 23:59:59`,
+        recognizeType: this.presetPos.join(',')
       };
-      getPlanHistory(queryT).then(res => {
+      getPlanHistoryN(queryT).then(res => {
         const dataList = res.data.dataList;
-        that.yName = res.data.unit;
-        const legendData = [];
-        const xAxisData = [];
-        const seriesData = [];
-        for (let i = 0; i < dataList.length; i++) {
-          legendData.push(dataList[i].itemName);
-          const itemDataList = dataList[i].itemDataList;
-          let obj = {
-            name: dataList[i].itemName,
-            type: "line",
-            data: []
-          };
-          if (res.data.flag) {
-            obj["step"] = "start";
-            that.flag = 1;
+        /*let dataList = [
+          {
+            itemName: '项目名称（可见光为电网设备名称，热感为roi名称）222222222',
+            itemDataList: [
+              ['2019-01-01', '10'],
+              ['2019-01-02', '20'],
+              ['2019-01-06', '90']
+            ],
+            maxData: 100,
+            minData: 30,
+            unit: '单位',
+            flag: 0
+          },
+          {
+            itemName: '项目名称（可见光为电网设备名称，热感为roi名称）1111111111',
+            itemDataList: [
+              ['2019-01-01', 200],
+              ['2019-01-09', 40],
+              ['2019-01-20', 300]
+            ],
+            maxData: 100,
+            minData: 30,
+            unit: '单位123',
+            flag: 0
           }
-          for (let item in itemDataList) {
-            if (i == 0) {
-              xAxisData.push(itemDataList[item].time);
-            }
-            obj.data.push(Number(itemDataList[item].data));
+        ]*/
+        let xAxisData = that.getAxisData(dataList)
+        let domData = this.$refs.polygonalRef.$data
+        let dom = this.$refs.polygonalRef
+        domData.chartsType = this.typeChosen
+        if(this.typeChosen == 'Single'){
+          domData.chartsList = dataList
+          this.$refs.polygonalRef.changeActive(0)
+        }else{
+          this.$refs.polygonalRef.chartsList = []
+          domData.xAxisData = xAxisData
+          let legendData = []
+          let seriesData = []
+          for(let i=0; i<dataList.length; i++){
+            let obj = dom.handleData(i, dataList, true)
+            legendData.push(...obj.legendData)
+            seriesData.push(...obj.seriesData)
           }
-          seriesData.push(obj);
+          domData.legendData = legendData
+          domData.seriesData = seriesData
+          domData.isChangeFlag = !domData.isChangeFlag
         }
-        that.legendData = legendData;
-        that.xAxisData = xAxisData;
-        that.seriesData = seriesData;
-        that.isChange = !that.isChange;
       });
     },
     setTime(target) {
       this.startTime = moment(target[0]).format("YYYY-MM-DD");
       this.endTime = moment(target[1]).format("YYYY-MM-DD");
-      this.initData();
+      if(this.isInit || this.typeChosen == 'Single')
+        this.initData();
     }
   },
   created() {
@@ -258,7 +311,6 @@ export default {
     ) {
       this.isShowClassify = true;
     }
-    this.initData();
   }
 };
 </script>
