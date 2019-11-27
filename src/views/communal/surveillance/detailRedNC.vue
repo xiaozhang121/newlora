@@ -908,16 +908,16 @@ export default {
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.dataForm.typeId = this.$route.query.typeId;
-    this.getMonitorDeviceName();
-    this.initCamera();
-    this.getEchasrts();
-    this.getDataList();
     if (this.dataForm.typeId == 3) {
       this.isPic = true;
       // this.picTurn();
     } else {
       this.isPic = false;
     }
+    this.getMonitorDeviceName();
+    this.initCamera();
+    this.getEchasrts();
+    this.getDataList();
   },
   mounted() {
     const that = this;
