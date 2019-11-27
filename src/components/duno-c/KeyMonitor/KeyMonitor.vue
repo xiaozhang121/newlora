@@ -169,7 +169,7 @@
     props: {
       showType: {},
       powerDeviceId: {},
-      isRobot: {//是否为机器人视频流
+      isRobot: {
         type: Boolean,
         default: () => {
           return false;
@@ -813,10 +813,10 @@
         }).then(res => {
            this.monitorDeviceType = res.data["monitorDeviceType"];
            let type=this.monitorDeviceType;
-           if(this.isRobot||type=='1'||type=='3'||type=='4'||type=='5'||type=='7'){
+           if(this.isRobot||type=='1'||type=='4'||type=='5'||type=='9'){
              this.picCut=true
            }
-           if(type=='1'||type=='3'){
+           if(type=='3'||type=='9'||type=='9'){
              this.videoCut=true
            }
         })
