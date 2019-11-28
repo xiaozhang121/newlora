@@ -154,7 +154,7 @@ export default {
       monitorDeviceId: '',
       lockPress: false,
       addOrEdit: "添加",
-      disabled: false,
+      disabled: true,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-alarm/api/security/list",
         exportURL: "/lenovo-alarm/api/security/history/export"
