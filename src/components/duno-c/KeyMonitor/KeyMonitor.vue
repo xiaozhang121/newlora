@@ -558,6 +558,10 @@
     methods: {
       onPlayerWaiting(player){
         console.log(this.playerOptions["sources"][0]["src"] + '   player waiting')
+        if (this.autoplay && this.$refs.videoPlayer.player) {
+          this.$refs.videoPlayer.player.pause()
+          this.$refs.videoPlayer.player.play()
+        }
         /*  debugger
          */
       },
@@ -984,11 +988,11 @@
       },
       destory(){
         if(this.$refs.videoPlayer && this.$refs.videoPlayer.player){
-          this.$refs.videoPlayer.player.reset()
+          // this.$refs.videoPlayer.player.reset()
           this.$refs.videoPlayer.player.dispose()
         }
         if(this.$refs.videoPlayerD && this.$refs.videoPlayerD.player){
-          this.$refs.videoPlayerD.player.reset()
+          // this.$refs.videoPlayerD.player.reset()
           this.$refs.videoPlayerD.player.dispose()
         }
       },
