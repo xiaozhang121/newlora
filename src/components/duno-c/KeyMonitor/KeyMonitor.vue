@@ -885,7 +885,7 @@
                    }
                });
            }
-           else */if (monitorDeviceType == 1) {
+           else */if (monitorDeviceType == 1  || monitorDeviceType == 5) {
             if (supportPreset) {
               this.$router.push({
                 path: "/surveillancePath/detailLight",
@@ -903,7 +903,7 @@
                 }
               });
             }
-          } else if (monitorDeviceType == 2 || monitorDeviceType==5) {
+          } else if (monitorDeviceType == 2) {
             if (supportPreset) {
               this.$router.push({
                 path: "/surveillancePath/detailRed",
@@ -923,7 +923,7 @@
                 }
               });
             }
-          } else if (monitorDeviceType == 3 || monitorDeviceType==9) {
+          } else if (monitorDeviceType == 3 || monitorDeviceType == 9) {
             this.$router.push({
               path: "/surveillancePath/detailEnv",
               query: {
