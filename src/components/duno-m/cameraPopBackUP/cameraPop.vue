@@ -248,7 +248,10 @@
         .HistoricalDocuments{
             .titleBtn{
                 margin-right: 48px;
-                margin-top: -40px;
+                margin-top: -73px;
+            }
+            .titleSpan{
+                padding-right: 80px;
             }
         }
         .historyfile{

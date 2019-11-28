@@ -17,10 +17,10 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                         <span @click="videotape()">
-                                <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
-                        </span>
-                        <span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>
+                         <!--<span @click="videotape()">-->
+                                <!--<i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像-->
+                        <!--</span>-->
+                        <!--<span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>-->
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -29,19 +29,19 @@
                         调整镜头
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(2, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(3, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(5, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
@@ -70,10 +70,10 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                         <span @click="videotape()">
-                                <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
-                        </span>
-                        <span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>
+                         <!--<span @click="videotape()">-->
+                                <!--<i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像-->
+                        <!--</span>-->
+                        <!--<span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>-->
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -124,10 +124,10 @@
                         <!--<video id="video1" width="400" height="250" controls></video>-->
                     </div>
                     <div class="explain iconList">
-                          <span @click="videotape()">
-                                <i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像
-                        </span>
-                        <span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>
+                          <!--<span @click="videotape()">-->
+                                <!--<i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像-->
+                        <!--</span>-->
+                        <!--<span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>-->
                         <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
                     </div>
                 </div>
@@ -136,19 +136,19 @@
                         调整镜头
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(2, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(3, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(5, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(0, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>

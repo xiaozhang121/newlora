@@ -319,6 +319,9 @@ export default {
   margin-bottom: 10px;
 }
 .popupinfo {
+  .titleSpan{
+    padding-right: 76px;
+  }
   .historicalwarning,
   .realtime,
   .polygonal {

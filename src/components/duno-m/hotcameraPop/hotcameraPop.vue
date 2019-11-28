@@ -248,6 +248,9 @@
             margin-right: 56px;
             margin-top: -39px;
         }
+        .titleSpan{
+            padding-right: 100px;
+        }
     }
 </style>
 

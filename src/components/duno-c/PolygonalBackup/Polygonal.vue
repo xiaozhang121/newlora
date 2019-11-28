@@ -260,6 +260,10 @@ export default {
       const that = this;
       ev.preventDefault();
       let data = JSON.parse(ev.dataTransfer.getData("itemData"));
+      if(data.name != "weatherCheck"){
+        this.$message.info('仅可拖拽微型气象站')
+        return;
+      }
       $(ev.target).append(`<img src="${data.src}" />`);
       if (data.name == "weatherCheck") {
         let timeData = this.xAxisOption.data;
