@@ -1,5 +1,5 @@
 <template>
-  <div class="polygonal" :style="{width:width+'px'}"  ref="polygonal">
+  <div class="polygonal" :style="{width:width+'px'}"  ref="polygonal" :class="{'fullscreen': isFullscreen}">
     <h4 class="title">{{ title }}</h4>
     <div class="time">
       <div class="radioChange" v-show="!isFullscreen">
@@ -494,7 +494,9 @@ export default {
     const that = this;
     document.addEventListener('fullscreenchange', function(event) {
       that.isFullscreen = !that.isFullscreen
-      that.titleP = document.getElementsByClassName('el-tooltip title titleSpan item')[1].innerText
+    })
+    that.$nextTick(()=>{
+      that.titleP = document.getElementsByClassName('el-tooltip title titleSpan item')[0].innerText
     })
     if (this.radio) {
       this.onChangeRadio(this.radio);
@@ -517,6 +519,9 @@ export default {
 <style lang="scss">
 .polygonal {
   height: 100%;
+  &.fullscreen{
+    background: #11222e;
+  }
   .normalPanel{
     .activeTitle{
       width: 143px !important;
