@@ -1,5 +1,5 @@
 <template>
-  <div class="polygonal" :style="{width:width+'px'}">
+  <div class="polygonal" :style="{width:width+'px'}" ref="polygonal">
     <h4 class="title">{{title}}</h4>
     <div class="time">
       <div class="radioChange" v-show="!isFullscreen">
@@ -23,11 +23,15 @@
         <select-chosen ref="selectChosen" @on-active="onActive" :typeChosen="typeChosen" :monitorInfo="itemData" v-if="itemData"/>
       </div>
     </div>
-    <div class="chartsChange" v-if="chartsList.length" v-show="!isFullscreen">
+    <div class="chartsChange" v-if="chartsList.length && chartsList.length != 1" v-show="!isFullscreen">
       <label>切换表计</label>
       <span v-for="(item, index) in chartsList" @click="changeActive(index)" :class="{'active': item['active']}">{{ index+1 }}</span>
     </div>
     <div class="echarts">
+      <div class="title-fullScreen" v-show="isFullscreen">
+        {{ fullTitle }}
+        <span @click="clickMagnify($refs.contentMagnify)"><i class="iconfont icon-suoxiao"></i></span>
+      </div>
       <duno-charts
         :isChange="isChangeFlag"
         :isItemEchart="isItemEchart"
@@ -37,7 +41,7 @@
         :seriesOption="seriesOption"
       />
     </div>
-    <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)">
+    <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)" v-show="!isFullscreen">
       <span>你可拖拽设备图标至此处进行对比</span>
     </p>
   </div>
@@ -47,6 +51,7 @@
 import moment from "moment";
 import { getAxiosData } from "@/api/axiosType";
 import { DunoCharts } from "_c/duno-charts";
+import screenfull from "screenfull"
 import selectChosen  from "_c/duno-m/selectChosen";
 import { constants } from "crypto";
 export default {
@@ -110,6 +115,7 @@ export default {
   data() {
     const that = this;
     return {
+      titleP: '',
       isFullscreen: false,
       chartsType: '',
       yName: '',
@@ -184,7 +190,18 @@ export default {
       seriesOption: []
     };
   },
+  computed: {
+    fullTitle(){
+      let arr = this.value
+      let startTime = moment(arr[0]).format("YYYY-MM-DD");
+      let endTime = moment(arr[1]).format("YYYY-MM-DD");
+      return `${this.titleP} (${startTime}-${endTime})`
+    }
+  },
   methods: {
+    clickMagnify(){
+      screenfull.toggle(this.$refs.polygonal);
+    },
     handleData(index, arr ,flag){
       const that = this
       let dataList = []
@@ -335,6 +352,7 @@ export default {
       arr.push(date, date);
       const startTime = moment(arr[0]).format("YYYY-MM-DD");
       const endTime = moment(arr[1]).format("YYYY-MM-DD");
+      this.value = arr
       this.startTime = JSON.parse(JSON.stringify(startTime));
       this.endTime = JSON.parse(JSON.stringify(endTime));
       $("#moveTarget")
@@ -462,6 +480,7 @@ export default {
     const that = this;
     document.addEventListener('fullscreenchange', function(event) {
       that.isFullscreen = !that.isFullscreen
+      that.titleP = document.getElementsByClassName('el-tooltip title titleSpan item')[1].innerText
     })
     if (this.radio) {
       this.onChangeRadio(this.radio);
@@ -510,6 +529,18 @@ export default {
     .el-radio__inner{
       background-color: transparent;
       border: 1px solid #a4a5a6;
+    }
+  }
+  .title-fullScreen{
+    text-align: center;
+    font-size: 20px;
+    position: relative;
+    top: -24px;
+    .iconfont{
+      cursor: pointer;
+      font-size: 20px;
+      position: absolute;
+      right: 46px;
     }
   }
   .title {

@@ -60,7 +60,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <div class="chartsChange" v-if="chartsList.length" v-show="!isFullscreen">
+              <div class="chartsChange" v-if="chartsList.length && chartsList.length != 1" v-show="!isFullscreen">
                 <label>切换表计</label>
                 <span v-for="(item, index) in chartsList" @click="changeActive(index)" :class="{'active': item['active']}">{{ index+1 }}</span>
               </div>
