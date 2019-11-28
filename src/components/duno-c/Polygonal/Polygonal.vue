@@ -145,6 +145,7 @@ export default {
         name: "(时)",
         axisLine: {
           show: true, //x轴的线
+          onZero: false,
           lineStyle: {
             color: ["#999"]
           }
