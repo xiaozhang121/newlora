@@ -6,6 +6,9 @@
     <div class="top not-print">
       <div>{{ title }}</div>
       <div class="btn">
+        <div class="arPic" @click="routerTo">
+          <img :src="arPic" @mouseenter="changePic" @mouseleave="changePic" title="AR眼镜上传图片待导入"/>
+        </div>
         <div>
           <duno-btn-top
             @on-select="onSelectType"
@@ -87,6 +90,8 @@ export default {
   data() {
     const that = this;
     return {
+      arPic: require('@/assets/AR/arPic.png'),
+      arPicHover: require('@/assets/AR/arPicHover.png'),
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-sample/api/sample/system/list"
@@ -206,6 +211,19 @@ export default {
   mounted() {},
   created() {},
   methods: {
+    routerTo(){
+      this.$router.push({path: 'arList'})
+    },
+    changePic(e){
+      let dom = e.target
+      if(dom.srcType){
+        dom.src = this.arPic
+        dom.srcType = 0
+      }else{
+        dom.src = this.arPicHover
+        dom.srcType = 1
+      }
+    },
     openImport() {
       this.visible = true;
       let url = "/lenovo-sample/api/sample/getConfInfo";
@@ -395,6 +413,15 @@ export default {
     .btn {
       display: flex;
       justify-content: space-between;
+      .arPic{
+        img{
+          width: 48px;
+          position: relative;
+          top: -5px;
+          margin-right: 15px;
+          cursor: pointer;
+        }
+      }
       & > div:nth-child(2) {
         margin-left: 10px;
         .dunoBtnTop {

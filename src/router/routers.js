@@ -670,6 +670,17 @@ export default [{
                   },
                   component: () => import('@/views/communal/abnormalInfo/defectLibrary/sampleDetail.vue')
                 },
+              {
+                path: 'arList',
+                name: 'arListG',
+                meta: {
+                  topNav: '1',
+                  title: 'AR眼镜上传图片',
+                  hideInMenu: true,
+                  isDetails: true
+                },
+                component: () => import('@/views/communal/abnormalInfo/AR.vue')
+              },
             ]
         }]
     },
