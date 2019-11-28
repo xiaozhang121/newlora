@@ -332,8 +332,9 @@ export default {
   }
   .HistoricalDocuments {
     .titleBtn {
-      margin-right: 53px;
-      margin-top: -40px;
+      position: absolute;
+      right: 0;
+      top: 63px;
     }
   }
 }

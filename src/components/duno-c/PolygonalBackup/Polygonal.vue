@@ -42,7 +42,7 @@
       />
     </div>
     <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)" v-show="!isFullscreen">
-      <span>你可拖拽设备图标至此处进行对比</span>
+      <span>你可拖拽微型气象站至此处进行对比</span>
     </p>
   </div>
 </template>

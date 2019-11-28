@@ -42,7 +42,7 @@
       />
     </div>
     <p class="move moveTarget" id="moveTarget" @drop="drop($event)" @dragover="allowDrop($event)" v-show="!isFullscreen">
-      <span>你可拖拽设备图标至此处进行对比</span>
+      <span>你可拖拽微型气象站至此处进行对比</span>
     </p>
   </div>
 </template>
@@ -409,11 +409,11 @@ export default {
         let monitorDeviceType = now.monitorDeviceType
         if(monitorDeviceType == 1 || monitorDeviceType == 5 || monitorDeviceType == 3){
           this.typeChosen = 'Single'
+          this.isShow = false
         }else if(monitorDeviceType == 2){
           this.typeChosen = 'Multiple'
           this.isShow = true
-        }
-        if(monitorDeviceType == 1){
+        }else{
           this.isShow = false
         }
       },
