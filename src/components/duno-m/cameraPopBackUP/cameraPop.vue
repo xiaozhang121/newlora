@@ -185,7 +185,7 @@
                     monitorDeviceType: that.monitorDeviceType,
                     startTime: `${this.startTime}`,
                     endTime: `${this.endTime}`,
-                    recognizeType: this.presetPos.join(',')
+                    presetId: this.presetPos.join(',')
                 }
                 getAxiosData(url, query).then( res => {
                     const dataList = res.data.dataList

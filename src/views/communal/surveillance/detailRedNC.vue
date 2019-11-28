@@ -826,7 +826,7 @@ export default {
         deviceType: "2",
         powerDeviceId: this.echartForm.sources,
         monitorDeviceId: this.$route.query.monitorDeviceId,
-        recognizeType: this.recognizeType
+        presetId: this.recognizeType
       };
       getAxiosData("/lenovo-plan/api/plan/history/new", query).then(res => {
         let dataList = res.data.dataList

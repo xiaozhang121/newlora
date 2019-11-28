@@ -791,7 +791,7 @@ export default {
     getEchasrts() {
       const that = this;
       let query = {
-        recognizeType: this.echartForm.getEchasrts,
+        presetId: this.echartForm.getEchasrts,
         startTime: this.echartForm.startTime,
         endTime: this.echartForm.endTime,
         deviceType: "2",
