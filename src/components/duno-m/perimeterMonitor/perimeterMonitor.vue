@@ -25,7 +25,7 @@
               <div class="controBtnContain">
                 <contro-btn
                   :controlAble="controlAble"
-                  url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{flag}/{id}"
+                  url="/lenovo-device/api/monitor/ptz/direction-adjust/{cmd}/{step}/{id}"
                   :disabledOption="disabled"
                   ref="controBtnRef"
                   :deviceId="dataForm.monitorDeviceId"
