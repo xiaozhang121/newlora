@@ -378,7 +378,7 @@ export default {
       handler(now){
         let supportPreset = now.deviceMessage.supportPreset
         let monitorDeviceType = now.monitorDeviceType
-        if(monitorDeviceType == 1 && monitorDeviceType){
+        if(monitorDeviceType == 1 || monitorDeviceType == 5 || monitorDeviceType == 3){
           this.typeChosen = 'Single'
         }else if(monitorDeviceType == 2){
           this.typeChosen = 'Multiple'

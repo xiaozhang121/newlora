@@ -35,7 +35,16 @@
                 class="vjs-custom-skin"
                 :options="playerOptions"
                 :playsinline="true"
-                @play="onPlayerPlay($event)"
+                @loadstart="loadstart"
+                @seeking="seeking"
+                @seeked="seeked"
+                @pause="onPlayerPause"
+                @ended="onPlayerEnded"
+                @loadeddata="onPlayerLoadeddata"
+                @waiting="onPlayerWaiting"
+                @canplay="onPlayerCanplay"
+                @canplaythrough="onPlayerCanplaythrough"
+                @play="onPlayerPlay"
                 @ready="toPlay"
                 @mousedown.native="clickNative"
                 @playing="onPlayerPlaying($event)"
@@ -371,10 +380,10 @@
             this.$nextTick(() => {
               setTimeout(() => {
                 try{
-                if(this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player)
-                  this.$refs.videoPlayer.player.play()
-                this.initVideo()
-                this.loading = false;
+                  if(this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player)
+                    this.$refs.videoPlayer.player.play()
+                  this.initVideo()
+                  this.loading = false;
                 }catch (e) {}
               }, 1500);
             });
@@ -533,45 +542,47 @@
         if(this.kilovolt)
           str+=this.kilovolt+' '
         if(this.patrol){
-            let pat=this.patrol
-            // console.log(this.patrol)
-            // pat=pat.replace(new RegExp(/-/g),'.');
-            pat=pat.replace(/至/,'-');
-            // pat=pat.substring(0,22) + pat.substring(27,pat.length);
-            // pat=pat.substring(0,19) + pat.substring(21,pat.length);
-            // pat=pat.substring(0,pat.length-2);
-            this.patrolMt=pat
-          }
+          let pat=this.patrol
+          // console.log(this.patrol)
+          // pat=pat.replace(new RegExp(/-/g),'.');
+          pat=pat.replace(/至/,'-');
+          // pat=pat.substring(0,22) + pat.substring(27,pat.length);
+          // pat=pat.substring(0,19) + pat.substring(21,pat.length);
+          // pat=pat.substring(0,pat.length-2);
+          this.patrolMt=pat
+        }
         str+='点击查看摄像头详情'
         return str
       }
     },
     methods: {
       onPlayerWaiting(player){
+        console.log(this.playerOptions["sources"][0]["src"] + '   player waiting')
         /*  debugger
          */
       },
       onPlayerPlaying(player) {
         // alert('clear')
-        // console.log('player Playing!', player)
+        console.log(this.playerOptions["sources"][0]["src"] + '   player Playing!')
         clearInterval(this.waitTimer)
         this.waitTimer = null
       },
       onPlayerError(player){
+        console.log(this.playerOptions["sources"][0]["src"] +'   player error')
         clearInterval(this.waitTimer)
         this.waitTimer = null
         // this.$refs.videoPlayer.player.load()
       },
       toPlay(){
         try {
-          console.log('ready')
+          console.log(this.playerOptions["sources"][0]["src"] + '   player ready')
           if (this.autoplay && this.$refs.videoPlayer.player){
             this.$refs.videoPlayer.player.pause()
             this.$refs.videoPlayer.player.play()
           }
         }catch(e){}
         try {
-          console.log('ready')
+          // console.log('ready')
           this.$nextTick(()=>{
             if (this.autoplay && this.$refs.videoPlayer.player){
               this.$refs.videoPlayer.player.play()
@@ -754,10 +765,33 @@
         })
       },
       onPlayerPlay(player) {
+        console.log(this.playerOptions["sources"][0]["src"] +'   player play')
         //   alert("play");
       },
       onPlayerPause(player) {
+        console.log(this.playerOptions["sources"][0]["src"] +'   player pause')
         //   alert("pause");
+      },
+      onPlayerEnded(){
+        console.log(this.playerOptions["sources"][0]["src"] +'   player ended')
+      },
+      loadstart(){
+        console.log(this.playerOptions["sources"][0]["src"] +'   player loadstart')
+      },
+      seeking(){
+        console.log(this.playerOptions["sources"][0]["src"] +'   player seeking')
+      },
+      seeked(){
+        console.log(this.playerOptions["sources"][0]["src"] +'   player seeked')
+      },
+      onPlayerLoadeddata(){
+        console.log(this.playerOptions["sources"][0]["src"] +'   player loadeddata')
+      },
+      onPlayerCanplay(){
+        console.log(this.playerOptions["sources"][0]["src"] + '   player canplay')
+      },
+      onPlayerCanplaythrough(){
+        console.log(this.playerOptions["sources"][0]["src"] + '   player canplaythrough')
       },
       onPushReal(index) {
         const that = this;
@@ -811,14 +845,14 @@
         getAxiosData("/lenovo-device/api/preset/type", {
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
         }).then(res => {
-           this.monitorDeviceType = res.data["monitorDeviceType"];
-           let type=this.monitorDeviceType;
-           if(this.isRobot||type=='1'||type=='4'||type=='5'||type=='9'){
-             this.picCut=true
-           }
-           if(type=='3'||type=='9'||type=='9'){
-             this.videoCut=true
-           }
+          this.monitorDeviceType = res.data["monitorDeviceType"];
+          let type=this.monitorDeviceType;
+          if(this.isRobot||type=='1'||type=='4'||type=='5'||type=='9'){
+            this.picCut=true
+          }
+          if(type=='3'||type=='9'||type=='9'){
+            this.videoCut=true
+          }
         })
       },
       getJump() {
@@ -1157,8 +1191,8 @@
     }
     .vjsLive:hover{
       .vjs-control-bar {
-          display: flex!important;
-        }
+        display: flex!important;
+      }
     }
     .camera {
       width: 100%;
