@@ -707,6 +707,7 @@
                 this.$emit('on-close')
             },
             viewCamera(command, flag){
+              if(!flag)
                 this.activeNum = command
                 let cmd = Number(command)
                 let value = 20

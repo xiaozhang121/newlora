@@ -29,19 +29,19 @@
                         调整镜头
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(2, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(3, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(0, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(0, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(5, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(0, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(0, true)"></div>
                     </div>
                     <div class="control_slider">
                         <i class="iconfont icon-suoxiao1"></i>
@@ -136,19 +136,19 @@
                         调整镜头
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(1, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(2, true)"></div>
-                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(3, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 1 && activeStyle}" :style="'background:url('+ xjBtn +');'" @mousedown="viewCamera(1, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 2 && activeStyle}" :style="'background:url('+ squera +'); transform: rotate(90deg);'" @mousedown="viewCamera(2, false)"  @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 3 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(90deg);'" @mousedown="viewCamera(3, false)"   @mouseup="viewCamera(0, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(4, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 4 && activeStyle}" :style="'background:url('+ squera +')'"  @mousedown="viewCamera(4, false)" @mouseup="viewCamera(0, true)"></div>
                         <div class="btn" style="visibility: hidden"></div>
-                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(5, true)"></div>
+                        <div class="btn"  :class="{'actived':activeNum == 5 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(180deg);position: relative;'" @mousedown="viewCamera(5, false)" @mouseup="viewCamera(0, true)"></div>
                     </div>
                     <div class="row">
-                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(6, true)"></div>
-                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(7, true)"></div>
-                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(8, true)"></div>
+                        <div class="btn"  :class="{'active':activeNum == 6 && activeStyle}" :style="'background:url('+ xjBtn +'); transform: rotate(270deg);'" @mousedown="viewCamera(6, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'actived':activeNum == 7 && activeStyle}" :style="'background:url('+ squera +');transform: rotate(270deg);'" @mousedown="viewCamera(7, false)" @mouseup="viewCamera(0, true)"></div>
+                        <div class="btn" :class="{'active':activeNum == 8 && activeStyle}"  :style="'background:url('+ xjBtn +'); transform: rotate(180deg);'" @mousedown="viewCamera(8, false)" @mouseup="viewCamera(0, true)"></div>
                     </div>
                     <div class="control_slider" style="bottom: -32px">
                         <i class="iconfont icon-suoxiao1"></i>
@@ -922,7 +922,8 @@
                 // if(flag){
                 //   command = 0
                 // }
-                this.activeNum = command
+                if(!flag)
+                    this.activeNum = command
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
                     .replace("{step}", 8);
                 return new Promise((resolve, reject)=>{
