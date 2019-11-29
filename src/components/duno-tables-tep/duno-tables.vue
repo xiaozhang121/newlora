@@ -18,6 +18,7 @@
             :no-data-text='noDataText'
             @on-select="onSelect"
             @on-select-cancel="onSelectCancel"
+            @on-select-all-cancel="onSelectCancelAll"
             @on-select-all="onSelectAll"
             @on-selection-change="onSelectionChange"
             @on-row-click="onRowClick"
@@ -199,6 +200,9 @@
             }
         },
         methods: {
+            onSelectCancelAll(selection){
+              this.$emit('on-select-all-cancel', selection)
+            },
             handleColumns (columns) {
                 this.insideColumns = columns.map((item, index) => {
                     let res = item

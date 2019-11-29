@@ -5,11 +5,17 @@
     </div>
     <div class="top not-print">
       <div class="title">AR眼镜上传图片</div>
-      <div class="btn">
-         <div>
-          <div @click="clickExcel">
-            <i class="iconfont icon-daochu1"></i>
-            导出表格
+      <div class="btnList">
+         <div class="btn">
+          <div @click="clickAlter">
+            <i class="iconfont icon-xiugai"></i>
+            批量修改
+          </div>
+        </div>
+        <div class="btn">
+          <div @click="clickInput">
+            <i class="iconfont icon-daoru"></i>
+            批量导入
           </div>
         </div>
       </div>
@@ -21,20 +27,26 @@
         :data="dataList"
         :totalNum="totalNum"
         :pageSize="pageRows"
+        :rowClassName="rowClassName"
         :current="pageIndex"
         :border="true"
         :showSizer="true"
         :isShowPage="mixinViewModuleOptions.isShowPage"
-        @on-select="dataListSelectionChangeHandle"
+        @on-select="onSelect"
         @clickPage="pageCurrentChangeHandle"
+        @on-select-all="handleSelectAll(true)"
+        @on-select-all-cancel="handleSelectAll(false)"
+        @on-select-cancel="selectCancel"
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
+    <ar-panel :title="panelTitle" :params="params" :visible="panelVisible"  @on-close="onClose"/>
   </div>
 </template>
 
 <script>
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
+import buttonCustom from "_c/duno-m/buttonCustom"
 import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -43,19 +55,26 @@ import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
 import screenfull from "screenfull";
+import ArPanel from "../../../components/duno-m/arPanel/arPanel";
 export default {
   name: "abnormalInfo",
   mixins: [mixinViewModule],
   components: {
+    ArPanel,
     dunoBtnTop,
     KeyMonitor,
     dunoMain,
     DunoTablesTep,
     Breadcrumb,
+    buttonCustom
   },
   data() {
     const that = this;
     return {
+      loading: null,
+      params: {},
+      panelTitle: '',
+      panelVisible: false,
       handleNotes: [],
       alarmType: "",
       mixinViewModuleOptions: {
@@ -82,335 +101,67 @@ export default {
       value: "",
       columns: [
         {
-          title: "时间",
-          key: "alarmTime",
+          title: "全选",
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
+        {
+          title: "序号",
+          key: "_keyIndex",
+          align: "center"
+        },
+        {
+          title: "上传日期",
+          key: "time",
+          minWidth: 120,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "设备组件",
+          key: "deviceCom",
           minWidth: 120,
           align: "center",
           tooltip: true,
-          render: (h, params) => {
-            let timeDay = params.row.alarmTime.slice(5);
-            return h("div", [
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: timeDay,
-                    transfer: true,
-                    maxWidth: "200"
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      style: {
-                        display: "inline-block",
-                        width: "100px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"
-                      }
-                    },
-                    timeDay
-                  )
-                ]
-              )
-            ]);
-          }
         },
         {
-          title: "报警对象",
-          key: "mainDevice",
-          minWidth: 120,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "div",
-                params.row.mainDevice == null ? "/" : params.row.mainDevice
-              )
-            ]);
-            return h("div", newArr);
-          }
-        },
-        {
-          title: "报警部位",
-          key: "powerDeviceName",
-          minWidth: 120,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: params.row.powerDeviceName,
-                    transfer: true,
-                    maxWidth: "200"
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      style: {
-                        display: "inline-block",
-                        width: "100px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"
-                      }
-                    },
-                    params.row.powerDeviceName == null
-                      ? "/"
-                      : params.row.powerDeviceName
-                  )
-                ]
-              )
-
-              // h(
-              //   "div",
-              //   params.row.powerDeviceName == null
-              //     ? "/"
-              //     : params.row.powerDeviceName
-              // )
-            ]);
-            return h("div", newArr);
-          }
-        },
-        {
-          title: "区域",
+          title: "电压区域",
           key: "areaName",
           minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
-          title: "描述",
+          title: "被监测设备",
           key: "alarmContent",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
-          title: "缺陷等级",
-          key: "alarmLevelName",
-          minWidth: 120,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push(
-              h(
-                "i-dropdown",
-                {
-                  props: { trigger: "click", placement: "bottom-start" },
-                  style: { marginLeft: "5px" },
-                  on: {
-                    "on-click": value => {
-                      console.log(value);
-                    }
-                  }
-                },
-                [
-                  h("div", { class: { member_operate_div: true } }, [
-                    h(
-                      "div",
-                      {
-                        class: {
-                          table_select: true,
-                          serious: params.row.alarmLevel === "2",
-                          commonly: params.row.alarmLevel === "1",
-                          danger: params.row.alarmLevel === "3"
-                        }
-                      },
-                      [
-                        h("span", this.cutOut(params.row.alarmLevelName), {
-                          class: { member_operate_div: true }
-                        }),
-                        h("i", {
-                          style: { marginLeft: "5px" },
-                          class: { "iconfont icon-xiala": true }
-                        })
-                      ]
-                    )
-                  ]),
-                  h("i-dropdownMenu", { slot: "list" }, [
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "一般", "1");
-                            }
-                          }
-                        },
-                        "一般"
-                      )
-                    ]),
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "严重", "2");
-                            }
-                          }
-                        },
-                        "严重"
-                      )
-                    ]),
-                    h("i-dropdownItem", {}, [
-                      h(
-                        "div",
-                        {
-                          class: { alarmLevel: true },
-                          on: {
-                            click: () => {
-                              that.onClickDropdown(params.row, "危急", "3");
-                            }
-                          }
-                        },
-                        "危急"
-                      )
-                    ])
-                  ])
-                ]
-              )
-            );
-            return h("div", newArr);
-          }
-        },
-        {
-          title: "来源",
-          key: "monitorDeviceName",
-          minWidth: 150,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    maxWidth: "200",
-                    content: params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source,
-                    transfer: true
-                  },
-                  style: {
-                    // display: "inline-block",
-                    // width: "100%",
-                    // overflow: "hidden",
-                    // textOverflow: "ellipsis",
-                    // whiteSpace: "nowrap"
-                  }
-                },
-                [
-                  h(
-                    "a",
-                    {
-                      class: "table_link",
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          this.getJump(params.row);
-                        }
-                      }
-                    },
-                    params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source
-                  )
-                ]
-              )
-            ]);
-            return h("div", { class: { member_operate_div: true } }, newArr);
-          }
-        },
-        {
-          title: "视频/图片",
-          key: "id",
-          minWidth: 120,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            if (params.row.fileType == "1") {
-              newArr.push([
-                h("img", {
-                  class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
-                  draggable: false,
-                  on: {
-                    click: () => {
-                      that.isEnlarge = true;
-                      that.srcData = params.row;
-                      that.$forceUpdate();
-                    }
-                  }
-                })
-              ]);
-            } else if (params.row.fileType == "2") {
-              newArr.push([
-                h("video", {
-                  class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
-                  draggable: false,
-                  on: {
-                    click: () => {
-                      that.isEnlarge = true;
-                      that.srcData = params.row;
-                      that.$forceUpdate();
-                    }
-                  }
-                })
-              ]);
-            }
-            return h("div", newArr);
-          }
-        },
-        // {
-        //   title: "处理记录",
-        //   key: "dealRecord",
-        //   width: 120,
-        //   align: "center",
-        //   tooltip: true
-        // },
-        {
           title: " ",
           key: "id",
-          width: 200,
+          minWidth: 80,
           align: "center",
           render: (h, params) => {
             let newArr = [];
             newArr.push([
               h(
-                "el-button",
-                {
-                  class: ["btnClass", { grey: params.row.isReturn == "1" }],
-                  props: { disabled: params.row.isReturn == "1" },
-                  style: { marginRight: "20px" },
-                  on: {
-                    click: () => {
-                      that.restoration(params.row, params.row.isReturn);
+                  "el-button",
+                  {
+                    class: "table_link",
+                    style: { marginRight: "20px" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        this.panelVisible = true
+                        this.panelTitle = '修改图片'
+                        this.params = params.row
+                      }
                     }
-                  }
-                },
-                params.row.isReturn == "0" ? "复归" : "已复归"
+                  },
+                  "修改"
               )
             ]);
             newArr.push([
@@ -422,20 +173,11 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      that.handleNotes = [];
-                      that.handleNotes.push({
-                        dealTime: params.row.dealTime,
-                        dealType: params.row.dealRecord
-                      });
-                      that.alarmType = params.row.alarmType;
-                      that.popData = params.row;
-                      that.alarmLevel = params.row.alarmLevel;
-                      that.visible = true;
-                      that.$forceUpdate();
+
                     }
                   }
                 },
-                "详情"
+                "导入主库"
               )
             ]);
             return h(
@@ -453,21 +195,135 @@ export default {
       statusList: [],
       popData: {},
       clcikQueryData: {},
-      alarmLevel: ""
+      alarmLevel: "",
+      rowList: []
     };
   },
   created() {
 
   },
+  mounted(){
+    this.addText()
+  },
   methods: {
-
+    onLoading(){
+       this.loading = this.$loading({
+        customClass: "loadingCustom",
+        target: "el-loading-spinner",
+        lock: true,
+        text: '请稍后, 正在导入中...',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+       setTimeout(()=>{
+         this.closeLoading()
+       },3000)
+    },
+    closeLoading(){
+      this.loading.close()
+    },
+    onClose(){
+      this.panelVisible = false
+    },
+    addText(){
+      this.$nextTick(()=>{
+        let node = document.createElement("div")
+        node.className = 'labelNContain'
+        node.innerHTML = "<label class='labelName'>全选</label>"
+        document.querySelector('.ivu-table-cell-with-selection').append(node)
+      })
+    },
+    onSelect(selection, row){
+      this.selectCancel(selection, row, true)
+    },
+    rowClassName (row, index) {
+      if(this.rowList.indexOf(row._keyIndex) > -1){
+        return '_highlight'
+      }
+      return '';
+    },
+    getSelected(){
+      let data = this.dataList
+      let arr = data.filter(item=>{
+        return item['_checked']
+      })
+      return arr
+    },
+    selectCancel(selection, row, flag = false){
+      let data = this.dataList
+      for(let i=0; i<data.length; i++){
+        if(JSON.stringify(data[i]) == JSON.stringify(row)){
+          data[i]['_checked'] = flag
+        }
+      }
+      this.setActiveClass(data)
+    },
+    setActiveClass(data){
+      let chosenArr = this.groupArrData(data, '_keyIndex')
+      this.rowList = chosenArr
+    },
+    handleSelectAll(flag){
+      let data = this.dataList
+      data.map(item=>{
+        item['_checked'] = flag
+      })
+      this.setActiveClass(data)
+    },
+    groupArrData(data, key){
+      let arr = []
+      data.forEach(item=>{
+        if(item['_checked'])
+          arr.push(item[key])
+      })
+      return arr
+    },
+    clickAlter(){
+      let arr = this.getSelected()
+      console.log(arr)
+      let data = this.groupArrData(arr, 'initRowIndex')
+      this.panelTitle = '批量修改图片'
+      if(!data.length){
+        this.$message.info('请先勾选图片，再进行批量处理！')
+        return
+      }
+      this.panelVisible = true
+    },
+    clickInput(){
+      let arr = this.getSelected()
+      console.log(arr)
+      let data = this.groupArrData(arr, 'initRowIndex')
+      if(!data.length){
+        this.$message.info('请先勾选图片，再进行批量导入！')
+        return
+      }
+      this.onLoading()
+    }
   }
 };
 </script>
-
+<style lang="scss">
+.loadingCustom{
+  .el-loading-text{
+    font-size: 18px !important;
+    color: white !important;
+    margin-top: 34px;
+  }
+}
+</style>
 <style lang="scss">
 @import "@/style/tableStyle.scss";
 .ARList {
+  .el-checkbox__label{
+    color: white !important;
+    margin-left: 5px;
+    letter-spacing: 1px;
+  }
+  .ivu-checkbox-checked .ivu-checkbox-inner{
+    border-color: white;
+    background-color: white;
+  }
+  .ivu-checkbox-checked .ivu-checkbox-inner:after{
+    border-color: #007684;
+  }
   .el-select-dropdown {
     background: linear-gradient(
       210deg,
@@ -528,6 +384,7 @@ export default {
   //-------------------表格样式
   .dunoMain {
     height: inherit;
+    margin-bottom: 20px;
   }
   .ivu-table th {
     color: #fff;
@@ -594,7 +451,7 @@ export default {
     }
     tr:nth-child(odd) {
       td {
-        background: rgba(0, 0, 0, 0) !important;
+        background: rgba(0, 0, 0, 0);
       }
     }
     tr:nth-child(even) {
@@ -682,9 +539,17 @@ export default {
       font-size: 20px;
       line-height: 40px;
     }
-    .btn {
+    .btnList {
       display: flex;
       justify-content: space-between;
+      width: 244px;
+      .btn{
+        background: linear-gradient(185deg, rgba(48, 107, 135, 0.6), rgba(28, 50, 64, 0.9) 42%);
+        border: 2px solid #606465;
+        line-height: 35px;
+        padding: 0 14px;
+        cursor: pointer;
+      }
     }
   }
   .icon-xiala {
@@ -696,6 +561,17 @@ export default {
       font-size: 9px;
       position: absolute;
     }
+  }
+  ._highlight{
+    .ivu-table-column-center{
+      background: #03404d !important;
+    }
+  }
+  .labelNContain{
+    position: absolute;
+    left: 52px;
+    top: 19px;
+    font-size: 17px;
   }
 }
 .setting {
