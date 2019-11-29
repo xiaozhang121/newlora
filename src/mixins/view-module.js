@@ -105,7 +105,11 @@ export default {
           that.totalNum = 0
           return that.$message.error(res.msg)
         }
-        that.dataList = res.data.details || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
+        let data = res.data.details || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
+        data.map((item, index)=>{
+          item['_keyIndex'] = index + 1
+        })
+        that.dataList = data
         if('details' in res.data && res.data['details'] == null){
             that.dataList = []
             that.$forceUpdate()

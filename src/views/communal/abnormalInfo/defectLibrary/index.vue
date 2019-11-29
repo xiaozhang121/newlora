@@ -6,7 +6,7 @@
     <div class="top not-print">
       <div>{{ title }}</div>
       <div class="btn">
-        <div class="arPic" @click="routerTo">
+        <div class="arPic" @click="routerTo" v-if="arPicVisible">
           <img :src="arPic" @mouseenter="changePic" @mouseleave="changePic" title="AR眼镜上传图片待导入"/>
         </div>
         <div>
@@ -90,6 +90,7 @@ export default {
   data() {
     const that = this;
     return {
+      arPicVisible: false,
       arPic: require('@/assets/AR/arPic.png'),
       arPicHover: require('@/assets/AR/arPicHover.png'),
       mixinViewModuleOptions: {
@@ -209,8 +210,16 @@ export default {
     };
   },
   mounted() {},
-  created() {},
+  created() {
+    this.getARLength()
+  },
   methods: {
+    getARLength(){
+      getAxiosData('/lenovo-sample/api/sample/ar/list', {pageIndex: 1, pageRows: 20}).then(res=>{
+        let data = res.data.tableData
+        data.length?this.arPicVisible = true:this.arPicVisible = false
+      })
+    },
     routerTo(){
       this.$router.push({path: 'arList'})
     },

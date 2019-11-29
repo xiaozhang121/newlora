@@ -40,7 +40,7 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
-    <ar-panel :title="panelTitle" :params="params" :visible="panelVisible"  @on-close="onClose"/>
+    <ar-panel :title="panelTitle" :params="params"  :visible="panelVisible" @on-submit="onSubmit"  @on-close="onClose"/>
   </div>
 </template>
 
@@ -71,6 +71,7 @@ export default {
   data() {
     const that = this;
     return {
+      idS: [],
       loading: null,
       params: {},
       panelTitle: '',
@@ -79,7 +80,7 @@ export default {
       alarmType: "",
       mixinViewModuleOptions: {
         activatedIsNeed: true,
-        getDataListURL: "/lenovo-alarm/api/alarm/history",
+        getDataListURL: "/lenovo-sample/api/sample/ar/list",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
       dataBread: [
@@ -113,17 +114,39 @@ export default {
         },
         {
           title: "上传日期",
-          key: "time",
+          key: "createTime",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "设备组件",
-          key: "deviceCom",
+          key: "mainDevice",
           minWidth: 120,
           align: "center",
           tooltip: true,
+          render: (h, params) => {
+            return h("div", [
+              h(
+                  "Tooltip",
+                  {
+                    props: {
+                      placement: "top",
+                      content: params.row.mainDevice + "/" + params.row.part+ "/" + params.row.partSub,
+                      transfer: true
+                    },
+                    style: {
+                      display: "inline-block",
+                      width: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap"
+                    }
+                  },
+                  params.row.mainDevice + "/" + params.row.part+ "/" + params.row.partSub
+              )
+            ]);
+          }
         },
         {
           title: "电压区域",
@@ -134,7 +157,7 @@ export default {
         },
         {
           title: "被监测设备",
-          key: "alarmContent",
+          key: "powerDeviceName",
           minWidth: 120,
           align: "center",
           tooltip: true
@@ -173,7 +196,7 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-
+                      this.clickInput(params.row.id)
                     }
                   }
                 },
@@ -206,6 +229,19 @@ export default {
     this.addText()
   },
   methods: {
+    onSubmit(query){
+      if(!query.id){
+        query.id = this.idS.join(',')
+      }
+      postAxiosData('/lenovo-sample/api/sample/ar/edit', query).then(res=>{
+        if(res.code == 200){
+          this.$message.info(res.msg)
+        }else
+          this.$message.error(res.msg)
+        this.onClose()
+        this.getDataList()
+      })
+    },
     onLoading(){
        this.loading = this.$loading({
         customClass: "loadingCustom",
@@ -214,15 +250,14 @@ export default {
         text: '请稍后, 正在导入中...',
         background: 'rgba(0, 0, 0, 0.7)'
       });
-       setTimeout(()=>{
-         this.closeLoading()
-       },3000)
     },
     closeLoading(){
       this.loading.close()
     },
     onClose(){
       this.panelVisible = false
+      this.idS = []
+      this.params = {}
     },
     addText(){
       this.$nextTick(()=>{
@@ -285,17 +320,36 @@ export default {
         this.$message.info('请先勾选图片，再进行批量处理！')
         return
       }
+      this.idS = this.groupArrData(arr, 'id')
       this.panelVisible = true
     },
-    clickInput(){
+    breakF(){
+      this.$message.info('请先勾选图片，再进行批量导入！')
+    },
+    clickInput(id){
       let arr = this.getSelected()
       console.log(arr)
       let data = this.groupArrData(arr, 'initRowIndex')
-      if(!data.length){
-        this.$message.info('请先勾选图片，再进行批量导入！')
+      if(id && typeof(id) == 'object'){
+        if(!data.length){
+          this.breakF()
+          return
+        }
+      }else if(!id){
+        this.breakF()
         return
       }
+      let ids = ''
+      id && typeof(id) != 'object'?ids = id:ids = this.groupArrData(arr, 'id').join(',')
       this.onLoading()
+      getAxiosData('/lenovo-sample/api/sample/ar/storage/import', {id: ids}).then(res=>{
+        if(res.code == 200){
+          this.$message.info(res.msg)
+        }else
+          this.$message.error(res.msg)
+        this.closeLoading()
+        this.getDataList()
+      })
     }
   }
 };
