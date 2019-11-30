@@ -112,6 +112,10 @@ export default {
       titleTypeR: "全部类型",
       typeList: [
         {
+          describeName: "全部类型",
+          monitorType: ""
+        },
+        {
           describeName: "手动导入",
           monitorType: "2"
         },
@@ -122,6 +126,10 @@ export default {
         {
           describeName: "识别结果",
           monitorType: "4"
+        },
+        {
+          describeName: "AR眼镜上传",
+          monitorType: "5"
         }
       ],
       regionList: [],
