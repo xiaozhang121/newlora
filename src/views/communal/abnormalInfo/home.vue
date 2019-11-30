@@ -709,7 +709,8 @@ export default {
     handleReport(item) {
       let planType;
       if (item) {
-        planType = "1";
+        // planType = "1";
+        planType = "9"
       } else {
         planType = "2,3,4,5";
       }
@@ -874,8 +875,8 @@ export default {
       });
     },
     getTableD(){
-      getAxiosData('/lenovo-plan/api/report/template/list').then(res=>{
-        let data = res.data
+      getAxiosData('/lenovo-plan/api/report/template/list', {pageIndex: 1, pageRows: 10}).then(res=>{
+        let data = res.data.tableData
         data.map(item=>{
           item['planName'] = item['label']
           item['pic'] = require('@/assets/images/tablePic.png')

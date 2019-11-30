@@ -37,16 +37,28 @@
       element-loading-text="请稍后，正在加载数据…"
     >
       <div v-if="!loading&&dataList.tableData.length==0" class="noData">暂无数据</div>
-      <div class="task">
+      <div class="task" v-if="planType == 9">
         <ReportTable
           v-for="(item,index) in dataList.tableData"
-          :url="url"
           :key="index"
+          :noRobot="true"
+          :url="url"
+          path="taskReport"
           :reportData="item"
+          :isAllInfo="false"
+        />
+      </div>
+      <div v-else>
+        <ReportTable
+                v-for="(item,index) in dataList.tableData"
+                :url="url"
+                :key="index"
+                :reportData="item"
         />
       </div>
       <el-pagination
         v-if="!loading&&dataList.tableData.length>0"
+        :current-page="pageIndex"
         layout="pager"
         :total="totalRows"
         @current-change="sizeChange"
@@ -94,6 +106,7 @@ export default {
       titleValue: "所有巡检报表",
       value: "",
       dataForm: {},
+      dataUrl: "/lenovo-plan/api/statistics/plan/list",
       inspectionData: []
     };
   },
@@ -111,7 +124,7 @@ export default {
   },
   methods: {
     init() {
-      let url = "/lenovo-plan/api/statistics/plan/list";
+      let url = this.dataUrl;
       let query = {
         pageIndex: this.pageIndex,
         pageRows: 10,
@@ -119,6 +132,12 @@ export default {
         ...this.dataForm
       };
       getAxiosData(url, query).then(res => {
+        if(this.planType == 9){
+          res.data.tableData.map(item=>{
+            item['planName'] = item['label']
+            item['pic'] = require('@/assets/images/tablePic.png')
+          })
+        }
         this.dataList = res.data;
         this.totalRows = Number(res.data.pageParam.totalRows);
         this.loadingOption = false;
@@ -165,6 +184,14 @@ export default {
         });
         this.inspectionData = map;
       });
+    }
+  },
+  created(){
+    if (this.$route.query.planType) {
+      let planType = this.$route.query.planType;
+      if(planType == 9){
+        this.dataUrl = '/lenovo-plan/api/report/template/list'
+      }
     }
   },
   mounted() {
