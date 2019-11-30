@@ -138,7 +138,8 @@ export default {
           this.mainDevice = data.mainDevice
           this.part = data.part
           this.partSub = data.partSub
-          this.form.areaId = data.areaId
+          this.form.cascaderName = [data.mainDevice, data.part, data.partSub]
+          this.form.areaId = data.areaId.toString()
           this.form.areaName = data.areaName
           this.form.powerDeviceName = data.powerDeviceName
         })

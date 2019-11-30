@@ -187,29 +187,31 @@ export default {
                   "修改"
               )
             ]);
-            newArr.push([
-              h(
-                "el-button",
-                {
-                  class: "table_link",
-                  style: { marginRight: "20px" },
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      this.clickInput(params.row.id)
+            if(params.row.isImport != 1){
+              newArr.push([
+                h(
+                  "el-button",
+                  {
+                    class: "table_link",
+                    style: { marginRight: "20px" },
+                    props: { type: "text" },
+                    on: {
+                      click: () => {
+                        this.clickInput(params.row.id)
+                      }
                     }
-                  }
+                  },
+                  "导入主库"
+                )
+              ]);
+              return h(
+                "div",
+                {
+                  class: "flexPos"
                 },
-                "导入主库"
-              )
-            ]);
-            return h(
-              "div",
-              {
-                class: "flexPos"
-              },
-              newArr
-            );
+                newArr
+              );
+            }
           }
         }
       ],
