@@ -132,7 +132,7 @@ export default {
                   {
                     props: {
                       placement: "top",
-                      content: params.row.mainDevice + "/" + params.row.part+ "/" + params.row.partSub,
+                      content: params.row.monitorDeviceName,
                       transfer: true
                     },
                     style: {
@@ -143,7 +143,7 @@ export default {
                       whiteSpace: "nowrap"
                     }
                   },
-                  params.row.mainDevice + "/" + params.row.part+ "/" + params.row.partSub
+                  params.row.monitorDeviceName
               )
             ]);
           }
@@ -342,7 +342,7 @@ export default {
       let ids = ''
       id && typeof(id) != 'object'?ids = id:ids = this.groupArrData(arr, 'id').join(',')
       this.onLoading()
-      getAxiosData('/lenovo-sample/api/sample/ar/storage/import', {id: ids}).then(res=>{
+      postAxiosData('/lenovo-sample/api/sample/ar/storage/import', {id: ids}).then(res=>{
         if(res.code == 200){
           this.$message.info(res.msg)
         }else

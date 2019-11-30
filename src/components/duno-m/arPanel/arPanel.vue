@@ -191,6 +191,7 @@ export default {
         });
       },
       handleClose(){
+        this.visibleOption = false
         this.$emit('on-close')
       },
       handleSubmit(){
