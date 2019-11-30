@@ -205,14 +205,14 @@ export default {
                   "导入主库"
                 )
               ]);
+              return h(
+                  "div",
+                  {
+                    class: "flexPos"
+                  },
+                  newArr
+              );
             }
-            return h(
-                "div",
-                {
-                  class: "flexPos"
-                },
-                newArr
-            );
           }
         }
       ],
