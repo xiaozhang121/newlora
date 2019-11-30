@@ -22,7 +22,8 @@ export default {
         toEditURL: '', //  编辑回显接口
         editURL: '', //  编辑接口
         deptURL: '', //  部门结构
-        isDept: false //  此页面是否在激活（进入）时，调用查询部门接口？
+        isDept: false, //  此页面是否在激活（进入）时，调用查询部门接口？
+        _disabled: false,
       },
       // 默认属性
       queryForm: {}, //  查询条件
@@ -108,6 +109,9 @@ export default {
         let data = res.data.details || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
         data.map((item, index)=>{
           item['_keyIndex'] = index + 1
+          if(that.mixinViewModuleOptions._disabled && item['isImport'] == 1){
+            item['_disabled'] = true
+          }
         })
         that.dataList = data
         if('details' in res.data && res.data['details'] == null){

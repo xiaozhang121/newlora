@@ -79,13 +79,14 @@ export default {
       handleNotes: [],
       alarmType: "",
       mixinViewModuleOptions: {
+        _disabled: true,
         activatedIsNeed: true,
         getDataListURL: "/lenovo-sample/api/sample/ar/list",
         exportURL: "/lenovo-alarm/api/alarm/history/export"
       },
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
-        { path: "/abnormalInfoPath/defectLibrary", name: "权限库管理" },
+        { path: "/abnormalInfoPath/defectLibrary", name: "缺陷库管理" },
         { path: "", name: "AR眼镜上传图片" }
       ],
       isFileType: false,
@@ -204,14 +205,14 @@ export default {
                   "导入主库"
                 )
               ]);
-              return h(
+            }
+            return h(
                 "div",
                 {
                   class: "flexPos"
                 },
                 newArr
-              );
-            }
+            );
           }
         }
       ],
@@ -289,7 +290,7 @@ export default {
       let data = this.dataList
       for(let i=0; i<data.length; i++){
         if(JSON.stringify(data[i]) == JSON.stringify(row)){
-          data[i]['_checked'] = flag
+            data[i]['_checked'] = flag
         }
       }
       this.setActiveClass(data)
@@ -301,7 +302,8 @@ export default {
     handleSelectAll(flag){
       let data = this.dataList
       data.map(item=>{
-        item['_checked'] = flag
+        if(!item['_disabled'])
+          item['_checked'] = flag
       })
       this.setActiveClass(data)
     },
