@@ -43,7 +43,7 @@
           :key="index"
           :noRobot="true"
           :url="url"
-          path="taskReport"
+          path="/abnormalInfoPath/taskReport"
           :reportData="item"
           :isAllInfo="false"
         />
