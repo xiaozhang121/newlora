@@ -22,101 +22,25 @@
           :userId="$store.state.user.configInfo['userId']"
           @on-active="handleActiveBtn"
         ></btn-select>
-        <!-- <duno-btn-top
-          ref="btnTopRef"
-          class="dunoBtnTop"
-          :dataList="TypeData"
-          :title="titleType"
-          :showAll="false"
-          :showBtnList="false"
-          @on-disabled="onDisabled"
-          @on-active="deviceShowHandle"
-        ></duno-btn-top>-->
       </div>
     </div>
-    <div class="main" :class="{widthA : displayType == '2'}">
-      <div class="left_main" :class="{widthA : displayType == '2'}">
-        <div class="left" style="padding-bottom: 32%" v-if="displayType == '2'">
-          <key-monitor
-            :isPic="isPicAddr01"
-            :monitorInfo="monitorInfo01"
-            :kilovolt="$store.state.user.configInfo['camera01Name']"
-            :autoplay="true"
-            :isLive="false"
-            :isNav="true"
-            imgAdress
-            :streamAddr="streamAddr01"
-            :showBtmOption="true"
-            paddingBottom="32%"
-            class="monitorM second"
-          ></key-monitor>
-        </div>
-        <div class="left" v-else-if="displayType == '1'">
-          <key-monitor
-            :isPic="isPicAddr01"
-            :monitorInfo="monitorInfo01"
-            :kilovolt="$store.state.user.configInfo['camera01Name']"
-            :autoplay="true"
-            :isLive="false"
-            :isNav="true"
-            imgAdress
-            :streamAddr="streamAddr01"
-            :showBtmOption="true"
-            class="monitorM first"
-          ></key-monitor>
-        </div>
+    <div class="first" v-if="displayType == '1'">
+      <div class="left">
+        <key-monitor
+          :isPic="isPicAddr01"
+          :monitorInfo="monitorInfo01"
+          :kilovolt="$store.state.user.configInfo['camera01Name']"
+          :autoplay="true"
+          :isLive="false"
+          :isNav="true"
+          width="100%"
+          paddingBottom="80%"
+          :streamAddr="streamAddr01"
+          :showBtmOption="true"
+          class="monitorF child"
+        ></key-monitor>
       </div>
-      <div
-        class="right_main"
-        v-if="displayType != '2' && displayType != '3'"
-        :class="{hidden : displayType == '2' || displayType == '3'}"
-      >
-        <div class="right">
-          <key-monitor
-            :isPic="isPicAddr02"
-            :monitorInfo="monitorInfo02"
-            :kilovolt="$store.state.user.configInfo['camera02Name']"
-            :autoplay="true"
-            :isLive="false"
-            :isNav="true"
-            imgAdress
-            :streamAddr="streamAddr02"
-            :showBtmOption="true"
-            class="monitorM child"
-          ></key-monitor>
-        </div>
-        <div class="right">
-          <key-monitor
-            :isPic="isPicAddr03"
-            :monitorInfo="monitorInfo03"
-            :kilovolt="$store.state.user.configInfo['camera03Name']"
-            :autoplay="true"
-            :isLive="false"
-            :isNav="true"
-            imgAdress
-            :streamAddr="streamAddr03"
-            :showBtmOption="true"
-            class="monitorM child"
-          ></key-monitor>
-        </div>
-        <div class="right">
-          <key-monitor
-            :isPic="isPicAddr04"
-            :monitorInfo="monitorInfo04"
-            :kilovolt="$store.state.user.configInfo['camera04Name']"
-            :autoplay="true"
-            :isLive="false"
-            :isNav="true"
-            imgAdress
-            :streamAddr="streamAddr04"
-            :showBtmOption="true"
-            class="monitorM child"
-          ></key-monitor>
-        </div>
-      </div>
-    </div>
-    <div class="oltagevMain second" v-if="displayType == '2'">
-      <div class="item_main">
+      <div class="right">
         <div class="item">
           <key-monitor
             :isPic="isPicAddr02"
@@ -125,14 +49,13 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
-            imgAdress
+            width="100%"
+            paddingBottom="80%"
             :streamAddr="streamAddr02"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorF child"
           ></key-monitor>
         </div>
-      </div>
-      <div class="item_main">
         <div class="item">
           <key-monitor
             :isPic="isPicAddr03"
@@ -141,14 +64,13 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
-            imgAdress
+            width="100%"
+            paddingBottom="80%"
             :streamAddr="streamAddr03"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorF child"
           ></key-monitor>
         </div>
-      </div>
-      <div class="item_main">
         <div class="item">
           <key-monitor
             :isPic="isPicAddr04"
@@ -157,10 +79,26 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
-            imgAdress
+            width="100%"
+            paddingBottom="80%"
             :streamAddr="streamAddr04"
             :showBtmOption="true"
-            class="monitorM"
+            class="monitorF child"
+          ></key-monitor>
+        </div>
+        <div class="item">
+          <key-monitor
+            :isPic="isPicAddr05"
+            :monitorInfo="monitorInfo05"
+            :kilovolt="$store.state.user.configInfo['camera05Name']"
+            :autoplay="true"
+            :isLive="false"
+            :isNav="true"
+            width="100%"
+            paddingBottom="80%"
+            :streamAddr="streamAddr05"
+            :showBtmOption="true"
+            class="monitorF child"
           ></key-monitor>
         </div>
       </div>
@@ -176,7 +114,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr01"
             :showBtmOption="true"
             class="monitorM child"
@@ -193,7 +131,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr02"
             :showBtmOption="true"
             class="monitorM child"
@@ -210,7 +148,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr03"
             :showBtmOption="true"
             class="monitorM child"
@@ -227,7 +165,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr04"
             :showBtmOption="true"
             class="monitorM child"
@@ -244,7 +182,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr05"
             :showBtmOption="true"
             class="monitorM child"
@@ -261,7 +199,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr06"
             :showBtmOption="true"
             class="monitorM child"
@@ -278,7 +216,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr07"
             :showBtmOption="true"
             class="monitorM child"
@@ -295,7 +233,7 @@
             :isLive="false"
             :isNav="true"
             imgAdress
-            paddingBottom='80%'
+            paddingBottom="80%"
             :streamAddr="streamAddr08"
             :showBtmOption="true"
             class="monitorM child"
@@ -303,7 +241,7 @@
         </div>
       </div>
     </div>
-    <div class="title" style="margin: 15px 0">
+    <div class="title" style="margin: 40px 0 15px;">
       <span>{{ oltagevLevel }}</span>
       <!-- 隐藏功  能 -->
       <duno-btn-top
@@ -695,13 +633,13 @@ export default {
           format: 1,
           isActive: true
         },
+        // {
+        //   describeName: "布局二",
+        //   format: 2,
+        //   isActive: false
+        // },
         {
           describeName: "布局二",
-          format: 2,
-          isActive: false
-        },
-        {
-          describeName: "布局三",
           format: 3,
           isActive: false
         }
@@ -716,7 +654,7 @@ export default {
   },
   methods: {
     handleActiveBtn(data) {
-      console.log(data)
+      console.log(data);
       let that = this;
       this.ajaxCount++;
       if (this.ajaxCount > MAXAJAX) {
@@ -735,7 +673,7 @@ export default {
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
-          that.initConfigure(type);
+          that.initConfigure(3);
           that.$forceUpdate();
         } else that.$message.error(res.msg);
       });
@@ -1129,6 +1067,29 @@ export default {
     // .item_main:nth-last-child(3n-1) {
     // }
   }
+  .first {
+    display: flex;
+    justify-content: flex-start;
+    .left {
+      width: 50.9%;
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-left: 0.5%;
+      .item {
+        width: 49.5%;
+      }
+      & > div:nth-child(odd) {
+        margin-right: 1%;
+      }
+      & > div:nth-child(n + 3) {
+        margin-top: 40px;
+      }
+    }
+  }
   .third {
     display: flex;
     justify-content: space-around;
@@ -1145,14 +1106,19 @@ export default {
       }
     }
   }
-  .monitorM.swip{
+  .monitorF.child {
     .vjs-fluid {
-      padding-top:56%;
+      padding-top: 80%;
+    }
+  }
+  .monitorM.swip {
+    .vjs-fluid {
+      padding-top: 56%;
     }
   }
   .monitorM.child {
     .vjs-fluid {
-      padding-top:80%;
+      padding-top: 80%;
     }
   }
   .monitorM.first {

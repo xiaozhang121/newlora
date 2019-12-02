@@ -63,8 +63,8 @@ export default {
       switch (now) {
         case "environmental1000KVList":
           this.titleData = {
-            title: "1000千伏安防警告",
-            securityRecord: "1000千伏安防记录",
+            title: "1000千伏异常统计",
+            securityRecord: "1000千伏异常记录",
             // navBar: ["操作中台", "动态环境监测", "1000千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
@@ -77,8 +77,8 @@ export default {
           break;
         case "environmental500KVList":
           this.titleData = {
-            title: "500千伏安防警告",
-            securityRecord: "500千伏安防记录",
+            title: "500千伏异常统计",
+            securityRecord: "500千伏异常记录",
             // navBar: ["操作中台", "动态环境监测", "500千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
@@ -91,8 +91,8 @@ export default {
           break;
         case "environmental220KVList":
           this.titleData = {
-            title: "220千伏安防警告",
-            securityRecord: "220千伏安防记录",
+            title: "220千伏异常统计",
+            securityRecord: "220千伏异常记录",
             // navBar: ["操作中台", "动态环境监测", "220千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
@@ -105,8 +105,8 @@ export default {
           break;
         case "environmental110KVList":
           this.titleData = {
-            title: "110千伏安防警告",
-            securityRecord: "110千伏安防记录",
+            title: "110千伏异常统计",
+            securityRecord: "110千伏异常记录",
             // navBar: ["操作中台", "动态环境监测", "110千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
@@ -119,8 +119,8 @@ export default {
           break;
         case "environmental35KVList":
           this.titleData = {
-            title: "35千伏安防警告",
-            securityRecord: "35千伏安防记录",
+            title: "35千伏异常统计",
+            securityRecord: "35千伏异常记录",
             // navBar: ["操作中台", "动态环境监测", "350千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },
@@ -133,8 +133,8 @@ export default {
           break;
         case "environmental10KVList":
           this.titleData = {
-            title: "10千伏安防警告",
-            securityRecord: "10千伏安防记录",
+            title: "10千伏异常统计",
+            securityRecord: "10千伏异常记录",
             // navBar: ["操作中台", "动态环境监测", "10千伏"],
             navBar: [
               { path: "/realEnv/list", name: "操作中台" },

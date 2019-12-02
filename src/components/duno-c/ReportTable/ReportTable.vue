@@ -4,17 +4,17 @@
       <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg" />
     </div>
     <div class="content">
-      <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top">
+      <!-- <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top"> -->
         <h3 v-if="kind != 'robot'">
           <span class="taskid">{{reportData.planName}}</span>
         </h3>
-      </el-tooltip>
-      <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top">
+      <!-- </el-tooltip> -->
+      <!-- <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top"> -->
         <h3 v-if="kind == 'robot'">
           {{ reportData.planName?reportData.planName:'/' }}
           <!-- <span class="taskid">{{reportData.planId}}</span> -->
         </h3>
-      </el-tooltip>
+      <!-- </el-tooltip> -->
       <p v-if="kind != 'robot' && reportData.planType">
         类型: {{reportData.planType}}
         <!-- <span>{{reportData.planType}}</span> -->
@@ -365,7 +365,6 @@ export default {
       white-space: nowrap;
     }
     .item {
-      cursor: pointer;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

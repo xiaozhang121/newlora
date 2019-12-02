@@ -218,7 +218,7 @@ export default {
           return
         }
       }
-      this.$message.info('提示：必须选择电力设备')
+      this.$message.info('提示：请先选择电力设备')
     }
   },
   mounted() {}

@@ -572,7 +572,7 @@ export default {
       },
       legendOption: {
         orient: "vertical",
-        right: "20%",
+        right: "10%",
         top: "60%",
         data: ["解锁", "闭锁"],
         textStyle: {

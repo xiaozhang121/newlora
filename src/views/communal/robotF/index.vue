@@ -373,6 +373,9 @@
             display: inline-block;
             margin-right: 1.5%;
             width: calc(94% / 5);
+            .reportTable{
+              height: 380px;
+            }
             &:nth-last-child(5n + 1) {
               margin-right: 0;
             }

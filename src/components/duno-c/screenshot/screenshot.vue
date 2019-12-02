@@ -201,7 +201,7 @@ export default {
       });
     },
     handleSubmit() {
-      if (this.isVideo && (this.pointData.x0 == "" || this.selectValue == "")) {
+      if (this.isVideo && this.pointData.x0 == "" && this.selectValue == "") {
         this.$message.warning("请选择或标定区域");
         return;
       }
@@ -229,17 +229,10 @@ export default {
         photoTime: photoTime
       };
       sampleMark(query).then(res => {
-        if (this.isVideo) {
-          this.$message({
+        this.$message({
             message: "截图已保存至缺陷库",
             type: "success"
           });
-        } else {
-          this.$message({
-            message: "已保存至历史异常记录",
-            type: "success"
-          });
-        }
         this.$emit("closeShot");
       });
     },
@@ -266,7 +259,7 @@ export default {
         postAxiosData(url, query).then(res => {
           this.$emit("closeShot");
           this.$message({
-            message: "保存成功",
+            message: "已保存至历史异常记录",
             type: "success"
           });
         });

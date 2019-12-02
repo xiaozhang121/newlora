@@ -2,7 +2,7 @@
     <div class="cameraPower" >
         <historical-documents v-if="mainType == 1" :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="444px" @close="onClose" :dialogTableVisible="visible" class="historical">
             <div class="monitor">
-                <key-monitor :autoplay="true" :monitorInfo="monitorInfo" :streamAddr="monitorInfo['addr']"></key-monitor>
+                <key-monitor :autoplay="true" :isNav='true' :isLive='false' :monitorInfo="monitorInfo" :streamAddr="monitorInfo['addr']"></key-monitor>
             </div>
             <div class="from">
                 来源：
@@ -37,8 +37,8 @@
         </historical-documents>
         <historical-documents v-else :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="744px" @close="onClose" :dialogTableVisible="visible" class="historical">
             <div class="monitor" style="display: flex">
-                <key-monitor :isPic="isPic" :autoplay="true" style="flex: 1; margin-right: 20px" class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptionsd.streamAddr"></key-monitor>
-                <key-monitor style="flex: 1" class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptions.streamAddr"></key-monitor>
+                <key-monitor :isPic="isPic" :isNav='true' :isLive='false' :autoplay="true" style="flex: 1; margin-right: 20px" class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptionsd.streamAddr"></key-monitor>
+                <key-monitor style="flex: 1" :isNav='true' :isLive='false' class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptions.streamAddr"></key-monitor>
             </div>
             <div class="from">
                 来源：
