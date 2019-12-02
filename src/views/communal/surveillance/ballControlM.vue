@@ -247,7 +247,7 @@
         />
       </div>
     </div>
-    <wraning :popData="popData" :visible="visible" :detailsType="detailsType" @handleClose="handleClose" />
+    <wraning :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     <enlarge
       :isShow="isEnlarge"
@@ -317,6 +317,7 @@ export default {
     return {
       showPage:true,
       dataTimeD: '',
+      detailsType:"task",
       dataListR: [],
       totalNumR: 1,
       pageRowsR: 10,
@@ -326,7 +327,6 @@ export default {
       nowPostion: 0,
       isVisible: false,
       lockPress: false,
-      detailsType:'',
       addOrEdit: "添加",
       disabled: true,
       mixinViewModuleOptions: {
@@ -662,6 +662,11 @@ export default {
                         that.alarmType = params.row.alarmType;
                         that.popData = params.row;
                         that.alarmLevel = params.row.alarmLevel;
+                        if(params.row.sourceType=='手动'){
+                          that.detailsType='alarm'
+                        }else{
+                          that.detailsType='task'
+                        }
                         that.visible = true;
                         that.$forceUpdate();
                       }
@@ -876,6 +881,11 @@ export default {
                       that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
+                      // if(params.row.sourceType=='手动'){
+                      //   this.detailsType='alarm'
+                      // }else{
+                      //   this.detailsType='task'
+                      // }
                       that.visible = true;
                       that.$forceUpdate();
                     }

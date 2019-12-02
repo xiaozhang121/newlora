@@ -716,6 +716,7 @@ export default {
   },
   methods: {
     handleActiveBtn(data) {
+      console.log(data)
       let that = this;
       this.ajaxCount++;
       if (this.ajaxCount > MAXAJAX) {
@@ -734,7 +735,6 @@ export default {
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
-          // that.$refs.btnTopRef.init();
           that.initConfigure(type);
           that.$forceUpdate();
         } else that.$message.error(res.msg);

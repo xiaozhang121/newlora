@@ -199,7 +199,7 @@
       </div>
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
@@ -251,6 +251,7 @@ export default {
     return {
       echartTitle: "",
       addOrEdit: "添加",
+      detailsType:"task",
       disabled: false,
       place: false,
       lockPress: false,
@@ -530,6 +531,11 @@ export default {
                       that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
+                      if(params.row.sourceType=='手动'){
+                        this.detailsType='alarm'
+                      }else{
+                        this.detailsType='task'
+                      }
                       that.visible = true;
                       that.$forceUpdate();
                     }

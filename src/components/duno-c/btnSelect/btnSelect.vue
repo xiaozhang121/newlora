@@ -137,7 +137,6 @@ export default {
           data = data.filter(item => {
             return item["isSelected"] == true || item["isSelected"] == 1;
           });
-          console.log(data);
           if (data.length) {
             let arr = [];
             data.forEach(item => {
@@ -146,7 +145,6 @@ export default {
             });
             that.$nextTick(() => {
               that.checkedCities = arr;
-              console.log(that.checkedCities);
             });
           } else {
             that.$nextTick(() => {
@@ -174,12 +172,12 @@ export default {
       let data = that.useListData;
       let length = data.length;
       for (let i = 0; i < length; i++) {
-        data[i].children.map(item => {
-          if (item.item.id == id) {
+        data[i].children.map(items => {
+          if (items.item.id == id) {
             if (flag) {
-              item["isActive"] = false;
+              items.item["isActive"] = false;
             } else {
-              item["isActive"] = true;
+              items.item["isActive"] = true;
             }
           }
         });
@@ -235,7 +233,6 @@ export default {
           this.changeState(index, false);
         }
         this.isDisabled();
-        console.log(this.checkedCities);
         this.$emit("on-active", this.checkedCities);
         this.isClick = false;
         setTimeout(() => {

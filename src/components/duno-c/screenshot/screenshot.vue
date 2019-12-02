@@ -228,10 +228,17 @@ export default {
         photoTime: photoTime
       };
       sampleMark(query).then(res => {
-        this.$message({
-          message: "标定成功",
-          type: "success"
-        });
+        if (this.isVideo) {
+          this.$message({
+            message: "截图已保存至缺陷库",
+            type: "success"
+          });
+        } else {
+          this.$message({
+            message: "已保存至历史异常记录",
+            type: "success"
+          });
+        }
         this.$emit("closeShot");
       });
     },

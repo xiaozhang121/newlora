@@ -155,6 +155,7 @@
       :hasSelect="true"
       :alarmLevel="alarmLevel"
       :visible="visible"
+       :detailsType="detailsType"
       warningID="20190711002"
       :monitorUrl="popData.alarmFileAddress || ''"
       :judgeResult="popData.alarmContent || ''"
@@ -209,6 +210,7 @@ export default {
     return {
       chartsList: [],
       unit: "",
+      detailsType:"task",
       echartsKind: 0,
       addOrEdit: "添加",
       disabled: false,
@@ -497,6 +499,11 @@ export default {
                     click: () => {
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
+                      if(params.row.sourceType=='手动'){
+                        this.detailsType='alarm'
+                      }else{
+                        this.detailsType='task'
+                      }
                       that.visible = true;
                     }
                   }

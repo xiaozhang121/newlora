@@ -183,6 +183,7 @@
       :discriminate="false"
       :hasSelect="true"
       :alarmLevel="alarmLevel"
+      :detailsType="detailsType"
       :visible="visible"
       warningID="20190711002"
       :popData="popData"
@@ -244,6 +245,7 @@ export default {
       offsetX: 0,
       offsetY: 0,
       tepmNum: 0,
+      detailsType:"task",
       timer: false,
       addOrEdit: "添加",
       disabled: false,
@@ -508,6 +510,11 @@ export default {
                     click: () => {
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
+                      if(params.row.sourceType=='手动'){
+                        this.detailsType='alarm'
+                      }else{
+                        this.detailsType='task'
+                      }
                       that.visible = true;
                     }
                   }
