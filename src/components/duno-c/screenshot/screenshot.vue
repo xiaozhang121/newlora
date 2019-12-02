@@ -201,7 +201,10 @@ export default {
       });
     },
     handleSubmit() {
-      if (this.isVideo && (this.pointData.x0 == "" || this.selectValue == "")) {
+      if (
+        !this.isVideo &&
+        (this.pointData.x0 == "" || this.selectValue == "")
+      ) {
         this.$message.warning("请选择或标定区域");
         return;
       }
