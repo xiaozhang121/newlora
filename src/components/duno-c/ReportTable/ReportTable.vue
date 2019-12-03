@@ -142,6 +142,8 @@ export default {
             taskRunHisId: this.reportData.ID,
             planType: this.reportData.taskType,
             executeTime: this.reportData.date,
+            startTime: this.reportData.StartTime,
+            endTime: this.reportData.EndTime,
             path: "/robot-one/reportList?substationId=1&robotId=1",
             name: "最新巡视报告"
           }

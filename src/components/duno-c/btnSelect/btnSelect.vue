@@ -16,7 +16,7 @@
             v-model="titleMain"
           />
         </div>
-        <el-radio-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+        <el-radio-group v-model="checkedCities">
           <div class="checkbox" v-for="(item,index) in useListData" :key="index">
             <div class="noCheck selectItem">
               <el-checkbox @click.native="showHide($event, item)">
@@ -60,6 +60,9 @@ export default {
       type: String
     },
     userId: {
+      type: String
+    },
+    displayType: {
       type: String
     }
   },
@@ -228,7 +231,11 @@ export default {
             }
           });
         } else {
-          this.checkedCities.push(index);
+          if (this.displayType == "1") {
+            this.checkedCities.unshift(index);
+          } else {
+            this.checkedCities.push(index);
+          }
           this.checkedCities = Array.from(new Set(this.checkedCities));
           this.changeState(index, false);
         }
@@ -242,18 +249,17 @@ export default {
     },
     isDisabled(id) {
       let length = this.checkedCities.length;
-      if (length < 8) {
+      if (
+        (this.displayType == "1" && length < 5) ||
+        (this.displayType == "3" && length < 8)
+      ) {
+        return false;
+      }
+      if (this.checkedCities.indexOf(id) > -1) {
         return false;
       } else {
-        if (this.checkedCities.indexOf(id) > -1) {
-          return false;
-        } else {
-          return true;
-        }
+        return true;
       }
-    },
-    handleCheckedCitiesChange(value, index, before) {
-      console.log(value, index, before);
     }
   },
   mounted() {

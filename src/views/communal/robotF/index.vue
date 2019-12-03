@@ -369,6 +369,8 @@
           margin: 15px 0;
         }
         .main {
+          display: flex;
+          flex-wrap: wrap;
           .item {
             display: inline-block;
             margin-right: 1.5%;

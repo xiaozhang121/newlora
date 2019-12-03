@@ -399,11 +399,16 @@
           margin: 15px 0;
         }
         .main {
+          display: flex;
+          flex-wrap: wrap;
           min-height: calc(100vh - 234px);
           .item {
             display: inline-block;
             margin-right: 1.5%;
             width: calc(94% / 5);
+            .reportTable{
+              height: 380px;
+            }
             &:nth-last-child(5n + 1) {
               margin-right: 0;
             }

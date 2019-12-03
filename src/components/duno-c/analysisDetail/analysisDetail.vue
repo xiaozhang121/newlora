@@ -12,7 +12,7 @@
             v-model="titleType"
             filterable
             @change="changeSelect"
-            placeholder="请选择"
+            placeholder="按设备筛选"
           >
             <el-option
               v-for="item in regionList"
@@ -157,20 +157,20 @@ export default {
         {
           title: "序号",
           type: "index",
-          minWidth: 80,
+          width: 80,
           align: "center"
         },
         {
           title: "对象",
           key: "powerDeviceName",
-          minWidth: 180,
+          minWidth: 250,
           align: "center",
           tooltip: true
         },
         {
           title: "部件/相别",
           key: "part",
-          minWidth: 120,
+          minWidth: 100,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -212,7 +212,7 @@ export default {
         {
           title: "缺陷等级",
           key: "alarmLevel",
-          minWidth: 120,
+          minWidth: 100,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -310,60 +310,53 @@ export default {
             return h("div", newArr);
           }
         },
-        {
-          title: "来源",
-          key: "monitorDeviceName",
-          minWidth: 150,
-          align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            let newArr = [];
-            newArr.push([
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    maxWidth: "200",
-                    content: params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source,
-                    transfer: true
-                  },
-                  style: {
-                    // display: "inline-block",
-                    // width: "100%",
-                    // overflow: "hidden",
-                    // textOverflow: "ellipsis",
-                    // whiteSpace: "nowrap"
-                  }
-                },
-                [
-                  h(
-                    "a",
-                    {
-                      class: "table_link",
-                      props: { type: "text" },
-                      on: {
-                        click: () => {
-                          this.getJump(params.row);
-                        }
-                      }
-                    },
-                    params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source
-                  )
-                ]
-              )
-            ]);
-            return h("div", { class: { member_operate_div: true } }, newArr);
-          }
-        },
+        // {
+        //   title: "来源",
+        //   key: "monitorDeviceName",
+        //   minWidth: 150,
+        //   align: "center",
+        //   tooltip: true,
+        //   render: (h, params) => {
+        //     let newArr = [];
+        //     newArr.push([
+        //       h(
+        //         "Tooltip",
+        //         {
+        //           props: {
+        //             placement: "top",
+        //             maxWidth: "200",
+        //             content: params.row.monitorDeviceName
+        //               ? params.row.monitorDeviceName
+        //               : params.row.source,
+        //             transfer: true
+        //           },
+        //         },
+        //         [
+        //           h(
+        //             "a",
+        //             {
+        //               class: "table_link",
+        //               props: { type: "text" },
+        //               on: {
+        //                 click: () => {
+        //                   this.getJump(params.row);
+        //                 }
+        //               }
+        //             },
+        //             params.row.monitorDeviceName
+        //               ? params.row.monitorDeviceName
+        //               : params.row.source
+        //           )
+        //         ]
+        //       )
+        //     ]);
+        //     return h("div", { class: { member_operate_div: true } }, newArr);
+        //   }
+        // },
         {
           title: "视频/图片",
           key: "fileType",
-          minWidth: 120,
+          width: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -407,7 +400,7 @@ export default {
         {
           title: "记录时间",
           key: "executeTime",
-          minWidth: 120,
+          minWidth: 200,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -419,34 +412,7 @@ export default {
             } else if (params.row.date) {
               data = params.row.date;
             }
-            return h("div", [
-              h(
-                "Tooltip",
-                {
-                  props: {
-                    placement: "top",
-                    content: data,
-                    transfer: true,
-                    maxWidth: "200"
-                  }
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      style: {
-                        display: "inline-block",
-                        width: "100px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"
-                      }
-                    },
-                    data
-                  )
-                ]
-              )
-            ]);
+            return h("div", data);
           }
         },
         {
@@ -508,12 +474,12 @@ export default {
       let that = this;
       that.dataForm.planId = that.$route.query.planId;
       that.dataForm.planType = that.$route.query.planType;
-      try{
+      try {
         that.dataForm.executeTime = that.$route.query.executeTime.substring(
           0,
           10
         );
-      }catch (e) {}
+      } catch (e) {}
       that.dataForm.batchId = that.$route.query.batchId;
       that.dataForm.isRobot = that.$route.query.isRobot;
       that.detailsType = that.$route.query.detailsType;
@@ -643,6 +609,7 @@ export default {
       getAxiosData(url, query).then(res => {
         const resData = res.data;
         this.regionList = resData;
+        this.titleType =''
       });
     },
     getStart() {
@@ -838,6 +805,10 @@ export default {
       }
     }
   }
+  .ivu-table-cell {
+    padding-left: 0;
+    padding-right: 0;
+  }
   .ivu-select-dropdown {
     background: white !important;
   }
@@ -967,7 +938,11 @@ export default {
 }
 .el-input__inner {
   background-color: #1a2f42;
-  border: 1px solid #1a2f42;
+  border: none;
+}
+.el-input__inner::placeholder{
+  color: #fff;
+  font-size: 16px;
 }
 .setting {
   cursor: pointer;
@@ -976,7 +951,7 @@ export default {
     padding-right: 5px;
   }
 }
-.analysis-detail{
+.analysis-detail {
   .el-input__inner {
     background-color: #1a2f42;
     border: 1px solid #1a2f42;

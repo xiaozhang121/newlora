@@ -13,9 +13,7 @@ export default {
   data() {
     return {
       dataBread: [
-        { path: "/abnormalInfoPath/home", name: "功能卡片" },
-        { path: "/abnormalInfoPath/taskForm", name: "报表" },
-        { path: "", name: "所有表计分析" }
+        { path: "", name: "所有记录" }
       ],
       downloadURL: "/lenovo-plan/api/statistics/meter-data/list/downLoad",
       selectUrl: "/lenovo-device/api/statistics/meter-data/select-list"

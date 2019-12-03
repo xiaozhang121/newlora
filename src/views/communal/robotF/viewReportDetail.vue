@@ -7,14 +7,14 @@
       <div>{{planType}}&nbsp;{{dataForm.executeTime}}</div>
       <div class="btn">
         <div>
-          <!-- <duno-btn-top
-                  @on-select="onSelect"
-                  class="dunoBtnTop"
-                  :isCheck="false"
-                  :dataList="typeList"
-                  :title="titleType"
-                  :showBtnList="false"
-          ></duno-btn-top>-->
+          <duno-btn-top
+            @on-select="selectDownloadType"
+            class="dunoBtnTo"
+            :isCheck="false"
+            :dataList="downLoadList"
+            title="导出表格/PDF"
+            :showBtnList="false"
+          ></duno-btn-top>
         </div>
       </div>
     </div>
@@ -87,7 +87,8 @@ export default {
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         // getDataListURL: "/lenovo-plan/api/statistics/meter-data/list"
-        getDataListURL: "/lenovo-robot/rest/reportDetail"
+        getDataListURL: "/lenovo-robot/rest/reportDetail",
+        exportURL:"/lenovo-robot/rest/reportDownload"
       },
       visibleSettingOption: false,
       visible: false,
@@ -123,6 +124,16 @@ export default {
         {
           path: "",
           name: "查看报告"
+        }
+      ],
+      downLoadList: [
+        {
+          describeName: "导出表格",
+          monitorDeviceType: "1"
+        },
+        {
+          describeName: "导出PDF",
+          monitorDeviceType: "2"
         }
       ],
       columns: [
@@ -448,10 +459,15 @@ export default {
     }
   },
   created() {
+    let that = this
     this.getWidth();
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId?this.$route.query.taskRunHisId:'';
-    this.dataForm.executeTime = this.$route.query.executeTime;
-    console.log(this.$route.query.executeTime)
+    try {
+        that.dataForm.executeTime = that.$route.query.executeTime.substring(
+          0,
+          10
+        );
+      } catch (e) {}
     this.planType = this.$route.query.planType;
     if (this.planType == "1501") this.planType = "全面巡视";
     else if (this.planType == "1502") this.planType = "例行巡视";
@@ -464,6 +480,15 @@ export default {
     // this.getType();
   },
   methods: {
+    selectDownloadType(item) {
+      const that = this;
+      that.queryForm.taskRunHisId = that.$route.query.taskRunHisId
+      that.queryForm.planId = that.$route.query.planId;
+      that.queryForm.startTime = that.$route.query.startTime;
+      that.queryForm.endTime = that.$route.query.endTime;
+      that.queryForm.type = item.monitorDeviceType;
+      that.exportHandle();
+    },
     getWidth() {
       let screen = window.screen.availWidth;
       if (screen > 3500) {

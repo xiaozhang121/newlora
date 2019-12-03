@@ -19,6 +19,7 @@
         <btn-select
           ref="btnTopRef"
           :setDefault="setDefault"
+          :displayType="displayType"
           :userId="$store.state.user.configInfo['userId']"
           @on-active="handleActiveBtn"
         ></btn-select>
@@ -241,7 +242,7 @@
         </div>
       </div>
     </div>
-    <div class="title" style="margin: 40px 0 15px;">
+    <div class="title" style="margin: 0 0 15px;">
       <span>{{ oltagevLevel }}</span>
       <!-- 隐藏功  能 -->
       <duno-btn-top
@@ -276,7 +277,8 @@
             :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
-            class="monitorM swip"
+            paddingBottom="80%"
+            class="monitorM child"
           ></key-monitor>
         </div>
       </div>
@@ -295,10 +297,11 @@
             :kilovolt="item['areaName']"
             :areaId="item['areaId']"
             :showType="activeAreaId"
+            paddingBottom="80%"
             :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
-            class="monitorM swip"
+            class="monitorM child"
           ></key-monitor>
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev"></div>
@@ -633,6 +636,7 @@ export default {
           format: 1,
           isActive: true
         },
+        {},
         // {
         //   describeName: "布局二",
         //   format: 2,
@@ -654,8 +658,8 @@ export default {
   },
   methods: {
     handleActiveBtn(data) {
-      console.log(data);
       let that = this;
+      let type = that.displayType
       this.ajaxCount++;
       if (this.ajaxCount > MAXAJAX) {
         this.setDefault = "0";
@@ -673,7 +677,7 @@ export default {
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
-          that.initConfigure(3);
+          that.initConfigure(type);
           that.$forceUpdate();
         } else that.$message.error(res.msg);
       });
