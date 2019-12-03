@@ -21,7 +21,8 @@
             v-for="(item, index) in safeList"
             :key="index"
           >
-            <key-monitor
+          <cover :monitorInfo="item"  class="coverRecord" :srcData="item"></cover>
+            <!-- <key-monitor
               class="monitorRecord"
               :showBtmOption="true"
               :pushCamera="false"
@@ -34,7 +35,7 @@
               :streamAddr="item['streamAddr']"
               :kilovolt="item['monitorDeviceName']"
               :patrol="item['interval']"
-            />
+            /> -->
             <!-- :patrol="`${item['startTime']}至${item['endTime']}`" -->
           </div>
           <div style="clear: both"></div>
@@ -94,6 +95,7 @@
 <script>
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
+import cover from "_c/duno-c/cover";
 import KeyErea from "_c/duno-c/KeyErea";
 import AlarmLog from "_c/duno-c/AlarmLog";
 import mixinViewModule from "@/mixins/view-module";
@@ -111,7 +113,8 @@ export default {
     KeyMonitor,
     Breadcrumb,
     AlarmLog,
-    KeyErea
+    KeyErea,
+    cover
   },
   data() {
     return {
@@ -419,9 +422,18 @@ export default {
         height: 100%;
         margin: 0 0px 50px 0;
       }
+      .cover {
+        & > div:first-child {
+          min-height: 218px;
+          @media screen and (min-width: 3500px) {
+            min-height: 135px;
+          }
+        }
+      }
     }
     .item-cons {
       height: 100%;
+      background-color: #142838;
       overflow-y: auto;
     }
     .empty {

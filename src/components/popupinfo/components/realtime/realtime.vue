@@ -46,13 +46,18 @@
     </el-row>
     <div v-if="monitorDeviceType == 2">
       <div class="progress">
-        <el-progress
-                type="circle"
-                :percentage="tepmNum"
-                :width="80"
-                :format="format"
-        />
-        <p>温度℃</p>
+        <div class="first">
+          鼠标移到红外视频流任一处，可查看此处设备温度数值
+        </div>
+        <div class="second">
+          <el-progress
+                  type="circle"
+                  :percentage="tepmNum"
+                  :width="80"
+                  :format="format"
+          />
+          <p>温度℃</p>
+        </div>
       </div>
     </div>
     <div v-else style="display: flex">
@@ -387,12 +392,24 @@
       }
     }
     .progress {
-      width: 100%;
-      text-align: center;
-      margin-top: 20px;
-      font-size: 18px;
-      p {
-        font-size: 16px !important;
+      display: flex;
+      justify-content: flex-start;
+      .first{
+        width: 70%;
+        font-size: 12px;
+        color: #aaa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .second{
+        flex: 1;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+        p {
+          font-size: 16px !important;
+        }
       }
     }
   }

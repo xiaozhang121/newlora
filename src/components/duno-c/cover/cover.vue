@@ -8,7 +8,7 @@
       <div v-if="isSecond" @click="getJump" class="explainy">
         <div class="text">
           <span>{{srcData.monitorDeviceName}}</span>
-          <span>{{srcData.monitorDeviceId}}</span>
+          <span>{{srcData.interval.replace(/至/,'-')}}</span>
         </div>
         <span>
           <i class="iconfont icon-jiantou"></i>
@@ -181,8 +181,8 @@
     }
     .explainy {
       color: #fff;
-      height: 32px;
-      line-height: 32px;
+      // height: 32px;
+      line-height: 25px;
       background-color: #213848;
       font-size: 12px;
       padding-left: 10px;
@@ -211,7 +211,7 @@
         display: block;
         justify-content: flex-start;
         width: 100%;
-        span:first-child {
+        span {
           padding-right: 10px;
           font-size: 14px;
           overflow: hidden;
@@ -220,11 +220,11 @@
           white-space: nowrap;
           text-align: left !important;
         }
-        span:nth-child(2) {
-          padding-right: 10px;
-          font-size: 12px;
-          color: #a0a0a0;
-        }
+        // span:nth-child(2) {
+        //   padding-right: 10px;
+        //   font-size: 12px;
+        //   color: #a0a0a0;
+        // }
       }
     }
   }
