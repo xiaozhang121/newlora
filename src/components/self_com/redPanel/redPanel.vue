@@ -1,10 +1,10 @@
 <template>
     <div class="redPanel"  v-if="show">
         <el-tabs type="border-card"  v-model="activeName">
-            <el-tab-pane name="first" label="实时信息">
+            <el-tab-pane name="first" label="实时监控">
                 <div class="main">
                     <div class="title">
-                        <!--<span>实时信息</span>-->
+                        <!--<span>实时监控</span>-->
                         <span style="float: right; cursor: pointer" @click="onClose"><i class="el-icon-close"></i></span>
                     </div>
                     <!--<img :src="redDevice" style="width: 300px">-->

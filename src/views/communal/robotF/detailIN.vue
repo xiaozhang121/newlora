@@ -46,7 +46,12 @@
           />
         </div>
         <div class="right">
-          <img :src="taskNormalData['roadImgPath']" />
+          <!-- <img :src="taskNormalData['roadImgPath']" /> -->
+          <el-image :src="taskNormalData['roadImgPath']">
+            <div slot="error" class="image-slot">
+              未能获取到图片
+            </div>
+          </el-image>
         </div>
       </div>
     </div>
@@ -511,6 +516,9 @@ export default {
           height: 100%;
           background-color: rgba(0, 0, 0, 0);
           .ivu-table-wrapper {
+            .ivu-table-tip{
+              background: #203E52;
+            }
             tr:nth-child(odd) {
               td {
                 background: rgba(0, 0, 0, 0) !important;
@@ -551,9 +559,17 @@ export default {
         margin-left: 20px;
         height: 100%;
         position: relative;
-        img {
+        .el-image {
           width: 100%;
           height: 100%;
+          .image-slot{
+            height: inherit;
+            background: #707070;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #aaa;
+          }
         }
       }
     }

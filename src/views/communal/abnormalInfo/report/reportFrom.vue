@@ -48,12 +48,12 @@
           :isAllInfo="false"
         />
       </div>
-      <div v-else>
+      <div class="task" v-else>
         <ReportTable
-                v-for="(item,index) in dataList.tableData"
-                :url="url"
-                :key="index"
-                :reportData="item"
+          v-for="(item,index) in dataList.tableData"
+          :url="url"
+          :key="index"
+          :reportData="item"
         />
       </div>
       <el-pagination
@@ -132,11 +132,11 @@ export default {
         ...this.dataForm
       };
       getAxiosData(url, query).then(res => {
-        if(this.planType == 9){
-          res.data.tableData.map(item=>{
-            item['planName'] = item['label']
-            item['pic'] = require('@/assets/images/tablePic.png')
-          })
+        if (this.planType == 9) {
+          res.data.tableData.map(item => {
+            item["planName"] = item["label"];
+            item["pic"] = require("@/assets/images/tablePic.png");
+          });
         }
         this.dataList = res.data;
         this.totalRows = Number(res.data.pageParam.totalRows);
@@ -186,11 +186,11 @@ export default {
       });
     }
   },
-  created(){
+  created() {
     if (this.$route.query.planType) {
       let planType = this.$route.query.planType;
-      if(planType == 9){
-        this.dataUrl = '/lenovo-plan/api/report/template/list'
+      if (planType == 9) {
+        this.dataUrl = "/lenovo-plan/api/report/template/list";
       }
     }
   },

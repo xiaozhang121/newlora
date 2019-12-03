@@ -406,7 +406,7 @@ export default {
       ],
       leftBtnListFlag: 0,
       topBtnList: [
-        { name: "实时信息", active: true },
+        { name: "实时监控", active: true },
         { name: "历史告警", active: false },
         { name: "历史数据", active: false }
       ],

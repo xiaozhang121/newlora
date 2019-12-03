@@ -155,6 +155,7 @@
                                                         planId: params.row.planId,
                                                         planType: params.row.planType,
                                                         batchId: params.row.batchId,
+                                                        executeTime: params.row.date,
                                                         url: "/lenovo-plan/api/statistics/plan/view"
                                                     }
                                                 });

@@ -23,7 +23,7 @@ export default {
           this.dataBread = [
             { path: "/realEnv/list", name: "操作中台" },
             { path: "/configuration/list", name: "任务配置" },
-            { path: `/configuration/configure-report?planId=${this.$route.query.planId}&planType=${this.$route.query.planType}`, name: "查看详情" },
+            { path: `/configuration/configure-report?planId=${this.$route.query.planId}&planType=${this.$route.query.planType}`, name: `${this.$route.query.planType}任务详情` },
             { path: "", name: "查看报告" }
           ];
           this.downloadURL = "/lenovo-plan/api/statistics/plan/download";

@@ -24,7 +24,7 @@ export default {
       activeName: 'first',
       tabPaneData: [
         {
-          label: "实时信息",
+          label: "实时监控",
           name: "first"
         },
         {
