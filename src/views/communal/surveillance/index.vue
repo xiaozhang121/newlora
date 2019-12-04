@@ -823,6 +823,7 @@ export default {
         } else {
           this.$refs.btnTopRef.disabled = true;
         }
+        this.$refs.btnTopRef.init();
         this.getCameraType();
         this.initConfigure(item["format"]);
       });

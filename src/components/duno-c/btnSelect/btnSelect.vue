@@ -1,7 +1,7 @@
 <template>
   <div class="btn-selectV">
     <div class="top" @click="handleShow">
-      <p>选择摄像头显示来源</p>
+      <p>选择摄像头显示来源({{ checkedCities.length }}/{{ num }})</p>
       <i class="iconfont icon-xiala"></i>
     </div>
     <el-collapse-transition>
@@ -36,8 +36,7 @@
                 >
                   <el-checkbox
                     :label="child['item']['monitorDeviceId']"
-                    :checked="child['item']['isSelected']=='1'"
-                    :disabled="(isDisabled(child['item']['monitorDeviceId']))"
+                    :checked="child['item']['isActive']"
                     @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])"
                   >{{child['item']['describeName']}}</el-checkbox>
                 </el-tooltip>
@@ -53,6 +52,7 @@
 <script>
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import { putAxiosData } from "../../../api/axiosType";
+import { debug } from "util";
 export default {
   name: "btnSelect",
   props: {
@@ -70,6 +70,7 @@ export default {
     return {
       isClick: true,
       showData: false,
+      num: 8,
       titleMain: "",
       useListData: [],
       checkedCities: [],
@@ -167,6 +168,11 @@ export default {
           that.useListData = info;
           that.showDataBackUp = info;
           that.TypeData = dataB;
+          if (that.displayType == "1") {
+            that.num = 5;
+          } else {
+            that.num = 8;
+          }
         }
       });
     },
@@ -177,6 +183,7 @@ export default {
       for (let i = 0; i < length; i++) {
         data[i].children.map(items => {
           if (items.item.id == id) {
+            debugger;
             if (flag) {
               items.item["isActive"] = false;
             } else {
@@ -186,6 +193,7 @@ export default {
         });
       }
       that.useListData = data;
+      that.$forceUpdate();
     },
     handleData(arr) {
       let data = [];
@@ -218,10 +226,6 @@ export default {
       }
     },
     handleActive(index, flag) {
-      let isActive = this.isDisabled(index);
-      if (isActive) {
-        return false;
-      }
       if (this.isClick) {
         if (flag["isActive"]) {
           this.checkedCities.forEach((item, i) => {
@@ -231,34 +235,28 @@ export default {
             }
           });
         } else {
-          if (this.displayType == "1") {
-            this.checkedCities.unshift(index);
+          this.checkedCities = Array.from(new Set(this.checkedCities));
+          let length = this.checkedCities.length;
+          if (
+            (this.displayType == "1" && length == 5) ||
+            (this.displayType == "3" && length == 8)
+          ) {
+            console.log(this.checkedCities);
+            this.changeState(this.checkedCities[0], true);
+            this.checkedCities.shift();
+            this.checkedCities.push(index);
+            console.log(this.checkedCities);
           } else {
             this.checkedCities.push(index);
           }
           this.checkedCities = Array.from(new Set(this.checkedCities));
           this.changeState(index, false);
         }
-        this.isDisabled();
         this.$emit("on-active", this.checkedCities);
         this.isClick = false;
         setTimeout(() => {
           this.isClick = true;
         }, 50);
-      }
-    },
-    isDisabled(id) {
-      let length = this.checkedCities.length;
-      if (
-        (this.displayType == "1" && length < 5) ||
-        (this.displayType == "3" && length < 8)
-      ) {
-        return false;
-      }
-      if (this.checkedCities.indexOf(id) > -1) {
-        return false;
-      } else {
-        return true;
       }
     }
   },

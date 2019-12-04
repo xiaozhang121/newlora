@@ -57,6 +57,7 @@
 <script>
 import buttonCustom from "_c/duno-m/buttonCustom";
 import survey from "_c/duno-c/survey";
+import moment from "moment";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 export default {
   name: "sampleImg",
@@ -164,7 +165,8 @@ export default {
       let date = new Date()
       this.fileList.push({name: file.name, src: date})
       let fileObj = $('.el-upload.el-upload--text')[0].children[1].files[0]
-      let lastModifiedDate = fileObj.lastModifiedDate
+      // let lastModifiedDate = fileObj.lastModifiedDate
+      let lastModifiedDate = moment().format("YYYY-MM-DD HH:mm:ss")
       let size = fileObj.size
       let reader = new FileReader();
       reader.readAsDataURL(fileObj)
