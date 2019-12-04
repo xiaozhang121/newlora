@@ -86,6 +86,18 @@ export default [{
         },
         component: () => import('@/components/duno-j/warningT/newPage.vue')
     },
+    {
+      path: '/demoVideo',
+      name: 'demoVideo',
+      props: true,
+      meta: {
+          title: '16个视频流',
+          hideMenuAuthority: true,
+          hideInMenu: true,
+          isLogin: true
+      },
+      component: () => import('@/components/duno-c/demo/demo.vue')
+  },
     /*  {
         path: '/',
         name: '_home',
