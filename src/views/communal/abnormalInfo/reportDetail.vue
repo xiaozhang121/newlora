@@ -23,7 +23,7 @@ export default {
           this.dataBread = [
             { path: "/abnormalInfoPath/home", name: "功能卡片" },
             { path: "/abnormalInfoPath/home", name: "报表" },
-            { path: "", name: "报表详情" },
+            { path: "", name: `${this.$route.query.planName} ${this.$route.query.executeTime.substring(0,10)}` },
           ];
           break;
       }

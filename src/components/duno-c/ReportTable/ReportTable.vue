@@ -27,11 +27,11 @@
         时长: {{reportData.timeLong}}
         <!-- <span>{{reportData.timeLong}}</span> -->
       </p>
-      <p v-if="reportData.alarmNum">
+      <p>
         异常信息数量: {{reportData.alarmNum}}
         <!-- <span>{{reportData.alarmNum}}</span> -->
       </p>
-      <p v-if="isAllInfo">
+      <p v-if="isAllInfo&&kind != 'robot'">
         <!-- <i>来源:</i> -->
         来源:
         <span
@@ -143,13 +143,14 @@ export default {
             planType: this.reportData.taskType,
             executeTime: this.reportData.date,
             startTime: this.reportData.StartTime,
+            planName:this.reportData.planName,
             endTime: this.reportData.EndTime,
             path: "/robot-one/reportList?substationId=1&robotId=1",
             name: "最新巡视报告"
           }
         }else{
           if(this.reportData && this.reportData.value)
-            query = {value: this.reportData.value}
+            query = {value: this.reportData.value, planName: this.reportData.planName,}
         }
         this.$router.push({
           path: this.path,
@@ -167,6 +168,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            planName:this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/plan/visible-report/view/detail"
           }
@@ -181,6 +183,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            planName:this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/plan/iir-report/view/detail"
           }
@@ -192,6 +195,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            planName:this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -206,6 +210,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            planName:this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -217,6 +222,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            planName:this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -228,6 +234,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
+            planName:this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -243,6 +250,7 @@ export default {
             planType: this.reportData.planType,
             isRobot: this.reportData.isRobot,
             batchId: this.reportData.batchId,
+            planName:this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/information/overview/plan/report/detail"
           }

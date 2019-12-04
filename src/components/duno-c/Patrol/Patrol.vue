@@ -255,6 +255,7 @@ export default {
           name: "report-view",
           query: {
             planId: row.planId,
+            planName: row.planName,
             planType: this.planType
           }
         });
@@ -263,6 +264,7 @@ export default {
           name: "configure-report",
           query: {
             planId: row.planId,
+            planName: row.planName,
             planType: this.planType
           }
         });

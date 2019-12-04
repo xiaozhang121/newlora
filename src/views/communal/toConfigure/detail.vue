@@ -274,6 +274,7 @@ export default {
                         name: "configure-report",
                         query: {
                           planId: params.row.planId,
+                          planName: params.row.planName,
                           planType: params.row.planType
                           //   url: ""
                         }
@@ -417,6 +418,7 @@ export default {
                         name: "configure-report",
                         query: {
                           planId: params.row.planId,
+                          planName: params.row.planName,
                           planType: params.row.planType
                           //   url: ""
                         }
@@ -549,6 +551,7 @@ export default {
                         name: "configure-report",
                         query: {
                           planId: params.row.planId,
+                          planName: params.row.planName,
                           planType: params.row.planType
                         }
                       });
@@ -712,6 +715,7 @@ export default {
                           query: {
                             planId: params.row.planId,
                             planType: params.row.planType,
+                            planName: params.row.planName,
                             inspectName: params.row.inspectName
                           }
                         });
@@ -720,6 +724,7 @@ export default {
                             name: "patrolMission",
                             query: {
                                 planId: params.row.planId,
+                                planName: params.row.planName,
                                 planType: params.row.planType,
                                 inspectName: params.row.inspectName
                             }

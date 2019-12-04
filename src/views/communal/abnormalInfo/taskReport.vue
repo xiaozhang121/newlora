@@ -285,7 +285,7 @@ export default {
       },
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
-        { path: "", name: "报表详情" },
+        { path: "", name: `${this.$route.query.planName}` },
       ],
     };
   },

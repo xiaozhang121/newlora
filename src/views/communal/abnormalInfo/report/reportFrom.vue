@@ -37,7 +37,7 @@
       element-loading-text="请稍后，正在加载数据…"
     >
       <div v-if="!loading&&dataList.tableData.length==0" class="noData">暂无数据</div>
-      <div class="task" v-if="planType == 9">
+      <div class="task taskN" v-if="planType == 9">
         <ReportTable
           v-for="(item,index) in dataList.tableData"
           :key="index"
@@ -300,6 +300,11 @@ export default {
       img {
         height: 100%；;
       }
+    }
+  }
+  .taskN {
+    & > div {
+      height: 335px;
     }
   }
   //分页--

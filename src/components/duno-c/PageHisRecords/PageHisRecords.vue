@@ -146,7 +146,7 @@ export default {
         {
           key: "alarmTime",
           title: "拍摄时间",
-          minWidth: 120,
+          width: 200,
           align: "center",
           tooltip: true
         },
@@ -154,32 +154,55 @@ export default {
           key: "alarmDetailType",
           title: "告警类型",
           align: "center",
-          minWidth: 120,
+          width: 200,
           tooltip: true
         },
         {
           title: "来源",
           key: "monitorDeviceName",
-          minWidth: 120,
+          minWidth: 150,
           align: "center",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             newArr.push([
               h(
-                "a",
+                "Tooltip",
                 {
-                  class: "table_link",
-                  props: { type: "text" },
-                  on: {
-                    click: () => {
-                      this.getJump(params.row);
-                    }
+                  props: {
+                    placement: "top",
+                    maxWidth: "150",
+                    content: params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source,
+                    transfer: true
+                  },
+                  style: {
+                    width: "100%"
                   }
                 },
-                params.row.monitorDeviceName
-                  ? params.row.monitorDeviceName
-                  : params.row.source
+                [
+                  h(
+                    "a",
+                    {
+                      class: "table_link",
+                      props: { type: "text" },
+                      style: {
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      },
+                      on: {
+                        click: () => {
+                          this.getJump(params.row);
+                        }
+                      }
+                    },
+                    params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source
+                  )
+                ]
               )
             ]);
             return h("div", { class: { member_operate_div: true } }, newArr);
@@ -191,7 +214,31 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h("div", params.row.dealList[0].dealType);
+            let dealType = params.row.dealList[0].dealType;
+            let newArr = [];
+            newArr.push([
+              h(
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    maxWidth: "150",
+                    content: params.row.monitorDeviceName
+                      ? params.row.monitorDeviceName
+                      : params.row.source,
+                    transfer: true
+                  },
+                  style: {
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                dealType
+              )
+            ]);
+            return h("div", newArr);
           }
         },
         {
@@ -208,6 +255,7 @@ export default {
           title: "视频/图片",
           key: "id",
           align: "center",
+          width: 120,
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
@@ -246,7 +294,7 @@ export default {
         {
           title: " ",
           align: "center",
-          minWidth: 120,
+          width: 200,
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
@@ -309,6 +357,7 @@ export default {
         {
           title: " ",
           align: "center",
+          width: "90",
           render: (h, params) => {
             let newArr = [];
             newArr.push([
@@ -610,7 +659,7 @@ export default {
     }
   }
   .imgOrMv {
-    width: 43%;
+    width: 80%;
     height: 45px;
     position: relative;
     top: 2px;
@@ -702,10 +751,8 @@ export default {
     }
   }
   .ivu-table-cell {
-    @media screen and (min-width: 3500px) {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
+    padding-left: 0;
+    padding-right: 0;
   }
   .ivu-table-border td {
     font-size: 16px;

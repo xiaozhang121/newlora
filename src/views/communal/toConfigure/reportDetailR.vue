@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="dunoDrap">
-      <div>{{$route.query.planType}}任务详情</div>
+      <div>{{$route.query.planName}}详情</div>
       <div class="selectBtn">
         <div style="visibility: hidden">
           <duno-btn-top
@@ -68,7 +68,6 @@
     import mixinViewModule from "@/mixins/view-module";
     import { DunoTablesTep } from "_c/duno-tables-tep";
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
-    const that = this;
     export default {
         name: "ReportFrom",
         mixins: [mixinViewModule],
@@ -91,6 +90,7 @@
             }
         },
         data() {
+          const that = this;
             return {
                 columns:[
                     {
@@ -154,6 +154,7 @@
                                                     query: {
                                                         planId: params.row.planId,
                                                         planType: params.row.planType,
+                                                        planName:params.row.planName,
                                                         batchId: params.row.batchId,
                                                         executeTime: params.row.date,
                                                         url: "/lenovo-plan/api/statistics/plan/view"
@@ -184,7 +185,7 @@
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/configuration/list", name: "任务配置" },
-                    { path: "", name: "查看详情" }
+                    { path: "", name: `${that.$route.query.planName}详情` }
                 ],
                 loadingOption: false,
                 timer: null,

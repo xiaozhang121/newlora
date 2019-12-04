@@ -156,7 +156,7 @@ export default {
       dataBread: [
         { path: "/realEnv/list", name: "操作中台" },
         { path: "/configuration/list", name: "任务配置" },
-        { path: "", name: "告警记录" }
+        { path: "", name: `${this.$route.query.inspectName}告警记录` }
       ],
       columns: [
         {

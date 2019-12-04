@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>{{dataForm.planType}} {{dataForm.executeTime}}</div>
+      <div>{{dataForm.planName}} {{dataForm.executeTime}}</div>
       <div class="btn">
         <div>
           <el-select
@@ -474,6 +474,7 @@ export default {
       let that = this;
       that.dataForm.planId = that.$route.query.planId;
       that.dataForm.planType = that.$route.query.planType;
+      that.dataForm.planName = that.$route.query.planName;
       try {
         that.dataForm.executeTime = that.$route.query.executeTime.substring(
           0,

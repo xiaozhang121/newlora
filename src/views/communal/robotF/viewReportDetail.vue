@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="top not-print">
-      <div>{{planType}}&nbsp;{{dataForm.executeTime}}</div>
+      <div>{{dataForm.planName}}&nbsp;{{dataForm.executeTime}}</div>
       <div class="btn">
         <div>
           <duno-btn-top
@@ -123,7 +123,7 @@ export default {
         },
         {
           path: "",
-          name: "查看报告"
+          name: `${that.$route.query.planName} ${that.$route.query.executeTime.substring(0,10)}`
         }
       ],
       downLoadList: [
@@ -462,17 +462,18 @@ export default {
     let that = this
     this.getWidth();
     this.dataForm.taskRunHisId = this.$route.query.taskRunHisId?this.$route.query.taskRunHisId:'';
+    that.dataForm.planName = that.$route.query.planName
     try {
         that.dataForm.executeTime = that.$route.query.executeTime.substring(
           0,
           10
         );
       } catch (e) {}
-    this.planType = this.$route.query.planType;
-    if (this.planType == "1501") this.planType = "全面巡视";
-    else if (this.planType == "1502") this.planType = "例行巡视";
-    else if (this.planType == "1503") this.planType = "专项巡视";
-    else if (this.planType == "1504") this.planType = "特殊巡视";
+    // this.planType = this.$route.query.planType;
+    // if (this.planType == "1501") this.planType = "全面巡视";
+    // else if (this.planType == "1502") this.planType = "例行巡视";
+    // else if (this.planType == "1503") this.planType = "专项巡视";
+    // else if (this.planType == "1504") this.planType = "特殊巡视";
     this.getRegion();
     // this.initDataD()
     this.routeName = this.$route.name;

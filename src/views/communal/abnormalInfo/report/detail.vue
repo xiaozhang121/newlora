@@ -15,7 +15,7 @@ export default {
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "/abnormalInfoPath/taskForm", name: "报表" },
-        { path: "", name: "查看报告" }
+        { path: "", name: `${this.$route.query.planName} ${this.$route.query.executeTime.substring(0,10)}` }
       ],
       downloadURL: "/lenovo-plan/api/statistics/plan/download"
     };
