@@ -97,7 +97,19 @@ export default [{
           isLogin: true
       },
       component: () => import('@/components/duno-c/demo/demo.vue')
-  },
+    },
+    {
+      path: '/demoVideoR',
+      name: 'demoVideoR',
+      props: true,
+      meta: {
+          title: '16个视频流',
+          hideMenuAuthority: true,
+          hideInMenu: true,
+          isLogin: true
+      },
+      component: () => import('@/components/duno-c/demo/demoR.vue')
+    },
     /*  {
         path: '/',
         name: '_home',

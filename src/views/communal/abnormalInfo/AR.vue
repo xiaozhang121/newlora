@@ -86,7 +86,7 @@ export default {
       },
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
-        { path: "/abnormalInfoPath/defectLibrary", name: "缺陷库管理" },
+        { path: "/abnormalInfoPath/defectLibrary", name: "缺陷库" },
         { path: "", name: "AR眼镜上传图片" }
       ],
       isFileType: false,
