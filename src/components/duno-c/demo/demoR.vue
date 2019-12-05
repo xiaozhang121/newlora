@@ -83,6 +83,9 @@ export default {
   flex-wrap: wrap;
   .contain {
     width: calc(100% / 4);
+    @media screen and (min-width: 3500px) {
+      width: calc(100% / 8);
+    }
   }
 }
 </style>
