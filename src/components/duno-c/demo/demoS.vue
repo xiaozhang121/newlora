@@ -77,11 +77,12 @@ export default {
     let that = this;
     if (that.$route.query.id) {
       let str = that.$route.query.id;
+      let ip = that.$route.query.ip ? that.$route.query.ip : 46;
       let arr = str.split(",");
       that.playerOptionList = [];
       arr.forEach(el => {
         that.playerOptionList.push({
-          streamAddr: `rtmp://10.0.10.46/rtsp${el}/stream`
+          streamAddr: `rtmp://10.0.10.${ip}/rtsp${el}/stream`
         });
       });
       console.log(that.playerOptionList);
