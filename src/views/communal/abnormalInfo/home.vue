@@ -1,5 +1,5 @@
 <template>
-  <div class="abnormalInfoHome">
+  <div class="abnormalInfoHome" v-if="false">
     <div class="topNav">
       <scroller :listOption="messageList"></scroller>
     </div>
@@ -677,21 +677,21 @@ export default {
       isChangeBar: true
     };
   },
-  created() {
-    this.getdefectData();
-    this.getRecodeList();
-    this.getData();
-    this.getMockData();
-    this.getTableD();
-    this.getLevel();
-    this.isScreen();
-    this.getEnv();
-    this.$nextTick(() => {
-      this.getUbiquitous();
-      this.getEchartsBar();
-      this.getLock();
-    });
-  },
+  // created() {
+  //   this.getdefectData();
+  //   this.getRecodeList();
+  //   this.getData();
+  //   this.getMockData();
+  //   this.getTableD();
+  //   this.getLevel();
+  //   this.isScreen();
+  //   this.getEnv();
+  //   this.$nextTick(() => {
+  //     this.getUbiquitous();
+  //     this.getEchartsBar();
+  //     this.getLock();
+  //   });
+  // },
   methods: {
     getdefectData() {
       let url = "/lenovo-sample/api/sample/data/statistics";
@@ -710,7 +710,7 @@ export default {
       let planType;
       if (item) {
         // planType = "1";
-        planType = "9"
+        planType = "9";
       } else {
         planType = "2,3,4,5";
       }
@@ -874,15 +874,18 @@ export default {
         path: route
       });
     },
-    getTableD(){
-      getAxiosData('/lenovo-plan/api/report/template/list', {pageIndex: 1, pageRows: 10}).then(res=>{
-        let data = res.data.tableData
-        data.map(item=>{
-          item['planName'] = item['label']
-          item['pic'] = require('@/assets/images/tablePic.png')
-        })
-        this.mockDataR = data.slice(0, 2)
-      })
+    getTableD() {
+      getAxiosData("/lenovo-plan/api/report/template/list", {
+        pageIndex: 1,
+        pageRows: 10
+      }).then(res => {
+        let data = res.data.tableData;
+        data.map(item => {
+          item["planName"] = item["label"];
+          item["pic"] = require("@/assets/images/tablePic.png");
+        });
+        this.mockDataR = data.slice(0, 2);
+      });
     },
     getMockData() {
       let url = "/lenovo-plan/api/statistics/plan/list";

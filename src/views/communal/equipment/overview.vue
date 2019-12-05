@@ -6,7 +6,7 @@
     <div>
       <KeyErea configType="4" />
     </div>
-    <div class="reportRecode">
+    <div class="reportRecode" v-if="false">
       <div class="right">
         <div class="report">
           <div>历史巡检报告</div>
@@ -247,8 +247,8 @@ export default {
     }
   },
   mounted() {
-    this.getlightData();
-    this.initImg();
+    // this.getlightData();
+    // this.initImg();
   }
 };
 </script>
