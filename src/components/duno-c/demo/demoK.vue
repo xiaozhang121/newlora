@@ -248,72 +248,6 @@
           </div>
         </div>
       </div>
-      <div class="title" style="margin: 0 0 15px;">
-        <span>{{ oltagevLevel }}</span>
-        <!-- 隐藏功  能 -->
-        <duno-btn-top
-          @on-select="onSelectVol"
-          class="dunoBtnTop"
-          :isCheck="false"
-          style="margin-left: 10px"
-          :dataList="oltagevLevelList"
-          :title="titleValue"
-          :showBtnList="false"
-        ></duno-btn-top>
-      </div>
-      <div v-if="isSwiper" class="oltagevMain">
-        <div
-          class="item_main"
-          v-for="(item, index) in areaCameraList"
-          :key="'camera'+index"
-          :class="{noMarginRight:(index+1)%3 == 0}"
-        >
-          <div class="item">
-            <key-monitor
-              :autoplay="false"
-              :noButton="false"
-              :aggregate="true"
-              :isLive="false"
-              :isNav="true"
-              :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
-              :imgAdress="item['pic']"
-              :kilovolt="item['areaName']"
-              :areaId="item['areaId']"
-              :showType="activeAreaId"
-              :powerDeviceId="item['powerDeviceId']"
-              :streamAddr="item['streamAddr']"
-              :showBtmOption="true"
-              paddingBottom="80%"
-              class="monitorM child"
-            ></key-monitor>
-          </div>
-        </div>
-      </div>
-      <div v-else class="oltagevMainBig">
-        <swiper :options="swiperOption">
-          <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
-            <key-monitor
-              :autoplay="false"
-              :noButton="false"
-              :aggregate="true"
-              :isLive="false"
-              :isNav="true"
-              :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
-              :imgAdress="item['pic']"
-              :kilovolt="item['areaName']"
-              :areaId="item['areaId']"
-              :showType="activeAreaId"
-              paddingBottom="80%"
-              :powerDeviceId="item['powerDeviceId']"
-              :streamAddr="item['streamAddr']"
-              :showBtmOption="true"
-              class="monitorM child"
-            ></key-monitor>
-          </swiper-slide>
-          <div class="swiper-button-prev" slot="button-prev"></div>
-          <div class="swiper-button-next" slot="button-next"></div>
-        </swiper>
-      </div>
       <div class="test"></div>
     </div>
   </div>
@@ -921,7 +855,7 @@ export default {
     if (document.documentElement.clientWidth < 1366) {
       this.isSwiper = false;
     }
-    this.getArea();
+    // this.getArea();
     this.initData();
     this.initConfigure(1);
     this.getCameraType();
