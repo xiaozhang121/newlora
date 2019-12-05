@@ -1,5 +1,5 @@
 <template>
-  <div class="abnormalInfoHome" v-if="false">
+  <div class="abnormalInfoHome">
     <div class="topNav">
       <scroller :listOption="messageList"></scroller>
     </div>
@@ -677,21 +677,21 @@ export default {
       isChangeBar: true
     };
   },
-  // created() {
-  //   this.getdefectData();
-  //   this.getRecodeList();
-  //   this.getData();
-  //   this.getMockData();
-  //   this.getTableD();
-  //   this.getLevel();
-  //   this.isScreen();
-  //   this.getEnv();
-  //   this.$nextTick(() => {
-  //     this.getUbiquitous();
-  //     this.getEchartsBar();
-  //     this.getLock();
-  //   });
-  // },
+  created() {
+    this.getdefectData();
+    this.getRecodeList();
+    this.getData();
+    this.getMockData();
+    this.getTableD();
+    this.getLevel();
+    this.isScreen();
+    this.getEnv();
+    this.$nextTick(() => {
+      this.getUbiquitous();
+      this.getEchartsBar();
+      this.getLock();
+    });
+  },
   methods: {
     getdefectData() {
       let url = "/lenovo-sample/api/sample/data/statistics";
