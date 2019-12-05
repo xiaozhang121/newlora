@@ -78,12 +78,13 @@ export default {
     if (that.$route.query.id) {
       let str = that.$route.query.id;
       let arr = str.split(",");
-      let obj = {};
       that.playerOptionList = [];
       arr.forEach(el => {
-        obj["streamAddr"] = `rtmp://10.0.10.46/rtsp${el}/stream`;
-        that.playerOptionList.push(obj);
+        that.playerOptionList.push({
+          streamAddr: `rtmp://10.0.10.46/rtsp${el}/stream`
+        });
       });
+      console.log(that.playerOptionList);
     }
   }
 };
