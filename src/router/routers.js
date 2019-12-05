@@ -122,6 +122,18 @@ export default [{
       },
       component: () => import('@/components/duno-c/demo/demoS.vue')
     },
+    {
+      path: '/demoVideoK',
+      name: 'demoVideoK',
+      props: true,
+      meta: {
+          title: '16个视频流',
+          hideMenuAuthority: true,
+          hideInMenu: true,
+          isLogin: true
+      },
+      component: () => import('@/components/duno-c/demo/demoK.vue')
+    },
     /*  {
         path: '/',
         name: '_home',

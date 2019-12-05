@@ -258,7 +258,7 @@
         />
       </div>
     </div>
-    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <wraning :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
@@ -313,6 +313,7 @@ export default {
     return {
       showPage: true,
       lockPress: false,
+      detailsType:"alarm",
       dataTimeEE: "",
       alarmId: 0,
       loading: true,
@@ -792,6 +793,11 @@ export default {
                       that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
+                      if(params.row.sourceType=='手动'){
+                        this.detailsType='alarm'
+                      }else{
+                        this.detailsType='task'
+                      }
                       that.visible = true;
                       that.$forceUpdate();
                     }
