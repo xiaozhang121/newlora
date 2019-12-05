@@ -8,7 +8,6 @@
       <div class="btn">
         <div>
           <duno-btn-top
-            :style="{visibility:hidden}"
             ref="btnTopRef"
             @on-select="onSelectDevice"
             class="dunoBtnTop"
@@ -18,7 +17,17 @@
             :showBtnList="false"
           />
         </div>
-        <div>
+        <div v-if="isAP">
+          <duno-btn-top
+            @on-select="onSelectState"
+            class="dunoBtnTopSm"
+            :isCheck="false"
+            :dataList="stateSelectAP"
+            :title="titleTypeR"
+            :showBtnList="false"
+          ></duno-btn-top>
+        </div>
+        <div v-else>
           <duno-btn-top
             @on-select="onSelectState"
             class="dunoBtnTopSm"
@@ -73,14 +82,15 @@ export default {
     const that = this;
     return {
       dataForm: {
-        type: "",
+        type: "0",
         status: ""
       },
+      isAP: true,
       totalNum: 10,
       pageIndex: 1,
       pageRows: 10,
       dataList: [],
-      titleTypeL: "所有网络设备",
+      titleTypeL: "无线ap",
       titleTypeR: "所有状态",
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
@@ -88,22 +98,14 @@ export default {
         { path: "", name: "网络设备" }
       ],
       stateSelect: [
-        {
-          describeName: "上线",
-          value: "ApOnline"
-        },
-        {
-          describeName: "连接中",
-          value: "ApConnecting"
-        },
-        {
-          describeName: "离线",
-          value: "ApOffline"
-        },
-        {
-          describeName: "未上线",
-          value: "ApDown"
-        }
+        { describeName: "连线", value: "0" },
+        { describeName: "断线", value: "1" }
+      ],
+      stateSelectAP: [
+        { describeName: "上线", value: "ApOnline" },
+        { describeName: "连接中", value: "ApConnecting" },
+        { describeName: "离线", value: "ApOffline" },
+        { describeName: "未上线", value: "ApDown" }
       ],
       DeviceData: [
         {
@@ -117,14 +119,11 @@ export default {
       ],
       infoColumns: [
         {
-          key: "monitorDeviceId",
+          key: "netName",
           title: "网络设备名称",
           minWidth: 210,
           align: "center",
-          tooltip: true,
-          render: (h, params) => {
-            return h("div", "802.11ac Wave2天线一一体化室外无无线AP");
-          }
+          tooltip: true
         },
         {
           key: "model",
@@ -133,13 +132,10 @@ export default {
           align: "center"
         },
         {
-          key: "areaName",
+          key: "brand",
           title: "品牌",
           tooltip: true,
-          align: "center",
-          render: (h, params) => {
-            return h("div", "苏州汉明");
-          }
+          align: "center"
         },
         {
           key: "ip",
@@ -246,6 +242,11 @@ export default {
     },
     onSelectDevice(item) {
       this.titleTypeL = item["describeName"];
+      if (item["value"] == "0") {
+        this.isAP = true;
+      } else {
+        this.isAP = false;
+      }
       this.dataForm.type = item["value"];
       this.mixinViewModuleOptions.isShowPage = true;
       this.init();
@@ -259,7 +260,7 @@ export default {
   },
   mounted() {
     this.init();
-  },
+  }
   // created() {
   //   this.getWidth();
   // }
