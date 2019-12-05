@@ -1,5 +1,5 @@
 <template>
-  <div class="demoVideoR">
+  <div class="demoVideoS">
     <div class="contain" v-for="(item,index) in playerOptionList" :key="index">
       <KeyMonitor
         class="monitorN"
@@ -15,7 +15,7 @@
 <script>
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 export default {
-  name: "demoVideoR",
+  name: "demoVideoS",
   components: {
     KeyMonitor
   },
@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style lang='scss'>
-.demoVideoR {
+.demoVideoS {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
