@@ -104,7 +104,7 @@
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
-          <span @click="isSample(1)" v-if="!onlyCanel && picCut && isAux">
+          <span @click="isSample(1)" v-if="(!onlyCanel && picCut && isAux) || picCutAbsolute">
             <i class="iconfont icon-jietu"></i>截图
           </span>
           <!--  <span @click="fullScreen()">
@@ -424,8 +424,9 @@
     },
     data() {
       return {
-        videoCut:false,//录像是否未指定类的摄像头
-        picCut:false,//截图是否未指定类的摄像头
+        videoCut:false,//录像是否为指定类的摄像头
+        picCut:false,//截图是否为指定类的摄像头
+        picCutAbsolute:false,
         mainstream:"",
         monitorDeviceType: false,
         isPlayback:false,

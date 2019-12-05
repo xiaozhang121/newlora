@@ -322,7 +322,7 @@
                    })*/
                 getAxiosData('/lenovo-mon/api/monitoring/ap/zabbix/getApStatus').then(res=>{
                     let data = res.data
-                    this.APData =  { normal: data['icnt'], total:  data['total'] }
+                    this.APData =  { normal: data['apData'][0], total:  data['total'] }
                     this.APDataV = !this.APDataV
                 })
                 getAxiosData('/lenovo-mon/api/monitoring/visible/run/count').then(res=>{

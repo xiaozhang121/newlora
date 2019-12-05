@@ -36,6 +36,7 @@
                         :isLive='false'
                         :isNav='true'
                         :isAux='true'
+                        :picCutAbsolute='true'
                 ></key-monitor>
                 <span
                   v-show="overFlag"
