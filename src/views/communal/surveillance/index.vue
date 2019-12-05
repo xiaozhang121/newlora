@@ -242,9 +242,8 @@
         </div>
       </div>
     </div>
-    <div class="title" style="margin: 0 0 15px;">
+    <!-- <div class="title" style="margin: 0 0 15px;">
       <span>{{ oltagevLevel }}</span>
-      <!-- 隐藏功  能 -->
       <duno-btn-top
         @on-select="onSelectVol"
         class="dunoBtnTop"
@@ -254,8 +253,8 @@
         :title="titleValue"
         :showBtnList="false"
       ></duno-btn-top>
-    </div>
-    <div v-if="isSwiper" class="oltagevMain">
+    </div>-->
+    <!-- <div v-if="isSwiper" class="oltagevMain">
       <div
         class="item_main"
         v-for="(item, index) in areaCameraList"
@@ -307,7 +306,7 @@
         <div class="swiper-button-prev" slot="button-prev"></div>
         <div class="swiper-button-next" slot="button-next"></div>
       </swiper>
-    </div>
+    </div>-->
     <div class="test"></div>
   </div>
 </template>
@@ -659,7 +658,7 @@ export default {
   methods: {
     handleActiveBtn(data) {
       let that = this;
-      let type = that.displayType
+      let type = that.displayType;
       this.ajaxCount++;
       if (this.ajaxCount > MAXAJAX) {
         this.setDefault = "0";
@@ -912,7 +911,7 @@ export default {
     if (document.documentElement.clientWidth < 1366) {
       this.isSwiper = false;
     }
-    this.getArea();
+    // this.getArea();
     this.initData();
     this.initConfigure(1);
     this.getCameraType();
