@@ -35,7 +35,7 @@ export default {
       }
     },
     alarmId: {
-      type: String,
+      type: String | Number,
       default: () => {
         return "";
       }

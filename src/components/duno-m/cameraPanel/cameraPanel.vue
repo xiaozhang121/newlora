@@ -739,7 +739,6 @@ import { debug } from 'util';
                     putAxiosData(url).then(res => {
                         resolve(res)
                     },error=>{
-                        reject(res)
                         this.$message.error(error.message);
                     })
                 })

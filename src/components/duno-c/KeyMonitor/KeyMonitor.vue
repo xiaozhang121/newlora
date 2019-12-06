@@ -388,8 +388,6 @@
                 try{
                   if(this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player)
                     this.$refs.videoPlayer.player.play()
-                  if(this.isReload && this.autoplay)
-                    this.initVideo()
                   this.loading = false;
                 }catch (e) {}
               }, 1500);
@@ -581,6 +579,7 @@
         this.waitTimer = null
       },
       onPlayerError(player){
+        debugger
         console.log(this.playerOptions["sources"][0]["src"] +'   player error')
         clearInterval(this.waitTimer)
         this.waitTimer = null
@@ -593,6 +592,8 @@
             this.$refs.videoPlayer.player.pause()
             this.$refs.videoPlayer.player.play()
           }
+          if(this.isReload && this.autoplay && !this.isPic)
+            this.initVideo()
         }catch(e){}
         try {
           // console.log('ready')
