@@ -119,7 +119,7 @@ export default {
             that.$forceUpdate()
         }
         if (that.mixinViewModuleOptions.isShowPage) {
-            that.totalNum = res.data.total || res.data.pageParam.totalRows
+            that.totalNum = Number(res.data.total) || Number(res.data.pageParam.totalRows)
         }
         if(that.dataList.length==0){
           that.mixinViewModuleOptions.isShowPage = false

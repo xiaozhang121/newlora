@@ -385,7 +385,7 @@ export default {
               {
                 class: "flexPos"
               },
-              params.row.dealList[0].dealType
+              (params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealType)?params.row.dealList[0].dealType:'/'
             );
           }
         },
@@ -400,7 +400,7 @@ export default {
               {
                 class: "flexPos"
               },
-              params.row.dealList[0].dealTime
+              (params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealTime)?params.row.dealList[0].dealTime:'/'
             );
           }
         },
