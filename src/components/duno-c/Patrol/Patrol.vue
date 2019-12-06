@@ -11,7 +11,7 @@
       <duno-tables-tep
         class="table_abnormalInfo"
         :columns="columnsData"
-        :data="dataList"
+        :data="patrolData"
         :isShowPage="false"
         :border="true"
         :showSizer="true"
@@ -49,7 +49,7 @@ export default {
       type: Boolean,
       default: false
     },
-    dataList: {
+    patrolData: {
       type: Array,
       default: () => {
         return [];

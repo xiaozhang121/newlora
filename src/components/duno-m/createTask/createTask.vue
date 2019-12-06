@@ -78,6 +78,7 @@ import secondPanelpro from "_c/duno-m/createTask/components/panel/second.vue";
 import thirdPanel from "_c/duno-m/createTask/components/panel/third.vue";
 import steps from "_c/duno-m/steps";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+import { any } from 'bluebird';
 export default {
   name: "createTask",
   components: {
@@ -109,16 +110,24 @@ export default {
       this.$forceUpdate();
     },
     choseType:{
-        handler(now){
-        }
+        handler(value){
+          console.log(value)
+          this.getType=value
+          if(this.getType=='4'||this.getType=='5'){
+            this.$emit('gettype',this.getType)
+            return
+          }
+        },
+        deep: true,
+        immediate: true
     }
   },
   props: {
     choseType: {
-      type: [String, Number],
-      default: () => {
-        return false;
-      }
+      type: any,
+      // default: () => {
+      //   return false;
+      // }
     },
     rowData: {
       type: Object,
@@ -139,14 +148,6 @@ export default {
     }
   },
   methods: {
-    choseType(value){
-      console.log(value)
-      this.getType=value
-      if(this.getType=='4'||this.getType=='5'){
-        this.$emit('gettype',this.getType)
-        return
-      }
-    },
     toEdit() {
       this.toSubmit("/lenovo-plan/api/plan/edit");
     },

@@ -74,8 +74,8 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
-    <!--<warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />-->
     <wraning
+      v-if="visible"
       :popData="popData"
       :fileType="isFileType"
       :visible="visible"
@@ -95,7 +95,6 @@ import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import enlarge from "_c/duno-c/enlarge";
-import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -109,7 +108,6 @@ export default {
     KeyMonitor,
     dunoMain,
     DunoTablesTep,
-    warningSetting,
     wraning,
     Breadcrumb,
     enlarge

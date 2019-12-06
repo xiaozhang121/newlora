@@ -21,8 +21,8 @@
                     </div>
                 </div>
       </div>-->
-    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData"  detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <warning-setting v-if="visibleSettingOption" @handleClose="onClose" :visibleOption="visibleSettingOption" />
+    <wraning :popData="popData" v-if="visible"  detailsType="alarm" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 

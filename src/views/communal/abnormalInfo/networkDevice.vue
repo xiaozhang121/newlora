@@ -215,14 +215,6 @@ export default {
     };
   },
   methods: {
-    // getWidth() {
-    //   let screenWidth = window.screen.availWidth;
-    //   let screenHeight = window.screen.availHeight;
-    //   console.log(screenWidth, screenHeight);
-    //   if (screenWidth == 3840 && screenHeight == 2160) {
-    //     this.pageRows = 15;
-    //   }
-    // },
     init() {
       let url = "/lenovo-mon/api/monitoring/ap/zabbix/getNetDevicePage";
       let query = {
@@ -247,6 +239,8 @@ export default {
       } else {
         this.isAP = false;
       }
+      this.titleTypeR = "所有状态";
+      this.dataForm.status = "";
       this.dataForm.type = item["value"];
       this.mixinViewModuleOptions.isShowPage = true;
       this.init();

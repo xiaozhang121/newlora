@@ -161,7 +161,6 @@
         <div class="tableList">
           <ReportTable
                   v-for="(item,index) in dataListInfo.tableData"
-                  :url="url"
                   :key="index"
                   :reportData="item"
           />
@@ -178,7 +177,6 @@
               class="table_analysis"
               :columns="columns"
               :data="dataList"
-              :totalNum="totalNum"
               :pageSize="pageRows"
               :current="pageIndex"
               :border="true"

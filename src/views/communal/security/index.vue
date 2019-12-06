@@ -22,21 +22,6 @@
             :key="index"
           >
           <cover :monitorInfo="item"  class="coverRecord" :srcData="item"></cover>
-            <!-- <key-monitor
-              class="monitorRecord"
-              :showBtmOption="true"
-              :pushCamera="false"
-              :noButton="false"
-              :autoplay="false"
-              :bottom="{bottom:'-65px'}"
-              configType="2"
-              :monitorInfo="item"
-              :imgAdress="item['pic']"
-              :streamAddr="item['streamAddr']"
-              :kilovolt="item['monitorDeviceName']"
-              :patrol="item['interval']"
-            /> -->
-            <!-- :patrol="`${item['startTime']}至${item['endTime']}`" -->
           </div>
           <div style="clear: both"></div>
         </div>
