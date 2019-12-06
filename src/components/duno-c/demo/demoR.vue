@@ -4,6 +4,7 @@
       <KeyMonitor
         class="monitorN"
         :isLive="false"
+        :isReload="false"
         :autoplay="true"
         :streamAddr="item['streamAddr']"
         width="100%"

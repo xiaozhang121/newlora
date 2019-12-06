@@ -176,6 +176,12 @@
       screenshot
     },
     props: {
+      isReload: {
+        type: Boolean,
+        default: () => {
+          return true;
+        }
+      },
       showType: {},
       powerDeviceId: {},
       isRobot: {
@@ -382,7 +388,8 @@
                 try{
                   if(this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player)
                     this.$refs.videoPlayer.player.play()
-                  this.initVideo()
+                  if(this.isReload && this.autoplay)
+                    this.initVideo()
                   this.loading = false;
                 }catch (e) {}
               }, 1500);
