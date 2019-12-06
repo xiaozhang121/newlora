@@ -57,22 +57,8 @@
             v-for="(nr, i) in item['data']"
             :key="i"
           >
-            <!-- <key-monitor
-              class="monitorRecord"
-              :showBtmOption="true"
-              :noButton="false"
-              configType="2"
-              :imgAdress="nr['pic']"
-              :monitorInfo="nr"
-              :pushCamera="false"
-              :isRecord="false"
-              :streamAddr="nr['streamAddr']"
-              :kilovolt="nr['monitorDeviceName']"
-              :patrol="nr['monitorDeviceId']"
-            />-->
             <cover :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
           </div>
-          <!-- <div style="clear: both"></div> -->
         </div>
       </div>
     </duno-main>

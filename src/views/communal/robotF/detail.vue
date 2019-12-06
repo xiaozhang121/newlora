@@ -59,7 +59,7 @@
       <Patrol
         :isShowBtn="true"
         :columns="columnsData"
-        :dataList="specialInspectList['data']"
+        :patrolData="specialInspectList['data']"
         :title="title"
         :titleCon="titleCon"
         @add-task="addTask"

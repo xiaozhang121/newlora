@@ -87,8 +87,6 @@
             :dataMonitorIds="dataMonitorIds"
             @on-chosen="changeListV"
     />
-    <!--:patrol="item['monitorDeviceId']"-->
-    <!--<push-mov :pic="cameraPic" @on-push="onPushReal" @on-close="onClose" :visible="pushMovVisable" />-->
   </div>
 </template>
 

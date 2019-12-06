@@ -10,7 +10,7 @@
       <duno-tables-tep
         class="table_abnormalInfo"
         :columns="infoColumns"
-        :data="dataList"
+        :data="lockData"
         :loading="loadingOption"
         :totalNum="totalNum"
         :current="offset"
@@ -30,12 +30,14 @@ import { DunoTablesTep } from "_c/duno-tables-tep";
 import dunoMain from "_c/duno-m/duno-main";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import unlock from "_c/duno-c/unlock";
+import mixinViewModule from "@/mixins/view-module";
 import moment from "moment";
 import { putAxiosData, getAxiosData, postAxiosData } from "@/api/axiosType";
 import { debug } from "util";
 const qs = require("qs");
 export default {
   name: "intellLock",
+  mixins: [mixinViewModule],
   components: {
     dunoBtnTop,
     DunoTablesTep,
@@ -50,6 +52,7 @@ export default {
       totalNum: 10,
       loadingOption: true,
       websock: null,
+      lockData:[],
       webData: {},
       isShow: false,
       dataBread: [
@@ -153,7 +156,7 @@ export default {
       };
       let url = "/lenovo-smartlock/api/device/list/granPermits";
       getAxiosData(url, query).then(res => {
-        this.dataList = res.data.tableData;
+        this.lockData = res.data.tableData;
         this.loadingOption = false;
       });
     },

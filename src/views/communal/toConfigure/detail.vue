@@ -11,7 +11,7 @@
       <Patrol
         @to-run="toRunTask"
         @to-del="toDel"
-        :dataList="allInspectList"
+        :patrolData="allInspectList"
         planType="全面巡视"
         @to-edit="toEdit"
       />
@@ -19,14 +19,14 @@
         @to-del="toDel"
         @to-edit="toEdit"
         @to-run="toRunTask"
-        :dataList="nightInspectList"
+        :patrolData="nightInspectList"
         planType="熄灯巡视"
         :titleCon="titleNight"
         :title="titleTwo"
       />
       <Patrol
         :columns="columnsData"
-        :dataList="specialInspectList"
+        :patrolData="specialInspectList"
         :title="title"
         :isShowBtn="false"
         :titleCon="titleCon"
@@ -34,7 +34,7 @@
       />
       <Patrol
         :columns="columnsDataD"
-        :dataList="handHeldInfraredPlanList"
+        :patrolData="handHeldInfraredPlanList"
         :title="title2"
         :isShowBtn="false"
         :titleCon="titleCon"
@@ -42,7 +42,7 @@
       />
       <Patrol
               :columns="columnsData1D"
-              :dataList="environmentInspectList"
+              :patrolData="environmentInspectList"
               :title="title1"
               :isShowBtn="false"
               :titleCon="titleCon"

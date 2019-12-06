@@ -42,10 +42,7 @@ export default {
       }
     },
     dataList: {
-      type: Object,
-      default: () => {
-        return {};
-      }
+      type: Object | Array,
     }
   },
   data() {

@@ -212,6 +212,7 @@
       </div>
     </div>
     <wraning
+      v-if="visible"
       @on-fresh="getDataList"
       :popData="popData"
       :detailsType="detailsType"

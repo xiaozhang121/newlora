@@ -76,7 +76,7 @@
             <div class="lineTitle">操作中台</div>
             <el-container class="mainAside">
               <el-aside
-                      v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1 && !isHidde"
+                      v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1 && !isHidden"
                       hide-trigger
                       collapsible
                       :width="collapsed ? '64px' : '200px'"
