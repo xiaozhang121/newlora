@@ -291,6 +291,9 @@ export default {
   watch: {
     popData: {
       handler(now) {
+        if(!Object.keys(now).length){
+          return
+        }
         this.isPhaseAlarm = now["isPhaseAlarm"];
         this.isRobot = now["isRobot"];
         this.isThree = now["isPhaseAlarm"] == 1;

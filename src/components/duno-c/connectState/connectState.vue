@@ -10,7 +10,7 @@ export default {
   name: "connectState",
   props: {
     deviceId: {
-      type: String,
+      type: String | Number,
       default: () => {
         return "";
       }

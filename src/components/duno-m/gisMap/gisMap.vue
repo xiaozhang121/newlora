@@ -1014,7 +1014,8 @@
 
             },
             addPoint(item, index, style){
-              const that = this
+            try{
+                const that = this
                 let anchor = null
                 if(that.isDiagram == 1){
                   if(that.kind == ''){
@@ -1088,6 +1089,7 @@
                     that.clickTarget = null
                   }
                 })
+            }catch (e) {}
             },
             findPoint(point){
                 let deviceId =  'deviceIdStr' in  point?point['deviceIdStr']:point.powerDeviceId
@@ -1250,12 +1252,14 @@
             },
             setZoom(anchor){
                 // 监听地图层级变化
-                this.EventList[5] = this.mapTarget.getView().on('change:resolution', function(){
-                    /*  let element = anchor.element;
-                      // 重新设置图标的缩放率，基于层级10来做缩放
-                      // console.log(Math.abs((this.getZoom() / 10))-0.5)
-                      element.style.transform = `scale(${Math.abs((this.getZoom() / 10))-0.5})`*/
-                })
+                try{
+                    this.EventList[5] = this.mapTarget.getView().on('change:resolution', function(){
+                        /*  let element = anchor.element;
+                          // 重新设置图标的缩放率，基于层级10来做缩放
+                          // console.log(Math.abs((this.getZoom() / 10))-0.5)
+                          element.style.transform = `scale(${Math.abs((this.getZoom() / 10))-0.5})`*/
+                    })
+                }catch (e) {}
             },
             zeroPad(num,len,radix){
                 let str = num.toString(radix || 10);

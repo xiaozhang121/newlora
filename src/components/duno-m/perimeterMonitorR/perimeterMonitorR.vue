@@ -705,18 +705,18 @@ export default {
       });
     },
     getSelectPreset() {
-      getPosition().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        this.typeList = map;
-      });
+      // getPosition().then(res => {
+      //   const resData = res.data;
+      //   const map = resData.map(item => {
+      //     const obj = {
+      //       describeName: item.label,
+      //       monitorDeviceType: item.value,
+      //       title: "titleTypeR"
+      //     };
+      //     return obj;
+      //   });
+      //   this.typeList = map;
+      // });
     },
     clickExcel() {
       const that = this;

@@ -294,11 +294,13 @@
             topBtnListFlag(now){
                 if(now == 0){
                     const that = this
-                    this.$nextTick(()=> {
-                        that.initCamera()
-                        let video = document.getElementById("videoMain");
-                        video.onmousemove = this.mouseMove
-                    })
+                    try{
+                        this.$nextTick(()=> {
+                            that.initCamera()
+                            let video = document.getElementById("videoMain");
+                            video.onmousemove = this.mouseMove
+                        })
+                    }catch (e) {}
                 }
             },
             leftBtnListFlag(now){
@@ -632,7 +634,9 @@
 
                 })
                 let video = document.getElementById("videoMain");
-                video.onmousemove = this.mouseMove
+                try{
+                    video.onmousemove = this.mouseMove
+                }catch (e) {}
             })
         }
     }

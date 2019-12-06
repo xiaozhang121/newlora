@@ -770,7 +770,9 @@
                     if(!this.cameraList.length)
                         that.cameraList = res.data.cameraList
                     that.tableList = res.data.tableData
+                    try{
                     that.totalPage = res.data.tableData.pageParam.totalRows
+                    }catch (e) {}
                     if(res.data.tableData.length==0){
                        that.showPage=false
                     }

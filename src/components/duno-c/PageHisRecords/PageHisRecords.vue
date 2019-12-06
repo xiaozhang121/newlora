@@ -214,8 +214,10 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let dealType = params.row.dealList[0].dealType;
             let newArr = [];
+            let dealType = '/'
+            if(params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealType)
+              dealType= params.row.dealList[0].dealType;
             newArr.push([
               h(
                 "Tooltip",
@@ -247,7 +249,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let timeDay = params.row.dealList[0].dealTime.slice(5);
+            let timeDay = (params.row.dealList&&params.row.dealList[0]&&params.row.dealList[0].dealTime)?params.row.dealList[0].dealTime.slice(5):'/';
             return h("div", [h("div", timeDay)]);
           }
         },

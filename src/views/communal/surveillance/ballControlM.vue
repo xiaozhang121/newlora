@@ -733,7 +733,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h("div", params.row.dealList[0].dealType);
+            return h("div", (params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealType)?params.row.dealList[0].dealType:'/');
           }
         },
         {
@@ -743,7 +743,11 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let timeDay = params.row.dealList[0].dealTime.slice(5);
+            let timeDay = ''
+            if(params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealTime)
+              timeDay = params.row.dealList[0].dealTime.slice(5);
+            else
+              timeDay = '/'
             return h("div", timeDay);
           }
         },
@@ -1211,7 +1215,7 @@ export default {
       });
     },
     getSelectPreset() {
-      getPosition().then(res => {
+    /*  getPosition().then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {
@@ -1222,7 +1226,7 @@ export default {
           return obj;
         });
         this.typeList = map;
-      });
+      });*/
     },
     selectDownloadType(item) {
       const that = this;

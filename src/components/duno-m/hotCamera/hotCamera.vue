@@ -839,9 +839,9 @@
 
             this.$nextTick(()=>{
                 getImage()
-                that.initCamera().then(res=>{
-
-                })
+                // that.initCamera().then(res=>{
+                //
+                // })
                 let video = document.getElementById("videoMain");
                 video.onmousemove = this.mouseMove
             })

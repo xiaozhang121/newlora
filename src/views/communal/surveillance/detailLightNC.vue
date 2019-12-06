@@ -60,7 +60,7 @@
               </div>
             </div>
             <div class="contain_nr">
-              <div class="chartsChange" v-if="chartsList.length && chartsList.length != 1" v-show="!isFullscreen">
+              <div class="chartsChange" v-if="chartsList.length && chartsList.length != 1">
                 <label>切换表计</label>
                 <span v-for="(item, index) in chartsList" @click="changeActive(index)" :class="{'active': item['active']}">{{ index+1 }}</span>
               </div>
@@ -231,7 +231,7 @@ export default {
         getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-plan/api/task/result/list/export"
       },
-      //   titleType: "选择对比设备",
+      titleType: "选择对比设备",
       titleTypeL: "全部数据类型",
       titleTypeK: "全部识别类型",
       titleTypeR: "全部异常类型",
@@ -597,22 +597,16 @@ export default {
         getAxiosData(url, {}).then(res => {
           that.playerOptionsd.streamAddr = res.data;
           that.$nextTick(() => {
-            setTimeout(() => {
-              this.$refs.controBtnRef.viewCamera(5, false).then(res => {
-                setTimeout(() => {
-                  this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                    that.disabled = false;
-                  });
-                }, 5000);
-              });
-            }, 500);
+            // setTimeout(() => {
+            //   this.$refs.controBtnRef.viewCamera(5, false).then(res => {
+            //     setTimeout(() => {
+            //       this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+            //         that.disabled = false;
+            //       });
+            //     }, 5000);
+            //   });
+            // }, 500);
           });
-        });
-        const urld =
-          "/lenovo-iir/device/video/url/rtmp/" + this.dataForm.monitorDeviceId;
-        getAxiosData(urld, {}).then(res => {
-          that.playerOptionsd.sources[0].src = res.data.data;
-          that.$forceUpdate();
         });
       }
     },
