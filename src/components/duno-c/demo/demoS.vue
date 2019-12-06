@@ -73,20 +73,29 @@ export default {
       ]
     };
   },
-  mounted() {
-    let that = this;
-    if (that.$route.query.id) {
-      let str = that.$route.query.id;
-      let ip = that.$route.query.ip ? that.$route.query.ip : 46;
-      let arr = str.split(",");
-      that.playerOptionList = [];
-      arr.forEach(el => {
-        that.playerOptionList.push({
-          streamAddr: `rtmp://10.0.10.${ip}/rtsp${el}/stream`
+  methods: {
+    init() {
+      let that = this;
+      if (that.$route.query.id) {
+        let str = that.$route.query.id;
+        let ip = that.$route.query.ip ? that.$route.query.ip : 46;
+        let arr = str.split(",");
+        that.playerOptionList = [];
+        arr.forEach(el => {
+          that.playerOptionList.push({
+            streamAddr: `rtmp://10.0.10.${ip}/rtsp${el}/stream`
+          });
         });
-      });
-      console.log(that.playerOptionList);
+        console.log(that.playerOptionList);
+      }
+      if (that.$route.query.num) {
+        let num = that.$route.query.num;
+        that.playerOptionList = that.playerOptionList.slice(0, num);
+      }
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>
