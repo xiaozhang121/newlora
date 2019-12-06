@@ -36,7 +36,7 @@
       element-loading-background="rgba(0, 0, 0, 0)"
       element-loading-text="请稍后，正在加载数据…"
     >
-      <div v-if="!loading&&dataList.tableData.length==0" class="noData">暂无数据</div>
+      <div v-if="!loading&&isNull" class="noData">暂无数据</div>
       <div class="task taskN" v-if="planType == 9">
         <ReportTable
           v-for="(item,index) in dataList.tableData"
@@ -57,7 +57,7 @@
         />
       </div>
       <el-pagination
-        v-if="!loading&&dataList.tableData.length>0"
+        v-if="!loading&&isNull"
         :current-page="pageIndex"
         layout="pager"
         :total="totalRows"
@@ -88,6 +88,7 @@ export default {
   data() {
     return {
       timer: null,
+      isNull:false,
       loading: false,
       pageIndex: 1,
       totalRows: 1,
@@ -139,6 +140,11 @@ export default {
           });
         }
         this.dataList = res.data;
+        if(this.dataList.length==0){
+          this.isNull=true
+        }else{
+          this.isNull=false
+        }
         this.totalRows = Number(res.data.pageParam.totalRows);
         this.loadingOption = false;
         this.loading = false;

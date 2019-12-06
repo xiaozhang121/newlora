@@ -68,12 +68,11 @@ export default {
   methods: {
     toBack(index) {
       if (this.breadData.length < 3) {
-        if(index == 0){
-          if(self.frameElement && self.frameElement.tagName == "IFRAME"){
-            let arr = self.frameElement.src.split('/')
-            this.$router.push({path: arr[arr.length-1]})
-          }else
-            this.$router.go(-1)
+        if (index == 0) {
+          if (self.frameElement && self.frameElement.tagName == "IFRAME") {
+            let arr = self.frameElement.src.split("/");
+            this.$router.push({ path: arr[arr.length - 1] });
+          } else this.$router.go(-1);
         }
         // if (index == 0) this.$router.go(-1);
       }
@@ -88,19 +87,21 @@ export default {
     },
     handleJump(now) {
       this.breadData = now;
-      let name = now[0].name;
-      if (name == "操作中台") {
-        let name1 = now[1].name;
-        this.isOperation = true;
-        if (name1 == "任务配置") {
-          this.pointData = now.slice(0, 1);
-          this.length = 0;
+      if (now.length > 0) {
+        let name = now[0].name;
+        if (name == "操作中台") {
+          let name1 = now[1].name;
+          this.isOperation = true;
+          if (name1 == "任务配置") {
+            this.pointData = now.slice(0, 1);
+            this.length = 0;
+          } else {
+            this.pointData = now.slice(0, 2);
+            this.length = 1;
+          }
         } else {
-          this.pointData = now.slice(0, 2);
-          this.length = 1;
+          this.isOperation = false;
         }
-      } else {
-        this.isOperation = false;
       }
     }
   },
