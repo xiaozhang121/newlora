@@ -539,7 +539,8 @@
     computed: {
       ...mapState(["user"]),
       player() {
-        return this.$refs.videoPlayer.player;
+        if(this.$refs.videoPlayer)
+          return this.$refs.videoPlayer.player;
       },
       isAlarmG() {
         return this.$store.state.user.isAlarm;
@@ -566,7 +567,7 @@
     methods: {
       onPlayerWaiting(player){
         console.log(this.playerOptions["sources"][0]["src"] + '   player waiting')
-        if (this.autoplay && this.$refs.videoPlayer.player) {
+        if (this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player) {
           this.$refs.videoPlayer.player.pause()
           this.$refs.videoPlayer.player.play()
         }
@@ -588,7 +589,7 @@
       toPlay(){
         try {
           console.log(this.playerOptions["sources"][0]["src"] + '   player ready')
-          if (this.autoplay && this.$refs.videoPlayer.player){
+          if (this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player){
             this.$refs.videoPlayer.player.pause()
             this.$refs.videoPlayer.player.play()
           }
@@ -596,14 +597,14 @@
         try {
           // console.log('ready')
           this.$nextTick(()=>{
-            if (this.autoplay && this.$refs.videoPlayer.player){
+            if (this.autoplay && this.$refs.videoPlayer &&  this.$refs.videoPlayer.player){
               this.$refs.videoPlayer.player.play()
             }
           })
         }catch(e){}
         setTimeout(()=>{
           try{
-            if (this.autoplay && this.$refs.videoPlayer.player)
+            if (this.autoplay && this.$refs.videoPlayer && this.$refs.videoPlayer.player)
               this.$refs.videoPlayer.player.play()
           }catch (e) {}
         },8000)
@@ -1011,10 +1012,12 @@
         if(!this.waitTimer && !this.isPic && !this.imgAdress){
           this.waitTimer = setInterval(() => {
             console.log('reload')
+            try{
             that.$refs.videoPlayer.player.reset()
             that.$refs.videoPlayer.player.src({type: this.playerOptions["sources"][0]["type"], src: this.playerOptions["sources"][0]["src"]})
             that.$refs.videoPlayer.player.load()
             that.$refs.videoPlayer.player.play()
+            }catch (e) {}
             // try{
             //   that.$refs.videoPlayer.player.dispose()
             //   this.showView = false
