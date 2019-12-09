@@ -17,8 +17,9 @@
             :showBtnList="false"
           />
         </div>
-        <div v-if="isAP">
+        <div>
           <duno-btn-top
+            v-if="isAP"
             @on-select="onSelectState"
             class="dunoBtnTopSm"
             :isCheck="false"
@@ -27,8 +28,9 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <div v-else>
+        <div>
           <duno-btn-top
+            v-if="!isAP"
             @on-select="onSelectState"
             class="dunoBtnTopSm"
             :isCheck="false"
