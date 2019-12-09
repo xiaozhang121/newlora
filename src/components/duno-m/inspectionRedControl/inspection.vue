@@ -78,8 +78,10 @@ import { videoPlayer } from "vue-video-player";
 import "videojs-flash";
 import SWF_URL from "videojs-swf/dist/video-js.swf";
 videojs.options.flash.swf = SWF_URL;
+import mixinViewModule from "@/mixins/view-module";
 export default {
   name: "inspection",
+  mixins: [mixinViewModule],
   components: { dunoTable, DunoCharts, videoPlayer },
   data() {
     return {

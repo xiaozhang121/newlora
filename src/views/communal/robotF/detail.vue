@@ -112,7 +112,7 @@ export default {
         data: [],
         pageRows: 10,
         pageIndex: 1,
-        totalRows: ""
+        totalRows: null
       },
       title: "特殊巡视",
       titleCon: "",
@@ -296,6 +296,8 @@ export default {
                           taskId: params.row.taskId,
                           taskRunHisId: params.row.latestTaskRunHisId,
                           planType: params.row.taskType,
+                          planName:params.row.taskName,
+                          executeTime:params.row.createTime,
                           path:'/robot-one/detail?substationId=1&robotId=1',
                           name:'任务配置列表'
                         }

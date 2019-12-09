@@ -115,7 +115,7 @@ export default {
         data: [],
         pageRows: 10,
         pageIndex: 1,
-        totalRows: ""
+        totalRows: null
       },
       title: "特殊巡视",
       titleCon: "",
@@ -298,7 +298,9 @@ export default {
                         query: {
                           taskId: params.row.taskId,
                           taskRunHisId: params.row.latestTaskRunHisId,
-                          planType: params.row.taskType
+                          planType: params.row.taskType,
+                          planName:params.row.taskName,
+                          executeTime:params.row.createTime,
                         }
                       });
                     }

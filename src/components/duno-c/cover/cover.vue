@@ -8,7 +8,7 @@
       <div v-if="isSecond" @click="getJump" class="explainy">
         <div class="text">
           <span>{{srcData.monitorDeviceName}}</span>
-          <span>{{srcData.interval.replace(/至/,'-')}}</span>
+          <span>{{ srcData.interval?srcData.interval.replace(/至/,'-'):"" }}</span>
         </div>
         <span>
           <i class="iconfont icon-jiantou"></i>

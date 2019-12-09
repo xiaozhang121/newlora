@@ -354,7 +354,7 @@
                 width: 2 // 粗细
               }
             },
-            data: that.chartData[0]['date']
+            data: that.chartData.length>0?that.chartData[0]['date']:'',
           },
           yAxis: {
             name: '(MB)',
@@ -387,7 +387,7 @@
               lineStyle: {
                 color: '#47cab6' //改变折线颜色
               },
-              data: that.chartData[0]['outPortFlow']
+              data: that.chartData.length>0?that.chartData[0]['outPortFlow']:'',
             },
             {
               name: '下行',
@@ -395,7 +395,7 @@
               lineStyle: {
                 color: '#4893c3' //改变折线颜色
               },
-              data: that.chartData[0]['inPortFlow']
+              data: that.chartData.length>0?that.chartData[0]['inPortFlow']:'',
             }
           ]
         }
@@ -432,9 +432,6 @@
             color: white;
             text-align: center;
             font-size: 13px;
-            & > div:last-child {
-                /*font-size: 14px;*/
-            }
         }
         .charts {
             position: absolute;

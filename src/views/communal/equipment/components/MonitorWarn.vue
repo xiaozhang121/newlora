@@ -116,10 +116,12 @@ export default {
   },
   methods: {
     handleDeal(item) {
-      item.forEach(el => {
-        let str = el.dealType + " (" + el.dealTime + ")";
-        this.dealList.push(str);
-      });
+      if (item) {
+        item.forEach(el => {
+          let str = el.dealType + " (" + el.dealTime + ")";
+          this.dealList.push(str);
+        });
+      }
     },
     openRemarks() {
       this.alarmId = `${this.remarkData.taskId},${this.remarkData.batchId}`;
@@ -171,23 +173,23 @@ export default {
             });
           }
         } else if (monitorDeviceType == 2) {
-            if (supportPreset) {
-                this.$router.push({
-                    path: "/surveillancePath/detailRed",
-                    query: {
-                        monitorDeviceId: this.remarkData.monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }else{
-                this.$router.push({
-                    path: "/surveillancePath/detailRedN",
-                    query: {
-                        monitorDeviceId: this.remarkData.monitorDeviceId,
-                        typeId: res.data["typeId"]
-                    }
-                });
-            }
+          if (supportPreset) {
+            this.$router.push({
+              path: "/surveillancePath/detailRed",
+              query: {
+                monitorDeviceId: this.remarkData.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          } else {
+            this.$router.push({
+              path: "/surveillancePath/detailRedN",
+              query: {
+                monitorDeviceId: this.remarkData.monitorDeviceId,
+                typeId: res.data["typeId"]
+              }
+            });
+          }
         } else if (monitorDeviceType == 3) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
@@ -197,13 +199,18 @@ export default {
           });
         }
       });
+    },
+    handledata() {
+      if (this.remarkData.dealRecord) {
+        this.remarkData.dealRecord.forEach(el => {
+          let str = el.dealContent + " (" + el.dealTime + ")";
+          this.dealContent.push(str);
+        });
+      }
     }
   },
   mounted() {
-    this.remarkData.dealRecord.forEach(el => {
-      let str = el.dealContent + " (" + el.dealTime + ")";
-      this.dealContent.push(str);
-    });
+    this.handledata();
   }
 };
 </script>
@@ -249,14 +256,14 @@ export default {
         width: 100%;
         display: flex;
         justify-content: flex-start;
-        white-space: nowrap;  
-        text-overflow:ellipsis; 
-        overflow:hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         & > span {
           padding-left: 10px;
         }
         i {
-          white-space: nowrap;  
+          white-space: nowrap;
           font-style: normal;
           width: 32px;
         }

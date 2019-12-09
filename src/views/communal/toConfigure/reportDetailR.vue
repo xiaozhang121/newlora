@@ -45,14 +45,6 @@
               @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
-    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning
-            :popData="popData"
-            :visible="visible"
-            :detailsType="detailsType"
-            @handleClose="handleClose"
-    />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
@@ -60,11 +52,8 @@
     import Breadcrumb from "_c/duno-c/Breadcrumb";
     import dunoBtnTop from "_c/duno-m/duno-btn-top";
     import dunoMain from "_c/duno-m/duno-main";
-    import enlarge from "_c/duno-c/enlarge";
     import moment from "moment";
     import KeyMonitor from "_c/duno-c/KeyMonitor";
-    import warningSetting from "_c/duno-j/warningSetting";
-    import wraning from "_c/duno-j/warning";
     import mixinViewModule from "@/mixins/view-module";
     import { DunoTablesTep } from "_c/duno-tables-tep";
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
@@ -72,13 +61,10 @@
         name: "ReportFrom",
         mixins: [mixinViewModule],
         components: {
-            wraning,
             Breadcrumb,
             dunoBtnTop,
             dunoMain,
-            enlarge,
             KeyMonitor,
-            warningSetting,
             DunoTablesTep
         },
         props: {

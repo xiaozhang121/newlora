@@ -1238,7 +1238,12 @@
                     anchor.set('pointInfo',item)
                     this.setZoom(anchor)
                     that.pointListObj.push({anchor: anchor})
-                    that.mapTarget.addOverlay(anchor);
+                    try{
+                        that.mapTarget.addOverlay(anchor);
+                    }catch(e){
+                        
+                    }
+                    
 
                 })
             },

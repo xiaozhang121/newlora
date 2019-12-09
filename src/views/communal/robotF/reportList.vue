@@ -261,7 +261,6 @@
         },
         created() {},
         beforeDestroy() {
-            clearInterval(this.$refs.rouTineInspection.timer);
             clearInterval(this.timer);
 
         },
