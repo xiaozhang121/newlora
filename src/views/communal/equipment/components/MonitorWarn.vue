@@ -52,7 +52,7 @@
       :isRobot="isRobot"
       @beforeClose="beforeClose"
     />
-    <wraning :popData="remarkData" :visible="visible" @handleClose="handleClose" />
+    <wraning v-if="visible" :popData="remarkData" :visible="visible" @handleClose="handleClose" />
   </div>
 </template>
 

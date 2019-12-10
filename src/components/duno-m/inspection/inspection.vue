@@ -606,7 +606,7 @@ export default {
           "/20/8/" +
           pid+"/"+that.deviceId
       ).then(res=>{
-          this.$message.info(res.msg)
+          this.$message.info('操作成功')
       }, error => {
         this.$message.error(error.response.data.message)
       });
@@ -807,25 +807,25 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = true;
+      // that.disabled = true;
       const url = "/lenovo-visible/api/visible-equipment/sdk/rtmp";
       getAxiosData(url, {}).then(res => {
         that.playerOptions.sources[0].src = res.data;
-        setTimeout(() => {
-          that.viewCamera(5, false).then(res => {
-            setTimeout(() => {
-              this.viewCamera(5, true).then(res => {
-                that.disabled = false;
-              });
-            }, 5000);
-          });
-        }, 500);
+        // setTimeout(() => {
+        //   that.viewCamera(5, false).then(res => {
+        //     setTimeout(() => {
+        //       this.viewCamera(5, true).then(res => {
+        //         that.disabled = false;
+        //       });
+        //     }, 5000);
+        //   });
+        // }, 500);
       });
     }
   },
   created() {
     const that = this;
-    that.initCamera(); // 初始化摄像头
+    // that.initCamera(); // 初始化摄像头
     that.getListData(); // 获取表格数据
   },
   mounted() {

@@ -94,7 +94,7 @@ export default {
       form: {
         areaId: "",
         monitor: "",
-        cascaderName: ""
+        cascaderName: []
       },
       mainDevice: "",
       part: "",

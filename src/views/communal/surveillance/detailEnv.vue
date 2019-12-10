@@ -5,19 +5,6 @@
     </div>
     <div class="controlTitle">
       <div>{{ dataForm.monitorDeviceName }}</div>
-      <!--   <div v-if="isControl =='1'" class="control">
-        云台控制中
-        <span @click="getControl">获取控制权</span>
-      </div>
-      <div v-if="isControl =='2'" class="control">
-        已获取云台控制
-        <span @click="getControl">结束控制</span>
-      </div>
-      <div v-if="isControl =='3'" class="control">
-        结束控制倒计时
-        <i>{{ currentTime }} s</i>
-        <span @click="getControl">结束控制</span>
-      </div>-->
     </div>
     <div class="Main_contain">
       <div class="content" style="position: relative">
@@ -89,18 +76,6 @@
           <div>
             <div v-if="videoList.length==0" class="noVideo">暂无数据</div>
             <div v-else class="videoItem" v-for="(item,index) in videoList" :key="index">
-              <!-- <key-monitor
-                :monitorInfo="item"
-                paddingBottom="56%"
-                class="monitor"
-                width="100%"
-                :autoplay="false"
-                :imgAdress="item['pic']"
-                :streamAddr="item['streamAddr']"
-                :showBtmOption="false"
-                :Initialization="true"
-              ></key-monitor>
-              <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>-->
               <cover :srcData="item" :isSecond="false"></cover>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }}</p>
             </div>
@@ -165,12 +140,6 @@
                 :showBtnList="false"
               ></duno-btn-top>
             </div>
-            <!-- <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div>-->
           </div>
         </div>
         <duno-tables-tep
@@ -236,12 +205,6 @@
                 :showBtnList="false"
               ></duno-btn-top>
             </div>
-            <!-- <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div>-->
           </div>
         </div>
         <duno-tables-tep
@@ -258,9 +221,9 @@
         />
       </div>
     </div>
-    <wraning :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
-    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <wraning v-if="visible" :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
+    <enlarge v-if="isEnlarge" :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <Remarks v-if="dialogVisible" :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
 </template>
 
@@ -556,7 +519,6 @@ export default {
       disabled: false,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
-        // exportURL: "/lenovo-alarm/api/security/history/export"
         exportURL: "/lenovo-plan/api/task/result/list/export"
       },
       titleTypeL: "全部数据类型",
@@ -573,7 +535,6 @@ export default {
       secondForm: {},
       echartForm: {},
       echartData: [],
-      typeList: [],
       value: "",
       alarmLevel: "",
       visible: false,
@@ -915,7 +876,6 @@ export default {
     },
     sizeChange(item) {
       this.getVideo(item);
-      // this.getDataList();
     },
     getVideo(pageIndex) {
       let index = 1;
@@ -968,24 +928,12 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = true;
       const url =
         "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
         this.dataForm.monitorDeviceId;
-      getAxiosData(url, {}).then(res => {
-        that.playerOptions.streamAddr = res.data;
-        that.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.controBtnRef.viewCamera(5, false).then(res => {
-              setTimeout(() => {
-                this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                  that.disabled = false;
-                });
-              }, 5000);
-            });
-          }, 500);
+        getAxiosData(url, {}).then(res => {
+          that.playerOptions.streamAddr = res.data;
         });
-      });
     },
     cutOut(data) {
       if (data) {
@@ -1074,10 +1022,6 @@ export default {
         startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
         endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
       }
-      /* this.echartTitle =
-        moment(data[0]).format("YYYY/MM/DD") +
-        "-" +
-        moment(data[1]).format("YYYY/MM/DD");*/
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
@@ -1140,20 +1084,6 @@ export default {
         this.allDataLevel = map;
       });
     },
-    getSelectPreset() {
-      getPosition().then(res => {
-        const resData = res.data;
-        const map = resData.map(item => {
-          const obj = {
-            describeName: item.label,
-            monitorDeviceType: item.value,
-            title: "titleTypeR"
-          };
-          return obj;
-        });
-        this.typeList = map;
-      });
-    },
     createDownLoadClick(content, fileName) {
       const link = document.createElement("a");
       link.href = encodeURI(content);
@@ -1184,32 +1114,6 @@ export default {
       that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
       that.exportHandle();
     },
-    // clickExcel() {
-    //   const that = this;
-    //   that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-    //   /*getAxiosData(this.mixinViewModuleOptions.exportURL).then(res=>{
-    //       let bstr  = res.data,
-    //       n = bstr.length,
-    //       u8arr = new Uint8Array(n);
-    //       debugger
-    //       while (n--) {
-    //           u8arr[n] = bstr.charCodeAt(n);
-    //       }
-    //       debugger
-    //       let  blob = new Blob([u8arr], {
-    //           type: `application/pdf;charset-UTF-8`
-    //       });
-    //       if (this.MyBrowserIsIE()) {
-    //           let BOM = "\uFEFF";
-    //           navigator.msSaveBlob(blob, `demo.pdf`);
-    //       }else {
-    //           let content = window.URL.createObjectURL(blob);
-    //           this.createDownLoadClick(content, `demo.pdf`);
-    //       }
-
-    //   })*/
-    //   that.exportHandle();
-    // },
     getEchasrts() {
       let query = {
         recognizeType: this.echartForm.getEchasrts,
@@ -1239,9 +1143,6 @@ export default {
         .format("YYYY-MM-DD");
       this.echartForm.startTime = `${time} 00:00:00`;
       this.echartForm.endTime = `${time} 23:59:59`;
-      /* this.echartTitle = moment()
-        .add(-1, "days")
-        .format("YYYY/MM/DD");*/
     },
     getControl() {
       if (this.isControl == "1") {
@@ -1304,11 +1205,9 @@ export default {
     this.getEnvData();
   },
   mounted() {
-    // this.getInit();
     this.lockPress = this.getAuthority("10075002");
     this.getSelectType();
     this.getSelcetGrade();
-    this.getSelectPreset();
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
@@ -1331,23 +1230,16 @@ export default {
   background: #192f41 !important;
   border: none !important;
 }
-.mainAside {
-  /*min-height: 100%;*/
-}
 .surveillanceDetail {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
-  /*overflow-y: hidden;*/
   .controlCheck {
     right: 0;
     width: 211px;
     color: white;
     top: -35px;
     height: 27px;
-  }
-  .el-button:hover {
-    /*background: transparent !important;*/
   }
   .dateChose {
     .el-input--small .el-input__inner {
@@ -1359,10 +1251,6 @@ export default {
       border: none;
       background-color: #192f41;
     }
-  }
-  .icon-xiala {
-    /* width: 12px;
-    height: 15px;*/
   }
   .btn_pre {
     padding: 10px 20px;
@@ -1398,12 +1286,6 @@ export default {
     height: 35px;
     position: relative;
     top: 2px;
-  }
-  .flexPos {
-    /*.el-button {*/
-    /*background: rgba(0, 0, 0, 0);*/
-    /*border: none;*/
-    /*}*/
   }
   .table_link {
     white-space: nowrap;
@@ -1483,7 +1365,6 @@ export default {
             margin-left: 3.4%;
             flex-direction: column;
             justify-content: center;
-            /*margin-right: 15px;*/
             width: 25%;
             .controBtnContain {
               margin-bottom: 26%;
@@ -1566,26 +1447,6 @@ export default {
             }
           }
         }
-        // & > div:nth-child(2) {
-        //   & > div {
-        //     width: 140px;
-        //     line-height: 40px;
-        //     text-align: center;
-        //     background-color: #192f41;
-        //     cursor: pointer;
-        //   }
-        // }
-        // & > div:last-child {
-        //   font-size: 22px;
-        // }
-        // .clickBtn {
-        //   line-height: 40px;
-        //   width: 139px;
-        //   background-image: url(../../../assets/images/btn/moreBtn.png);
-        //   text-align: center;
-        //   font-size: 18px;
-        //   color: #ffffff;
-        // }
         .dateChose {
           .el-date-editor {
             background-color: #192f41;

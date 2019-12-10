@@ -100,8 +100,8 @@ export default {
         { path: "", name: "网络设备" }
       ],
       stateSelect: [
-        { describeName: "连线", value: "0" },
-        { describeName: "断线", value: "1" }
+        { describeName: "连接", value: "0" },
+        { describeName: "断开", value: "1" }
       ],
       stateSelectAP: [
         { describeName: "上线", value: "ApOnline" },
@@ -157,8 +157,10 @@ export default {
                 class: {
                   circleStatus: true,
                   green: params.row.status === "上线",
+                  green1: params.row.status === "连接",
                   fault: params.row.status === "连接中",
-                  close: params.row.status === "离线"
+                  close: params.row.status === "离线",
+                  close1: params.row.status === "断开",
                 },
                 draggable: false
               })
@@ -181,7 +183,9 @@ export default {
                 {
                   class: {
                     green: params.row.status === "上线",
-                    close: params.row.status === "离线"
+                    green1: params.row.status === "连接",
+                    close: params.row.status === "离线",
+                    close1: params.row.status === "断开",
                   }
                 },
                 [
@@ -281,10 +285,16 @@ export default {
     &.green {
       background: #53fec0;
     }
+    &.green1 {
+      background: #53fec0;
+    }
     &.fault {
       background: #ff9000;
     }
     &.close {
+      background: #ee183b;
+    }
+    &.close1 {
       background: #ee183b;
     }
   }
@@ -304,7 +314,13 @@ export default {
   .green {
     color: #53fec0;
   }
+  .green1 {
+      color: #53fec0;
+    }
   .close {
+    color: #ee183b;
+  }
+  .close1 {
     color: #ee183b;
   }
   .el-button--text {

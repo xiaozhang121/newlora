@@ -169,7 +169,7 @@ export default {
         monitorDeviceName: "",
         areaName: "",
         powerDeviceName: "",
-        initCascader: ""
+        initCascader: []
       },
       substationData: [],
       cameraData: [

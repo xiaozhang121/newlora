@@ -883,23 +883,23 @@ export default {
     },
     initCamera() {
       const that = this;
-      that.disabled = true;
+      // that.disabled = true;
       const url =
         "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
         this.dataForm.monitorDeviceId;
       getAxiosData(url, {}).then(res => {
         that.playerOptions.streamAddr = res.data;
-        that.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.controBtnRef.viewCamera(5, false).then(res => {
-              setTimeout(() => {
-                this.$refs.controBtnRef.viewCamera(5, true).then(res => {
-                  that.disabled = false;
-                });
-              }, 5000);
-            });
-          }, 500);
-        });
+        // that.$nextTick(() => {
+        //   setTimeout(() => {
+        //     this.$refs.controBtnRef.viewCamera(5, false).then(res => {
+        //       setTimeout(() => {
+        //         this.$refs.controBtnRef.viewCamera(5, true).then(res => {
+        //           that.disabled = false;
+        //         });
+        //       }, 5000);
+        //     });
+        //   }, 500);
+        // });
       });
     },
     cutOut(data) {
