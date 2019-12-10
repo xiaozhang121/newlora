@@ -72,7 +72,25 @@ export default {
           if (self.frameElement && self.frameElement.tagName == "IFRAME") {
             let arr = self.frameElement.src.split("/");
             this.$router.push({ path: arr[arr.length - 1] });
-          } else this.$router.go(-1);
+          } else{
+            let data = this.$store.state.app.routerPaths
+            if(data.length){
+                let path = this.$route.path
+                let findIndex = -1
+                for(let i=0; i<data.length; i++){
+                  if(data[i]['path'] == path){
+                    findIndex = i
+                    break
+                  }
+                }
+                if(findIndex > 0){
+                  this.$router.push({path: data[findIndex - 1]['path']})
+                  this.$store.state.app.routerPaths = []
+                }
+            }else{
+              window.history.back(-1)
+            }
+          }
         }
         // if (index == 0) this.$router.go(-1);
       }

@@ -237,7 +237,14 @@
             }
         },
         methods: {
-            ...mapMutations(["setBreadCrumb", "setTagNavList"]),
+            ...mapMutations(["setBreadCrumb", "setTagNavList", "saveRouter"]),
+            isFrame(){
+              if(self && self.frameElement && self.frameElement.tagName && self.frameElement.tagName == 'IFRAME'){
+                  return false
+              }else{
+                  return true
+              }
+            },
             webFullScreen(streamAddr, flag) {
                 this.$store.state.app.isPic = flag
                 this.$store.state.app.webFullVisable = !this.$store.state.app
@@ -362,6 +369,7 @@
             $route(newRoute) {
                 this.$store.state.user.alarmInfo = {}
                 this.setBreadCrumb(newRoute.matched);
+                this.saveRouter(newRoute)
                 this.setTagNavList(getNewTagList(this.tagNavList, newRoute));
             },
             bodyWidth(now) {

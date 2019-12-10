@@ -15,6 +15,7 @@ export default {
     homeRoute: getHomeRoute(routers),
     local: '',
     kilovolt: '',
+    routerPaths: [],
     topNav: getTopNav(),
     format: getFormat()
   },
@@ -24,6 +25,10 @@ export default {
   mutations: {
     setBreadCrumb (state, routeMetched) {
       state.breadCrumbList = getBreadCrumbList(routeMetched, state.homeRoute)
+    },
+    saveRouter(state, list){
+      if(window.screen.availWidth > 3000)
+        state.routerPaths.push(list)
     },
     setTagNavList (state, list) {
       if (list) {
