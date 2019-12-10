@@ -67,7 +67,7 @@ export default {
   components: { frameSelection },
   props: {
     taskId: {
-      type: String,
+      type: String | Number,
       default: () => {
         return "";
       }
@@ -134,7 +134,12 @@ export default {
       imgsrc: "",
       mainDevice: "",
       imgFile: {},
-      pointData: {}
+      pointData: {
+        x0: "",
+        y0: "",
+        x1: "",
+        y1: ""
+      }
     };
   },
   methods: {
@@ -201,14 +206,6 @@ export default {
       });
     },
     handleSubmit() {
-      if (this.isVideo && this.pointData.x0 == "" && this.selectValue == "") {
-        this.$message.warning("请选择或标定区域");
-        return;
-      }
-      if (!this.isVideo && this.selectValue == "") {
-        this.$message.warning("请选择");
-        return;
-      }
       let photoTime = moment().format("YYYY-MM-DD HH:mm:ss");
       let query = {
         monitorDeviceId: this.monitorDeviceId,
@@ -230,14 +227,22 @@ export default {
       };
       sampleMark(query).then(res => {
         this.$message({
-            message: "截图已保存至缺陷库",
-            type: "success"
-          });
+          message: "截图已保存至缺陷库",
+          type: "success"
+        });
         this.$emit("closeShot");
       });
     },
     getImgInfo() {
       let that = this;
+      if (this.isVideo && (this.pointData.x0 == "" || this.selectValue == "")) {
+        this.$message.warning("请选择或标定区域");
+        return;
+      }
+      if (!this.isVideo && this.selectValue == "") {
+        this.$message.warning("请选择");
+        return;
+      }
       if (that.isVideo) {
         let url = `/lenovo-storage/api/storageService/file/fileToBase64?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`;
         getAxiosData(url).then(res => {

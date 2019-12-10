@@ -176,6 +176,12 @@
       screenshot
     },
     props: {
+      picCutAbsolute: {//红外双目截图判断
+        type: Boolean,
+        default: () => {
+          return false;
+        }
+      },
       isReload: {
         type: Boolean,
         default: () => {
@@ -431,7 +437,6 @@
       return {
         videoCut:false,//录像是否为指定类的摄像头
         picCut:false,//截图是否为指定类的摄像头
-        picCutAbsolute:false,
         mainstream:"",
         monitorDeviceType: false,
         isPlayback:false,

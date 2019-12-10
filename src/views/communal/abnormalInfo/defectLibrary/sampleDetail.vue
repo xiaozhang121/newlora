@@ -17,7 +17,9 @@
             <!-- <img slot="placeholder" :src="require('@/assets/noPic.png')" /> -->
           </el-image>
           <div class="infoNews">
-            <div>{{sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''}}</div>
+            <el-tooltip class="item" effect="dark" :content="sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''" placement="top">
+              <div>{{sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''}}</div>
+            </el-tooltip>
             <p>大小：{{ this.sampleData.picSize }}kb</p>
             <p>分辨率：{{sampleData.picWigth}}*{{sampleData.picHeigh}}</p>
             <p>导入时间：{{sampleData.picImportTime}}</p>
@@ -602,7 +604,7 @@ export default {
           margin-left: 7%;
           width: 40%;
           div {
-            line-height: 60px;
+            line-height: 40px;
             border-bottom: 2px solid #305e83;
             font-size: 20px;
           }

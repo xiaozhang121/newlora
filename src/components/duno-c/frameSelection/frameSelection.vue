@@ -80,7 +80,9 @@ export default {
     },
     keepData:{
       handler(now){
-        this.loading = false;
+        if(now && now.picFilePath){
+          this.loading = false;
+        }
         this.img.src = now.picFilePath;
         if(!this.timer){
           this.timer = setInterval(()=>{
@@ -194,8 +196,7 @@ export default {
     }
   },
   mounted() {
-    if (this.keepData) {
-      this.loading = false;
+    if (this.keepData || this.keepData.picFilePath) {
       this.img.src = this.keepData.picFilePath;
     }
     this.$nextTick(() => {
