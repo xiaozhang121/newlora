@@ -12,11 +12,15 @@
     >
       <div slot="title">
         <el-tooltip class="item" effect="light" content="点击查看摄像头详情" placement="top">
-          <span @mouseup="getJump" @mousedown="savePoint" class="title titleSpan" v-if="!isShowTab || showHeader">
+          <span @mouseup="getJump" @mousedown="savePoint" class="title titleSpan" v-if="isShowTip && (!isShowTab || showHeader)">
             <img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px" />
               {{title}}
           </span>
         </el-tooltip>
+        <span @mouseup="getJump" @mousedown="savePoint" class="title titleSpan" v-if="!isShowTip && (!isShowTab || showHeader)">
+            <img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px" />
+              {{title}}
+          </span>
         <div v-if="isShowTab" class="titleBtn">
           <el-button class="titleTopBtn" v-if="activeName == 'fourth'" @click="clickExport()">
             <i class="iconfont icon-daochu"></i>
@@ -69,6 +73,12 @@ export default {
   name: "HistoricalDocuments",
   props: {
     picSrc: {},
+    isShowTip: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     showHeader: {
       type: Boolean,
       default: () => {

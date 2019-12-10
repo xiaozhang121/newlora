@@ -358,7 +358,7 @@ export default {
       });
     },
     handleBtn() {
-      if (this.dataList.alarmTypeValue == "设备缺陷类") {
+      if (this.dataList.alarmTypeValue == "设备缺陷类" && this.dataList.result) {
         if (this.dataList.result.indexOf("正常") > -1) {
           this.showBtn = false;
         } else {
@@ -625,7 +625,7 @@ export default {
 }
 .warningDialog {
   .el-dialog__headerbtn {
-    top: 17px;
+    top: 17px!important;
   }
   .iconfont.icon-xiala {
     color: #999999;
@@ -821,8 +821,10 @@ export default {
       color: #515a6e;
       background-color: #e0e0e0 !important;
       text-align: left;
-      padding-bottom: 0;
-    }
+      line-height: inherit!important;
+      padding: 20px!important;
+      padding-bottom: 0!important;
+      }
   }
   .el-dialog__headerbtn .el-dialog__close {
     color: #777777;
