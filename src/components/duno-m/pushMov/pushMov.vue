@@ -229,7 +229,7 @@
             display:block !important;
         }
         .el-dialog__body{
-            padding: 30px 20px;
+            padding: 30px 20px!important;
         }
         .cameraItem{
             border: 1.5px dashed #a4adaf;

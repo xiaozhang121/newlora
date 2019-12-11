@@ -204,7 +204,7 @@ export default {
       }
     },
     top: {
-      type: String || Number,
+      type: String | Number,
       default: () => {
         return "15vh";
       }

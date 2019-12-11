@@ -1215,8 +1215,8 @@
             this.initChart();
             that.$nextTick(()=>{
               that.isShow();
+              window.addEventListener('resize', that.isShow)
             })
-            window.addEventListener('resize', that.isShow)
             // this.initTime();
         },
         created(){

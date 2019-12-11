@@ -95,10 +95,11 @@ export default {
         ...that.queryForm,
         ...that.orderField
       }
-      if (that.mixinViewModuleOptions.isShowPage) {
+      that.mixinViewModuleOptions.isShowPage = false
+      // if (that.mixinViewModuleOptions.isShowPage) {
         query.pageIndex = that.pageIndex
         query.pageRows = that.pageRows
-      }
+      // }
       getAxiosData(url, query).then(res => {
         that.dataListLoading = false
         if (res.code !== 200 && res.data.code != 200 && !('details' in res.data)) {

@@ -148,7 +148,7 @@ export default {
       userNameD: "",
       isdeal: true,
       hasSelect: true,
-      detailsType: "",
+      // detailsType: "",
       popData: null,
       target: null,
       searchId: "",
@@ -239,9 +239,11 @@ export default {
   watch: {
     popData: {
       handler(now) {
-        this.isPhaseAlarm = now["isPhaseAlarm"];
+        if (now["isPhaseAlarm"]) {
+          this.isPhaseAlarm = now["isPhaseAlarm"];
+          this.isThree = now["isPhaseAlarm"] == 1;
+        }
         this.isRobot = now["isRobot"];
-        this.isThree = now["isPhaseAlarm"] == 1;
         this.isImgVideo = now["fileType"] == 1;
         if ("alarmId" in now && now["alarmId"]) {
           // this.searchId = now["alarmId"];
@@ -605,7 +607,7 @@ export default {
         width: 100%;
         background-color: #000;
         position: relative;
-        height: 480.5px;
+        // height: 480.5px;
         img {
           width: 100%;
           height: 100%;

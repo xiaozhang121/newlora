@@ -17,7 +17,7 @@
       <div class="steps">
         <steps :step="stepValue" />
       </div>
-      <chosen-list :isInput="true" :dataListOption="dataList" @change='demo' @inputChange="inputChange" />
+      <chosen-list :isInput="true" :dataListOption="dataList" @inputChange="inputChange" />
     </el-form>
   </div>
 </template>

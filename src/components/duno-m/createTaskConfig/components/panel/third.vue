@@ -1,6 +1,6 @@
 <template>
     <div class="taskPanelT">
-        <el-form  :model="form" label-width="80px" style="padding: 0 33px;">
+        <el-form  label-width="80px" style="padding: 0 33px;">
             <!--<div class="radioItem">
                 <el-radio v-model="radio" label="1">立即执行</el-radio>
             </div>

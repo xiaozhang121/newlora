@@ -3,7 +3,7 @@
     <div class="steps">
       <steps :step="stepValue" />
     </div>
-    <el-form :model="form" label-width="80px">
+    <el-form  label-width="80px">
       <div style="font-weight:700;font-size:18px">选择预置位和时间</div>
       <div class="chosenGroupR">
         <chosen-list

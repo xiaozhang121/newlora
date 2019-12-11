@@ -124,7 +124,7 @@ export default {
     return {
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/statistics/meter-data/list",
-        exportURL: "/lenovo-plan/api/statistics/plan/download"
+        exportURL: "/lenovo-plan/api/statistics/plan/download",
       },
       dataForm: {},
       title: "所有信息",
@@ -134,7 +134,7 @@ export default {
       isEnlarge: false,
       visible: false,
       totalNum: 20,
-      pageRows: 20,
+      pageRows: 10,
       srcData: [],
       selectInfo: "更多",
       serious: false,
@@ -727,7 +727,7 @@ export default {
   width: 100%;
   //-------------------表格样式
   .dunoMain {
-    height: inherit;
+    height: 100%;
   }
   .ivu-table {
     font-size: 16px;

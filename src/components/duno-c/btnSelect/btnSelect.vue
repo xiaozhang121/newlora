@@ -35,8 +35,10 @@
                   placement="top-start"
                 >
                   <el-checkbox
+                    :title="child['item']['describeName']"
                     :label="child['item']['monitorDeviceId']"
                     :checked="child['item']['isActive']"
+                    :key="child['item']['monitorDeviceId']"
                     @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])"
                   >{{child['item']['describeName']}}</el-checkbox>
                 </el-tooltip>
@@ -183,7 +185,6 @@ export default {
       for (let i = 0; i < length; i++) {
         data[i].children.map(items => {
           if (items.item.id == id) {
-            debugger;
             if (flag) {
               items.item["isActive"] = false;
             } else {

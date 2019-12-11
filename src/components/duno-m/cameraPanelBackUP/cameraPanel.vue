@@ -1,28 +1,21 @@
 <template>
     <div class="cameraPanel" :class="{'miniWidth': topBtnListFlag != 0}">
         <template  v-if="panelType == 'first'">
-            <!--<div class="title">{{ cameraName }}</div>-->
             <div class="cameraMain">
-                <div class="camera" v-if="showCamera">
-                    <div class="main" style="width: 400px; height: 250px">
-                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
-                        <div class="controlTip"  v-if="isCamera">
-                            <div class="left">
-                                录制 {{timeIncreateD}}
-                            </div>
-                            <div class="right">
-                                <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
-                            </div>
-                        </div>
-                        <!--<video id="video1" width="400" height="250" controls></video>-->
-                    </div>
-                    <div class="explain iconList">
-                         <!--<span @click="videotape()">-->
-                                <!--<i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像-->
-                        <!--</span>-->
-                        <!--<span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>-->
-                        <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
-                    </div>
+                <div class="cameraA" v-if="showCamera">
+                    <key-monitor
+                          :monitorInfo="{ monitorDeviceId: deviceId }"
+                          paddingBottom="56%"
+                          class="monitor"
+                          :autoplay="playerOptions.autoplay"
+                          :streamAddr="playerOptions.sources[0].src"
+                          width="100%"
+                          :showBtmOption="false"
+                          :Initialization="true"
+                          :isLive='false'
+                          :isNav='true'
+                          :isAux='true'
+                        ></key-monitor>
                 </div>
                 <div class="btnList" style="padding-bottom: 0; ">
                     <div class="description">
@@ -54,28 +47,21 @@
             </div>
         </template>
         <template  v-else-if="panelType == 'second'">
-            <!--<div class="title">{{ cameraName }}</div>-->
             <div class="cameraMain" style="padding-bottom: 39px;">
-                <div class="camera" v-if="showCamera">
-                    <div class="main" style="width: 400px; height: 250px">
-                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
-                        <div class="controlTip" style="position: absolute; bottom: 96px"  v-if="isCamera">
-                            <div class="left">
-                                录制 {{timeIncreateD}}
-                            </div>
-                            <div class="right">
-                                <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
-                            </div>
-                        </div>
-                        <!--<video id="video1" width="400" height="250" controls></video>-->
-                    </div>
-                    <div class="explain iconList">
-                         <!--<span @click="videotape()">-->
-                                <!--<i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像-->
-                        <!--</span>-->
-                        <!--<span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>-->
-                        <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
-                    </div>
+                <div class="cameraA" v-if="showCamera">
+                    <key-monitor
+                          :monitorInfo="{ monitorDeviceId: deviceId }"
+                          paddingBottom="56%"
+                          class="monitor"
+                          :autoplay="playerOptions.autoplay"
+                          :streamAddr="playerOptions.sources[0].src"
+                          width="100%"
+                          :showBtmOption="false"
+                          :Initialization="true"
+                          :isLive='false'
+                          :isNav='true'
+                          :isAux='true'
+                        ></key-monitor>
                 </div>
                 <div class="btnList">
                     <div style="display: flex; margin-bottom: 39px; position: relative; top: 5px;">
@@ -108,28 +94,21 @@
             </div>
         </template>
         <template  v-else-if="panelType == 'third'">
-            <!--<div class="title">{{ cameraName }}</div>-->
             <div class="cameraMain">
-                <div class="camera" v-if="showCamera">
-                    <div class="main" style="width: 400px; height: 250px">
-                        <video-player  ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions"></video-player>
-                        <div class="controlTip"  style="position: absolute; bottom: 253px" v-if="isCamera">
-                            <div class="left">
-                                录制 {{timeIncreateD}}
-                            </div>
-                            <div class="right">
-                                <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>--> <i @click="videotape()" class="iconfont icon-tingzhi"></i>
-                            </div>
-                        </div>
-                        <!--<video id="video1" width="400" height="250" controls></video>-->
-                    </div>
-                    <div class="explain iconList">
-                          <!--<span @click="videotape()">-->
-                                <!--<i class="iconfont icon-luxiang" v-if="!isCamera"></i><span v-else class="redPoint"></span>录像-->
-                        <!--</span>-->
-                        <!--<span @click="isSample(1)"><i class="iconfont icon-jietu"></i>截图</span>-->
-                        <span @click="fullScreen()"><i class="iconfont icon-quanping"></i>全屏</span>
-                    </div>
+                <div class="cameraA" v-if="showCamera">
+                    <key-monitor
+                          :monitorInfo="{ monitorDeviceId: deviceId }"
+                          paddingBottom="56%"
+                          class="monitor"
+                          :autoplay="playerOptions.autoplay"
+                          :streamAddr="playerOptions.sources[0].src"
+                          width="100%"
+                          :showBtmOption="false"
+                          :Initialization="true"
+                          :isLive='false'
+                          :isNav='true'
+                          :isAux='true'
+                        ></key-monitor>
                 </div>
                 <div class="btnList" style="padding-bottom: 0; ">
                     <div class="description">
@@ -240,12 +219,6 @@
                 />
             </div>
         </template>
-        <!--   <div class="leftBtn" v-if="topBtnListFlag == 0">
-               <div v-for="(item,index) in leftBtnList" :key="index" @click="changeLeftActive(index)"  class="btn" :class="{'active':item['active']}">{{ item.name }}</div>
-           </div>
-           <div class="topBtn">
-               <div v-for="(item,index) in topBtnList" :key="index" @click="changeRightActive(index)"  class="btn" :class="{'active':item['active']}">{{ item.name }}</div>
-           </div>-->
         <screenshot
                 v-if="isShow"
                 :isShow="isShow"
@@ -269,6 +242,7 @@
     import videojs from 'video.js'
     import clock from '@/assets/camera/clock.png'
     import { DunoCharts } from '_c/duno-charts'
+    import KeyMonitor from "_c/duno-c/KeyMonitor";
     import mixinViewModule from "@/mixins/view-module";
     import 'video.js/dist/video-js.css'
     import { videoPlayer } from 'vue-video-player'
@@ -277,7 +251,7 @@
     videojs.options.flash.swf = SWF_URL
     export default {
         name: 'cameraPanel',
-        components: { dunoTable,DunoCharts, videoPlayer, screenshot, controlCheck },
+        components: { KeyMonitor, dunoTable,DunoCharts, videoPlayer, screenshot, controlCheck },
         mixins: [mixinViewModule],
         data() {
             return {
@@ -379,18 +353,6 @@
                 dataList: [
                     {
                         dataList: [
-                            /* {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称A',
-                                 deal: '删除'
-                             },
-                             {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称B',
-                                 deal: '删除'
-                             }*/
                         ]
                     }
                 ],
@@ -455,18 +417,6 @@
                 dataListd: [
                     {
                         dataList: [
-                            /* {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称A',
-                                 deal: '删除'
-                             },
-                             {
-                                 flag: 'play',
-                                 ago: false,
-                                 name: '预置位名称B',
-                                 deal: '删除'
-                             }*/
                         ]
                     }
                 ],
@@ -529,44 +479,27 @@
         },
         watch: {
             sliderValue(now, old){
-             /*   if(this.clearCameraTimer)
-                    return
-                if(now < old){
-                    this.viewCamera(4, true)
-                    this.viewCamera(5, false)
-                }else{
-                    this.viewCamera(5, true)
-                    this.viewCamera(4, false)
-                }
-                this.clearCameraTimer = setTimeout(()=>{
-                    this.cameraSFClear()
-                    this.clearCameraTimer = null
-                },Math.abs(now - old)*500)*/
             },
             panelType(){
                 const that = this
                 this.$nextTick(()=> {
                     that.getListData()
-                    // that.initCamera()
                 })
             },
             topBtnListFlag(now){
                 if(now == 0){
                     const that = this
                     this.$nextTick(()=> {
-                        // that.initCamera()
                     })
                 }
             },
             leftBtnListFlag(now){
                 const that = this
                 this.$nextTick(()=> {
-                    // that.initCamera()
                 })
             },
             flagNow(now){
                 const that = this
-                // alert(now)
                 putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/20/8/'+this.dataList[0]['dataList'][now]['psIndex']+'/'+that.deviceId)
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
@@ -951,15 +884,6 @@
                 const url = '/lenovo-visible/api/visible-equipment/sdk/rtmp/'+that.deviceId;
                 getAxiosData(url, {}).then(res => {
                      that.playerOptions.sources[0].src = res.data;
-                    /* setTimeout(()=>{
-                         that.viewCamera(5, false).then(res=>{
-                             setTimeout(()=>{
-                                 this.viewCamera(5, true).then(res=>{
-                                     that.disabled = false
-                                 })
-                             },5000)
-                         })
-                     },500)*/
                 }, error => {
                   this.$message.error(error.response.data.message)
                 });
@@ -1031,13 +955,6 @@
                 }
             }
         }
-        .vjs-custom-skin{
-            transform: scale(1.1, 1.1);
-            transform-origin: left top;
-            position: relative;
-            left: -7px;
-        }
-        /*background: rgba(0,39,70,0.8);*/
         .control_slider{
             display: flex;
             position: absolute;
@@ -1099,13 +1016,6 @@
             }
         }
         .element::-webkit-scrollbar {display:none}
-        /*  .el-input__inner{
-              border-color: #409EFF !important;
-              color: white;
-          }
-          .el-radio__label{
-              color: white;
-          }*/
         .title{
             font-size: 18px;
             color: white;
@@ -1143,34 +1053,21 @@
         }
         .cameraMain{
             display: flex;
-            .camera{
-                width: 400px;
-                height: 300px;
+            .cameraA{
+                flex: 1;
+                height: 330px;
                 margin-right: 7px;
                 .main{
                     width: 100%;
                     height: 83%;
-                }
-                .explain{
-                    height: 20px;
-                    display: flex;
-                    color: white;
-                    padding-top: 20px;
-                    span{
-                        text-align: center;
-                        flex: 1;
-                        cursor: pointer;
-                    }
                 }
             }
             .btnList{
                 padding-bottom: 50px;
                 display: flex;
                 flex-direction: column;
-                /*width: 256px;*/
                 width: 249px;
                 height: 256px;
-                margin-left: 50px;
                 position: relative;
                 top: -3px;
                 .description{

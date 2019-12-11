@@ -20,9 +20,9 @@
           ref="panel[0]"
           v-show="stepValue == 1"
           class="panel"
-           @getchoseType="choseType"
+           @getchoseType="getchoseType"
           :type="type"
-        />
+        /> 
         <template v-if="choseType!=3">
             <second-panel
           :rowData="rowData"
@@ -124,7 +124,7 @@ export default {
   },
   props: {
     choseType: {
-      type: any,
+      type: String | Number,
       // default: () => {
       //   return false;
       // }
@@ -148,6 +148,13 @@ export default {
     }
   },
   methods: {
+    getchoseType(value){
+      this.getType=value
+          if(this.getType=='4'||this.getType=='5'){
+            this.$emit('gettype',this.getType)
+            return
+          }
+    },
     toEdit() {
       this.toSubmit("/lenovo-plan/api/plan/edit");
     },

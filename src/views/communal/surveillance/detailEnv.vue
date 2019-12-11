@@ -74,7 +74,7 @@
           element-loading-text="请稍后，正在加载数据…"
         >
           <div>
-            <div v-if="videoList.length==0" class="noVideo">暂无数据</div>
+            <div v-if="!loading && videoList.length==0" class="noVideo">暂无数据</div>
             <div v-else class="videoItem" v-for="(item,index) in videoList" :key="index">
               <cover :srcData="item" :isSecond="false"></cover>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }}</p>

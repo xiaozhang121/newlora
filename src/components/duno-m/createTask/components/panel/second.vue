@@ -1,6 +1,6 @@
 <template>
     <div class="taskPanel">
-        <el-form  :model="form" label-width="80px">
+        <el-form  label-width="80px">
             <div>确认执行巡检的设备</div>
             <el-checkbox  @change="chosenAll" class="selectAlld">全选</el-checkbox>
             <!--<a href="javascript:void(0)" class="selectAlld" @click="chosenAll">全选</a>-->
