@@ -1213,7 +1213,9 @@
             this.nowDate = new Date()
             this.getAmmeterData();
             this.initChart();
-            that.isShow()
+            that.$nextTick(()=>{
+              that.isShow();
+            })
             window.addEventListener('resize', that.isShow)
             // this.initTime();
         },

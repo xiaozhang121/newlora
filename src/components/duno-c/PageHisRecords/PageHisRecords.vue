@@ -190,7 +190,9 @@ export default {
                       style: {
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"
+                        whiteSpace: "nowrap",
+                        display: "inline-block",
+                        width: "100%"
                       },
                       on: {
                         click: () => {
@@ -215,19 +217,22 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            let dealType = '/'
-            if(params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealType)
-              dealType= params.row.dealList[0].dealType;
+            let dealType = "/";
+            if (
+              params.row.dealList &&
+              params.row.dealList[0] &&
+              params.row.dealList[0].dealType
+            )
+              dealType = params.row.dealList[0].dealType;
             newArr.push([
               h(
                 "Tooltip",
                 {
+                  class: "tip_type",
                   props: {
                     placement: "top",
                     maxWidth: "150",
-                    content: params.row.monitorDeviceName
-                      ? params.row.monitorDeviceName
-                      : params.row.source,
+                    content: dealType,
                     transfer: true
                   },
                   style: {
@@ -249,7 +254,12 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let timeDay = (params.row.dealList&&params.row.dealList[0]&&params.row.dealList[0].dealTime)?params.row.dealList[0].dealTime.slice(5):'/';
+            let timeDay =
+              params.row.dealList &&
+              params.row.dealList[0] &&
+              params.row.dealList[0].dealTime
+                ? params.row.dealList[0].dealTime.slice(5)
+                : "/";
             return h("div", [h("div", timeDay)]);
           }
         },
@@ -711,13 +721,15 @@ export default {
       }
     }
   }
+  .tip_type {
+    .ivu-tooltip-rel {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
   .table_link {
-    // white-space: nowrap;
-    // text-align: center;
-    // text-overflow: ellipsis;
-    // overflow: hidden;
-    // display: inline-block;
-    // width: 140px;
     font-size: 16px;
     color: #5fafff !important;
     text-decoration: underline;
@@ -753,8 +765,8 @@ export default {
     }
   }
   .ivu-table-cell {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 5px;
+    padding-right: 5px;
   }
   .ivu-table-border td {
     font-size: 16px;

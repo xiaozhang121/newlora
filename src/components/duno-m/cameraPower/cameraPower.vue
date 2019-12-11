@@ -1,6 +1,6 @@
 <template>
     <div class="cameraPower" >
-        <historical-documents v-if="mainType == 1" :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="444px" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents v-if="mainType == 1" :isShowTip='false' :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="444px" @close="onClose" :dialogTableVisible="visible" class="historical">
             <div class="monitor">
                 <key-monitor :autoplay="true" :isNav='true' :isLive='false' :monitorInfo="monitorInfo" :streamAddr="monitorInfo['addr']"></key-monitor>
             </div>
@@ -35,7 +35,7 @@
                 >C相</li>
             </ul>
         </historical-documents>
-        <historical-documents v-else :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="744px" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents v-else :showHeader="true" :isShowTip='false' :tabPaneData="[]"  :title="dialogTitle"  width="744px" @close="onClose" :dialogTableVisible="visible" class="historical">
             <div class="monitor" style="display: flex">
                 <key-monitor :isPic="isPic" :isNav='true' :isLive='false' :autoplay="true" style="flex: 1; margin-right: 20px" class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptionsd.streamAddr"></key-monitor>
                 <key-monitor style="flex: 1" :isNav='true' :isLive='false' class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptions.streamAddr"></key-monitor>
@@ -137,7 +137,7 @@
                 }
             },
             mapType: {
-                type: String,
+                type: String | Number,
                 default: () => {
                     return "1";
                 }
@@ -285,7 +285,7 @@
                     });
                     this.allList=data;
                     this.dataList = dataList
-                    this.mainName = dataList[0]['monitorDeviceName']
+                    this.mainName = dataList.length>0?dataList[0]['monitorDeviceName']:''
                     this.mainType = dataList[0]['monitorDeviceType']
                     this.monitorInfo = dataList[0]
                     this.streamAddr = dataList[0]['addr']

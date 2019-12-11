@@ -5,6 +5,7 @@
     :title="itemData.powerDeviceName"
     :isShowTab="false"
     :dialogTableVisible="visible"
+    :isShowTip='false'
     @close="onClose"
   >
     <div class="popuponeinfo">

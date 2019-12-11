@@ -610,7 +610,7 @@ export default {
       getAxiosData(url, query).then(res => {
         const resData = res.data;
         this.regionList = resData;
-        this.titleType =''
+        this.titleType = "";
       });
     },
     getStart() {
@@ -915,21 +915,6 @@ export default {
           }
         }
       }
-      // .clickBtn {
-      //   line-height: 40px;
-      //   width: 139px;
-      //   background-image: url(../../../assets/images/btn/moreBtn.png);
-      //   text-align: center;
-      //   font-size: 18px;
-      //   cursor: pointer;
-      //   color: #ffffff;
-      //   @media screen and (min-width: 3500px) {
-      //     background-size: 100% 100%;
-      //     font-size: 14px;
-      //     line-height: 34px;
-      //     width: 120px;
-      //   }
-      // }
     }
   }
   .icon-xiala {
@@ -941,7 +926,7 @@ export default {
   background-color: #1a2f42;
   border: none;
 }
-.el-input__inner::placeholder{
+.el-input__inner::placeholder {
   color: #fff;
   font-size: 16px;
 }
