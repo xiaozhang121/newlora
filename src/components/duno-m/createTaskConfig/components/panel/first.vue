@@ -111,7 +111,7 @@
             },
             initData() {
                 const that = this;
-                postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
+                postAxiosData("/lenovo-plan/api/list/plan-type",{position: 3}).then(res => {
                     this.taskKindList = res.data;
                     this.$forceUpdate();
                     let query = { pageIndex: 1, pageRows: 888888 };
