@@ -100,6 +100,10 @@
             }
         },
         props: {
+            ballControl:{
+              type: Boolean,
+              default: true
+            },
             cursor:{
               type: String,
               default: 'pointer'
@@ -458,7 +462,7 @@
             },
             toDeviced(item,index,flag){
                 if(this.isClick){
-                    if('monitorDeviceType' in item && item['monitorDeviceType'] == 4){
+                    if('monitorDeviceType' in item && item['monitorDeviceType'] == 4 && this.ballControl){
                         this.$router.push({
                             path:'/surveillancePath/ballControlM',
                             query:{
@@ -1420,6 +1424,7 @@
                 this.EventList[0] = this.mapTarget.on('click', function (evt) {
                      // alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
                     that.clickPos = transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857')
+                    that.$emit('on-click', that.clickPos)
                  })
                 this.addInteraction()
                 setTimeout(()=>{

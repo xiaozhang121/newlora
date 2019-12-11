@@ -8,7 +8,7 @@
         </div>
         <duno-main class="mainContain">
             <div class="main" :class="{'isHide': isHide}">
-                <gis-map kind="self" @toDetail="toDevice"  ref="gisMapObj" :deviceList="deviceList" fillColor="rgba(14,27,38, 0.75)" :polygonData="[[[13215283.811880944,3776271.1453833655],[13232286.273360128,3776249.821483701],[13232286.273360128,3766246.2152650086],[13215280.527477384,3766246.919600075],[13215283.811880944,3776271.1453833655]]]" isDiagram="3" mapUrl="http://10.0.10.45:8202" />
+                <gis-map :ballControl="false" @on-click="getPoint" kind="self" @toDetail="toDevice"  ref="gisMapObj" :deviceList="deviceList" fillColor="rgba(14,27,38, 0.75)" :polygonData="[[[13215283.811880944,3776271.1453833655],[13232286.273360128,3776249.821483701],[13232286.273360128,3766246.2152650086],[13215280.527477384,3766246.919600075],[13215283.811880944,3776271.1453833655]]]" isDiagram="3" mapUrl="http://10.0.10.45:8202" />
                 <div class="explainM"  :class="{'hide': isHide}">
                     <map-explain />
                 </div>
@@ -18,7 +18,7 @@
             </div>
         </duno-main>
         <platform-line :showList="showList" :visible="visible" @on-close="onClose()" :dataInfo="dataInfo"></platform-line>
-        <!--<platform-box></platform-box>-->
+        <platform-box  :visible="boxVisible"  @on-close="onClose()"></platform-box>
     </div>
 </template>
 
@@ -52,6 +52,7 @@
                 showList: false,
                 dataInfo: null,
                 visible: false,
+                boxVisible: false,
                 deviceList: [],
                 tempDeviceList: [],
                 caisson: require('@/apiData/caisson'),
@@ -74,6 +75,26 @@
             }
         },
         methods: {
+            inPolygon(point, vs) {
+              let x = point[0], y = point[1];
+              let inside = false;
+              for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+                let xi = vs[i][0], yi = vs[i][1];
+                let xj = vs[j][0], yj = vs[j][1];
+                let intersect = ((yi > y) != (yj > y))
+                  && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                if (intersect) inside = !inside;
+              }
+              return inside;
+            },
+            getPoint(point){
+              let fPolygon = [[13219074.610752461, 3774466.678311332],[13219412.60573691, 3774468.087945379],[13219411.411408342, 3774305.981114525], [13219073.416423896, 3774305.981114525]]
+              let sPolygon = [[13219007.72835271, 3774304.5714995037], [13219289.589894515, 3774307.3907297077], [13219291.978551647, 3774159.3820388713], [13219007.72835271, 3774156.5628434196]]
+              let fFlag = this.inPolygon(point, fPolygon)
+              let sFlag = this.inPolygon(point, sPolygon)
+              let inPolygon = fFlag || sFlag
+              this.boxVisible = inPolygon
+            },
             getExchange(){
               let query={
                 hostId:"",
@@ -95,6 +116,7 @@
             },
             onClose(){
                 this.visible = false
+                this.boxVisible = false
             },
             toDevice(item, index, targetd, modelIndex = 0, flag){
                 let type = item['monitorDeviceType']
@@ -103,6 +125,8 @@
                   this.showList = false
                 }else if(type == 'Caisson'){
                   this.showList = true
+                }else if(type == 4){
+                  this.showList = false
                 }
                 this.visible = true
             },
@@ -158,6 +182,8 @@
                             }else{
                                 item['src'] = that.redLight
                             }
+                        }else if(item['monitorDeviceType'] == 4){
+                          item['src'] = that.ball
                         }
                         item['show'] = true
                         item['isShow'] = true
@@ -168,9 +194,9 @@
                         let waterBox = that.setCaisson(list[1].data)
                         data = data.concat(ap)
                         data = data.concat(waterBox)
-                        data = data.filter(item => {
-                          return item['monitorDeviceType'] != 4
-                        })
+                        // data = data.filter(item => {
+                        //   return item['monitorDeviceType'] != 4
+                        // })
                         that.deviceList = data
                         that.tempDeviceList = data
                       }

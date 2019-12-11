@@ -1,26 +1,26 @@
 <template>
     <div class="platformBox" >
-        <historical-documents :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="visible" class="historical">
+        <historical-documents :routePath="{path: '/abnormalInfoPath/box'}" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="dialogTableVisible" class="historical">
             <div class="mainPanel">
                 <swiper :options="swiperOption">
-                    <swiper-slide>
+                    <swiper-slide v-for="(item, index) in streamList" :key="'stream' + index">
                         <div class="slide_item">
                             <div class="main">
-
-                            </div>
-                        </div>
-                    </swiper-slide>
-                    <swiper-slide>
-                        <div class="slide_item"  style="background: grey">
-                            <div class="main">
-
-                            </div>
-                        </div>
-                    </swiper-slide>
-                    <swiper-slide>
-                        <div class="slide_item">
-                            <div class="main">
-
+                                <key-monitor
+                                        :autoplay="true"
+                                        :isLive="false"
+                                        :isNav="true"
+                                        :pushCamera="false"
+                                        :picCutAbsolute="false"
+                                        :videoCut="false"
+                                        :isCamera="false"
+                                        :monitorInfo="{monitorDeviceId: item.deviceId}"
+                                        imgAdress
+                                        :kilovolt="item.name"
+                                        :streamAddr="item.url"
+                                        :showBtmOption="true"
+                                        width="100%"
+                                ></key-monitor>
                             </div>
                         </div>
                     </swiper-slide>
@@ -39,30 +39,30 @@
                     服务器
                 </span>
             </div>
-            <a class="" href="javascript:void(0)">详情>></a>
+            <a class="" href="javascript:void(0)" @click="serverTo">详情>></a>
     </div>
             <div class="deviceList">
                 <div class="deviceItem">
                     <div class="pic"><i class="iconfont icon-fuwuqi1"></i></div>
-                    <div class="count">40</div>
+                    <div class="count">{{ server['total'] }}</div>
                     <div class="nr">服务器总数</div>
                 </div>
                 <div class="deviceItem">
                     <div class="pic"><i class="iconfont icon-xuniji"></i></div>
-                    <div class="count">81</div>
+                    <div class="count">{{ virtual['total'] }}</div>
                     <div class="nr">虚拟服务器</div>
                 </div>
                 <div class="deviceItem">
                     <div class="pic"><i class="iconfont icon-servise"></i></div>
-                    <div class="count">120</div>
+                    <div class="count">{{ service['total'] }}</div>
                     <div class="nr">Service</div>
                 </div>
             </div>
             <div class="deviceStatus">
-                <span>内存占用量：<span class="data red">96%</span></span>
-                <span>存储空间占用量：<span class="data">60%</span></span>
+                <span>内存占用量：<span class="data red">{{ 100 - rateData }}%</span></span>
+                <span>存储空间占用量：<span class="data">{{ occupied }}%</span></span>
             </div>
-            <div class="warning">
+            <div class="warning" v-if="(100 - rateData)> 95">
                 <i class="iconfont icon-yichang"></i>
                 <span class="nr_main">内存占用量超过95%</span>
             </div>
@@ -78,11 +78,11 @@
                     机器人
                 </span>
                 </div>
-                <a class="" href="javascript:void(0)">详情>></a>
+                <a class="" href="javascript:void(0)" @click="toRobot">详情>></a>
             </div>
             <div class="patteryContain">
-                <pattery rate="100" class="pattery"></pattery>
-                <div class="robotStauts green">充电中</div>
+                <pattery :rate="battery" class="pattery"></pattery>
+                <div class="robotStauts green">{{ robotStatus }}</div>
             </div>
             <div class="noBack lastB" style="height: 10px"></div>
         </historical-documents>
@@ -91,6 +91,7 @@
 
 <script>
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
+    import KeyMonitor from "_c/duno-c/KeyMonitor";
     import pattery from '_c/duno-m/pattery'
     import "swiper/dist/css/swiper.css";
     import { swiper, swiperSlide } from "vue-awesome-swiper";
@@ -101,13 +102,23 @@
             HistoricalDocuments,
             swiperSlide,
             swiper,
-            pattery
+            pattery,
+            KeyMonitor
         },
         data() {
             return {
+                robotStatus: '',
+                battery: 0,
+                occupied: 0,
+                unoccupied: 0,
+                rateData: 0,
+                server: {},
+                virtual: {},
+                service: {},
+                streamList: [],
                 tabPaneData: [],
-                title: '24口万兆交换机',
-                visible: true,
+                title: '泛在盒子',
+                dialogTableVisible: false,
                 swiperOption: {
                     slidesPerView: 1,
                     navigation: {
@@ -118,10 +129,18 @@
             }
         },
         props: {
-
+            visible:{
+              type: Boolean,
+              default: false
+            },
         },
         watch: {
-
+          visible:{
+             handler(now){
+                this.dialogTableVisible = now
+             },
+             immediate: true
+          }
         },
         computed: {
             deviceLength(){
@@ -133,19 +152,67 @@
             }
         },
         methods:{
+            toRobot(){
+              this.$router.push({path: '/robot-one/list'})
+            },
+            getRobot(){
+              let substationId = 1
+              let robotId = 1
+              getAxiosData(`/lenovo-mon/api/monitoring/robot/status/substation/${substationId}/robot/${robotId}`).then(res=>{
+                let data = res.data
+                this.robotStatus = data.status
+                this.battery = data.battery == ""?0:Number(data.battery)
+              })
+            },
+            storeSpace(){
+              getAxiosData("/lenovo-mon/api/monitoring/disk/zabbix/getDiskStatus").then(res => {
+                let data2 = res.data;
+                this.unoccupied= (Math.round((data2.available / data2.total) * 100));
+                this.occupied = (Math.round(((data2.total - data2.available) / data2.total) * 100));
+              })
+            },
+            serverTo(){
+              this.$router.push({path: '/abnormalInfoPath/server'})
+            },
+            getUse(){
+              getAxiosData('/lenovo-mon/api/monitoring/memory/zabbix/countMemory').then(res=>{
+                let data = res.data.rate
+                this.rateData = Number(data).toFixed(0)
+              })
+            },
+            getSever(){
+              getAxiosData('/lenovo-mon/api/monitoring/analyse/physics-machine').then(res=>{
+                let data = res.data.data
+                this.server =  { normal: data['normal'], total:  data['total'] }
+              })
+              getAxiosData('/lenovo-mon/api/monitoring/analyse/virtual-machine').then(res=>{
+                let data = res.data.data
+                this.virtual =  { normal: data['normal'], total:  data['total'] }
+              })
+              getAxiosData('/lenovo-mon/api/monitoring/analyse/services').then(res=>{
+                let data = res.data.data
+                this.service =  { normal: data['normal'], total:  data['total'] }
+              })
+            },
             getMonitor(){
                 getAxiosData('/lenovo-mon/api/monitoring/rack/zabbix/rack-stream').then(res=>{
+                  console.log(res);
+                  this.streamList = res.data.data;
                 })
             },
             onChange(){
 
             },
             onClose(){
-
+               this.$emit('on-close')
             }
         },
         created(){
             this.getMonitor()
+            this.getSever()
+            this.getUse()
+            this.storeSpace()
+            this.getRobot()
         },
         mounted() {
 
@@ -178,7 +245,7 @@
         }
         .warning{
             width: 100%;
-            margin: 10px 0;
+            margin-bottom: 10px;
             .iconfont{
                 color: #f11134;
                 font-weight: bold;
@@ -201,11 +268,11 @@
             right: 0px;
         }
         .slide_item{
-            background: pink;
+            background: black;
             width: 350px;
             margin: 0 auto;
             .main{
-                padding-bottom: 56%;
+                /*padding-bottom: 56%;*/
                 width: 100%;
             }
         }
@@ -272,6 +339,7 @@
             margin-top: 20px;
             display: flex;
             justify-content: space-between;
+            margin-bottom: 10px;
             .data{
                 font-weight: bold;
             }

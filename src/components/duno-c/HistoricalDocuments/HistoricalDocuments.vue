@@ -11,8 +11,8 @@
       @close="close"
     >
       <div slot="title">
-        <el-tooltip class="item" effect="light" content="点击查看摄像头详情" placement="top">
-          <span @mouseup="getJump" @mousedown="savePoint" class="title titleSpan" v-if="isShowTip && (!isShowTab || showHeader)">
+        <el-tooltip class="item" effect="light" content="点击查看详情" placement="top"  v-if="isShowTip && (!isShowTab || showHeader)">
+          <span @mouseup="getJump" @mousedown="savePoint" class="title titleSpan">
             <img v-if="picSrc" :src="picSrc" style="width: 20px; margin-right: 15px" />
               {{title}}
           </span>
@@ -73,6 +73,12 @@ export default {
   name: "HistoricalDocuments",
   props: {
     picSrc: {},
+    routePath: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     isShowTip: {
       type: Boolean,
       default: () => {
@@ -211,6 +217,10 @@ export default {
     getJump(event) {
         if(this.getPageX != event.pageX || this.getPageY != event.pageY){
             return
+        }
+        if(Object.keys(this.routePath).length){
+          this.$router.push(this.routePath)
+          return
         }
         getAxiosData("/lenovo-device/api/preset/type", {
           monitorDeviceId: this.itemId

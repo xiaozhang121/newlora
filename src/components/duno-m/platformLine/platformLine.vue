@@ -1,6 +1,6 @@
 <template>
     <div class="platformLine" >
-        <historical-documents  :tabPaneData="tabPaneData" :picSrc="picSrc" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="visibleOption" class="historical">
+        <historical-documents :routePath="routePath" :isShowTip="isShowTip" :itemId="itemId" :tabPaneData="tabPaneData" :picSrc="picSrc" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="visibleOption" class="historical">
             <div class="mainPanel">
                 <div class="explain">
                     <div class="p_title">{{ Ftitle }}</div>
@@ -21,8 +21,8 @@
                 </div>
                 <div class="connectDevice" v-if="showList">
                     <div class="titleD">
-                        <span>连接的监测设备 (10/12)</span>
-                        <a href="javascript:void(0)">详情>></a>
+                        <span>连接的监测设备 ({{ linkCount }}/{{ totalCount }})</span>
+                        <a href="javascript:void(0)" @click="routeTo">详情>></a>
                     </div>
                     <div class="mainD">
                         <ul :class="{'overflow': deviceLength}">
@@ -50,6 +50,12 @@
         },
         data() {
             return {
+                routePath: {},
+                routeQuery: {},
+                isShowTip: false,
+                itemId: -1,
+                linkCount: 0,
+                totalCount: 0,
                 Ftitle: '安装时间：',
                 Stitle: 'IP：',
                 picSrc: null,
@@ -83,8 +89,14 @@
         watch: {
             dataInfo:{
                   handler(now){
+                      this.routePath = {}
+                      this.isShowTip = false
+                      if(now['monitorDeviceId']){
+                        this.itemId = now['monitorDeviceId']
+                        this.isShowTip = true
+                      }
                       let type = now['monitorDeviceType']
-                      if(type == 1 || type == 5){
+                      if(type == 1 || type == 5 || type == 4){
                           this.installTime = now['deviceMessage']['instTime']?now['deviceMessage']['instTime']:'/'
                           this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
                           this.deviceType = now['deviceMessage']['status']?'正常':'异常'
@@ -95,6 +107,13 @@
                           }
                           if(type == 5){
                              this.picSrc = this.lightD
+                          }
+                          if(type == 4){
+                             this.picSrc = this.ball
+                             this.routePath = {path: '/surveillancePath/ballControlM', query: {
+                                 monitorDeviceId: now['monitorDeviceId'],
+                                 monitorDeviceName: now['monitorDeviceName']
+                             }}
                           }
                           this.title = now['deviceMessage']['cameraName']
                       }
@@ -113,7 +132,7 @@
                          this.getAP(now)
                       }
                       else if(type == 'Caisson'){
-                         // this.getCaission()
+                         this.getCaission()
                       }
                   },
                   deep: true
@@ -135,7 +154,20 @@
             }
         },
         methods:{
+            routeTo(){
+               this.$router.push(this.routePath)
+            },
+            getCaission(){
+              this.routePath = {path: '/abnormalInfoPath/networkDevice', query: { type: 'SWITCH' }}
+              this.picSrc = this.waterBox
+              getAxiosData('/lenovo-mon/api/monitoring/host/zabbix/exchange/count').then(res=>{
+                this.linkCount = res.data['normal']
+                this.totalCount = res.data['total']
+              })
+            },
             getAP(data){
+              this.routePath = {path: '/abnormalInfoPath/networkDevice', query: { type: 'AP' }}
+              this.picSrc = this.AP
               getAxiosData('/lenovo-mon/api/monitoring/popup/ap', {mac: data.apMac}).then(res=>{
                 this.title = '802.11ac Wave2天线一一体化室外无无线AP'
                 this.Ftitle = '型号：'

@@ -38,7 +38,7 @@
             </div>
             <div class="warning">
                 <i class="iconfont icon-yichang"></i>
-                <span class="nr_main">内存占用量超过{{ rateData }}%</span>
+                <span class="nr_main">内存占用量超过{{ 100-rateData }}%</span>
             </div>
         </div>
         <div class="line_split"></div>

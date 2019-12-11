@@ -260,10 +260,15 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  created() {
+    if(this.$route.query.type == 'SWITCH'){
+      this.onSelectDevice(this.DeviceData[1])
+    }else if(this.$route.query.type == 'AP'){
+      this.onSelectDevice(this.DeviceData[0])
+    }
+    // this.getWidth();
   }
-  // created() {
-  //   this.getWidth();
-  // }
 };
 </script>
 
