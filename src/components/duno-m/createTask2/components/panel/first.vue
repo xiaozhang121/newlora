@@ -118,7 +118,7 @@ export default {
       try {
         this.form.taskName = this.rowData["planName"];
       } catch (e) {}
-      postAxiosData("/lenovo-plan/api/list/plan-type").then(res => {
+      postAxiosData("/lenovo-plan/api/list/plan-type", {position: 3}).then(res => {
         this.taskKindList = res.data;
         this.value = 5;
         // if (!this.rowDataLength) that.form.taskKind = res.data[0].value;

@@ -1263,9 +1263,14 @@ export default {
         width: 100%;
         height: 400px;
         padding-top: 70px;
-        @media screen and (max-width: 1366px) {
-          padding-top: 0;
+        @media screen and (min-width: 3000px) {
+          padding-top: 0px;
           top: 30px;
+        }
+        & .chartsChange{
+          @media screen and (min-width: 3000px) {
+            top: 41px;
+          }
         }
         .chartBox {
           height: 400px;

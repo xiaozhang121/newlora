@@ -791,6 +791,29 @@ export default [{
                 ]
             },
             {
+            path: '/frontDoor',
+            name: 'frontDoor',
+            meta: {
+              topNav: '2',
+              title: '大门车辆记录',
+              notCache: true,
+              toListName: 'frontDoorList',
+              btnArr: []
+            },
+            component: parentView,
+            children: [{
+              path: 'list',
+              name: 'frontDoorList',
+              meta: {
+                topNav: '2',
+                title: '列表',
+                hideInMenu: true,
+                isDetails: true
+              },
+              component: () => import('@/views/communal/security/frontDoor.vue')
+            }]
+          },
+            {
                 path: 'environmental1000',
                 name: 'environmental1000KV',
                 meta: {
