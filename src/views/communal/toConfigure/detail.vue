@@ -8,13 +8,22 @@
       <div @click="addTask()" v-if="place">+创建新的任务配置</div>
     </div>
     <duno-main class="dunoMain">
-      <Patrol
+      <div class="allCheck">
+        <div class="containLeft">
+          <div class="allCheck-title">全面巡视</div>
+          <div class="allCheck-explain">(集合多种监测设备，定点定时完成任务，生成巡视报告，异常状态及时告警)</div>
+        </div>
+        <div class="containRight">
+          <el-button class="btn_pre" @click.native="routeTo">查看报告></el-button>
+        </div>
+      </div>
+     <!-- <Patrol
         @to-run="toRunTask"
         @to-del="toDel"
         :patrolData="allInspectList"
         planType="全面巡视"
         @to-edit="toEdit"
-      />
+      />-->
       <Patrol
         @to-del="toDel"
         @to-edit="toEdit"
@@ -750,6 +759,9 @@ export default {
     }
   },
   methods: {
+    routeTo(){
+      this.$router.push({path: '/abnormalInfoPath/taskForm/reportFrom'})
+    },
     toDel(param) {
       let url = `/lenovo-plan/api/inspection/deletePlanAndTasks?id=${param.row.id}`;
       postAxiosData(url).then(res => {
@@ -892,6 +904,34 @@ export default {
 <style lang="scss">
 .configDetail {
   width: 100%;
+  .allCheck{
+      display: flex;
+      background: #174152;
+      padding: 18px 32px;
+      margin-top: 30px;
+      .containLeft{
+        flex: 1;
+        line-height: 31px;
+        font-size: 15px;
+        .allCheck-title{
+          color: white;
+        }
+        .allCheck-explain{
+          color: #cccccc;
+          font-size: 14px;
+        }
+      }
+      .containRight{
+        line-height: 60px;
+        .btn_pre{
+          padding: 10px 15px;
+          background-color: #3a81a1;
+          border-radius: 16px;
+          border: none;
+        }
+      }
+  }
+
   .ivu-poptip-confirm .ivu-poptip-body{
     text-align: left;
     color: black;
