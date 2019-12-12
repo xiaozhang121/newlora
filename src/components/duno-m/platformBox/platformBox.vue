@@ -13,7 +13,7 @@
                                         :pushCamera="false"
                                         :picCutAbsolute="false"
                                         :videoCut="false"
-                                        :isCamera="false"
+                                        :fullScreen="true"
                                         :monitorInfo="{monitorDeviceId: item.deviceId}"
                                         imgAdress
                                         :kilovolt="item.name"

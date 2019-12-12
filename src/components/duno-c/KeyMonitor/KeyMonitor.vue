@@ -87,7 +87,7 @@
                     :style="isShowNone"
                     class="block"
                     :class="{'hidden': isPic}"
-                    v-if="second && !isCamera"
+                    v-if="second && !isCamera && !fullScreen"
             >
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2" :step="15" @change='sliderChange'></el-slider>
@@ -110,7 +110,7 @@
           <!--  <span @click="fullScreen()">
             <i class="iconfont icon-quanping"></i>全屏
           </span>-->
-          <span @click="getMainstream()" v-if="!onlyCanel">
+          <span @click="getMainstream()" v-if="!onlyCanel || fullScreen">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
           <span @click="pushMov()" v-if="!onlyCanel && pushCamera">
@@ -176,6 +176,16 @@
       screenshot
     },
     props: {
+      fullScreen: {
+        type: Boolean,
+        default: () => {
+          return false;
+        }
+      },
+      timeout: {
+        type: Number,
+        default: 20000
+      },
       picCutAbsolute: {//红外双目截图判断
         type: Boolean,
         default: () => {

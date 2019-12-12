@@ -91,6 +91,9 @@
                   handler(now){
                       this.routePath = {}
                       this.isShowTip = false
+                      this.installTime = ''
+                      this.IP = ''
+                      this.deviceType = ''
                       if(now['monitorDeviceId']){
                         this.itemId = now['monitorDeviceId']
                         this.isShowTip = true
@@ -157,9 +160,38 @@
             routeTo(){
                this.$router.push(this.routePath)
             },
-            getCaission(){
-              this.routePath = {path: '/abnormalInfoPath/networkDevice', query: { type: 'SWITCH' }}
+            getSwitchData(now){
               this.picSrc = this.waterBox
+              this.Ftitle = '防水箱号：'
+              this.Stitle = 'IP：'
+              this.deviceList = []
+              this.routePath = {path: '/abnormalInfoPath/networkDevice', query: { type: 'SWITCH' }}
+              getAxiosData('/lenovo-mon/api/monitoring/popup/exchange', {hostId: now['hostId'], ip: now['ip']}).then(res=>{
+                try{
+                  let data = res.data
+                  this.title = data.realName
+                  this.installTime = data.boxNum
+                  this.IP = data.ip
+                  this.deviceType = data['status']?'正常':'异常'
+                  let arr = []
+                  let green = 0
+                  let red = 0
+                  for(let i=0; i<data['connectDevice'].length; i++){
+                    let item = data['connectDevice'][i]
+                    let status = item['isConnect']?'green':'red'
+                    status == 'green'?green++:red++
+                    arr.push({
+                      cameraName: item['deviceName'],
+                      status: status
+                    })
+                  }
+                  this.linkCount = green
+                  this.totalCount = green + red
+                  this.deviceList = arr
+                }catch (e) {}
+              })
+            },
+            getCaission(){
               getAxiosData('/lenovo-mon/api/monitoring/host/zabbix/exchange/count').then(res=>{
                 this.linkCount = res.data['normal']
                 this.totalCount = res.data['total']
