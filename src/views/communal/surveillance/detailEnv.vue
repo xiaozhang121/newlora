@@ -77,7 +77,7 @@
             <div v-if="!loading && videoList.length==0" class="noVideo">暂无数据</div>
             <div v-else class="videoItem" v-for="(item,index) in videoList" :key="index">
               <cover :srcData="item" :isSecond="false"></cover>
-              <p>{{ item['startTime'] }}-{{ item['endTime'] }}</p>
+              <p>{{ item['startTime'] }}-{{ item['endTime'] }} ({{ item['timeValue'] }})</p>
             </div>
           </div>
           <el-pagination
@@ -899,6 +899,13 @@ export default {
         monitorDeviceId: this.dataForm.monitorDeviceId
       }).then(res => {
         let data = res.data.tableData;
+        data.map(item=>{
+          let t1 = moment(item['startTime'])
+          let t2 = moment(item['startTime'].split(' ')[0]+" "+item['endTime'])
+          let dura = t2.format('x') - t1.format('x')
+          let tempTime = moment.duration(dura);
+          item['timeValue'] = Math.round(dura/1000/60)+'min'
+        })
         this.videoList = data;
         data.forEach((item, index) => {
           postAxiosData("/lenovo-device/device/video/record/video/pic", {

@@ -853,7 +853,7 @@
           this.cameraPic = "";
         }
       },
-      fullScreen() {
+      fullScreenFn() {
         let ele = this.$refs.videoPlayer.$el
             .getElementsByClassName("vjs-fullscreen-control")[0]
             .click();

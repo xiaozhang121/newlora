@@ -89,7 +89,7 @@
                 :isNav='true'
                 :isAux='true'
               ></key-monitor>
-              <p>{{ item['startTime'] }}-{{ item['endTime'] }}数据</p>
+              <p>{{ item['startTime'] }}-{{ item['endTime'] }} ({{ item['timeValue'] }})</p>
             </div>
           </div>
           <el-pagination
@@ -864,6 +864,13 @@ export default {
         monitorDeviceId: this.dataForm.monitorDeviceId
       }).then(res => {
         let data = res.data.tableData;
+        data.map(item=>{
+          let t1 = moment(item['startTime'])
+          let t2 = moment(item['startTime'].split(' ')[0]+" "+item['endTime'])
+          let dura = t2.format('x') - t1.format('x')
+          let tempTime = moment.duration(dura);
+          item['timeValue'] = Math.round(dura/1000/60)+'min'
+        })
         this.videoList = data;
         this.pageParam = res.data.pageParam;
       });
