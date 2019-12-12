@@ -283,6 +283,7 @@ export default {
     }
   },
   created() {
+    this.getFourthData();
     this.startTime = moment().format("YYYY-MM-DD");
     this.endTime = moment().format("YYYY-MM-DD");
     console.log(

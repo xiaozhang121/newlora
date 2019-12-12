@@ -182,13 +182,13 @@
                             monitorDeviceType: 2,
                             isActive: true
                         },
-                        {
-                            img:require('@/assets/buttonPng/intelLock.png'),
-                            circleColor:'#ffca28',
-                            describeName: '智能锁具',
-                            monitorDeviceType: 999,
-                            isActive: true
-                        },
+                        // {
+                        //     img:require('@/assets/buttonPng/intelLock.png'),
+                        //     circleColor:'#ffca28',
+                        //     describeName: '智能锁具',
+                        //     monitorDeviceType: 999,
+                        //     isActive: true
+                        // },
                         {
                             img:require('@/assets/SVG/weatherCheck.svg'),
                             circleColor:'#C06EFF',
