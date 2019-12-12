@@ -143,7 +143,7 @@
                     <div class="input"> <el-input  style="position: relative;z-index: 9" :disabled="false" @input="checkSpecial" v-model="addPosInput" placeholder=""></el-input></div>
                     <div class="btnEx">
                         <span class="btnEx_title">请使用右上角图标调整预设位</span>
-                        <span class="btnEx_btn"><el-button type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></span>
+                        <span class="btnEx_btn"><el-button class="bootBtn" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></span>
                     </div>
                 </div>
                 <div class="right">
@@ -1073,7 +1073,7 @@
             }
             .right{
                 padding-left: 30px;
-                padding-right: 30px;
+                /*padding-right: 30px;*/
                 flex: 1;
                 .table{
                     position: relative;

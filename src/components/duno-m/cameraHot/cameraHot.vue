@@ -184,7 +184,7 @@
                                     left: 0;
                                     top: 0;
                                     text-align: left; font-size: 14px" :deviceType="2" :deviceId="deviceId" v-if="deviceId && lockPress"/></div>
-                                    <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" @input="checkSpecial" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
+                                    <div class="input" style="padding-top: 5px ;padding-bottom: 15px"> <el-input  style="position: relative;z-index: 9; text-align: left; width: calc( 100% - 90px )" :disabled="false" @input="checkSpecial" v-model="addPosInput" placeholder="输入预置位名称"></el-input><el-button class="bootBtn" style="float: right" type="primary" @click="addPosition">{{ isEdit==false?'添加':'修改' }}</el-button></div>
                                 </div>
                                 <div class="table" style="padding-top: 10px">
                                     <duno-table height="150"  v-for="(item, index) in dataListd"  :key="index"  :columns="columnsd" :dataList="item.dataList"></duno-table>
@@ -897,6 +897,9 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        .ivu-table-cell{
+            white-space: nowrap;
+        }
         .bootBtn{
             background: #315f84;
         }
