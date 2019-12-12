@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       isFullscreen: false,
-      mapFlag: false,
+      mapFlag: true,
       deviceList: [],
       tempDeviceList: [],
       mapKind: 0,
@@ -195,7 +195,8 @@ export default {
         .querySelector("#map")
         .setAttribute("style", "height:100% !important");
     } catch (e) {}
-    this.routeName = this.$route.name;
+    if(!(self.frameElement && self.frameElement.tagName == "IFRAME"))
+      this.routeName = this.$route.name;
   },
   beforeDestroy() {
     try {

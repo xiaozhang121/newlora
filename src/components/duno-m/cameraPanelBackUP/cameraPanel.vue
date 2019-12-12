@@ -47,7 +47,7 @@
             </div>
         </template>
         <template  v-else-if="panelType == 'second'">
-            <div class="cameraMain" style="padding-bottom: 39px;">
+            <div class="cameraMain">
                 <div class="cameraA" v-if="showCamera">
                     <key-monitor
                           :monitorInfo="{ monitorDeviceId: deviceId }"
@@ -64,9 +64,9 @@
                         ></key-monitor>
                 </div>
                 <div class="btnList">
-                    <div style="display: flex; margin-bottom: 39px; position: relative; top: 5px;">
-                        <div style="margin-top: 5px">巡航间隔：</div>
-                        <div style="flex: 1">
+                    <div class="second-item">
+                        <div class="second-item-label">巡航间隔：</div>
+                        <div class="second-item-select">
                             <el-select v-model="selectValue" placeholder="请选择">
                                 <el-option
                                         v-for="item in timeOptions"
@@ -88,14 +88,14 @@
                                 <el-radio v-model="radioValue" label="2">循环</el-radio>
                             </div>
                         </div>
-                        <el-button @click="startBoat" style="height: 30px; line-height: 10px" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
+                        <el-button @click="startBoat" class="bootBtn" style="height: 30px; line-height: 10px" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
                     </div>
                 </div>
             </div>
         </template>
         <template  v-else-if="panelType == 'third'">
             <div class="cameraMain">
-                <div class="cameraA" v-if="showCamera">
+                <div class="cameraA" v-if="showCamera" style="height: 285px">
                     <key-monitor
                           :monitorInfo="{ monitorDeviceId: deviceId }"
                           paddingBottom="56%"
@@ -927,6 +927,51 @@
         /*border: 1px solid #04e6e7;*/
         /*padding: 1px 20px;*/
         width: 710px;
+        .bootBtn{
+            background: #315f84;
+        }
+        .el-radio__label{
+            color: white;
+        }
+        .el-radio__input.is-checked + .el-radio__label{
+            color: white;
+        }
+        .el-radio__input.is-checked .el-radio__inner::after{
+            transform: translate(-50%, -50%) scale(1.3);
+            background: #00fefe;
+        }
+        .el-radio__input.is-checked .el-radio__inner{
+            border-color: #00fefe;
+            background: transparent;
+        }
+        .el-radio__inner{
+            background-color: transparent;
+            border: 1px solid #a4a5a6;
+        }
+        th .ivu-table-cell{
+            white-space: nowrap;
+        }
+        .ivu-table-wrapper {
+            tr {
+                td {
+                    height: 45px;
+                    // @media screen and (min-width: 3500px) {
+                    //   height: 50px;
+                    //   font-size: 14px;
+                    // }
+                }
+            }
+            tr:nth-child(even) {
+                td {
+                    background: rgba(0, 0, 0, 0);
+                }
+            }
+            tr:nth-child(odd) {
+                td {
+                    background-color: rgba(50, 95, 125, 0.8);
+                }
+            }
+        }
         .redPoint{
             position: relative;
             background: red;
@@ -1028,6 +1073,7 @@
             }
             .right{
                 padding-left: 30px;
+                padding-right: 30px;
                 flex: 1;
                 .table{
                     position: relative;
@@ -1070,10 +1116,20 @@
                 height: 256px;
                 position: relative;
                 top: -3px;
+                padding-right: 15px;
+                .second-item{
+                    margin: 5px 0;
+                    .second-item-label{
+                        margin-top: 5px; display: inline-block
+                    }
+                    .second-item-select{
+                        width: 164px; display: inline-block
+                    }
+                }
                 .description{
                     position: absolute;
                     color: #a2a2a5;
-                    width: 28px;
+                    width: 41px;
                     height: 48px;
                     left: 0;
                     top: 0;

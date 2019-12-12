@@ -95,8 +95,8 @@
                         <span  style="color: white">预置位切换：<span style="color: #ffd70a">{{ secondLastShow }}s</span></span>
                     </div>
                 </div>
-                <div class="camera" v-if="showCamera" style="padding-left: 21px; padding-right: 5px">
-                    <div class="explain" style="display: block">
+                <div class="camera" v-if="showCamera" style="padding-left: 67px; padding-right: 5px">
+                    <div class="explain" style="display: block; margin-top: 20px">
                         <div>
                             <span style="width: 200px">巡航间隔：</span>
                             <span style="position: relative; top: -2px;  display: inline-block; text-align: right;    width: calc( 100% - 80px );">
@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <div style="text-align: right;margin-top: 20px;margin-right: 15px">
-                            <el-button @click="startBoat" style="width: 90px;" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
+                            <el-button class="bootBtn" @click="startBoat" style="width: 90px;" type="primary">{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
                         </div>
                     </div>
                 </div>
@@ -897,6 +897,48 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        .bootBtn{
+            background: #315f84;
+        }
+        .el-radio__input.is-checked + .el-radio__label{
+            color: white;
+        }
+        .el-radio__label{
+            color: white;
+        }
+        .el-radio__input.is-checked .el-radio__inner::after{
+            transform: translate(-50%, -50%) scale(1.3);
+            background: #00fefe;
+        }
+        .el-radio__input.is-checked .el-radio__inner{
+            border-color: #00fefe;
+            background: transparent;
+        }
+        .el-radio__inner{
+            background-color: transparent;
+            border: 1px solid #a4a5a6;
+        }
+        .ivu-table-wrapper {
+            tr {
+                td {
+                    height: 45px;
+                    // @media screen and (min-width: 3500px) {
+                    //   height: 50px;
+                    //   font-size: 14px;
+                    // }
+                }
+            }
+            tr:nth-child(even) {
+                td {
+                    background: rgba(0, 0, 0, 0);
+                }
+            }
+            tr:nth-child(odd) {
+                td {
+                    background-color: rgba(50, 95, 125, 0.8);
+                }
+            }
+        }
         .control_slider{
             display: flex;
             position: absolute;
