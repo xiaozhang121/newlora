@@ -46,7 +46,7 @@ export default {
 
 <style lang="scss">
 img{
-  z-index: 99!important;
+  /*z-index: 99!important;*/
 }
 .dunoMain{
   // border: 1px solid #fff;

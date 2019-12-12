@@ -979,6 +979,7 @@ export default {
     height: 45px;
     position: relative;
     top: 2px;
+    z-index: 0 !important;
   }
   .table_link {
     white-space: nowrap;

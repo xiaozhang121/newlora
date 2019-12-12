@@ -252,7 +252,7 @@ export default {
       echartTitle: "",
       addOrEdit: "添加",
       detailsType:"task",
-      disabled: false,
+      disabled: true,
       place: false,
       lockPress: false,
       isControl: "1",

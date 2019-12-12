@@ -516,7 +516,7 @@ export default {
       allDataK: [],
       addOrEdit: "添加",
       titleTypeK: "全部识别类型",
-      disabled: false,
+      disabled: true,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
         exportURL: "/lenovo-plan/api/task/result/list/export"
