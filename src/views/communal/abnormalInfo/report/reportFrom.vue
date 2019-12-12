@@ -175,12 +175,17 @@ export default {
     getPlayTypeData() {
       getPlayType().then(res => {
         const resData = res.data;
+        let initSelect = 0
+        let type = this.$route.query.type
         const map = resData.map(item => {
           const obj = {
             describeName: item.label,
             monitorType: item.value,
             title: "titleType"
           };
+          if(type == obj['describeName']){
+            initSelect = obj
+          }
           return obj;
         });
         map.unshift({
@@ -189,6 +194,9 @@ export default {
           title: "titleType"
         });
         this.inspectionData = map;
+        if(initSelect){
+          this.onSelect(initSelect)
+        }
       });
     }
   },

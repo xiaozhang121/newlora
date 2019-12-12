@@ -107,7 +107,7 @@ export default {
           that.totalNum = 0
           return that.$message.error(res.msg)
         }
-        let data = res.data.details || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
+        let data = res.data.details || res.data.records  || res.data.data || res.data.tableData || res.data.dutyData || res.data.todayData || res.data.monthData || res.data
         data.map((item, index)=>{
           item['_keyIndex'] = index + 1
           if(that.mixinViewModuleOptions._disabled && item['isImport'] == 1){

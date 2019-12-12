@@ -760,7 +760,7 @@ export default {
   },
   methods: {
     routeTo(){
-      this.$router.push({path: '/abnormalInfoPath/taskForm/reportFrom'})
+      this.$router.push({path: '/abnormalInfoPath/taskForm/reportFrom', query: {type : '全面巡检'}})
     },
     toDel(param) {
       let url = `/lenovo-plan/api/inspection/deletePlanAndTasks?id=${param.row.id}`;

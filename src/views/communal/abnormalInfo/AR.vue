@@ -40,6 +40,12 @@
         @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
+    <enlarge
+            :pushCamera="false"
+            :isShow="isEnlarge"
+            :srcData="srcData"
+            @closeEnlarge="closeEnlarge"
+    />
     <ar-panel :title="panelTitle" :params="params"  :visible="panelVisible" @on-submit="onSubmit"  @on-close="onClose"/>
   </div>
 </template>
@@ -50,6 +56,7 @@ import buttonCustom from "_c/duno-m/buttonCustom"
 import dunoMain from "_c/duno-m/duno-main";
 import moment from "moment";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
+import enlarge from "_c/duno-c/enlarge";
 import Breadcrumb from "_c/duno-c/Breadcrumb";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
@@ -66,7 +73,8 @@ export default {
     dunoMain,
     DunoTablesTep,
     Breadcrumb,
-    buttonCustom
+    buttonCustom,
+    enlarge
   },
   data() {
     const that = this;
@@ -99,7 +107,7 @@ export default {
       serious: false,
       commonly: false,
       danger: false,
-      srcData: [],
+      srcData: {},
       value: "",
       columns: [
         {
@@ -107,6 +115,33 @@ export default {
           type: 'selection',
           width: 60,
           align: 'center'
+        },
+        {
+          title: " ",
+          width: 0,
+          minWidth: 0,
+          maxWidth: 0,
+          align: 'center',
+          render: (h, params) => {
+            return h("div", {
+              class: "table_pic",
+            } , [
+              h(
+                "img",
+                {
+                  class: "imgOrMv",
+                  attrs: {src: params.row.imgFile},
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      this.isEnlarge = true;
+                      this.srcData = {fileType: 1, pic: params.row.imgFile};
+                    }
+                  }
+                }
+              )
+            ]);
+          }
         },
         {
           title: "序号",
@@ -232,6 +267,10 @@ export default {
     this.addText()
   },
   methods: {
+    closeEnlarge(){
+      this.isEnlarge = false;
+      this.srcData = {}
+    },
     onSubmit(query){
       if(!query.id){
         query.id = this.idS.join(',')
@@ -429,6 +468,13 @@ export default {
 <style lang="scss">
 .ARList {
   width: 100%;
+  .table_pic{
+    position: absolute;
+    left: 48px;
+    margin-top: -19px;
+    width: 62px;
+    height: 30px;
+  }
   .btnClass {
     border-radius: 15px;
     background: #3a81a1;
@@ -541,7 +587,8 @@ export default {
   }
   .imgOrMv {
     width: 80%;
-    height: 45px;
+    /*height: 45px;*/
+    height: 33px;
     position: relative;
     top: 2px;
   }

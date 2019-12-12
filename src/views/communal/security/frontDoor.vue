@@ -6,9 +6,6 @@
     <div class="top not-print">
       <div>{{ title }}</div>
       <div class="btn">
-        <div class="arPic" @click="routerTo" v-if="arPicVisible">
-          <img :src="arPic" @mouseenter="changePic" @mouseleave="changePic" title="AR眼镜上传图片待导入"/>
-        </div>
         <div>
           <duno-btn-top
                   @on-select="onSelectType"
@@ -40,9 +37,15 @@
                   @change="onChangeTime"
           ></el-date-picker>
         </div>
-        <div class="exportExcel" @click="outTable">
-          <i class="iconfont icon-daochu1"></i>
-          导出表格
+        <div class="dateChose">
+          <duno-btn-top
+                  @on-select="selectDownloadType"
+                  class="dunoBtnTo"
+                  :isCheck="false"
+                  :dataList="downLoadList"
+                  title="导出表格/PDF"
+                  :showBtnList="false"
+          ></duno-btn-top>
         </div>
       </div>
     </div>
@@ -62,6 +65,12 @@
               @on-page-size-change="pageSizeChangeHandle"
       />
     </duno-main>
+    <enlarge
+            :pushCamera="false"
+            :isShow="isEnlarge"
+            :srcData="srcData"
+            @closeEnlarge="closeEnlarge"
+    />
   </div>
 </template>
 
@@ -69,11 +78,15 @@
   import Breadcrumb from "_c/duno-c/Breadcrumb";
   import dunoBtnTop from "_c/duno-m/duno-btn-top";
   import dunoMain from "_c/duno-m/duno-main";
+  import qs from 'qs'
+  import config from '@/config'
+  import enlarge from "_c/duno-c/enlarge";
   import moment from "moment";
   import KeyMonitor from "_c/duno-c/KeyMonitor";
   import mixinViewModule from "@/mixins/view-module";
   import { DunoTablesTep } from "_c/duno-tables-tep";
   import { getAxiosData, postAxiosData } from "@/api/axiosType";
+  const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
   export default {
     name: "frontDoor",
     mixins: [mixinViewModule],
@@ -82,23 +95,36 @@
       dunoBtnTop,
       dunoMain,
       KeyMonitor,
-      DunoTablesTep
+      DunoTablesTep,
+      enlarge
     },
     data() {
       return {
-        arPicVisible: false,
+        downLoadList: [
+          {
+            describeName: "导出表格",
+            monitorDeviceType: "1"
+          },
+          {
+            describeName: "导出PDF",
+            monitorDeviceType: "0"
+          }
+        ],
+        isEnlarge: false,
+        srcData: {},
         arPic: require('@/assets/AR/arPic.png'),
         arPicHover: require('@/assets/AR/arPicHover.png'),
         mixinViewModuleOptions: {
           activatedIsNeed: true,
-          getDataListURL: "/lenovo-sample/api/sample/system/list"
+          getDataListURL: "/lenovo-visible/api/car/manage/record"
           // exportURL: ""
         },
         taskId: "",
         dataForm: {
-          importTimeStart: '',
-          importTimeEnd: '',
-          markType: ''
+          startTime: '',
+          endTime: '',
+          type: '',
+          exportType: 0
         },
         title: "大门车辆记录",
         totalNum: 20,
@@ -113,11 +139,11 @@
           },
           {
             describeName: "进口",
-            monitorType: "2"
+            monitorType: "0"
           },
           {
             describeName: "出口",
-            monitorType: "3"
+            monitorType: "1"
           }
         ],
         regionList: [],
@@ -130,71 +156,72 @@
         columns: [
           {
             title: "拍摄时间",
-            key: "picImportTime",
+            key: "time",
             align: "center",
             tooltip: true
           },
           {
             title: "车型",
-            key: "markType",
+            key: "plateColor",
             align: "center",
-            tooltip: true
+            tooltip: true,
+            render: (h, params) => {
+              let plateColor = '/'
+              if(!isNaN(Number(params.row.plateColor))){
+                plateColor = params.row.plateColor == 0?'小型':'大型'
+              }
+              return h("div", plateColor);
+            }
           },
           {
             title: "拍摄来源",
             key: "monitorDeviceName",
             align: "center",
-            tooltip: true
+            tooltip: true,
+            render: (h, params) => {
+              return h("div", '入口摄像头');
+            }
           },
           {
             title: "车牌",
-            key: "markNum",
+            key: "plateNumber",
             align: "center",
             tooltip: true
           },
           {
             title: "事件",
-            key: "areaName",
+            key: "inOut",
             align: "center",
-            tooltip: true
+            tooltip: true,
+            render: (h, params) => {
+              let inOut = '/'
+              if(!isNaN(Number(params.row.inOut))){
+                inOut = params.row.inOut == 0?'入场':'出场'
+              }
+              return h("div", inOut);
+            }
           },
           {
             title: "视频/图片",
-            key: "fileType",
+            key: "image",
             minWidth: 120,
             align: "center",
             tooltip: true,
             render: (h, params) => {
               let newArr = [];
-              if (params.row.fileType == "1") {
-                newArr.push([
-                  h("img", {
-                    class: "imgOrMv",
-                    attrs: { src: params.row.pic },
-                    draggable: false,
-                    on: {
-                      click: () => {
-                        that.isEnlarge = true;
-                        that.srcData = params.row;
-                      }
+              newArr.push([
+                h("img", {
+                  class: "imgOrMv",
+                  attrs: { src: params.row.image },
+                  draggable: false,
+                  on: {
+                    click: () => {
+                      this.isEnlarge = true;
+                      this.srcData = {fileType: 1, pic: params.row.image};
                     }
-                  })
-                ]);
-              } else if (params.row.fileType == "2") {
-                newArr.push([
-                  h("img", {
-                    class: "imgOrMv",
-                    attrs: { src: params.row.pic },
-                    draggable: false,
-                    on: {
-                      click: () => {
-                        that.isEnlarge = true;
-                        that.srcData = params.row;
-                      }
-                    }
-                  })
-                ]);
-              }
+                  }
+                })
+              ]);
               return h("div", newArr);
             }
           }
@@ -210,17 +237,26 @@
       }
     },
     methods: {
+      selectDownloadType(item) {
+        const that = this;
+        this.dataForm.exportType = item.monitorDeviceType;
+        that.outTable();
+      },
+      closeEnlarge(){
+        this.isEnlarge = false;
+        this.srcData = {}
+      },
       outTable(){
         let params = qs.stringify({
           't': this.user.token,
-          ...this.query
+          ...this.dataForm
         })
-        let url = `${baseUrl}/lenovo-plan/api/report/export?${params}`
+        let url = `${baseUrl}/lenovo-visible/api/car/manage/export?${params}`
         window.open(url,"_blank")
       },
       onSelectType(item, index) {
         this.titleTypeR = item["describeName"];
-        this.dataForm.markType = item.monitorType;
+        this.dataForm.type = item.monitorType;
         // this.getDataList();
         this.clickQuery(this.dataForm);
       },
@@ -231,8 +267,8 @@
           startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
           endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
         }
-        this.dataForm.importTimeStart = startTime;
-        this.dataForm.importTimeEnd = endTime;
+        this.dataForm.startTime = startTime;
+        this.dataForm.endTime = endTime;
         // this.getDataList();
         this.clickQuery(this.dataForm);
       }
@@ -250,6 +286,11 @@
   @import "@/style/tableStyle.scss";
   .frontDoor {
     width: 100%;
+    .imgOrMv {
+      height: 45px;
+      position: relative;
+      top: 2px;
+    }
     //-------------------表格样式
     .dunoMain {
       height: inherit;
