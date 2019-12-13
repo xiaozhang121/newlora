@@ -25,7 +25,7 @@
         :imgAdress="item['pic']"
         :kilovolt="item['source']"
         :streamAddr="item['streamAddr']"
-        patrol
+        :isLive='false'
       />
     </div>
   </div>
