@@ -1023,10 +1023,15 @@
           this.waitTimer = setInterval(() => {
             console.log('reload')
             try{
-            that.$refs.videoPlayer.player.reset()
-            that.$refs.videoPlayer.player.src({type: this.playerOptions["sources"][0]["type"], src: this.playerOptions["sources"][0]["src"]})
-            that.$refs.videoPlayer.player.load()
-            that.$refs.videoPlayer.player.play()
+              if(that.$refs.videoPlayer.player){
+                that.$refs.videoPlayer.player.reset()
+                that.$refs.videoPlayer.player.src({type: this.playerOptions["sources"][0]["type"], src: this.playerOptions["sources"][0]["src"]})
+                that.$refs.videoPlayer.player.load()
+                that.$refs.videoPlayer.player.play()
+              }else{
+                clearInterval(this.waitTimer)
+                this.waitTimer = null
+              }
             }catch (e) {}
             // try{
             //   that.$refs.videoPlayer.player.dispose()
