@@ -140,7 +140,7 @@ export default {
           });
         }
         this.dataList = res.data;
-        if(this.dataList.length==0){
+        if(this.dataList.tableData.length==0){
           this.isNull=true
         }else{
           this.isNull=false

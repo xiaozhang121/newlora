@@ -119,13 +119,13 @@ export default {
             that.dataList = []
             that.$forceUpdate()
         }
-        if (that.mixinViewModuleOptions.isShowPage) {
-            that.totalNum = Number(res.data.total) || Number(res.data.pageParam.totalRows)
-        }
         if(that.dataList.length==0){
           that.mixinViewModuleOptions.isShowPage = false
         }else{
           that.mixinViewModuleOptions.isShowPage = true
+        }
+        if (that.mixinViewModuleOptions.isShowPage) {
+            that.totalNum = Number(res.data.total) || Number(res.data.pageParam.totalRows)
         }
         that.$forceUpdate()
       }, error => {
