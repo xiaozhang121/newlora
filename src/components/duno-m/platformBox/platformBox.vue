@@ -1,6 +1,6 @@
 <template>
     <div class="platformBox">
-        <historical-documents :routePath="{path: '/abnormalInfoPath/box'}" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="dialogTableVisible" class="historical">
+        <historical-documents :picSrc="picSrc" :routePath="{path: '/abnormalInfoPath/box'}" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="dialogTableVisible" class="historical">
             <div class="mainPanel"  v-if="dialogTableVisible">
                 <swiper :options="swiperOption">
                     <swiper-slide v-for="(item, index) in streamList" :key="'stream' + index">
@@ -107,6 +107,7 @@
         },
         data() {
             return {
+                picSrc: require('@/assets/boxPng.png'),
                 robotStatus: '',
                 battery: 0,
                 occupied: 0,
