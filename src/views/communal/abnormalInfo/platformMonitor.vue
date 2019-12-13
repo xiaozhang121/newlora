@@ -125,6 +125,9 @@
                   this.showList = false
                 }else if(type == 'Caisson'){
                   this.showList = true
+                  if(!item['hostId']){
+                    return
+                  }
                 }else if(type == 4){
                   this.showList = false
                 }
