@@ -28,7 +28,7 @@
         <!-- <span>{{reportData.timeLong}}</span> -->
       </p>
       <p>
-        异常信息数量: {{reportData.alarmNum}}
+        异常信息数量: {{reportData.alarmNum?reportData.alarmNum:0}}
         <!-- <span>{{reportData.alarmNum}}</span> -->
       </p>
       <p v-if="isAllInfo&&kind != 'robot'">

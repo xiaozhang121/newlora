@@ -933,12 +933,12 @@
             }
             tr:nth-child(even) {
                 td {
-                    background: rgba(0, 0, 0, 0);
+                    background: rgba(0, 0, 0, 0) !important;
                 }
             }
             tr:nth-child(odd) {
                 td {
-                    background-color: rgba(50, 95, 125, 0.8);
+                    background-color: rgba(50, 95, 125, 0.8) !important;
                 }
             }
         }
