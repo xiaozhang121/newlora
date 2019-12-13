@@ -57,7 +57,7 @@
         />
       </div>
       <el-pagination
-        v-if="!loading&&isNull"
+        v-if="!loading&&!isNull"
         :current-page="pageIndex"
         layout="pager"
         :total="totalRows"
