@@ -212,7 +212,8 @@ export default {
       let data = {
         playtype: "1",
         pageIndex: 1,
-        pageRows: 4
+        pageRows: 4,
+        isRecognize: 1
       };
       lightNewInformation(data).then(res => {
         this.lightInformation = res.data.tableData;
