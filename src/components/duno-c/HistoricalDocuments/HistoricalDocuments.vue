@@ -1,5 +1,5 @@
 <template>
-  <div :class="['HistoricalDocuments', !isShowTab? 'noHistorical':'']">
+  <div :class="['HistoricalDocuments', !isShowTab? 'noHistorical':'', !isShowTip?'noPointer':'']">
     <el-dialog
       class="elDialogMain"
       v-dialogDrag
@@ -299,6 +299,11 @@ export default {
 .HistoricalDocuments {
   width: 100%;
   height: 100%;
+  &.noPointer{
+    .el-dialog__header{
+      cursor: auto;
+    }
+  }
   .el-dialog__wrapper {
     overflow: visible !important;
   }
