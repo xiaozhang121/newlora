@@ -16,7 +16,7 @@
                           :isLive='false'
                           :isNav='true'
                           :isAux='true'
-                          :picCutAbsolute='true'
+                          :picCutAbsolute='false'
                         ></key-monitor>
                     <key-monitor
                           v-if="showCamera"
@@ -72,7 +72,7 @@
                           :isLive='false'
                           :isNav='true'
                           :isAux='true'
-                          :picCutAbsolute='true'
+                          :picCutAbsolute='false'
                         ></key-monitor>
                     <key-monitor
                           :monitorInfo="{ monitorDeviceId: deviceId }"
@@ -138,7 +138,7 @@
                           :isLive='false'
                           :isNav='true'
                           :isAux='true'
-                          :picCutAbsolute='true'
+                          :picCutAbsolute='false'
                         ></key-monitor>
                     <key-monitor
                           :monitorInfo="{ monitorDeviceId: deviceId }"
@@ -258,7 +258,7 @@
                 addPosInput: '',
                 flagNow: -1,
                 secondLast: 2,
-                secondLastShow: 2,
+                secondLastShow: 3,
                 timer: null,
                 showTimer: null,
                 lightTimer: null,
@@ -442,6 +442,10 @@
             }
         },
         watch: {
+            selectValue(now){
+              let second = Number(now) / 1000
+              this.secondLastShow = second
+            },
             deviceId:{
                 handler(now){
                     if(now) {
@@ -902,6 +906,7 @@
         }
         .bootBtn{
             background: #315f84;
+            border-radius: 30px;
         }
         .el-radio__input.is-checked + .el-radio__label{
             color: white;

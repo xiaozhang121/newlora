@@ -286,7 +286,7 @@
                 addPosInput: '',
                 flagNow: -1,
                 secondLast: 2,
-                secondLastShow: 2,
+                secondLastShow: 3,
                 timerMove: null,
                 timer: null,
                 showTimer: null,
@@ -478,6 +478,10 @@
             }
         },
         watch: {
+            selectValue(now){
+                let second = Number(now) / 1000
+                this.secondLastShow = second
+            },
             sliderValue(now, old){
             },
             panelType(){
@@ -927,8 +931,15 @@
         /*border: 1px solid #04e6e7;*/
         /*padding: 1px 20px;*/
         width: 710px;
+        .keyMonitor .camera .explain .block{
+            padding-right: 45%;
+        }
+        .keyMonitor .camera .explain span:first-child{
+            visibility: hidden;
+        }
         .bootBtn{
             background: #315f84;
+            border-radius: 30px;
         }
         .el-radio__label{
             color: white;
