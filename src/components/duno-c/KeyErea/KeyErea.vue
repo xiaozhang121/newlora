@@ -753,6 +753,9 @@
 
 <style lang="scss">
   .keyErea {
+    .keyMonitor .camera .explain .block{
+      visibility: hidden;
+    }
     .selectTop{
       position: fixed;
       top: 0;
