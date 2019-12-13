@@ -1,7 +1,7 @@
 <template>
-    <div class="platformBox" >
+    <div class="platformBox">
         <historical-documents :routePath="{path: '/abnormalInfoPath/box'}" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="470px" @on-show="onChange" @close="onClose" :dialogTableVisible="dialogTableVisible" class="historical">
-            <div class="mainPanel">
+            <div class="mainPanel"  v-if="dialogTableVisible">
                 <swiper :options="swiperOption">
                     <swiper-slide v-for="(item, index) in streamList" :key="'stream' + index">
                         <div class="slide_item">
