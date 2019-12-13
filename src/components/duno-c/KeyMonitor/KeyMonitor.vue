@@ -100,7 +100,7 @@
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
             </div>
           </template>
-          <span @click="videotape()" v-if="videoCut && isAux">
+          <span @click="videotape()" v-if="videoCut && isAux && isRecord">
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>

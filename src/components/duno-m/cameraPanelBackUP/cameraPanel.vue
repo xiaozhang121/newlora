@@ -14,6 +14,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :isRecord="false"
                           :isAux='true'
                         ></key-monitor>
                 </div>
@@ -60,6 +61,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :isRecord="false"
                           :isAux='true'
                         ></key-monitor>
                 </div>
@@ -107,6 +109,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :isRecord="false"
                           :isAux='true'
                         ></key-monitor>
                 </div>
@@ -931,8 +934,11 @@
         /*border: 1px solid #04e6e7;*/
         /*padding: 1px 20px;*/
         width: 710px;
+        .cameraPanel .iconList span{
+            margin-right: 13px;
+        }
         .keyMonitor .camera .explain .block{
-            padding-right: 45%;
+            padding-right: 58%;
         }
         .keyMonitor .camera .explain span:first-child{
             visibility: hidden;
