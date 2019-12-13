@@ -969,6 +969,7 @@
                 })
             },
             deviceShowHandle(arr){
+              try{
                 const that = this
                 let target = arr.filter(item=>{
                     return item['isActive'] == true
@@ -989,6 +990,7 @@
                 that.deviceList = data
                 this.showWeather = this.$refs.btnTopRef.dataList[3].isActive
                 that.$forceUpdate()
+              }catch (e) {}
             },
             alarmClear(){
                 clearInterval(this.timer)
