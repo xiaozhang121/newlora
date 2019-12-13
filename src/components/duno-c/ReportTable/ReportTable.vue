@@ -1,9 +1,9 @@
 <template>
-  <div class="reportTable">
-    <div>
+  <div class="reportTable not-print">
+    <div class="not-print">
       <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg" />
     </div>
-    <div class="content">
+    <div class="content not-print">
       <!-- <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top"> -->
         <h3 v-if="kind != 'robot'">
           <span class="taskid">{{reportData.planName}}</span>
@@ -42,7 +42,7 @@
         >{{item.monitorDeviceName}}<i v-if="index*1+1 != reportData.monitorDeviceList.length">,</i></span>
       </p>
     </div>
-    <div class="btn">
+    <div class="btn not-print">
       <!-- <div @click="clickExcel">
         <i class="iconfont icon-xiazai"></i>
         <span>下载报告</span>

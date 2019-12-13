@@ -5,9 +5,9 @@
     </div>
     <div class="titleLight">可见光监测</div>
     <div class="reportRecode">
-      <div class="report">
+      <div class="report not-print">
         <div>历史巡检报告</div>
-        <div @click="getMoreReport">查看更多 ></div>
+        <div @click="getMoreReport" class="not-print">查看更多 ></div>
       </div>
       <div
         v-if="isEmpty"
