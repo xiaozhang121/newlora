@@ -1023,7 +1023,7 @@
           this.waitTimer = setInterval(() => {
             console.log('reload')
             try{
-              if(that.$refs.videoPlayer.player){
+              if(that.$refs.videoPlayer && that.$refs.videoPlayer.player){
                 that.$refs.videoPlayer.player.reset()
                 that.$refs.videoPlayer.player.src({type: this.playerOptions["sources"][0]["type"], src: this.playerOptions["sources"][0]["src"]})
                 that.$refs.videoPlayer.player.load()
