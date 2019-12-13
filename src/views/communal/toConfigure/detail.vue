@@ -760,7 +760,13 @@ export default {
   },
   methods: {
     routeTo(){
-      this.$router.push({path: '/abnormalInfoPath/taskForm/reportFrom', query: {type : '全面巡检'}})
+      this.$router.push({
+        name: "reportFrom",
+        query: {
+          planType: "9",
+          type: '全面巡检'
+        }
+      });
     },
     toDel(param) {
       let url = `/lenovo-plan/api/inspection/deletePlanAndTasks?id=${param.row.id}`;
@@ -915,10 +921,11 @@ export default {
         font-size: 15px;
         .allCheck-title{
           color: white;
+          font-size: 18px;
         }
         .allCheck-explain{
           color: #cccccc;
-          font-size: 14px;
+          font-size: 16px;
         }
       }
       .containRight{
