@@ -133,7 +133,7 @@ export default {
 <style lang="scss">
 .chosenList {
   .el-radio__input.is-checked + .el-radio__label{
-    color: white !important;
+    /*color: white !important;*/
   }
   .el-radio__label{
     width: 100%;
