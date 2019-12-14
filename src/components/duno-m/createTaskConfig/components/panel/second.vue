@@ -52,20 +52,22 @@
         watch: {
             dataList: {
                 handler(now) {
-                    var data2 = now;
-                    console.log(now);
-                    var data = [];
-                    for (var i = 0; i <= now.length - 1; i++) {
+                    try{
+                      var data2 = now;
+                      console.log(now);
+                      var data = [];
+                      for (var i = 0; i <= now.length - 1; i++) {
                         data.push({
-                            deviceId: now[i].deviceId,
-                            monitorDeviceId: now[i].monitorDeviceId,
-                            monitorDeviceName: now[i].monitorDeviceName,
-                            presets: now[i].presets,
-                            title: now[i].title
+                          deviceId: now[i].deviceId,
+                          monitorDeviceId: now[i].monitorDeviceId,
+                          monitorDeviceName: now[i].monitorDeviceName,
+                          presets: now[i].presets,
+                          title: now[i].title
                         });
-                    }
-                    this.obj = data;
-                    this.dataList2 = data;
+                      }
+                      this.obj = data;
+                      this.dataList2 = data;
+                    }catch (e) {}
                 },
                 deep: true
             },

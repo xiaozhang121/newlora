@@ -1,7 +1,7 @@
 <template>
     <div class="chosenList">
         <div class="title">
-            <span>{{ title }} </span>
+            <span style="font-size: 16px">{{ title }} </span>
             <span class="last" v-if="control" @click="toHide()">收起<i class="iconfont icon-xiala" :class="{'turnA': !collapse}"></i></span>
         </div>
         <el-collapse-transition>
@@ -96,6 +96,41 @@
 </script>
 <style lang="scss">
     .chosenList{
+        .el-radio__input.is-checked + .el-radio__label{
+            color: white !important;
+        }
+        .el-radio__label{
+            width: 100%;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: bottom;
+        }
+        .el-checkbox__input.is-checked + .el-checkbox__label, .el-checkbox__label{
+            color: white !important;
+            margin-left: 5px;
+            letter-spacing: 1px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            position: relative;
+            top: 5px;
+        }
+        .el-checkbox__label{
+            color: white !important;
+            margin-left: 5px;
+            letter-spacing: 1px;
+        }
+        .el-checkbox__inner::after{
+            border-color: #535353;
+            border-width: 2px;
+        }
+        .el-checkbox__input.is-checked .el-checkbox__inner{
+            background-color: white;
+            border-color: white;
+        }
         .turnA{
             transform: rotate(180deg);
             position: relative;

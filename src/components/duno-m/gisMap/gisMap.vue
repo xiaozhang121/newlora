@@ -1169,8 +1169,10 @@
                 this.clearCircle()
             },
             clearCircle(){
-                let feature = this.vector.getSource().getFeatureById('alarmBorder')
-                this.vector.getSource().removeFeature(feature)
+                try{
+                    let feature = this.vector.getSource().getFeatureById('alarmBorder')
+                    this.vector.getSource().removeFeature(feature)
+                }catch (e) {}
             },
             addCircle(xReal, yReal){
                 const that = this

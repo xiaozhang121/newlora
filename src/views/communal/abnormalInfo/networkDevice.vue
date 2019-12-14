@@ -104,6 +104,7 @@ export default {
         { describeName: "断开", value: "1" }
       ],
       stateSelectAP: [
+        { describeName: "所有状态", value: "" },
         { describeName: "上线", value: "ApOnline" },
         { describeName: "连接中", value: "ApConnecting" },
         { describeName: "离线", value: "ApOffline" },
@@ -249,6 +250,7 @@ export default {
       this.dataForm.status = "";
       this.dataForm.type = item["value"];
       this.mixinViewModuleOptions.isShowPage = true;
+      this.pageIndex = 1
       this.init();
     },
     onSelectState(item) {

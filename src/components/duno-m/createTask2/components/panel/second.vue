@@ -39,7 +39,8 @@ export default {
   watch: {
     dataList: {
       handler(now) {
-        if (now.length) {
+        try{
+          if (now.length) {
           let data = now;
           let arr = this.rowData["devicemonitors"];
           for (let i = 0; i < arr.length; i++) {
@@ -70,6 +71,7 @@ export default {
             }
           }
         }
+        }catch (e) {}
       },
       deep: true
     }
