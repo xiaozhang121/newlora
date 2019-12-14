@@ -144,7 +144,6 @@ export default {
     vertical-align: bottom;
   }
   .el-checkbox__input.is-checked + .el-checkbox__label, .el-checkbox__label{
-    color: white !important;
     margin-left: 5px;
     letter-spacing: 1px;
     width: 100%;
@@ -155,7 +154,6 @@ export default {
     top: 5px;
   }
   .el-checkbox__label{
-    color: white !important;
     margin-left: 5px;
     letter-spacing: 1px;
   }

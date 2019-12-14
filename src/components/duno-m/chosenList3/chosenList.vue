@@ -97,7 +97,6 @@
 <style lang="scss">
     .chosenList{
         .el-radio__input.is-checked + .el-radio__label{
-            color: white !important;
         }
         .el-radio__label{
             width: 100%;
@@ -108,7 +107,6 @@
             vertical-align: bottom;
         }
         .el-checkbox__input.is-checked + .el-checkbox__label, .el-checkbox__label{
-            color: white !important;
             margin-left: 5px;
             letter-spacing: 1px;
             width: 100%;
@@ -119,7 +117,6 @@
             top: 5px;
         }
         .el-checkbox__label{
-            color: white !important;
             margin-left: 5px;
             letter-spacing: 1px;
         }
