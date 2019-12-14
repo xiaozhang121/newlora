@@ -156,7 +156,8 @@ export const getStatus = (data) => {
 export const getPlayType = (data) => {
     return axios.request({
         url: "/lenovo-plan/api/list/plan-type",
-        method: 'post'
+        method: 'post',
+        data: data
     })
 }
 
