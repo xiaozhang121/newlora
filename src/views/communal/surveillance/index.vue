@@ -259,7 +259,7 @@
         class="item_main"
         v-for="(item, index) in areaCameraList"
         :key="'camera'+index"
-        :class="{noMarginRight:(index+1)%3 == 0}"
+        :class="{noMarginRight:(index+1)%4 == 0}"
       >
         <div class="item">
           <key-monitor
@@ -1061,7 +1061,7 @@ export default {
     }
     .item_main {
       float: left;
-      width: calc(98% / 4);
+      width: calc(97% / 4);
       margin-right: 1%;
       margin-bottom: 3%;
       .item {

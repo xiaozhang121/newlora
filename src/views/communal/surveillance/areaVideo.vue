@@ -25,7 +25,10 @@
         :imgAdress="item['pic']"
         :kilovolt="item['source']"
         :streamAddr="item['streamAddr']"
+        :Initialization="true"
         :isLive='false'
+        :isNav='true'
+        :isAux='true'
       />
     </div>
   </div>

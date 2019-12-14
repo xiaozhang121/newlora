@@ -17,7 +17,6 @@
                           :isNav='true'
                           :isAux='true'
                           :isRecord="false"
-                          :picCutAbsolute='true'
                         ></key-monitor>
                     <key-monitor
                           v-if="showCamera"
@@ -75,7 +74,6 @@
                           :isNav='true'
                           :isAux='true'
                           :isRecord="false"
-                          :picCutAbsolute='true'
                         ></key-monitor>
                     <key-monitor
                           :monitorInfo="{ monitorDeviceId: deviceId }"
@@ -143,7 +141,6 @@
                           :isNav='true'
                           :isRecord="false"
                           :isAux='true'
-                          :picCutAbsolute='true'
                         ></key-monitor>
                     <key-monitor
                           :monitorInfo="{ monitorDeviceId: deviceId }"
