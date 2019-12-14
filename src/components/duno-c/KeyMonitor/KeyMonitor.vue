@@ -11,9 +11,7 @@
             @mouseleave="leave()"
             style="position: relative"
     >
-      <div v-if="isLive" class="main vjsLive" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent"
-           @mousedown.native="clickNative"
-      >
+      <div v-if="isLive" class="main vjsLive" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
                 :class="{'infraredList':routeName == 'infraredList'}"
                 ref="videoPlayer"
@@ -23,11 +21,12 @@
                 @play="onPlayerPlay($event)"
                 @playing="onPlayerPlaying($event)"
                 @ready="toPlay"
+                @mousedown.native="clickNative"
                 @waiting="onPlayerWaiting($event)"
                 @error="onPlayerError($event)"
         ></video-player>
       </div>
-      <div v-else class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent"  @mousedown.native="clickNative">
+      <div v-else class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
                 :style="{display:'none'}"
                 :class="{'infraredList':routeName == 'infraredList'}"
@@ -44,6 +43,7 @@
                 @loadeddata="onPlayerLoadeddata"
                 @waiting="onPlayerWaiting"
                 @canplay="onPlayerCanplay"
+                @mousedown.native="clickNative"
                 @canplaythrough="onPlayerCanplaythrough"
                 @play="onPlayerPlay"
                 @ready="toPlay"
@@ -61,6 +61,7 @@
                 :options="playerOptions"
                 :playsinline="true"
                 @play="onPlayerPlay($event)"
+                @mousedown.native="clickNative"
                 @playing="onPlayerPlaying($event)"
                 @ready="toPlay"
                 @waiting="onPlayerWaiting($event)"
