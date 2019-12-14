@@ -30,7 +30,7 @@
           <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="设备组件">
               <el-cascader
-                 :class="{'input-edit':isEdit}"
+                 :class="{'input-edit':!isEdit}"
                  v-model="form.initCascader"
                 :data="cascaderData"
                 @on-change="handleChange"
@@ -41,7 +41,7 @@
             </el-form-item>
             <el-form-item label="变电站名">
               <el-select
-                :class="{'input-edit':isEdit}"
+                :class="{'input-edit':!isEdit}"
                 v-model="form.stationName"
                 :disabled="isEdit"
                 @change="changeStation"
@@ -57,7 +57,7 @@
             </el-form-item>
             <el-form-item label="摄像头名">
               <el-select
-                :class="{'input-edit':isEdit}"
+                :class="{'input-edit':!isEdit}"
                 v-model="form.monitorDeviceName"
                 @change="changeMonitor"
                 :disabled="isEdit"
@@ -73,7 +73,7 @@
             </el-form-item>
             <el-form-item label="电压区域">
               <el-select
-                :class="{'input-edit':isEdit}"
+                :class="{'input-edit':!isEdit}"
                 v-model="form.areaName"
                 @change="changeArea"
                 :disabled="isEdit"
@@ -88,7 +88,7 @@
               </el-select>
             </el-form-item>
             <el-form-item  label="被监测设备">
-              <el-input  :class="{'input-edit':isEdit}" :disabled="isEdit" v-model.trim="form.powerDeviceName" placeholder="请输入被监测设备名" />
+              <el-input  :class="{'input-edit':!isEdit}" :disabled="isEdit" v-model.trim="form.powerDeviceName" placeholder="请输入被监测设备名" />
             </el-form-item>
             <!--<survey :monitor="form.powerDeviceName" :isEdit="isEdit"></survey>-->
             <div class="submit">
