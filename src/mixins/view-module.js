@@ -10,6 +10,7 @@ export default {
     return {
       // 设置属性
       mixinViewModuleOptions: {
+        imgAUTO: false,
         activatedIsNeed: false, //  此页面是否在激活（进入）时，调用查询数据列表接口？
         getDataListURL: '', //  数据列表接口，API地址
         isShowPage: true, // 表格是否分页
@@ -115,6 +116,17 @@ export default {
           }
         })
         that.dataList = data
+        if(that.mixinViewModuleOptions.imgAUTO){
+          data.forEach((item, index) => {
+            postAxiosData("/lenovo-alarm/api/info/video/pic", {
+              videoPath: item["alarmFileAddress"],
+              positionIndex: index
+            }).then(res => {
+              that.tableList[res.data["positionIndex"]]["pic"] = res.data.pic;
+              that.$forceUpdate();
+            });
+          })
+        }
         if('details' in res.data && res.data['details'] == null){
             that.dataList = []
             that.$forceUpdate()

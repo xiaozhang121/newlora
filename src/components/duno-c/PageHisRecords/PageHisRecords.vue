@@ -117,6 +117,7 @@ export default {
     const that = this;
     return {
       mixinViewModuleOptions: {
+        imgAUTO: true,
         activatedIsNeed: false,
         getDataListURL: "/lenovo-alarm/api/security/list",
         exportURL: "/lenovo-alarm/api/security/history/export"
@@ -276,21 +277,7 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
-                  draggable: false,
-                  on: {
-                    click: () => {
-                      that.isEnlarge = true;
-                      that.srcData = params.row;
-                    }
-                  }
-                })
-              ]);
-            } else if (params.row.fileType == "2") {
-              newArr.push([
-                h("video", {
-                  class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: params.row.pic },
                   draggable: false,
                   on: {
                     click: () => {
