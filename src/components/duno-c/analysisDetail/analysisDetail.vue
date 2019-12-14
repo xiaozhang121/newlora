@@ -726,6 +726,15 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail {
   width: 100%;
+  .dunoBtnTop .btnList .title .output:before{
+    top: 8px;
+  }
+  .dunoBtnTop .icon-xiala {
+    font-size: 9px;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
   //-------------------表格样式
   .dunoMain {
     height: 100%;

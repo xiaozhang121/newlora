@@ -37,6 +37,7 @@
         <span
           v-for="(item,index) in reportData.monitorDeviceList"
           :key="index"
+          :title="item.monitorDeviceName"
           style="text-decoration: underline"
           @click="getJump(item)"
           :style="{cursor:'pointer'}"

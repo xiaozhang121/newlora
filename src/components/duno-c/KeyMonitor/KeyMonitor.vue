@@ -21,8 +21,8 @@
                 @play="onPlayerPlay($event)"
                 @playing="onPlayerPlaying($event)"
                 @ready="toPlay"
-                @waiting="onPlayerWaiting($event)"
                 @mousedown.native="clickNative"
+                @waiting="onPlayerWaiting($event)"
                 @error="onPlayerError($event)"
         ></video-player>
       </div>
@@ -43,10 +43,10 @@
                 @loadeddata="onPlayerLoadeddata"
                 @waiting="onPlayerWaiting"
                 @canplay="onPlayerCanplay"
+                @mousedown.native="clickNative"
                 @canplaythrough="onPlayerCanplaythrough"
                 @play="onPlayerPlay"
                 @ready="toPlay"
-                @mousedown.native="clickNative"
                 @playing="onPlayerPlaying($event)"
                 @error="onPlayerError($event)"
         ></video-player>
@@ -61,10 +61,10 @@
                 :options="playerOptions"
                 :playsinline="true"
                 @play="onPlayerPlay($event)"
+                @mousedown.native="clickNative"
                 @playing="onPlayerPlaying($event)"
                 @ready="toPlay"
                 @waiting="onPlayerWaiting($event)"
-                @mousedown.native="clickNative"
                 @error="onPlayerError($event)"
         ></video-player>
         <img v-else class="cameraImg" :src="picUrl" @mousedown.native="clickNative" />
