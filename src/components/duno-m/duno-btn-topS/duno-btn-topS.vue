@@ -466,11 +466,16 @@
             },
             bindEvent(event){
                 const that = this
-                    if(!(event.target.className.indexOf('checkbox')>-1) && that.isCheck){
-                        // that.showListFlag = !that.showListFlag
-                        if(that.$refs.dunoBtnTopS)
-                          that.$refs.dunoBtnTopS.style.display = "none"
-                    }
+              if(that.isCheck) {
+                let path = event.path || (event.composedPath && event.composedPath());
+                for (let i = 0; i < path.length; i++) {
+                  if (path[i].classList && path[i].classList.length && (path[i].classList.contains('checkbox') || path[i].classList.contains('video-player') || path[i].classList.contains('videoPlayer'))) {
+                    return
+                  }
+                }
+              }
+              if(that.$refs.dunoBtnTopS)
+                that.$refs.dunoBtnTopS.style.display = "none"
             },
             onScroll(event){
                 if(!(event.target.className.indexOf('checkbox')>-1)) {

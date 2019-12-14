@@ -26,7 +26,7 @@
                 @error="onPlayerError($event)"
         ></video-player>
       </div>
-      <div v-else class="main" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
+      <div v-else class="main videoPlayer" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
                 :style="{display:'none'}"
                 :class="{'infraredList':routeName == 'infraredList'}"
@@ -67,7 +67,7 @@
                 @waiting="onPlayerWaiting($event)"
                 @error="onPlayerError($event)"
         ></video-player>
-        <img v-else class="cameraImg" :src="picUrl" @mousedown.native="clickNative" />
+        <img v-else class="cameraImg" :src="picUrl" @mousedown="clickNative" />
         <div class="backImgK" id="backImgK">
           <div class="back_child">
             <slot></slot>
