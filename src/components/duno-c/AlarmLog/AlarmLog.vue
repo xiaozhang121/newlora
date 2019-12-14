@@ -39,7 +39,7 @@
       <div class="btn">
         <p>
           来源：
-          <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
+          <span @click.stop="getJump" style="text-decoration: underline">{{remarkData.monitorDeviceName}}</span>
         </p>
         <p v-if="isShow">
           <i @click.stop="openRemarks">备注</i>

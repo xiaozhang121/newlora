@@ -63,6 +63,7 @@
                 @change="changeDate"
                 type="date"
                 placeholder="选择日期"
+                :picker-options="pickerOptions1"
               ></el-date-picker>
             </div>
           </div>
@@ -274,6 +275,11 @@ export default {
   data() {
     const that = this;
     return {
+      pickerOptions1: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
+      },
       showPage: true,
       lockPress: false,
       detailsType:"alarm",

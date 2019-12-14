@@ -6,7 +6,7 @@
             </div>
             <div class="from">
                 来源：
-                <span class="click_title" @click="handleJump">{{ mainName }}</span>
+                <span class="click_title" style="text-decoration: underline" @click="handleJump">{{ mainName }}</span>
                 <el-dropdown  trigger="click">
                   <span class="el-dropdown-link">
                     <i class="el-icon-arrow-down el-icon--right"></i>
@@ -42,7 +42,7 @@
             </div>
             <div class="from">
                 来源：
-                <span class="click_title"  @click="handleJump">{{ mainName }}</span>
+                <span class="click_title" style="text-decoration: underline"  @click="handleJump">{{ mainName }}</span>
                 <el-dropdown  trigger="click">
                   <span class="el-dropdown-link">
                     <i class="el-icon-arrow-down el-icon--right"></i>

@@ -32,7 +32,7 @@
         <p>
           来源:
           <el-tooltip :content="remarkData.monitorDeviceName" placement="top">
-            <span @click.stop="getJump">{{remarkData.monitorDeviceName}}</span>
+            <span @click.stop="getJump" style="text-decoration: underline">{{remarkData.monitorDeviceName}}</span>
           </el-tooltip>
         </p>
         <p v-if="remarkData.isAlarm==1">

@@ -262,6 +262,7 @@
       >
         <div class="item">
           <key-monitor
+            popInfo="点击查看该区域内所有摄像头"
             :autoplay="false"
             :noButton="false"
             :aggregate="true"
@@ -285,6 +286,7 @@
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in areaCameraList" :key="'camera'+index">
           <key-monitor
+            popInfo="点击查看该区域内所有摄像头"
             :autoplay="false"
             :noButton="false"
             :aggregate="true"

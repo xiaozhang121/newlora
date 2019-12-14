@@ -176,6 +176,10 @@
       screenshot
     },
     props: {
+      popInfo: {
+        type: String,
+        default: '点击查看摄像头详情'
+      },
       fullScreen: {
         type: Boolean,
         default: () => {
@@ -567,7 +571,7 @@
           pat=pat.replace(/至/,'-');
           this.patrolMt=pat
         }
-        str+='点击查看摄像头详情'
+        str+= this.popInfo
         return str
       }
     },

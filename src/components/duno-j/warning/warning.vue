@@ -116,6 +116,7 @@
                     class="origin"
                     href="javascript:;"
                     @click="getJump"
+                    style="text-decoration: underline"
                   >{{dataList['monitorDeviceName']}}</a>
                 </span>
               </div>

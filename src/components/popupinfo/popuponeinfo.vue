@@ -137,7 +137,7 @@
         <el-col :span="24">
           <p class="itemTitle">
             来源：
-            <span style="color: #366590; cursor: pointer" @click="getJump">{{itemData.source}}</span>
+            <span style="color: #366590; cursor: pointer; text-decoration: underline" @click="getJump">{{itemData.source}}</span>
           </p>
         </el-col>
       </el-row>

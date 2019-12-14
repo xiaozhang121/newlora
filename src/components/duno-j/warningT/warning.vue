@@ -65,7 +65,7 @@
           <div class="info_item">
             <div class="info_title">来源：</div>
             <div class="info_main">
-              <p class="from" @click="getJump">{{dataList['monitorDeviceName']}}</p>
+              <p class="from" style="text-decoration: underline" @click="getJump">{{dataList['monitorDeviceName']}}</p>
             </div>
           </div>
         </div>

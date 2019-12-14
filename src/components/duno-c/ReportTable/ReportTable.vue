@@ -37,6 +37,7 @@
         <span
           v-for="(item,index) in reportData.monitorDeviceList"
           :key="index"
+          style="text-decoration: underline"
           @click="getJump(item)"
           :style="{cursor:'pointer'}"
         >{{item.monitorDeviceName}}<i v-if="index*1+1 != reportData.monitorDeviceList.length">,</i></span>
