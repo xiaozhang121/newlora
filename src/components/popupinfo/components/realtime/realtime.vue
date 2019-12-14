@@ -8,19 +8,22 @@
             :autoplay="true"
             :isLive="false"
             width="100%"
+            :monitorInfo="{monitorDeviceId: deviceId}"
             :isNav="true"
             :streamAddr="streamAddrD"
             :showBtmOption="false"
           ></key-monitor>
         </div>
         <div class="itemImgBox" ref="mapContain"  style="width: 226px; height: 150px;transform-origin: left top;" v-else>
-          <video-player
-                  ref="videoPlayer"
-                  class="vjs-custom-skin realtime_video"
-                  :options="playerOptionf"
-          ></video-player>
-          <!--<img style="width: 100%; height: 100%" :src="demoImage">-->
-          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.mapContain)"></i>
+          <key-monitor
+            :autoplay="true"
+            :isLive="false"
+            width="100%"
+            :monitorInfo="{monitorDeviceId: deviceId}"
+            :isNav="true"
+            :streamAddr="playerOptionf.sources[0].src"
+            :showBtmOption="false"
+          ></key-monitor>
         </div>
       </el-col>
       <el-col :span="12" v-if="monitorDeviceType != 1 && monitorDeviceType != 3  && monitorDeviceType != 5 && !isShowClassify">
@@ -28,19 +31,29 @@
              style="width: 228px; height: 150px"
         >
           <div class="picVideo" ref="mapContain" v-if="itemData['deviceMessage']['typeId'] == 3">
-            <img   @mousemove="pointerPos($event)"
-                   @mouseout="clearTimer()" :src="cameraPic"/>
-                   <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.mapContain)"></i>
+            <key-monitor
+              :autoplay="true"
+              :isLive="false"
+              width="100%"
+              :isNav="true"
+              :monitorInfo="{monitorDeviceId: deviceId}"
+              :isPic="true"
+              @mousemove.native="pointerPos($event)"
+              @mouseout.native="clearTimer()"
+              :streamAddr="streamAddrD"
+              :showBtmOption="false"
+            ></key-monitor>
           </div>
-          <video-player
-                  v-else
-                  @mousemove.native="pointerPos($event)"
-                  @mouseout.native="clearTimer()"
-                  ref="videoPlayerd"
-                  class="vjs-custom-skin realtime_video"
-                  :options="playerOptions"
-          ></video-player>
-          <i class="fullScreen iconfont icon-quanping" @click="changeFullScreen($refs.videoPlayerd)"></i>
+          <key-monitor
+              v-else
+              :autoplay="true"
+              :isLive="false"
+              width="100%"
+              :monitorInfo="{monitorDeviceId: deviceId}"
+              :isNav="true"
+              :streamAddr="playerOptions.sources[0].src"
+              :showBtmOption="false"
+          ></key-monitor>
         </div>
       </el-col>
     </el-row>
@@ -290,14 +303,14 @@
                         getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                             that.cameraPic = res.data
                           // that.playerOptiond.sources[0].src = urlPlay;
-                          that.streamAddrD.sources[0].src = urlPlay;
+                          that.streamAddrD = urlPlay;
                           that.playerOptionf.sources[0].src = urlPlay;
                         })
                         that.picTimer = setInterval(()=>{
                             getAxiosData(`/lenovo-iir/device/video/new-frame/${that.deviceId}`).then(res=>{
                                   that.cameraPic = res.data
                               // that.playerOptiond.sources[0].src = urlPlay;
-                              that.streamAddrD.sources[0].src = urlPlay;
+                              that.streamAddrD = urlPlay;
                               that.playerOptionf.sources[0].src = urlPlay;
                             })
                         },200)
