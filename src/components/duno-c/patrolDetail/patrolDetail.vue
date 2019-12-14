@@ -65,6 +65,10 @@ export default {
     dunoMain
   },
   props: {
+    query: {
+      type: Number,
+      default: ''
+    },
     dataBread: {
       type: Array,
       default: () => {
@@ -122,7 +126,7 @@ export default {
       this.getDataList();
     },
     getPlayTypeData() {
-      getPlayType().then(res => {
+      getPlayType({position: this.query}).then(res => {
         const resData = res.data;
         const map = resData.map(item => {
           const obj = {

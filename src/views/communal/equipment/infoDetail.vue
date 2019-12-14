@@ -1,6 +1,6 @@
 <template>
   <div>
-    <patrolDetail :dataBread="dataBread" :url="downloadURL" />
+    <patrolDetail :dataBread="dataBread" :url="downloadURL" :query="query"/>
   </div>
 </template>
 
@@ -13,7 +13,8 @@ export default {
   data() {
     return {
       dataBread: [],
-      downloadURL: ""
+      downloadURL: "",
+      query: ''
     };
   },
   methods: {
@@ -27,6 +28,7 @@ export default {
             { path: "/visiblelight/list", name: "可见光监测" },
             { path: "", name: "可见光巡检报告" }
           ];
+          this.query =  4
           this.downloadURL = "/lenovo-plan/api/plan/visible-report/download";
           break;
         case "infrared-info":
@@ -36,6 +38,7 @@ export default {
             { path: "/infrared/list", name: "红外监测" },
             { path: "", name: "红外监测巡检报告" }
           ];
+          this.query =  5
           this.downloadURL = "/lenovo-plan/api/plan/iir-report/downLoad";
           break;
         case "overview-info":
@@ -46,6 +49,7 @@ export default {
             { path: "", name: "信息总览巡检报告" }
           ];
           this.downloadURL = "/lenovo-plan/api/plan/visible-report/download";
+          this.query =  2
           break;
       }
     }
