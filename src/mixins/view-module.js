@@ -122,7 +122,7 @@ export default {
               videoPath: item["alarmFileAddress"],
               positionIndex: index
             }).then(res => {
-              that.tableList[res.data["positionIndex"]]["pic"] = res.data.pic;
+              that.dataList[res.data["positionIndex"]]["pic"] = res.data.pic;
               that.$forceUpdate();
             });
           })
