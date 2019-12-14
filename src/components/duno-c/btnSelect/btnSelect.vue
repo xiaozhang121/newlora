@@ -16,7 +16,7 @@
             v-model="titleMain"
           />
         </div>
-        <el-radio-group v-model="checkedCities">
+        <el-checkbox-group v-model="checkedCities" :max="8" @change="handleCheckedCitiesChange">
           <div class="checkbox" v-for="(item,index) in useListData" :key="index">
             <div class="noCheck selectItem">
               <el-checkbox @click.native="showHide($event, item)">
@@ -37,15 +37,13 @@
                   <el-checkbox
                     :title="child['item']['describeName']"
                     :label="child['item']['monitorDeviceId']"
-                    :checked="child['item']['isActive']"
                     :key="child['item']['monitorDeviceId']"
-                    @click.native="handleActive(child['item']['monitorDeviceId'], child['item'])"
                   >{{child['item']['describeName']}}</el-checkbox>
                 </el-tooltip>
               </div>
             </div>
           </div>
-        </el-radio-group>
+        </el-checkbox-group>
       </div>
     </el-collapse-transition>
   </div>
@@ -53,8 +51,6 @@
 
 <script>
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
-import { putAxiosData } from "../../../api/axiosType";
-import { debug } from "util";
 export default {
   name: "btnSelect",
   props: {
@@ -66,19 +62,24 @@ export default {
     },
     displayType: {
       type: String
+    },
+    cameraList: {
+      type: Array
     }
   },
   data() {
     return {
       isClick: true,
       showData: false,
+      site: [],
       num: 8,
       titleMain: "",
       useListData: [],
       checkedCities: [],
       showDataBackUp: [],
       TypeData: [],
-      maxLength: 0
+      maxLength: 0,
+      cameraListId: []
     };
   },
   methods: {
@@ -178,24 +179,6 @@ export default {
         }
       });
     },
-    changeState(id, flag) {
-      let that = this;
-      let data = that.useListData;
-      let length = data.length;
-      for (let i = 0; i < length; i++) {
-        data[i].children.map(items => {
-          if (items.item.id == id) {
-            if (flag) {
-              items.item["isActive"] = false;
-            } else {
-              items.item["isActive"] = true;
-            }
-          }
-        });
-      }
-      that.useListData = data;
-      that.$forceUpdate();
-    },
     handleData(arr) {
       let data = [];
       arr.forEach((item, index) => {
@@ -226,39 +209,18 @@ export default {
         return true;
       }
     },
-    handleActive(index, flag) {
-      if (this.isClick) {
-        if (flag["isActive"]) {
-          this.checkedCities.forEach((item, i) => {
-            if (item == index) {
-              this.checkedCities.splice(i, 1);
-              this.changeState(index, true);
-            }
-          });
-        } else {
-          this.checkedCities = Array.from(new Set(this.checkedCities));
-          let length = this.checkedCities.length;
-          if (
-            (this.displayType == "1" && length == 5) ||
-            (this.displayType == "3" && length == 8)
-          ) {
-            console.log(this.checkedCities);
-            this.changeState(this.checkedCities[0], true);
-            this.checkedCities.shift();
-            this.checkedCities.push(index);
-            console.log(this.checkedCities);
-          } else {
-            this.checkedCities.push(index);
-          }
-          this.checkedCities = Array.from(new Set(this.checkedCities));
-          this.changeState(index, false);
-        }
-        this.$emit("on-active", this.checkedCities);
-        this.isClick = false;
-        setTimeout(() => {
-          this.isClick = true;
-        }, 50);
-      }
+    handleCheckedCitiesChange() {
+      // console.log(this.cameraList);
+      // this.cameraListId = [];
+      // this.cameraList.forEach((item, index) => {
+      //   this.cameraListId.push(item["monitorDeviceId"]);
+      // });
+      // this.checkedCities.forEach(()=>{
+
+      // })
+      console.log(this.cameraListId);
+      console.log(this.checkedCities);
+      this.$emit("on-active", this.checkedCities);
     }
   },
   mounted() {
@@ -294,7 +256,7 @@ export default {
       rgba(48, 107, 135, 0.9),
       rgba(28, 50, 64, 0.7) 60%
     );
-    .el-radio-group {
+    .el-checkbox-group {
       height: 250px;
       overflow-y: auto;
       width: 100%;
@@ -372,29 +334,20 @@ export default {
       .el-checkbox__label {
         color: #fff;
       }
-      // .el-checkbox__input.is-checked .el-checkbox__inner {
-      //   background-color: #fff;
-      //   border-color: #fff;
-      // }
-      // .el-checkbox__inner::after {
-      //   border: 1px solid #000;
-      //   border-left: 0;
-      //   border-top: 0;
-      // }
     }
   }
-  .el-radio-group::-webkit-scrollbar {
+  .el-checkbox-group::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
     height: 1px;
   }
-  .el-radio-group::-webkit-scrollbar-thumb {
+  .el-checkbox-group::-webkit-scrollbar-thumb {
     /*滚动条里面小方块*/
     border-radius: 20px;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     background: rgba(255, 255, 255, 0.5);
   }
-  .el-radio-group::-webkit-scrollbar-track {
+  .el-checkbox-group::-webkit-scrollbar-track {
     /*滚动条里面轨道*/
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
