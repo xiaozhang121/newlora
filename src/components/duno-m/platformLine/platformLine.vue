@@ -102,7 +102,7 @@
                       if(type == 1 || type == 5 || type == 4){
                           this.installTime = now['deviceMessage']['instTime']?now['deviceMessage']['instTime']:'/'
                           this.IP = now['deviceMessage']['ipAddr']?now['deviceMessage']['ipAddr']:'/'
-                          this.deviceType = now['deviceMessage']['status']?'正常':'异常'
+                          this.deviceType = Number(now['deviceMessage']['status'])?'正常':'异常'
                           if (now.deviceMessage.supportPreset) {
                               this.picSrc = this.light
                           }else{

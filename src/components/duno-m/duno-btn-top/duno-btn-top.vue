@@ -8,16 +8,20 @@
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
-        <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}" @click="showListFlag = !showListFlag"></div>
+        <div :class="{'output': output}">
+          <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+          <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}" @click="showListFlag = !showListFlag"></div>
+        </div>
       </div>
       <div class="title dropSelf" v-else @click="showListFlag = !showListFlag">
         <!-- 全部固定监控设备 -->
         <i class="iconfont icon-zuoyoubuju" v-if="displayType=='1'"></i>
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
-        <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"     @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
-        <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
+        <div :class="{'output': output}">
+          <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"     @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+          <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}"></div>
+        </div>
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef" style="display: none">
         <div v-if="showAll" class="checkbox">
@@ -122,6 +126,10 @@
             dunoBtnTopItem
         },
         props: {
+            output:{
+              type: Boolean,
+              default: false
+            },
             keyChange:{
                 type: Boolean,
                 default: false
@@ -529,6 +537,23 @@
           color: white;
           width: 100%;
           padding: 8px 11px;
+        }
+        .output{
+          .selfInput{
+            padding-left: 56px;
+            background-image: url(../../../assets/images/btn/moreBtn.png);
+            background-size: 100% 100%;
+          }
+          &:before{
+            content: "\e666";
+            display: block;
+            position: absolute;
+            font-size: 20px;
+            z-index: 99;
+            font-family: "iconfont";
+            left: 20px;
+            top: 5px;
+          }
         }
         .iconLayout{
           padding-left: 30px;

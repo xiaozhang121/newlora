@@ -117,7 +117,8 @@
                 class="dunoBtnTo"
                 :isCheck="false"
                 :dataList="downLoadList"
-                title="导出表格/PDF"
+                :output="true"
+                title="导出表格"
                 :showBtnList="false"
               ></duno-btn-top>
             </div>
