@@ -540,7 +540,7 @@
         }
         .output{
           .selfInput{
-            padding-left: 56px;
+            padding-left: 47px;
             background-image: url(../../../assets/images/btn/moreBtn.png);
             background-size: 100% 100%;
           }
