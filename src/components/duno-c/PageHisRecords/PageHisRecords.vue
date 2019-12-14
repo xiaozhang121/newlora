@@ -273,21 +273,19 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
-            if (params.row.fileType == "1") {
-              newArr.push([
-                h("img", {
-                  class: "imgOrMv",
-                  attrs: { src: params.row.pic },
-                  draggable: false,
-                  on: {
-                    click: () => {
-                      that.isEnlarge = true;
-                      that.srcData = params.row;
-                    }
+            newArr.push([
+              h("img", {
+                class: "imgOrMv",
+                attrs: { src: params.row.pic },
+                draggable: false,
+                on: {
+                  click: () => {
+                    that.isEnlarge = true;
+                    that.srcData = params.row;
                   }
-                })
-              ]);
-            }
+                }
+              })
+            ]);
             return h("div", newArr);
           }
         },
