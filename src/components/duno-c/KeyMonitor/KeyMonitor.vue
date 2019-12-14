@@ -67,7 +67,7 @@
                 @mousedown.native="clickNative"
                 @error="onPlayerError($event)"
         ></video-player>
-        <img v-else class="cameraImg" :src="picUrl" />
+        <img v-else class="cameraImg" :src="picUrl" @mousedown.native="clickNative" />
         <div class="backImgK" id="backImgK">
           <div class="back_child">
             <slot></slot>
@@ -104,7 +104,7 @@
             <i class="iconfont icon-luxiang" v-if="!isCamera"></i>
             <span v-else class="redPoint"></span>录像
           </span>
-          <span @click="isSample(1)" v-if="(!onlyCanel && picCut && isAux) || picCutAbsolute">
+          <span @click="isSample(1)" v-if="(!onlyCanel && picCut && isAux && isRecord) || picCutAbsolute">
             <i class="iconfont icon-jietu"></i>截图
           </span>
           <!--  <span @click="fullScreen()">

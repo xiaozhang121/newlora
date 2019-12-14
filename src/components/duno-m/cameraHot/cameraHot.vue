@@ -16,6 +16,7 @@
                           :isLive='false'
                           :isNav='true'
                           :isAux='true'
+                          :isRecord="false"
                           :picCutAbsolute='true'
                         ></key-monitor>
                     <key-monitor
@@ -30,6 +31,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :isRecord="false"
                           :isAux='true'
                         ></key-monitor>
                 </div>
@@ -72,6 +74,7 @@
                           :isLive='false'
                           :isNav='true'
                           :isAux='true'
+                          :isRecord="false"
                           :picCutAbsolute='true'
                         ></key-monitor>
                     <key-monitor
@@ -85,6 +88,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :isRecord="false"
                           :isAux='true'
                         ></key-monitor>
             </div>
@@ -137,6 +141,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :isRecord="false"
                           :isAux='true'
                           :picCutAbsolute='true'
                         ></key-monitor>
@@ -151,6 +156,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :isRecord="false"
                           :isAux='true'
                         ></key-monitor>
                 </div>

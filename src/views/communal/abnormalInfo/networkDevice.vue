@@ -257,6 +257,7 @@ export default {
       this.titleTypeR = item["describeName"];
       this.dataForm.status = item["value"];
       this.mixinViewModuleOptions.isShowPage = true;
+      this.pageIndex = 1
       this.init();
     }
   },

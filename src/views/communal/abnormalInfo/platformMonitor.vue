@@ -173,6 +173,9 @@
                         if(item['monitorDeviceType'] == 1 || item['monitorDeviceType'] == 99 || item['monitorDeviceType'] == 5){
                             if (item.deviceMessage.supportPreset) {
                                 item['src'] = that.light
+                                if(item.deviceMessage.cameraType == '3'){
+                                  item['src'] = that.ballJ
+                                }
                             }else{
                                 item['src'] = that.lightNoCamera
                             }

@@ -19,6 +19,7 @@
             <KeyMonitor
                     class="keyMonitor"
                     :autoplay="true"
+                    :monitorInfo="{'monitorDeviceId': 11}"
                     :pushCamera="false"
                     :isLive='false'
                     :isNav='true'
@@ -35,6 +36,7 @@
                     class="keyMonitor noLoading"
                     :autoplay="true"
                     :pushCamera="false"
+                    :monitorInfo="{'monitorDeviceId': 11}"
                     :isLive='false'
                     :isNav='true'
                     :isAux='true'
