@@ -18,7 +18,7 @@
           </el-image>
           <div class="infoNews">
             <el-tooltip class="item" effect="dark" :content="sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''" placement="top">
-              <div>{{sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''}}</div>
+              <div><p>{{sampleData.picFileName?sampleData.picFileName.substring(0,sampleData.picFileName.length-4):''}}</p></div>
             </el-tooltip>
             <p>大小：{{ this.sampleData.picSize }}kb</p>
             <p>分辨率：{{sampleData.picWigth}}*{{sampleData.picHeigh}}</p>
@@ -611,6 +611,11 @@ export default {
             line-height: 40px;
             border-bottom: 2px solid #305e83;
             font-size: 20px;
+            p{
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
           }
           p {
             margin-top: 10px;
