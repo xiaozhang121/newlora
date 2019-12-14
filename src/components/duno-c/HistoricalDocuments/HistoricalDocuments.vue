@@ -301,7 +301,7 @@ export default {
   height: 100%;
   &.noPointer{
     .el-dialog__header{
-      cursor: auto;
+      cursor: auto !important;
     }
   }
   .el-dialog__wrapper {
