@@ -19,6 +19,7 @@
         <btn-select
           ref="btnTopRef"
           :displayType="displayType"
+          :cameraList='cameraList'
           :userId="$store.state.user.configInfo['userId']"
           @on-active="handleActiveBtn"
         ></btn-select>
@@ -241,7 +242,7 @@
         </div>
       </div>
     </div>
-     <div class="title" style="margin: 0 0 15px;">
+    <div class="title" style="margin: 0 0 15px;">
       <span>{{ oltagevLevel }}</span>
       <duno-btn-top
         @on-select="onSelectVol"
@@ -253,7 +254,7 @@
         :showBtnList="false"
       ></duno-btn-top>
     </div>
-     <div v-if="isSwiper" class="oltagevMain">
+    <div v-if="isSwiper" class="oltagevMain">
       <div
         class="item_main"
         v-for="(item, index) in areaCameraList"
@@ -795,13 +796,10 @@ export default {
       //   this.setDefault = "0";
       // }
       const that = this;
-      getAxiosData(
-        "/lenovo-device/api/monitor/layout-list"
-        // , {
+      getAxiosData("/lenovo-device/api/monitor/layout-list", {
         //   setDefault: this.setDefault,
-        //   userId: this.$store.state.user.userId
-        // }
-      ).then(res => {
+        userId: this.$store.state.user.userId
+      }).then(res => {
         that.cameraList = res.data;
         that.$forceUpdate();
         let Array = [];
