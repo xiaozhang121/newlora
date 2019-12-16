@@ -15,7 +15,7 @@
       </el-dropdown-menu>
     </el-dropdown>
 
-    <el-dialog class="passDialog" title="更改密码" :modal="false" :visible.sync="isShow" :close-on-press-escape="!dataListLoading" :show-close="!dataListLoading" :close-on-click-modal="!dataListLoading">
+    <el-dialog class="passDialog" title="更改密码" :modal="false" :visible.sync="isShow" :close-on-press-escape="!dataListLoading" :show-close="!dataListLoading" :close-on-click-modal="false">
       <el-form ref="formValidate" :model="formData">
         <input-tep
           label="原密码"
@@ -231,7 +231,7 @@ export default {
         if (valid) {
           that.amendPassword()
         } else {
-          that.$message.error('请输入必填项!')
+          that.$message.error('请完善信息')
         }
       })
     }, 1000, { 'leading': true, 'trailing': false })
