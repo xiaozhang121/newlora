@@ -21,13 +21,19 @@ router.beforeEach((to, from, next) => {
         store.state.app.kilovolt = ''
     }
   }
-    if(to.meta.topNav == '1'){
-        store.state.app.topNav = 1
-    }else if(to.meta.topNav == '2'){
-        store.state.app.topNav = 2
-    }else if(to.meta.topNav == '3'){
-        store.state.app.topNav = 3
-    }
+  let topNav = 2
+  if(to.query.nav){
+    topNav = to.query.nav
+  }else{
+    topNav = to.meta.topNav
+  }
+  if(topNav == '1'){
+      store.state.app.topNav = 1
+  }else if(topNav == '2'){
+      store.state.app.topNav = 2
+  }else if(topNav == '3'){
+      store.state.app.topNav = 3
+  }
   let token = getToken()
   if (!token && to.name !== LOGIN_PAGE_NAME && !to.meta.isLogin) {
     // 未登录且要跳转的页面不是登录页
