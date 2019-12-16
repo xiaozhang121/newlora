@@ -1,8 +1,8 @@
 <template>
     <div class="hotcameraPop" >
-        <historical-documents :itemId="itemData['monitorDeviceId']" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vRed">
+        <historical-documents  :itemId="itemData['monitorDeviceId']" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vRed">
             <!-- <hot-camera :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera> -->
-            <camera-hot :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-hot>
+            <camera-hot ref="cameraHotRef" :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-hot>
             <polygonal-backup ref="polygonalRef" :itemData="itemData" :yName="yName" @on-charts="onCharts"   @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth-backup  :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
@@ -137,6 +137,7 @@
                 }
             },
             onClose(data){
+                this.cameraFlag = -1
                 this.$emit('onClose',data, this.index, 'cameraFlagVisible')
             },
             disposeData(data) {
@@ -236,6 +237,9 @@
         },
         mounted() {
             this.disposeData(this.itemData)
+        },
+        beforeDestroy(){
+          this.$refs.cameraHotRef.$refs.controlCheckRef.releaseNow()
         }
     }
 </script>

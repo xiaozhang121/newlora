@@ -781,7 +781,7 @@
       },
       getMainstream(){
         let type=this.monitorDeviceType
-        let url
+        let url = ''
         if(type==1||type==3||type==6){
           url = `/lenovo-visible/api/visible-equipment/sdk/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
         }else if(type==2){
