@@ -788,7 +788,7 @@
           url = `/lenovo-iir/device/video/url/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
         }
         getAxiosData(url).then(res=>{
-          this.mainstream=res.result ||res.data
+          this.mainstream=res.result || typeof(res.data) == 'object'? res.data.data : res.data
           this.webFullScreen()
         })
       },
