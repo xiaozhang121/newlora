@@ -489,6 +489,8 @@
             },
             panelType(){
                 const that = this
+                that.dataList[0]['dataList'] = []
+                that.dataListd[0]['dataList'] = []
                 this.$nextTick(()=> {
                     that.getListData()
                 })

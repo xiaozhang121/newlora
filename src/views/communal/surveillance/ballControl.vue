@@ -610,7 +610,7 @@ export default {
           let t2 = moment(item['startTime'].split(' ')[0]+" "+item['endTime'])
           let dura = t2.format('x') - t1.format('x')
           let tempTime = moment.duration(dura);
-          item['timeValue'] = Math.round(dura/1000/60)+'min'
+          item['timeValue'] = Math.round(dura/1000/60)!=0?Math.round(dura/1000/60)+'min':Math.round(dura/1000)+'sec'
         })
         this.videoList = data;
         data.forEach((item, index) => {
