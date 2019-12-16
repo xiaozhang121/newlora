@@ -6,7 +6,7 @@
     <div class="dunoDrap">
       <div>巡检任务报表</div>
       <div class="selectBtn">
-        <div style="position: relative">
+        <div style="position: relative" :class="{'hidden': selectVisible}">
           <duno-btn-top
             @on-select="onSelect"
             class="dunoBtnTop"
@@ -87,6 +87,7 @@ export default {
   },
   data() {
     return {
+      selectVisible: false,
       timer: null,
       isNull:false,
       loading: false,
@@ -193,6 +194,12 @@ export default {
           monitorType: "",
           title: "titleType"
         });
+        for(let i=0; i<map.length; i++){
+          if(map[i]['describeName'] == '全面巡检'){
+            map.splice(i, 1)
+            i--;
+          }
+        }
         this.inspectionData = map;
         if(initSelect){
           this.onSelect(initSelect)
@@ -204,6 +211,7 @@ export default {
     if (this.$route.query.planType) {
       let planType = this.$route.query.planType;
       if (planType == 9) {
+        this.selectVisible = true
         this.dataUrl = "/lenovo-plan/api/report/template/list";
       }
     }
@@ -226,6 +234,9 @@ export default {
 .duno-reportFrom {
   width: 100%;
   height: 100%;
+  .hidden{
+    visibility: hidden;
+  }
   .dunoMain {
     // border: 1px solid #fff;
     width: 100%;

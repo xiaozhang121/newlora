@@ -760,11 +760,12 @@ export default {
   },
   methods: {
     routeTo(){
+      this.$store.state.app.changeNav = '2'
       this.$router.push({
         name: "reportFrom",
         query: {
           planType: "9",
-          type: '全面巡检'
+          nav: '2'
         }
       });
     },

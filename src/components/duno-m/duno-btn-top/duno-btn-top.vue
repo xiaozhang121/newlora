@@ -9,7 +9,7 @@
         <i class="iconfont icon-shangxiabuju" v-if="displayType=='2'"></i>
         <i class="iconfont icon-buju" v-if="displayType=='3'"></i>
         <div :class="{'output': output}">
-          <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="!isCheck" :placeholder="title" v-model="titleMain" />
+          <input class="selfInput" ref="selfInput" :class="{iconLayout:isLayout}" @keyup="onKeyup($event)"    @focus="onFocusd()"  @blur="hiddenDrapdown" :readonly="true" :placeholder="title" v-model="titleMain" />
           <div class="iconfont icon-xiala dropSelf" :class="{'active':showListFlag}" @click="showListFlag = !showListFlag"></div>
         </div>
       </div>
@@ -25,7 +25,7 @@
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef" style="display: none">
         <div v-if="showAll" class="checkbox">
-          <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+          <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">{{ allLabelName }}</el-checkbox>
         </div>
         <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
           <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
@@ -106,7 +106,7 @@
                 showListFlag: false,
                 checkAll: false,
                 checkedCities: [],
-                isIndeterminate: false,
+                isIndeterminate: true,
                 topBtnList:[
                     {active: false, name:'实景航拍图'},
                     {active: true, name:'设备布置图'},
@@ -126,6 +126,14 @@
             dunoBtnTopItem
         },
         props: {
+            ischeckAll: {
+              type: Boolean,
+              default: true
+            },
+            allLabelName: {
+              type: String,
+              default: '全选'
+            },
             output:{
               type: Boolean,
               default: false
@@ -442,8 +450,10 @@
             const that = this
             $(this.$refs.showListRef).hide('normal')
             document.addEventListener('click', that.bindEvent)
-            this.handleCheckAllChange(true)
-            this.checkAll = true
+            this.$nextTick(()=>{
+              this.handleCheckAllChange(this.ischeckAll)
+              this.checkAll = this.ischeckAll
+            })
         }
     }
 </script>
