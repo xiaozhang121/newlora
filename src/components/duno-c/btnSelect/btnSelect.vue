@@ -16,7 +16,7 @@
             v-model="titleMain"
           />
         </div>
-        <el-checkbox-group v-model="checkedCities" :max="8" @change="handleCheckedCitiesChange">
+        <el-checkbox-group v-model="checkedCities" :min="8" @change="handleCheckedCitiesChange">
           <div class="checkbox" v-for="(item,index) in useListData" :key="index">
             <div class="noCheck selectItem">
               <el-checkbox @click.native="showHide($event, item)">
@@ -210,17 +210,82 @@ export default {
       }
     },
     handleCheckedCitiesChange() {
-      // console.log(this.cameraList);
-      // this.cameraListId = [];
-      // this.cameraList.forEach((item, index) => {
-      //   this.cameraListId.push(item["monitorDeviceId"]);
-      // });
-      // this.checkedCities.forEach(()=>{
-
-      // })
-      console.log(this.cameraListId);
-      console.log(this.checkedCities);
-      this.$emit("on-active", this.checkedCities);
+      this.cameraListId = [];
+      this.cameraList.forEach((item, index) => {
+        this.cameraListId.push(item["monitorDeviceId"]);
+      });
+      this.cameraListId = this.cameraListId.map(Number);
+      this.cameraListId = this.unique(this.cameraListId);
+      if (this.cameraListId.length < 8) {
+        console.log(this.cameraListId);
+        console.log(this.checkedCities);
+        if (this.cameraListId.length > this.checkedCities.length) {
+          let arr = this.getArrEqual(this.cameraListId, this.checkedCities);
+          this.checkedCities = arr;
+          console.log(arr);
+          this.$emit("on-active", this.checkedCities);
+        } else {
+          let arr = this.getArrDifference(
+            this.cameraListId,
+            this.checkedCities
+          );
+          this.cameraListId.push(arr[0]);
+          this.checkedCities = this.cameraListId;
+          console.log(arr);
+          this.$emit("on-active", this.checkedCities);
+        }
+      } else {
+        let arr = this.getArrDifference(this.cameraListId, this.checkedCities);
+        this.cameraListId = this.cameraListId.slice(1);
+        this.cameraListId.push(arr[0]);
+        this.checkedCities = this.cameraListId;
+        console.log(arr);
+        this.$emit("on-active", this.checkedCities);
+      }
+      // if (this.checkedCities.length < this.cameraListId.length) {
+      //   this.cameraListId = this.unique(this.cameraListId);
+      //   let arr = this.getArrEqual(this.cameraListId, this.checkedCities);
+      //   console.log(arr);
+      //   console.log(this.cameraListId);
+      //   console.log(this.checkedCities);
+      //   this.$emit("on-active", arr);
+      // } else {
+      //   let arr = this.getArrDifference(this.cameraListId, this.checkedCities);
+      //   this.cameraListId = this.cameraListId.slice(1);
+      //   this.cameraListId.push(arr[0]);
+      //   this.checkedCities = this.cameraListId;
+      //   console.log(arr);
+      //   console.log(this.cameraListId);
+      //   console.log(this.checkedCities);
+      //   this.$emit("on-active", this.checkedCities);
+      // }
+      this.$forceUpdate();
+    },
+    getArrDifference(arr1, arr2) {
+      //获取两个数组相同id
+      return arr1.concat(arr2).filter(function(v, i, arr) {
+        return arr.indexOf(v) == arr.lastIndexOf(v);
+      });
+    },
+    getArrEqual(arr1, arr2) {
+      //获取两个数组不同的id
+      let newArr = [];
+      for (let i = 0; i < arr2.length; i++) {
+        for (let j = 0; j < arr1.length; j++) {
+          if (arr1[j] === arr2[i]) {
+            newArr.push(arr1[j]);
+          }
+        }
+      }
+      return newArr;
+    },
+    unique(arr) {
+      //数组去重
+      if (!Array.isArray(arr)) {
+        console.log("type error!");
+        return;
+      }
+      return Array.from(new Set(arr));
     }
   },
   mounted() {

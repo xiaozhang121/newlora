@@ -19,7 +19,7 @@
         <btn-select
           ref="btnTopRef"
           :displayType="displayType"
-          :cameraList='cameraList'
+          :cameraList="cameraList"
           :userId="$store.state.user.configInfo['userId']"
           @on-active="handleActiveBtn"
         ></btn-select>
@@ -34,6 +34,7 @@
           :autoplay="true"
           :isLive="false"
           :isNav="true"
+          :pushCamera="false"
           width="100%"
           paddingBottom="80%"
           :streamAddr="streamAddr01"
@@ -50,6 +51,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             width="100%"
             paddingBottom="80%"
             :streamAddr="streamAddr02"
@@ -65,6 +67,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             width="100%"
             paddingBottom="80%"
             :streamAddr="streamAddr03"
@@ -80,6 +83,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             width="100%"
             paddingBottom="80%"
             :streamAddr="streamAddr04"
@@ -95,6 +99,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             width="100%"
             paddingBottom="80%"
             :streamAddr="streamAddr05"
@@ -114,6 +119,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr01"
@@ -131,6 +137,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr02"
@@ -148,6 +155,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr03"
@@ -165,6 +173,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr04"
@@ -182,6 +191,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr05"
@@ -199,6 +209,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr06"
@@ -216,6 +227,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr07"
@@ -233,6 +245,7 @@
             :autoplay="true"
             :isLive="false"
             :isNav="true"
+            :pushCamera="false"
             imgAdress
             paddingBottom="80%"
             :streamAddr="streamAddr08"

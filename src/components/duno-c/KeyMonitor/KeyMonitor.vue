@@ -113,7 +113,7 @@
           <span @click="getMainstream()" v-if="!onlyCanel || fullScreen">
             <i class="iconfont icon-quanping"></i>全屏
           </span>
-          <span @click="pushMov()" v-if="!onlyCanel && pushCamera">
+          <span @click="pushMov" v-if="!onlyCanel && pushCamera">
             <i class="iconfont icon-tuisong"></i>推送
           </span>
           <span class="closeWeb" @click="toClose()" v-if="onlyCanel">
@@ -480,6 +480,7 @@
         isIniializa: false,
         isNavbar: true,
         showBtm: false,
+        cameraList:[],
         shotData: [],
         //   isChange: true,
         isShowNone: {
@@ -822,14 +823,20 @@
       },
       onPushReal(index) {
         const that = this;
+        let obj = {}
+        this.cameraList.forEach((item,index)=>{
+          obj["cameraPos0" + (index+1)] = item
+        })
+        console.log(this.cameraList)
         let query = {
-          ["cameraPos0" + index]: this.monitorInfoR["monitorDeviceId"],
+          // ["cameraPos0" + index]: this.monitorInfoR["monitorDeviceId"],
+          ...obj,
           userId: this.$store.state.user.configInfo["userId"],
           id: this.$store.state.user.configInfo.id
         };
         editConfig(query).then(res => {
           that.$store.state.app.isPush = true;
-          if (res.data.isSuccess) that.$message.success(res.msg);
+          if (res.data.isSuccess) that.$message.success('已推送至视频监控首页');
           else that.$message.error(res.msg);
           this.pushMovVisable = false;
         });
@@ -838,20 +845,26 @@
         this.pushMovVisable = false;
       },
       pushMov() {
-        this.$refs.pushMov.initData();
-        // this.$emit("on-push", this.monitorInfoR);
-        this.pushMovVisable = true;
+        const that = this;
+        getAxiosData("/lenovo-device/api/monitor/layout-list", {
+          userId: this.$store.state.user.userId
+        }).then(res => {
+          this.cameraList=[];
+          let ArrayList =res.data
+          ArrayList.forEach(el => {
+            this.cameraList.push(el.monitorDeviceId);
+          });
+          this.cameraList=this.cameraList.slice(1)
+          this.cameraList.push(this.monitorInfoR['monitorDeviceId'])
+          this.onPushReal()
+        })
+        // this.$refs.pushMov.initData();
+        // this.pushMovVisable = true;
         if (this.monitorInfoR) {
           if ("pic" in this.monitorInfoR) {
-            // this.cameraPic = this.monitorInfoR["pic"];
             this.cameraPic = "";
           } else {
             this.cameraPic = "";
-            /*getAxiosData("/lenovo-device/api/pic/url", {
-              rtmpUrl: this.monitorSrc
-            }).then(res => {
-              this.cameraPic = res.data.pic;
-            });*/
           }
         } else {
           this.cameraPic = "";
