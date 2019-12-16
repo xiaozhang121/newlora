@@ -388,7 +388,7 @@
       },
       streamAddr: {
         handler(now) {
-          if (now) {
+          if (now && !this.isPic) {
             if (now.indexOf("mp4") > -1 || now.indexOf("MP4") > -1) {
               this.playerOptions["sources"][0]["type"] = "video/mp4";
               this.playerOptionsL["sources"][0]["type"] = "video/mp4";

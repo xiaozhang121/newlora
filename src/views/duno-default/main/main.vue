@@ -131,6 +131,8 @@
               v-if="visibleCamera"
               :onlyCanel="true"
               :autoplay="true"
+              :isNav="true"
+              :isLive="false"
               :streamAddr="monitorData.src"
               @on-close="onClose"
       />
