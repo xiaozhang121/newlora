@@ -15,7 +15,7 @@
         </div>
         <div class="allHealthStatus">
             <div class="mainCharts">
-                <charts :allPanel="allPanel" :isChange="allPanelV"/>
+                <charts :allPanel="panelTotal" :isChange="allPanelV"/>
                 <span class="chartsTitle">
                     平台整体
                 </span>
@@ -280,15 +280,22 @@
 
         },
         computed: {
-
+            panelTotal(){
+              let sever = this.server['normal']/this.server['total']*100
+              let virtual = this.virtual['normal']/this.virtual['total']*100
+              let service = this.service['normal']/this.service['total']*100
+              let monitor = this.monitor['normal']/this.monitor['total']*100
+              let rateData = 100-this.rateData
+              this.allPanel = (sever + virtual + service + monitor + rateData)/5/100
+              this.allPanelV = !this.allPanelV
+              return this.allPanel
+            }
         },
         methods:{
             initData(){
                 const that = this
                 getAxiosData('/lenovo-mon/api/monitoring/zabbix/health-status').then(res=>{
                     let data = res.data.data
-                    this.allPanel = data.hostData[0]/data.total
-                    this.allPanelV = !this.allPanelV
                 })
                 getAxiosData('/lenovo-mon/api/monitoring/analyse/physics-machine').then(res=>{
                     let data = res.data.data
