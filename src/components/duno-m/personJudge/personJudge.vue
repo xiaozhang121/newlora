@@ -124,6 +124,12 @@ export default {
       default: () => {
         return {};
       }
+    },
+    detailsType: {
+      type: String,
+      default: () => {
+        return "task";
+      }
     }
   },
   watch: {
@@ -156,6 +162,9 @@ export default {
       } else if (this.formData.result == "正常") {
         url = "/lenovo-plan/api/task_result/change";
       } else {
+        url = "/lenovo-alarm/api/alarm/result/change";
+      }
+      if(this.detailsType=='alarm'){
         url = "/lenovo-alarm/api/alarm/result/change";
       }
       if (this.formData.inputT == "合状态") {
