@@ -16,7 +16,7 @@
             v-model="titleMain"
           />
         </div>
-        <el-checkbox-group v-model="checkedCities" :min="8" @change="handleCheckedCitiesChange">
+        <el-checkbox-group v-model="checkedCities" :min="num" @change="handleCheckedCitiesChange">
           <div class="checkbox" v-for="(item,index) in useListData" :key="index">
             <div class="noCheck selectItem">
               <el-checkbox @click.native="showHide($event, item)">
@@ -61,7 +61,7 @@ export default {
       type: String
     },
     displayType: {
-      type: String
+      type: String | Number
     },
     cameraList: {
       type: Array
@@ -214,49 +214,50 @@ export default {
       this.cameraList.forEach((item, index) => {
         this.cameraListId.push(item["monitorDeviceId"]);
       });
-      this.cameraListId = this.cameraListId.map(Number);
-      this.cameraListId = this.unique(this.cameraListId);
-      if (this.cameraListId.length < 8) {
-        console.log(this.cameraListId);
-        console.log(this.checkedCities);
-        if (this.cameraListId.length > this.checkedCities.length) {
-          let arr = this.getArrEqual(this.cameraListId, this.checkedCities);
-          this.checkedCities = arr;
-          console.log(arr);
-          this.$emit("on-active", this.checkedCities);
-        } else {
-          let arr = this.getArrDifference(
-            this.cameraListId,
-            this.checkedCities
-          );
-          this.cameraListId.push(arr[0]);
-          this.checkedCities = this.cameraListId;
-          console.log(arr);
-          this.$emit("on-active", this.checkedCities);
-        }
-      } else {
-        let arr = this.getArrDifference(this.cameraListId, this.checkedCities);
-        this.cameraListId = this.cameraListId.slice(1);
-        this.cameraListId.push(arr[0]);
-        this.checkedCities = this.cameraListId;
-        console.log(arr);
+      if (this.displayType == "1" && this.checkedCities.length < 5) {
         this.$emit("on-active", this.checkedCities);
+        return false;
       }
-      // if (this.checkedCities.length < this.cameraListId.length) {
-      //   this.cameraListId = this.unique(this.cameraListId);
-      //   let arr = this.getArrEqual(this.cameraListId, this.checkedCities);
-      //   console.log(arr);
+      if (this.displayType == "3" && this.checkedCities.length < 8) {
+        this.$emit("on-active", this.checkedCities);
+        return false;
+      }
+      if (this.displayType == "1") {
+        this.cameraListId = this.cameraListId.slice(0, 5);
+      }
+      console.log(this.cameraListId);
+      console.log(this.checkedCities);
+      this.cameraListId = this.cameraListId.map(Number);
+      // this.cameraListId = this.unique(this.cameraListId);
+      let arr = this.getArrDifference(this.cameraListId, this.checkedCities);
+      this.cameraListId = this.cameraListId.slice(1);
+      this.cameraListId.push(arr[0]);
+      this.checkedCities = this.cameraListId;
+      this.$emit("on-active", this.checkedCities);
+      // if (this.cameraListId.length < 8) {
       //   console.log(this.cameraListId);
       //   console.log(this.checkedCities);
-      //   this.$emit("on-active", arr);
+      //   if (this.cameraListId.length > this.checkedCities.length) {
+      //     let arr = this.getArrEqual(this.cameraListId, this.checkedCities);
+      //     this.checkedCities = arr;
+      //     console.log(arr);
+      //     this.$emit("on-active", this.checkedCities);
+      //   } else {
+      //     let arr = this.getArrDifference(
+      //       this.cameraListId,
+      //       this.checkedCities
+      //     );
+      //     this.cameraListId.push(arr[0]);
+      //     this.checkedCities = this.cameraListId;
+      //     console.log(arr);
+      //     this.$emit("on-active", this.checkedCities);
+      //   }
       // } else {
       //   let arr = this.getArrDifference(this.cameraListId, this.checkedCities);
       //   this.cameraListId = this.cameraListId.slice(1);
       //   this.cameraListId.push(arr[0]);
       //   this.checkedCities = this.cameraListId;
       //   console.log(arr);
-      //   console.log(this.cameraListId);
-      //   console.log(this.checkedCities);
       //   this.$emit("on-active", this.checkedCities);
       // }
       this.$forceUpdate();
@@ -400,6 +401,10 @@ export default {
         color: #fff;
       }
     }
+  }
+  .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
+    background-color: #515970 !important;
+    border-color: #515970 !important;
   }
   .el-checkbox-group::-webkit-scrollbar {
     /*滚动条整体样式*/
