@@ -164,14 +164,14 @@ export default {
       } else {
         url = "/lenovo-alarm/api/alarm/result/change";
       }
-      if(this.detailsType=='alarm'){
+      if (this.detailsType == "alarm") {
         url = "/lenovo-alarm/api/alarm/result/change";
       }
       if (this.formData.inputT == "合状态") {
-          this.formData.inputT = "1";
-        } else if (this.formData.inputT == "分状态") {
-          this.formData.inputT = "0";
-        }
+        this.formData.inputT = "1";
+      } else if (this.formData.inputT == "分状态") {
+        this.formData.inputT = "0";
+      }
       if (this.isChange) {
         this.query = {
           userName: this.$store.state.user.userName,
@@ -254,9 +254,14 @@ export default {
       margin-bottom: 0;
     }
   }
+  .el-dialog__header,
+  .el-dialog__body {
+    background-color: #e0e0e0;
+  }
   .dialog-footer {
     display: flex;
     justify-content: center;
+    background-color: #e0e0e0;
     color: #ffffff;
     .button {
       height: 37px;
