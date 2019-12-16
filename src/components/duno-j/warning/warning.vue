@@ -137,6 +137,7 @@
           :modal="modal"
           :dataList="formData"
           :isTemperture="discriminate"
+          :detailsType='detailsType'
           @on-close="onClose"
           @on-alter="initData"
           :visible="visibleJudge"
