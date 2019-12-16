@@ -18,7 +18,7 @@
             </div>
         </duno-main>
         <platform-line :showList="showList" :visible="visible" @on-close="onClose()" :dataInfo="dataInfo"></platform-line>
-        <platform-box  :visible="boxVisible"  @on-close="onClose()"></platform-box>
+        <platform-box  v-if="boxVisible" :visible="boxVisible"  @on-close="onClose()"></platform-box>
     </div>
 </template>
 

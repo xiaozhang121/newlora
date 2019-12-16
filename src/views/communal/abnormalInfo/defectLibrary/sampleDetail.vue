@@ -457,6 +457,7 @@ export default {
         // taskId: this.sampleData.taskId,
       };
       putAxiosData(url, query).then(res => {
+        this.isEdit = true
         this.$message.info("修改成功");
       });
     },
@@ -648,12 +649,24 @@ export default {
               background: rgba(32, 62, 82, 0.8);
               border: none;
             }
+            .ivu-cascader-arrow,  .el-icon-arrow-up:before{
+              display: none;
+            }
+            .ivu-icon.ivu-icon-ios-close-circle.ivu-cascader-arrow{
+              visibility: hidden;
+            }
             .input-edit{
               .ivu-input,
               .el-input__inner {
                 background: #cccccc !important;
                 border: none;
                 color: black !important;
+              }
+              .el-icon-arrow-up:before, .ivu-cascader-arrow{
+                color: #4a4a4a !important;
+              }
+              .ivu-cascader-arrow,  .el-icon-arrow-up:before{
+                display: inherit;
               }
             }
             .diviceSelect {

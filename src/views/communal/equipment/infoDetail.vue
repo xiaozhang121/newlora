@@ -1,6 +1,6 @@
 <template>
   <div>
-    <patrolDetail :dataBread="dataBread" :url="downloadURL" :position="positionD"/>
+    <patrolDetail :dataBread="dataBread" :url="downloadURL" v-if="positionD" :position="positionD"/>
   </div>
 </template>
 
