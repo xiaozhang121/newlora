@@ -450,7 +450,6 @@
                     {
                         title: "部件/相别",
                         key: "part",
-                        minWidth: 90,
                         align: "center",
                         tooltip: true,
                         render: (h, params) => {
@@ -461,14 +460,12 @@
                     {
                         title: "描述",
                         key: "description",
-                        minWidth: 90,
                         align: "center",
                         tooltip: true
                     },
                     {
                         title: "缺陷等级",
                         key: "alarmLevel",
-                        minWidth: 120,
                         align: "center",
                         tooltip: true,
                         render: (h, params) => {
@@ -566,7 +563,6 @@
                   {
                     title: "来源",
                     key: "monitorDeviceName",
-                    minWidth: 150,
                     align: "center",
                     tooltip: true,
                     render: (h, params) => {
@@ -616,7 +612,6 @@
                     {
                         title: "数据",
                         key: "resultValue",
-                        minWidth: 90,
                         align: "center",
                         tooltip: true
                     },
