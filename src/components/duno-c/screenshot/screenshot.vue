@@ -224,7 +224,7 @@ export default {
         picSize: this.picSize,
         picHeigh: this.imgFile.height,
         photoTime: photoTime,
-        remake: this.textarea
+        remark: this.textarea
       };
       sampleMark(query).then(res => {
         this.$message({
@@ -260,7 +260,7 @@ export default {
           monitorDeviceId: that.monitorDeviceId,
           alarmFileAddress: `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`,
           // recognizeType: data,
-          remake: this.textarea
+          remark: this.textarea
         };
         postAxiosData(url, query).then(res => {
           this.$emit("closeShot");
