@@ -78,11 +78,32 @@
                     机器人
                 </span>
                 </div>
-                <a class="" href="javascript:void(0)" @click="toRobot">详情>></a>
             </div>
             <div class="patteryContain">
-                <pattery :rate="battery" class="pattery"></pattery>
-                <div class="robotStauts green">{{ robotStatus }}</div>
+                <div class="top">
+                    <div class="robotTitle">
+                        室外巡检机器人
+                    </div>
+                    <pattery :rate="battery" class="pattery"></pattery>
+                    <!--<div class="robotStauts green">{{ robotStatus }}</div>-->
+                    <a class="" href="javascript:void(0)" @click="toRobot('/robot-one/list')">详情>></a>
+                </div>
+                <div class="bottom">
+                    <div class="robotStauts green">{{ robotStatus }}</div>
+                </div>
+            </div>
+            <div class="patteryContain">
+                <div class="top">
+                    <div class="robotTitle">
+                        室内轨道机器人
+                    </div>
+                    <pattery :rate="insideBattery" class="pattery"></pattery>
+                    <!--<div class="robotStauts green">{{ robotStatus }}</div>-->
+                    <a class="" href="javascript:void(0)" @click="toRobot('/robot-two/list')">详情>></a>
+                </div>
+                <div class="bottom">
+                    <div class="robotStauts green">{{ insideRobotStatus }}</div>
+                </div>
             </div>
             <div class="noBack lastB" style="height: 10px"></div>
         </historical-documents>
@@ -109,7 +130,8 @@
             return {
                 picSrc: require('@/assets/boxPng.png'),
                 robotStatus: '',
-                battery: 0,
+                insideRobotStatus: '',
+                insideBattery: 0,
                 occupied: 0,
                 unoccupied: 0,
                 rateData: 0,
@@ -153,8 +175,8 @@
             }
         },
         methods:{
-            toRobot(){
-              this.$router.push({path: '/robot-one/list'})
+            toRobot(path){
+              this.$router.push({path: path})
             },
             getRobot(){
               let substationId = 1
@@ -163,6 +185,11 @@
                 let data = res.data
                 this.robotStatus = data.status
                 this.battery = data.battery == ""?0:Number(data.battery)
+              })
+              getAxiosData(`/lenovo-mon/api/monitoring/robot/status/substation/10/robot/26`).then(res=>{
+                let data = res.data
+                this.insideRobotStatus = data.status
+                this.insideBattery = data.battery == ""?0:Number(data.battery)
               })
             },
             storeSpace(){
@@ -346,12 +373,21 @@
             }
         }
         .patteryContain{
-            display: flex;
             margin-left: 10px;
             margin-bottom: 20px;
             margin-top: 17px;
+            .top{
+                display: flex;
+                justify-content: space-between;
+                .pattery{
+                    margin-left: -41px;
+                }
+            }
+            .robotTitle{
+                margin-right: -22px;
+            }
             .robotStauts{
-                margin-left: 25px;
+                /*margin-left: 25px;*/
             }
             .rouTineInspection{
                 
