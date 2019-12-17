@@ -716,6 +716,7 @@ export default {
       if (screen > 3500) {
         this.columns.splice(8, 1);
         this.columns.splice(6, 1);
+        this.columns.splice(5, 1);
       }
     }
   }
