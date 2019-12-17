@@ -49,6 +49,8 @@
               :autoplay="true"
               :isLive="false"
               width="100%"
+              @mousemove.native="pointerPos($event)"
+              @mouseout.native="clearTimer()"
               :monitorInfo="{monitorDeviceId: deviceId}"
               :isNav="true"
               :streamAddr="playerOptions.sources[0].src"
