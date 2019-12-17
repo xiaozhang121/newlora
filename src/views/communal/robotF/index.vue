@@ -39,7 +39,6 @@
                     :pushCamera="false"
                     :monitorInfo="{'monitorDeviceId': 11}"
                     :isLive='false'
-                    :isRecord="false"
                     :isNav='true'
                     :isAux='true'
                     :isRobot='true'

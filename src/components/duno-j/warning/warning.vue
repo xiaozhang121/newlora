@@ -494,6 +494,13 @@ export default {
     },
     getJump() {
       if (!this.$route.meta.isMain) {
+        if(this.popData.monitorDeviceId == '11'){
+          this.$router.push({path: '/robot-one/list'})
+          return
+        }else if(this.popData.monitorDeviceId == '12'){
+          this.$router.push({path: '/robot-two/list'})
+          return
+        }
         getAxiosData("/lenovo-device/api/preset/type", {
           monitorDeviceId: this.popData.monitorDeviceId
         }).then(res => {
