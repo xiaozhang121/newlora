@@ -39,6 +39,7 @@
           paddingBottom="80%"
           :streamAddr="streamAddr01"
           :showBtmOption="true"
+          @change-video="changeVideo"
           class="monitorF child"
         ></key-monitor>
       </div>
@@ -56,6 +57,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr02"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorF child"
           ></key-monitor>
         </div>
@@ -72,6 +74,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr03"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorF child"
           ></key-monitor>
         </div>
@@ -88,6 +91,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr04"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorF child"
           ></key-monitor>
         </div>
@@ -104,6 +108,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr05"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorF child"
           ></key-monitor>
         </div>
@@ -124,6 +129,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr01"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -142,6 +148,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr02"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -160,6 +167,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr03"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -178,6 +186,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr04"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -196,6 +205,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr05"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -214,6 +224,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr06"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -232,6 +243,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr07"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -250,6 +262,7 @@
             paddingBottom="80%"
             :streamAddr="streamAddr08"
             :showBtmOption="true"
+            @change-video="changeVideo"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -323,6 +336,14 @@
       </swiper>
     </div>
     <div class="test"></div>
+    <btn-select-click
+      class="selectTop"
+      ref="selectTop"
+      :cameraData="cameraData"
+      :displayType="displayType"
+      :cameraList="cameraList"
+      :userId="$store.state.user.configInfo['userId']"
+    ></btn-select-click>
   </div>
 </template>
 
@@ -333,6 +354,7 @@ import { initConfigure } from "@/api/user";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import btnSelect from "_c/duno-c/btnSelect";
+import btnSelectClick from "_c/duno-c/btnSelectClick";
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
 import mixinViewModule from "@/mixins/view-module";
 import { editConfig, getAreaList } from "@/api/currency/currency.js";
@@ -346,7 +368,8 @@ export default {
     KeyMonitor,
     swiper,
     swiperSlide,
-    btnSelect
+    btnSelect,
+    btnSelectClick
   },
   computed: {
     ...mapState(["user"]),
@@ -628,6 +651,7 @@ export default {
       cameraList: [],
       TypeData: [],
       lastSelect: [],
+      cameraData: {},
       isSwiper: true,
       swiperOption: {
         slidesPerView: 3,
@@ -923,6 +947,16 @@ export default {
           that.$forceUpdate();
         }
       });
+    },
+    changeVideo(item, event) {
+      this.cameraData = item;
+      let pageX = Number(event.pageX);
+      let pageY = Number(event.pageY);
+      let dom = this.$refs.selectTop.$el;
+      dom.style.left = pageX + "px";
+      dom.style.top = pageY - 80 + "px";
+      this.$refs.selectTop.$refs.btnSelectClick.style.display = "block";
+      // this.$refs.selectTop.checkedCities = item["monitorDeviceId"];
     }
   },
   created() {
