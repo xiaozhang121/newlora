@@ -87,7 +87,7 @@
                     :style="isShowNone"
                     class="block"
                     :class="{'hidden': isPic}"
-                    v-if="second && !isCamera && !fullScreen"
+                    v-if="isFifteen && second && !isCamera && !fullScreen"
             >
               <span class="demonstration">-15s</span>
               <el-slider :min="-15" :max="0" v-model="value2" :step="15" @change='sliderChange'></el-slider>
@@ -179,6 +179,12 @@
       popInfo: {
         type: String,
         default: '点击查看摄像头详情'
+      },
+      isFifteen: {//回放15s判断
+        type: Boolean,
+        default: () => {
+          return true;
+        }
       },
       fullScreen: {
         type: Boolean,

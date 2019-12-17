@@ -16,11 +16,12 @@
         :isLive="false"
         :isNav="true"
         :isAux="true"
+        :kilovolt="monitorDeviceName"
       ></key-monitor>
     </div>
     <div class="dynamic">
       <div class="top">
-        <div>历史动态监测记录</div>
+        <div>动态环境监测记录</div>
         <div>
           <duno-btn-top
             @on-select="onSelect"
@@ -76,6 +77,7 @@ export default {
       titleType: "选择日期",
       timeData: "",
       monitorDeviceId: "",
+      monitorDeviceName: "",
       videoList: [],
       regionList: [],
       dataBread: [{ name: "摄像头详情" }],
@@ -155,9 +157,19 @@ export default {
       this.dataForm.startTime = startTime;
       this.dataForm.endTime = endTime;
       this.getDataList();
+    },
+    initName() {
+      let url = "/lenovo-device/api/device/monitor-device-type";
+      let query = {
+        monitorDeviceId: this.dataForm.monitorDeviceId
+      };
+      getAxiosData(url, query).then(res => {
+        this.monitorDeviceName = res.data.monitorDeviceName;
+      });
     }
   },
   mounted() {
+    this.initName();
     this.initCamera();
     this.getVideo();
     this.getRegion();
