@@ -254,14 +254,18 @@ export default {
       margin-bottom: 0;
     }
   }
+  .el-dialog {
+    padding: 0 !important;
+    background-color: #e0e0e0 !important;
+  }
   .el-dialog__header,
   .el-dialog__body {
-    background-color: #e0e0e0;
+    background-color: #e0e0e0 !important;
   }
   .dialog-footer {
     display: flex;
     justify-content: center;
-    background-color: #e0e0e0;
+    background-color: #e0e0e0 !important;
     color: #ffffff;
     .button {
       height: 37px;

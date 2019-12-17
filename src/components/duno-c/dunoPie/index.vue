@@ -215,12 +215,12 @@ export default {
         );
         unoccupied = Math.round((cupData.used / cupData.total) * 100);
         that.legendProcessorFir.data = [
-          `已占用 : ${occupied}%`,
-          `未占用 : ${unoccupied}%`
+          `已占用 : ${unoccupied}%`,
+          `未占用 : ${occupied}%`
         ];
         that.seriesProcessorFir[0].data = [
-          { value: occupied, name: that.legendProcessorFir.data[0] },
-          { value: unoccupied, name: that.legendProcessorFir.data[1] }
+          { value: unoccupied, name: that.legendProcessorFir.data[0] },
+          { value: occupied, name: that.legendProcessorFir.data[1] }
         ];
         that.isChangeProcessorFir = !that.isChangeProcessorFir;
         that.$forceUpdate();
@@ -234,12 +234,12 @@ export default {
           ((memoryData.total - memoryData.available) / memoryData.total) * 100
         );
         that.legendProcessorSec.data = [
-          `已占用 : ${occupied}%`,
-          `未占用 : ${unoccupied}%`
+          `已占用 : ${unoccupied}%`,
+          `未占用 : ${occupied}%`
         ];
         that.seriesProcessorSec[0].data = [
-          { value: occupied, name: that.legendProcessorSec.data[0] },
-          { value: unoccupied, name: that.legendProcessorSec.data[1] }
+          { value: unoccupied, name: that.legendProcessorSec.data[0] },
+          { value: occupied, name: that.legendProcessorSec.data[1] }
         ];
         that.isChangeProcessorSec = !that.isChangeProcessorSec;
         that.$forceUpdate();
@@ -253,12 +253,12 @@ export default {
           ((diskData.total - diskData.available) / diskData.total) * 100
         );
         that.legendProcessorThr.data = [
-          `已占用 : ${occupied}%`,
-          `未占用 : ${unoccupied}%`
+          `已占用 : ${unoccupied}%`,
+          `未占用 : ${occupied}%`
         ];
         that.seriesProcessorThr[0].data = [
-          { value: occupied, name: that.legendProcessorThr.data[0] },
-          { value: unoccupied, name: that.legendProcessorThr.data[1] }
+          { value: unoccupied, name: that.legendProcessorThr.data[0] },
+          { value: occupied, name: that.legendProcessorThr.data[1] }
         ];
         that.isChangeProcessorThr = !that.isChangeProcessorThr;
         that.$forceUpdate();

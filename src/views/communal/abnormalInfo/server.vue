@@ -212,7 +212,7 @@ export default {
         this.width = "25%";
         this.paddingBottom = "80%";
       } else {
-        this.width = "33.33%";
+        this.width = "25%";
         this.paddingBottom = "70%";
       }
     },

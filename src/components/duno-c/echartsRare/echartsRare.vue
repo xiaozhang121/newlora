@@ -38,7 +38,7 @@
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
-    <div :style="{width:width}" v-if="!seriesGpu[0].data">
+    <div :style="{width:width}">
       <duno-charts
         :isChange="isChangeGpu"
         :titleOption="titleGpu"
@@ -460,26 +460,26 @@ export default {
         that.isChangeCpu = !that.isChangeCpu;
         that.$forceUpdate();
       });
-      // getAxiosData(gupUrl, queryGpu).then(res => {
-      //   let gupData = res.data;
-      //   let usedData = [];
-      //   let timeData = [];
-      //   if (that.serve == "") {
-      //     gupData.forEach(el => {
-      //       usedData.push(el.used);
-      //       timeData.push(el.time);
-      //     });
-      //   } else {
-      //     gupData.forEach(el => {
-      //       usedData.push(el.used);
-      //       timeData.push(el.time);
-      //     });
-      //   }
-      //   that.xAxisGpu.data = timeData;
-      //   that.seriesGpu[0].data = usedData;
-      //   that.isChangeGpu = !that.isChangeGpu;
-      //   that.$forceUpdate();
-      // });
+      getAxiosData(gupUrl, queryGpu).then(res => {
+        let gupData = res.data[0].load
+        let usedData = [];
+        let timeData = [];
+        if (that.serve == "") {
+          gupData.forEach(el => {
+            usedData.push(el.used);
+            timeData.push(el.time);
+          });
+        } else {
+          gupData.forEach(el => {
+            usedData.push(el.used);
+            timeData.push(el.time);
+          });
+        }
+        that.xAxisGpu.data = timeData;
+        that.seriesGpu[0].data = usedData;
+        that.isChangeGpu = !that.isChangeGpu;
+        that.$forceUpdate();
+      });
     },
     changeWidth(item) {
       this.$emit("changeWidth", item);
