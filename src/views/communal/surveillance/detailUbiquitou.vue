@@ -15,12 +15,12 @@
         :Initialization="true"
         :isLive="false"
         :isNav="true"
-        :isAux='true'
+        :isAux="true"
       ></key-monitor>
     </div>
     <div class="dynamic">
       <div class="top">
-        <div>动态环境监测记录</div>
+        <div>历史动态监测记录</div>
         <div>
           <duno-btn-top
             @on-select="onSelect"
