@@ -949,9 +949,9 @@ export default {
 }
 .analysis-detail {
   .el-input__inner {
-    background-color: #1a2f42;
+    /*background-color: #1a2f42;*/
     border: 1px solid #1a2f42;
-    color: white;
+    /*color: white;*/
   }
   .setting {
     cursor: pointer;
@@ -976,13 +976,8 @@ export default {
   }
   .el-input--small .el-input__inner {
     height: 40px;
-    background: #1a2f42;
-  }
-  .el-scrollbar {
-    background: #1a2f42;
-  }
-  .el-select-dropdown {
-    border: solid 1px #1a2f42;
+    background: white;
+    color: #606266;
   }
 }
 .analysis-detail .el-breadcrumb .is-link {

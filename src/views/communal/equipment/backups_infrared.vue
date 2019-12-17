@@ -234,17 +234,17 @@ export default {
 </script>
 <style lang="scss">
 .el-select-dropdown {
-  background: linear-gradient(
+  /*background: linear-gradient(
     210deg,
     rgba(48, 107, 135, 0.9),
     rgba(28, 50, 64, 0.7) 60%
-  ) !important;
+  ) !important;*/
   border: none !important;
 }
 .el-select-dropdown__item,
 .el-select-dropdown__empty,
 .el-select-dropdown__item.selected {
-  color: white;
+  /*color: white;*/
 }
 .el-select-dropdown__list {
   position: relative;

@@ -797,21 +797,21 @@ export default {
 @import "@/style/tableStyle.scss";
 .abnormalInfod {
   .el-select-dropdown {
-    background: linear-gradient(
+   /* background: linear-gradient(
       210deg,
       rgba(48, 107, 135, 0.9),
       rgba(28, 50, 64, 0.7) 60%
-    ) !important;
+    ) !important;*/
     border: none !important;
     margin-top: 1px !important;
-    margin-left: 0px;
+    /*margin-left: 0px;*/
     border-radius: 0;
-    min-width: 153px !important;
+    /*min-width: 153px !important;*/
   }
   .el-select-dropdown__item,
   .el-select-dropdown__empty,
   .el-select-dropdown__item.selected {
-    color: white;
+    /*color: white;*/
   }
   .el-select-dropdown__list {
     position: relative;

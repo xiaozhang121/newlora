@@ -1315,21 +1315,21 @@ export default {
   margin-top: 8px;
 }
 .el-select-dropdown {
-  background: linear-gradient(
+  /*background: linear-gradient(
     210deg,
     rgba(48, 107, 135, 0.9),
     rgba(28, 50, 64, 0.7) 60%
-  ) !important;
+  ) !important;*/
   border: none !important;
   margin-top: 1px !important;
-  margin-left: 6px;
+  /*margin-left: 6px;*/
   border-radius: 0;
-  min-width: 179px !important;
+  /*min-width: 179px !important;*/
 }
 .el-select-dropdown__item,
 .el-select-dropdown__empty,
 .el-select-dropdown__item.selected {
-  color: white;
+  color: #606266;
 }
 .el-select-dropdown__list {
   position: relative;
