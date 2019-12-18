@@ -174,7 +174,7 @@ export default {
         let img = new Image();
         img.src = e.target.result; //获取编码后的值,也可以用this.result获取
         img.onload = function() {
-          that.fileList[picIndex]['imgsInfo'] = {name: file.name, width: this.width, height: this.height, photoTime: lastModifiedDate, size: (size / 1024).toFixed(2), fileImportTime: lastModifiedDate}
+          that.fileList[picIndex]['imgsInfo'] = {name: file.name, width: this.width, height: this.height, photoTime: lastModifiedDate, size: (size).toFixed(2), fileImportTime: lastModifiedDate}
           that.fileList[picIndex]['picFilePath'] = file.name
         };
       }

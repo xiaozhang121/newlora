@@ -1,9 +1,9 @@
 <template>
   <div class="abnormalInfoHome">
-    <div class="topNav">
+    <div class="topNav not-print">
       <scroller :listOption="messageList"></scroller>
     </div>
-    <div class="middle">
+    <div class="middle not-print">
       <div class="abnormalInfo">
         <div class="contain borderTX">
           <duno-main :controlOver="true" class="main_contain">
@@ -95,7 +95,7 @@
         </div>
       </div>
     </div>
-    <div class="middle-center">
+    <div class="middle-center not-print">
       <div>
         <div class="defect iconcen" @click="handleJump(7)">
           <duno-main :controlOver="true" class="main_contain contain">
@@ -148,7 +148,7 @@
         </duno-main>
       </div>
     </div>
-    <div class="middle-right">
+    <div class="middle-right not-print">
       <div class="defect iconcen">
         <duno-main :controlOver="true" class="main_contain contain">
           <div class="iconTop" @click="handleJump(6)">
