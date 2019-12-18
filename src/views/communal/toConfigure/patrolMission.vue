@@ -173,7 +173,7 @@ export default {
         },
         {
           title: "告警类型",
-          key: "alarmDetailType",
+          key: "alarmContent",
           minWidth: 120,
           align: "center",
           tooltip: true

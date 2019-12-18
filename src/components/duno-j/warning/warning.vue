@@ -117,7 +117,7 @@
                     href="javascript:;"
                     @click="getJump"
                     style="text-decoration: underline"
-                  >{{dataList['monitorDeviceName']}}</a>
+                  >{{ originName }}</a>
                 </span>
               </div>
             </div>
@@ -289,7 +289,16 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    originName(){
+      if(this.popData.monitorDeviceId == 11){
+        return '室外机器人'
+      }else if(this.popData.monitorDeviceId == 12){
+        return '室内机器人'
+      }
+      return this.dataList['monitorDeviceName']
+    }
+  },
   watch: {
     popData: {
       handler(now) {
