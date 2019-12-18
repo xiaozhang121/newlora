@@ -16,7 +16,7 @@
             :showBtnList="false"
           ></duno-btn-top>
         </div>
-        <div class="dateChose">
+        <div class="dateChose" :class="{'hidden': selectVisible}">
           <el-date-picker
             unlink-panels
             v-model="value"
