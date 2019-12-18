@@ -7,16 +7,17 @@
                 </div>
             </div>
         </div>
-        <div class="rouTineInspection_right">
+        <div class="rouTineInspection_right" :class="{'fullWidth': !isSlot}">
             <div class="title">
-                <div class="circle"></div>
-                <div class="name">任务模式</div>
+                <div class="circle" :class="statusColor"></div>
+                <div class="name">{{ robotStatusName }}</div>
                 <pattery :rate="robotStatus['battery']" class="pattery"></pattery>
             </div>
             <div class="rouTine_Main">
+              <div v-if="taskStatus['inspectionName']">
                 <div class="explain">
                     <span class="name">{{ taskStatus['inspectionName']?taskStatus['inspectionName']:'暂无名称' }}</span>
-                    <span class="taskId">任务ID：{{ taskStatus['taskId'] }}</span>
+                    <span class="taskId" style="visibility: hidden">任务ID：{{ taskStatus['taskId'] }}</span>
                 </div>
                 <div class="item">
                     <div class="name">已执行/总步骤：</div>
@@ -29,9 +30,13 @@
                 <div v-if="taskStatus['taskType']">
                     <button-custom class="stopTask" @click.native="changeTaskStatus" :title="taskName" />
                 </div>
+              </div>
+              <div v-else class="noTask">
+                    当前无执行任务
+              </div>
             </div>
         </div>
-        <div class="rouTineInspection_last">
+        <div class="rouTineInspection_last" v-if="isSlot">
             <slot></slot>
         </div>
     </div>
@@ -53,6 +58,7 @@
         },
         data() {
             return {
+                robotStatusName: '任务间隔中',
                 mapShow: false,
                 isFirst: true,
                 workTime: '',
@@ -66,6 +72,10 @@
             }
         },
         props: {
+            isSlot: {
+              type: Boolean,
+              default: true
+            },
             type: {
                 type: String,
                 default: 'normal'
@@ -133,7 +143,16 @@
             }
         },
         computed: {
-
+          statusColor(){
+             let type =this.robotStatusName
+             if(type === '任务进行中'){
+                return 'green'
+             }else if(type === '任务间隔中'){
+                return 'orange'
+             }else if(type === '充电中'){
+                return 'red'
+             }
+          }
         },
         methods:{
             formatDuring(mss) {
@@ -155,6 +174,9 @@
             initData(){
                 const that = this
                 let url = '/lenovo-robot/rest/taskMap'
+                try{
+                  that.getRobotStatus()
+                }catch (e) {}
                 if(that.type == 'indoor'){
                     url = url.replace('/lenovo-robot','/lenovo-robot-indoor')
                 }
@@ -185,6 +207,12 @@
                         }catch (e) {}
                     })
                 })
+            },
+            getRobotStatus(){
+              getAxiosData(`/lenovo-mon/api/monitoring/robot/status/substation/1/robot/1`).then(res=>{
+                let data = res.data
+                this.robotStatusName = data.status?data.status:'任务间隔中'
+              })
             },
             clearLine(){
                 try{
@@ -295,10 +323,18 @@
                 }
                 .circle{
                     border-radius: 300px;
-                    background: #52f9bd;
                     height: 10px;
                     width: 10px;
                     margin-right: 7px;
+                    &.green{
+                      background: #52f9bd;
+                    }
+                    &.orange{
+                      background: #f5a623;
+                    }
+                    &.red{
+                      background: #ee183b;
+                    }
                 }
                 .moreTask{
                     border: 1px solid #1f455a;
@@ -344,6 +380,18 @@
                         font-size: 14px;
                     }
                 }
+            }
+            .noTask{
+              font-size: 17px;
+              margin-top: 50px;
+            }
+            &.fullWidth{
+              flex: 1;
+              .title{
+                .pattery{
+                  justify-content: flex-end;
+                }
+              }
             }
         }
         .rouTineInspection_last{
