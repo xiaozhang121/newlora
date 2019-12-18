@@ -689,8 +689,7 @@
                         }
                     })
                     this.cameraInfo = data
-                    if(!this.isInit)
-                      this.initCameraM()
+                    this.initCameraM()
                 })
             },
             initData(){
@@ -699,6 +698,7 @@
             },
             initCameraM(){
                 const that = this
+                that.tableList = []
                 let obj = {pageIndex: that.pageIndex, pageRows: 10, planId: this.dataForm.planId}
                 getAxiosData('/lenovo-plan/api/unified/plan/camera/list', {...obj, ...that.secondForm}).then(res=>{
                     if(!this.cameraList.length)
@@ -938,9 +938,6 @@
         mounted() {
             document.querySelector(".mainAside").style.height = "inherit";
             document.querySelector(".mainAside").style.minHeight = "100%";
-            this.updateTimer = setInterval(()=>{
-                this.getCameraInfo()
-            },4000)
         },
         beforeDestroy() {
             clearImmediate(this.updateTimer)
