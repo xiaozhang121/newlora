@@ -223,6 +223,8 @@
             if(this.monitorDeviceType == 2){
                 // console.log('x:'+event.offsetX)
                 // console.log('y:'+event.offsetY)
+                let pannelWidth = 227
+                let pannelHeight = 125
                 that.offsetX = event.offsetX;
                 that.offsetY = event.offsetY;
                 if (!this.timer) {
@@ -232,14 +234,15 @@
                         if(this.itemData['deviceMessage']['typeId'] == 3){
                             x = that.offsetX
                         }else{
-                            x = that.offsetX-27<0?0:that.offsetX-27
-                            if(that.offsetX > 228-27){
-                                x = 228-27*2
+                            x = that.offsetX-29<0?0:that.offsetX-29
+                            if(that.offsetX > 227-29){
+                                x = 227-29*2
                             }
+                            pannelWidth = 169
                         }
                         getAxiosData(
                             "/lenovo-iir/device/temperature/get/location/" + this.deviceId,
-                            { x: x, y: that.offsetY, r: 1, pannelWidth: '174', pannelHeight:'128' }
+                            { x: x, y: that.offsetY, r: 1, pannelWidth: pannelWidth, pannelHeight:pannelHeight }
                         ).then(res => {
                             // console.log('data:'+res.data)
                             that.tepmNum = Number(res.data.data);
