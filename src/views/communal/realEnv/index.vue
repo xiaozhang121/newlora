@@ -405,6 +405,7 @@
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
         <camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']" :mapType='isDiagram'  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
         <ball-control-d @on-reset="resetM" ref="ballControl" @on-draw="onDrawPoint"  @on-close="hideControlBall"  v-if="index==modeList.length-1 && controlBallVisible" :visible="controlBallVisible"></ball-control-d>
+        <ball-control-panel :popData="ballPopData" v-if="index==modeList.length-1  && ballVisible" :visible="ballVisible" @show-ball="showBallPanel" @onClose="onClose"/>
       </div>
     </div>
     <!--<i class="iconfont icon-bukongqiu" @click="handeControl"></i>-->
@@ -415,6 +416,7 @@
 <script>
     import { getNewTagList, isAlarmVisible, isAlarmMap } from "@/libs/util";
     import cameraPower from '_c/duno-m/cameraPower'
+    import ballControlPanel from '_c/duno-m/ballControlPanel'
     import areaSetting  from '_c/duno-m/areaSetting'
     import DunoHeadSearch from '_c/duno-head-search'
     import screenfull from 'screenfull'
@@ -457,7 +459,8 @@
             createTask,
             areaSetting,
             cameraPower,
-            ballControlD
+            ballControlD,
+            ballControlPanel
         },
         computed:{
             ...mapState([
@@ -521,6 +524,8 @@
         data () {
             const that = this
             return {
+                ballPopData: {},
+                ballVisible: false,
                 drawPoint: require('@/assets/drawPointIcon.ico'),
                 value2: '',
                 pickerOptions1: {
@@ -615,6 +620,9 @@
             }
         },
         methods: {
+          showBallPanel(){
+            this.ballVisible = true
+          },
           resetM(){
               $('.dunoMain_nr').css({cursor: `auto`})
               $('.dunoMain_nr')[0].removeEventListener('mousemove', this.moveEvent)
@@ -662,7 +670,7 @@
                   this.selectBallControl = controlBallD[0]
                   this.$refs.gisMapObj.setPosition(controlBallD[0], this.$refs.gisMapObj.clickPos[0], this.$refs.gisMapObj.clickPos[1])
               }catch (e) {
-                  
+
               }
               // controlBallD[0].setPosition(this.$refs.gisMapObj.clickPos)
             /*  if(controlBallD[0].get('pointInfo').realX)
@@ -858,6 +866,8 @@
                     this.$forceUpdate()
                     return
                 }
+                this.ballPopData = {}
+                this.ballVisible = false
                 this.modeList[index][target] = now
                 this.$forceUpdate()
               /*  this.changPoint(-1)
@@ -1028,6 +1038,11 @@
                 }
             },
             toDevice(item, index, targetd, modelIndex = 0, flag){
+                if(flag == 'ballControl'){
+                  this.ballVisible = true
+                  this.ballPopData = item
+                  return
+                }
                 let target = this.$refs.firstElE
                 this.onClose(false ,'all')
                 this.tempObj = {

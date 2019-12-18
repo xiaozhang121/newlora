@@ -463,13 +463,14 @@
             toDeviced(item,index,flag){
                 if(this.isClick){
                     if('monitorDeviceType' in item && item['monitorDeviceType'] == 4 && this.ballControl){
-                        this.$router.push({
+                      this.$emit('toDetail',item,index,null,0 ,'ballControl')
+                       /* this.$router.push({
                             path:'/surveillancePath/ballControlM',
                             query:{
                                 monitorDeviceId: item['monitorDeviceId'],
                                 monitorDeviceName: item['monitorDeviceName']
                             }
-                        })
+                        })*/
                     }else{
                         this.$emit('toDetail',item,index,null,1)
                     }

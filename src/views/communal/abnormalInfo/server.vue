@@ -303,6 +303,9 @@ export default {
       this.$refs.dunoRare.getBar();
     }
   },
+  created(){
+    this.selectServe(0)
+  },
   mounted() {
     this.getService({ hostType: "0" });
   }
