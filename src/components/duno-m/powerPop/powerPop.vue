@@ -57,98 +57,126 @@
         </div>
         <div class="watchDevice">
             <div class="mainD">
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="lightNoCamera"/>
-                        <span class="count">{{ visibleCount }}</span>
-                    </div>
-                    <div class="bottomM">
-                        可见光
-                    </div>
+                <div class="deviceItem device_title">
+                    固定设备
                 </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="light"/>
-                        <span class="count">{{ visibleCameraCount }}</span>
-                    </div>
-                    <div class="bottomM">
-                        可见光(云台)
-                    </div>
-                </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="lightD"/>
-                        <span class="count">{{ visibleNarrow }}</span>
-                    </div>
-                    <div class="bottomM">
-                        可见光(窄道)
-                    </div>
-                </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="redLight"/>
-                        <span class="count">{{  infrared }}</span>
-                    </div>
-                    <div class="bottomM">
-                        红外测温
-                    </div>
-                </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="redLightCamera"/>
-                        <span class="count">{{  infraredCamera }}</span>
-                    </div>
-                    <div class="bottomM">
-                        红外测温(云台)
+                <div class="main_contain">
+                    <div class="inner" :class="{'isNext': isNext}">
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="lightNoCamera"/>
+                                <span class="count">{{ visibleCount }}</span>
+                            </div>
+                            <div class="bottomM">
+                                可见光(枪机)
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="ballJ"/>
+                                <span class="count">{{ ballJCount }}</span>
+                            </div>
+                            <div class="bottomM">
+                                可见光(球机)
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="light"/>
+                                <span class="count">{{ visibleCameraCount }}</span>
+                            </div>
+                            <div class="bottomM">
+                                可见光(云台)
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="lightD"/>
+                                <span class="count">{{ visibleNarrow }}</span>
+                            </div>
+                            <div class="bottomM">
+                                可见光(窄道)
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="redLight"/>
+                                <span class="count">{{  infrared }}</span>
+                            </div>
+                            <div class="bottomM">
+                                红外测温
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="redLightCamera"/>
+                                <span class="count">{{  infraredCamera }}</span>
+                            </div>
+                            <div class="bottomM">
+                                红外测温(云台)
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="mainD">
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="ball"/>
-                        <span class="count">{{   controlBall }}</span>
-                    </div>
-                    <div class="bottomM">
-                        布控球
+                <div class="deviceItem device_title">
+                    移动设备
+                </div>
+                <div class="main_contain">
+                    <div class="inner" :class="{'isNext': isNext}">
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="ball"/>
+                                <span class="count">{{   controlBall }}</span>
+                            </div>
+                            <div class="bottomM">
+                                布控球
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="handRed"/>
+                                <span class="count">{{   handInfrared }}</span>
+                            </div>
+                            <div class="bottomM">
+                                手持红外
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="ARGlass"/>
+                                <span class="count">{{ ARClass }}</span>
+                            </div>
+                            <div class="bottomM">
+                                AR眼镜
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="pad"/>
+                                <span class="count">{{   PAD }}</span>
+                            </div>
+                            <div class="bottomM">
+                                PAD
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                            <div class="topM">
+                                <img :src="robot"/>
+                                <span class="count">{{   rebortCount }}</span>
+                            </div>
+                            <div class="bottomM">
+                                机器人
+                            </div>
+                        </div>
+                        <div class="deviceItem">
+                        </div>
                     </div>
                 </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="handRed"/>
-                        <span class="count">{{   handInfrared }}</span>
-                    </div>
-                    <div class="bottomM">
-                        手持红外
-                    </div>
-                </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="ARGlass"/>
-                        <span class="count">{{   ARClass }}</span>
-                    </div>
-                    <div class="bottomM">
-                        AR眼镜
-                    </div>
-                </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="pad"/>
-                        <span class="count">{{   PAD }}</span>
-                    </div>
-                    <div class="bottomM">
-                        PAD
-                    </div>
-                </div>
-                <div class="deviceItem">
-                    <div class="topM">
-                        <img :src="robot"/>
-                        <span class="count">{{   rebortCount }}</span>
-                    </div>
-                    <div class="bottomM">
-                        机器人
-                    </div>
-                </div>
+            </div>
+            <div class="toNext" @click="moveNext">
+                <i class="iconfont icon-jiantou" :class="{'route': isNext}"></i>
             </div>
         </div>
         <div class="line_split"></div>
@@ -237,6 +265,7 @@
         },
         data() {
             return {
+                isNext: false,
                 switchData: {},
                 switchDataV: false,
                 netWorkChange: false,
@@ -260,6 +289,7 @@
                 monitorV:false,
                 close: require('@/assets/runDevice/close.png'),
                 visibleCount: 0,
+                ballJCount: 0,
                 visibleCameraCount: 7,
                 visibleNarrow: 9,
                 infrared: 0,
@@ -268,7 +298,7 @@
                 handInfrared: 0,
                 ARClass: 1,
                 PAD: 1,
-                rebortCount: 1,
+                rebortCount: 2,
                 rateData: 0
 
             }
@@ -292,6 +322,9 @@
             }
         },
         methods:{
+            moveNext(){
+              this.isNext = !this.isNext
+            },
             initData(){
                 const that = this
                 getAxiosData('/lenovo-mon/api/monitoring/zabbix/health-status').then(res=>{
@@ -343,6 +376,8 @@
                             this.controlBall   = item['count']
                         }else if(item['cameraType'] == '可见光(窄道)'){
                             this.visibleNarrow    = item['count']
+                        }else if(item['cameraType'] == '可见光(球机)'){
+                            this.ballJCount = item['count']
                         }
                     })
                 })
@@ -601,9 +636,39 @@
             position: relative;
             left: -9px;
             margin-bottom: 16px;
+            .route{
+                transform: rotate(180deg);
+            }
+            .toNext{
+                color: white;
+                font-size: 20px;
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                top: 0;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
             .mainD{
                 flex-grow: 1;
                 display: flex;
+                position: relative;
+                .main_contain{
+                    position: relative;
+                    display: block;
+                    width: 490px;
+                    left: 40px;
+                    overflow: hidden;
+                    .inner{
+                        display: flex;
+                        width: 740px;
+                        transition: all .5s;
+                        &.isNext{
+                            transform: translateX(-247px);
+                        }
+                    }
+                }
                 &:first-child{
                     margin-bottom: 12px;
                 }
@@ -611,6 +676,17 @@
                     color: white;
                     flex-grow: 1;
                     flex-basis: 0px;
+                    &.device_title{
+                        font-size: 13px;
+                        color: grey;
+                        left: 7px;
+                        position: absolute;
+                        width: 26px;
+                        top: 0;
+                        bottom: 0;
+                        display: flex;
+                        align-items: center;
+                    }
                     .topM{
                         display: flex;
                         justify-content: center;
