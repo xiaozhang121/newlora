@@ -10,6 +10,7 @@
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor"
+                  :isNav="true"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
@@ -1012,7 +1013,9 @@ export default {
 .perimeterMonitorR {
   width: 100%;
   min-height: 100%;
-
+  .keyMonitor .camera .main .vjs-control-bar{
+    visibility: hidden;
+  }
   .el-form-item--small .el-form-item__label{
     line-height: 40px !important;
     color: #999999;

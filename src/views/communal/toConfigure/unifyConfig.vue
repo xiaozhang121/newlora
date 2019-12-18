@@ -44,7 +44,7 @@
       </div>
       <div class="middle_table">
         <div class="top not-print">
-          <div class="name">动态环境告警记录</div>
+          <div class="name">历史告警记录</div>
           <div class="select">
             <div>
               <duno-btn-top
@@ -409,7 +409,7 @@
                 isEnlarge: false,
                 queryForm: {},
                 dataForm: {},
-                secondForm: {},
+                secondForm: {startTime: '', endTime: ''},
                 echartForm: {},
                 echartData: [],
                 typeList: [],
@@ -680,7 +680,7 @@
         },
         methods: {
             getCameraInfo(){
-                getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId, startTime: this.secondForm.startTime+" 00:00:00", endTime: this.secondForm.endTime+ " 23:59:59"}).then(res=>{
+                getAxiosData('/lenovo-plan/api/unified/plan/task/detail',{planId: this.dataForm.planId, startTime: this.secondForm.startTime, endTime: this.secondForm.endTime}).then(res=>{
                     this.isLock = Number(res.data.planStatus)
                     let data = res.data.cameraList
                     data.map(item=>{
@@ -868,9 +868,9 @@
             onChangeSecond(data) {
                 let startTime = "";
                 let endTime = "";
-                if (data) {
-                    startTime = moment(data[0]).format("YYYY-MM-DD");
-                    endTime = moment(data[1]).format("YYYY-MM-DD");
+                if (data && data.length) {
+                    startTime = moment(data[0]).format("YYYY-MM-DD")+" 00:00:00";
+                    endTime = moment(data[1]).format("YYYY-MM-DD")+" 23:59:59";
                 }
                 this.secondForm.startTime = startTime;
                 this.secondForm.endTime = endTime;
@@ -968,6 +968,9 @@
     min-height: 100%;
     padding-bottom: 100px;
     /*overflow-y: hidden;*/
+    .keyMonitor .vjsLive:hover .vjs-control-bar{
+      display: none !important;
+    }
     .imgLinePanel{
       height: 100%;
       position: relative;

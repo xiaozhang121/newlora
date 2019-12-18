@@ -1249,6 +1249,9 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .keyMonitor .camera .explain .block{
+    display: none;
+  }
   .controlCheck {
     right: 0;
     width: 211px;
