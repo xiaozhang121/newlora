@@ -23,7 +23,6 @@
                     :pushCamera="false"
                     :isLive='false'
                     :isNav='true'
-                    :isRecord="false"
                     :isAux='true'
                     :isRobot='true'
                     streamAddr="rtmp://10.0.10.39/rtsp59/stream"
@@ -40,6 +39,7 @@
                     :monitorInfo="{'monitorDeviceId': 11}"
                     :isLive='false'
                     :isNav='true'
+                    :isRecord="false"
                     :isAux='true'
                     :isRobot='true'
                     streamAddr="rtmp://10.0.10.39/rtsp60/stream"

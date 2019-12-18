@@ -44,8 +44,9 @@
                       ref="rouTineInspection"
                       :taskStatus="taskStatus"
                       :robotStatus="robotStatus"
+                      :isSlot="Boolean(taskStatus['taskType'])"
               >
-                <div class="reportData1">
+                <div class="reportData1"  v-if="taskStatus['taskType']">
                   <report-data
                           v-if="taskStatus['taskType']"
                           :taskStatus="taskStatus"

@@ -195,7 +195,7 @@ export default {
           title: "titleType"
         });
         for(let i=0; i<map.length; i++){
-          if(map[i]['describeName'] == '全面巡检'){
+          if(map[i]['describeName'] == '全面巡检' || map[i]['describeName'] == '人员环境'){
             map.splice(i, 1)
             i--;
           }
