@@ -275,11 +275,11 @@ export default {
   }
 }
 .el-popper[x-placement^="bottom"] {
-  background: #192f41;
+  /*background: #192f41;*/
   border: none;
 }
 .el-popper[x-placement^="top"] {
-  background: #192f41;
+  /*background: #192f41;*/
   border: none;
 }
 </style>

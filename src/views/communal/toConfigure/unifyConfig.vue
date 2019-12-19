@@ -950,11 +950,11 @@
 <style lang="scss">
   @import "@/style/tableStyle.scss";
   .el-popper[x-placement^="bottom"] {
-    background: #192f41 !important;
+    /*background: #192f41 !important;*/
     border: none !important;
   }
   .el-popper[x-placement^="top"] {
-    background: #192f41 !important;
+    /*background: #192f41 !important;*/
     border: none !important;
   }
   .mainAside {
@@ -1329,7 +1329,7 @@
     }
   }
   .el-popper[x-placement^="bottom"] {
-    background: #192f41;
+    /*background: #192f41;*/
     border: none;
   }
 </style>
