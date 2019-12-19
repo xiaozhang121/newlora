@@ -68,6 +68,10 @@
                 @error="onPlayerError($event)"
         ></video-player>
         <img v-else class="cameraImg" :src="picUrl" @mousedown="clickNative" />
+        <div class="noVideo" v-if="noVideo">
+          <i class="iconfont icon-duankai"></i>
+          {{ noVideoExplain }}
+        </div>
         <div class="backImgK" id="backImgK">
           <div class="back_child">
             <slot></slot>
@@ -176,6 +180,16 @@
       screenshot
     },
     props: {
+      noVideo: {
+        type: Boolean,
+        default: () => {
+          return false;
+        }
+      },
+      noVideoExplain: {
+        type: String,
+        default: '当前摄像头未连接，请检查'
+      },
       popInfo: {
         type: String,
         default: '点击查看摄像头详情'
@@ -1136,6 +1150,27 @@
     }
   }
   .keyMonitor {
+    .noVideo{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+      background: black;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: grey;
+      font-size: 13px;
+      .iconfont{
+        color: #325e81;
+        font-size: 57px;
+        margin-bottom: 15px;
+      }
+    }
     .backImgK{
       width: 100%;
       height: 100%;

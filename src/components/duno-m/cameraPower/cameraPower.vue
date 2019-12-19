@@ -2,7 +2,7 @@
     <div class="cameraPower" >
         <historical-documents v-if="mainType == 1" :isShowTip='false' :showHeader="true" :tabPaneData="[]"  :title="dialogTitle"  width="444px" @close="onClose" :dialogTableVisible="visible" class="historical">
             <div class="monitor">
-                <key-monitor :autoplay="true" :isNav='true' :isLive='false' :monitorInfo="monitorInfo" :streamAddr="monitorInfo['addr']"></key-monitor>
+                <key-monitor :noVideo="noVideo" :autoplay="true" :isNav='true' :isLive='false' :monitorInfo="monitorInfo" :streamAddr="monitorInfo['addr']"></key-monitor>
             </div>
             <div class="from">
                 来源：
@@ -37,8 +37,8 @@
         </historical-documents>
         <historical-documents v-else :showHeader="true" :isShowTip='false' :tabPaneData="[]"  :title="dialogTitle"  width="744px" @close="onClose" :dialogTableVisible="visible" class="historical">
             <div class="monitor" style="display: flex">
-                <key-monitor :isPic="isPic" :isNav='true' :isLive='false' :autoplay="true" style="flex: 1; margin-right: 20px" class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptionsd.streamAddr"></key-monitor>
-                <key-monitor style="flex: 1" :isNav='true' :isLive='false' class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptions.streamAddr"></key-monitor>
+                <key-monitor :noVideo="noVideo" :isPic="isPic" :isNav='true' :isLive='false' :autoplay="true" style="flex: 1; margin-right: 20px" class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptionsd.streamAddr"></key-monitor>
+                <key-monitor :noVideo="noVideo" style="flex: 1" :isNav='true' :isLive='false' class="monitorM" :monitorInfo="monitorInfo" :streamAddr="playerOptions.streamAddr"></key-monitor>
             </div>
             <div class="from">
                 来源：
@@ -103,6 +103,7 @@
         },
         data() {
             return {
+                noVideo: false,
                 isPic: false,
                 streamAddr: '',
                 dialogTitle: '暂无名称',
@@ -270,6 +271,7 @@
                 this.initList()
             },
             getData(){
+                this.noVideo = false
                 if (this.mapType == "1") {
                     this.mapTypeDevice = "2";
                 } else {
@@ -277,6 +279,10 @@
                 }
                 getAxiosData('/lenovo-device/api/device/newrtmp', {powerDeviceId: this.itemData['deviceIdStr'],mapType: this.mapTypeDevice}).then(res=>{
                     let data = res.data.dmDeviceRtmpOutputs
+                    if(data.errorCode != 200){
+                       this.noVideo = true
+                       return
+                    }
                     let dataList=[]
                     data.forEach((el,i) => {
                         if(el.powerDevicePhase=='A'){
