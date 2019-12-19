@@ -144,6 +144,17 @@ export default {
   methods: {
     handleClick(item) {
       this.$router.push({
+        name: "overview-detail",
+        query: {
+          title: "信息总览记录信息",
+          url: "/lenovo-plan/api/information/overview/result/one/day",
+          detailsType: "robot",
+          powerDeviceId: item.deviceIdStr,
+          deviceName: item.deviceName,
+          flag: 0
+        }
+      });
+     /* this.$router.push({
         name: "allReport-detail",
         query: {
           title: "信息总览记录信息",
@@ -152,7 +163,7 @@ export default {
           deviceName: item.deviceName,
           flag: 0
         }
-      });
+      });*/
     },
     getMore() {
       this.$router.push({

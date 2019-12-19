@@ -145,10 +145,19 @@
             :visible="pushMovVisable"
     />
     <screenshot
-            v-if="isShow"
+            v-if="isShow && isVideo"
             :isShow="isShow"
-            :isVideo='isVideo'
             :taskId='taskId'
+            :shotData="shotData"
+            @closeShot="closeShot"
+            :monitorInfo="monitorInfo"
+            :monitorDeviceId="monitorInfoR['monitorDeviceId']"
+    />
+    <camera-record
+            v-if="isShow && !isVideo"
+            :isShow="isShow"
+            :taskId='taskId'
+            :isVideo='false'
             :shotData="shotData"
             @closeShot="closeShot"
             :monitorInfo="monitorInfo"
@@ -168,6 +177,7 @@
   import { editConfig } from "@/api/currency/currency.js";
   import { setTimeout } from "timers";
   import screenshot from "_c/duno-c/screenshot";
+  import cameraRecord from "_c/duno-c/cameraRecord";
   import SWF_URL from "videojs-swf/dist/video-js.swf";
   videojs.options.flash.swf = SWF_URL;
   import "videojs-contrib-hls.js/src/videojs.hlsjs";
@@ -177,7 +187,8 @@
     components: {
       videoPlayer,
       pushMov,
-      screenshot
+      screenshot,
+      cameraRecord
     },
     props: {
       noVideo: {
@@ -576,6 +587,9 @@
     },
     computed: {
       ...mapState(["user"]),
+      displayType() {
+        return this.$store.state.user.configInfo["displayType"];
+      },
       player() {
         if(this.$refs.videoPlayer)
           return this.$refs.videoPlayer.player;
@@ -874,8 +888,11 @@
           ArrayList.forEach(el => {
             this.cameraList.push(el.monitorDeviceId);
           });
-          this.cameraList=this.cameraList.slice(1)
+          let count = this.displayType == 1 ? 5 : 8
+          let rest = this.cameraList.slice(count, 8)
+          this.cameraList=this.cameraList.slice(1, count)
           this.cameraList.push(this.monitorInfoR['monitorDeviceId'])
+          this.cameraList.push(...rest)
           this.onPushReal()
         })
         // this.$refs.pushMov.initData();
