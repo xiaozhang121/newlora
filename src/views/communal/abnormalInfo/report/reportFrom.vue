@@ -214,6 +214,14 @@ export default {
         this.selectVisible = true
         this.dataUrl = "/lenovo-plan/api/report/template/list";
       }
+      if(this.$route.query.nav == 2){
+        this.dataBread =  [
+          { path: "/abnormalInfoPath/home", name: "功能卡片" },
+          { path: "/abnormalInfoPath/taskForm", name: "报表" },
+          { path: "", name: "全面巡视报告" }
+        ]
+        this.titleValue = '全面巡视报告'
+      }
     }
   },
   mounted() {

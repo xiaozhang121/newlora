@@ -114,6 +114,17 @@ export default {
     wraning,
     enlarge
   },
+  watch: {
+    dataBread: {
+      handler(now){
+        if(now && now.length){
+          this.title = now[3]['name']
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   props: {
     dataBread: {
       type: Array,
