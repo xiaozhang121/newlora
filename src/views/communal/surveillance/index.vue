@@ -977,6 +977,9 @@ export default {
   //     /* width: 12px;
   //     height: 15px;*/
   //   }
+  .keyMonitor .camera .explain .block{
+    visibility: hidden;
+  }
   .noMarginRight {
     margin-right: 0 !important;
   }
