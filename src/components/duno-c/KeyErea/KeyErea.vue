@@ -756,6 +756,9 @@
     .keyMonitor .camera .explain .block{
       visibility: hidden;
     }
+    .keyMonitor .camera .explain .record{
+      display: flex;
+    }
     .selectTop{
       position: fixed;
       top: 0;

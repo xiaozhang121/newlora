@@ -7,7 +7,7 @@
       <KeyErea />
     </div>
     <div class="mainContamin">
-      <div class="item">
+      <div class="itemAlarm">
         <div class="alarmTitle">
           <div>历史监测记录</div>
           <div>
@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="item">
+      <div class="itemAlarm">
         <div class="alarmTitle">
           <div>
             <span>历史</span>
@@ -441,12 +441,12 @@ export default {
         }
       }
     }
-    .item {
+    .itemAlarm {
       width: calc(50% - 10px);
       flex-grow: 1;
       flex-basis: 0;
     }
-    .item:last-child {
+    .itemAlarm:last-child {
       margin-left: 20px;
     }
   }

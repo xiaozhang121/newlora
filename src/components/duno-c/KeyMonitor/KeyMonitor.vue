@@ -98,7 +98,7 @@
               <span class="nowNR">当前</span>
             </div>
             <div class="block" v-else  v-show="!isCamera"></div>
-            <div class="block" v-if="isCamera">
+            <div class="block record" v-if="isCamera">
               视频录制 {{timeIncreateD}}
               <!--<i  class="iconfont icon-zanting" v-if="!isStop" @click="toStop(true)"></i> <i v-else @click="toStop(false)" class="iconfont icon-bofang"></i>-->
               <i style="margin-left: 10px" @click="videotape()" class="iconfont icon-tingzhi"></i>
@@ -816,7 +816,7 @@
       getMainstream(){
         let type=this.monitorDeviceType
         let url = ''
-        if(type==1||type==3||type==6){
+        if(type==1||type==3||type==6||type==9){
           url = `/lenovo-visible/api/visible-equipment/sdk/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
         }else if(type==2){
           url = `/lenovo-iir/device/video/url/rtmp/${this.monitorInfoR["monitorDeviceId"]}`

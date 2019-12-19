@@ -161,7 +161,7 @@ export default {
       },
       dataForm: {},
       isHidden: true,
-      title: "所有信息",
+      title: "信息总览记录信息",
       handleNotes: [],
       alarmType: "",
       visibleSettingOption: false,

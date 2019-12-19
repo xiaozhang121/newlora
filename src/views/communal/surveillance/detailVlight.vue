@@ -961,6 +961,9 @@ export default {
   .keyMonitor .camera .explain .block{
     visibility: hidden;
   }
+  .keyMonitor .camera .explain .record{
+    display: flex;
+  }
   .chartsChange{
     position: relative;
     top: 50px;

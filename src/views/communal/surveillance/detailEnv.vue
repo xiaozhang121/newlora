@@ -1269,6 +1269,9 @@ export default {
   .keyMonitor .camera .explain .block{
     display: none;
   }
+  .keyMonitor .camera .explain .record{
+    display: flex;
+  }
   .keyMonitor .camera .iconList{
     justify-content: flex-end;
   }

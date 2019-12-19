@@ -945,6 +945,9 @@
         .keyMonitor .camera .explain span:first-child{
             visibility: hidden;
         }
+        .keyMonitor .camera .explain .record{
+            display: flex;
+        }
         .bootBtn{
             background: #315f84;
             border-radius: 30px;

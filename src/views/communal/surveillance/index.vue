@@ -980,6 +980,9 @@ export default {
   .keyMonitor .camera .explain .block{
     visibility: hidden;
   }
+  .keyMonitor .camera .explain .record{
+    display: flex;
+  }
   .noMarginRight {
     margin-right: 0 !important;
   }

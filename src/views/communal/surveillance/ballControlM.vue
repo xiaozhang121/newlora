@@ -57,7 +57,7 @@
         <div class="right nr contain">
           <div class="right-main">
             <div class="right-explain">当前识别类型</div>
-            <div class="right-title">未设定</div>
+            <div class="right-title">{{ ballStatus }}</div>
             <div class="right-info">
               <div>当前布控球未进行设定</div>
               <div>请选择类别后设定布控球的监测区域</div>
@@ -318,6 +318,7 @@ export default {
   data() {
     const that = this;
     return {
+      ballStatus: '暂无任务',
       pushCamera: true,
       showPage:true,
       dataTimeD: '',
@@ -1538,11 +1539,24 @@ export default {
         this.$refs.box.style.width = width + "px";
         this.$refs.box.style.height = height + "px";
       }
-    }
+    },
+    getBallData(){
+      getAxiosData('/lenovo-plan/api/device/ball-control/status', {monitorDeviceId: this.$route.query.monitorDeviceId}).then(res=>{
+        let status = res.data.status
+        if(status == 0){
+          this.ballStatus = '暂无任务'
+        }else if(status == 1){
+          this.ballStatus = '周界识别监测中'
+        }else if(status == 1){
+          this.ballStatus = '表计识别监测中'
+        }
+      })
+    },
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.dataForm.monitorDeviceName = this.$route.query.monitorDeviceName;
+    this.getBallData()
     this.isPushCamera()
     this.getMonitorDeviceName();
     this.getDataList();

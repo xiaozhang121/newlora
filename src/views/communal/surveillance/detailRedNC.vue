@@ -977,6 +977,9 @@ export default {
   .keyMonitor .camera .explain .block{
     visibility: hidden;
   }
+  .keyMonitor .camera .explain .record{
+    display: flex;
+  }
   .selectChosenContain{
     width: 168px;
     .mainContain{
