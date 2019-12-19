@@ -279,7 +279,7 @@
                 }
                 getAxiosData('/lenovo-device/api/device/newrtmp', {powerDeviceId: this.itemData['deviceIdStr'],mapType: this.mapTypeDevice}).then(res=>{
                     let data = res.data.dmDeviceRtmpOutputs
-                    if(data.errorCode != 200){
+                    if(res.code != 200){
                        this.noVideo = true
                        return
                     }
