@@ -410,7 +410,6 @@
                     {
                         title: "时间",
                         key: "date",
-                        minWidth: 120,
                         align: "center",
                         tooltip: true,
                         render: (h, params) => {
@@ -443,7 +442,6 @@
                     {
                         title: "对象",
                         key: "powerDeviceName",
-                        minWidth: 180,
                         align: "center",
                         tooltip: true
                     },
@@ -618,7 +616,6 @@
                     {
                         title: "视频/图片",
                         key: "fileType",
-                        minWidth: 120,
                         align: "center",
                         tooltip: true,
                         render: (h, params) => {
@@ -657,7 +654,6 @@
                     },
                     {
                         title: " ",
-                        width: 90,
                         align: "center",
                         render: (h, params) => {
                             let newArr = [];
