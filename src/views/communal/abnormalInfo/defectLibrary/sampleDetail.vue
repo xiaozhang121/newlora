@@ -183,12 +183,30 @@ export default {
         // { value: "1", label: "新视界-练塘站-500KV-4号主变" }
       ],
       diviceData: [
-        { label: "1000KV", value: "1" },
-        { label: "500KV", value: "2" },
-        { label: "220KV", value: "3" },
-        { label: "110KV", value: "4" },
-        { label: "35KV", value: "5" },
-        { label: "10KV", value: "6" }
+        {
+          label: "1000KV",
+          value: "0"
+        },
+        {
+          label: "500KV",
+          value: "1"
+        },
+        {
+          label: "220KV",
+          value: "2"
+        },
+        {
+          label: "110KV",
+          value: "3"
+        },
+        {
+          label: "35KV",
+          value: "4"
+        },
+        {
+          label: "10KV",
+          value: "5"
+        }
       ],
       cascaderData: [],
       background: "url(" + require("@/assets/images/btn/moreBtn.png") + ")",

@@ -10,6 +10,7 @@
       top="5vh"
       :before-close="handleLarge"
     >
+      <i @click="closeDialog" class="closeBtn iconfont icon-guanbi2"></i>
       <img
         :class="{'offsetImg': true}"
         class="enlargeImg"
@@ -89,6 +90,9 @@ export default {
     };
   },
   methods: {
+    closeDialog(){
+      this.$emit("closeEnlarge");
+    },
     initDom(){
       try{
       if (document.documentElement.clientWidth > 3000) {
@@ -118,6 +122,13 @@ export default {
 
 <style lang="scss">
 .enlarge {
+  .closeBtn{
+    color: white;
+    position: fixed;
+    right: 40px;
+    font-size: 26px;
+    cursor: pointer;
+  }
   img {
     width: 100%;
     display: block;

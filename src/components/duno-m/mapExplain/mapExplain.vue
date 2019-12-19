@@ -101,7 +101,14 @@
                     </div>
                 </div>
                 <div class="item">
-
+                    <div class="titleE">
+                        可见光(球机)
+                    </div>
+                    <div class="showE">
+                        <div class="img">
+                            <img :src="ballJ" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
