@@ -602,6 +602,17 @@ export default {
   .not-print {
     opacity: 0;
   }
+  .from {
+    position: absolute;
+    bottom: 0;
+    color: #2d8cf0;
+    a{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+  }
   .el-dialog__headerbtn {
     display: none;
   }
