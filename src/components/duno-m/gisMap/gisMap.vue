@@ -10,12 +10,14 @@
 </template>
 <script>
     import "ol/ol.css";
+    import {asArray} from 'ol/color'
     import { LineString } from "ol/geom";
     import { Map, View, Overlay, Feature } from "ol";
     import {unByKey} from 'ol/Observable'
     import {boundingExtent,getCenter} from 'ol/extent'
     import Polygon from 'ol/geom/Polygon.js';
-    import  { Draw, DragPan } from 'ol/interaction'
+    import  { Draw, DragPan, Select } from 'ol/interaction'
+    import pointerMove from 'ol/events/condition'
     import Point from 'ol/geom/Point.js';
     import { XYZ, TileImage } from "ol/source"
     import { transform, getTransform } from "ol/proj"
@@ -31,6 +33,7 @@
         data() {
             const that = this
             return {
+                saveFeature: null,
                 EventList: [],
                 lineColor: '#78cbff',
                 isIn:false,
@@ -986,14 +989,18 @@
             },
             addPointdList(arr){
                 const that = this
-                let style = new Style({
-                    image: new CircleStyle({
-                        radius: 2,
-                        fill: new Fill({
-                            color: '#ff9000'
-                        })
-                    })
+                let color = asArray('#ff9000').slice()
+                let circle = new CircleStyle({
+                  radius: 2,
+                  fill: new Fill({
+                    color: color,
+                  })
                 })
+                circle.setOpacity(0.1)
+                let style = new Style({
+                    image: circle
+                })
+
                 for(let z=0; z<arr.length; z++){
                     let item = arr[z]
                     let index = z
@@ -1048,6 +1055,17 @@
                 anchor.on('mousein',function (event) {
                   that.isIn = true
                   if(event.target.values_.dataFlag == 1 && (that.mapTarget.getView().getZoom()>15 || that.isDiagram == 1 || that.noZoomLimit)) {
+                    if(!that.saveFeature){
+                      that.saveFeature = event.target
+                      event.target.setStyle(new Style({
+                        image: new CircleStyle({
+                          radius: 2,
+                          fill: new Fill({
+                            color: '#ff9000',
+                          })
+                        })
+                      }))
+                    }
                     let item = JSON.parse(event.target.values_.dataInfo)
                     that.clickTarget = item
                     let anchor = null
@@ -1307,14 +1325,24 @@
                 })
             },
             clearTextLabel(){
-                const that = this
-                try{
+                    const that = this
                     let feature = that.vector.getSource().getFeatureById('pointName')
-                    that.vector.getSource().removeFeature(feature)
+                    if(feature)
+                        that.vector.getSource().removeFeature(feature)
+                    if(that.saveFeature){
+                        let style = that.saveFeature.getStyle()
+                        let circle = new CircleStyle({
+                            radius: 2,
+                            fill: new Fill({
+                              color: '#ff9000',
+                            })
+                        })
+                        circle.setOpacity(0.1)
+                        style.setImage(circle)
+                        that.saveFeature.setStyle(style)
+                        that.saveFeature = null
+                    }
                     that.clickTarget = null
-                }catch (e) {
-
-                }
             },
             initMap(){
                 const that = this
@@ -1381,10 +1409,12 @@
                     })
                 });
                 this.EventList[3] = this.mapTarget.on('pointermove', function (event) {
+                    try{
                     let pixel = that.mapTarget.getEventPixel(event.originalEvent)
                     let feature = that.mapTarget.forEachFeatureAtPixel(pixel, function(feature) {
                         return feature;
                     });
+                    }catch (e) {}
                     try{
                         if(feature.get('type') == 'line'){
                             $('.toolTip').css({
@@ -1408,9 +1438,10 @@
                         });
                     }else{
                         that.isIn = false
-                        that.clearTextLabel()
                     }
                 })
+
+
                 this.EventList[2] = this.mapTarget.on('movestart', function (evt) {
                     that.isClick = false
                 });
