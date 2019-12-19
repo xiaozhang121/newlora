@@ -10,6 +10,7 @@
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor"
+                  :pushCamera="pushCamera"
                   :isNav="true"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
@@ -147,6 +148,7 @@ export default {
   data() {
     const that = this;
     return {
+      pushCamera: true,
       meterTypeList: [],
       meterType: '',
       powerDeviceId: '',
@@ -476,6 +478,20 @@ export default {
     }
   },
   methods: {
+    isPushCamera() {
+      getAxiosData("/lenovo-device/api/monitor/layout-list", {
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        let cameraList = res.data;
+        let ids = []
+        cameraList.forEach(item => {
+          ids.push(item.monitorDeviceId);
+        });
+        if(ids.indexOf(this.dataForm.monitorDeviceId)>-1){
+          this.pushCamera = false
+        }
+      });
+    },
     toStop(){
         postAxiosData('/lenovo-plan/api/plan/meter-data/recognize/stop', {monitorDeviceId: this.monitorDeviceId} ).then(res=>{
             this.isLock = 0
@@ -978,6 +994,7 @@ export default {
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.monitorDeviceId = this.$route.query.monitorDeviceId
+    this.isPushCamera()
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();

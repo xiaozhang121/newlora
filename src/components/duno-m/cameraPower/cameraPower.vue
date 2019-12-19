@@ -176,7 +176,7 @@
                 !dataList.length?this.noVideo = true:this.noVideo = false
                 this.dataList=dataList;
                 this.mainName = dataList[0]['monitorDeviceName']
-                    this.mainType = dataList[0]['monitorDeviceType']
+                    this.mainType = dataList[0]?dataList[0]['monitorDeviceType']:''
                     this.monitorInfo = dataList[0]
                     this.streamAddr = dataList[0]['addr']
                     if(this.mainType=='2'){
@@ -292,7 +292,7 @@
                     this.allList=data;
                     this.dataList = dataList
                     this.mainName = dataList.length>0?dataList[0]['monitorDeviceName']:''
-                    this.mainType = dataList[0]['monitorDeviceType']
+                    this.mainType = dataList[0]?dataList[0]['monitorDeviceType']:''
                     this.monitorInfo = dataList[0]
                     this.streamAddr = dataList[0]['addr']
                     if(this.mainType=='2'){

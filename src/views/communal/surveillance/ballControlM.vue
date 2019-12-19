@@ -23,6 +23,7 @@
                   class="monitor"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
+                  :pushCamera="pushCamera"
                   :showBtmOption="false"
                   :Initialization="true"
                   :isLive='false'
@@ -317,6 +318,7 @@ export default {
   data() {
     const that = this;
     return {
+      pushCamera: true,
       showPage:true,
       dataTimeD: '',
       detailsType:"task",
@@ -949,6 +951,20 @@ export default {
     }
   },
   methods: {
+    isPushCamera() {
+      getAxiosData("/lenovo-device/api/monitor/layout-list", {
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        let cameraList = res.data;
+        let ids = []
+        cameraList.forEach(item => {
+          ids.push(item.monitorDeviceId);
+        });
+        if(ids.indexOf(this.dataForm.monitorDeviceId)>-1){
+          this.pushCamera = false
+        }
+      });
+    },
     toArea(){
         this.$router.push({
             path:'/surveillancePath/ballControl',
@@ -1527,6 +1543,7 @@ export default {
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.dataForm.monitorDeviceName = this.$route.query.monitorDeviceName;
+    this.isPushCamera()
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();

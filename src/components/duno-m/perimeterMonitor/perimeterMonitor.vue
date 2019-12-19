@@ -14,6 +14,7 @@
                   :monitorInfo="{ monitor }"
                   paddingBottom="56%"
                   class="monitor"
+                  :pushCamera="pushCamera"
                   :autoplay="true"
                   :streamAddr="monitor.streamAddress"
                   :showBtmOption="false"
@@ -139,6 +140,7 @@ export default {
   data() {
     const that = this;
     return {
+      pushCamera: true,
       showInfo: false,
       demarcate: false,
       drawArealist: [],
@@ -488,6 +490,20 @@ export default {
     }
   },
   methods: {
+    isPushCamera() {
+      getAxiosData("/lenovo-device/api/monitor/layout-list", {
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        let cameraList = res.data;
+        let ids = []
+        cameraList.forEach(item => {
+          ids.push(item.monitorDeviceId);
+        });
+        if(ids.indexOf(this.dataForm.monitorDeviceId)>-1){
+          this.pushCamera = false
+        }
+      });
+    },
     showBtn(data){
       this.isShow=data
     },
@@ -962,6 +978,7 @@ export default {
   },
   created() {
     this.dataForm.monitorDeviceId = this.monitor.monitorDeviceId;
+    this.isPushCamera()
     // this.getMonitorDeviceName();
     // this.getDataList();
     // this.initCamera();

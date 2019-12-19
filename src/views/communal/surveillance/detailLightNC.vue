@@ -18,6 +18,7 @@
                 <key-monitor
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
+                  :pushCamera="pushCamera"
                   class="monitor"
                   :autoplay="playerOptionsd.autoplay"
                   :streamAddr="playerOptionsd.streamAddr"
@@ -209,6 +210,7 @@ export default {
   data() {
     const that = this;
     return {
+      pushCamera: true,
       chartsList: [],
       unit: "",
       detailsType:"task",
@@ -531,6 +533,20 @@ export default {
     };
   },
   methods: {
+    isPushCamera() {
+      getAxiosData("/lenovo-device/api/monitor/layout-list", {
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        let cameraList = res.data;
+        let ids = []
+        cameraList.forEach(item => {
+          ids.push(item.monitorDeviceId);
+        });
+        if(ids.indexOf(this.dataForm.monitorDeviceId)>-1){
+          this.pushCamera = false
+        }
+      });
+    },
     changeActive(index){
       this.chartsList.map(item=>{
         item['active'] = false
@@ -861,6 +877,7 @@ export default {
   },
   created() {
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.isPushCamera()
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();

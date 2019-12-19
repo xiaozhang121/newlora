@@ -30,6 +30,7 @@
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor"
+                  :pushCamera="pushCamera"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
@@ -76,6 +77,7 @@
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor"
+                  :pushCamera="pushCamera"
                   :autoplay="playerOptionsd.autoplay"
                   :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
@@ -250,6 +252,7 @@ export default {
   data() {
     const that = this;
     return {
+      pushCamera: true,
       echartTitle: "",
       addOrEdit: "添加",
       detailsType:"task",
@@ -564,6 +567,20 @@ export default {
     };
   },
   methods: {
+    isPushCamera() {
+      getAxiosData("/lenovo-device/api/monitor/layout-list", {
+        userId: this.$store.state.user.userId
+      }).then(res => {
+        let cameraList = res.data;
+        let ids = []
+        cameraList.forEach(item => {
+          ids.push(item.monitorDeviceId);
+        });
+        if(ids.indexOf(this.dataForm.monitorDeviceId)>-1){
+          this.pushCamera = false
+        }
+      });
+    },
     handleData(index, arr ,flag){
       const that = this
       let dataList = []
@@ -918,6 +935,7 @@ export default {
   created() {
     this.getWidth();
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+    this.isPushCamera()
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
