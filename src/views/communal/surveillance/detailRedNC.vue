@@ -956,6 +956,9 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .keyMonitor .camera .explain .block{
+    visibility: hidden;
+  }
   .selectChosenContain{
     width: 168px;
     .mainContain{

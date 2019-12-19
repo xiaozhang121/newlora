@@ -1252,6 +1252,9 @@ export default {
   .keyMonitor .camera .explain .block{
     display: none;
   }
+  .keyMonitor .camera .iconList{
+    justify-content: flex-end;
+  }
   .controlCheck {
     right: 0;
     width: 211px;

@@ -891,6 +891,9 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
+  .keyMonitor .camera .explain .block{
+    visibility: hidden;
+  }
   .chartsChange{
     position: relative;
     top: 0px;
