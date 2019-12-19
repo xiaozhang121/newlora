@@ -173,6 +173,7 @@
                             dataList.push(data[i])
                         }
                 });
+                !dataList.length?this.noVideo = true:this.noVideo = false
                 this.dataList=dataList;
                 this.mainName = dataList[0]['monitorDeviceName']
                     this.mainType = dataList[0]['monitorDeviceType']
@@ -279,16 +280,15 @@
                 }
                 getAxiosData('/lenovo-device/api/device/newrtmp', {powerDeviceId: this.itemData['deviceIdStr'],mapType: this.mapTypeDevice}).then(res=>{
                     let data = res.data.dmDeviceRtmpOutputs
-                    if(res.code != 200){
-                       this.noVideo = true
-                       return
-                    }
                     let dataList=[]
                     data.forEach((el,i) => {
                         if(el.powerDevicePhase=='A'){
                             dataList.push(data[i])
                         }
                     });
+                    if(!dataList.length){
+                      this.noVideo = true
+                    }
                     this.allList=data;
                     this.dataList = dataList
                     this.mainName = dataList.length>0?dataList[0]['monitorDeviceName']:''
