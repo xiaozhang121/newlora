@@ -87,7 +87,7 @@ export default {
   },
   data() {
     return {
-      mainTitle: '巡检任务报表',
+      mainTitle: '全面巡视报告',
       selectVisible: false,
       timer: null,
       isNull:false,
@@ -104,7 +104,7 @@ export default {
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "/abnormalInfoPath/taskForm", name: "报表" },
-        { path: "", name: "巡检任务报表" }
+        { path: "", name: "全面巡视报告" }
       ],
       titleValue: "所有巡检报表",
       value: "",

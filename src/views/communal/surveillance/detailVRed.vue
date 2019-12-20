@@ -30,7 +30,7 @@
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
                   paddingBottom="56%"
                   class="monitor"
-                  :pushCamera="pushCamera"
+                  :pushCamera="false"
                   :autoplay="playerOptions.autoplay"
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
