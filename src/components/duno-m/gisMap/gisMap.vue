@@ -989,14 +989,13 @@
             },
             addPointdList(arr){
                 const that = this
-                let color = asArray('#ff9000').slice()
                 let circle = new CircleStyle({
                   radius: 2,
                   fill: new Fill({
-                    color: color,
+                    color: '#ff9000',
                   })
                 })
-                circle.setOpacity(0.1)
+                circle.setOpacity(0.5)
                 let style = new Style({
                     image: circle
                 })
@@ -1337,7 +1336,7 @@
                               color: '#ff9000',
                             })
                         })
-                        circle.setOpacity(0.1)
+                        circle.setOpacity(0.5)
                         style.setImage(circle)
                         that.saveFeature.setStyle(style)
                         that.saveFeature = null
