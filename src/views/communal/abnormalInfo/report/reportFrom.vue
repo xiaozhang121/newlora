@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="dunoDrap">
-      <div>巡检任务报表</div>
+      <div>{{ mainTitle }}</div>
       <div class="selectBtn">
         <div style="position: relative" :class="{'hidden': selectVisible}">
           <duno-btn-top
@@ -87,6 +87,7 @@ export default {
   },
   data() {
     return {
+      mainTitle: '巡检任务报表',
       selectVisible: false,
       timer: null,
       isNull:false,
@@ -220,7 +221,7 @@ export default {
           { path: "/abnormalInfoPath/taskForm", name: "报表" },
           { path: "", name: "全面巡视报告" }
         ]
-        this.titleValue = '全面巡视报告'
+        this.mainTitle = '全面巡视报告'
       }
     }
   },

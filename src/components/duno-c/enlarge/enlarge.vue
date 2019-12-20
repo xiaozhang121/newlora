@@ -22,7 +22,6 @@
         v-if="srcData.fileType=='2'"
         ref="monitor"
         width="100%"
-        :autoplay='true'
         :pushCamera="pushCamera"
         :streamAddr="srcData.alarmFileAddress?srcData.alarmFileAddress:srcData.streamAddr"
       />

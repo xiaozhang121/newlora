@@ -610,7 +610,7 @@ export default {
       that.exportHandle();
     },
     getRegion() {
-      const that = this;
+   /*   const that = this;
       const url = "lenovo-device/api/device/select-list";
       postAxiosData(url).then(res => {
         const resData = res.data;
@@ -628,7 +628,7 @@ export default {
           title: "titleTypeL"
         });
         this.regionList = map;
-      });
+      });*/
     },
     getStart() {
       const that = this;
