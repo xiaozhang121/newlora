@@ -793,6 +793,7 @@
             rtmpUrl: this.playerOptions["sources"][0]["src"],
             taskId: this.taskId
           }).then(res => {
+            this.$store.state.app.rtmpUrl = res.data.rtmpUrl
             clearInterval(this.timerTime);
             this.timeIncreateD = "0:00:00";
             this.$message.info(res.msg);

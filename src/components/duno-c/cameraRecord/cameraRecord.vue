@@ -313,12 +313,13 @@ export default {
           alarmType: that.formData.alarmType,
           alarmDetailType: that.formData.alarmDetailType,
           alarmContent: that.getMapping(that.options, that.formData.alarmDetailType),
-          alarmFileAddress: `http://10.0.10.35:8100/lenovo-storage/api/storageService/file/imgFile?bucketName=${this.shotData.cephBucket}&fileName=${this.shotData.cephFileName}`,
+          alarmFileAddress: that.$store.state.app.rtmpUrl,
           // recognizeType: data,
           remark: this.textarea
         };
         postAxiosData(url, query).then(res => {
           this.$emit("closeShot");
+          this.$store.state.app.rtmpUrl = ""
           this.$message({
             message: "已保存至历史异常记录",
             type: "success"
