@@ -1,86 +1,89 @@
 <template>
-  <div class="analysis-detail">
-    <div class="breadcrumb">
-      <Breadcrumb :dataList="dataBread" />
-    </div>
-    <div class="top not-print">
-      <div>现场安全管控异常信息</div>
-      <div class="btn">
-        <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTo"
-            :isCheck="false"
-            :dataList="regionList"
-            :title="titleTypeL"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div>
-          <duno-btn-top
-            @on-select="onSelect"
-            class="dunoBtnTop"
-            :isCheck="false"
-            :dataList="typeList"
-            :title="titleTypeR"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <div class="dateChose">
-          <el-date-picker
-            unlink-panels
-            v-model="value"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            @change="onChangeTime"
-          ></el-date-picker>
-        </div>
-        <div>
-          <duno-btn-top
-            @on-select="selectDownloadType"
-            class="dunoBtnTo"
-            :isCheck="false"
-            :dataList="downLoadList"
-            :output="true"
-            title="导出表格"
-            :showBtnList="false"
-          ></duno-btn-top>
-        </div>
-        <!-- <div>
-          <div @click="clickExcel" class="clickBtn">
-            <i class="iconfont icon-daochu1"></i>
-            导出表格
-          </div>
-        </div>-->
+  <div>
+    <div class="analysis-detail">
+      <div class="breadcrumb">
+        <Breadcrumb :dataList="dataBread" />
       </div>
-    </div>
-    <duno-main class="dunoMain">
-      <duno-tables-tep
-        class="table_abnormalInfo"
-        :columns="columns"
-        :data="dataList"
-        :totalNum="totalNum"
-        :pageSize="pageRows"
-        :current="pageIndex"
-        :border="true"
-        :showSizer="true"
-        :isShowPage="mixinViewModuleOptions.isShowPage"
-        @on-select="dataListSelectionChangeHandle"
-        @clickPage="pageCurrentChangeHandle"
-        @on-page-size-change="pageSizeChangeHandle"
+      <div class="top not-print">
+        <div>现场安全管控异常信息</div>
+        <div class="btn">
+          <div>
+            <duno-btn-top
+                    @on-select="onSelect"
+                    class="dunoBtnTo"
+                    :isCheck="false"
+                    :dataList="regionList"
+                    :title="titleTypeL"
+                    :showBtnList="false"
+            ></duno-btn-top>
+          </div>
+          <div>
+            <duno-btn-top
+                    @on-select="onSelect"
+                    class="dunoBtnTop"
+                    :isCheck="false"
+                    :dataList="typeList"
+                    :title="titleTypeR"
+                    :showBtnList="false"
+            ></duno-btn-top>
+          </div>
+          <div class="dateChose">
+            <el-date-picker
+                    unlink-panels
+                    v-model="value"
+                    type="daterange"
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    @change="onChangeTime"
+            ></el-date-picker>
+          </div>
+          <div>
+            <duno-btn-top
+                    @on-select="selectDownloadType"
+                    class="dunoBtnTo"
+                    :isCheck="false"
+                    :dataList="downLoadList"
+                    :output="true"
+                    title="导出表格"
+                    :showBtnList="false"
+            ></duno-btn-top>
+          </div>
+          <!-- <div>
+            <div @click="clickExcel" class="clickBtn">
+              <i class="iconfont icon-daochu1"></i>
+              导出表格
+            </div>
+          </div>-->
+        </div>
+      </div>
+      <duno-main class="dunoMain" v-show="!isCarManager">
+        <duno-tables-tep
+                class="table_abnormalInfo"
+                :columns="columns"
+                :data="dataList"
+                :totalNum="totalNum"
+                :pageSize="pageRows"
+                :current="pageIndex"
+                :border="true"
+                :showSizer="true"
+                :isShowPage="mixinViewModuleOptions.isShowPage"
+                @on-select="dataListSelectionChangeHandle"
+                @clickPage="pageCurrentChangeHandle"
+                @on-page-size-change="pageSizeChangeHandle"
+        />
+      </duno-main>
+      <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
+      <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+      <enlarge
+              :pushCamera="false"
+              :isShow="isEnlarge"
+              :srcData="srcData"
+              @closeEnlarge="closeEnlarge"
       />
-    </duno-main>
-    <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
-    <enlarge
-      :pushCamera="false"
-      :isShow="isEnlarge"
-      :srcData="srcData"
-      @closeEnlarge="closeEnlarge"
-    />
-    <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+      <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    </div>
+    <front-door :noHeader="true" v-if="isCarManager"/>
   </div>
 </template>
 
@@ -95,6 +98,7 @@ import buttonCustom from "_c/duno-m/buttonCustom";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
+import frontDoor from '@/views/communal/security/frontDoor'
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
@@ -116,11 +120,13 @@ export default {
     wraning,
     buttonCustom,
     enlarge,
-    Remarks
+    Remarks,
+    frontDoor
   },
   data() {
     const that = this;
     return {
+      isCarManager: false,
       mixinViewModuleOptions: {
         activatedIsNeed: true,
         getDataListURL: "/lenovo-alarm/api/security/list",
@@ -419,6 +425,11 @@ export default {
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
+        this.isCarManager = false
+        if(item.monitorDeviceType == '999'){
+          this.isCarManager = true
+          return
+        }
         this.dataForm.areaId = item.monitorDeviceType;
       } else if (item.title == "titleTypeR") {
         this.dataForm.alarmType = item.monitorDeviceType;
@@ -469,6 +480,11 @@ export default {
         map.unshift({
           describeName: "所有区域",
           monitorDeviceType: "",
+          title: "titleTypeL"
+        });
+        map.unshift({
+          describeName: "大门监控",
+          monitorDeviceType: "999",
           title: "titleTypeL"
         });
         this.regionList = map;

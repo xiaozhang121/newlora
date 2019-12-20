@@ -20,7 +20,8 @@
     <div class="contentMain" @click="handleWain">
       <div class="top">
         <p>
-          机器判断：
+           <span v-if="securityType">车牌：</span>
+           <span v-else>机器判断：</span>
           <span>{{remarkData.alarmDetailType}}</span>
         </p>
       </div>
@@ -29,14 +30,20 @@
           拍摄时间：
           <span>{{remarkData.alarmTime}}</span>
         </div>
-        <div>
+        <div v-if="securityType">
+          <i>事件：</i>
+          <p>
+            <span>{{ remarkData.inOut == 0 ? '入场' : '出场' }}</span>
+          </p>
+        </div>
+        <div v-else>
           <i>处理记录：</i>
           <p>
             <span v-for="(item,index) in dealList.slice(0,2)" :key="index">{{item}}</span>
           </p>
         </div>
       </div>
-      <div class="btn">
+      <div class="btn" v-if="!securityType">
         <p>
           来源：
           <span @click.stop="getJump" style="text-decoration: underline">{{remarkData.monitorDeviceName}}</span>
@@ -116,6 +123,11 @@ export default {
       dealList: [],
       alarmId: ""
     };
+  },
+  computed: {
+    securityType(){
+      return this.remarkData['securityType'] == 1
+    }
   },
   watch: {
     remarkData: {

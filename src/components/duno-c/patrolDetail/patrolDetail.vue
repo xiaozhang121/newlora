@@ -193,6 +193,9 @@ export default {
   .el-loading-text {
     color: #969696 !important;
   }
+  .task{
+    min-height: calc(30vh);
+  }
   .dunoDrap {
     display: flex;
     justify-content: space-between;

@@ -218,6 +218,8 @@ export default {
           } else {
             this.$message.error(res.msg);
           }
+        }, error => {
+          this.$message.error(error.response.data.errors[error.response.data.errors.length-1]['defaultMessage']);
         });
       } else {
         urlD = "/lenovo-plan/api/plan/create";
@@ -229,6 +231,8 @@ export default {
           } else {
             this.$message.error(res.msg);
           }
+        }, error => {
+          this.$message.error(error.response.data.errors[error.response.data.errors.length-1]['defaultMessage']);
         });
       }
     },

@@ -1,9 +1,9 @@
 <template>
   <div class="frontDoor">
-    <div class="breadcrumb">
+    <div v-if="!noHeader" class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
-    <div class="top not-print">
+    <div v-if="!noHeader" class="top not-print">
       <div>{{ title }}</div>
       <div class="btn">
         <div>
@@ -228,6 +228,14 @@
           }
         ]
       };
+    },
+    props: {
+      noHeader:{
+        type: Boolean,
+        default: ()=>{
+          return false
+        }
+      }
     },
     watch: {
       $route(to) {

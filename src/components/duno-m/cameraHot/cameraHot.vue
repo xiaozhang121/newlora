@@ -11,6 +11,7 @@
                           :autoplay="playerOptions.autoplay"
                           :streamAddr="playerOptions.sources[0].src"
                           width="100%"
+                          :pushCamera="false"
                           :showBtmOption="false"
                           :Initialization="true"
                           :isLive='false'
@@ -68,6 +69,7 @@
                           :autoplay="playerOptions.autoplay"
                           :streamAddr="playerOptions.sources[0].src"
                           width="100%"
+                          :pushCamera="false"
                           :showBtmOption="false"
                           :Initialization="true"
                           :isLive='false'
@@ -135,6 +137,7 @@
                           :autoplay="playerOptions.autoplay"
                           :streamAddr="playerOptions.sources[0].src"
                           width="100%"
+                          :pushCamera="false"
                           :showBtmOption="false"
                           :Initialization="true"
                           :isLive='false'
