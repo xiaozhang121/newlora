@@ -94,7 +94,6 @@ export default {
     },
     initDom(){
       try{
-      this.$nextTick(this.$refs.monitor.$refs.videoPlayer.player.play())
       if (document.documentElement.clientWidth > 3000) {
         /* this.width = "45%";*/
         this.isMax = true;
