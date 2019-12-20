@@ -230,6 +230,8 @@ export default {
             this.$message(res.msg);
             that.cancel();
           }
+        }, error => {
+          this.$message.error(error.response.data.errors[error.response.data.errors.length-1]['defaultMessage']);
         }
       );
     },

@@ -104,6 +104,9 @@ export default {
   data() {
     return {
       safeList: [],
+      queryForm: {
+        securityType: 1
+      },
       timer: null,
       loading: false,
       mixinViewModuleOptions: {

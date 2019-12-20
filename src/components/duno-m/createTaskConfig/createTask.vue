@@ -195,10 +195,12 @@ export default {
               that.cancel();
               
             }
+          }, error => {
+            this.$message.error(error.response.data.errors[error.response.data.errors.length-1]['defaultMessage']);
           }
         );
       } catch {err}{
-         this.$message(未知错误);
+         this.$message('未知错误');
       }
     },
     toPre() {

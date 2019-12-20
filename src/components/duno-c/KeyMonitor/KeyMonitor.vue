@@ -68,7 +68,7 @@
                 @error="onPlayerError($event)"
         ></video-player>
         <img v-else class="cameraImg" :src="picUrl" @mousedown="clickNative" />
-        <div class="noVideo" v-if="noVideo">
+        <div class="noVideo" v-if="noVideo || noVideoOption">
           <i class="iconfont icon-duankai"></i>
           {{ noVideoExplain }}
         </div>
@@ -375,6 +375,9 @@
       }
     },
     watch: {
+      noVideo(now){
+        this.noVideoOption = now
+      },
       isPic: {
         handler(now) {
           if(now){
@@ -480,6 +483,7 @@
     },
     data() {
       return {
+        noVideoOption: false,
         videoCut:false,//录像是否为指定类的摄像头
         picCut:false,//截图是否为指定类的摄像头
         mainstream:"",
@@ -919,6 +923,23 @@
       leave() {
         this.showBtm = false;
       },
+      isLink(){
+        if(this.isLive){
+          return
+        }
+        let type = this.monitorDeviceType
+        if(type==1||type==3||type==6||type==9){
+          getAxiosData(`/lenovo-visible/api/visible-equipment/view/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
+            let status = Number(res.data.status)
+            this.noVideoOption = !Boolean(status)
+          })
+        }else if(type == 2){
+          getAxiosData(`/lenovo-iir/manager/device/detail/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
+            let status = Number(res.data.status)
+            this.noVideoOption = !Boolean(status)
+          })
+        }
+      },
       initCamera(){
         getAxiosData("/lenovo-device/api/preset/type", {
           monitorDeviceId: this.monitorInfoR["monitorDeviceId"]
@@ -1111,6 +1132,7 @@
       this.isIniializa = this.Initialization;
       this.isNavbar = this.isNav;
       this.initCamera()
+      this.isLink()
       // console.log(document.getElementsById("videoPlayer").offsetWidth);
     },
     destroyed(){
