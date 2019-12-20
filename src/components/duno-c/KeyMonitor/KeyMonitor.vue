@@ -567,7 +567,7 @@
           aspectRatio: "16:9",
           fluid: true,
           techOrder: ["flash"],
-          autoplay: false,
+          autoplay: true,
           controls: true,
           notSupportedMessage: "此视频暂无法播放，请稍后再试",
           poster: "",

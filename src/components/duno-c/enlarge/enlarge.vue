@@ -19,7 +19,7 @@
         alt
       />
       <KeyMonitor
-        v-if="srcData.fileType=='2' && srcData.alarmFileAddress?srcData.alarmFileAddress:srcData.streamAddr"
+        v-if="srcData.fileType=='2'"
         ref="monitor"
         width="100%"
         :pushCamera="pushCamera"
