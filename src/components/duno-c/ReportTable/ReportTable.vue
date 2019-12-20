@@ -4,35 +4,25 @@
       <img v-if="imageVisible" :src="reportData.pic" :onerror="defaultImg" />
     </div>
     <div class="content not-print">
-      <!-- <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top"> -->
-        <h3 v-if="kind != 'robot'">
-          <span class="taskid">{{reportData.planName}}</span>
-        </h3>
-      <!-- </el-tooltip> -->
-      <!-- <el-tooltip v-if="reportData.planName" class="item" effect="dark" :content="reportData.planName" placement="top"> -->
-        <h3 v-if="kind == 'robot'">
-          {{ reportData.planName?reportData.planName:'/' }}
-          <!-- <span class="taskid">{{reportData.planId}}</span> -->
-        </h3>
-      <!-- </el-tooltip> -->
+      <h3 v-if="kind != 'robot'">
+        <span class="taskid">{{reportData.planName}}</span>
+      </h3>
+      <h3 v-if="kind == 'robot'">
+        {{ reportData.planName?reportData.planName:'/' }}
+      </h3>
       <p v-if="kind != 'robot' && reportData.planType">
         类型: {{reportData.planType}}
-        <!-- <span>{{reportData.planType}}</span> -->
       </p>
       <p>
         日期: {{reportData.date?reportData.date:getPreWeekEnd()}}
-        <!-- <span>{{reportData.date}}</span> -->
       </p>
       <p v-if="isAllInfo && reportData.timeLong">
         时长: {{reportData.timeLong}}
-        <!-- <span>{{reportData.timeLong}}</span> -->
       </p>
       <p>
         异常信息数量: {{reportData.alarmNum?reportData.alarmNum:0}}
-        <!-- <span>{{reportData.alarmNum}}</span> -->
       </p>
       <p v-if="isAllInfo&&kind != 'robot'">
-        <!-- <i>来源:</i> -->
         来源:
         <span
           v-for="(item,index) in reportData.monitorDeviceList"
@@ -41,14 +31,17 @@
           style="text-decoration: underline"
           @click="getJump(item)"
           :style="{cursor:'pointer'}"
-        >{{item.monitorDeviceName}}<i v-if="index*1+1 != reportData.monitorDeviceList.length">,</i></span>
+        >
+          {{item.monitorDeviceName}}
+          <i v-if="index*1+1 != reportData.monitorDeviceList.length">,</i>
+        </span>
       </p>
     </div>
     <div class="btn not-print">
       <!-- <div @click="clickExcel">
         <i class="iconfont icon-xiazai"></i>
         <span>下载报告</span>
-      </div> -->
+      </div>-->
       <div @click="viewReports">
         <i class="iconfont icon-chakan"></i>
         <span>查看报告</span>
@@ -87,8 +80,8 @@ export default {
   props: {
     noRobot: {
       type: Boolean,
-      default: ()=>{
-        return false
+      default: () => {
+        return false;
       }
     },
     taskRunHisId: {},
@@ -134,10 +127,10 @@ export default {
       that.exportHandle();
     },
     viewReports() {
-      console.log(this.reportData)
+      console.log(this.reportData);
       if (this.path) {
-        let query = {}
-        if(!this.noRobot){
+        let query = {};
+        if (!this.noRobot) {
           query = {
             taskDeviceId: this.taskCurreny.taskDeviceId,
             planId: this.reportData.planId,
@@ -145,14 +138,17 @@ export default {
             planType: this.reportData.taskType,
             executeTime: this.reportData.date,
             startTime: this.reportData.StartTime,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             endTime: this.reportData.EndTime,
             path: "/robot-one/reportList?substationId=1&robotId=1",
             name: "最新巡视报告"
-          }
-        }else{
-          if(this.reportData && this.reportData.value)
-            query = {value: this.reportData.value, planName: this.reportData.planName,}
+          };
+        } else {
+          if (this.reportData && this.reportData.value)
+            query = {
+              value: this.reportData.value,
+              planName: this.reportData.planName
+            };
         }
         this.$router.push({
           path: this.path,
@@ -170,7 +166,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/plan/visible-report/view/detail"
           }
@@ -185,7 +181,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/plan/iir-report/view/detail"
           }
@@ -197,7 +193,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -212,7 +208,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -224,7 +220,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -236,7 +232,7 @@ export default {
             planId: this.reportData.planId,
             planType: this.reportData.planType,
             batchId: this.reportData.batchId,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/statistics/plan/view"
           }
@@ -252,7 +248,7 @@ export default {
             planType: this.reportData.planType,
             isRobot: this.reportData.isRobot,
             batchId: this.reportData.batchId,
-            planName:this.reportData.planName,
+            planName: this.reportData.planName,
             executeTime: this.reportData.date,
             url: "/lenovo-plan/api/information/overview/plan/report/detail"
           }
@@ -309,11 +305,11 @@ export default {
         }
       });
     },
-    getPreWeekEnd(){
-      let dateM = moment(new Date())
-      let day = dateM.day(0).format('YYYY-MM-DD HH:mm:ss');//上周天
-      return day
-    },
+    getPreWeekEnd() {
+      let dateM = moment(new Date());
+      let day = dateM.day(0).format("YYYY-MM-DD HH:mm:ss"); //上周天
+      return day;
+    }
   },
   created() {
     console.log(this.$route.name);
@@ -332,13 +328,17 @@ export default {
   color: #ffffff;
   position: relative;
   & > div:first-child {
-    height: 200px;
     width: 100%;
+    position: relative;
+    padding-bottom: 56%;
     background-image: url("../../../assets/images/placeholder.png");
     background-size: 100% 100%;
     img {
-      height: 100% !important;
       width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
       display: block;
     }
   }

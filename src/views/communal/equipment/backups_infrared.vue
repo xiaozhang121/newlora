@@ -12,11 +12,12 @@
       <div
         v-if="isEmpty"
         class="inspection"
+        :class="{'center': isCenterX}"
         v-loading="loadingOptionF"
-         element-loading-background="rgba(0, 0, 0, 0)"
+        element-loading-background="rgba(0, 0, 0, 0)"
         element-loading-text="请稍后，正在加载数据…"
       >
-        <div class="inspection_item" v-for="(item,index) in inspecReport" :key="index">
+        <div :class="[screenWidth?'inspection_item':'inspection_itemBig']" v-for="(item,index) in inspecReport" :key="index">
           <ReportTable :url="url" :reportData="item" />
         </div>
       </div>
@@ -38,7 +39,7 @@
         v-if="isEmptyHour"
         class="hours"
         v-loading="loadingOptionS"
-         element-loading-background="rgba(0, 0, 0, 0)"
+        element-loading-background="rgba(0, 0, 0, 0)"
         element-loading-text="请稍后，正在加载数据…"
       >
         <template v-for="(item,index) in lightInformation">
@@ -100,9 +101,11 @@ export default {
   },
   data() {
     return {
+      isCenterX: false,
       loadingOptionF: true,
       timerF: null,
       loadingOptionS: true,
+      screenWidth: true,
       timerS: null,
       dataList: [
         {
@@ -192,10 +195,13 @@ export default {
       let query = {
         playtype: "1",
         pageIndex: 1,
-        pageRows: 4
+        pageRows: this.screenWidth?6:4
       };
       infraNewReport(query).then(res => {
         this.inspecReport = res.data.tableData;
+        if (this.inspecReport.length == 6) {
+          this.isCenterX = true;
+        }
         clearTimeout(this.timerF);
         this.loadingOptionF = false;
         if (this.inspecReport.length == 0) {
@@ -224,9 +230,18 @@ export default {
       mainDevice().then(res => {
         this.dataList = res.data;
       });
+    },
+    gettScreenWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   mounted() {
+    this.screenWidth = this.gettScreenWidth();
     this.getlightData();
     this.initImg();
   }
@@ -285,7 +300,7 @@ export default {
   }
   .reportRecode {
     width: 100%;
-    min-height: 425px;
+    min-height: 380px;
     margin-top: 20px;
     .empty {
       padding: 20px 20px 0 20px;
@@ -333,26 +348,33 @@ export default {
     .inspection {
       padding: 20px 20px 0 20px;
       background-color: #142838;
-      min-height: 465px;
+      min-height: 425px;
       display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       flex-direction: row;
+      justify-content: stretch;
+      @media screen and (min-width: 3500px) {
+        min-height: 360px;
+      }
+      &.center {
+        justify-content: center;
+      }
       & > .inspection_item {
         width: calc(16%);
-        margin-right: 13px;
+        margin-left: 13px;
         .reportTable {
-          height: 425px;
-          @media screen and (min-width: 3500px) {
-              height: 400px;
-            }
-          img {
-            height: 100%;
-          }
+          height: 380px;
         }
       }
-      & > div:nth-child(5n + 1) {
-        margin-right: 0;
+      & > .inspection_itemBig {
+        width: calc(24%);
+        margin-left: 1%;
+        .reportTable {
+          height: 320px;
+        }
+      }
+      & > div:first-child{
+        margin-left: 0;
       }
     }
     .hours {

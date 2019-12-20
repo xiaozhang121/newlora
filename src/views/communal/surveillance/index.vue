@@ -36,7 +36,7 @@
           :isNav="true"
           :pushCamera="false"
           width="100%"
-          paddingBottom="80%"
+          paddingBottom="75%"
           :streamAddr="streamAddr01"
           :showBtmOption="true"
           @change-video="changeVideo"
@@ -54,7 +54,7 @@
             :isNav="true"
             :pushCamera="false"
             width="100%"
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr02"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -71,7 +71,7 @@
             :isNav="true"
             :pushCamera="false"
             width="100%"
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr03"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -88,7 +88,7 @@
             :isNav="true"
             :pushCamera="false"
             width="100%"
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr04"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -105,7 +105,7 @@
             :isNav="true"
             :pushCamera="false"
             width="100%"
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr05"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -126,7 +126,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr01"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -145,7 +145,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr02"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -164,7 +164,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr03"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -183,7 +183,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr04"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -202,7 +202,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr05"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -221,7 +221,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr06"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -240,7 +240,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr07"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -259,7 +259,7 @@
             :isNav="true"
             :pushCamera="false"
             imgAdress
-            paddingBottom="80%"
+            paddingBottom="75%"
             :streamAddr="streamAddr08"
             :showBtmOption="true"
             @change-video="changeVideo"
@@ -303,7 +303,7 @@
             :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
-            paddingBottom="80%"
+            paddingBottom="75%"
             class="monitorM child"
           ></key-monitor>
         </div>
@@ -324,7 +324,7 @@
             :kilovolt="item['areaName']"
             :areaId="item['areaId']"
             :showType="activeAreaId"
-            paddingBottom="80%"
+            paddingBottom="75%"
             :powerDeviceId="item['powerDeviceId']"
             :streamAddr="item['streamAddr']"
             :showBtmOption="true"
@@ -1170,7 +1170,7 @@ export default {
   }
   .monitorF.child {
     .vjs-fluid {
-      padding-top: 80%;
+      padding-top: 75%;
     }
   }
   .monitorM.swip {
@@ -1180,7 +1180,7 @@ export default {
   }
   .monitorM.child {
     .vjs-fluid {
-      padding-top: 80%;
+      padding-top: 75%;
     }
   }
   .monitorM.first {

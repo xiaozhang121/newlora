@@ -4,10 +4,12 @@
       <el-dialog
         :close-on-press-escape="false"
         :close-on-click-modal="false"
-        :fullscreen="true"
+        :fullscreen="isFullscreen"
         class="elDialogClass"
         :visible="true"
-        width="900px"
+        :modal='false'
+        top="0"
+        width="1920px"
         center
         @close="handleClose"
       >
@@ -150,6 +152,7 @@ export default {
       isdeal: true,
       hasSelect: true,
       // detailsType: "",
+      isFullscreen:true,
       popData: null,
       target: null,
       searchId: "",
@@ -506,9 +509,18 @@ export default {
           }
         });
       }
+    },
+    getScreenWidth(){
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   mounted() {
+    this.isFullscreen = this.getScreenWidth()
     this.searchType = Base64.decode(this.name);
     this.searchId = Base64.decode(this.value);
     this.popData = JSON.parse(Base64.decode(this.info));
@@ -544,6 +556,8 @@ export default {
   }
 }
 .warningDialogN {
+    height: 100%;
+    background: #fff;
   .el-dialog__close {
     display: none;
   }
@@ -706,6 +720,8 @@ export default {
   .el-dialog {
     background: #fff;
     padding: 20px 50px;
+    box-shadow:none;
+    height: 100%;
   }
   .el-dialog__header {
     background: #fff;
