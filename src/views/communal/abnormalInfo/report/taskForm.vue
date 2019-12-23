@@ -709,7 +709,7 @@
                 let month = (date.getMonth()+1)<10?'0'+date.getMonth()+1:date.getMonth()+1
                 let day = Number(date.getDate())<10?'0'+date.getDate():date.getDate()
                 let startTime = year+'-'+month+'-'+'01'+ ' 00:00:00'
-                let endTime = year+'-'+month+'-'+day + ' 00:00:00'
+                let endTime = year+'-'+month+'-'+day + ' 23:59:59'
                 getAxiosData('/lenovo-plan/api/information/overview/report/detail/num', {startTime: startTime,endTime: endTime}).then(res=>{
                       this.reportRecordNum = res.data.sum
                 })
