@@ -333,6 +333,12 @@ export default {
           num: "90",
           flex: 0.3,
           color: "#FFDB29"
+        },
+        {
+          name: "AR眼镜上传",
+          num: "90",
+          flex: 0.3,
+          color: "#ff9744"
         }
       ],
       columns: [
@@ -672,6 +678,16 @@ export default {
         trigger: "axis",
         axisPointer: {
           type: "shadow"
+        },
+        formatter: function (params) {
+          let str = ''
+          str += params[0]['name']
+          str += '<br/>'
+          params.forEach(item=>{
+            str += item['marker'] + item['seriesName'] + item['value'] + '%'
+            str += '<br/>'
+          })
+          return str
         }
       },
       isItemEchartBar: true,
@@ -705,6 +721,8 @@ export default {
         this.defectData[2].flex = (data.cameraNum / data.totalNum).toFixed(2);
         this.defectData[3].num = data.resultNum;
         this.defectData[3].flex = (data.resultNum / data.totalNum).toFixed(2);
+        this.defectData[4].num = data.arNum;
+        this.defectData[4].flex = (data.arNum / data.totalNum).toFixed(2);
       });
     },
     handleReport(item) {
@@ -1237,7 +1255,7 @@ export default {
       height: calc(50% - 10px);
       margin-bottom: 20px;
       .defectInfo {
-        margin: 30px 20px 20px 20px;
+        margin: 20px 20px 20px 20px;
         @media screen and (max-width: 1366px) {
           margin: 20px 10px;
         }

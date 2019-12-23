@@ -104,7 +104,16 @@ export default {
         },
         saveTask(){
             const that = this
-
+            if(this.taskName == ''){
+              this.$message.info('任务名不能为空!')
+              return;
+            }
+            let regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
+            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+            if(regEn.test(this.taskName) || regCn.test(this.taskName)){
+              this.$message.info('任务名不能包含特殊字符!')
+              return;
+            }
             let arr = []
             this.drawList.forEach(item=>{
                 arr = [...arr,...item['value']]

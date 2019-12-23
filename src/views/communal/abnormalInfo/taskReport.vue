@@ -401,6 +401,12 @@ export default {
   },
   created(){
       this.tableId = this.$route.query.value
+      if(this.$route.query.nav == 2){
+        this.dataBread = [
+          { path: "/realEnv/list", name: "操作中台" },
+          { path: "", name: `${this.$route.query.planName}` },
+        ]
+      }
       this.initDate()
       this.initTable()
   },

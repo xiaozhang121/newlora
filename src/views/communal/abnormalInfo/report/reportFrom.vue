@@ -42,6 +42,7 @@
           v-for="(item,index) in dataList.tableData"
           :key="index"
           :noRobot="true"
+          :queryData="queryData"
           :url="url"
           path="/abnormalInfoPath/taskReport"
           :reportData="item"
@@ -52,6 +53,7 @@
         <ReportTable
           v-for="(item,index) in dataList.tableData"
           :url="url"
+          :queryData="queryData"
           :key="index"
           :reportData="item"
         />
@@ -87,6 +89,7 @@ export default {
   },
   data() {
     return {
+      queryData: {},
       mainTitle: '全面巡视报告',
       selectVisible: false,
       timer: null,
@@ -217,10 +220,11 @@ export default {
       }
       if(this.$route.query.nav == 2){
         this.dataBread =  [
-          { path: "/abnormalInfoPath/home", name: "功能卡片" },
+          { path: "/abnormalInfoPath/home", name: "操作中台" },
           { path: "/abnormalInfoPath/taskForm", name: "报表" },
           { path: "", name: "全面巡视报告" }
         ]
+        this.queryData = {nav: 2}
         this.mainTitle = '全面巡视报告'
       }
     }

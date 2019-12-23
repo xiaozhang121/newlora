@@ -445,6 +445,7 @@ export default {
       const that = this;
       that.queryForm.type = item.monitorDeviceType;
       that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.queryForm.planId = this.$route.query.planId;
       that.exportHandle();
     },
     // clickExcel() {
