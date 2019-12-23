@@ -220,13 +220,13 @@ export default {
         {
           name: "读（MB/s）",
           type: "line",
-          stack: "总量",
+          stack: "读",
           data: []
         },
         {
           name: "写（MB/s）",
           type: "line",
-          stack: "总量",
+          stack: "写",
           data: []
         }
       ],
@@ -435,8 +435,8 @@ export default {
           timeData.push(el.createTime);
         });
         that.xAxisIo.data = timeData;
-        that.seriesIo[0].data = outData;
-        that.seriesIo[1].data = enterData;
+        that.seriesIo[0].data = enterData;
+        that.seriesIo[1].data = outData;
         that.isChangeIo = !that.isChangeIo;
         that.$forceUpdate();
       });

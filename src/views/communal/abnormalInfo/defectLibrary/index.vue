@@ -142,6 +142,7 @@ export default {
         {
           title: "序号",
           type: "index",
+          width: 90,
           align: "center"
         },
         {
@@ -166,6 +167,7 @@ export default {
           title: "标注量",
           key: "markNum",
           align: "center",
+          width: 120,
           tooltip: true
         },
         {
@@ -183,7 +185,7 @@ export default {
         {
           title: " ",
           key: "id",
-          minWidth: 120,
+          width: 120,
           align: "center",
           render: (h, params) => {
             const that = this;
@@ -219,9 +221,16 @@ export default {
   },
   mounted() {},
   created() {
+    this.getWidth();
     this.getARLength()
   },
   methods: {
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns.splice(6, 1);
+      }
+    },
     getARLength(){
       getAxiosData('/lenovo-sample/api/sample/ar/list', {pageIndex: 1, pageRows: 20}).then(res=>{
         let data = res.data.tableData
@@ -252,11 +261,6 @@ export default {
       this.visible = false;
       this.getDataList()
     },
-    // onSelect(item, index) {
-    //   this.titleTypeL = item["describeName"];
-    //   this.dataForm.monitorDeviceName = item.monitorDeviceType;
-    //   this.getDataList();
-    // },
     onSelectType(item, index) {
       this.titleTypeR = item["describeName"];
       this.dataForm.markType = item.monitorType;
@@ -275,27 +279,6 @@ export default {
       // this.getDataList();
       this.clickQuery(this.dataForm);
     }
-    // getRegion() {
-    //   const that = this;
-    //   const url = "";
-    //   getAxiosData(url).then(res => {
-    //     const resData = res.data;
-    //     const map = resData.map(item => {
-    //       const obj = {
-    //         describeName: item.label,
-    //         monitorDeviceType: item.value,
-    //         title: "titleTypeL"
-    //       };
-    //       return obj;
-    //     });
-    //     map.unshift({
-    //       describeName: "全部设备",
-    //       monitorDeviceType: "",
-    //       title: "titleTypeL"
-    //     });
-    //     this.regionList = map;
-    //   });
-    // }
   }
 };
 </script>
