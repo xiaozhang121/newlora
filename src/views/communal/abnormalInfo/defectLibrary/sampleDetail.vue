@@ -116,7 +116,7 @@
         :current="pageIndex"
         :border="true"
         :showSizer="true"
-        :isShowPage="mixinViewModuleOptions.isShowPage"
+        :isShowPage="isShowPage"
         @clickPage="pageCurrentChangeHandle"
       />
     </div>
@@ -151,6 +151,7 @@ export default {
   data() {
     const that = this;
     return {
+      isShowPage: false,
       onlyShow: false,
       isEditPanel: false,
       visible2: false,
@@ -445,6 +446,8 @@ export default {
           item['pic'] = this.src
         })
         this.dataList = data;
+        if(data.length)
+          this.isShowPage  = true
         // this.ImgInfo = res.data.tableData[1];
         this.totalNum = res.data.pageParam.totalRows;
       });

@@ -16,7 +16,7 @@
         :current="offset"
         :border="true"
         :showSizer="true"
-        :isShowPage='mixinViewModuleOptions.isShowPage'
+        :isShowPage='isShowPage'
         @clickPage="pageCurrentChangeHandle"
       />
     </duno-main>
@@ -53,6 +53,7 @@ export default {
       loadingOption: true,
       websock: null,
       lockData:[],
+      isShowPage: false,
       webData: {},
       isShow: false,
       dataBread: [
@@ -157,6 +158,8 @@ export default {
       let url = "/lenovo-smartlock/api/device/list/granPermits";
       getAxiosData(url, query).then(res => {
         this.lockData = res.data.tableData;
+        if(this.lockData.length)
+          this.isShowPage  = true
         this.loadingOption = false;
       });
     },

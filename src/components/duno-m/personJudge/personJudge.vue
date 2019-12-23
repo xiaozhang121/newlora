@@ -216,6 +216,7 @@ export default {
         }
       });
       this.formData.input = "";
+      this.formData.inputT = "";
       this.initFive(this.fourValue);
     },
     handlerSelect(item) {

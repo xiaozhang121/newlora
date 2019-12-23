@@ -20,7 +20,7 @@
         <div>
           <el-select
                   @change="selectParts"
-                  class="selectSearch"
+                  class="selectSearch minWidthSelect"
                   multiple
                   collapse-tags
                   v-model="valueParts"
@@ -87,7 +87,7 @@
       </div>
       <div class="echarts not-print">
         <div class="title">
-          <div>{{titleAmmeter}}24小时温度分析</div>
+          <div class="title_main">{{titleAmmeter}}24小时温度分析</div>
           <div>
             <div>
               <duno-btn-top
@@ -986,6 +986,7 @@
                 this.getEcharts();
             },
             onSelectByDay(item) {
+              debugger
                 this.titleByDay = item["describeName"];
                 switch (item["type"]) {
                     case "day":
@@ -1206,9 +1207,14 @@
             this.initChart();
             that.$nextTick(()=>{
               that.isShow();
-              window.addEventListener('resize', that.isShow)
+              $('.el-select-dropdown').css('cssText',  "background: linear-gradient( 210deg, rgba(48, 107, 135, 0.9), rgba(28, 50, 64, 0.7) 60% ) !important;")
+             window.addEventListener('resize', that.isShow)
             })
             // this.initTime();
+        },
+        beforeDestroy(){
+          $('.el-select-dropdown').css('cssText',  "background: inherit")
+          $('.el-select-dropdown__item, .el-select-dropdown__empty, .el-select-dropdown__item.selected').css('cssText',  "color: #606266 !important")
         },
         created(){
             this.getWidth()
@@ -1250,7 +1256,6 @@
         background: #1a2f42;
         height: 40px;
         border: none;
-        margin-left: 5px;
         border-radius: 0 !important;
         width: 240px;
         color: white;
@@ -1327,7 +1332,7 @@
         & > div {
           float: left;
         }
-        & > div:first-child {
+        &  .title_main {
           width: 65%;
           // text-align: center;
           padding-left: 43%;
@@ -1582,11 +1587,7 @@
     border-radius: 0;
     /*min-width: 179px !important;*/
   }
-  .el-select-dropdown__item,
-  .el-select-dropdown__empty,
-  .el-select-dropdown__item.selected {
-    /*color: white;*/
-  }
+
   .el-select-dropdown__list {
     position: relative;
     top: -5px;
@@ -1732,4 +1733,9 @@
   // .el-select .el-tag:first-child {
   //   margin-left: 9px;
   // }
+</style>
+<style lang="scss" scoped>
+  .el-select-dropdown__item ::v-deep  {
+    color: white;
+  }
 </style>

@@ -407,6 +407,7 @@ export default {
         img {
           display: block;
           width: 100%;
+          cursor: pointer;
           // height: 100px;
         }
         p {

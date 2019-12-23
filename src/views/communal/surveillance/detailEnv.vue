@@ -388,7 +388,7 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.pic },
+                  attrs: {src: params.row.alarmFileAddress},
                   draggable: false,
                   on: {
                     click: () => {
@@ -400,9 +400,9 @@ export default {
               ]);
             } else if (params.row.fileType == "2") {
               newArr.push([
-                h("video", {
+                h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: params.row.pic },
                   draggable: false,
                   on: {
                     click: () => {
@@ -529,7 +529,8 @@ export default {
       disabled: true,
       mixinViewModuleOptions: {
         getDataListURL: "/lenovo-plan/api/task/result/list",
-        exportURL: "/lenovo-plan/api/task/result/list/export"
+        exportURL: "/lenovo-plan/api/task/result/list/export",
+        imgAUTO: true
       },
       titleTypeL: "全部数据类型",
       titleTypeR: "全部异常类型",
@@ -709,9 +710,9 @@ export default {
               ]);
             } else if (params.row.fileType == "2") {
               newArr.push([
-                h("video", {
+                h("img", {
                   class: "imgOrMv",
-                  attrs: { src: params.row.alarmFileAddress },
+                  attrs: { src: params.row.pic },
                   draggable: false,
                   on: {
                     click: () => {
@@ -1202,6 +1203,7 @@ export default {
       });
     },
     getEnvData() {
+      const that = this
       getAxiosData("/lenovo-alarm/api/security/list", {
         startTime: this.secondForm.startTime,
         endTime: this.secondForm.endTime,
@@ -1210,6 +1212,19 @@ export default {
         pageRows: this.pageRows
       }).then(res => {
         this.envDataList = res.data.tableData;
+        let data = res.data.tableData;
+
+        data.forEach((item, index) => {
+          if(item['fileType'] == 2){
+            postAxiosData("/lenovo-alarm/api/info/video/pic", {
+              videoPath: item["alarmFileAddress"],
+              positionIndex: index
+            }).then(res => {
+              that.envDataList[res.data["positionIndex"]]["pic"] = res.data.pic;
+              that.$forceUpdate()
+            });
+          }
+        })
         this.envTotalNum = res.data.pageParam.totalRows;
         if (res.data.tableData.length == 0) {
           this.showPage = false;

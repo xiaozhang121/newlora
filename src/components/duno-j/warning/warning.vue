@@ -38,7 +38,11 @@
                 width="100%"
                 :isNav="false"
                 :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
-              />
+              >
+                <div v-if="!cutPic" class="noCut">
+                    自动截图未成功
+                </div>
+              </KeyMonitor>
               <img :src="ImgScreenshot" class="Img_screenshot" v-if="!isImgVideo" />
               <i
                 v-if="isImgVideo"
@@ -95,7 +99,7 @@
                 >{{ dataList.alarmContent?dataList.alarmContent:dataList.result }}</div>
               </div>-->
               <div class="btn-print">
-                <a class="not-print origin" href="javascript:;" @click="clickJudge">结果修订</a>
+                <a class="not-print origin" href="javascript:;" @click="clickJudge" v-show="cutPic">结果修订</a>
                 <!-- <button-custom
                   v-if="showBtn"
                   :class="{}"
@@ -108,6 +112,7 @@
                 class="not-print"
                 @click="handleReturn"
                 v-if="showBtn"
+                v-show="cutPic"
                 :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
               >{{ titleReturn }}</div>
               <div class="from">
@@ -291,6 +296,9 @@ export default {
     }
   },
   computed: {
+    cutPic(){
+      return !((dataList.alarmContent?dataList.alarmContent:dataList.result).indexOf('截图失败')>-1)
+    },
     originName(){
       if(this.popData.monitorDeviceId == 11){
         return '室外机器人'
@@ -657,6 +665,17 @@ export default {
   }
 }
 .warningDialog {
+  .noCut{
+    width: 100%;
+    height: 100%;
+    background: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1;
+    position: absolute;
+  }
   .el-dialog__headerbtn {
     top: 17px!important;
   }

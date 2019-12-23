@@ -464,7 +464,11 @@ export default {
     };
   },
   mounted() {
+    $('.el-select-dropdown').css('cssText',  "background: linear-gradient( 210deg, rgba(48, 107, 135, 0.9), rgba(28, 50, 64, 0.7) 60% ) !important; border: none; !important")
     this.getDataList();
+  },
+  beforeDestroy(){
+    $('.el-select-dropdown__item, .el-select-dropdown__empty, .el-select-dropdown__item.selected').css('cssText',  "color: #606266 !important")
   },
   created() {
     this.getWidth();
@@ -610,6 +614,10 @@ export default {
       };
       getAxiosData(url, query).then(res => {
         const resData = res.data;
+        resData.unshift({
+          label: "所有记录",
+          value: ''
+        });
         this.regionList = resData;
         this.titleType = "";
       });
@@ -727,6 +735,11 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail {
   width: 100%;
+  .el-input--small .el-input__inner{
+    background-color: #1d3039 !important;
+    border: none;
+    color: white !important;
+  }
   .dunoBtnTop .btnList .title .output:before{
     top: 8px;
   }
@@ -984,4 +997,9 @@ export default {
 .analysis-detail .el-breadcrumb .is-link {
   border-bottom: none;
 }
+</style>
+<style lang="scss" scoped>
+  .el-select-dropdown__item ::v-deep  {
+    color: white;
+  }
 </style>
