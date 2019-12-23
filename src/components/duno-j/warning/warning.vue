@@ -19,7 +19,7 @@
               <span>{{ dataList.title }}</span>
               <span class="iconfontList">
                 <!--<i class="iconfont icon-xiazai"></i>-->
-                <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+                <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target" :class="{'hidden': !isImgVideo}"></i>
                 <i class="iconfont icon-wangye" @click="openPage()"></i>
               </span>
             </div>
@@ -105,6 +105,7 @@
                 />-->
               </div>
               <div
+                class="not-print"
                 @click="handleReturn"
                 v-if="showBtn"
                 :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
@@ -638,6 +639,9 @@ export default {
   }
 }
 .mainDialog {
+  .hidden{
+    visibility: hidden;
+  }
   .Img_screenshot {
     display: none !important;
   }

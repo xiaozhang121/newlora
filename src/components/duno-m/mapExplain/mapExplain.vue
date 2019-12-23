@@ -111,6 +111,21 @@
                     </div>
                 </div>
             </div>
+            <div class="infoD">
+                <div class="item">
+                    <div class="titleE">
+                        布控球
+                    </div>
+                    <div class="showE">
+                        <div class="img">
+                            <img :src="ball" />
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -149,7 +164,7 @@
 <style lang="scss">
     .mapExplain{
         width: 277px;
-        height: 187px;
+        height: 218px;
         background: rgba(34, 51, 51, 0.8);
         padding: 6px 14px;
         line-height: 35px;

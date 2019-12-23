@@ -18,7 +18,7 @@
             <span>{{ dataList.title }}</span>
             <span class="iconfontList">
               <!--<i class="iconfont icon-xiazai"></i>-->
-              <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target"></i>
+              <i class="iconfont icon-dayin" @click="toPrint($event)" v-print="target" :class="{'hidden': !isImgVideo}"></i>
               <!--<i class="iconfont icon-wangye" @click="openPage()"></i>-->
             </span>
           </div>
@@ -558,6 +558,9 @@ export default {
 .warningDialogN {
     height: 100%;
     background: #fff;
+  .hidden{
+    visibility: hidden;
+  }
   .el-dialog__close {
     display: none;
   }

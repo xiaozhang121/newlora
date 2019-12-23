@@ -65,7 +65,7 @@
       @on-fresh="onFresh"
       @handleClose="handleClose"
     />
-    <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
+    <enlarge v-if="isEnlarge" :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 

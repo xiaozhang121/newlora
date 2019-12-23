@@ -121,6 +121,9 @@ export default {
 
 <style lang="scss">
 .enlarge {
+  .enlargeImg{
+    background: black;
+  }
   .closeBtn{
     color: white;
     position: fixed;
