@@ -230,13 +230,10 @@ export default {
         },
         {
           title: "处理记录",
-          key: "dealType",
+          key: "dealRecord",
           minWidth: 120,
           align: "center",
           tooltip: true,
-          render: (h, params) => {
-            return h("div", params.row.dealList[0].dealType);
-          }
         },
         {
           title: "处理时间",
@@ -244,10 +241,6 @@ export default {
           minWidth: 120,
           align: "center",
           tooltip: true,
-          render: (h, params) => {
-            let timeDay = params.row.dealList[0].dealTime.slice(5);
-            return h("div", timeDay);
-          }
         },
         {
           title: "视频/图片",
