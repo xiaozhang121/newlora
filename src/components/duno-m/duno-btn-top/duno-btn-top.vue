@@ -426,18 +426,14 @@
             },
             bindEvent(event){
                 const that = this
-                if(that.showListFlag){
-                    let path = event.path || (event.composedPath && event.composedPath());
-                    for(let i=0; i<path.length; i++){
-                      if(path[i].classList && path[i].classList.length && path[i].classList.contains('dunoBtnTop')){
-                        return
-                      }
-                    }
-                    if(that.isCheck){
-                        that.showListFlag = false
-                        that.$refs.selfInput.blur()
-                    }
+                let path = event.path || (event.composedPath && event.composedPath());
+                for(let i=0; i<path.length; i++){
+                  if(path[i].classList && path[i].classList.length && path[i].classList.contains('dunoBtnTop')){
+                    return
+                  }
                 }
+                that.showListFlag = false
+                that.$refs.selfInput.blur()
             }
         },
         created(){

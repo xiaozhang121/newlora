@@ -554,7 +554,6 @@ export default {
         {
           title: "时间",
           key: "executeTime",
-          minWidth: 100,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -565,14 +564,12 @@ export default {
         {
           title: "对象",
           key: "monitorDeviceName",
-          minWidth: 180,
           align: "center",
           tooltip: true
         },
         {
           title: "部件/相别",
           key: "part",
-          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -583,14 +580,12 @@ export default {
         {
           title: "描述",
           key: "content",
-          minWidth: 90,
           align: "center",
           tooltip: true
         },
         {
           title: "缺陷等级",
           key: "alarmLevelName",
-          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -688,14 +683,12 @@ export default {
         {
           title: "数据",
           key: "alarmValue",
-          minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
           title: "视频/图片",
           key: "id",
-          minWidth: 120,
           align: "center",
           tooltip: true,
           render: (h, params) => {
@@ -735,14 +728,12 @@ export default {
         {
           title: "自动/手动",
           key: "sourceType",
-          width: 120,
           align: "center",
           tooltip: true
         },
         {
           title: " ",
           key: "id",
-          width: 90,
           align: "center",
           render: (h, params) => {
             const that = this;

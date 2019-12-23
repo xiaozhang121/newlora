@@ -1370,7 +1370,7 @@
               .icon-xiala {
                 height: 15px;
                 right: 11px;
-                top: 12px;
+                top: 8px;
                 width: 12px;
               }
             }

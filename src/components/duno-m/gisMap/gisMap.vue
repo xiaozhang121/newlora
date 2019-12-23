@@ -1270,7 +1270,9 @@
                         
                     }
                 })
-                this.mapResize()
+                this.$nextTick(()=>{
+                  this.mapResize()
+                })
             },
             setPoint(){
                 let anchor = new Overlay({
