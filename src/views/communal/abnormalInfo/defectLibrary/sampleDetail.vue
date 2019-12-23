@@ -729,6 +729,9 @@ export default {
   .ivu-table {
     font-size: 16px;
   }
+  .ivu-table-tip{
+    line-height: 250px;
+  }
   .ivu-table th {
     color: #fff;
     border: none;
