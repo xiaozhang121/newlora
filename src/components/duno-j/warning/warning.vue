@@ -62,7 +62,7 @@
                   {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
                   <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                   <i-dropdown
-                    v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'"
+                    v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.result)=='红外温度超过阈值'"
                     trigger="click"
                     placement="bottom-start"
                   >
