@@ -252,6 +252,7 @@
             }
             .titleSpan{
                 padding-right: 80px;
+                height: 86px;
             }
         }
         .historyfile{

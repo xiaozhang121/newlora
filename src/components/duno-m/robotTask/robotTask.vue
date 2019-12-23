@@ -114,6 +114,16 @@ export default {
       this.drawList.forEach(item => {
         arr = [...arr, item["linkId"]];
       });
+      if(this.inspectionName == ''){
+        this.$message.info('巡视名称不能为空！')
+        return
+      }
+      let regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
+        regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+      if(regEn.test(this.inspectionName) || regCn.test(this.inspectionName)){
+        this.$message.info('任务名不能包含特殊字符!')
+        return;
+      }
       postAxiosData("/lenovo-robot-indoor/rest/deviceTask", {
         lunengDeviceIds: arr,
         taskName: this.inspectionName
