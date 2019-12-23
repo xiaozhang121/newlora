@@ -78,6 +78,12 @@ export default {
     };
   },
   props: {
+    queryData: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    },
     noRobot: {
       type: Boolean,
       default: () => {
@@ -150,6 +156,7 @@ export default {
               planName: this.reportData.planName
             };
         }
+        query = Object.assign(query, this.queryData)
         this.$router.push({
           path: this.path,
           query: query

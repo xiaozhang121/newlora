@@ -32,7 +32,7 @@
           </div>-->
           <div class="itemTitle alarmPopHeader" v-if="item['isPhaseAlarm'] != 1">
             <p class="alarmPopHeader">
-              内容： {{ item.alarmValue?item.alarmValue:item.alarmDetailType }}
+              内容： {{ item.alarmDetailType }}
               <i-dropdown class="dropAlarmDown alarmPopHeader" trigger="click" placement="bottom-start">
                 <div
                   class="table_select alarmPopHeader"

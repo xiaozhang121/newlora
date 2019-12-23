@@ -220,7 +220,7 @@ export default {
           return
         }
       }
-      this.$message.info('提示：请先选择电力设备')
+      this.$message.info('提示：请先选择动态环境摄像头')
     }
   },
   mounted() {}
