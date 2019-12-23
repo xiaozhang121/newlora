@@ -758,12 +758,12 @@ export default {
       & > div {
         margin-left: 10px;
         .dunoBtnTop {
-          width: 220px;
+          width: 166px;
           display: inline-flex;
           padding-bottom: 0;
           .btnList {
             top: inherit !important;
-            width: 220px;
+            width: 166px;
             .title {
               padding: 8px 20px;
             }

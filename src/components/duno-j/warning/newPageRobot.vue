@@ -410,7 +410,7 @@
             }
         }
         .el-dialog {
-            background: white;
+            background: #e0e0e0;
             padding: 20px 50px;
         }
         .el-dialog__header {

@@ -29,7 +29,9 @@
         data() {
             return {
                 dataTyped: '',
+                dataTypeBackup: '',
                 analysisResultd: '',
+                analysisResultBackup: '',
                 value: '',
                 formData:{
                     input: '',
@@ -69,17 +71,15 @@
         watch:{
             dataType:{
                 handler(now, old){
-                    if(!old){
-                        this.dataTyped = now
-                    }
+                    this.dataTyped = now
+                    this.dataTypeBackup = now
                 },
                 immediate: true
             },
             analysisResult:{
                 handler(now, old){
-                    if(!old){
-                        this.analysisResultd = now
-                    }
+                    this.analysisResultd = now
+                    this.analysisResultBackup = now
                 },
                 immediate: true
             },
@@ -101,10 +101,14 @@
                     else
                         this.$message.info(res.data.resInfo)
                     this.dialogVisible = false
+                    this.dataTypeBackup = this.dataTyped
+                    this.analysisResultBackup = this.analysisResultd
                     this.$emit('on-close')
                 })
             },
             handleClose(){
+                this.dataTyped = this.dataTypeBackup
+                this.analysisResultd = this.analysisResultBackup
                 this.dialogVisible = false
                 this.$emit('on-close')
             }

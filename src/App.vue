@@ -186,6 +186,17 @@ export default {
     /*border-bottom-color: #193543 !important;*/
     border-bottom-color: transparent !important;
   }
+  .el-picker-panel{
+    background-color: rgba(27, 59, 71, 0.7) !important;
+    color: #fff !important;
+    border: none !important;
+  }
+  .el-date-table td.disabled div{
+    background-color: #2c3a4e !important;
+    opacity: 1 !important;
+    cursor: not-allowed !important;
+    color: #C0C4CC !important;
+  }
   .squera{
     position:absolute; border:1px solid #e48303; overflow:hidden;
   }

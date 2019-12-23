@@ -189,10 +189,10 @@ export default {
           isRobot: this.formData.isRobot
         };
       }
-      if(!this.query['alarmId'] || !this.query['alarmDetailType'] || !this.query['alarmValue']){
+    /*  if(!this.query['alarmId'] || !this.query['alarmDetailType'] || !this.query['alarmValue']){
         this.$message.error('请将信息补充完整！')
         return
-      }
+      }*/
       postAxiosData(url, this.query).then(res => {
         this.$message({
           type: "succsee",
