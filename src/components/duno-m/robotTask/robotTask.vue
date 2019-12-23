@@ -4,6 +4,7 @@
       v-dialogDrag
       :model="true"
       class="elDialogClass"
+      :close-on-click-modal="false"
       :visible.sync="visible"
       width="800px"
       center

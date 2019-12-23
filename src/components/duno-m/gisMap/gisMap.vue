@@ -182,6 +182,10 @@
 
         },
         methods:{
+          mapResize(){
+            if(this.mapTarget)
+                this.mapTarget.updateSize()
+          },
           removeAFeature(){
             let feature = this.vector.getSource().getFeatures()
             feature.forEach(item=>{
@@ -1265,9 +1269,8 @@
                     }catch(e){
                         
                     }
-                    
-
                 })
+                this.mapResize()
             },
             setPoint(){
                 let anchor = new Overlay({

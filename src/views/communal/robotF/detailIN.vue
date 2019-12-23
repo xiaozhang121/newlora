@@ -72,7 +72,7 @@
         :total="specialInspectList.totalRows"
       ></el-pagination>
     </div>
-    <robot-task :isShow='dialogVisible'  @on-close="onClose" />
+    <robot-task v-if="dialogVisible" :isShow='dialogVisible'  @on-close="onClose" />
     <!-- <select-district @on-success="success" @on-close="onClose" :visible="dialogVisible" /> -->
   </div>
 </template>

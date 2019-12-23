@@ -147,7 +147,7 @@ export default {
             planName: this.reportData.planName,
             endTime: this.reportData.EndTime,
             path: "/robot-one/reportList?substationId=1&robotId=1",
-            name: "最新巡视报告"
+            name: "历史巡视报告"
           };
         } else {
           if (this.reportData && this.reportData.value)

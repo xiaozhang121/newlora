@@ -118,7 +118,7 @@ export default {
             this.drawList.forEach(item=>{
                 arr = [...arr,...item['value']]
             })
-            postAxiosData('/lenovo-robot/rest/deviceTask',{lenovoDeviceIds: arr,taskName: this.taskName}).then(res=>{
+            postAxiosData('/lenovo-robot/rest/deviceTask',{linkIds: arr,taskName: this.taskName}).then(res=>{
                 if(res.data.resConf){
                     that.$message.success('新增成功')
                     that.drawList = []

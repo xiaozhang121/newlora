@@ -2,7 +2,7 @@
   <div class="statisticsCom">
     <div class="mapStatistics" ref="mapContain">
       <gis-map
-        v-if="mapFlag"
+        v-if="mapInit"
         ref="gisMapObj"
         :isDiagram="3"
         :deviceList="deviceList"
@@ -45,8 +45,8 @@ export default {
   },
   data() {
     return {
+      mapInit: false,
       isFullscreen: false,
-      mapFlag: true,
       deviceList: [],
       tempDeviceList: [],
       mapKind: 0,
@@ -71,7 +71,6 @@ export default {
   watch: {
     warningList:{
         handler(now){
-            this.mapFlag = true
             try {
                 this.$nextTick(()=>{
                     document
@@ -130,6 +129,7 @@ export default {
       } else if (now == 10) {
         this.filterPoint("6");
       }
+      this.mapInit = true
     },
     filterPoint(areaId) {
       let data = JSON.parse(JSON.stringify(this.tempDeviceList));
