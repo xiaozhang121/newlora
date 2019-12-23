@@ -212,7 +212,7 @@ export default {
     },
     handleSubmit() {
       let data = this.handleData()
-      if(!this.form.cascaderName){
+      if(!this.form.cascaderName.length){
          this.$message.info('请选择设备组件!')
          return
       }
