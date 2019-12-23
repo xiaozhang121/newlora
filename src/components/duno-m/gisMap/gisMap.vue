@@ -1270,9 +1270,7 @@
                         
                     }
                 })
-                this.$nextTick(()=>{
-                  this.mapResize()
-                })
+                this.mapResize()
             },
             setPoint(){
                 let anchor = new Overlay({
@@ -1452,6 +1450,10 @@
                 this.EventList[1] = this.mapTarget.on('moveend', function (evt) {
                     that.isClick = true
                 });
+
+                this.EventList[6] = this.mapTarget.on('rendercomplete', function (evt) {
+                   that.mapResize()
+                })
                 // 禁止鼠标拖动
                 let pan = that.getPan();
                 //false：当前地图不可拖动。true：可拖动
