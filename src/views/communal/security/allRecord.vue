@@ -5,17 +5,23 @@
     </div>
     <div class="top not-print">
       <div>历史监测记录</div>
-      <div class="btn" style="width: 740px">
+      <div class="btn">
         <div>
-          <!--<el-date-picker v-model="chosenDate" type="date" placeholder="全部日期"></el-date-picker>-->
-          <duno-btn-top
+          <el-date-picker
+                  v-model="chosenDate"
+                  @change="changeDate"
+                  type="daterange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+          </el-date-picker>
+         <!-- <duno-btn-top
             ref="btnTopRef"
             :showBtnList="false"
             :dataList="regionList"
             :title="titleTypeL"
             :keyChange="true"
             @on-active="timeHandle"
-          ></duno-btn-top>
+          ></duno-btn-top>-->
         </div>
         <div style="width: 540px">
           <duno-btn-top
@@ -106,7 +112,7 @@ export default {
   data() {
     const that = this;
     return {
-      chosenDate: "",
+      chosenDate: [moment().subtract(30, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
       demoList: [{}, {}, {}, {}, {}, {}],
       mixinViewModuleOptions: {
         activatedIsNeed: true,
@@ -369,13 +375,20 @@ export default {
       count: 1
     };
   },
-  watch: {},
+  watch: {
+  },
   created() {
     this.sevenData();
     this.getRegion();
     this.getType();
   },
   methods: {
+    changeDate(now){
+      if(!now){
+        this.chosenDate = []
+      }
+      this.sevenData()
+    },
     sevenRIds() {
       let now = this.sevenIds;
       let data = now.split(",");
@@ -402,12 +415,14 @@ export default {
       this.count++;
       if (this.count > 3) this.getRegion(true);
     },
-    sevenData() {
+    sevenData(now) {
       const that = this;
       if (this.isBack) {
         this.isBack = false;
         getAxiosData("/lenovo-device/device/video/record/videos/seven-days", {
-          date: this.sevenDates,
+          // date: this.sevenDates,
+          startTime: this.chosenDate[0]?moment(this.chosenDate[0]).format('YYYY-MM-DD'):'',
+          endTime: this.chosenDate[1]?moment(this.chosenDate[1]).format('YYYY-MM-DD'):'',
           monitorDeviceId: this.sevenRIds()
         }).then(res => {
           this.sevenValue = res.data;
@@ -655,6 +670,10 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail-record {
   width: 100%;
+  .selfInput{
+    padding: 9px 11px;
+    font-size: 14px;
+  }
   .btnTopRefD {
     .btnList {
       width: 540px !important;
@@ -677,7 +696,14 @@ export default {
     /* Internet Explorer 10+ */
     color: white;
   }
-
+  .el-date-editor{
+    background: #1a2f42;
+    border: none;
+  }
+  .el-range-editor .el-range-input{
+    background: #1a2f42;
+    color: white;
+  }
   .el-input--small .el-input__inner {
     background: #1a2f42;
     border: none;
@@ -690,7 +716,8 @@ export default {
   }
   .el-date-editor.el-input,
   .el-date-editor.el-input__inner {
-    width: 156px;
+    width: 280px;
+    height: 40px;
   }
   .dunoMain_nr {
     border: 2px solid #464d51;
