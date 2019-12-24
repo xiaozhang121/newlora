@@ -119,6 +119,10 @@ export default {
           name: "室内轨道机器人"
         },
         {
+          path: "/robot-two/detailIN",
+          name: "任务配置列表"
+        },
+        {
           path: "",
           name: `${that.$route.query.planName} ${that.$route.query.executeTime.substring(0,10)}`
         }
