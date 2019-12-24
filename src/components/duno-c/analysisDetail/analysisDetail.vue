@@ -464,7 +464,7 @@ export default {
     };
   },
   mounted() {
-    $('.el-select-dropdown').css('cssText',  "background: linear-gradient( 210deg, rgba(48, 107, 135, 0.9), rgba(28, 50, 64, 0.7) 60% ) !important; border: none; !important")
+    $('.el-select-dropdown').css('cssText',  "background: linear-gradient( 210deg, rgba(48, 107, 135, 0.9), rgba(28, 50, 64, 0.7) 60% ) !important; border: none; !important; margin-top: 0 !important")
     this.getDataList();
   },
   beforeDestroy(){

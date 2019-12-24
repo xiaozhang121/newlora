@@ -930,12 +930,12 @@
         let type = this.monitorDeviceType
         if(type==1||type==3||type==6||type==9){
           getAxiosData(`/lenovo-visible/api/visible-equipment/view/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
-            let status = Number(res.data.status)
+            let status = Number(res.data.data.status)
             this.noVideoOption = !Boolean(status)
           })
         }else if(type == 2){
           getAxiosData(`/lenovo-iir/manager/device/detail/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
-            let status = Number(res.data.status)
+            let status = Number(res.data.data.status)
             this.noVideoOption = !Boolean(status)
           })
         }

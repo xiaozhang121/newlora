@@ -1666,8 +1666,9 @@
     .infoItem{
       margin-top: 20px;
       display: flex;
-      justify-content: center;
+      /*justify-content: center;*/
       align-items: center;
+      margin-left: 45px;
       i{
         font-size: 40px;
         margin-right: 27px;
@@ -1694,7 +1695,7 @@
     }
     .explainItem{
       width: 100%;
-      text-align: center;
+      margin-left: 45px;
       font-size: 13px;
       color: #898f93;
       position: absolute;

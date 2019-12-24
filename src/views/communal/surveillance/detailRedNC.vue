@@ -32,18 +32,13 @@
                         :autoplay="playerOptions.autoplay"
                         :streamAddr="playerOptions.streamAddr"
                         :showBtmOption="false"
-                        :pushCamera="pushCamera"
+                        :pushCamera="false"
                         :Initialization="true"
                         :isLive='false'
                         :isNav='true'
                         :isAux='true'
                         :picCutAbsolute='true'
                 ></key-monitor>
-                <span
-                  v-show="overFlag"
-                  class="aaaaaaaaaaaaa"
-                  :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'"
-                >{{ tepmNum }}</span>
               </div>
             </div>
           </div>
@@ -67,6 +62,11 @@
                         :isNav='true'
                         :isAux='true'
                 ></key-monitor>
+                <span
+                        v-show="overFlag"
+                        class="aaaaaaaaaaaaa"
+                        :style="'pointer-events: none;color:white;font-size:20px;position: absolute;left:'+(offsetX+30)+'px !important;top:'+(offsetY-20)+'px !important'"
+                >{{ tepmNum }}</span>
               </div>
             </div>
           </div>
