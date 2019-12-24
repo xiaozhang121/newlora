@@ -60,6 +60,10 @@
             }
         },
         props: {
+            isIndoor: {
+              type: Boolean,
+              default: false
+            },
             taskCurreny:{},
             dataType:{},
             analysisResult:{},
@@ -95,7 +99,11 @@
         },
         methods:{
             submit(){
-                postAxiosData('/lenovo-robot/rest/manualJudge',{'manualRecognType':this.dataTyped, 'manualValueShow':this.analysisResultd, 'taskDeviceId':this.taskCurreny['taskDeviceId']}).then(res=>{
+                let url = '/lenovo-robot/rest/manualJudge'
+                if(this.isIndoor){
+                  url = '/lenovo-robot-indoor/rest/manualJudge'
+                }
+                postAxiosData(url ,{'manualRecognType':this.dataTyped, 'manualValueShow':this.analysisResultd, 'taskDeviceId':this.taskCurreny['taskDeviceId']}).then(res=>{
                     if(!(Number(res.data.resInfo)))
                         this.$message.info('修改成功')
                     else

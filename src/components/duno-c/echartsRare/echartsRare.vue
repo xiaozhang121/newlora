@@ -7,6 +7,7 @@
         :titleOption="titleKps"
         :paddingBottom="paddingBottom"
         :isItemEchart="true"
+        :tooltipOption="tooltipOption"
         :xAxisOption="xAxisKps"
         :yAxisOption="yAxisKps"
         :seriesOption="seriesKps"
@@ -18,6 +19,7 @@
         :isChange="isChangeIo"
         :legendOption="legendIo"
         :titleOption="titleIo"
+        :tooltipOption="tooltipOption"
         :paddingBottom="paddingBottom"
         :isItemEchart="true"
         :xAxisOption="xAxisIo"
@@ -88,6 +90,9 @@ export default {
   },
   data() {
     return {
+      tooltipOption: {
+        trigger: 'axis'
+      },
       isChangeKps: true,
       legendKps: {
         // type: "scroll",
@@ -416,7 +421,7 @@ export default {
         netData.forEach(el => {
           outData.push(el.netOut);
           enterData.push(el.netInput);
-          timeData.push(el.createTime);
+          timeData.push(el.createTime.substr(5));
         });
         that.xAxisKps.data = timeData;
         that.seriesKps[0].data = outData;
@@ -432,7 +437,7 @@ export default {
         diskData.forEach(el => {
           outData.push(el.ioRead);
           enterData.push(el.ioWrite);
-          timeData.push(el.createTime);
+          timeData.push(el.createTime.substr(5));
         });
         that.xAxisIo.data = timeData;
         that.seriesIo[0].data = enterData;

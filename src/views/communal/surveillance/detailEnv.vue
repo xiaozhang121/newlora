@@ -911,6 +911,7 @@ export default {
         startTime: startTime,
         endTime: endTime,
         pageIndex: index,
+        type: 0,
         pageRows: 10,
         monitorDeviceId: this.dataForm.monitorDeviceId
       }).then(res => {

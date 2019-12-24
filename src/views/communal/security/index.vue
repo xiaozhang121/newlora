@@ -179,7 +179,8 @@ export default {
       let date = this.oneDayAgo();
       let query = {
         pageIndex: 1,
-        pageRows: 6
+        pageRows: 6,
+        type: 0
         // startTime: moment(date).format("YYYY-MM-DD HH:mm:ss"),
         // endTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
       };
