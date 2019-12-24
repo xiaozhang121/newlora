@@ -9,7 +9,7 @@
         <!-- <el-dropdown-item command="personal">个人中心</el-dropdown-item> -->
         <!-- <el-dropdown-item command="advise" divided>意见反馈</el-dropdown-item> -->
         <el-dropdown-item command="password">修改密码</el-dropdown-item>
-        <el-dropdown-item command="feedBack" divided>问题反馈</el-dropdown-item>
+        <!--<el-dropdown-item command="feedBack" divided>问题反馈</el-dropdown-item>-->
         <el-dropdown-item command="alarmTip" divided>告警提示设置</el-dropdown-item>
         <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
       </el-dropdown-menu>

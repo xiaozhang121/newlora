@@ -8,7 +8,7 @@
           v-for="(item,index) in breadData"
           :key="index"
           :class="{cursor:item.name=='任务配置'}"
-          :to="{path:item.path}"
+          :to="{path:item.path, query: item.query?item.query:{}}"
         >{{ item.name }}</el-breadcrumb-item>
       </template>
     </el-breadcrumb>
@@ -18,7 +18,7 @@
           v-if="item.path"
           :class="{'pointer': index == 0}"
           :key="index"
-          :to="{path:item.path}"
+          :to="{path:item.path, query: item.query?item.query:{}}"
         >{{ item.name }}</el-breadcrumb-item>
         <el-breadcrumb-item
           v-else

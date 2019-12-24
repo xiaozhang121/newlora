@@ -10,7 +10,6 @@
           <el-select
             class="selectItem"
             v-model="titleType"
-            filterable
             @change="changeSelect"
             placeholder="按设备筛选"
           >

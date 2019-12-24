@@ -25,6 +25,11 @@
                 @waiting="onPlayerWaiting($event)"
                 @error="onPlayerError($event)"
         ></video-player>
+        <div class="backImgK" id="backImgK">
+          <div class="back_child">
+            <slot></slot>
+          </div>
+        </div>
       </div>
       <div v-else class="main videoPlayer" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
@@ -928,7 +933,7 @@
           return
         }
         let type = this.monitorDeviceType
-        if(type==1||type==3||type==6||type==9){
+        if(type==1|| type==3 || type == 4 || type==6||type==9){
           getAxiosData(`/lenovo-visible/api/visible-equipment/view/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
             let status = Number(res.data.data.status)
             this.noVideoOption = !Boolean(status)

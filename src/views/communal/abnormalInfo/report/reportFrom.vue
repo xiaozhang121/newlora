@@ -221,7 +221,7 @@ export default {
       if(this.$route.query.nav == 2){
         this.dataBread =  [
           { path: "/abnormalInfoPath/home", name: "操作中台" },
-          { path: "/abnormalInfoPath/taskForm", name: "报表" },
+          { path: "/configuration/list", name: "任务配置" },
           { path: "", name: "全面巡视报告" }
         ]
         this.queryData = {nav: 2}

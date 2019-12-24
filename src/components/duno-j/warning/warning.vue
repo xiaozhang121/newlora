@@ -66,7 +66,7 @@
                   {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
                   <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                   <i-dropdown
-                    v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.result)=='红外温度超过阈值'"
+                    v-if="hasSelect && popData['alarmLevel'] && ((dataList.alarmContent||dataList.result)=='红外温度超过阈值' || dataList.alarmLevel)"
                     trigger="click"
                     placement="bottom-start"
                   >
@@ -297,7 +297,8 @@ export default {
   },
   computed: {
     cutPic(){
-      return !((this.dataList.alarmContent?this.dataList.alarmContent:this.dataList.result).indexOf('截图失败')>-1)
+      if(this.dataList.length)
+        return !((this.dataList.alarmContent?this.dataList.alarmContent:this.dataList.result).indexOf('截图失败')>-1)
     },
     originName(){
       if(this.popData.monitorDeviceId == 11){

@@ -404,6 +404,8 @@ export default {
       if(this.$route.query.nav == 2){
         this.dataBread = [
           { path: "/realEnv/list", name: "操作中台" },
+          { path: "/configuration/list", name: "任务配置" },
+          { path: "taskForm/reportFrom", query:{ planType: 9, nav: 2 }, name: "全面巡视报告" },
           { path: "", name: `${this.$route.query.planName}` },
         ]
       }

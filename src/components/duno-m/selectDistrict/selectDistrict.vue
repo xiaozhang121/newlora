@@ -171,6 +171,7 @@ export default {
             this.readOnly = !this.readOnly
         },
         handleClose(){
+            this.taskName =  '自定义任务配置01'
             this.drawList = []
             this.$emit('on-close')
         }

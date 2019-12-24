@@ -72,7 +72,7 @@
         :total="specialInspectList.totalRows"
       ></el-pagination>
     </div>
-    <select-district @on-success="success" @on-close="onClose" :visible="dialogVisible" />
+    <select-district  @on-success="success" @on-close="onClose" :visible="dialogVisible" />
   </div>
 </template>
 
