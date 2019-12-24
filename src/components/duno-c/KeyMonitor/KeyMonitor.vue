@@ -797,7 +797,7 @@
             rtmpUrl: this.playerOptions["sources"][0]["src"],
             taskId: this.taskId
           }).then(res => {
-            this.$store.state.app.rtmpUrl = res.data.rtmpUrl
+            this.$store.state.app.rtmpUrl = res.data.taskId
             clearInterval(this.timerTime);
             this.timeIncreateD = "0:00:00";
             this.$message.info(res.msg);
@@ -952,6 +952,7 @@
           if(type=='3'||type=='9'||type=='9'){
             this.videoCut=true
           }
+          this.isLink()
         })
       },
       getJump() {
@@ -1132,7 +1133,6 @@
       this.isIniializa = this.Initialization;
       this.isNavbar = this.isNav;
       this.initCamera()
-      this.isLink()
       // console.log(document.getElementsById("videoPlayer").offsetWidth);
     },
     destroyed(){
