@@ -297,7 +297,7 @@ export default {
   },
   computed: {
     cutPic(){
-      return !((dataList.alarmContent?dataList.alarmContent:dataList.result).indexOf('截图失败')>-1)
+      return !((this.dataList.alarmContent?this.dataList.alarmContent:this.dataList.result).indexOf('截图失败')>-1)
     },
     originName(){
       if(this.popData.monitorDeviceId == 11){
