@@ -125,7 +125,7 @@ export default {
           show: false
         },
         nameTextStyle: {
-          padding: [25, 0, 0, -20]
+          padding: [25, 0, 0, 0]
         }
       },
       yAxisKps: [
@@ -196,7 +196,7 @@ export default {
           show: false
         },
         nameTextStyle: {
-          padding: [25, 0, 0, -20]
+          padding: [25, 0, 0, 0]
         }
       },
       yAxisIo: [
@@ -257,7 +257,7 @@ export default {
           show: false
         },
         nameTextStyle: {
-          padding: [25, 0, 0, -20]
+          padding: [25, 0, 0, 0]
         }
       },
       yAxisCpu: [
@@ -344,7 +344,7 @@ export default {
           show: false
         },
         nameTextStyle: {
-          padding: [25, 0, 0, -20]
+          padding: [25, 0, 0, 0]
         }
       },
       seriesGpu: [

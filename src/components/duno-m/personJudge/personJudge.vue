@@ -282,8 +282,9 @@ export default {
     }
   }
   .el-input--small .el-input__inner {
-    background-color: #fff;
+    background-color: #fff !important;
     border: none;
+    color: #606266 !important;
   }
 }
 .el-select-dropdown {
