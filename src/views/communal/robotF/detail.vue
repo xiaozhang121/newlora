@@ -297,7 +297,7 @@ export default {
                           taskRunHisId: params.row.latestTaskRunHisId,
                           planType: params.row.taskType,
                           planName:params.row.taskName,
-                          executeTime:params.row.createTime,
+                          executeTime:params.row.time,
                           path:'/robot-one/detail?substationId=1&robotId=1',
                           name:'任务配置列表'
                         }
