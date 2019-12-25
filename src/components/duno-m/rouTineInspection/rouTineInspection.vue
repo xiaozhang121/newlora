@@ -282,6 +282,9 @@
             width: 49.5%;
             padding-bottom: 17%;
             position: relative;
+            @media screen and (min-width: 3000px) {
+                width: 30%;
+            }
             &.noWidth{
                 width: 0;
             }

@@ -885,6 +885,7 @@ export default {
       color: #515a6e;
       background-color: #e0e0e0 !important;
       text-align: left;
+      height: inherit!important;
       line-height: inherit!important;
       padding: 20px!important;
       padding-bottom: 0!important;
@@ -904,7 +905,7 @@ export default {
       /*滚动条里面轨道*/
       box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
-      background: #ededed;
+      background: #C7C7C7;
     }
   }
   .el-dialog__headerbtn .el-dialog__close {
