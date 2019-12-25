@@ -37,6 +37,7 @@
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning
+      v-if="visible"
       @on-fresh="initDataD"
       :warnData="warnData"
       :dataBread="dataBread"
@@ -120,6 +121,10 @@ export default {
         },
         {
           path: "/robot-two/detailIN",
+          query: {
+            substationId: this.$route.query.substationId,
+            robotId: this.$route.query.robotId
+          },
           name: "任务配置列表"
         },
         {

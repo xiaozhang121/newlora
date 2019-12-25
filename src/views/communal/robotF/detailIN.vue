@@ -296,11 +296,13 @@ export default {
                       this.$router.push({
                         path: "report",
                         query: {
-                          taskId: params.row.taskId,
-                          taskRunHisId: params.row.latestTaskRunHisId,
-                          planType: params.row.taskType,
-                          planName:params.row.taskName,
-                          executeTime:params.row.time,
+                          taskId: params.row.taskId?params.row.taskId:'',
+                          taskRunHisId: params.row.latestTaskRunHisId?params.row.latestTaskRunHisId:'',
+                          planType: params.row.taskType?params.row.taskType:'',
+                          planName:params.row.taskName?params.row.taskName:'',
+                          substationId: this.$route.query.substationId,
+                          robotId:  this.$route.query.robotId,
+                          executeTime:params.row.time?params.row.time:'',
                         }
                       });
                     }

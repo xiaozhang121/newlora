@@ -69,7 +69,7 @@
       </div>
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning v-if="visible"    :popData="popData" :visible="visible" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
 </template>
@@ -624,7 +624,7 @@ export default {
       }).then(res => {
         let supportPreset = res.data["supportPreset"];
         let monitorDeviceType = res.data["monitorDeviceType"];
-        if (monitorDeviceType == 1) {
+        if (monitorDeviceType == 1  || monitorDeviceType == 5) {
           if (supportPreset) {
             this.$router.push({
               path: "/surveillancePath/detailLight",
@@ -659,9 +659,16 @@ export default {
                 });
             }
 
-        } else if (monitorDeviceType == 3) {
+        } else if (monitorDeviceType == 3  || monitorDeviceType == 9) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: monitorDeviceId
+            }
+          });
+        }else if (monitorDeviceType == 6) {
+          this.$router.push({
+            path: "/surveillancePath/detailUbiquitou",
             query: {
               monitorDeviceId: monitorDeviceId
             }

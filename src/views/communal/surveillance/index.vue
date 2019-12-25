@@ -25,7 +25,7 @@
         ></btn-select>
       </div>
     </div>
-    <div class="first" v-if="displayType == '1'">
+    <div class="first" style="margin-bottom: 65px" v-if="displayType == '1'">
       <div class="left">
         <key-monitor
           :isPic="isPicAddr01"
@@ -631,7 +631,8 @@ export default {
     isPush: {
       handler(now) {
         if (now) {
-          this.cameraList = this.$store.state.app.pushData;
+          // this.cameraList = this.$store.state.app.pushData;
+          this.initData()
           this.$forceUpdate();
           this.$store.state.app.isPush = false;
         }

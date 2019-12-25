@@ -152,6 +152,7 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning
+      v-if="visible"
       :popData="popData"
       :discriminate="false"
       :hasSelect="true"

@@ -20,6 +20,7 @@
         :key="index"
         :autoplay="true"
         :width="width"
+        :isRecord="false"
         :showBtmOption="true"
         :monitorInfo="{monitorDeviceId: item['monitorDeviceId']}"
         :imgAdress="item['pic']"
@@ -82,6 +83,9 @@ export default {
 
 <style lang="scss">
 .areaVideo {
+  .keyMonitor .camera .explain .block{
+    visibility: hidden;
+  }
   .top {
     margin-top: 20px;
     color: #ffffff;

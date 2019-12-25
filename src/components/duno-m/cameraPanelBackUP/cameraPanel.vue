@@ -1054,6 +1054,7 @@
         .el-input--small .el-input__inner{
             background: transparent;
             color: #cccccc;
+            border: 1px solid #cbcbcb;
         }
         .historyAlarm{
             display: flex;
