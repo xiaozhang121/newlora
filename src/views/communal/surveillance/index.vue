@@ -633,6 +633,7 @@ export default {
         if (now) {
           // this.cameraList = this.$store.state.app.pushData;
           this.initData()
+          this.initConfigure(1);
           this.$forceUpdate();
           this.$store.state.app.isPush = false;
         }

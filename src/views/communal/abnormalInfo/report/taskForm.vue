@@ -24,7 +24,6 @@
                   multiple
                   collapse-tags
                   v-model="valueParts"
-                  filterable
                   :placeholder="titleParts"
           >
             <el-option
@@ -42,7 +41,6 @@
                   multiple
                   collapse-tags
                   v-model="valuePhase"
-                  filterable
                   :placeholder="titlePhase"
           >
             <el-option
