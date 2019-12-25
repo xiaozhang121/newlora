@@ -16,7 +16,7 @@
         :current="offset"
         :border="true"
         :showSizer="true"
-        :isShowPage='isShowPage'
+        :isShowPage="isShowPage"
         @clickPage="pageCurrentChangeHandle"
       />
     </duno-main>
@@ -52,7 +52,7 @@ export default {
       totalNum: 10,
       loadingOption: true,
       websock: null,
-      lockData:[],
+      lockData: [],
       isShowPage: false,
       webData: {},
       isShow: false,
@@ -158,8 +158,7 @@ export default {
       let url = "/lenovo-smartlock/api/device/list/granPermits";
       getAxiosData(url, query).then(res => {
         this.lockData = res.data.tableData;
-        if(this.lockData.length)
-          this.isShowPage  = true
+        if (this.lockData.length) this.isShowPage = true;
         this.loadingOption = false;
       });
     },
@@ -209,142 +208,157 @@ export default {
 .intellLock {
   width: 100%;
   .dunoMain {
-    height: inherit;
+    height: 86%;
+    @media screen and (min-width: 3000px) {
+      height: 81%;
+    }
+    @media screen and (max-width: 1366px) {
+      height: 81%;
+    }
   }
-  .circleStatus {
-    width: 13px;
-    height: 13px;
-    display: inline-block;
-    border-radius: 20px;
-    margin-right: 5px;
+}
+.circleStatus {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  border-radius: 20px;
+  margin-right: 5px;
+  position: relative;
+  top: 1px;
+  &.green {
+    background: #53fec0;
+  }
+  &.fault {
+    background: #ff9000;
+  }
+  &.close {
+    background: #ee183b;
+  }
+}
+.table_select {
+  cursor: pointer;
+  span {
     position: relative;
-    top: 1px;
-    &.green {
-      background: #53fec0;
-    }
-    &.fault {
-      background: #ff9000;
-    }
-    &.close {
-      background: #ee183b;
-    }
-  }
-  .table_select {
-    cursor: pointer;
-    span {
-      position: relative;
-      top: -2px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 22px;
-      border-radius: 20px;
-    }
-  }
-  .el-button--text {
-    border-color: transparent !important;
-    background: transparent !important;
-  }
-  .flexPos {
-    display: flex;
+    top: -2px;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 22px;
+    border-radius: 20px;
   }
-  .imgOrMv {
-    width: 100%;
-    height: 39px;
-    position: relative;
-    top: 2px;
+}
+.el-button--text {
+  border-color: transparent !important;
+  background: transparent !important;
+}
+.flexPos {
+  display: flex;
+  align-items: center;
+}
+.imgOrMv {
+  width: 100%;
+  height: 39px;
+  position: relative;
+  top: 2px;
+}
+.table_link {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  width: 140px;
+  font-size: 16px;
+  color: #5fafff !important;
+  text-decoration: underline;
+}
+.table_abnormalInfo {
+  padding: 28px 17px;
+}
+.table_select {
+  cursor: pointer;
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 22px;
+    border-radius: 20px;
   }
-  .table_link {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
-    width: 140px;
-    font-size: 16px;
-    color: #5fafff !important;
-    text-decoration: underline;
+}
+.top {
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  & > div:first-child {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
   }
-  .table_abnormalInfo {
-    padding: 28px 17px;
-  }
-  .table_select {
-    cursor: pointer;
-    span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 22px;
-      border-radius: 20px;
-    }
-  }
-  .top {
-    color: #ffffff;
+  .btn {
     display: flex;
     justify-content: space-between;
-    & > div:first-child {
-      padding-top: 20px;
-      padding-bottom: 20px;
-      font-size: 20px;
+    margin-top: 20px;
+    & > div {
+      margin-left: 10px;
     }
-    .btn {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-      & > div {
-        margin-left: 10px;
-      }
-      .dunoBtnTop,
-      .ddunoBtnTopSm {
-        display: inline-flex;
-        padding-bottom: 0;
-        .btnList {
-          top: inherit !important;
-          // line-height: 40px;
-          .title {
-            font-size: 16px;
-            padding: 8px 20px;
-          }
+    .dunoBtnTop,
+    .ddunoBtnTopSm {
+      display: inline-flex;
+      padding-bottom: 0;
+      .btnList {
+        top: inherit !important;
+        // line-height: 40px;
+        .title {
+          font-size: 16px;
+          padding: 8px 20px;
         }
       }
-      .dunoBtnTop {
+    }
+    .dunoBtnTop {
+      width: 150px;
+      .btnList {
         width: 150px;
-        .btnList {
-          width: 150px;
-        }
       }
-      .dunoBtnTopSm {
+    }
+    .dunoBtnTopSm {
+      width: 140px;
+      .btnList {
         width: 140px;
-        .btnList {
-          width: 140px;
-        }
       }
-      .dateChose {
-        .el-date-editor {
-          background-color: #192f41;
-          border: none;
-          .el-range-input {
-            background-color: rgba(81, 89, 112, 0);
-          }
-          .el-range-separator {
-            font-size: 18px;
-            color: #fff;
-          }
-          .el-range-input {
-            color: #fff;
-          }
+    }
+    .dateChose {
+      .el-date-editor {
+        background-color: #192f41;
+        border: none;
+        .el-range-input {
+          background-color: rgba(81, 89, 112, 0);
+        }
+        .el-range-separator {
+          font-size: 18px;
+          color: #fff;
+        }
+        .el-range-input {
+          color: #fff;
         }
       }
     }
   }
-  .table_abnormalInfo {
-    padding: 28px 17px;
-  }
+}
+.table_abnormalInfo {
+  padding: 28px 17px;
 }
 .intellLock {
   //-------------------表格样式
+  .ivu-table-tip {
+    line-height: 660px;
+    @media screen and (min-width: 3000px) {
+      line-height: 715px;
+    }
+    @media screen and (max-width: 1366px) {
+      line-height: 715px;
+    }
+  }
   .ivu-table th {
     color: #fff;
     border: none;

@@ -1338,6 +1338,12 @@
           padding-left: 43%;
           font-size: 18px;
           color: #fff;
+          @media screen and (min-width: 3000px) {
+            padding-left: 5%;
+          }
+          @media screen and (max-width: 1366px) {
+            padding-left: 5%;
+          }
         }
         & > div:nth-child(2) {
           width: 35%;

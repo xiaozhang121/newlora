@@ -514,7 +514,12 @@ export default {
           key: "date",
           minWidth: 90,
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render:(h,params)=>{
+            const that = this;
+            let date =params.row.date.slice(5)
+            return(h('div',date))
+          }
         },
         {
           title: "对象",
@@ -526,7 +531,7 @@ export default {
         {
           title: "识别结果",
           key: "description",
-          minWidth: 120,
+          minWidth: 90,
           align: "center",
           tooltip: true
         },
@@ -1287,6 +1292,13 @@ export default {
         text-decoration: underline;
         text-decoration-color: #5fafff;
       }
+    }
+    .ivu-table-cell{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .ivu-table-overflowX{
+      overflow-x: hidden;
     }
     .re-middle {
       display: flex;

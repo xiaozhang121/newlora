@@ -1291,6 +1291,10 @@ export default {
           padding-top: 0px;
           top: 30px;
         }
+        @media screen and (max-width: 1366px) {
+          padding-top: 0px;
+          top: 30px;
+        }
         & .chartsChange{
           @media screen and (min-width: 3000px) {
             top: 41px;
@@ -1300,6 +1304,12 @@ export default {
           height: 400px;
           .charts {
             height: 300px;
+            @media screen and (min-width: 3000px) {
+              height: 250px;
+            }
+            @media screen and (max-width: 1366px) {
+              height: 250px;
+            }
           }
         }
       }
