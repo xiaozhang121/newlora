@@ -231,6 +231,8 @@ export default {
                 .select{
                     margin-left: 20px;
                     flex-grow: 1;
+                    height: 300px;
+                    overflow-y: auto;
                     .el-select{
                         width: 100%;
                     }

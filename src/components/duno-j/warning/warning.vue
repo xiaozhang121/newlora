@@ -849,10 +849,6 @@ export default {
   }
   .handleInfo {
     color: #333333;
-    & > div {
-      max-height: 200px;
-      overflow-y: auto;
-    }
     .monitorTitle {
       margin: 14px 0;
     }
@@ -882,6 +878,8 @@ export default {
       padding: 25px 25px 30px;
       margin: 0;
       background-color: #e0e0e0;
+      max-height: 552px;
+      overflow-y: auto;
     }
     .el-dialog__header {
       color: #515a6e;
@@ -890,7 +888,24 @@ export default {
       line-height: inherit!important;
       padding: 20px!important;
       padding-bottom: 0!important;
-      }
+    }
+    .el-dialog__body::-webkit-scrollbar {
+      /*滚动条整体样式*/
+      width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+      height: 1px;
+    }
+    .el-dialog__body::-webkit-scrollbar-thumb {
+      /*滚动条里面小方块*/
+      border-radius: 10px;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #979797;
+    }
+    .el-dialog__body::-webkit-scrollbar-track {
+      /*滚动条里面轨道*/
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      background: #ededed;
+    }
   }
   .el-dialog__headerbtn .el-dialog__close {
     color: #777777;
