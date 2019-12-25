@@ -85,6 +85,7 @@ export default {
         inputT: "",
         select: ""
       },
+      saveTemplate: 0,
       optionsData: [],
       options: [],
       dialogVisible: false,
@@ -144,6 +145,7 @@ export default {
     dataList: {
       handler(now) {
         this.formData = JSON.parse(JSON.stringify(now));
+        this.saveTemplate = this.formData.inputT
         console.log(this.formData);
       },
       deep: true,
@@ -217,6 +219,9 @@ export default {
       });
       this.formData.input = "";
       this.formData.inputT = "";
+      if(this.fourLabel == '红外温度类'){
+        this.formData.inputT = this.saveTemplate
+      }
       this.initFive(this.fourValue);
     },
     handlerSelect(item) {

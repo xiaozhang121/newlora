@@ -934,7 +934,7 @@
       },
       isLink(){
         let type = this.monitorDeviceType
-        if(type==1|| type==3 || type == 4 || type==6||type==9){
+        if(type != 2){
           getAxiosData(`/lenovo-visible/api/visible-equipment/view/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
             let status = Number(res.data.data?res.data.data.status:res.data.status)
             this.noVideoOption = !Boolean(status)
