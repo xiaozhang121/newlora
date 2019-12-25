@@ -20,7 +20,8 @@
         },
         data() {
             return {
-                init: true
+                init: true,
+                isInit: true
             }
         },
         props:{
@@ -40,7 +41,7 @@
         watch:{
             dataList:{
                 handler(now){
-                  try{
+                 /* try{
                     if(now.length){
                       let data = now
                       let arr = this.rowData['devicemonitors']
@@ -65,7 +66,7 @@
                           }
                       }
                   }
-                  }catch (e) {}
+                  }catch (e) {}*/
                 },
                 deep: true
             },
@@ -85,7 +86,7 @@
                     getAxiosData('/lenovo-plan/api/devicemonitor/select-list',{deviceIds: query.join(',')}).then(res=>{
                         for(let i=0; i<res.data.length; i++){
                             res.data[i]['monitorDevices'].map(item=>{
-                                item['isCheck'] = false
+                                item['isCheck'] = this.isInit
                                 item['title'] = item['monitorDeviceName']
                                 if(item['monitorDeviceType'] == 1){
                                     item['analyseType'] = '1'
@@ -102,7 +103,7 @@
                                     if(arr[i]['powerDeviceId'] == data[j]['powerDeviceId']){
                                         for(let z=0; z<data[j]['monitorDevices'].length; z++){
                                             let indexx = arr[i]['monitorDeviceId'].indexOf(data[j]['monitorDevices'][z]['monitorDeviceId'])
-                                            if(indexx > -1){
+                                            if(true){
                                                 data[j]['monitorDevices'][z]['isCheck'] = true
                                                 if(data[j]['monitorDevices'][z]['monitorDeviceType'] == 1){
                                                     if(arr[i]['analyseTypes'][indexx] == ''){
@@ -119,6 +120,7 @@
                             }
                         }
                         this.dataList = data
+                        this.isInit = false
                     })
                 },
                 deep: true
