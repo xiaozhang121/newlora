@@ -264,19 +264,21 @@ export default {
 };
 </script>
 <style lang="scss">
-.robot{
-  .el-dialog__close{
-    left: 5px;
+  .robot{
+    .el-dialog__close{
+      left: 5px;
+    }
+    .el-dialog__headerbtn{
+      right: 14px;
+      top: 20px;
+    }
   }
-  .el-dialog__headerbtn{
-    right: 14px;
-    top: 20px;
-  }
-}
+</style>
+<style lang="scss">
 .warningDialogB.robot .handleInfo > div{
   max-height: 200px;
   height: inherit !important;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 .warningDialogB {
   @media print {
@@ -429,7 +431,7 @@ export default {
   .handleInfo {
     color: #333333;
     .monitorMain{
-      max-height: 300px;
+      height: 149px;
       overflow-y: auto;
     }
     .monitorTitle {
