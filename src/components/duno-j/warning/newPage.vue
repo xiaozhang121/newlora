@@ -38,7 +38,12 @@
                 :autoplay="true"
                 :isNav="false"
                 :streamAddr="dataList.fileAddress?dataList.fileAddress:dataList.alarmFileAddress"
-              />
+              >
+                <div v-if="!cutPic" class="noCut">
+                  自动截图未成功
+                </div>
+              </KeyMonitor>
+              <img :src="ImgScreenshot" class="Img_screenshot" v-if="!isImgVideo" />
               <i
                 v-if="isImgVideo"
                 class="fullScreen iconfont icon-quanping"
@@ -49,7 +54,7 @@
           <div class="info">
             <div class="info_top">
               <p class="monitorTitle">判定结果:</p>
-              <p>{{dataList.judgeResult}}</p>
+              <p>{{dataList.judgeResult || dataList.powerDeviceName}}</p>
             </div>
             <div class="temperature">
               <p
@@ -61,7 +66,7 @@
                 {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
                 <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                 <i-dropdown
-                  v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'"
+                  v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'  || dataList.alarmLevel"
                   trigger="click"
                   placement="bottom-start"
                 >
@@ -98,8 +103,10 @@
               />-->
             </div>
             <div
+              class="not-print"
               @click="handleReturn"
               v-if="showBtn"
+              v-show="cutPic"
               :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
             >{{ titleReturn }}</div>
             <div class="from">
@@ -110,7 +117,7 @@
                   href="javascript:;"
                   @click="getJump"
                   style="text-decoration: underline"
-                >{{dataList['monitorDeviceName']}}</a>
+                >{{ originName }}</a>
               </span>
             </div>
           </div>
@@ -127,8 +134,10 @@
         <div style="clear: both"></div>
       </el-dialog>
       <personJudge
+        :modal="true"
         :dataList="formData"
         :isTemperture="discriminate"
+        :detailsType='detailsType'
         @on-close="onClose"
         @on-alter="initData"
         :visible="visibleJudge"
@@ -146,6 +155,7 @@ export default {
   components: { personJudge, KeyMonitor },
   data() {
     return {
+      ImgScreenshot: "",
       isPhaseAlarm: "",
       isThree: false,
       userNameD: "",
@@ -168,13 +178,19 @@ export default {
       discriminate: false,
       isImgVideo: true,
       isTemperture: true,
+      titleReturn: "复归",
       formData: {},
       alarmValue: null,
-      showBtn: true
+      showBtn: true,
     };
   },
   props: {
-    detailsType: {},
+    detailsType: {
+      type: String,
+      default: () => {
+        return "task";
+      }
+    },
     userName: {},
     name: {},
     value: {},
@@ -239,15 +255,29 @@ export default {
       type: String
     }
   },
-  computed: {},
+  computed: {
+    cutPic(){
+      if(this.dataList.length)
+        return !((this.dataList.alarmContent?this.dataList.alarmContent:this.dataList.result).indexOf('截图失败')>-1)
+    },
+    originName(){
+      if(this.popData.monitorDeviceId == 11){
+        return '室外机器人'
+      }else if(this.popData.monitorDeviceId == 12){
+        return '室内机器人'
+      }
+      return this.dataList['monitorDeviceName']
+    }
+  },
   watch: {
     popData: {
       handler(now) {
-        if (now["isPhaseAlarm"]) {
-          this.isPhaseAlarm = now["isPhaseAlarm"];
-          this.isThree = now["isPhaseAlarm"] == 1;
+        if(!Object.keys(now).length){
+          return
         }
+        this.isPhaseAlarm = now["isPhaseAlarm"];
         this.isRobot = now["isRobot"];
+        this.isThree = now["isPhaseAlarm"] == 1;
         this.isImgVideo = now["fileType"] == 1;
         if ("alarmId" in now && now["alarmId"]) {
           // this.searchId = now["alarmId"];
@@ -309,7 +339,7 @@ export default {
       });
     },
     handleBtn() {
-      if (this.dataList.alarmTypeValue == "设备缺陷类") {
+      if (this.dataList.alarmTypeValue == "设备缺陷类" && this.dataList.result) {
         if (this.dataList.result.indexOf("正常") > -1) {
           this.showBtn = false;
         } else {
@@ -408,7 +438,7 @@ export default {
         alarmLevel: No,
         oldLevel: oldLevel,
         newLevel: newLevel,
-        userName: this.userNameD
+        userName: this.$store.state.user.userName
       };
       putAxiosData(url, query).then(
         res => {
@@ -417,6 +447,7 @@ export default {
             message: "修改成功"
           });
           this.initData();
+          //   this.$emit("updateData");
           this.$emit("on-fresh");
         },
         error => {}
@@ -429,6 +460,13 @@ export default {
     },
     getJump() {
       if (!this.$route.meta.isMain) {
+        if(this.popData.monitorDeviceId == '11'){
+          this.$router.push({path: '/robot-one/list'})
+          return
+        }else if(this.popData.monitorDeviceId == '12'){
+          this.$router.push({path: '/robot-two/list'})
+          return
+        }
         getAxiosData("/lenovo-device/api/preset/type", {
           monitorDeviceId: this.popData.monitorDeviceId
         }).then(res => {
@@ -534,30 +572,46 @@ export default {
 </script>
 <style lang="scss">
 @media print {
-  .not-print {
-    opacity: 0;
-  }
-  .el-dialog__headerbtn {
-    display: none;
-  }
-  .iconfontList {
-    display: none;
-  }
-  .elDialogClass {
-    .el-dialog--center {
-      width: 710px !important;
+    .not-print {
+      opacity: 0;
+    }
+    .from {
+      position: absolute;
+      bottom: 0;
+      color: #2d8cf0;
+      a{
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+    }
+    .el-dialog__headerbtn {
+      display: none;
+    }
+    .iconfontList {
+      display: none;
+    }
+    .elDialogClass {
+      .el-dialog--center {
+        width: 710px !important;
+      }
+    }
+    .warningDialog .handleInfo > div {
+      max-height: inherit;
+    }
+    .el-dialog.el-dialog--center {
+      margin-top: 0vh !important;
+    }
+    .KeyMonitor_screenshot {
+      display: none !important;
+    }
+    .Img_screenshot {
+      display: block !important;
     }
   }
-  .warningDialogN .handleInfo > div {
-    max-height: inherit;
-  }
-  .el-dialog.el-dialog--center {
-    margin-top: 0vh !important;
-  }
-}
 .warningDialogN {
-    height: 100%;
-    background: #fff;
+   background: #fff;
   .hidden{
     visibility: hidden;
   }
