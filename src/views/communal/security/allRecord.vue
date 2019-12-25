@@ -63,7 +63,7 @@
             v-for="(nr, i) in item['data']"
             :key="i"
           >
-            <cover :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
+            <cover  :videoList="videoList" :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
           </div>
         </div>
       </div>
@@ -112,6 +112,7 @@ export default {
   data() {
     const that = this;
     return {
+      keyIndex: 0,
       chosenDate: [moment().subtract(30, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
       demoList: [{}, {}, {}, {}, {}, {}],
       mixinViewModuleOptions: {
@@ -371,6 +372,7 @@ export default {
       sevenIds: "",
       isBack: true,
       dataList: [],
+      videoList: [],
       sevenValue: [],
       count: 1
     };
@@ -425,8 +427,16 @@ export default {
           endTime: this.chosenDate[1]?moment(this.chosenDate[1]).format('YYYY-MM-DD'):'',
           monitorDeviceId: this.sevenRIds()
         }).then(res => {
-          this.sevenValue = res.data;
           let data = res.data;
+          this.sevenValue = data;
+          let arr = []
+          for(let i=0; i<data.length; i++){
+            for(let j=0; j<data[i]['data'].length; j++){
+              let item = data[i]['data'][j]['streamAddr']
+              arr.push(item)
+            }
+          }
+          this.videoList = arr
           for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < data[i]["data"].length; j++) {
               postAxiosData("/lenovo-device/device/video/record/video/pic", {

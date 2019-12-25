@@ -338,11 +338,13 @@ export default {
       },
       domResize(){
         console.log('resize')
-        let pos = document.querySelector('.activeTitle').getBoundingClientRect()
-        let offsetHeight = document.querySelector('.activeTitle').offsetHeight
-        let width = $('.mainContain').width() - pos.width
-        this.dom.style.left = pos.left - width  + 'px'
-        this.dom.style.top = Number(pos.top) + offsetHeight + 'px'
+        try{
+            let pos = document.querySelector('.activeTitle').getBoundingClientRect()
+            let offsetHeight = document.querySelector('.activeTitle').offsetHeight
+            let width = $('.mainContain').width() - pos.width
+            this.dom.style.left = pos.left - width  + 'px'
+            this.dom.style.top = Number(pos.top) + offsetHeight + 'px'
+        }catch (e) {}
       },
       runAnimate(){
         const that = this

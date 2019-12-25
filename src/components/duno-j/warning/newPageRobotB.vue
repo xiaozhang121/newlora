@@ -54,7 +54,7 @@
             </div>
             <div style="clear: both"></div>
         </el-dialog>
-        <personJudge @on-close="onClose" :visible="visibleJudge" :taskCurreny="warnData" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
+        <personJudge :isIndoor="true" @on-close="onClose" :visible="visibleJudge" :taskCurreny="warnData" :dataType="warnData['recognType']" :analysisResult="warnData['valueShow']" />
     </div>
 </template>
 <script>

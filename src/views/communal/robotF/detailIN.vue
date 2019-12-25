@@ -300,7 +300,7 @@ export default {
                           taskRunHisId: params.row.latestTaskRunHisId,
                           planType: params.row.taskType,
                           planName:params.row.taskName,
-                          executeTime:params.row.createTime,
+                          executeTime:params.row.time,
                         }
                       });
                     }

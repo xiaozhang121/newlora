@@ -21,6 +21,7 @@
             :modalBody="false"
             :srcData="srcData"
             @closeEnlarge="closeEnlarge"
+            @on-end="toNext"
     ></enlarge>
   </div>
 </template>
@@ -30,6 +31,11 @@
     import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
     export default {
         name: "cover",
+        data() {
+          const that = this;
+          return {
+          }
+        },
         components: {
             enlarge
         },
@@ -43,6 +49,16 @@
             },
         },
         props: {
+            videoList: {
+              type: Array,
+              default: ()=>{
+                return []
+              }
+            },
+            keyIndex: {
+              type: Number | String,
+              default: 0
+            },
             aggregate: {
                 type: Boolean,
                 default: () => {
@@ -81,6 +97,21 @@
             };
         },
         methods: {
+            findIndex(){
+              let addr = this.srcData.alarmFileAddress?this.srcData.alarmFileAddress:this.srcData.streamAddr
+              return this.videoList.indexOf(addr)
+            },
+            toNext(){
+              if(this.videoList.length){
+                let index = this.findIndex()
+                index++
+                if(index == this.videoList.length){
+                  return
+                }
+                this.srcData.streamAddr = this.videoList[index]
+                this.$forceUpdate()
+              }
+            },
             handleShow() {
                 console.log(this.srcData);
                 this.isEnlarge = true;
