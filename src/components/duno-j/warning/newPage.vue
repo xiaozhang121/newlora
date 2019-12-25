@@ -589,7 +589,7 @@ export default {
       a{
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         overflow: hidden;
       }
     }
@@ -617,20 +617,13 @@ export default {
       display: block !important;
     }
     .monitor{
-      width: 400px;
+      width: 400px !important;
     }
     .info{
-      margin-left: 21px;
+      margin-left: 21px !important;
     }
     .monitorTitle{
-      margin-bottom: 17px;
-    }
-    .from{
-      bottom: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
+      margin-bottom: 17px !important;
     }
   }
 .warningDialogN {

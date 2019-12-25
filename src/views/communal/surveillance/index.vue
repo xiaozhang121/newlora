@@ -631,7 +631,8 @@ export default {
     isPush: {
       handler(now) {
         if (now) {
-          this.cameraList = this.$store.state.app.pushData;
+          // this.cameraList = this.$store.state.app.pushData;
+          this.initData()
           this.$forceUpdate();
           this.$store.state.app.isPush = false;
         }

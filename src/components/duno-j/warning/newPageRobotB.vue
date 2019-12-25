@@ -259,6 +259,16 @@
             .el-dialog.el-dialog--center{
                 margin-top: 0vh !important;
             }
+            .monitor{
+                width: 400px !important;
+                height: 293px !important;
+            }
+            .info{
+                margin-left: 21px !important;
+            }
+            .monitorTitle{
+                margin-bottom: 17px !important;
+            }
         }
         .iconfont.icon-xiala {
             color: #999999;
