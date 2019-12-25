@@ -25,7 +25,7 @@
         ></btn-select>
       </div>
     </div>
-    <div class="first" v-if="displayType == '1'">
+    <div class="first" style="margin-bottom: 65px" v-if="displayType == '1'">
       <div class="left">
         <key-monitor
           :isPic="isPicAddr01"

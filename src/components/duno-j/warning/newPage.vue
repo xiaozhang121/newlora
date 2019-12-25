@@ -59,14 +59,14 @@
             <div class="temperature">
               <p
                 class="monitorTitle"
-                :style="{color:(dataList.alarmContent || dataList.result)=='正常'?'#333':'red'}"
-              >{{dataList.alarmContent?dataList.alarmContent:dataList.result}}</p>
+                :style="{color:(dataList.alarmContent || dataList.result || dataList.alarmValue).indexOf('正常')>-1?'#333':'red'}"
+              >{{dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:dataList.alarmValue)}}</p>
               <p v-if="hasSelect&& popData['alarmLevel'] && dataList.result !='正常'">
                 {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
                 {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
                 <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
                 <i-dropdown
-                  v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'  || dataList.alarmLevel"
+                  v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.result)=='红外温度超过阈值'  || dataList.alarmLevel"
                   trigger="click"
                   placement="bottom-start"
                 >
@@ -472,7 +472,7 @@ export default {
         }).then(res => {
           let supportPreset = res.data["supportPreset"];
           let monitorDeviceType = res.data["monitorDeviceType"];
-          if (monitorDeviceType == 1) {
+          if (monitorDeviceType == 1  || monitorDeviceType == 5) {
             if (supportPreset) {
               this.$router.push({
                 path: "/surveillancePath/detailLight",
@@ -506,9 +506,16 @@ export default {
                 }
               });
             }
-          } else if (monitorDeviceType == 3) {
+          } else if (monitorDeviceType == 3  || monitorDeviceType == 9) {
             this.$router.push({
               path: "/surveillancePath/detailEnv",
+              query: {
+                monitorDeviceId: this.popData.monitorDeviceId
+              }
+            });
+          }else if (monitorDeviceType == 6) {
+            this.$router.push({
+              path: "/surveillancePath/detailUbiquitou",
               query: {
                 monitorDeviceId: this.popData.monitorDeviceId
               }
@@ -608,6 +615,22 @@ export default {
     }
     .Img_screenshot {
       display: block !important;
+    }
+    .monitor{
+      width: 400px;
+    }
+    .info{
+      margin-left: 21px;
+    }
+    .monitorTitle{
+      margin-bottom: 17px;
+    }
+    .from{
+      bottom: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
     }
   }
 .warningDialogN {

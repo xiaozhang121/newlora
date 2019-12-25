@@ -156,7 +156,7 @@ export default {
       }).then(res => {
         let supportPreset = res.data["supportPreset"];
         let monitorDeviceType = res.data["monitorDeviceType"];
-        if (monitorDeviceType == 1) {
+        if (monitorDeviceType == 1  || monitorDeviceType == 5) {
           if (supportPreset) {
             this.$router.push({
               path: "/surveillancePath/detailLight",
@@ -190,9 +190,16 @@ export default {
               }
             });
           }
-        } else if (monitorDeviceType == 3) {
+        } else if (monitorDeviceType == 3  || monitorDeviceType == 9) {
           this.$router.push({
             path: "/surveillancePath/detailEnv",
+            query: {
+              monitorDeviceId: this.remarkData.monitorDeviceId
+            }
+          });
+        }else if (monitorDeviceType == 6) {
+          this.$router.push({
+            path: "/surveillancePath/detailUbiquitou",
             query: {
               monitorDeviceId: this.remarkData.monitorDeviceId
             }
