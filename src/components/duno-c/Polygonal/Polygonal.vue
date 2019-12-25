@@ -110,7 +110,13 @@ export default {
       default: () => {
         return "";
       }
-    }
+    },
+    timeStr: {
+      type: String,
+      default: () => {
+        return "";
+      }
+    },
   },
   data() {
     const that = this;
@@ -271,12 +277,14 @@ export default {
       if (data.name == "weatherCheck") {
         let timeData = this.xAxisOption.data;
         let timeLength = timeData.length;
+        console.log(this.itemData)
         let times = "";
         if (timeLength > 0) {
-          for (let i = 0; i < timeLength; i++) {
-            times += "," + timeData[i];
-          }
-          times = times.slice(1);
+          // for (let i = 0; i < timeLength; i++) {
+          //   times += "," + timeData[i];
+          // }
+          // times = times.slice(1);
+          times = this.timeStr
         } else {
           let timeHour = moment().format("YYYY-MM-DD");
           times = `${timeHour} 00:00:00,${timeHour} 02:00:00,${timeHour} 04:00:00,${timeHour} 06:00:00,${timeHour} 08:00:00,${timeHour} 10:00:00,${timeHour} 12:00:00,${timeHour} 14:00:00,${timeHour} 16:00:00,${timeHour} 18:00:00,${timeHour} 20:00:00,${timeHour} 22:00:00,${timeHour} 24:00:00`;

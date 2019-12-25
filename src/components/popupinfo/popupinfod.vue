@@ -30,6 +30,7 @@
         <polygonal
           @onChange="setTime"
           :yName="yName"
+          :timeStr='timeStr'
           :legendData="legendData"
           :xAxisData="xAxisData"
           :seriesData="seriesData"
@@ -54,6 +55,7 @@ export default {
   data() {
     return {
       yName: '',
+      timeStr:"",
       monitorDeviceType: '',
       pointList:[],
       mainTitle: '',
@@ -203,6 +205,7 @@ export default {
       };
       getPlanHistory(queryT).then(res => {
         const dataList = res.data.dataList;
+        this.timeStr=dataList[0].timeStr
         that.yName = res.data.unit
         const legendData = [];
         const xAxisData = [];
