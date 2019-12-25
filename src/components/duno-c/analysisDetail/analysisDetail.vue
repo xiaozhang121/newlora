@@ -6,7 +6,7 @@
     <div class="top not-print">
       <div>{{dataForm.planName}} {{dataForm.executeTime}}</div>
       <div class="btn">
-        <div>
+        <div class="deviceSelect">
           <el-select
             class="selectItem"
             v-model="titleType"
@@ -742,10 +742,12 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail {
   width: 100%;
-  .el-input--small .el-input__inner{
-    background-color: #1d3039 !important;
-    border: none;
-    color: white !important;
+  .deviceSelect{
+    .el-input--small .el-input__inner{
+      background-color: #1d3039 !important;
+      border: none;
+      color: white !important;
+    }
   }
   .dunoBtnTop .btnList .title .output:before{
     top: 8px;

@@ -30,6 +30,10 @@
             <slot></slot>
           </div>
         </div>
+        <div class="noVideo" v-if="noVideo || noVideoOption">
+          <i class="iconfont icon-duankai"></i>
+          {{ noVideoExplain }}
+        </div>
       </div>
       <div v-else class="main videoPlayer" id="videoPlayer" :class="{'topStyle': configType == '2'}"   @contextmenu.prevent="toPrevent">
         <video-player
@@ -929,18 +933,15 @@
         this.showBtm = false;
       },
       isLink(){
-        if(this.isLive){
-          return
-        }
         let type = this.monitorDeviceType
         if(type==1|| type==3 || type == 4 || type==6||type==9){
           getAxiosData(`/lenovo-visible/api/visible-equipment/view/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
-            let status = Number(res.data.data.status)
+            let status = Number(res.data.data?res.data.data.status:res.data.status)
             this.noVideoOption = !Boolean(status)
           })
         }else if(type == 2){
           getAxiosData(`/lenovo-iir/manager/device/detail/${this.monitorInfoR["monitorDeviceId"]}`).then(res=>{
-            let status = Number(res.data.data.status)
+            let status = Number(res.data.data?res.data.data.status:res.data.status)
             this.noVideoOption = !Boolean(status)
           })
         }
@@ -1197,7 +1198,7 @@
   .keyMonitor {
     .noVideo{
       width: 100%;
-      height: 100%;
+      height: 101%;
       position: absolute;
       top: 0;
       bottom: 0;

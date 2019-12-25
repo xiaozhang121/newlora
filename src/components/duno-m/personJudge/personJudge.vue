@@ -252,6 +252,24 @@ export default {
 
 <style lang="scss">
 .personJudge {
+  .el-input--small .el-input__inner{
+    background-color: white !important;
+    color: #606266 !important;
+  }
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    color: #606266 !important;
+    font-size: 13px !important;
+  }
+
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #606266 !important;
+    font-size: 14px !important;
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #606266 !important;
+    font-size: 14px !important;
+  }
   .itemInput {
     margin-bottom: 20px;
     width: 100%;

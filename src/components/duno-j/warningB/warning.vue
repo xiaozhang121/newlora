@@ -431,7 +431,7 @@ export default {
   .handleInfo {
     color: #333333;
     .monitorMain{
-      height: 149px;
+      max-height: 149px;
       overflow-y: auto;
     }
     .monitorTitle {
