@@ -73,7 +73,7 @@
       />
     </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+    <wraning v-if="visible"    :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
     <enlarge
       :pushCamera="false"
       :isShow="isEnlarge"

@@ -184,6 +184,7 @@
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
     <wraning
+      v-if="visible"
       :discriminate="false"
       :hasSelect="true"
       :alarmLevel="alarmLevel"

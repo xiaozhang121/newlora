@@ -182,7 +182,7 @@
       </div>
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
+    <wraning v-if="visible"    :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
     <enlarge :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
