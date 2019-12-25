@@ -121,6 +121,10 @@ export default {
         },
         {
           path: "/robot-two/detailIN",
+          query: {
+            substationId: this.$route.query.substationId,
+            robotId: this.$route.query.robotId
+          },
           name: "任务配置列表"
         },
         {
