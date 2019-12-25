@@ -379,11 +379,23 @@
             display: inline-block;
             margin-right: 1.5%;
             width: calc(94% / 5);
+            @media screen and (min-width: 3000px) {
+              width: calc(95.5% / 4);
+              &:nth-child(4n) {
+                margin-right: 0;
+              }
+            }
             .reportTable{
               height: 360px;
+              @media screen and (min-width: 3000px) {
+                height: 300px;
+              }
             }
             &:nth-last-child(5n + 1) {
               margin-right: 0;
+              @media screen and (min-width: 3000px) {
+                margin-right: 1.5%;
+              }
             }
           }
           h3 {
