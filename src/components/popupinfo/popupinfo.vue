@@ -33,6 +33,7 @@
           :itemData="itemData"
           :legendData="legendData"
           :yName="yName"
+          :timeStr='timeStr'
           :xAxisData="xAxisData"
           :seriesData="seriesData"
           :flag="flag"
@@ -58,6 +59,7 @@ export default {
       typeChosen:'Single',
       presetPos: [],
       yName: "",
+      timeStr:"",
       mainTitle: "",
       alarmHistoryData: [],
       activeName: "first",
@@ -252,6 +254,7 @@ export default {
             flag: 0
           }
         ]*/
+        this.timeStr=dataList[0].timeStr
         let xAxisData = that.getAxisData(dataList)
         let domData = this.$refs.polygonalRef.$data
         let dom = this.$refs.polygonalRef

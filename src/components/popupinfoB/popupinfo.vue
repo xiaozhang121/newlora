@@ -3,7 +3,7 @@
     <div>
       <realtime :itemData="itemData" :classifyData="classifyData" :isClassify="isShowClassify" v-if="activeName == 'first'" />
       <historicalwarning :title="title" :dataList="alarmHistoryData" v-if="activeName == 'fourth'" />
-      <polygonal :yName="yName" @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'fifth'" />
+      <polygonal :yName="yName" :timeStr='timeStr' @onChange="setTime" :legendData="legendData" :xAxisData="xAxisData" :seriesData="seriesData" :isChange="isChange" v-if="activeName == 'fifth'" />
     </div>
   </historical-documents>
 </template>
@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       yName: '',
+      timeStr:"",
       alarmHistoryData: [],
       activeName: 'first',
       tabPaneData: [
@@ -129,6 +130,7 @@ export default {
       }
       getPlanHistory(queryT).then(res=>{
         const dataList = res.data.dataList
+        this.timeStr=dataList[0].timeStr
         that.yName = res.data.unit
         const legendData = []
         const xAxisData = []

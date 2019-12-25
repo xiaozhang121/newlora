@@ -3,7 +3,7 @@
         <historical-documents  :itemId="itemData['monitorDeviceId']" :tabPaneData="tabPaneData" :showHeader="true"  :title="title"  width="770px" @on-show="changeCameraShow" @close="onClose" :dialogTableVisible="visible" class="historical vRed">
             <!-- <hot-camera :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></hot-camera> -->
             <camera-hot ref="cameraHotRef" :deviceId="itemData['monitorDeviceId']" :itemData="itemData" :panelType="cameraFlag" v-if="cameraFlag == 'first' ||  cameraFlag == 'second' ||  cameraFlag == 'third'"></camera-hot>
-            <polygonal-backup ref="polygonalRef" :itemData="itemData" :yName="yName" @on-charts="onCharts"   @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
+            <polygonal-backup ref="polygonalRef" :timeStr='timeStr' :itemData="itemData" :yName="yName" @on-charts="onCharts"   @onChange="onChange" :isChange="isChange" :seriesData="seriesData" :xAxisData="xAxisData" :legendData="legendData" v-else-if="cameraFlag == 'fifth'"></polygonal-backup>
             <historyfile  :itemId="itemId" v-else-if="cameraFlag == 'sixth'"/>
             <historyfourth-backup  :itemId="itemId" :itemData="itemData" v-else-if="cameraFlag == 'fourth'"></historyfourth-backup>
         </historical-documents>
@@ -42,6 +42,7 @@
                 typeChosen:'Multiple',
                 presetPos: [],
                 yName: '',
+                timeStr:"",
                 tabPaneData:[
                     {
                         label: "实时监控",
@@ -184,6 +185,7 @@
                 }
                 getAxiosData(url, query).then( res => {
                   const dataList = res.data.dataList
+                  console.log(dataList)
                   // let dataList = [
                   //   {
                   //     itemName: '项目名称（可见光为电网设备名称，热感为roi名称）222222222',
@@ -210,6 +212,7 @@
                   //     flag: 0
                   //   }
                   // ]
+                  this.timeStr=dataList[0].timeStr
                   let xAxisData = that.getAxisData(dataList)
                   let domData = this.$refs.polygonalRef.$data
                   let dom = this.$refs.polygonalRef
