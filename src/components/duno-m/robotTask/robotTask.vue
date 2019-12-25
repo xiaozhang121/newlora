@@ -128,7 +128,7 @@ export default {
         lunengDeviceIds: arr,
         taskName: this.inspectionName
       }).then(res => {
-        if (res.data.resConf) {
+        if (Number(res.data.resConf)) {
           that.$message.success("新增成功");
           that.drawList = [];
           that.$emit("on-success");

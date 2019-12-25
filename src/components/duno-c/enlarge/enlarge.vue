@@ -23,7 +23,8 @@
         ref="monitor"
         width="100%"
         :pushCamera="pushCamera"
-        :streamAddr="srcData.alarmFileAddress?srcData.alarmFileAddress:srcData.streamAddr"
+        :streamAddr="streamAddr"
+        @on-end="toNext"
       />
     </el-dialog>
   </div>
@@ -88,7 +89,15 @@ export default {
       width: "80%"
     };
   },
+  computed: {
+    streamAddr(){
+      return this.srcData.alarmFileAddress?this.srcData.alarmFileAddress:this.srcData.streamAddr
+    }
+  },
   methods: {
+    toNext(){
+      this.$emit('on-end')
+    },
     closeDialog(){
       this.$emit("closeEnlarge");
     },
