@@ -126,6 +126,9 @@ export default {
         },
         nameTextStyle: {
           padding: [25, 0, 0, 0]
+        },
+        axisLabel:{
+          interval: 0
         }
       },
       yAxisKps: [
@@ -197,6 +200,9 @@ export default {
         },
         nameTextStyle: {
           padding: [25, 0, 0, 0]
+        },
+        axisLabel:{
+          interval: 0
         }
       },
       yAxisIo: [
@@ -258,6 +264,9 @@ export default {
         },
         nameTextStyle: {
           padding: [25, 0, 0, 0]
+        },
+        axisLabel:{
+          interval: 0
         }
       },
       yAxisCpu: [
@@ -452,12 +461,12 @@ export default {
         if (that.serve == "") {
           cupData.forEach(el => {
             usedData.push(el.used / el.total);
-            timeData.push(el.createTime);
+            timeData.push(el.createTime.substr(5));
           });
         } else {
           cupData.forEach(el => {
             usedData.push(el.used);
-            timeData.push(el.createTime);
+            timeData.push(el.createTime.substr(5));
           });
         }
         that.xAxisCpu.data = timeData;
