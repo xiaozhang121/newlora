@@ -99,7 +99,7 @@
                 >{{ dataList.alarmContent?dataList.alarmContent:dataList.result }}</div>
               </div>-->
               <div class="btn-print">
-                <a class="not-print origin" href="javascript:;" @click="clickJudge" v-show="cutPic">结果修订</a>
+                <a class="not-print origin" href="javascript:;" @click="clickJudge" v-if="cutPic">结果修订</a>
                 <!-- <button-custom
                   v-if="showBtn"
                   :class="{}"
@@ -111,8 +111,7 @@
               <div
                 class="not-print"
                 @click="handleReturn"
-                v-if="showBtn"
-                v-show="cutPic"
+                v-if="showBtn && cutPic"
                 :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
               >{{ titleReturn }}</div>
               <div class="from">
@@ -297,12 +296,15 @@ export default {
   },
   computed: {
     cutPic(){
-      if(this.dataList.length)
+      if(Object.keys(this.dataList).length){
         try{
           return !((this.dataList.alarmContent?this.dataList.alarmContent:(this.dataList.result?this.dataList.result:this.dataList.alarmValue)).indexOf('截图失败')>-1)
         }catch(e){
           return true
         }
+      }else{
+        return true
+      }
     },
     originName(){
       if(this.popData.monitorDeviceId == 11){
