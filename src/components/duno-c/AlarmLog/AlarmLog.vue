@@ -1,21 +1,12 @@
 <template>
   <div class="alarmLog">
-    <div class="img">
+    <div class="img" v-if="isShowImg">
       <img
         v-if="isImgVideo"
         :src="remarkData.fileAddress?remarkData.fileAddress:remarkData.alarmFileAddress"
         alt
       />
-      <!-- <KeyMonitor
-        v-else
-        :autoplay="autoplay"
-        :noButton="noButton"
-        :streamAddr="remarkData.alarmFileAddress"
-        :imgAdress="remarkData.pic"
-        :monitorInfo="remarkData"
-        :isNav="false"
-      />-->
-      <cover v-else :srcData="remarkData"></cover>
+      <cover v-else :isSecond='false' :srcData="remarkData"></cover>
     </div>
     <div class="contentMain" @click="handleWain">
       <div class="top">
@@ -120,6 +111,7 @@ export default {
       isShowRemarks: false,
       visible: false,
       isReturn: true,
+      isShowImg:true,
       dealList: [],
       alarmId: ""
     };
@@ -175,28 +167,10 @@ export default {
       });
       this.$emit("handleListData");
     },
-    // closeRemarks() {
-    //   this.dialogVisible = false;
-    // },
     beforeClose() {
       this.dialogVisible = false;
       this.$emit("handleListData");
     },
-    // clickRemarks() {
-    //   const that = this;
-    //   that.dialogVisible = false;
-    //   let query = {
-    //     alarmId: that.remarkData.alarmId,
-    //     type: "2",
-    //     content: that.textarea
-    //   };
-    //   dealRemarks(query).then(res => {
-    //     that.textarea = "";
-    //     if (res.data.isSuccess) that.$message.success(res.msg);
-    //     else that.$message.error(res.msg);
-    //     this.$emit("handleListData");
-    //   });
-    // },
     getJump() {
       getAxiosData("/lenovo-device/api/preset/type", {
         monitorDeviceId: this.remarkData["monitorDeviceId"]
@@ -208,28 +182,16 @@ export default {
           }
         });
       });
-      /* if (this.remarkData.monitorDeviceType == "1") {
-        this.$router.push({
-          path: "/surveillancePath/detailLight",
-          query: {
-            monitorDeviceId: this.remarkData.monitorDeviceId
-          }
-        });
-      } else if (this.remarkData.monitorDeviceType == "2") {
-        this.$router.push({
-          path: "/surveillancePath/detailRed",
-          query: {
-            monitorDeviceId: this.remarkData.monitorDeviceId
-          }
-        });
-      }*/
+    },
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.isShowImg=false
+      }
     }
   },
   mounted() {
-    // this.remarkData.dealList.forEach(el => {
-    //   let str = el.dealType + " (" + el.dealTime + ")";
-    //   this.dealList.push(str);
-    // });
+    this.getWidth();
   }
 };
 </script>
@@ -261,6 +223,9 @@ export default {
     }
     .cover {
       height: 180px;
+      &>div:first-child{
+        position: static;
+      } 
     }
   }
   .contentMain {
@@ -271,6 +236,14 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    @media screen and (min-width: 3000px) {
+        width: 100%;
+        padding: 20px;
+    }
+    @media screen and (max-width: 1366px) {
+        width: 100%;
+        padding: 20px;
+    }
     .top {
       p {
         font-size: 16px;
@@ -346,20 +319,5 @@ export default {
       }
     }
   }
-  //   .remarks {
-  //     .dialog-footer {
-  //       color: #ffffff;
-  //       display: flex;
-  //       justify-content: center;
-  //       .button {
-  //         height: 37px;
-  //         line-height: 31px;
-  //         font-size: 14px;
-  //         &:first-child {
-  //           margin-right: 30px;
-  //         }
-  //       }
-  //     }
-  //   }
 }
 </style>
