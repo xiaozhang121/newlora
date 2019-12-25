@@ -914,6 +914,9 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
+  .keyMonitor .camera .main .vjs-control-bar{
+    display: none !important;
+  }
   .ballMonitorItem{
     padding-bottom: 25px;
   }

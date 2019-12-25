@@ -117,7 +117,7 @@
             },
             noZoomLimit:{
                 type: Boolean,
-                default: false
+                default: true
             },
             rebot:{
                 type: Boolean,

@@ -59,7 +59,7 @@
               <div class="temperature">
                 <p
                   class="monitorTitle"
-                  :style="{color:(dataList.alarmContent || dataList.result || dataList.alarmValue).indexOf('正常')>-1?'#333':'red'}"
+                  :style="{color:(dataList.alarmContent || dataList.result || dataList.alarmValue || '').indexOf('正常')>-1?'#333':'red'}"
                 >{{dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:dataList.alarmValue)}}</p>
                 <p v-if="hasSelect && popData['alarmLevel'] && dataList.result !='正常'">
                   {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
@@ -298,7 +298,11 @@ export default {
   computed: {
     cutPic(){
       if(this.dataList.length)
-        return !((this.dataList.alarmContent?this.dataList.alarmContent:this.dataList.result).indexOf('截图失败')>-1)
+        try{
+          return !((this.dataList.alarmContent?this.dataList.alarmContent:(this.dataList.result?this.dataList.result:this.dataList.alarmValue)).indexOf('截图失败')>-1)
+        }catch(e){
+          return true
+        }
     },
     originName(){
       if(this.popData.monitorDeviceId == 11){
