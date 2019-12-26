@@ -70,14 +70,14 @@
         </div>
       </div>
     </div>
-    <div class="allRecodes">
+    <!--<div class="allRecodes">
       <div>所有记录</div>
       <div>
         <div @click="handleClick(item)" v-for="(item,index) in dataList.slice(0,8)" :key="index">
           <img :src="item.pic" alt />
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>

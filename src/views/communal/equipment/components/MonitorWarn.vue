@@ -210,7 +210,7 @@ export default {
     handledata() {
       if (this.remarkData.dealRecord) {
         this.remarkData.dealRecord.forEach(el => {
-          let str = el.dealContent + " (" + el.dealTime + ")";
+          let str = el.dealContent + (el.dealTime?" (" + el.dealTime + ")":'');
           this.dealContent.push(str);
         });
       }

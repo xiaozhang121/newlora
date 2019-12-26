@@ -197,6 +197,11 @@ export default {
     cursor: not-allowed !important;
     color: #C0C4CC !important;
   }
+  .ivu-table-tip{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .squera{
     position:absolute; border:1px solid #e48303; overflow:hidden;
   }

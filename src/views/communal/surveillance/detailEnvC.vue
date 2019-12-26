@@ -94,6 +94,7 @@
             </div>
           </div>
           <el-pagination
+            v-show="videoList && videoList.length"
             :current-page="pageParam['pageIndex']"
             layout="pager"
             :total="pageParam['totalRows']"

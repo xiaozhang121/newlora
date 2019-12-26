@@ -35,6 +35,7 @@
             </template>
           </div>
           <el-pagination
+                  v-show="newsReportLength"
                   @current-change="currentChange"
                   layout="prev, pager, next"
                   :total="reportNow.dataNum">

@@ -40,7 +40,7 @@
         :colorOption="colorSpeed"
       ></duno-charts>
     </div>
-    <div :style="{width:width}">
+    <div :style="{width:width}" v-show="seriesGpuVisible">
       <duno-charts
         :isChange="isChangeGpu"
         :titleOption="titleGpu"
@@ -90,6 +90,7 @@ export default {
   },
   data() {
     return {
+      seriesGpuVisible: true,
       tooltipOption: {
         trigger: 'axis'
       },
@@ -491,6 +492,11 @@ export default {
         }
         that.xAxisGpu.data = timeData;
         that.seriesGpu[0].data = usedData;
+        let gpuDataLength = usedData.length
+        if(!gpuDataLength){
+          this.$emit("changeWidth", 99, '33.3%');
+        }
+        that.seriesGpuVisible = Boolean(gpuDataLength)
         that.isChangeGpu = !that.isChangeGpu;
         that.$forceUpdate();
       });
