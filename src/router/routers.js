@@ -1162,7 +1162,7 @@ export default [{
             name: 'robot-one',
             meta: {
                 topNav: '2',
-                title: '室外巡检机器人一',
+                title: '室外巡检机器人',
                 notCache: true,
                 toListName: 'robot-oneList',
             },
@@ -1218,9 +1218,9 @@ export default [{
                 }
             ]
         },
-          {
-            path: 'robot-two',
-            name: 'robot-two',
+         /* {
+            path: 'robotN-two',
+            name: 'robotN-two',
             meta: {
               topNav: '2',
               title: '室外巡检机器人二',
@@ -1260,7 +1260,7 @@ export default [{
                   title: '列表',
                   hideInMenu: true,
                   isDetails: true,
-                  active: "robot-oneList"
+                  active: "robot-twoL"
                 },
                 component: () => import('@/views/communal/robotF/detail.vue')
               },
@@ -1273,12 +1273,12 @@ export default [{
                   title: '巡视报告列表',
                   hideInMenu: true,
                   isDetails: true,
-                  active: "robot-oneList"
+                  active: "robot-twoL"
                 },
                 component: () => import('@/views/communal/robotF/reportList.vue')
               }
             ]
-          },
+          },*/
             {
                 path: 'robot-two',
                 name: 'robot-two',

@@ -149,11 +149,11 @@
 
                 if (now == "robot-twoList") {
                     this.dataBread[2]['name'] = '室外巡检机器人二'
-                    this.dataBread[2]['path'] = "/robot-two/list"
+                    this.dataBread[2]['path'] = "/robotN-two/list"
                     this.substationId = "1";
                     this.robotId = "9";
                 } else {
-                    this.dataBread[2]['name'] = '室外巡检机器人一'
+                    this.dataBread[2]['name'] = '室外巡检机器人'
                     this.substationId = "1";
                     this.robotId = "1";
                 }
