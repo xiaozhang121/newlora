@@ -60,7 +60,7 @@
                 <p
                   class="monitorTitle"
                   :style="{color:(dataList.alarmContent || dataList.result || dataList.alarmValue || '').indexOf('正常')>-1?'#333':'red'}"
-                >{{dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:dataList.alarmValue)}}</p>
+                >{{dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:'')}}<br v-if="(dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:'')) && !(hasSelect && popData['alarmLevel'] && dataList.result !='正常')"/><span v-if="!(hasSelect && popData['alarmLevel'] && dataList.result !='正常')">{{ dataList.alarmValue }}</span></p>
                 <p v-if="hasSelect && popData['alarmLevel'] && dataList.result !='正常'">
                   {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
                   {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}

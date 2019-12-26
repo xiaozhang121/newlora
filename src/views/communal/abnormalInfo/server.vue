@@ -207,11 +207,13 @@ export default {
     };
   },
   methods: {
-    changeWidth(item) {
+    changeWidth(item, width) {
       if (item == 0) {
         this.width = "25%";
         this.paddingBottom = "80%";
-      } else {
+      }else if(item == 99){
+        this.width = width;
+      }else {
         this.width = "25%";
         this.paddingBottom = "70%";
       }
