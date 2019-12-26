@@ -51,11 +51,21 @@
           </div>
         </div>
         <div class="right nr contain" v-if="screenWidth">
-          <inspection @on-edit="onEdit" ref="inspectionRef" :bigScreen='true' :deviceId="dataForm.monitorDeviceId"></inspection>
+          <inspection
+            @on-edit="onEdit"
+            ref="inspectionRef"
+            :bigScreen="true"
+            :deviceId="dataForm.monitorDeviceId"
+          ></inspection>
         </div>
       </div>
-      <div class="bigRight"  v-if="!screenWidth">
-        <inspection @on-edit="onEdit" :bigScreen='false' ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
+      <div class="bigRight" v-if="!screenWidth">
+        <inspection
+          @on-edit="onEdit"
+          :bigScreen="false"
+          ref="inspectionRef"
+          :deviceId="dataForm.monitorDeviceId"
+        ></inspection>
       </div>
       <div class="middle_table">
         <div class="top not-print">
@@ -326,6 +336,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
+            let alarmTime = params.row.alarmTime.slice(5);
             return h("div", [
               h(
                 "Tooltip",
@@ -343,13 +354,12 @@ export default {
                     {
                       style: {
                         display: "inline-block",
-                        width: "100px",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap"
                       }
                     },
-                    params.row.alarmTime
+                    alarmTime
                   )
                 ]
               )
@@ -368,17 +378,43 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            return h(
-              "div",
-              {
-                class: "flexPos"
-              },
-              params.row.dealList &&
-                params.row.dealList[0] &&
-                params.row.dealList[0].dealType
-                ? params.row.dealList[0].dealType
-                : "/"
-            );
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  props: {
+                    placement: "top",
+                    content:
+                      params.row.dealList &&
+                      params.row.dealList[0] &&
+                      params.row.dealList[0].dealType
+                        ? params.row.dealList[0].dealType
+                        : "/",
+                    transfer: true,
+                    maxWidth: "200"
+                  }
+                },
+                [
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        overflow: "hidden",
+                        width:'150px',
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    params.row.dealList &&
+                      params.row.dealList[0] &&
+                      params.row.dealList[0].dealType
+                      ? params.row.dealList[0].dealType
+                      : "/"
+                  )
+                ]
+              )
+            ]);
           }
         },
         {
@@ -395,7 +431,7 @@ export default {
               params.row.dealList &&
                 params.row.dealList[0] &&
                 params.row.dealList[0].dealTime
-                ? params.row.dealList[0].dealTime
+                ? params.row.dealList[0].dealTime.slice(5)
                 : "/"
             );
           }
@@ -1264,6 +1300,7 @@ export default {
       let screen = window.screen.availWidth;
       if (screen > 3500) {
         this.screenWidth = false;
+        this.envColumns.splice(5,1)
       }
     }
   },
@@ -1657,6 +1694,10 @@ export default {
         color: #2d8cf0;
       }
     }
+  }
+  .ivu-table-cell {
+    padding-left: 0;
+    padding-right: 0;
   }
   .ivu-table-wrapper {
     tr {

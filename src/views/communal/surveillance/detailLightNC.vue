@@ -126,12 +126,6 @@
                 :showBtnList="false"
               ></duno-btn-top>
             </div>
-            <!-- <div>
-              <div @click="clickExcel" class="clickBtn">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div> -->
           </div>
         </div>
         <duno-tables-tep
@@ -701,16 +695,13 @@ export default {
       this.clickQuery(this.dataForm);
     },
     onChangeTime(data) {
+      console.log(data)
       let startTime = "";
       let endTime = "";
       if (data) {
         startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
         endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
       }
-      /* this.echartTitle =
-        moment(data[0]).format("YYYY/MM/DD") +
-        "-" +
-        moment(data[1]).format("YYYY/MM/DD");*/
       this.echartForm.startTime = startTime;
       this.echartForm.endTime = endTime;
       this.getEchasrts();
@@ -724,14 +715,6 @@ export default {
       };
       that.exportHandle();
     },
-    // clickExcel() {
-    //   const that = this;
-    //   that.queryForm = {
-    //     monitorDeviceId: that.$route.query.monitorDeviceId,
-    //     ...that.echartForm
-    //   };
-    //   that.exportHandle();
-    // },
     getSelectType() {
       getRedType().then(res => {
         const resData = res.data;
@@ -789,24 +772,6 @@ export default {
         this.allDataLevel = map;
       });
     },
-    // getSelectPreset() {
-    //   let url = "/lenovo-device/api/monitor/power-device";
-    //   let query = {
-    //     monitorDeviceId: this.$route.query.monitorDeviceId
-    //   };
-    //   getAxiosData(url, query).then(res => {
-    //     const resData = res.data;
-    //     const map = resData.map(item => {
-    //       const obj = {
-    //         describeName: item.label,
-    //         monitorDeviceType: item.value,
-    //         title: "titleType"
-    //       };
-    //       return obj;
-    //     });
-    //     this.typeList = map;
-    //   });
-    // },
     getEchasrts() {
       const that = this;
       let query = {
@@ -819,7 +784,8 @@ export default {
       };
       getAxiosData("/lenovo-plan/api/plan/history/new", query).then(res => {
         this.chartsList = res.data.dataList
-        this.echartTitle = res.data.title;
+        this.echartTitle = res.data.title.replace(/\//g,'.')
+        console.log(res.data)
         this.changeActive(0)
       });
     },
@@ -830,16 +796,6 @@ export default {
     onClose() {
       this.visibleSettingOption = false;
     },
-    // getInit() {
-    //   let time = moment()
-    //     .add(-1, "days")
-    //     .format("YYYY-MM-DD");
-    //   this.echartForm.startTime = `${time} 00:00:00`;
-    //   this.echartForm.endTime = `${time} 23:59:59`;
-    //   /*this.echartTitle = moment()
-    //     .add(-1, "days")
-    //     .format("YYYY/MM/DD");*/
-    // },
     getControl() {
       if (this.isControl == "1") {
         this.isControl = "2";
@@ -885,10 +841,8 @@ export default {
     this.getEchasrts();
   },
   mounted() {
-    // this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
-    // this.getSelectPreset();
     window.addEventListener("onmousemove", this.endControl());
     document.querySelector(".mainAside").style.height = "inherit";
     document.querySelector(".mainAside").style.minHeight = "100%";
@@ -1289,11 +1243,11 @@ export default {
         height: 400px;
         padding-top: 70px;
         @media screen and (min-width: 3000px) {
-          padding-top: 0px;
+          padding-top: 50px;
           top: 30px;
         }
         @media screen and (max-width: 1366px) {
-          padding-top: 0px;
+          padding-top: 50px;
           top: 30px;
         }
         & .chartsChange{
