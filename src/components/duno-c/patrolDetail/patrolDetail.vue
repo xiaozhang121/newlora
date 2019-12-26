@@ -42,6 +42,7 @@
           :key="index"
           :reportData="item"
         />
+        <div class="center" v-show="!loadingOption && dataList.tableData && !dataList.tableData.length">暂无数据</div>
       </div>
       <el-pagination :current-page.sync="pageIndex"  v-show="dataList.tableData && dataList.tableData.length" layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
     </duno-main>
@@ -188,6 +189,13 @@ export default {
   width: 100%;
   //   min-height: 100%;
   // height: 100%;
+  .center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 100% !important;
+  }
   .el-loading-mask {
     width: 100% !important;
   }

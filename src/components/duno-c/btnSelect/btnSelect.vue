@@ -28,18 +28,11 @@
             </div>
             <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
               <div class="selectItem" v-for="(child, Cindex) in item['children']" :key="Cindex">
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  :content="child['item']['describeName']"
-                  placement="top-start"
-                >
                   <el-checkbox
                     :title="child['item']['describeName']"
                     :label="child['item']['monitorDeviceId']"
                     :key="child['item']['monitorDeviceId']"
                   >{{child['item']['describeName']}}</el-checkbox>
-                </el-tooltip>
               </div>
             </div>
           </div>
@@ -88,8 +81,6 @@ export default {
     },
     showHide(event, item) {
       item["isShow"] = !item["isShow"];
-      event.preventDefault();
-      event.stopImmediatePropagation();
     },
     onKeyup(event) {
       let that = this;
