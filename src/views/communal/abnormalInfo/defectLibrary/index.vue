@@ -149,7 +149,11 @@ export default {
           title: "导入日期",
           key: "picImportTime",
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render:(h,params)=>{
+            let picImportTime=params.row.picImportTime.slice(5)
+            return h('div',picImportTime)
+          }
         },
         {
           title: "类型",
