@@ -11,7 +11,7 @@
             <div class="camera_surveillanceDetail">
               <div class="contain">
                 <key-monitor
-                  :monitorInfo="{ monitor }"
+                  :monitorInfo="monitor"
                   paddingBottom="56%"
                   class="monitor"
                   :pushCamera="pushCamera"

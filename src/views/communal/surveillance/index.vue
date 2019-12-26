@@ -272,7 +272,7 @@
       <span>{{ oltagevLevel }}</span>
       <duno-btn-top
         @on-select="onSelectVol"
-        class="dunoBtnTop"
+        class="dunoBtnTop powerLevelSelect"
         :isCheck="false"
         style="margin-left: 10px"
         :dataList="oltagevLevelList"
@@ -1214,6 +1214,18 @@ export default {
   }
   .swiper-button-prev {
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'%3E%3Cpath d='M0 22L22 0l2.1 2.1L4.2 22l19.9 19.9L22 44 0 22z' fill='%23ffffff'/%3E%3C/svg%3E");
+  }
+  .powerLevelSelect{
+    .dunoBtnTop .btnList .title .selfInput{
+      height: 0;
+    }
+    .icon-xiala{
+      font-size: 9px;
+      position: absolute;
+      right: 20px;
+      top: 1px;
+      height: 37px;
+    }
   }
 }
 </style>
