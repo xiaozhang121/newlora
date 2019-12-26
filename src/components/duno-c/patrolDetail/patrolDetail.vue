@@ -43,7 +43,7 @@
           :reportData="item"
         />
       </div>
-      <el-pagination layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
+      <el-pagination v-show="dataList.tableData && dataList.tableData.length" layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
     </duno-main>
   </div>
 </template>

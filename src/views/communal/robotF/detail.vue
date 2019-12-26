@@ -65,6 +65,7 @@
         @add-task="addTask"
       />
       <el-pagination
+        v-show="specialInspectList['data'] && specialInspectList['data'].length"
         :page-size="specialInspectList.pageRows"
         :current-page="specialInspectList.pageIndex"
         layout="prev, pager, next"

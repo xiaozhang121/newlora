@@ -40,13 +40,14 @@
         </div>-->
       </div>
     </div>
-    <duno-main class="dunoMain">
+    <duno-main class="dunoMain" v-loading="!dataList.length" element-loading-text="请稍后，正在加载数据..."  element-loading-background="rgba(0, 0, 0, 0)">
       <duno-tables-tep
         class="table_abnormalInfo"
         :columns="columns"
         :data="dataList"
         :totalNum="totalNum"
         :pageSize="pageRows"
+        :loading="false"
         :current="pageIndex"
         :border="true"
         :showSizer="true"
