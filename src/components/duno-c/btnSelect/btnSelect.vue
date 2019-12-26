@@ -81,6 +81,8 @@ export default {
     },
     showHide(event, item) {
       item["isShow"] = !item["isShow"];
+      event.preventDefault();
+      event.stopImmediatePropagation();
     },
     onKeyup(event) {
       let that = this;
