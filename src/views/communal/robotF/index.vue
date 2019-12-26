@@ -4,7 +4,7 @@
       <Breadcrumb :dataList="dataBread" />
     </div>
     <div class="title">
-      <span>室外巡检机器人</span>
+      <span>{{ insideTitle }}</span>
       <button-custom
               class="moreTask"
               title="更多任务>"
@@ -143,6 +143,7 @@
         data() {
             const that = this;
             return {
+                insideTitle: '室外巡检机器人',
                 noPic: require("@/assets/noPic.png"),
                 visible: false,
                 ischange: false,
@@ -189,15 +190,19 @@
                     this.$refs.rouTineInspection.$refs.gisMapObj.$forceUpdate();
                 } catch (e) {}
 
-                if (now == "robot-twoList") {
+                if (now == "robot-twoL") {
                   /*  this.$set(this.dataBread, 2, "机器人二");
                     this.robotName = "机器人二";*/
+                    this.dataBread[2]['name'] = '室外巡检机器人二'
+                    this.insideTitle = '室外巡检机器人二'
                     this.substationId = "1";
                     this.robotId = "9";
                 } else {
                    /* this.dataBread[2] = "机器人一";
                     this.robotName = "机器人一";
                     this.$set(this.dataBread, 2, "机器人一");*/
+                    this.dataBread[2]['name'] = '室外巡检机器人一'
+                    this.insideTitle = '室外巡检机器人一'
                     this.substationId = "1";
                     this.robotId = "1";
                 }

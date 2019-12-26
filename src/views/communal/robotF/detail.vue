@@ -298,8 +298,10 @@ export default {
                           taskRunHisId: params.row.latestTaskRunHisId,
                           planType: params.row.taskType,
                           planName:params.row.taskName,
+                          substationId: this.$route.query.substationId,
+                          robotId: this.$route.query.robotId,
                           executeTime:params.row.time?params.row.time:'',
-                          path:'/robot-one/detail?substationId=1&robotId=1',
+                          path:`/robot-one/detail?substationId=${this.$route.query.substationId}&robotId=${this.$route.query.robotId}`,
                           name:'任务配置列表'
                         }
                       });
@@ -323,14 +325,14 @@ export default {
     $route(to) {
       this.routeName = to.name;
     },
-        // routeName(now) {
-        //   if (now == "robot-twoList") {
-        //     this.$set(this.dataBread, 2, "机器人二");
-        //   } else {
-        //     this.dataBread[2] = "机器人一";
-        //     this.$set(this.dataBread, 2, "机器人一");
-        //   }
-        // }
+    routeName(now) {
+      if (now == "robot-twoL") {
+        this.dataBread[2]['name'] = '室外巡检机器人二'
+        this.dataBread[2]['path'] = "/robot-two/list"
+      } else {
+        this.dataBread[2]['name'] = '室外巡检机器人一'
+      }
+    }
   },
   methods: {
     success() {
