@@ -8,7 +8,7 @@
     </div>
     <div class="Main_contain">
       <div class="content" style="position: relative">
-        <div class="left nr">
+        <div class="left nr" :style="{width:screenWidth?'75%':'100%'}">
           <div class="item">
             <control-check
               @on-disable="onDisable"
@@ -31,7 +31,7 @@
                   :Initialization="true"
                   :isLive="false"
                   :isNav="true"
-                  :isAux='true'
+                  :isAux="true"
                 ></key-monitor>
               </div>
             </div>
@@ -50,9 +50,12 @@
             </div>
           </div>
         </div>
-        <div class="right nr contain">
-          <inspection @on-edit="onEdit" ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
+        <div class="right nr contain" v-if="screenWidth">
+          <inspection @on-edit="onEdit" ref="inspectionRef" :bigScreen='true' :deviceId="dataForm.monitorDeviceId"></inspection>
         </div>
+      </div>
+      <div class="bigRight"  v-if="!screenWidth">
+        <inspection @on-edit="onEdit" :bigScreen='false' ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
       </div>
       <div class="middle_table">
         <div class="top not-print">
@@ -225,9 +228,20 @@
         />
       </div>
     </div>
-    <wraning v-if="visible" :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
+    <wraning
+      v-if="visible"
+      :popData="popData"
+      :detailsType="detailsType"
+      :visible="visible"
+      @handleClose="handleClose"
+    />
     <enlarge v-if="isEnlarge" :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
-    <Remarks v-if="dialogVisible" :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
+    <Remarks
+      v-if="dialogVisible"
+      :isShow="dialogVisible"
+      :alarmId="alarmId"
+      @beforeClose="beforeClose"
+    />
   </div>
 </template>
 
@@ -284,9 +298,10 @@ export default {
           return time.getTime() > Date.now();
         }
       },
+      screenWidth: true,
       showPage: true,
       lockPress: false,
-      detailsType:"alarm",
+      detailsType: "alarm",
       dataTimeEE: "",
       alarmId: 0,
       loading: true,
@@ -323,19 +338,19 @@ export default {
                   }
                 },
                 [
-                    h(
-                        "div",
-                        {
-                          style: {
-                            display: "inline-block",
-                            width: "100px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }
-                        },
-                        params.row.alarmTime
-                    )
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        width: "100px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    params.row.alarmTime
+                  )
                 ]
               )
             ]);
@@ -358,7 +373,11 @@ export default {
               {
                 class: "flexPos"
               },
-              (params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealType)?params.row.dealList[0].dealType:'/'
+              params.row.dealList &&
+                params.row.dealList[0] &&
+                params.row.dealList[0].dealType
+                ? params.row.dealList[0].dealType
+                : "/"
             );
           }
         },
@@ -373,7 +392,11 @@ export default {
               {
                 class: "flexPos"
               },
-              (params.row.dealList && params.row.dealList[0] && params.row.dealList[0].dealTime)?params.row.dealList[0].dealTime:'/'
+              params.row.dealList &&
+                params.row.dealList[0] &&
+                params.row.dealList[0].dealTime
+                ? params.row.dealList[0].dealTime
+                : "/"
             );
           }
         },
@@ -388,7 +411,7 @@ export default {
               newArr.push([
                 h("img", {
                   class: "imgOrMv",
-                  attrs: {src: params.row.alarmFileAddress},
+                  attrs: { src: params.row.alarmFileAddress },
                   draggable: false,
                   on: {
                     click: () => {
@@ -756,10 +779,10 @@ export default {
                       that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
-                      if(params.row.sourceType=='手动'){
-                        this.detailsType='alarm'
-                      }else{
-                        this.detailsType='task'
+                      if (params.row.sourceType == "手动") {
+                        this.detailsType = "alarm";
+                      } else {
+                        this.detailsType = "task";
                       }
                       that.visible = true;
                       that.$forceUpdate();
@@ -810,12 +833,12 @@ export default {
         userId: this.$store.state.user.userId
       }).then(res => {
         let cameraList = res.data;
-        let ids = []
+        let ids = [];
         cameraList.forEach(item => {
           ids.push(item.monitorDeviceId);
         });
-        if(ids.indexOf(this.dataForm.monitorDeviceId)>-1){
-          this.pushCamera = false
+        if (ids.indexOf(this.dataForm.monitorDeviceId) > -1) {
+          this.pushCamera = false;
         }
       });
     },
@@ -916,13 +939,18 @@ export default {
         monitorDeviceId: this.dataForm.monitorDeviceId
       }).then(res => {
         let data = res.data.tableData;
-        data.map(item=>{
-          let t1 = moment(item['startTime'])
-          let t2 = moment(item['startTime'].split(' ')[0]+" "+item['endTime'])
-          let dura = t2.format('x') - t1.format('x')
+        data.map(item => {
+          let t1 = moment(item["startTime"]);
+          let t2 = moment(
+            item["startTime"].split(" ")[0] + " " + item["endTime"]
+          );
+          let dura = t2.format("x") - t1.format("x");
           let tempTime = moment.duration(dura);
-          item['timeValue'] = Math.round(dura/1000/60)!=0?Math.round(dura/1000/60)+'min':Math.round(dura/1000)+'sec'
-        })
+          item["timeValue"] =
+            Math.round(dura / 1000 / 60) != 0
+              ? Math.round(dura / 1000 / 60) + "min"
+              : Math.round(dura / 1000) + "sec";
+        });
         this.videoList = data;
         data.forEach((item, index) => {
           postAxiosData("/lenovo-device/device/video/record/video/pic", {
@@ -955,9 +983,9 @@ export default {
       const url =
         "/lenovo-visible/api/visible-equipment/sdk/rtmp/" +
         this.dataForm.monitorDeviceId;
-        getAxiosData(url, {}).then(res => {
-          that.playerOptions.streamAddr = res.data;
-        });
+      getAxiosData(url, {}).then(res => {
+        that.playerOptions.streamAddr = res.data;
+      });
     },
     cutOut(data) {
       if (data) {
@@ -1204,7 +1232,7 @@ export default {
       });
     },
     getEnvData() {
-      const that = this
+      const that = this;
       getAxiosData("/lenovo-alarm/api/security/list", {
         startTime: this.secondForm.startTime,
         endTime: this.secondForm.endTime,
@@ -1216,26 +1244,33 @@ export default {
         let data = res.data.tableData;
 
         data.forEach((item, index) => {
-          if(item['fileType'] == 2){
+          if (item["fileType"] == 2) {
             postAxiosData("/lenovo-alarm/api/info/video/pic", {
               videoPath: item["alarmFileAddress"],
               positionIndex: index
             }).then(res => {
               that.envDataList[res.data["positionIndex"]]["pic"] = res.data.pic;
-              that.$forceUpdate()
+              that.$forceUpdate();
             });
           }
-        })
+        });
         this.envTotalNum = res.data.pageParam.totalRows;
         if (res.data.tableData.length == 0) {
           this.showPage = false;
         }
       });
+    },
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.screenWidth = false;
+      }
     }
   },
   created() {
+    this.getWidth();
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-    this.isPushCamera()
+    this.isPushCamera();
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
@@ -1273,13 +1308,13 @@ export default {
   width: 100%;
   min-height: 100%;
   padding-bottom: 100px;
-  .keyMonitor .camera .explain .block{
+  .keyMonitor .camera .explain .block {
     display: none;
   }
-  .keyMonitor .camera .explain .record{
+  .keyMonitor .camera .explain .record {
     display: flex;
   }
-  .keyMonitor .camera .iconList{
+  .keyMonitor .camera .iconList {
     justify-content: flex-end;
   }
   .controlCheck {

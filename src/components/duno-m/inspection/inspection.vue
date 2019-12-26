@@ -1,9 +1,9 @@
 <template>
-  <div class="inspection" :class="{'miniWidth': topBtnListFlag != 0}">
+  <div class="inspection" :class="{'miniWidth': topBtnListFlag != 0,'positionInspection':!screenWidth}">
     <template v-if="panelType == 'first'">
       <div class="title">{{ cameraName }}</div>
       <div class="cameraMaind">
-        <div class="btnList">
+        <div class="btnList" v-if="screenWidth">
           <div class="title">
             <div class="name">已设置预置位：</div>
             <div class="select">
@@ -57,6 +57,66 @@
             >{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
           </div>
         </div>
+        <div class="btnListB" v-if="!screenWidth">
+          <div class="topTale">
+            <div class="title">
+              <div class="name">已设置预置位：</div>
+              <div class="select">
+                <el-select :disabled="!boatNow" v-model="startPoint" placeholder="请选择">
+                  <el-option
+                    v-for="(item, index) in dataList[0]['dataList']"
+                    :key="index"
+                    :label="item.presetName"
+                    :value="index"
+                  ></el-option>
+                </el-select>
+              </div>
+            </div>
+            <duno-table
+              ref="table"
+              style="width: 100%"
+              height="200px"
+              v-for="(item, index) in dataList"
+              :key="index"
+              :columns="columns"
+              :dataList="item.dataList"
+            ></duno-table>
+          </div>
+          <div class="rigthCruise">
+            <div>
+              <div class="cruiseInterval">
+                <div class="name">巡航间隔：</div>
+                <div>
+                  <el-select :disabled="!boatNow" v-model="selectValue" placeholder="请选择">
+                    <el-option
+                      v-for="item in timeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </div>
+              </div>
+            </div>
+            <div class="radioSelect">
+              <div>
+                <el-radio v-model="radioValue" label="1">单次</el-radio>
+                <el-radio v-model="radioValue" label="2">循环</el-radio>
+              </div>
+            </div>
+            <div class="presetSwitch">
+              <span style="color: white">
+                预置位切换：
+                <span style="color: #ffd70a">{{ secondLastShow }}s</span>
+              </span>
+              <el-button
+                @click="startBoat"
+                class="startBoot"
+                type="primary"
+              >{{ boatNow?'开始巡航':'暂停巡航' }}</el-button>
+            </div>
+          </div>
+        </div>
       </div>
     </template>
   </div>
@@ -90,6 +150,7 @@ export default {
       normal: require("@/assets/demo/normal.jpg"),
       disabled: false,
       sliderValue: 1,
+      screenWidth:true,
       clock,
       timeRange: "",
       temparams: null,
@@ -162,28 +223,28 @@ export default {
               temp = this.orangePointP;
             let newArr = [];
             // if (params.row.flag == "play") {
-              newArr.push(
-                h(
-                  "Tooltip",
-                  {
-                    props: { content: "查看" }
-                  },
-                  [
-                    h("el-button", {
-                      class: "tableBtnName",
-                      style: {
-                        backgroundImage: "url(" + temp + ")",
-                        backgroundSize: "contain"
-                      },
-                      on: {
-                        click: () => {
-                          this.checkPostion(params.row.psIndex);
-                        }
+            newArr.push(
+              h(
+                "Tooltip",
+                {
+                  props: { content: "查看" }
+                },
+                [
+                  h("el-button", {
+                    class: "tableBtnName",
+                    style: {
+                      backgroundImage: "url(" + temp + ")",
+                      backgroundSize: "contain"
+                    },
+                    on: {
+                      click: () => {
+                        this.checkPostion(params.row.psIndex);
                       }
-                    })
-                  ]
-                )
-              );
+                    }
+                  })
+                ]
+              )
+            );
             // } else {
             //   newArr.push(
             //     h("el-button", {
@@ -194,57 +255,57 @@ export default {
             //       }
             //     })
             //   );
-              newArr.push(
-                h(
-                  "Tooltip",
-                  {
-                    props: { content: "编辑" }
-                  },
-                  [
-                    h("el-button", {
-                      class: "tableBtnName",
-                      style: { backgroundImage: "url(" + this.edit + ")" },
+            newArr.push(
+              h(
+                "Tooltip",
+                {
+                  props: { content: "编辑" }
+                },
+                [
+                  h("el-button", {
+                    class: "tableBtnName",
+                    style: { backgroundImage: "url(" + this.edit + ")" },
+                    on: {
+                      click: () => {
+                        this.editTableData(params);
+                      }
+                    }
+                  })
+                ]
+              )
+            );
+            newArr.push(
+              h(
+                "Tooltip",
+                {
+                  props: { content: "删除" }
+                },
+                [
+                  h(
+                    "el-poptip",
+                    {
+                      props: {
+                        confirm: true,
+                        placement: "top-end",
+                        title: "您确定删除数据吗?",
+                        transfer: true
+                      },
                       on: {
-                        click: () => {
-                          this.editTableData(params);
+                        "on-ok": () => {
+                          this.delTableData(params);
                         }
                       }
-                    })
-                  ]
-                )
-              );
-              newArr.push(
-                h(
-                  "Tooltip",
-                  {
-                    props: { content: "删除" }
-                  },
-                  [
-                    h(
-                      "el-poptip",
-                      {
-                        props: {
-                          confirm: true,
-                          placement: "top-end",
-                          title: "您确定删除数据吗?",
-                          transfer: true
-                        },
-                        on: {
-                          "on-ok": () => {
-                            this.delTableData(params);
-                          }
-                        }
-                      },
-                      [
-                        h("el-button", {
-                          class: "tableBtnName",
-                          style: { backgroundImage: "url(" + this.del + ")" }
-                        })
-                      ]
-                    )
-                  ]
-                )
-              );
+                    },
+                    [
+                      h("el-button", {
+                        class: "tableBtnName",
+                        style: { backgroundImage: "url(" + this.del + ")" }
+                      })
+                    ]
+                  )
+                ]
+              )
+            );
             // }
             return h("div", newArr);
           }
@@ -446,6 +507,9 @@ export default {
     }
   },
   watch: {
+    bigScreen(now){
+      this.screenWidth = now;
+    },
     selectValue(now) {
       this.resetBoot();
     },
@@ -496,7 +560,9 @@ export default {
       putAxiosData(
         "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
           "/20/8/" +
-          this.dataList[0]["dataList"][now]["psIndex"]+"/"+that.deviceId
+          this.dataList[0]["dataList"][now]["psIndex"] +
+          "/" +
+          that.deviceId
       );
       this.dataList[0]["dataList"][now]["ago"] = true;
       this.dataList[0]["dataList"][now]["flag"] = "orangePointP";
@@ -515,6 +581,12 @@ export default {
     }
   },
   props: {
+    bigScreen: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     deviceId: {
       type: [String, Number],
       default: ""
@@ -583,16 +655,19 @@ export default {
     getListData() {
       const that = this;
       let url = "/lenovo-visible/api/visible-equipment/preset/list-name";
-      getAxiosData(url, { deviceId: that.deviceId }).then(res => {
-        let data = res.data;
-        data.map(item => {
-          item["flag"] = "play";
-        });
-        that.dataList[0]["dataList"] = data;
-        that.dataListd[0]["dataList"] = data;
-      }, error => {
-        this.$message.error(error.response.data.message)
-      });
+      getAxiosData(url, { deviceId: that.deviceId }).then(
+        res => {
+          let data = res.data;
+          data.map(item => {
+            item["flag"] = "play";
+          });
+          that.dataList[0]["dataList"] = data;
+          that.dataListd[0]["dataList"] = data;
+        },
+        error => {
+          this.$message.error(error.response.data.message);
+        }
+      );
     },
     fullScreen() {
       let ele = this.$refs.videoPlayer.$el
@@ -604,12 +679,17 @@ export default {
       putAxiosData(
         "/lenovo-visible/api/visible-equipment/ptz/preset-move" +
           "/20/8/" +
-          pid+"/"+that.deviceId
-      ).then(res=>{
-          this.$message.info('操作成功')
-      }, error => {
-        this.$message.error(error.response.data.message)
-      });
+          pid +
+          "/" +
+          that.deviceId
+      ).then(
+        res => {
+          this.$message.info("操作成功");
+        },
+        error => {
+          this.$message.error(error.response.data.message);
+        }
+      );
     },
     editTableData(params) {
       const that = this;
@@ -641,12 +721,15 @@ export default {
           "/lenovo-visible/api/visible-equipment/preset/create/" +
             that.deviceId,
           { presetName: that.addPosInput, id: that.deviceId }
-        ).then(res => {
-          that.getListData();
-            this.$message.info(res.msg)
-        }, error => {
-          this.$message.error(error.response.data.message)
-        });
+        ).then(
+          res => {
+            that.getListData();
+            this.$message.info(res.msg);
+          },
+          error => {
+            this.$message.error(error.response.data.message);
+          }
+        );
         that.addPosInput = "";
       } else {
         // 修改
@@ -658,11 +741,14 @@ export default {
           deviceId: that.deviceId.toString(),
           id: that.temparams.row.id.toString(),
           presetName: temp
-        }).then(res => {
-          that.getListData();
-        }, error => {
-          this.$message.error(error.response.data.message)
-        });
+        }).then(
+          res => {
+            that.getListData();
+          },
+          error => {
+            this.$message.error(error.response.data.message);
+          }
+        );
       }
     },
     startBoat() {
@@ -785,8 +871,8 @@ export default {
       this.$emit("on-close");
     },
     viewCamera(command, flag) {
-      if(flag){
-        command = 0
+      if (flag) {
+        command = 0;
       }
       this.activeNum = command;
       let url = this.operateUrl.ptzSet
@@ -830,6 +916,7 @@ export default {
   },
   mounted() {
     const that = this;
+    that.screenWidth = that.bigScreen
     window.addEventListener("resize", function() {
       console.log(document.querySelector(".contain").offsetHeight);
       that.tableHeight = document.querySelector(".contain").offsetHeight - 170;
@@ -1018,46 +1105,77 @@ export default {
       }
     }
   }
-
+  .cameraMaind {
+    .btnListB {
+      display: flex;
+      justify-content: flex-start;
+      .topTale {
+        width: 70%;
+        .tablesTep .ivu-table-wrapper .ivu-table {
+          overflow-y: auto;
+        }
+      }
+      .rigthCruise {
+        flex: 1;
+        justify-content: flex-end;
+        .cruiseInterval {
+          margin-top: 50px;
+          justify-content: flex-end;
+        }
+        .radioSelect{
+          margin-top: 30px;
+          display: flex;
+          justify-content: flex-end;
+        }
+        .presetSwitch{
+          margin-top: 30px;
+        }
+      }
+    }
+  }
   .ivu-table th {
     font-size: 14px !important;
     height: 50px;
   }
   @media screen and (min-width: 3500px) {
-    .ivu-table-cell{
+    .ivu-table-cell {
       padding-left: 0;
       padding-right: 0;
     }
-      .cameraMaind{
-        .btnList{
-          overflow: hidden;
-          .duno-table{
-            width: 100%;
-                overflow-x: auto;
-            &>div{
-              width: 130%;
-            }
+    .cameraMaind {
+      .btnList {
+        overflow: hidden;
+        .duno-table {
+          width: 100%;
+          overflow-x: auto;
+          & > div {
+            width: 130%;
           }
         }
       }
+    }
   }
   @media screen and (max-width: 1366px) {
-    .ivu-table-cell{
+    .ivu-table-cell {
       padding-left: 0;
       padding-right: 0;
     }
-    .cameraMaind{
-        .btnList{
-          overflow: hidden;
-          .duno-table{
-            width: 100%;
-                overflow-x: auto;
-            &>div{
-              width: 130%;
-            }
+    .cameraMaind {
+      .btnList {
+        overflow: hidden;
+        .duno-table {
+          width: 100%;
+          overflow-x: auto;
+          & > div {
+            width: 130%;
           }
         }
       }
-  }
+    }
+  }  
 }
+.positionInspection{
+    background: #132838!important;
+    margin-top: 20px;
+  }
 </style>
