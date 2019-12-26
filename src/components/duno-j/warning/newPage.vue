@@ -795,6 +795,10 @@ export default {
     padding: 20px 50px;
     box-shadow:none;
     height: 100%;
+    @media screen and (min-width: 3500px) {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
   }
   .el-dialog__header {
     background: #fff;

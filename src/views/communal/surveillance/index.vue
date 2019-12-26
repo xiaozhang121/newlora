@@ -1136,6 +1136,9 @@ export default {
     justify-content: flex-start;
     .left {
       width: 50.9%;
+      @media screen and (max-width: 1366px) {
+        width: 51.9%;
+      }
     }
     .right {
       flex: 1;
