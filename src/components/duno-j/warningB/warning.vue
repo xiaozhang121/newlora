@@ -62,7 +62,7 @@
           <div class="from">
             <span class="origin" style="text-decoration: none">
               来源：
-              <a style="text-decoration: underline;" href="javascript:;" @click="getJump">室外巡检机器人</a>
+              <a style="text-decoration: underline;" href="javascript:;" @click="getJump">{{ originTitle }}</a>
             </span>
           </div>
         </div>
@@ -106,6 +106,10 @@ export default {
     };
   },
   props: {
+    originTitle: {
+      type: String,
+      default: '室外巡检机器人'
+    },
     dataBread:{},
     warnData:{},
     popData: {

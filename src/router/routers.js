@@ -1156,12 +1156,13 @@ export default [{
             title: '机器人巡视',
             notCache: true,
         },
-        children: [{
+        children: [
+          {
             path: 'robot-one',
             name: 'robot-one',
             meta: {
                 topNav: '2',
-                title: '室外巡检机器人',
+                title: '室外巡检机器人一',
                 notCache: true,
                 toListName: 'robot-oneList',
             },
@@ -1217,6 +1218,67 @@ export default [{
                 }
             ]
         },
+          {
+            path: 'robot-two',
+            name: 'robot-two',
+            meta: {
+              topNav: '2',
+              title: '室外巡检机器人二',
+              notCache: true,
+              toListName: 'robot-twoL',
+            },
+            component: parentView,
+            children: [{
+              path: 'list',
+              name: 'robot-twoL',
+              meta: {
+                topNav: '2',
+                title: '列表',
+                hideInMenu: true,
+                isDetails: true
+              },
+              component: () => import('@/views/communal/robotF/index.vue')
+            },
+              {
+                path: 'report',
+                name: 'robot-twoL',
+                meta: {
+                  topNav: '2',
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true,
+                  active: "robot-twoL",
+                },
+                component: () => import('@/views/communal/robotF/viewReportDetail.vue')
+              },
+              {
+                path: 'detail',
+                name: 'robot-twoL',
+                active: "robot-twoL",
+                meta: {
+                  topNav: '2',
+                  title: '列表',
+                  hideInMenu: true,
+                  isDetails: true,
+                  active: "robot-oneList"
+                },
+                component: () => import('@/views/communal/robotF/detail.vue')
+              },
+              {
+                path: 'reportList',
+                name: 'robot-reportList',
+                active: "robot-twoL",
+                meta: {
+                  topNav: '2',
+                  title: '巡视报告列表',
+                  hideInMenu: true,
+                  isDetails: true,
+                  active: "robot-oneList"
+                },
+                component: () => import('@/views/communal/robotF/reportList.vue')
+              }
+            ]
+          },
             {
                 path: 'robot-two',
                 name: 'robot-two',

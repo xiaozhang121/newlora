@@ -41,6 +41,7 @@
       @on-fresh="initDataD"
       :warnData="warnData"
       :dataBread="dataBread"
+      :originTitle="originTitle"
       :discriminate="false"
       :hasSelect="true"
       :alarmLevel="alarmLevel"
@@ -81,6 +82,16 @@ export default {
     warningSetting,
     wraning,
     enlarge
+  },
+  computed: {
+    originTitle(){
+        let str = '室外巡检机器人'
+        if(this.$route.query.robotId == '9'){
+          return str + '二'
+        }else{
+          return str + '一'
+        }
+    }
   },
   data() {
     const that = this;
