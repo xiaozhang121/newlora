@@ -333,7 +333,7 @@ export default {
       ],
       isChangeGpu: true,
       titleGpu: {
-        text: "GUP使用率",
+        text: "GPU使用率",
         left: "center",
         textStyle: {
           color: "#fff"
