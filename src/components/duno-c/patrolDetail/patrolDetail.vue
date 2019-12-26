@@ -43,7 +43,7 @@
           :reportData="item"
         />
       </div>
-      <el-pagination v-show="dataList.tableData && dataList.tableData.length" layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
+      <el-pagination :current-page.sync="pageIndex"  v-show="dataList.tableData && dataList.tableData.length" layout="pager" :total="totalRows" @current-change="sizeChange"></el-pagination>
     </duno-main>
   </div>
 </template>
@@ -110,6 +110,7 @@ export default {
   },
   methods: {
     onSelect(item) {
+      this.pageIndex = 1
       this.titleValue = item["describeName"];
       this.dataForm.planType = item["monitorType"];
       this.getDataList();

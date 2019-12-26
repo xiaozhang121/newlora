@@ -28,6 +28,7 @@
             <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
               <div class="selectItem" v-for="(child, Cindex) in item['children']" :key="Cindex">
                 <el-radio
+                  @click.native="hideSelect"
                   :title="child['item']['describeName']"
                   :label="child['item']['monitorDeviceId']"
                   :key="child['item']['monitorDeviceId']"
@@ -81,6 +82,9 @@ export default {
     }
   },
   methods: {
+    hideSelect(){
+      this.$refs.btnSelectClick.style.display = "none";
+    },
     showHide(event, item) {
       item["isShow"] = !item["isShow"];
       event.preventDefault();
@@ -205,7 +209,7 @@ export default {
         if (
           path[i].classList &&
           path[i].classList.length &&
-          (path[i].classList.contains("checkbox") ||
+          (path[i].classList.contains("selectTop") ||
             path[i].classList.contains("video-player") ||
             path[i].classList.contains("videoPlayer"))
         ) {
@@ -217,7 +221,7 @@ export default {
     },
     onScroll(event) {
       console.log(event);
-      if (!(event.target.className.indexOf("checkbox") > -1)) {
+      if (!(event.target.className.indexOf("el-radio-group") > -1)) {
         if (this.$refs.btnSelectClick)
           this.$refs.btnSelectClick.style.display = "none";
       }

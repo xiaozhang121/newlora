@@ -126,6 +126,12 @@ export default {
     }
   },
   props: {
+    delSelect: {
+      type: Array,
+      default: ()=>{
+        return []
+      }
+    },
     dataBread: {
       type: Array,
       default: () => {
@@ -812,6 +818,15 @@ export default {
           monitorType: "",
           title: "titleTypeR"
         });
+        if(this.delSelect.length){
+          for(let i=0; i<map.length; i++){
+            let item = map[i]
+            if(this.delSelect.indexOf(item['describeName']) > -1){
+              map.splice(i, 1)
+              i--
+            }
+          }
+        }
         this.typeList = map;
       });
     },

@@ -25,7 +25,7 @@
                     :isNav='true'
                     :isAux='true'
                     :isRobot='true'
-                    streamAddr="rtmp://10.0.10.39/rtsp59/stream"
+                    :streamAddr="rtspCDD"
             />
           </div>
         </div>
@@ -42,7 +42,7 @@
                     :isRecord="false"
                     :isAux='true'
                     :isRobot='true'
-                    streamAddr="rtmp://10.0.10.39/rtsp60/stream"
+                    :streamAddr="rtspINF"
             />
           </div>
         </div>
@@ -143,6 +143,8 @@
         data() {
             const that = this;
             return {
+                rtspCDD: '',
+                rtspINF: '',
                 insideTitle: '室外巡检机器人',
                 noPic: require("@/assets/noPic.png"),
                 visible: false,
@@ -216,6 +218,7 @@
                         this.$refs.rouTineInspection.$refs.gisMapObj.coverList
                     );
                 } catch (e) {}
+                this.initVideo()
                 this.initReport();
                 this.initData();
                 this.ischange = !this.ischange;
@@ -254,6 +257,20 @@
                     that.robotStatus = res.data
                 })
             },
+            initVideo(){
+              const that = this
+              postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
+                that.cameraPath = res.data
+                let rtspCDD =  that.cameraPath['rtspCDD']
+                let rtspINF = that.cameraPath['rtspINF']
+                postAxiosData('/lenovo-device/api/stream/transfer',{rtspUrl: rtspCDD}).then(res=>{
+                  this.rtspCDD = res.data.rtmpUrl
+                })
+                postAxiosData('/lenovo-device/api/stream/transfer',{rtspUrl: rtspINF}).then(res=>{
+                  this.rtspINF = res.data.rtmpUrl
+                })
+              })
+            },
             initReport(){
                 const that = this
                 postAxiosData('/lenovo-robot/rest/reports',{substationId: that.substationId, robotId: that.robotId,length: 10}).then(res=>{
@@ -281,12 +298,10 @@
                     })
                     that.newsReport = data
                 })
-                postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
-                    that.cameraPath = res.data
-                })
             }
         },
-        created() {},
+        created() {
+        },
         beforeDestroy() {
             clearInterval(this.$refs.rouTineInspection.timer);
             clearInterval(this.timer);

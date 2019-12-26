@@ -5,6 +5,7 @@
       :monitorDeviceType="monitorDeviceType"
       :downloadURL="downloadURL"
       :selectUrl="selectUrl"
+      :delSelect="['全面巡检']"
       :position="position"
       :dataSource="dataSource"
     />

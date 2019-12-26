@@ -19,7 +19,7 @@
                         <div class="time">{{ item['alarmTime'] }}</div>
                         <div class="mainDevice">{{ item['mainDevice'] }}</div>
                         <div class="powerDeviceName">{{ item['powerDeviceName'] }}</div>
-                        <div class="nr">{{ item.alarmValue?item.alarmValue:item.alarmDetailType }}</div>
+                        <div class="nr">{{ item.alarmDetailType }}</div>
                     </div>
                 </div>
             </div>
