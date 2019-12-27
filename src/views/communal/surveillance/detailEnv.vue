@@ -59,7 +59,7 @@
           ></inspection>
         </div>
       </div>
-      <div class="bigRight" v-if="!screenWidth">
+      <div v-if="!screenWidth">
         <inspection
           @on-edit="onEdit"
           :bigScreen="false"

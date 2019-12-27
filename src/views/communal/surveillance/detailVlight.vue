@@ -56,9 +56,17 @@
             </div>
           </div>
         </div>
-        <div class="right nr contain">
-          <inspection @on-edit="onEdit" ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
+        <div class="right nr contain"  v-if="screenWidth">
+          <inspection @on-edit="onEdit" :bigScreen="true" ref="inspectionRef" :deviceId="dataForm.monitorDeviceId"></inspection>
         </div>
+      </div>
+      <div v-if="!screenWidth">
+        <inspection
+          @on-edit="onEdit"
+          :bigScreen="false"
+          ref="inspectionRef"
+          :deviceId="dataForm.monitorDeviceId"
+        ></inspection>
       </div>
       <div class="middle_table">
         <div class="top not-print">
@@ -237,6 +245,7 @@ export default {
       addOrEdit: "添加",
       titleTypeK: "全部识别类型",
       detailsType:"task",
+      screenWidth: true,
       disabled: false,
       place: false,
       lockPress: false,
@@ -920,9 +929,16 @@ export default {
       getAxiosData(url, query).then(res => {
         this.dataForm.monitorDeviceName = res.data.deviceName;
       });
+    },
+    getWidth() {
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.screenWidth = false;
+      }
     }
   },
   created() {
+    this.getWidth();
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
     this.isPushCamera()
     this.getMonitorDeviceName();
