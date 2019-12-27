@@ -1,5 +1,5 @@
 <template>
-  <div class="robotF">
+  <div class="robotF" v-if="routeChange">
     <div class="breadcrumb">
       <Breadcrumb :dataList="dataBread" />
     </div>
@@ -143,6 +143,7 @@
         data() {
             const that = this;
             return {
+                routeChange: true,
                 rtspCDD: '',
                 rtspINF: '',
                 insideTitle: '室外巡检机器人',
@@ -182,6 +183,10 @@
                 immediate: true
             },
             $route(to) {
+                this.routeChange = false
+                setTimeout(()=>{
+                  this.routeChange = true
+                },100)
                 clearInterval(this.timer);
                 this.routeName = to.name;
             },
@@ -259,7 +264,11 @@
             },
             initVideo(){
               const that = this
-              postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
+              if(that.robotId == 1){
+                this.rtspCDD = 'rtmp://10.0.10.39/rtsp59/stream'
+                this.rtspINF = 'rtmp://10.0.10.39/rtsp60/stream'
+              }
+            /*  postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
                 that.cameraPath = res.data
                 let rtspCDD =  that.cameraPath['rtspCDD']
                 let rtspINF = that.cameraPath['rtspINF']
@@ -269,7 +278,7 @@
                 postAxiosData('/lenovo-device/api/stream/transfer',{rtspUrl: rtspINF}).then(res=>{
                   this.rtspINF = res.data.rtmpUrl
                 })
-              })
+              })*/
             },
             initReport(){
                 const that = this
