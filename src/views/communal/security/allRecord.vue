@@ -54,23 +54,31 @@
         </div>-->
       </div>
     </div>
-    <duno-main class="dunoMain">
+    <duno-main class="dunoMain" v-if="videoList.length || loadingOption"
+     v-loading="loadingOption"
+     element-loading-background="rgba(0, 0, 0, 0)"
+     element-loading-text="请稍后，正在加载数据…">
       <div v-for="(item, index) in sevenValue" :key="index" class="record_item">
-        <div class="title">{{ item['date'] }}&nbsp;&nbsp;{{diffTime(item['date'])}}</div>
-        <div class="monitorContain">
+        <div class="title" v-if="item['data'].length">{{ item['date'] }}&nbsp;&nbsp;{{diffTime(item['date'])}}</div>
+        <div class="monitorContain" v-if="item['data'].length">
           <div
             class="monitorItem"
             :class="{marginRight: (i+1)%4 != 0}"
             v-for="(nr, i) in item['data']"
             :key="i"
           >
-            <cover  :videoList="videoList" :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
+            <cover  :videoList="nr['videoList']" :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
           </div>
         </div>
       </div>
     </duno-main>
+    <duno-main class="dunoMain" v-else>
+      <div class="centerNoData">
+        暂无数据
+      </div>
+    </duno-main>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning v-if="visible"    :popData="popData" :visible="visible" @handleClose="handleClose" />
+    <wraning v-if="visible" :popData="popData" :visible="visible" @handleClose="handleClose" />
     <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
   </div>
 </template>
@@ -113,6 +121,7 @@ export default {
   data() {
     const that = this;
     return {
+      loadingOption: false,
       keyIndex: 0,
       pickerOptions1:{
         disabledDate(time) {
@@ -427,6 +436,8 @@ export default {
       const that = this;
       if (this.isBack) {
         this.isBack = false;
+        that.loadingOption = true
+        that.sevenValue = []
         getAxiosData("/lenovo-device/device/video/record/videos/seven-days", {
           // date: this.sevenDates,
           startTime: this.chosenDate[0]?moment(this.chosenDate[0]).format('YYYY-MM-DD'):'',
@@ -434,6 +445,33 @@ export default {
           monitorDeviceId: this.sevenRIds()
         }).then(res => {
           let data = res.data;
+          for(let i=0; i<data.length; i++){
+            let item = data[i].data
+            let arr = []
+            for(let j=0; j<item.length; j++){
+              let monitorDeviceName = item[j]['monitorDeviceName']
+              let obj = item[j]
+              let findItemArr = arr.filter(el=>{ return el['monitorDeviceName'] == monitorDeviceName })
+              if(!findItemArr.length){
+                obj.children = [ obj ]
+                arr.push(obj)
+              }else{
+                arr.map(el=>{
+                  if(el['monitorDeviceName'] == monitorDeviceName){
+                    el['children'].push(obj)
+                  }
+                })
+              }
+            }
+            arr.map(item=>{
+              let videoList = []
+              item['children'].forEach(el=>{
+                videoList.push(el['streamAddr'])
+              })
+              item['videoList'] = videoList
+            })
+            data[i].data = arr
+          }
           this.sevenValue = data;
           let arr = []
           for(let i=0; i<data.length; i++){
@@ -443,6 +481,7 @@ export default {
             }
           }
           this.videoList = arr
+          that.loadingOption = false
           for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < data[i]["data"].length; j++) {
               postAxiosData("/lenovo-device/device/video/record/video/pic", {
@@ -693,6 +732,15 @@ export default {
 @import "@/style/tableStyle.scss";
 .analysis-detail-record {
   width: 100%;
+  .centerNoData{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    color: white;
+  }
   .selfInput{
     padding: 9px 11px;
     font-size: 14px;
@@ -744,6 +792,7 @@ export default {
   }
   .dunoMain_nr {
     border: 2px solid #464d51;
+    min-height: 500px;
   }
   .record_item {
     &:first-child {

@@ -84,14 +84,7 @@ export default {
     enlarge
   },
   computed: {
-    originTitle(){
-        let str = '室外巡检机器人'
-        if(this.$route.query.robotId == '9'){
-          return str + '二'
-        }else{
-          return str + '一'
-        }
-    }
+
   },
   data() {
     const that = this;
@@ -464,11 +457,13 @@ export default {
       this.routeName = to.name;
     },
     routeName(now) {
-    /*  if (now == "robot-twoList") {
-        this.$set(this.dataBread, 2, { name: "机器人", path: "" });
+      if (now == "robot-twoL") {
+        this.dataBread[2]['name'] = '室外巡检机器人二'
+        this.dataBread[2]['path'] = "/robotN-two/list"
       } else {
-        this.$set(this.dataBread, 2, { name: "机器人", path: "" });
-      }*/
+        this.dataBread[2]['name'] = '室外巡检机器人一'
+      }
+      this.originTitle = this.dataBread[2]['name']
     }
   },
   created() {

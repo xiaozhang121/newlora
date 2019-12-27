@@ -147,7 +147,7 @@
                     this.$refs.rouTineInspection.$refs.gisMapObj.$forceUpdate();
                 } catch (e) {}
 
-                if (now == "robot-twoList") {
+                if (now == "robot-twoL") {
                     this.dataBread[2]['name'] = '室外巡检机器人二'
                     this.dataBread[2]['path'] = "/robotN-two/list"
                     this.substationId = "1";

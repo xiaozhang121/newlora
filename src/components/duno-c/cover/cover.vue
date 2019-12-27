@@ -39,6 +39,16 @@ export default {
     enlarge
   },
   watch: {
+    srcData: {
+      handler(now){
+         if(Object.keys(now).length){
+           if(!this.saveAddr)
+            this.saveAddr = now.streamAddr
+         }
+      },
+      immediate: true,
+      deep: true
+    },
     monitorInfo: {
       handler(now) {
         this.monitorInfoR = now;
@@ -92,7 +102,8 @@ export default {
   data() {
     return {
       monitorInfoR: {},
-      isEnlarge: false
+      isEnlarge: false,
+      saveAddr: ''
     };
   },
   methods: {
@@ -106,7 +117,7 @@ export default {
       if (this.videoList.length) {
         let index = this.findIndex();
         index++;
-        if (index == this.videoList.length) {
+        if (index >= this.videoList.length) {
           return;
         }
         this.srcData.streamAddr = this.videoList[index];
@@ -119,6 +130,8 @@ export default {
     },
     closeEnlarge() {
       this.isEnlarge = false;
+      if(this.saveAddr)
+        this.srcData.streamAddr = this.saveAddr
     },
     getJump() {
       if (this.aggregate) {
@@ -223,7 +236,7 @@ export default {
     transform: translate(-50%, -50%);
     font-size: 50px;
     color: #fff;
-    z-index: 10;
+    z-index: 9;
   }
   .explainy {
     color: #fff;
