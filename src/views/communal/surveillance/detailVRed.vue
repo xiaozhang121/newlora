@@ -5,26 +5,20 @@
     </div>
     <div class="controlTitle">
       <div>{{ dataForm.monitorDeviceName }}</div>
-      <!--<div v-if="isControl =='1'" class="control">
-        云台控制中
-        <span @click="getControl">获取控制权</span>
-      </div>
-      <div v-if="isControl =='2'" class="control">
-        已获取云台控制
-        <span @click="getControl">结束控制</span>
-      </div>
-      <div v-if="isControl =='3'" class="control">
-        结束控制倒计时
-        <i>{{ currentTime }} s</i>
-        <span @click="getControl">结束控制</span>
-      </div>-->
     </div>
     <div class="Main_contain">
       <div class="content" style="position: relative">
-        <div class="left nr">
+        <div class="left nr" :style="{width:screenWidth?'75%':'calc(50% - 10px)'}">
           <div class="item">
-            <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="2" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
-            <div class="camera_surveillanceDetail">
+            <control-check
+              @on-disable="onDisable"
+              ref="controlCheckRef"
+              v-if="dataForm.monitorDeviceId && lockPress"
+              :deviceType="2"
+              :deviceId="dataForm.monitorDeviceId"
+              class="controlCheck"
+            />
+            <div class="camera_surveillanceDetail" :style="{width:screenWidth?'68%':'100%'}">
               <div class="contain">
                 <key-monitor
                   :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
@@ -35,14 +29,14 @@
                   :streamAddr="playerOptions.streamAddr"
                   :showBtmOption="false"
                   :Initialization="true"
-                  :isLive='false'
-                  :isNav='true'
-                  :isAux='true'
-                  :isRobot='true'
+                  :isLive="false"
+                  :isNav="true"
+                  :isAux="true"
+                  :isRobot="true"
                 ></key-monitor>
               </div>
             </div>
-            <div class="control">
+            <div class="control" v-if="screenWidth">
               <div class="controBtnContain">
                 <contro-btn-red-control
                   :disabledOption="disabled"
@@ -57,7 +51,25 @@
             </div>
           </div>
         </div>
-        <div class="right nr contain"   style="position: relative">
+        <div class="rightBig" v-if="!screenWidth">
+          <div v-if="!screenWidth">
+            <key-monitor
+              :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+              paddingBottom="56%"
+              class="monitor"
+              width="100%"
+              :pushCamera="pushCamera"
+              :autoplay="playerOptionsd.autoplay"
+              :streamAddr="playerOptionsd.streamAddr"
+              :showBtmOption="false"
+              :Initialization="true"
+              :isLive="false"
+              :isNav="true"
+              :isAux="true"
+            ></key-monitor>
+          </div>
+        </div>
+        <div class="right nr contain" style="position: relative" v-if="screenWidth">
           <inspection-red-control
             @on-edit="onEdit"
             ref="inspectionRef"
@@ -70,6 +82,7 @@
           <div
             class="item"
             style="background: linear-gradient(to right, transparent 100%, #132838 0%);"
+            v-if="screenWidth"
           >
             <div class="camera_surveillanceDetail">
               <div class="contain">
@@ -82,31 +95,26 @@
                   :streamAddr="playerOptionsd.streamAddr"
                   :showBtmOption="false"
                   :Initialization="true"
-                  :isLive='false'
-                  :isNav='true'
-                  :isAux='true'
+                  :isLive="false"
+                  :isNav="true"
+                  :isAux="true"
                 ></key-monitor>
               </div>
             </div>
           </div>
         </div>
-        <div class="right nr contain contain_nr_out">
+        <div class="right nr contain contain_nr_out" v-if="screenWidth">
           <div class="main">
             <div class="top not-print">
               <div>历史数据</div>
               <div class="btn">
-                <!--<div>
-                  <duno-btn-top
-                    @on-select="onSelect"
-                    class="dunoBtnTop"
-                    :isCheck="false"
-                    :dataList="typeList"
-                    :title="titleType"
-                    :showBtnList="false"
-                  ></duno-btn-top>
-                </div>-->
                 <div class="selectChosenContain">
-                  <select-chosen ref="selectChosen" @on-active="onActive" v-if="dataForm.monitorDeviceId" :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"/>
+                  <select-chosen
+                    ref="selectChosen"
+                    @on-active="onActive"
+                    v-if="dataForm.monitorDeviceId"
+                    :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+                  />
                 </div>
                 <div class="dateChose">
                   <el-date-picker
@@ -125,6 +133,66 @@
               <echarts :dataOBJ="echartData" :title="echartTitle" gridOptionTop="120" />
             </div>
           </div>
+        </div>
+      </div>
+      <div class="bigControl">
+        <div class="bigLeft" v-if="!screenWidth">
+          <div class="controBtnContain">
+            <contro-btn-red-control
+              :disabledOption="disabled"
+              ref="controBtnRef"
+              :deviceId="dataForm.monitorDeviceId"
+            />
+          </div>
+        </div>
+        <div class="bigContent" v-if="!screenWidth">
+          <control-check
+            @on-disable="onDisable"
+            ref="controlCheckRef"
+            v-if="dataForm.monitorDeviceId && lockPress"
+            :deviceType="2"
+            :deviceId="dataForm.monitorDeviceId"
+          />
+          <div class="inputGroup" v-if="place">
+            <el-input @input="checkSpecial" v-model="presetName" placeholder="添加预置位名称"></el-input>
+            <el-button class="addPoint" @click.native="addPoint" type="success">{{ addOrEdit }}</el-button>
+          </div>
+        </div>
+        <div class="bigRight" style="position: relative" v-if="!screenWidth">
+          <inspection-red-control
+            @on-edit="onEdit"
+            ref="inspectionRef"
+            :deviceId="dataForm.monitorDeviceId"
+          ></inspection-red-control>
+        </div>
+      </div>
+      <div class="bigEcharts" v-if="!screenWidth">
+        <div class="top not-print">
+          <div>历史数据</div>
+          <div class="btn">
+            <div class="selectChosenContain">
+              <select-chosen
+                ref="selectChosen"
+                @on-active="onActive"
+                v-if="dataForm.monitorDeviceId"
+                :monitorInfo="{ monitorDeviceId: dataForm.monitorDeviceId }"
+              />
+            </div>
+            <div class="dateChose">
+              <el-date-picker
+                unlink-panels
+                v-model="value"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                @change="onChangeTime"
+              ></el-date-picker>
+            </div>
+          </div>
+        </div>
+        <div class="contain_nr">
+          <echarts :dataOBJ="echartData" :title="echartTitle" paddingBottom="300px" />
         </div>
       </div>
       <div class="middle_table">
@@ -177,12 +245,6 @@
                 :showBtnList="false"
               ></duno-btn-top>
             </div>
-            <!-- <div>
-              <div @click="clickExcel" class="exportExcel">
-                <i class="iconfont icon-daochu1"></i>
-                导出表格
-              </div>
-            </div> -->
           </div>
         </div>
         <duno-tables-tep
@@ -194,7 +256,7 @@
           :current="pageIndex"
           :border="true"
           :showSizer="true"
-          :isShowPage='mixinViewModuleOptions.isShowPage'
+          :isShowPage="mixinViewModuleOptions.isShowPage"
           @on-select="dataListSelectionChangeHandle"
           @clickPage="pageCurrentChangeHandle"
           @on-page-size-change="pageSizeChangeHandle"
@@ -202,14 +264,20 @@
       </div>
     </div>
     <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-    <wraning v-if="visible" :popData="popData" :detailsType="detailsType" :visible="visible" @handleClose="handleClose" />
+    <wraning
+      v-if="visible"
+      :popData="popData"
+      :detailsType="detailsType"
+      :visible="visible"
+      @handleClose="handleClose"
+    />
     <enlarge v-if="isEnlarge" :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
   </div>
 </template>
 
 <script>
-import controlCheck from '_c/duno-m/controlCheck'
-import selectChosen  from "_c/duno-m/selectChosen";
+import controlCheck from "_c/duno-m/controlCheck";
+import selectChosen from "_c/duno-m/selectChosen";
 import enlarge from "_c/duno-c/enlarge";
 import dunoBtnTop from "_c/duno-m/duno-btn-top";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
@@ -255,10 +323,11 @@ export default {
       pushCamera: true,
       echartTitle: "",
       addOrEdit: "添加",
-      detailsType:"task",
+      detailsType: "task",
       disabled: true,
       place: false,
       lockPress: false,
+      screenWidth: true,
       isControl: "1",
       currentTime: 10,
       timeOut: null,
@@ -311,22 +380,27 @@ export default {
               h(
                 "Tooltip",
                 {
-                  props: { placement: "top", content: timeDay, transfer: true, maxWidth: "200" }
+                  props: {
+                    placement: "top",
+                    content: timeDay,
+                    transfer: true,
+                    maxWidth: "200"
+                  }
                 },
                 [
-                    h(
-                        "div",
-                        {
-                          style: {
-                            display: "inline-block",
-                            width: "100px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }
-                        },
-                        timeDay
-                    )
+                  h(
+                    "div",
+                    {
+                      style: {
+                        display: "inline-block",
+                        width: "100px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      }
+                    },
+                    timeDay
+                  )
                 ]
               )
             ]);
@@ -346,7 +420,7 @@ export default {
           align: "center",
           tooltip: true,
           render: (h, params) => {
-            let data = params.row.part?params.row.part:'/'
+            let data = params.row.part ? params.row.part : "/";
             return h("div", data);
           }
         },
@@ -535,10 +609,10 @@ export default {
                       that.alarmType = params.row.alarmType;
                       that.popData = params.row;
                       that.alarmLevel = params.row.alarmLevel;
-                      if(params.row.sourceType=='手动'){
-                        this.detailsType='alarm'
-                      }else{
-                        this.detailsType='task'
+                      if (params.row.sourceType == "手动") {
+                        this.detailsType = "alarm";
+                      } else {
+                        this.detailsType = "task";
                       }
                       that.visible = true;
                       that.$forceUpdate();
@@ -561,7 +635,7 @@ export default {
       presetName: "",
       allDataKind: [],
       allDataLevel: [],
-      recognizeType: '',
+      recognizeType: "",
       dataTime: "",
       dataBread: [{ name: "摄像头详情" }]
     };
@@ -572,64 +646,62 @@ export default {
         userId: this.$store.state.user.userId
       }).then(res => {
         let cameraList = res.data;
-        let ids = []
+        let ids = [];
         cameraList.forEach(item => {
           ids.push(item.monitorDeviceId);
         });
-        if(ids.indexOf(this.dataForm.monitorDeviceId)>-1){
-          this.pushCamera = false
+        if (ids.indexOf(this.dataForm.monitorDeviceId) > -1) {
+          this.pushCamera = false;
         }
       });
     },
-    handleData(index, arr ,flag){
-      const that = this
-      let dataList = []
-      if(arr){
-        dataList = arr
-      }else{
-        dataList = this.chartsList
+    handleData(index, arr, flag) {
+      const that = this;
+      let dataList = [];
+      if (arr) {
+        dataList = arr;
+      } else {
+        dataList = this.chartsList;
       }
-      const legendData = []
-      const seriesData = []
-      that.unit = dataList[index].unit
-      that.echartsKind = dataList[index].flag
-      legendData.push(dataList[index].itemName)
-      let elData = dataList[index]['itemDataList']
+      const legendData = [];
+      const seriesData = [];
+      that.unit = dataList[index].unit;
+      that.echartsKind = dataList[index].flag;
+      legendData.push(dataList[index].itemName);
+      let elData = dataList[index]["itemDataList"];
       let obj = {
         name: dataList[index].itemName,
-        type:'line',
+        type: "line",
         data: elData
+      };
+      if (dataList[index].flag) {
+        obj["step"] = "start";
       }
-      if(dataList[index].flag){
-        obj['step'] = 'start'
-      }
-      seriesData.push(obj)
-      that.legendData = legendData
-      that.seriesData = seriesData
-      if(!flag)
-        that.isChangeFlag = !that.isChangeFlag
-      return {legendData: legendData, seriesData: seriesData}
+      seriesData.push(obj);
+      that.legendData = legendData;
+      that.seriesData = seriesData;
+      if (!flag) that.isChangeFlag = !that.isChangeFlag;
+      return { legendData: legendData, seriesData: seriesData };
     },
-    getAxisData(data){
-      let xAxisData = []
-      data.forEach(item=>{
-        item['itemDataList'].forEach(el =>{
-          if(xAxisData.indexOf(el[0]) < 0)
-            xAxisData.push(el[0])
-        })
-      })
-      xAxisData.sort(function (a, b) {
-        return a < b ? -1 : 1
-      })
-      return xAxisData
+    getAxisData(data) {
+      let xAxisData = [];
+      data.forEach(item => {
+        item["itemDataList"].forEach(el => {
+          if (xAxisData.indexOf(el[0]) < 0) xAxisData.push(el[0]);
+        });
+      });
+      xAxisData.sort(function(a, b) {
+        return a < b ? -1 : 1;
+      });
+      return xAxisData;
     },
-    onActive(data){
-      let arr = []
-      data.forEach(item=>{
-        arr.push(item['value'])
-      })
-      this.recognizeType = arr.join(',')
-      this.getEchasrts()
+    onActive(data) {
+      let arr = [];
+      data.forEach(item => {
+        arr.push(item["value"]);
+      });
+      this.recognizeType = arr.join(",");
+      this.getEchasrts();
     },
     checkSpecial(value) {
       let myreg =
@@ -648,16 +720,16 @@ export default {
           });
         }
       }
-      if(value.length>20){
+      if (value.length > 20) {
         this.$message({
-            message: "字符长度超出限制",
-            type: "warning"
-          });
-          this.presetName=value.slice(0,20)
+          message: "字符长度超出限制",
+          type: "warning"
+        });
+        this.presetName = value.slice(0, 20);
       }
     },
-    onDisable(flag){
-        this.disabled = !flag
+    onDisable(flag) {
+      this.disabled = !flag;
     },
     closeEnlarge() {
       this.isEnlarge = false;
@@ -849,7 +921,7 @@ export default {
       });
     },
     getEchasrts() {
-      const that = this
+      const that = this;
       let query = {
         startTime: this.echartForm.startTime,
         endTime: this.echartForm.endTime,
@@ -859,16 +931,20 @@ export default {
         presetId: this.recognizeType
       };
       getAxiosData("/lenovo-plan/api/plan/history/new", query).then(res => {
-        let dataList = res.data.dataList
-        let xAxisData = that.getAxisData(dataList)
-        let legendData = []
-        let seriesData = []
-        for(let i=0; i<dataList.length; i++){
-          let obj = this.handleData(i, dataList, true)
-          legendData.push(...obj.legendData)
-          seriesData.push(...obj.seriesData)
+        let dataList = res.data.dataList;
+        let xAxisData = that.getAxisData(dataList);
+        let legendData = [];
+        let seriesData = [];
+        for (let i = 0; i < dataList.length; i++) {
+          let obj = this.handleData(i, dataList, true);
+          legendData.push(...obj.legendData);
+          seriesData.push(...obj.seriesData);
         }
-        this.echartData = {legendData: legendData, seriesData: seriesData, xAxisData: xAxisData}
+        this.echartData = {
+          legendData: legendData,
+          seriesData: seriesData,
+          xAxisData: xAxisData
+        };
         this.echartTitle = res.data.title;
       });
     },
@@ -927,6 +1003,7 @@ export default {
     getWidth() {
       let screen = window.screen.availWidth;
       if (screen > 3500) {
+        this.screenWidth = false;
         this.columns.splice(6, 1);
         this.columns.splice(1, 1);
       }
@@ -935,7 +1012,7 @@ export default {
   created() {
     this.getWidth();
     this.dataForm.monitorDeviceId = this.$route.query.monitorDeviceId;
-    this.isPushCamera()
+    this.isPushCamera();
     this.getMonitorDeviceName();
     this.getDataList();
     this.initCamera();
@@ -943,7 +1020,7 @@ export default {
   },
   mounted() {
     this.place = this.getAuthority("10071002");
-    this.lockPress = this.getAuthority("10075002")
+    this.lockPress = this.getAuthority("10075002");
     this.getInit();
     this.getSelectType();
     this.getSelcetGrade();
@@ -953,8 +1030,7 @@ export default {
     document.querySelector(".mainAside").style.minHeight = "100%";
   },
   beforeDestroy() {
-    if(this.$refs.controlCheckRef)
-      this.$refs.controlCheckRef.releaseNow()
+    if (this.$refs.controlCheckRef) this.$refs.controlCheckRef.releaseNow();
     document.querySelector(".mainAside").style.height = "calc(100% - 80px)";
     document.querySelector(".mainAside").style.minHeight = "inherit";
   }
@@ -970,26 +1046,26 @@ export default {
   width: 100%;
   min-height: 100%;
   overflow-y: hidden;
-  .keyMonitor .camera .explain .block{
+  .keyMonitor .camera .explain .block {
     visibility: hidden;
   }
-  .keyMonitor .camera .explain .record{
+  .keyMonitor .camera .explain .record {
     display: flex;
   }
-  .selectChosenContain{
+  .selectChosenContain {
     width: 168px;
-    .mainContain{
+    .mainContain {
       background: #192f41 !important;
     }
-    .activeTitle{
+    .activeTitle {
       background: #192f41 !important;
       line-height: 40px !important;
     }
-    .container{
+    .container {
       background: #192f41 !important;
     }
   }
-  .controlCheck{
+  .controlCheck {
     height: 30px;
     bottom: inherit;
     color: white;
@@ -1229,6 +1305,10 @@ export default {
         }
       }
     }
+    .rightBig {
+      width: calc(50% - 10px);
+      margin-left: 20px;
+    }
   }
   .middle_table {
     margin-top: 20px;
@@ -1273,19 +1353,19 @@ export default {
           margin-left: 10px;
         }
         .dunoBtnTop {
+          width: 150px;
+          position: relative;
+          left: 10px;
+          display: inline-flex;
+          padding-bottom: 0;
+          .btnList {
+            top: inherit !important;
             width: 150px;
-            position: relative;
-            left: 10px;
-            display: inline-flex;
-            padding-bottom: 0;
-            .btnList {
-              top: inherit !important;
-              width: 150px;
-              .title {
-                padding: 8px 20px;
-              }
+            .title {
+              padding: 8px 20px;
             }
           }
+        }
         // & > div:nth-child(2) {
         //   & > div {
         //     width: 140px;
@@ -1324,8 +1404,8 @@ export default {
             font-size: 16px;
           }
           ::placeholder {
-          color: #fff;
-        }
+            color: #fff;
+          }
         }
       }
     }
@@ -1354,6 +1434,49 @@ export default {
           }
         }
       }
+    }
+  }
+  .bigControl {
+    display: flex;
+    justify-content: flex-start;
+    background: rgba(20, 40, 56, 0.8);
+    .bigLeft {
+      width: 30%;
+    }
+    .bigContent {
+      width: 30%;
+      .isControl {
+        position: static;
+        text-align: left;
+        margin-top: 50px;
+      }
+      .inputGroup {
+        display: flex;
+        margin-top: 40px;
+      }
+    }
+    .bigRight {
+      width: 40%;
+    }
+  }
+  .bigEcharts {
+    .contain_nr {
+      background: #132838;
+      .echartsData{
+        top: 0;
+        height: 300px;
+        .chartBox{
+          padding-bottom: 300px!important;
+        }
+      }
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      line-height: 40px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      color: #fff;
     }
   }
   //-------------------表格样式
@@ -1463,14 +1586,20 @@ export default {
       }
     }
   }
-  .control_slider{
+  .control_slider {
     top: 105% !important;
   }
-  .cameraSpeed{
+  .cameraSpeed {
     bottom: -25% !important;
   }
 }
-.detailVRed .content .right .top .btn .dateChose .el-range-editor--small.el-input__inner{
+.detailVRed
+  .content
+  .right
+  .top
+  .btn
+  .dateChose
+  .el-range-editor--small.el-input__inner {
   @media screen and (max-width: 1366px) {
     width: 273px;
   }

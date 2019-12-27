@@ -1097,6 +1097,9 @@ export default {
     display: flex;
     .left {
       width: 75%;
+      @media screen  and(min-width: 3500px){
+        width:100%
+      }
       &.nr {
         display: flex;
         flex-direction: column;

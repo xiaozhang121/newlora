@@ -9,44 +9,44 @@
         <div class="btn">
           <div>
             <duno-btn-top
-                    @on-select="onSelect"
-                    class="dunoBtnTo"
-                    :isCheck="false"
-                    :dataList="regionList"
-                    :title="titleTypeL"
-                    :showBtnList="false"
+              @on-select="onSelect"
+              class="dunoBtnTo"
+              :isCheck="false"
+              :dataList="regionList"
+              :title="titleTypeL"
+              :showBtnList="false"
             ></duno-btn-top>
           </div>
           <div>
             <duno-btn-top
-                    @on-select="onSelect"
-                    class="dunoBtnTop"
-                    :isCheck="false"
-                    :dataList="typeList"
-                    :title="titleTypeR"
-                    :showBtnList="false"
+              @on-select="onSelect"
+              class="dunoBtnTop"
+              :isCheck="false"
+              :dataList="typeList"
+              :title="titleTypeR"
+              :showBtnList="false"
             ></duno-btn-top>
           </div>
           <div class="dateChose">
             <el-date-picker
-                    unlink-panels
-                    v-model="value"
-                    type="daterange"
-                    range-separator="-"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    @change="onChangeTime"
+              unlink-panels
+              v-model="value"
+              type="daterange"
+              range-separator="-"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              @change="onChangeTime"
             ></el-date-picker>
           </div>
           <div>
             <duno-btn-top
-                    @on-select="selectDownloadType"
-                    class="dunoBtnTo"
-                    :isCheck="false"
-                    :dataList="downLoadList"
-                    :output="true"
-                    title="导出表格"
-                    :showBtnList="false"
+              @on-select="selectDownloadType"
+              class="dunoBtnTo"
+              :isCheck="false"
+              :dataList="downLoadList"
+              :output="true"
+              title="导出表格"
+              :showBtnList="false"
             ></duno-btn-top>
           </div>
           <!-- <div>
@@ -59,31 +59,37 @@
       </div>
       <duno-main class="dunoMain" v-show="!isCarManager">
         <duno-tables-tep
-                class="table_abnormalInfo"
-                :columns="columns"
-                :data="dataList"
-                :totalNum="totalNum"
-                :pageSize="pageRows"
-                :current="pageIndex"
-                :border="true"
-                :showSizer="true"
-                :isShowPage="mixinViewModuleOptions.isShowPage"
-                @on-select="dataListSelectionChangeHandle"
-                @clickPage="pageCurrentChangeHandle"
-                @on-page-size-change="pageSizeChangeHandle"
+          class="table_abnormalInfo"
+          :columns="columns"
+          :data="dataList"
+          :totalNum="totalNum"
+          :pageSize="pageRows"
+          :current="pageIndex"
+          :border="true"
+          :showSizer="true"
+          :isShowPage="mixinViewModuleOptions.isShowPage"
+          @on-select="dataListSelectionChangeHandle"
+          @clickPage="pageCurrentChangeHandle"
+          @on-page-size-change="pageSizeChangeHandle"
         />
       </duno-main>
       <warning-setting @handleClose="onClose" :visibleOption="visibleSettingOption" />
-      <wraning v-if="visible"    :popData="popData" detailsType="alarm" :visible="visible" @handleClose="handleClose" />
+      <wraning
+        v-if="visible"
+        :popData="popData"
+        detailsType="alarm"
+        :visible="visible"
+        @handleClose="handleClose"
+      />
       <enlarge
-              :pushCamera="false"
-              :isShow="isEnlarge"
-              :srcData="srcData"
-              @closeEnlarge="closeEnlarge"
+        :pushCamera="false"
+        :isShow="isEnlarge"
+        :srcData="srcData"
+        @closeEnlarge="closeEnlarge"
       />
       <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     </div>
-    <front-door :noHeader="true" v-if="isCarManager"/>
+    <front-door :noHeader="true" v-if="isCarManager" />
   </div>
 </template>
 
@@ -98,7 +104,7 @@ import buttonCustom from "_c/duno-m/buttonCustom";
 import KeyMonitor from "_c/duno-c/KeyMonitor";
 import warningSetting from "_c/duno-j/warningSetting";
 import wraning from "_c/duno-j/warning";
-import frontDoor from '@/views/communal/security/frontDoor'
+import frontDoor from "@/views/communal/security/frontDoor";
 import mixinViewModule from "@/mixins/view-module";
 import { DunoTablesTep } from "_c/duno-tables-tep";
 import { getAxiosData, postAxiosData, putAxiosData } from "@/api/axiosType";
@@ -236,7 +242,28 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let dealList = params.row.dealList;
-            return h("div", dealList.length > 0 ? dealList[0].dealType : "");
+            // return h("div", dealList.length > 0 ? dealList[0].dealType : "");
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  class: "tip_type",
+                  props: {
+                    placement: "top",
+                    maxWidth: "150",
+                    content: dealList.length > 0 ? dealList[0].dealType : "",
+                    transfer: true
+                  },
+                  style: {
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                dealList.length > 0 ? dealList[0].dealType : ""
+              )
+            ]);
           }
         },
         {
@@ -253,7 +280,27 @@ export default {
             } else {
               timeDay = "";
             }
-            return h("div", timeDay);
+            return h("div", [
+              h(
+                "Tooltip",
+                {
+                  class: "tip_type",
+                  props: {
+                    placement: "top",
+                    maxWidth: "150",
+                    content: timeDay,
+                    transfer: true
+                  },
+                  style: {
+                    width: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }
+                },
+                timeDay
+              )
+            ]);
           }
         },
         {
@@ -425,10 +472,10 @@ export default {
     onSelect(item, index) {
       this[item.title] = item["describeName"];
       if (item.title == "titleTypeL") {
-        this.isCarManager = false
-        if(item.monitorDeviceType == '999'){
-          this.isCarManager = true
-          return
+        this.isCarManager = false;
+        if (item.monitorDeviceType == "999") {
+          this.isCarManager = true;
+          return;
         }
         this.dataForm.areaId = item.monitorDeviceType;
       } else if (item.title == "titleTypeR") {
@@ -565,7 +612,7 @@ export default {
               monitorDeviceId: monitorDeviceId
             }
           });
-        }else if (monitorDeviceType == 6) {
+        } else if (monitorDeviceType == 6) {
           this.$router.push({
             path: "/surveillancePath/detailUbiquitou",
             query: {
@@ -595,6 +642,14 @@ export default {
   .icon-xiala {
     /*width: 13px;
     height: 16px;*/
+  }
+  .tip_type {
+    .ivu-tooltip-rel {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
   //-------------------表格样式
   .dunoMain {

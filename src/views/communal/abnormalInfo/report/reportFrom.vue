@@ -335,6 +335,9 @@ export default {
       float: left;
       height: 400px;
       margin-right: 20px;
+      @media screen and(max-width: 1366px){
+        height: 340px;
+      }
       img {
         height: 100%；;
       }

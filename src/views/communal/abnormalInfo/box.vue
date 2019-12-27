@@ -1015,6 +1015,9 @@ export default {
   background: #142838;
   margin-left: 20px;
   margin-top: 20px;
+  @media screen  and(max-width: 1366px){
+    height: 58%;
+  }
   .videobox {
     padding-top: 20px;
     padding-left: 10%;
@@ -1041,6 +1044,9 @@ export default {
   float: left;
   position: relative;
   margin-top: 20px;
+  @media screen  and(max-width: 1366px){
+    height: 58%;
+  }
   table {
     height: 70%;
     position: relative;
