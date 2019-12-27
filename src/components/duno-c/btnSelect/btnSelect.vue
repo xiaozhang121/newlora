@@ -209,11 +209,11 @@ export default {
       });
       if (this.displayType == "1" && this.checkedCities.length < 5) {
         this.$emit("on-active", this.checkedCities);
-        return false;
+        return
       }
       if (this.displayType == "3" && this.checkedCities.length < 8) {
         this.$emit("on-active", this.checkedCities);
-        return false;
+        return
       }
       if (this.displayType == "1") {
         this.cameraListId = this.cameraListId.slice(0, 5);
