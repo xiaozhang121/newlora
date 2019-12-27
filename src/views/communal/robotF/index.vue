@@ -267,6 +267,9 @@
               if(that.robotId == 1){
                 this.rtspCDD = 'rtmp://10.0.10.39/rtsp59/stream'
                 this.rtspINF = 'rtmp://10.0.10.39/rtsp60/stream'
+              }else{
+                this.rtspCDD = ''
+                this.rtspINF = ''
               }
             /*  postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
                 that.cameraPath = res.data
