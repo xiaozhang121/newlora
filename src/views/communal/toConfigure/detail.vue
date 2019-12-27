@@ -17,7 +17,7 @@
           <el-button class="btn_pre" @click.native="routeTo">查看报告></el-button>
         </div>
       </div>
-     <!-- <Patrol
+      <!-- <Patrol
         @to-run="toRunTask"
         @to-del="toDel"
         :patrolData="allInspectList"
@@ -29,6 +29,7 @@
         @to-edit="toEdit"
         @to-run="toRunTask"
         :patrolData="nightInspectList"
+        :columns="columns"
         planType="熄灯巡视"
         :titleCon="titleNight"
         :title="titleTwo"
@@ -50,12 +51,12 @@
         planType="手持红外巡视"
       />
       <Patrol
-              :columns="columnsData1D"
-              :patrolData="environmentInspectList"
-              :title="title1"
-              :isShowBtn="false"
-              :titleCon="titleCon"
-              planType="现场安全管控巡视"
+        :columns="columnsData1D"
+        :patrolData="environmentInspectList"
+        :title="title1"
+        :isShowBtn="false"
+        :titleCon="titleCon"
+        planType="现场安全管控巡视"
       />
       <alert :visible="visible" @handleClose="closeDia" @handleSubmit="submitChange" />
     </duno-main>
@@ -145,6 +146,273 @@ export default {
           frequency: "2"
         }
       ],
+      columns: [
+        {
+          title: "巡视名称",
+          key: "planName",
+          width: 180,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "巡视步骤",
+          key: "stepNum",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "监测设备",
+          key: "monitorDeviceName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "执行时间",
+          key: "interval",
+          minWidth: 50,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "已巡视次数",
+          key: "inspectNum",
+          minWidth: 90,
+          align: "center",
+          tooltip: true
+        },
+        {
+          title: "状态",
+          key: "statusName",
+          minWidth: 50,
+          align: "center",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            newArr.push(
+              h(
+                "div",
+                {
+                  class: {
+                    table_select: true,
+                    interval: params.row.status == "0",
+                    patrol: params.row.status == "1"
+                  }
+                },
+                params.row.statusName
+              )
+            );
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          minWidth: 180,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let self = that;
+            let newArr = [];
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即执行",
+                    loading: params.row.loading
+                  },
+                  on: {
+                    click: () => {
+                      self.toRunTask(params);
+                    }
+                  }
+                },
+                "立即执行"
+              )
+            );
+            if (that.isEdit) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.$emit(
+                          "to-edit",
+                          JSON.parse(JSON.stringify(params.row))
+                        );
+                      }
+                    }
+                  },
+                  "编辑"
+                )
+              );
+            }
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-poptip",
+                  {
+                    props: {
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
+            }
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看详情>" },
+                  on: {
+                    click: () => {
+                      this.getJump(params.row);
+                    }
+                  }
+                },
+                "查看详情>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          minWidth: 250,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let self = that;
+            let newArr = [];
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即执行",
+                    loading: params.row.loading
+                  },
+                  on: {
+                    click: () => {
+                      self.toRunTask(params);
+                    }
+                  }
+                },
+                "立即执行"
+              )
+            );
+            if (that.isEdit) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.$emit(
+                          "to-edit",
+                          JSON.parse(JSON.stringify(params.row))
+                        );
+                      }
+                    }
+                  },
+                  "编辑"
+                )
+              );
+            }
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-poptip",
+                  {
+                    props: {
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
+            }
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看详情>" },
+                  on: {
+                    click: () => {
+                      this.getJump(params.row);
+                    }
+                  }
+                },
+                "查看详情>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        }
+      ],
       columnsData: [
         {
           title: "巡视名称",
@@ -207,7 +475,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 200,
+          minWidth: 180,
           align: "right",
           tooltip: true,
           render: (h, params) => {
@@ -253,22 +521,148 @@ export default {
               );
             }
             if (that.isDel) {
-              newArr.push(h('el-poptip', {
-                props: { confirm: true, title: '确定删除吗？', type: 'primary', size: 'small' },
-                style: { margin: '0 2px' },
-                on: { 'on-ok': () => { self.toDel(params) } }
-              }, [ h(
+              newArr.push(
+                h(
+                  "el-poptip",
+                  {
+                    props: {
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
+            }
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看详情>" },
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: "configure-report",
+                        query: {
+                          planId: params.row.planId,
+                          planName: params.row.planName,
+                          planType: params.row.planType
+                          //   url: ""
+                        }
+                      });
+                    }
+                  }
+                },
+                "查看详情>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          minWidth: 300,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let self = that;
+            let newArr = [];
+            newArr.push(
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#305e83" },
+                  props: {
+                    type: "text",
+                    content: "立即执行",
+                    loading: params.row.loading
+                  },
+                  on: {
+                    click: () => {
+                      self.toRunTask(params);
+                    }
+                  }
+                },
+                "立即执行"
+              )
+            );
+            if (that.isEdit) {
+              newArr.push(
+                h(
                   "el-button",
                   {
                     class: "btn_pre",
                     style: { background: "#305e83" },
-                    props: {
-                      type: "text",
-                      content: "删除"
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.rowData = JSON.parse(JSON.stringify(params.row));
+                        that.taskVisible = true;
+                      }
                     }
                   },
-                  "删除"
-              )]))
+                  "编辑"
+                )
+              );
+            }
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-poptip",
+                  {
+                    props: {
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
             }
             newArr.push([
               h(
@@ -397,22 +791,39 @@ export default {
               );
             }
             if (that.isDel) {
-              newArr.push(h('el-poptip', {
-                props: { confirm: true, title: '确定删除吗？', type: 'primary', size: 'small' },
-                style: { margin: '0 2px' },
-                on: { 'on-ok': () => { self.toDel(params) } }
-              }, [ h(
-                  "el-button",
+              newArr.push(
+                h(
+                  "el-poptip",
                   {
-                    class: "btn_pre",
-                    style: { background: "#305e83" },
                     props: {
-                      type: "text",
-                      content: "删除"
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
                     }
                   },
-                  "删除"
-              )]))
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
             }
             newArr.push([
               h(
@@ -504,7 +915,7 @@ export default {
         },
         {
           title: " ",
-          minWidth: 200,
+          minWidth: 180,
           align: "right",
           tooltip: true,
           render: (h, params) => {
@@ -530,22 +941,127 @@ export default {
               );
             }
             if (that.isDel) {
-              newArr.push(h('el-poptip', {
-                props: { confirm: true, title: '确定删除吗？', type: 'primary', size: 'small' },
-                style: { margin: '0 2px' },
-                on: { 'on-ok': () => { self.toDel(params) } }
-              }, [ h(
+              newArr.push(
+                h(
+                  "el-poptip",
+                  {
+                    props: {
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
+            }
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看详情>" },
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: "configure-report",
+                        query: {
+                          planId: params.row.planId,
+                          planName: params.row.planName,
+                          planType: params.row.planType
+                        }
+                      });
+                    }
+                  }
+                },
+                "查看详情>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          minWidth: 250,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let self = that;
+            let newArr = [];
+            if (that.isEdit) {
+              newArr.push(
+                h(
                   "el-button",
                   {
                     class: "btn_pre",
                     style: { background: "#305e83" },
-                    props: {
-                      type: "text",
-                      content: "删除"
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.rowData = JSON.parse(JSON.stringify(params.row));
+                        that.taskVisible3 = true;
+                      }
                     }
                   },
-                  "删除"
-              )]))
+                  "编辑"
+                )
+              );
+            }
+            if (that.isDel) {
+              newArr.push(
+                h(
+                  "el-poptip",
+                  {
+                    props: {
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
             }
             newArr.push([
               h(
@@ -622,13 +1138,16 @@ export default {
         },
         {
           title: " ",
-          minWidth: 200,
+          minWidth: 150,
           align: "right",
           tooltip: true,
           render: (h, params) => {
             let newArr = [];
             let self = that;
-            if (params.row.statusName == "任务间隔中"  && params.row.planType != 6) {
+            if (
+              params.row.statusName == "任务间隔中" &&
+              params.row.planType != 6
+            ) {
               newArr.push(
                 h(
                   "el-button",
@@ -650,7 +1169,10 @@ export default {
                 )
               );
             }
-            if (params.row.statusName == "正在巡视中"  && params.row.planType != 6) {
+            if (
+              params.row.statusName == "正在巡视中" &&
+              params.row.planType != 6
+            ) {
               newArr.push(
                 h(
                   "el-button",
@@ -672,7 +1194,7 @@ export default {
                 )
               );
             }
-            if (that.isEdit  && params.row.planType != 6) {
+            if (that.isEdit && params.row.planType != 6) {
               newArr.push(
                 h(
                   "el-button",
@@ -692,22 +1214,39 @@ export default {
               );
             }
             if (that.isDel && params.row.planType != 6) {
-              newArr.push(h('el-poptip', {
-                props: { confirm: true, title: '确定删除吗？', type: 'primary', size: 'small' },
-                style: { margin: '0 2px' },
-                on: { 'on-ok': () => { self.toDel(params) } }
-              }, [ h(
-                  "el-button",
+              newArr.push(
+                h(
+                  "el-poptip",
                   {
-                    class: "btn_pre",
-                    style: { background: "#305e83" },
                     props: {
-                      type: "text",
-                      content: "删除"
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
                     }
                   },
-                  "删除"
-              )]))
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
             }
             newArr.push([
               h(
@@ -718,7 +1257,7 @@ export default {
                   props: { type: "text", content: "查看详情>" },
                   on: {
                     click: () => {
-                      if(params.row.planType == 6){
+                      if (params.row.planType == 6) {
                         this.$router.push({
                           name: "unifyConfig",
                           query: {
@@ -728,15 +1267,166 @@ export default {
                             inspectName: params.row.inspectName
                           }
                         });
-                      }else{
+                      } else {
                         this.$router.push({
-                            name: "patrolMission",
-                            query: {
-                                planId: params.row.planId,
-                                planName: params.row.planName,
-                                planType: params.row.planType,
-                                inspectName: params.row.inspectName
-                            }
+                          name: "patrolMission",
+                          query: {
+                            planId: params.row.planId,
+                            planName: params.row.planName,
+                            planType: params.row.planType,
+                            inspectName: params.row.inspectName
+                          }
+                        });
+                      }
+                    }
+                  }
+                },
+                "查看详情>"
+              )
+            ]);
+            return h("div", newArr);
+          }
+        },
+        {
+          title: " ",
+          minWidth: 250,
+          align: "right",
+          tooltip: true,
+          render: (h, params) => {
+            let newArr = [];
+            let self = that;
+            if (
+              params.row.statusName == "任务间隔中" &&
+              params.row.planType != 6
+            ) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "立即执行",
+                      loading: params.row.loading
+                    },
+                    on: {
+                      click: () => {
+                        self.toRunTask(params);
+                      }
+                    }
+                  },
+                  "立即执行"
+                )
+              );
+            }
+            if (
+              params.row.statusName == "正在巡视中" &&
+              params.row.planType != 6
+            ) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: {
+                      type: "text",
+                      content: "立即停止",
+                      loading: params.row.isStop
+                    },
+                    on: {
+                      click: () => {
+                        self.toStop(params);
+                      }
+                    }
+                  },
+                  "立即停止"
+                )
+              );
+            }
+            if (that.isEdit && params.row.planType != 6) {
+              newArr.push(
+                h(
+                  "el-button",
+                  {
+                    class: "btn_pre",
+                    style: { background: "#305e83" },
+                    props: { type: "text", content: "编辑" },
+                    on: {
+                      click: () => {
+                        that.rowData = JSON.parse(JSON.stringify(params.row));
+                        that.taskVisible2 = true;
+                      }
+                    }
+                  },
+                  "编辑"
+                )
+              );
+            }
+            if (that.isDel && params.row.planType != 6) {
+              newArr.push(
+                h(
+                  "el-poptip",
+                  {
+                    props: {
+                      confirm: true,
+                      title: "确定删除吗？",
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: { margin: "0 2px" },
+                    on: {
+                      "on-ok": () => {
+                        self.toDel(params);
+                      }
+                    }
+                  },
+                  [
+                    h(
+                      "el-button",
+                      {
+                        class: "btn_pre",
+                        style: { background: "#305e83" },
+                        props: {
+                          type: "text",
+                          content: "删除"
+                        }
+                      },
+                      "删除"
+                    )
+                  ]
+                )
+              );
+            }
+            newArr.push([
+              h(
+                "el-button",
+                {
+                  class: "btn_pre",
+                  style: { background: "#3a81a1" },
+                  props: { type: "text", content: "查看详情>" },
+                  on: {
+                    click: () => {
+                      if (params.row.planType == 6) {
+                        this.$router.push({
+                          name: "unifyConfig",
+                          query: {
+                            planId: params.row.planId,
+                            planType: params.row.planType,
+                            planName: params.row.planName,
+                            inspectName: params.row.inspectName
+                          }
+                        });
+                      } else {
+                        this.$router.push({
+                          name: "patrolMission",
+                          query: {
+                            planId: params.row.planId,
+                            planName: params.row.planName,
+                            planType: params.row.planType,
+                            inspectName: params.row.inspectName
+                          }
                         });
                       }
                     }
@@ -759,13 +1449,13 @@ export default {
     }
   },
   methods: {
-    routeTo(){
-      this.$store.state.app.changeNav = '2'
+    routeTo() {
+      this.$store.state.app.changeNav = "2";
       this.$router.push({
         name: "reportFrom",
         query: {
           planType: "9",
-          nav: '2'
+          nav: "2"
         }
       });
     },
@@ -775,7 +1465,7 @@ export default {
         this.getDataList();
         this.$message({
           type: "success",
-          message: '删除成功'
+          message: "删除成功"
         });
       });
     },
@@ -895,6 +1585,23 @@ export default {
         });
         this.getDataList();
       });
+    },
+    spliceColumns() {
+      if (this.isDel) {
+        this.columns.splice(6, 1);
+        this.columnsData.splice(6, 1);
+        this.columnsDataD.splice(6, 1);
+        this.columnsData1D.splice(4, 1);
+      } else {
+        this.columns.splice(7, 1);
+        this.columnsData.splice(7, 1);
+        this.columnsDataD.splice(7, 1);
+        this.columnsData1D.splice(5, 1);
+      }
+      this.columns.splice(2, 1);
+      this.columnsData.splice(2, 1);
+      this.columnsDataD.splice(2, 1);
+      this.columnsData1D.splice(2, 1);
     }
   },
   mounted() {
@@ -904,6 +1611,7 @@ export default {
     } catch (e) {}
     this.isEdit = this.getAuthority("10050102");
     this.isDel = this.getAuthority("10050103");
+    this.spliceColumns();
   }
 };
 </script>
@@ -911,36 +1619,36 @@ export default {
 <style lang="scss">
 .configDetail {
   width: 100%;
-  .allCheck{
-      display: flex;
-      background: #174152;
-      padding: 18px 32px;
-      margin-top: 30px;
-      .containLeft{
-        flex: 1;
-        line-height: 31px;
-        font-size: 15px;
-        .allCheck-title{
-          color: white;
-          font-size: 18px;
-        }
-        .allCheck-explain{
-          color: #cccccc;
-          font-size: 16px;
-        }
+  .allCheck {
+    display: flex;
+    background: #174152;
+    padding: 18px 32px;
+    margin-top: 30px;
+    .containLeft {
+      flex: 1;
+      line-height: 31px;
+      font-size: 15px;
+      .allCheck-title {
+        color: white;
+        font-size: 18px;
       }
-      .containRight{
-        line-height: 60px;
-        .btn_pre{
-          padding: 10px 15px;
-          background-color: #3a81a1;
-          border-radius: 16px;
-          border: none;
-        }
+      .allCheck-explain {
+        color: #cccccc;
+        font-size: 16px;
       }
+    }
+    .containRight {
+      line-height: 60px;
+      .btn_pre {
+        padding: 10px 15px;
+        background-color: #3a81a1;
+        border-radius: 16px;
+        border: none;
+      }
+    }
   }
 
-  .ivu-poptip-confirm .ivu-poptip-body{
+  .ivu-poptip-confirm .ivu-poptip-body {
     text-align: left;
     color: black;
   }

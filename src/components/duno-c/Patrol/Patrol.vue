@@ -237,7 +237,7 @@ export default {
     getWidth() {
       let screen = window.screen.availWidth;
       if (screen > 3500) {
-        this.columnsData.splice(2, 1);
+        // this.columnsData.splice(2, 1);
       }
     },
     toDel(param) {
