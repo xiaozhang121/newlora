@@ -1139,6 +1139,9 @@ export default {
       @media screen and (max-width: 1366px) {
         width: 51.9%;
       }
+      @media screen and (min-width: 3500px) {
+        width: 51.9%;
+      }
     }
     .right {
       flex: 1;
