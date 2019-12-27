@@ -18,12 +18,6 @@
         components: {
             chosenList
         },
-        data() {
-            return {
-                init: true,
-                isInit: true
-            }
-        },
         props:{
             rowData:{
                 type: Object,
@@ -130,7 +124,9 @@
             return {
                 dataList: [],
                 lightList:[],
-                redList: []
+                redList: [],
+                init: true,
+                isInit: true
             }
         },
         methods: {
