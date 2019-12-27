@@ -68,7 +68,7 @@
               <echartsRare :pieData="pieData" :serve="serve" ref="rare"></echartsRare>
             </div>
             <div class="serevice">
-              <service :pieData="pieData" height="560px"></service>
+              <service :pieData="pieData" height="520px"></service>
             </div>
           </div>
         </div>
