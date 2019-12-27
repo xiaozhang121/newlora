@@ -1460,7 +1460,7 @@
                 pan.setActive(that.mapActive);
 
                 this.EventList[0] = this.mapTarget.on('click', function (evt) {
-                     // alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
+                    alert(transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857'))
                     that.clickPos = transform([evt.coordinate[0],evt.coordinate[1]], 'EPSG:4326' ,'EPSG:3857')
                     that.$emit('on-click', that.clickPos)
                  })

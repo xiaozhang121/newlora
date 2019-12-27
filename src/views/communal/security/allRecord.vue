@@ -11,6 +11,7 @@
                   v-model="chosenDate"
                   @change="changeDate"
                   type="daterange"
+                  :picker-options="pickerOptions1"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期">
           </el-date-picker>
@@ -113,6 +114,11 @@ export default {
     const that = this;
     return {
       keyIndex: 0,
+      pickerOptions1:{
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
+      },
       chosenDate: [moment().subtract(30, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
       demoList: [{}, {}, {}, {}, {}, {}],
       mixinViewModuleOptions: {
