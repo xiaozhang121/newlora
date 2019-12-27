@@ -326,6 +326,12 @@ export default {
       & > p:nth-child(2) {
         line-height: 32px;
         margin-top: 18px;
+        @media screen and (max-width: 1366px) {
+        margin-top: 5px;
+      }
+      @media screen and (min-width: 3500px) {
+        margin-top: 5px;
+      }
       }
     }
   }

@@ -167,7 +167,7 @@ export default {
       this.$router.push({
         name: "light-detail",
         query: {
-          title: "可见光监测记录信息",
+          title: "可见光监测记录",
           url: "/lenovo-plan/api/task/visible-result/list"
         }
       });

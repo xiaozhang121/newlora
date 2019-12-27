@@ -21,7 +21,7 @@
     </div>
     <div class="Main_contain">
       <div class="content" style="position: relative">
-        <div class="left nr">
+        <div class="left nr"  :style="{width:screenWidth?'75%':'100%'}">
           <div class="item" style="position: relative">
             <control-check @on-disable="onDisable" ref="controlCheckRef" v-if="dataForm.monitorDeviceId && lockPress" :deviceType="1" :deviceId="dataForm.monitorDeviceId" class="controlCheck"/>
             <div class="camera_surveillanceDetail">
@@ -934,6 +934,7 @@ export default {
       let screen = window.screen.availWidth;
       if (screen > 3500) {
         this.screenWidth = false;
+        this.columns.splice(7,1)
       }
     }
   },

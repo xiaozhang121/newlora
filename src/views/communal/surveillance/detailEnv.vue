@@ -1623,7 +1623,7 @@ export default {
         .cover {
           min-height: 130px;
           @media screen and (min-width: 3500px) {
-            min-height: 150px;
+            min-height: 100px;
           }
         }
       }

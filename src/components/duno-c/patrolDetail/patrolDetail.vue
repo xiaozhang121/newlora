@@ -290,11 +290,8 @@ export default {
     & > div {
       width: calc(20% - 20px);
       float: left;
-      height: 405px;
+      height: 320px;
       margin-right: 20px;
-      img {
-        height: 173px;
-      }
     }
   }
   //分页--

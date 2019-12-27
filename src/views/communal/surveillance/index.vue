@@ -25,7 +25,7 @@
         ></btn-select>
       </div>
     </div>
-    <div class="first" style="margin-bottom: 65px" v-if="displayType == '1'">
+    <div class="first" v-if="displayType == '1'">
       <div class="left">
         <key-monitor
           :isPic="isPicAddr01"
@@ -1134,6 +1134,13 @@ export default {
   .first {
     display: flex;
     justify-content: flex-start;
+    margin-bottom: 65px; 
+    @media screen and (max-width: 1366px) {
+        margin-bottom: 40px; 
+      }
+      @media screen and (min-width: 3500px) {
+        margin-bottom: 40px; 
+      }
     .left {
       width: 50.9%;
       @media screen and (max-width: 1366px) {
