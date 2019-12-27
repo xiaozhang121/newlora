@@ -44,7 +44,7 @@ export default {
     paddingBottom: {
       type: String,
       default: () => {
-        return "250px";
+        return "200px";
       }
     },
     pieData: {

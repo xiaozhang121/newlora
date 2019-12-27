@@ -72,13 +72,13 @@ export default {
     width: {
       type: String,
       default: () => {
-        return "50%";
+        return "48%";
       }
     },
     paddingBottom: {
       type: String,
       default: () => {
-        return "310px";
+        return "280px";
       }
     },
     pieData: {
@@ -494,7 +494,7 @@ export default {
         that.seriesGpu[0].data = usedData;
         let gpuDataLength = usedData.length
         if(!gpuDataLength){
-          this.$emit("changeWidth", 99, '33.3%');
+          this.$emit("changeWidth", 99, '32%');
         }
         that.seriesGpuVisible = Boolean(gpuDataLength)
         that.isChangeGpu = !that.isChangeGpu;
@@ -522,5 +522,8 @@ export default {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  &>div{
+    margin-left: 1%;
+  }
 }
 </style>

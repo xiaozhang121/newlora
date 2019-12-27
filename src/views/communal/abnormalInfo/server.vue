@@ -126,7 +126,7 @@
           <div class="server_con">
             <div class="serFirst">
               <div :style="{width:serviceLength=='0'?'100%':'75%'}">
-                <dunoPie :pieData="pieData" paddingBottom="250px" ref="dunoPie"></dunoPie>
+                <dunoPie :pieData="pieData" paddingBottom="200px" ref="dunoPie"></dunoPie>
               </div>
               <div :style="{width:serviceLength=='0'?'0':'25%'}">
                 <service :pieData="pieData" @on-length="onLength" ref="dunoService" height="160px"></service>
@@ -174,7 +174,7 @@ export default {
       overview: true,
       serve: "",
       serviceLength: "",
-      width: "25%",
+      width: "24%",
       // paddingBottom: "80%",
       selectTitle: "选择服务器",
       selectHost: "全部",
@@ -209,12 +209,12 @@ export default {
   methods: {
     changeWidth(item, width) {
       if (item == 0) {
-        this.width = "25%";
+        this.width = "24%";
         this.paddingBottom = "80%";
-      }else if(item == 99){
+      } else if (item == 99) {
         this.width = width;
-      }else {
-        this.width = "25%";
+      } else {
+        this.width = "24%";
         this.paddingBottom = "70%";
       }
     },
@@ -305,8 +305,8 @@ export default {
       this.$refs.dunoRare.getBar();
     }
   },
-  created(){
-    this.selectServe(0)
+  created() {
+    this.selectServe(0);
   },
   mounted() {
     this.getService({ hostType: "0" });
@@ -338,6 +338,9 @@ export default {
     height: calc(100vh - 80px);
     display: flex;
     justify-content: flex-start;
+    @media screen and(max-width: 1366px) {
+      height: calc(100vh - 160px);
+    }
     .left {
       width: 300px;
       overflow-y: auto;
@@ -437,6 +440,12 @@ export default {
           width: 30%;
           .tabData {
             height: 580px;
+            @media screen and(max-width: 1366px) {
+              height: 500px;
+            }
+            @media screen and(min-width: 3500px) {
+              height: 500px;
+            }
           }
         }
       }

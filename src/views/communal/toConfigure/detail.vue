@@ -1598,10 +1598,13 @@ export default {
         this.columnsDataD.splice(7, 1);
         this.columnsData1D.splice(5, 1);
       }
-      this.columns.splice(2, 1);
-      this.columnsData.splice(2, 1);
-      this.columnsDataD.splice(2, 1);
-      this.columnsData1D.splice(2, 1);
+      let screen = window.screen.availWidth;
+      if (screen > 3500) {
+        this.columns.splice(2, 1);
+        this.columnsData.splice(2, 1);
+        this.columnsDataD.splice(2, 1);
+        this.columnsData1D.splice(2, 1);
+      }
     }
   },
   mounted() {
