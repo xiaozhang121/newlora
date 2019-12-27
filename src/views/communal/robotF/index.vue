@@ -203,8 +203,8 @@
                    /* this.dataBread[2] = "机器人一";
                     this.robotName = "机器人一";
                     this.$set(this.dataBread, 2, "机器人一");*/
-                    this.dataBread[2]['name'] = '室外巡检机器人'
-                    this.insideTitle = '室外巡检机器人'
+                    this.dataBread[2]['name'] = '室外巡检机器人一'
+                    this.insideTitle = '室外巡检机器人一'
                     this.substationId = "1";
                     this.robotId = "1";
                 }

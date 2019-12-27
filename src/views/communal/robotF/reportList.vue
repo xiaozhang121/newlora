@@ -119,7 +119,7 @@
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/robot-one/list", name: "机器人巡视" },
-                    { path: "/robot-one/list", name: "室外巡检机器人" },
+                    { path: "/robot-one/list", name: "室外巡检机器人一" },
                     { path: "", name: "历史巡视报告" }
                 ],
                 baseUrl:
@@ -153,7 +153,7 @@
                     this.substationId = "1";
                     this.robotId = "9";
                 } else {
-                    this.dataBread[2]['name'] = '室外巡检机器人'
+                    this.dataBread[2]['name'] = '室外巡检机器人一'
                     this.substationId = "1";
                     this.robotId = "1";
                 }

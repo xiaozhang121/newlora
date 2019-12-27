@@ -330,7 +330,7 @@ export default {
         this.dataBread[2]['name'] = '室外巡检机器人二'
         this.dataBread[2]['path'] = "/robotN-two/list"
       } else {
-        this.dataBread[2]['name'] = '室外巡检机器人'
+        this.dataBread[2]['name'] = '室外巡检机器人一'
       }
     }
   },
