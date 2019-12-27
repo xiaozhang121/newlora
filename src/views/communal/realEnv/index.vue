@@ -988,17 +988,17 @@
                 let j = 0
                 for(let i=0; i<data.length; i++){
                     for(j=0; j<target.length; j++){
-                        if(data[i]['monitorDeviceType'] == target[j]['monitorDeviceType']){
+                        if(target[j]['monitorDeviceType'].indexOf(Number(data[i]['monitorDeviceType']))>-1){
                             data[i]['show'] = true
                             break
                         }
                     }
-                    if(j == target.length){
+                    if(j == target.length && data[i]['monitorDeviceType'] != 4){
                         data[i]['show'] = false
                     }
                 }
                 that.deviceList = data
-                this.showWeather = this.$refs.btnTopRef.dataList[3].isActive
+                this.showWeather = this.$refs.btnTopRef.dataList[2].isActive
                 that.$forceUpdate()
               }catch (e) {}
             },

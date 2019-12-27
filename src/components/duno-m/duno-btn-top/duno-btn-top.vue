@@ -188,14 +188,14 @@
                             img:[require('@/assets/buttonPng/light.svg'),require('@/assets/buttonPng/lightCamera.png'), require('@/assets/runDevice/ballJ.png'),  require('@/assets/buttonPng/lightD.png')],
                             circleColor:'#00b4ff',
                             describeName: '可见光',
-                            monitorDeviceType: 1,
+                            monitorDeviceType: [1,3,6,9],
                             isActive: true
                         },
                         {
                             img:[require('@/assets/buttonPng/redLight.png'), require('@/assets/buttonPng/redLightNCamera.png')],
                             circleColor:'#e654a6',
                             describeName: '红外测温',
-                            monitorDeviceType: 2,
+                            monitorDeviceType: [2],
                             isActive: true
                         },
                         // {
@@ -209,7 +209,7 @@
                             img:require('@/assets/SVG/weatherCheck.svg'),
                             circleColor:'#C06EFF',
                             describeName: '微型气象站',
-                            monitorDeviceType: 6,
+                            monitorDeviceType: [6],
                             isActive: true
                         }
                     ]
