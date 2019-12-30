@@ -268,6 +268,7 @@
                       this.$refs.btnTopRef.handleActive(i, false, true)
                   }
               }
+              this.$refs.selectTop.$refs.dunoBtnTopS.style.display = "none"
             },
             changeVideo(item, event){
                let pageX = Number(event.pageX)

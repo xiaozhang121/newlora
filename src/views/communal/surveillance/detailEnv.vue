@@ -72,13 +72,21 @@
           <div class="name">历史监测记录</div>
           <div class="btn">
             <div class="dateChose">
-              <el-date-picker
+             <!-- <el-date-picker
                 v-model="dataTimeEE"
                 @change="changeDate"
                 type="date"
                 placeholder="选择日期"
                 :picker-options="pickerOptions1"
-              ></el-date-picker>
+              ></el-date-picker>-->
+              <duno-btn-top
+                      ref="btnTopRef"
+                      :showBtnList="false"
+                      :dataList="regionList"
+                      :title="titleTypeLL"
+                      :keyChange="true"
+                      @on-active="timeHandle"
+              ></duno-btn-top>
             </div>
           </div>
         </div>
@@ -91,7 +99,7 @@
           <div>
             <div v-if="!loading && videoList.length==0" class="noVideo">暂无数据</div>
             <div v-else class="videoItem" v-for="(item,index) in videoList" :key="index">
-              <cover :srcData="item" :isSecond="false"></cover>
+              <cover :videoList="recordList" :srcData="item" :isSecond="false"></cover>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }} ({{ item['timeValue'] }})</p>
             </div>
           </div>
@@ -302,12 +310,15 @@ export default {
   data() {
     const that = this;
     return {
+      titleTypeLL: '全部日期',
+      regionList: [],
       pushCamera: true,
       pickerOptions1: {
         disabledDate(time) {
           return time.getTime() > Date.now();
         }
       },
+      recordList:[],
       screenWidth: true,
       showPage: true,
       lockPress: false,
@@ -849,6 +860,7 @@ export default {
       allDataLevel: [],
       dataTime: "",
       dataTimed: "",
+      sevenDates: "",
       pageParam: {
         pageIndex: 1,
         totalRows: 1
@@ -864,6 +876,53 @@ export default {
     }
   },
   methods: {
+    deviceShowHandle(arr, flag) {
+      const that = this;
+      let target = arr.filter(item => {
+        return item["isActive"] == true;
+      });
+      let data = [];
+      if (!flag) {
+        target.forEach(item => {
+          data.push(item["monitorDeviceId"]);
+        });
+      } else {
+        target.forEach(item => {
+          data.push(item["describeName"]);
+        });
+      }
+      return data;
+    },
+    timeHandle(arr) {
+      let data = this.deviceShowHandle(arr);
+      this.sevenDates = data.join(",");
+      this.getVideo(1);
+    },
+    getRegion(flag) {
+      const that = this;
+      getAxiosData("/lenovo-device/device/video/record/date/select-list", {
+        monitorDeviceId: this.dataForm.monitorDeviceId
+      }).then(res => {
+        const resData = res.data;
+        let arr = [];
+        const map = resData.map(item => {
+          const obj = {
+            describeName: item.label,
+            monitorDeviceType: item.value,
+            monitorDeviceId: item.value,
+            isActive: true,
+            title: "titleTypeL"
+          };
+          arr.push(obj["monitorDeviceId"]);
+          return obj;
+        });
+        this.$refs.btnTopRef.checkedCities = arr;
+        this.$refs.btnTopRef.checkAll = true;
+        this.sevenDates = arr.join(",");
+        this.regionList = map;
+        if (flag) this.getVideo(1);
+      });
+    },
     isPushCamera() {
       getAxiosData("/lenovo-device/api/monitor/layout-list", {
         userId: this.$store.state.user.userId
@@ -967,14 +1026,16 @@ export default {
         endTime = "";
       }
       getAxiosData("/lenovo-device/device/video/record/videos", {
-        startTime: startTime,
-        endTime: endTime,
+       /* startTime: startTime,
+        endTime: endTime,*/
+        date: this.sevenDates,
         pageIndex: index,
         type: 0,
         pageRows: 10,
         monitorDeviceId: this.dataForm.monitorDeviceId
       }).then(res => {
         let data = res.data.tableData;
+        let arr = []
         data.map(item => {
           let t1 = moment(item["startTime"]);
           let t2 = moment(
@@ -986,8 +1047,11 @@ export default {
             Math.round(dura / 1000 / 60) != 0
               ? Math.round(dura / 1000 / 60) + "min"
               : Math.round(dura / 1000) + "sec";
+          arr.push(item['streamAddr'])
         });
         this.videoList = data;
+        debugger
+        this.recordList = arr
         data.forEach((item, index) => {
           postAxiosData("/lenovo-device/device/video/record/video/pic", {
             videoPath: item["streamAddr"],
@@ -1314,6 +1378,7 @@ export default {
     this.getEchasrts();
     this.getVideo();
     this.getEnvData();
+    this.getRegion()
   },
   mounted() {
     this.lockPress = this.getAuthority("10075002");
