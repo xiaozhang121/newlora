@@ -82,12 +82,12 @@
             <div class="gauge">
               <div class="gauge_top">
                 <i class="iconfont icon-wendu1"></i>
-                <p>{{envData['temp']}}℃</p>
+                <p>{{envData['temp'].toFixed(2)}}℃</p>
                 <span>当前温度</span>
               </div>
               <div class="gauge_btm">
                 <i class="iconfont icon-shidu"></i>
-                <p>{{envData['humid']}}%RH</p>
+                <p>{{envData['humid'].toFixed(2)}}%RH</p>
                 <span>当前湿度</span>
               </div>
             </div>

@@ -7,22 +7,22 @@
       <div>历史监测记录</div>
       <div class="btn">
         <div>
-          <el-date-picker
+          <!--<el-date-picker
                   v-model="chosenDate"
                   @change="changeDate"
                   type="daterange"
                   :picker-options="pickerOptions1"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期">
-          </el-date-picker>
-         <!-- <duno-btn-top
+          </el-date-picker>-->
+          <duno-btn-top
             ref="btnTopRef"
             :showBtnList="false"
             :dataList="regionList"
             :title="titleTypeL"
             :keyChange="true"
             @on-active="timeHandle"
-          ></duno-btn-top>-->
+          ></duno-btn-top>
         </div>
         <div style="width: 540px">
           <duno-btn-top
@@ -439,9 +439,9 @@ export default {
         that.loadingOption = true
         that.sevenValue = []
         getAxiosData("/lenovo-device/device/video/record/videos/seven-days", {
-          // date: this.sevenDates,
-          startTime: this.chosenDate[0]?moment(this.chosenDate[0]).format('YYYY-MM-DD'):'',
-          endTime: this.chosenDate[1]?moment(this.chosenDate[1]).format('YYYY-MM-DD'):'',
+          date: this.sevenDates,
+   /*       startTime: this.chosenDate[0]?moment(this.chosenDate[0]).format('YYYY-MM-DD'):'',
+          endTime: this.chosenDate[1]?moment(this.chosenDate[1]).format('YYYY-MM-DD'):'',*/
           monitorDeviceId: this.sevenRIds()
         }).then(res => {
           let data = res.data;
