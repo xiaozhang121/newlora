@@ -1,8 +1,9 @@
 <template>
   <div class="cover">
     <div>
-      <img :src="srcData.pic" alt />
+      <img :src="srcData.pic" class="imgBack" alt />
       <i class="iconfont icon-bofang" @click="handleShow"></i>
+      <!-- <img src="@/assets/iconFunction/icon_bofang.png" class="icon-bofang" @click="handleShow" alt /> -->
     </div>
     <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
       <div v-if="isSecond" @click="getJump" class="explainy">
@@ -40,11 +41,10 @@ export default {
   },
   watch: {
     srcData: {
-      handler(now){
-         if(Object.keys(now).length){
-           if(!this.saveAddr)
-            this.saveAddr = now.streamAddr
-         }
+      handler(now) {
+        if (Object.keys(now).length) {
+          if (!this.saveAddr) this.saveAddr = now.streamAddr;
+        }
       },
       immediate: true,
       deep: true
@@ -103,7 +103,7 @@ export default {
     return {
       monitorInfoR: {},
       isEnlarge: false,
-      saveAddr: ''
+      saveAddr: ""
     };
   },
   methods: {
@@ -130,8 +130,7 @@ export default {
     },
     closeEnlarge() {
       this.isEnlarge = false;
-      if(this.saveAddr)
-        this.srcData.streamAddr = this.saveAddr
+      if (this.saveAddr) this.srcData.streamAddr = this.saveAddr;
     },
     getJump() {
       if (this.aggregate) {

@@ -3,6 +3,7 @@
     <div class="img" v-if="isShowImg">
       <img
         v-if="isImgVideo"
+        class="alarmLogImg"
         :src="remarkData.fileAddress?remarkData.fileAddress:remarkData.alarmFileAddress"
         alt
       />
@@ -212,7 +213,7 @@ export default {
     width: 40%;
     height: 180px;
     position: relative;
-    img {
+    .alarmLogImg {
       width: 100%;
       height: 100%;
       background: grey;

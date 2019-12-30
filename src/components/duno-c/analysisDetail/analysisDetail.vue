@@ -761,7 +761,7 @@ export default {
   }
   //-------------------表格样式
   .dunoMain {
-    height: 100%;
+    height: 90%;
   }
   .ivu-table {
     font-size: 16px;
