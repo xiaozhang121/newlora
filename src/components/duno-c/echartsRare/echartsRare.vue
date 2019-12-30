@@ -41,16 +41,32 @@
       ></duno-charts>
     </div>
     <div :style="{width:width}" v-show="seriesGpuVisible">
-      <duno-charts
-        :isChange="isChangeGpu"
-        :titleOption="titleGpu"
-        :paddingBottom="paddingBottom"
-        :isItemEchart="true"
-        :xAxisOption="xAxisGpu"
-        :yAxisOption="yAxisCpu"
-        :seriesOption="seriesGpu"
-        :colorOption="colorSpeed"
-      ></duno-charts>
+      <el-carousel trigger="click">
+        <el-carousel-item>
+          <duno-charts
+            :isChange="isChangeGpu"
+            :titleOption="titleGpu"
+            :paddingBottom="paddingBottom"
+            :isItemEchart="true"
+            :xAxisOption="xAxisGpu"
+            :yAxisOption="yAxisCpu"
+            :seriesOption="seriesGpu"
+            :colorOption="colorSpeed"
+          ></duno-charts>
+        </el-carousel-item>
+        <el-carousel-item v-if="browse">
+          <duno-charts
+            :isChange="isChangeGpu"
+            :titleOption="titleGpu"
+            :paddingBottom="paddingBottom"
+            :isItemEchart="true"
+            :xAxisOption="xAxisTwoGpu"
+            :yAxisOption="yAxisCpu"
+            :seriesOption="seriesTwoGpu"
+            :colorOption="colorSpeed"
+          ></duno-charts>
+        </el-carousel-item>
+      </el-carousel>
     </div>
   </div>
 </template>
@@ -91,8 +107,10 @@ export default {
   data() {
     return {
       seriesGpuVisible: true,
+      browseData: [],
+      browse: true,
       tooltipOption: {
-        trigger: 'axis'
+        trigger: "axis"
       },
       isChangeKps: true,
       legendKps: {
@@ -128,7 +146,7 @@ export default {
         nameTextStyle: {
           padding: [25, 0, 0, 0]
         },
-        axisLabel:{
+        axisLabel: {
           interval: 0
         }
       },
@@ -202,7 +220,7 @@ export default {
         nameTextStyle: {
           padding: [25, 0, 0, 0]
         },
-        axisLabel:{
+        axisLabel: {
           interval: 0
         }
       },
@@ -266,7 +284,7 @@ export default {
         nameTextStyle: {
           padding: [25, 0, 0, 0]
         },
-        axisLabel:{
+        axisLabel: {
           interval: 0
         }
       },
@@ -357,7 +375,62 @@ export default {
           padding: [25, 0, 0, 0]
         }
       },
+      xAxisTwoGpu: {
+        type: "category",
+        name: "(min)",
+        boundaryGap: false,
+        data: [],
+        axisLine: {
+          lineStyle: {
+            color: "#46565f"
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        nameTextStyle: {
+          padding: [25, 0, 0, 0]
+        }
+      },
       seriesGpu: [
+        {
+          name: "出网pbs",
+          type: "line",
+          //   stack: "总量",
+          areaStyle: {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "#05e6eb" // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: "#091f2c" // 100% 处的颜色#
+                }
+              ],
+              global: false // 缺省为 false
+            }
+          },
+          smooth: true,
+          symbol: "none",
+          //   symbolSize: 0,
+          sampling: "average",
+          data: [],
+          itemStyle: {
+            normal: {
+              color: "#05e6eb",
+              borderColor: "#05e6eb"
+            }
+          }
+        }
+      ],
+      seriesTwoGpu: [
         {
           name: "出网pbs",
           type: "line",
@@ -476,27 +549,34 @@ export default {
         that.$forceUpdate();
       });
       getAxiosData(gupUrl, queryGpu).then(res => {
-        let gupData = res.data[0].load
+        let browseData = res.data;
+        let gupData = res.data[0].load;
         let usedData = [];
         let timeData = [];
-        if (that.serve == "") {
-          gupData.forEach(el => {
-            usedData.push(el.used);
-            timeData.push(el.time);
-          });
-        } else {
-          gupData.forEach(el => {
-            usedData.push(el.used);
-            timeData.push(el.time);
-          });
-        }
+        gupData.forEach(el => {
+          usedData.push(el.used);
+          timeData.push(el.time);
+        });
         that.xAxisGpu.data = timeData;
         that.seriesGpu[0].data = usedData;
-        let gpuDataLength = usedData.length
-        if(!gpuDataLength){
-          this.$emit("changeWidth", 99, '32%');
+        let gpuDataLength = usedData.length;
+        if (!gpuDataLength) {
+          this.$emit("changeWidth", 99, "32%");
         }
-        that.seriesGpuVisible = Boolean(gpuDataLength)
+        that.seriesGpuVisible = Boolean(gpuDataLength);
+        if (browseData.length == 2) {
+          let twoGpuData = res.data[1].load;
+          let twoUsedData = [];
+          let twoTimeData = [];
+          twoGpuData.forEach(el => {
+            twoUsedData.push(el.used);
+            twoTimeData.push(el.time);
+          });
+          that.xAxisTwoGpu.data = twoTimeData;
+          that.seriesTwoGpu[0].data = twoUsedData;
+        } else {
+          this.browse = false;
+        }
         that.isChangeGpu = !that.isChangeGpu;
         that.$forceUpdate();
       });
@@ -522,8 +602,11 @@ export default {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  &>div{
+  & > div {
     margin-left: 1%;
+  }
+  .el-carousel__indicators{
+    display: none;
   }
 }
 </style>

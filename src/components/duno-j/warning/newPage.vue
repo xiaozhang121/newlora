@@ -628,6 +628,7 @@ export default {
   }
 .warningDialogN {
    background: #fff;
+   height: 100%;
   .hidden{
     visibility: hidden;
   }
