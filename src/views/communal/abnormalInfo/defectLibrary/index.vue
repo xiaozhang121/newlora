@@ -165,7 +165,11 @@ export default {
           title: "设备组件",
           key: "monitorDeviceName",
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let data = params.row.monitorDeviceName ? params.row.monitorDeviceName : '/'
+            return h("div", data);
+          }
         },
         {
           title: "标注量",
@@ -178,13 +182,21 @@ export default {
           title: "电压区域",
           key: "areaName",
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let data = params.row.areaName ? params.row.areaName : '/'
+            return h("div", data);
+          }
         },
         {
-          title: "被监控设备",
+          title: "监控设备",
           key: "powerDeviceName",
           align: "center",
-          tooltip: true
+          tooltip: true,
+          render: (h, params) => {
+            let data = params.row.powerDeviceName ? params.row.powerDeviceName : '/'
+            return h("div", data);
+          }
         },
         {
           title: " ",

@@ -21,7 +21,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item  label="被监测设备">
+        <el-form-item  label="监测设备">
           <el-input v-model.trim="form.monitor" placeholder="请输入被监测设备名" />
         </el-form-item>
         <!--<survey :monitor="form.monitor"></survey>-->
@@ -234,8 +234,8 @@ export default {
       };
       postAxiosData('/lenovo-sample/api/sample/system/import', query).then(res=>{
         this.$message.info(res.msg)
+        this.$emit("on-close");
       })
-      this.$emit("on-close");
     },
     handleClose() {
       this.$emit("on-close");

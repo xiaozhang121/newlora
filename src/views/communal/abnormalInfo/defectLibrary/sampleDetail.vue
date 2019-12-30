@@ -57,6 +57,7 @@
             </el-form-item>
             <el-form-item label="摄像头名">
               <el-select
+                filterable
                 :class="{'input-edit':!isEdit}"
                 v-model="form.monitorDeviceName"
                 @change="changeMonitor"
@@ -253,14 +254,14 @@ export default {
           }
         },
         {
-          title: "标记时间",
+          title: "标定时间",
           key: "markTime",
           minWidth: 120,
           align: "center",
           tooltip: true
         },
         {
-          title: "标记图片",
+          title: "标定图片",
           key: "pic",
           minWidth: 120,
           align: "center",
@@ -515,7 +516,7 @@ export default {
         this.sampleData = res.data.sample;
         let deviceData = res.data.sample;
         this.substationData = res.data.stationList;
-        this.form.stationName = Number(deviceData.stationId);
+        this.form.stationName = deviceData.stationId === null? '' :Number(deviceData.stationId);
         this.form.monitorDeviceName = deviceData.monitorDeviceId;
         this.form.areaName = deviceData.areaId;
         this.form.initCascader = [deviceData.mainDevice, deviceData.part, deviceData.partSub]
