@@ -1,7 +1,7 @@
 <template>
   <div class="ballControlPanel">
     <historical-documents :isShowTip="false" :tabPaneData="tabPaneData" :showHeader="true" :title="monitorDeviceName"
-                          :dialogTableVisible="visible" @close="onClose">
+                          :dialogTableVisible="visible" @close="onClose" width='960px'>
       <div class="monitor">
         <key-monitor
                 :monitorInfo="{ monitorDeviceId: monitorDeviceId }"

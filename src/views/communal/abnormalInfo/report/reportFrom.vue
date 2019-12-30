@@ -345,7 +345,7 @@ export default {
   }
   .taskN {
     & > div {
-      height: 335px;
+      height: 250px;
     }
   }
   //分页--

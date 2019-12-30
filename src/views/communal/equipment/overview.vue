@@ -365,7 +365,7 @@ export default {
           .reportTable {
             height: 425px;
             @media screen and (min-width: 3500px) {
-              height: 400px;
+              height: 350px;
             }
             img {
               height: 100%;

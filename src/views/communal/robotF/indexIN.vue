@@ -230,7 +230,8 @@
             },
             initReport(){
                 const that = this
-                postAxiosData('/lenovo-robot-indoor/rest/reports',{substationId: 10, robotId: 26,length: 10}).then(res=>{
+                let screen = window.screen.availWidth;
+                postAxiosData('/lenovo-robot-indoor/rest/reports',{substationId: 10, robotId: 26,length: screen>3500?8:10}).then(res=>{
                     that.reportsList = res.data
                     let data = res.data
                     data = data.reportList
