@@ -1,6 +1,6 @@
 <template>
   <div class="abnormalInfoHome">
-    <div class="topNav not-print">
+    <div class="topNav">
       <scroller :listOption="messageList"></scroller>
     </div>
     <div class="middle not-print">
