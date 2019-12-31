@@ -424,9 +424,15 @@ export default {
       let data = this.deviceShowHandle(arr);
       this.sevenDates = data.join(",");
       this.count++;
-      if (this.count > 3) this.sevenData();
+      if (this.count > 3) {
+        this.$nextTick(()=>{
+          setTimeout(()=>{
+            this.sevenData();
+          })
+        })
+      }
     },
-    deviceHandle(arr) {
+     deviceHandle(arr) {
       let data = this.deviceShowHandle(arr, true);
       this.sevenIds = data.join(",");
       this.count++;
@@ -439,7 +445,7 @@ export default {
         that.loadingOption = true
         that.sevenValue = []
         getAxiosData("/lenovo-device/device/video/record/videos/seven-days", {
-          date: this.sevenDates,
+          date: this.sevenDates?this.sevenDates:(this.$refs.btnTopRef?this.$refs.btnTopRef.checkedCities.join(','):''),
    /*       startTime: this.chosenDate[0]?moment(this.chosenDate[0]).format('YYYY-MM-DD'):'',
           endTime: this.chosenDate[1]?moment(this.chosenDate[1]).format('YYYY-MM-DD'):'',*/
           monitorDeviceId: this.sevenRIds()
@@ -606,6 +612,7 @@ export default {
           arr.push(obj["monitorDeviceId"]);
           return obj;
         });
+        this.$refs.btnTopRef.$data.isIndeterminate = false;
         this.$refs.btnTopRef.checkedCities = arr;
         this.$refs.btnTopRef.checkAll = true;
         this.sevenDates = arr.join(",");
