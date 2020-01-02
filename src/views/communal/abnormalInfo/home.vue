@@ -40,7 +40,7 @@
           </duno-main>
         </div>
       </div>
-      <div class="bottom">
+      <div class="bottom not-print">
         <div class="iconcen" @click="handleJump(1)">
           <duno-main :controlOver="true" class="main_contain contain">
             <div class="iconTop">
@@ -515,10 +515,10 @@ export default {
           minWidth: 90,
           align: "center",
           tooltip: true,
-          render:(h,params)=>{
+          render: (h, params) => {
             const that = this;
-            let date =params.row.date.slice(5)
-            return(h('div',date))
+            let date = params.row.date.slice(5);
+            return h("div", date);
           }
         },
         {
@@ -684,15 +684,15 @@ export default {
         axisPointer: {
           type: "shadow"
         },
-        formatter: function (params) {
-          let str = ''
-          str += params[0]['name']
-          str += '<br/>'
-          params.forEach(item=>{
-            str += item['marker'] + item['seriesName'] + item['value'] + '%'
-            str += '<br/>'
-          })
-          return str
+        formatter: function(params) {
+          let str = "";
+          str += params[0]["name"];
+          str += "<br/>";
+          params.forEach(item => {
+            str += item["marker"] + item["seriesName"] + item["value"] + "%";
+            str += "<br/>";
+          });
+          return str;
         }
       },
       isItemEchartBar: true,
@@ -1293,11 +1293,11 @@ export default {
         text-decoration-color: #5fafff;
       }
     }
-    .ivu-table-cell{
+    .ivu-table-cell {
       padding-left: 0;
       padding-right: 0;
     }
-    .ivu-table-overflowX{
+    .ivu-table-overflowX {
       overflow-x: hidden;
     }
     .re-middle {
