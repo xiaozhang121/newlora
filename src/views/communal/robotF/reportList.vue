@@ -20,26 +20,28 @@
       <div class="content">
         <div class="bottom">
           <div class="main">
-            <template v-for="(item, index) in newsReportLength">
-              <div class="item" :key="index">
-                <report-table
-                        :taskRunHisId="newsReport[index].ID"
-                        :taskCurreny="taskCurreny"
-                        path="report"
-                        url="/lenovo-robot/rest/reportDownload"
-                        kind="robot"
-                        :reportData="newsReport[index]"
-                        v-if="newsReport[index]"
-                ></report-table>
-              </div>
-            </template>
-          </div>
-          <el-pagination
+            <div class="mainItem">
+              <template v-for="(item, index) in newsReportLength">
+                <div class="item" :key="index">
+                  <report-table
+                          :taskRunHisId="newsReport[index].ID"
+                          :taskCurreny="taskCurreny"
+                          path="report"
+                          url="/lenovo-robot/rest/reportDownload"
+                          kind="robot"
+                          :reportData="newsReport[index]"
+                          v-if="newsReport[index]"
+                  ></report-table>
+                </div>
+              </template>
+            </div>
+			<el-pagination
                   v-show="newsReportLength"
                   @current-change="currentChange"
                   layout="prev, pager, next"
                   :total="reportNow.dataNum">
           </el-pagination>
+          </div>
         </div>
       </div>
     </duno-main>
@@ -397,23 +399,28 @@
           margin: 15px 0;
         }
         .main {
-          display: flex;
-          flex-wrap: wrap;
           min-height: calc(100vh - 234px);
-          .item {
-            display: inline-block;
-            margin-right: 1.5%;
-            width: calc(94% / 5);
-            .reportTable{
-              height: 250px;
+          .mainItem{
+            display: flex;
+            flex-wrap: wrap;
+            .item {
+              display: inline-block;
+              margin-right: 1.5%;
+              width: calc(94% / 5);
+              .reportTable{
+                height: 270px;
+              }
+              &:nth-last-child(5n + 1) {
+                margin-right: 0;
+              }
             }
-            &:nth-last-child(5n + 1) {
-              margin-right: 0;
+            h3 {
+              width: 100% !important;
             }
           }
-          h3 {
-            width: 100% !important;
-          }
+		  @media screen and(min-width: 3500px) {
+			  min-height: calc(100vh - 234px);
+		  }
         }
       }
     }

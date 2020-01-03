@@ -60,7 +60,7 @@
               <div class="gauge">
                 <div class="gauge_top">
                   <i class="iconfont icon-shidu1"></i>
-                  <p>{{ tempEnv['humidity'] }}%</p>
+                  <p>{{ tempEnv['humidity'] }}%RH</p>
                   <span>当前湿度</span>
                 </div>
                 <div class="gauge_btm">
@@ -870,7 +870,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "全部告警类型",
+          describeName: "全部告警类别",
           monitorDeviceType: "",
           title: "titleType"
         });
