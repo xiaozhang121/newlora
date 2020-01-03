@@ -52,75 +52,81 @@
             </div>
           </div>
           <div class="info">
-            <div class="info_top">
-              <p class="monitorTitle">判定结果:</p>
-              <p>{{dataList.judgeResult || dataList.powerDeviceName}}</p>
-            </div>
-            <div class="temperature">
-              <p
-                class="monitorTitle"
-                :style="{color:(dataList.alarmContent || dataList.result || dataList.alarmValue).indexOf('正常')>-1?'#333':'red'}"
-              >{{dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:dataList.alarmValue)}}</p>
-              <p v-if="hasSelect&& popData['alarmLevel'] && dataList.result !='正常'">
-                {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
-                {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
-                <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
-                <i-dropdown
-                  v-if="hasSelect && popData['alarmLevel'] && (dataList.alarmContent||dataList.result)=='红外温度超过阈值'  || dataList.alarmLevel"
-                  trigger="click"
-                  placement="bottom-start"
-                >
-                  <div
-                    class="table_select"
-                    :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
+              <div class="info_top">
+                <p class="monitorTitle">判定结果:</p>
+                <p>{{dataList.judgeResult || dataList.powerDeviceName}}</p>
+              </div>
+              <!-- v-if="!discriminate" -->
+              <div class="temperature">
+                <p
+                  class="monitorTitle"
+                  :style="{color:(dataList.alarmContent || dataList.result || dataList.alarmValue || '').indexOf('正常')>-1?'#333':'red'}"
+                >{{dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:'')}}<br v-if="(dataList.alarmContent?dataList.alarmContent:(dataList.result?dataList.result:'')) && !(hasSelect && popData['alarmLevel'] && dataList.result !='正常')"/><span v-if="!(hasSelect && popData['alarmLevel'] && dataList.result !='正常')">{{ isNaN(Number(dataList.alarmValue))?dataList.alarmValue:dataList.alarmValue+dataList.unit }}</span></p>
+                <p v-if="hasSelect && popData['alarmLevel'] && dataList.result !='正常'">
+                  {{dataList.alarmValue?dataList.alarmValue:dataList.result}}
+                  {{ (dataList.alarmContent||dataList.alarmContent)=='红外温度超过阈值'?'℃':'' }}
+                  <!-- {{ dataList['alarmValue']?dataList['alarmValue']+'℃':'' }} -->
+                  <i-dropdown
+                    v-if="hasSelect && popData['alarmLevel'] && ((dataList.alarmContent||dataList.result)=='红外温度超过阈值' || dataList.alarmLevel)"
+                    trigger="click"
+                    placement="bottom-start"
                   >
-                    <span class="member_operate_div" v-if="dataList.alarmLevelName">
-                      <span>{{ dataList.alarmLevelName }}</span>
-                    </span>
-                    <i class="iconfont icon-xiala" v-if="dataList.alarmLevelName"></i>
-                  </div>
-                  <i-dropdownMenu slot="list">
-                    <i-dropdownItem
-                      v-for="(item, index) in selectList"
-                      :key="index"
-                      @click.native="selectItem(dataList, index)"
+                    <div
+                      class="table_select"
+                      :class="[{'serious': dataList.alarmLevel == 2},{'commonly': dataList.alarmLevel == 1},{'danger': dataList.alarmLevel == 3}]"
                     >
-                      <div class="alarmLevel">{{ item }}</div>
-                    </i-dropdownItem>
-                  </i-dropdownMenu>
-                </i-dropdown>
-              </p>
-              <!-- <p v-else>{{ dataList.alarmValue }}{{ dataList.alarmValue?dataList.unit:'' }}</p> -->
+                      <span class="member_operate_div" v-if="dataList.alarmLevelName">
+                        <span>{{ dataList.alarmLevelName }}</span>
+                      </span>
+                      <i class="iconfont icon-xiala" v-if="dataList.alarmLevelName"></i>
+                    </div>
+                    <i-dropdownMenu slot="list">
+                      <i-dropdownItem
+                        v-for="(item, index) in selectList"
+                        :key="index"
+                        @click.native="selectItem(dataList, index)"
+                      >
+                        <div class="alarmLevel">{{ item }}</div>
+                      </i-dropdownItem>
+                    </i-dropdownMenu>
+                  </i-dropdown>
+                </p>
+                <!-- <p v-else>{{ dataList.alarmValue }}{{ dataList.alarmValue?dataList.unit:'' }}</p> -->
+              </div>
+              <!-- <div v-else class="btn-printbtn-printbtn-print">
+                <div
+                  class="nr"
+                  :style="{color:(dataList.alarmContent || dataList.result)=='正常'?'#333':'red'}"
+                >{{ dataList.alarmContent?dataList.alarmContent:dataList.result }}</div>
+              </div>-->
+              <div class="btn-print">
+                <a class="not-print origin" href="javascript:;" @click="clickJudge" v-if="cutPic">结果修订</a>
+                <!-- <button-custom
+                  v-if="showBtn"
+                  :class="{}"
+                  class="button"
+                  :title="titleReturn"
+                  @click.native="handleReturn"
+                />-->
+              </div>
+              <div
+                class="not-print"
+                @click="handleReturn"
+                v-if="showBtn && cutPic"
+                :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
+              >{{ titleReturn }}</div>
+              <div class="from">
+                <span>
+                  来源：
+                  <a
+                    class="origin"
+                    href="javascript:;"
+                    @click="getJump"
+                    style="text-decoration: underline"
+                  >{{ originName }}</a>
+                </span>
+              </div>
             </div>
-            <div class="btn-print">
-              <a class="not-print origin" href="javascript:;" @click="clickJudge">结果修订</a>
-              <!-- <button-custom
-                v-if="showBtn"
-                :class="{}"
-                class="button"
-                :title="titleReturn"
-                @click.native="handleReturn"
-              />-->
-            </div>
-            <div
-              class="not-print"
-              @click="handleReturn"
-              v-if="showBtn"
-              v-show="cutPic"
-              :class="titleReturn=='复归'?'showBtn':'showBtnAl'"
-            >{{ titleReturn }}</div>
-            <div class="from">
-              <span>
-                来源：
-                <a
-                  class="origin"
-                  href="javascript:;"
-                  @click="getJump"
-                  style="text-decoration: underline"
-                >{{ originName }}</a>
-              </span>
-            </div>
-          </div>
         </div>
         <div class="handleInfo">
           <p class="monitorTitle">处理记录</p>
@@ -257,8 +263,15 @@ export default {
   },
   computed: {
     cutPic(){
-      if(this.dataList.length)
-        return !((this.dataList.alarmContent?this.dataList.alarmContent:this.dataList.result).indexOf('截图失败')>-1)
+      if(Object.keys(this.dataList).length){
+        try{
+          return !((this.dataList.alarmContent?this.dataList.alarmContent:(this.dataList.result?this.dataList.result:this.dataList.alarmValue)).indexOf('截图失败')>-1)
+        }catch(e){
+          return true
+        }
+      }else{
+        return true
+      }
     },
     originName(){
       if(this.popData.monitorDeviceId == 11){
