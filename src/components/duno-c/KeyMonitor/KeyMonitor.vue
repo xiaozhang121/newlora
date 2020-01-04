@@ -1087,6 +1087,7 @@
       },
       closeShot() {
         this.isShow = false;
+        this.$emit('on-fresh')
       },
       destory(){
         if(this.$refs.videoPlayer && this.$refs.videoPlayer.player){

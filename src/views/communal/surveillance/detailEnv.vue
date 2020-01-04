@@ -32,6 +32,7 @@
                   :isLive="false"
                   :isNav="true"
                   :isAux="true"
+                  @on-fresh="onFresh"
                 ></key-monitor>
               </div>
             </div>
@@ -629,6 +630,7 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.executeTime.slice(5);
+            timeDay = timeDay.replace('.0', '')
             return h("div", timeDay);
           }
         },
@@ -876,6 +878,10 @@ export default {
     }
   },
   methods: {
+    onFresh(){
+      this.getDataList();
+      this.getEnvData()
+    },
     deviceShowHandle(arr, flag) {
       const that = this;
       let target = arr.filter(item => {

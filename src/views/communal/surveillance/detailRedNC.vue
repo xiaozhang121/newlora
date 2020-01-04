@@ -38,6 +38,7 @@
                         :isNav='true'
                         :isAux='true'
                         :picCutAbsolute='true'
+                        @on-fresh="onFresh"
                 ></key-monitor>
               </div>
             </div>
@@ -61,6 +62,7 @@
                         :isLive='false'
                         :isNav='true'
                         :isAux='true'
+                        @on-fresh="onFresh"
                 ></key-monitor>
                 <span
                         v-show="overFlag"
@@ -562,6 +564,9 @@ export default {
     }
   },
   methods: {
+    onFresh(){
+      this.getDataList();
+    },
     isPushCamera() {
       getAxiosData("/lenovo-device/api/monitor/layout-list", {
         userId: this.$store.state.user.userId
