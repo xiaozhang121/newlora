@@ -690,9 +690,9 @@ export default {
           if (xAxisData.indexOf(el[0]) < 0) xAxisData.push(el[0]);
         });
       });
-      xAxisData.sort(function(a, b) {
-        return a < b ? -1 : 1;
-      });
+      // xAxisData.sort(function(a, b) {
+      //   return a < b ? -1 : 1;
+      // });
       return xAxisData;
     },
     onActive(data) {

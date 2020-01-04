@@ -408,7 +408,10 @@
               margin-right: 1.5%;
               width: calc(94% / 5);
               .reportTable{
-                height: 270px;
+                height: 320px;
+				@media screen and(min-width: 3500px) {
+					height: 270px;
+				}
               }
               &:nth-last-child(5n + 1) {
                 margin-right: 0;
@@ -418,9 +421,6 @@
               width: 100% !important;
             }
           }
-		  @media screen and(min-width: 3500px) {
-			  min-height: calc(100vh - 234px);
-		  }
         }
       }
     }

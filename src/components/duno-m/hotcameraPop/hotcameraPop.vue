@@ -166,9 +166,9 @@
                     xAxisData.push(el[0])
                  })
                })
-              xAxisData.sort(function (a, b) {
-                return a < b ? -1 : 1
-              })
+            //   xAxisData.sort(function (a, b) {
+            //     return a < b ? -1 : 1
+            //   })
               return xAxisData
             },
             getHistoryData () {
@@ -186,32 +186,6 @@
                 getAxiosData(url, query).then( res => {
                   const dataList = res.data.dataList
                   console.log(dataList)
-                  // let dataList = [
-                  //   {
-                  //     itemName: '项目名称（可见光为电网设备名称，热感为roi名称）222222222',
-                  //     itemDataList: [
-                  //       ['2019-01-01', '10'],
-                  //       ['2019-01-02', '20'],
-                  //       ['2019-01-06', '90']
-                  //     ],
-                  //     maxData: 100,
-                  //     minData: 30,
-                  //     unit: '单位',
-                  //     flag: 0
-                  //   },
-                  //   {
-                  //     itemName: '项目名称（可见光为电网设备名称，热感为roi名称）1111111111',
-                  //     itemDataList: [
-                  //       ['2019-01-01', 200],
-                  //       ['2019-01-09', 40],
-                  //       ['2019-01-20', 300]
-                  //     ],
-                  //     maxData: 100,
-                  //     minData: 30,
-                  //     unit: '单位123',
-                  //     flag: 0
-                  //   }
-                  // ]
                   this.timeStr=dataList[0].timeStr
                   let xAxisData = that.getAxisData(dataList)
                   let domData = this.$refs.polygonalRef.$data

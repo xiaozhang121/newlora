@@ -613,9 +613,9 @@ export default {
             xAxisData.push(el[0])
         })
       })
-      xAxisData.sort(function (a, b) {
-        return a < b ? -1 : 1
-      })
+      // xAxisData.sort(function (a, b) {
+      //   return a < b ? -1 : 1
+      // })
       return xAxisData
     },
     onActive(data){
