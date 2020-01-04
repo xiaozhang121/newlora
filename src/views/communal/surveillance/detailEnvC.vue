@@ -37,6 +37,7 @@
                   :isLive='false'
                   :isNav='true'
                   :isAux='true'
+                  @on-fresh="onFresh"
                 ></key-monitor>
               </div>
             </div>
@@ -89,6 +90,7 @@
                 :isLive='false'
                 :isNav='true'
                 :isAux='true'
+                @on-fresh="onFresh"
               ></key-monitor>
               <p>{{ item['startTime'] }}-{{ item['endTime'] }} ({{ item['timeValue'] }})</p>
             </div>
@@ -560,6 +562,7 @@ export default {
           tooltip: true,
           render: (h, params) => {
             let timeDay = params.row.executeTime.slice(5);
+            timeDay = timeDay.replace('.0', '')
             return h("div", timeDay);
           }
         },
@@ -809,6 +812,10 @@ export default {
     }
   },
   methods: {
+    onFresh(){
+      this.getEnvData()
+      this.getDataList();
+    },
     isPushCamera() {
       getAxiosData("/lenovo-device/api/monitor/layout-list", {
         userId: this.$store.state.user.userId

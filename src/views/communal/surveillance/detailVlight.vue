@@ -38,6 +38,7 @@
                   :isLive='false'
                   :isNav='true'
                   :isAux='true'
+                  @on-fresh="onFresh"
                 ></key-monitor>
               </div>
             </div>
@@ -560,6 +561,9 @@ export default {
     }
   },
   methods: {
+    onFresh(){
+      this.getDataList();
+    },
     changeActive(index){
       this.chartsList.map(item=>{
         item['active'] = false

@@ -29,6 +29,7 @@
                   :isLive='false'
                   :isNav='true'
                   :isAux='true'
+                  @on-fresh="onFresh"
                 ></key-monitor>
               </div>
             </div>
@@ -579,6 +580,9 @@ export default {
     }
   },
   methods: {
+    onFresh(){
+      this.getDataList();
+    },
     isPushCamera() {
       getAxiosData("/lenovo-device/api/monitor/layout-list", {
         userId: this.$store.state.user.userId
