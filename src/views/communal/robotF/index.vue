@@ -22,6 +22,7 @@
                     :monitorInfo="{'monitorDeviceId': 11}"
                     :pushCamera="false"
                     :isLive='false'
+                    :noHighVideo="true"
                     :isNav='true'
                     :isAux='true'
                     :isRobot='true'
@@ -39,6 +40,7 @@
                     :monitorInfo="{'monitorDeviceId': 11}"
                     :isLive='false'
                     :isNav='true'
+                    :noHighVideo="true"
                     :isRecord="false"
                     :isAux='true'
                     :isRobot='true'

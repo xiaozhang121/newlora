@@ -200,6 +200,12 @@
       cameraRecord
     },
     props: {
+      noHighVideo: {
+        type: Boolean,
+        default: () => {
+          return false;
+        }
+      },
       noVideo: {
         type: Boolean,
         default: () => {
@@ -835,10 +841,15 @@
         }else if(type==2){
           url = `/lenovo-iir/device/video/url/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
         }
-        getAxiosData(url).then(res=>{
-          this.mainstream=res.result || typeof(res.data) == 'object'? res.data.data : res.data
-          this.webFullScreen()
-        })
+        if(this.noHighVideo){
+            this.mainstream = this.streamAddr
+            this.webFullScreen()
+        }else{
+          getAxiosData(url).then(res=>{
+            this.mainstream=res.result || typeof(res.data) == 'object'? res.data.data : res.data
+            this.webFullScreen()
+          })
+        }
       },
       onPlayerPlay(player) {
         console.log(this.playerOptions["sources"][0]["src"] +'   player play')
