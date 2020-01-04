@@ -17,7 +17,7 @@
         <el-menu class="el-menu-vertical-demo not-print" :collapse="isCollapse">
           <el-aside
                   v-show="!isCollapse"
-                  v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1 && !isHidden"
+                  v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1"
                   hide-trigger
                   collapsible
                   :width="collapsed ? '64px' : '200px'"
@@ -76,7 +76,7 @@
             <div class="lineTitle">操作中台</div>
             <el-container class="mainAside">
               <el-aside
-                      v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1 && !isHidden"
+                      v-if="$store.state.app.topNav != 3 && $store.state.app.topNav != 1"
                       hide-trigger
                       collapsible
                       :width="collapsed ? '64px' : '200px'"
