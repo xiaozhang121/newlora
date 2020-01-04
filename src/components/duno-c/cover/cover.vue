@@ -8,8 +8,8 @@
     <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
       <div v-if="isSecond" @click="getJump" class="explainy">
         <div class="text">
-          <span>{{srcData.monitorDeviceName}}</span>
-          <span>{{ srcData.interval?srcData.interval.replace(/至/,'-'):"" }}</span>
+          <span :class="{'lineHeight': !showTime}">{{srcData.monitorDeviceName}}</span>
+          <span v-if="showTime">{{ srcData.interval?srcData.interval.replace(/至/,'-'):"" }}</span>
         </div>
         <span>
           <i class="iconfont icon-jiantou"></i>
@@ -58,6 +58,12 @@ export default {
     }
   },
   props: {
+    showTime: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     videoList: {
       type: Array,
       default: () => {
@@ -218,6 +224,9 @@ export default {
   & > div:first-child {
     padding-bottom: 56%;
     position: relative;
+  }
+  .lineHeight{
+    line-height: 34px;
   }
   img {
     width: 100%;

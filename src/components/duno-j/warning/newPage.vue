@@ -43,7 +43,7 @@
                   自动截图未成功
                 </div>
               </KeyMonitor>
-              <img :src="ImgScreenshot" class="Img_screenshot" v-if="!isImgVideo" />
+              <img :src="ImgScreenshot" class="Img_screenshot" v-if="isImgVideo" />
               <i
                 v-if="isImgVideo"
                 class="fullScreen iconfont icon-quanping"
@@ -200,7 +200,6 @@ export default {
     userName: {},
     name: {},
     value: {},
-    info: {},
     fileType: {
       type: Boolean,
       default: () => {
@@ -324,8 +323,7 @@ export default {
           this.titleReturn = "复归";
         }
       },
-      deep: true,
-      immediate: true
+      deep: true
     },
     alarmLevel: {
       handler(now) {
@@ -581,7 +579,8 @@ export default {
     this.isFullscreen = this.getScreenWidth()
     this.searchType = Base64.decode(this.name);
     this.searchId = Base64.decode(this.value);
-    this.popData = JSON.parse(Base64.decode(this.info));
+    this.popData =  JSON.parse(Base64.decode(sessionStorage.getItem('info')))
+    // this.popData = JSON.parse(Base64.decode(this.info));
     this.detailsType = Base64.decode(this.detailsType);
     this.userNameD = Base64.decode(this.userName);
     this.$store.state.user.userName = this.userNameD;

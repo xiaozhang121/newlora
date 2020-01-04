@@ -67,7 +67,7 @@
             v-for="(nr, i) in item['data']"
             :key="i"
           >
-            <cover  :videoList="nr['videoList']" :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
+            <cover :showTime="false" :videoList="nr['videoList']" :monitorInfo="nr"  class="coverRecord" :srcData="nr"></cover>
           </div>
         </div>
       </div>

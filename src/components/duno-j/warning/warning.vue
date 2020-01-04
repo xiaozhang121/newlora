@@ -399,11 +399,12 @@ export default {
         params: {
           name: Base64.encode(this.searchType),
           value: Base64.encode(this.searchId),
-          info: Base64.encode(JSON.stringify(this.popData)),
+          // info: Base64.encode(JSON.stringify(this.popData)),
           detailsType: Base64.encode(this.detailsType),
           userName: Base64.encode(this.$store.state.user.userName)
         }
       });
+      sessionStorage.setItem('info', Base64.encode(JSON.stringify(this.popData)))
       window.open(routeData.href, "_blank");
     },
     toPrint(e) {

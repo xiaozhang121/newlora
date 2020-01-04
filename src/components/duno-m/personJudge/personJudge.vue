@@ -218,7 +218,6 @@ export default {
         }
       });
       this.formData.input = "";
-      this.formData.inputT = "";
       if(this.fourLabel == '红外温度类'){
         this.formData.inputT = this.saveTemplate
       }
