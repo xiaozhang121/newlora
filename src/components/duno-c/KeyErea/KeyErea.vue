@@ -269,6 +269,7 @@
                   }
               }
               this.$refs.selectTop.$refs.dunoBtnTopS.style.display = "none"
+              this.$message.success('切换成功')
             },
             changeVideo(item, event){
                let pageX = Number(event.pageX)
