@@ -40,7 +40,7 @@
           </duno-main>
         </div>
       </div>
-      <div class="bottom">
+      <div class="bottom not-print">
         <div class="iconcen" @click="handleJump(1)">
           <duno-main :controlOver="true" class="main_contain contain">
             <div class="iconTop">
@@ -60,7 +60,7 @@
               <div class="gauge">
                 <div class="gauge_top">
                   <i class="iconfont icon-shidu1"></i>
-                  <p>{{ tempEnv['humidity'] }}%</p>
+                  <p>{{ tempEnv['humidity'] }}%RH</p>
                   <span>当前湿度</span>
                 </div>
                 <div class="gauge_btm">
@@ -515,10 +515,10 @@ export default {
           minWidth: 90,
           align: "center",
           tooltip: true,
-          render:(h,params)=>{
+          render: (h, params) => {
             const that = this;
-            let date =params.row.date.slice(5)
-            return(h('div',date))
+            let date = params.row.date.slice(5);
+            return h("div", date);
           }
         },
         {
@@ -684,15 +684,15 @@ export default {
         axisPointer: {
           type: "shadow"
         },
-        formatter: function (params) {
-          let str = ''
-          str += params[0]['name']
-          str += '<br/>'
-          params.forEach(item=>{
-            str += item['marker'] + item['seriesName'] + item['value'] + '%'
-            str += '<br/>'
-          })
-          return str
+        formatter: function(params) {
+          let str = "";
+          str += params[0]["name"];
+          str += "<br/>";
+          params.forEach(item => {
+            str += item["marker"] + item["seriesName"] + item["value"] + "%";
+            str += "<br/>";
+          });
+          return str;
         }
       },
       isItemEchartBar: true,
@@ -870,7 +870,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "全部告警类型",
+          describeName: "全部告警类别",
           monitorDeviceType: "",
           title: "titleType"
         });
@@ -1293,11 +1293,11 @@ export default {
         text-decoration-color: #5fafff;
       }
     }
-    .ivu-table-cell{
+    .ivu-table-cell {
       padding-left: 0;
       padding-right: 0;
     }
-    .ivu-table-overflowX{
+    .ivu-table-overflowX {
       overflow-x: hidden;
     }
     .re-middle {

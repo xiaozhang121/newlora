@@ -290,7 +290,7 @@ export default {
     & > div {
       width: calc(20% - 20px);
       float: left;
-      height: 320px;
+      height: 300px;
       margin-right: 20px;
     }
   }

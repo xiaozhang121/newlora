@@ -156,7 +156,7 @@
             </div>
             <div>
               <duno-btn-top
-                @on-select="selectDownloadType"
+                @on-select="selectDownloadTypeD"
                 class="dunoBtnTo"
                 :isCheck="false"
                 :dataList="downLoadList"
@@ -1265,6 +1265,13 @@ export default {
         isIE = true;
       }
       return isIE;
+    },
+    selectDownloadTypeD(item) {
+      const that = this;
+      that.mixinViewModuleOptions.exportURL='/lenovo-alarm/api/security/history/export'
+      that.queryForm.type = item.monitorDeviceType;
+      that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
+      that.exportHandle();
     },
     selectDownloadType(item) {
       const that = this;

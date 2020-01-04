@@ -189,7 +189,7 @@ export default {
           }
         },
         {
-          title: "监控设备",
+          title: "被监测设备",
           key: "powerDeviceName",
           align: "center",
           tooltip: true,
