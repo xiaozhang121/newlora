@@ -85,7 +85,7 @@
       </div>
       <div class="echarts not-print">
         <div class="title">
-          <div class="title_main">{{titleAmmeter}}24小时温度分析</div>
+          <div class="title_main">{{titleAmmeter}}{{ titleTime }}温度分析</div>
           <div>
             <div>
               <duno-btn-top
@@ -287,6 +287,7 @@
                 titleAmmeter: "泄露电流表",
                 titleParts: "主设备名-部件名",
                 titlePhase: "选择相别",
+                titleTime:"24小时",
                 titleByDay: "按日",
                 titleDate: "今日",
                 valueParts: [],
@@ -358,7 +359,7 @@
                 },
                 xAxisOption: {
                     type: "category",
-                    name: "(时)",
+                    name: "(时间)",
                     axisLine: {
                         show: true, //x轴的线
                         lineStyle: {
@@ -1102,24 +1103,28 @@
                         endTime = moment(data)
                             .add(1, "days")
                             .format("YYYY-MM-DD HH:mm:ss");
+                            this.titleTime=moment(data).format("YYYY.MM.DD")+'（日）'
                         break;
                     case "2":
                         startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
                         endTime = moment(data)
                             .add(1, "weeks")
                             .format("YYYY-MM-DD HH:mm:ss");
+                            this.titleTime=moment(data).format("YYYY.MM.DD")+'至'+moment(data).add(1, "weeks").format("MM.DD");+'（周）'
                         break;
                     case "3":
                         startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
                         endTime = moment(data)
                             .add(1, "months")
                             .format("YYYY-MM-DD HH:mm:ss");
+                            this.titleTime=moment(data).format("YYYY.MM.DD")+'至'+moment(data).add(1, "months").format("MM.DD");+'（月）'
                         break;
                     case "4":
                         startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
                         endTime = moment(data)
                             .add(1, "years")
                             .format("YYYY-MM-DD HH:mm:ss");
+                            this.titleTime=moment(data).format("YYYY")+'（年）'
                         break;
                 }
                 this.startTime = startTime;

@@ -542,8 +542,8 @@ export default {
                   props: { type: "text" },
                   on: {
                     click: () => {
-                      this.alarmId = params.row.alarmId;
-                      this.dialogVisible = true;
+                      that.alarmId = params.row.alarmId;
+                      that.dialogVisible = true;
                     }
                   }
                 },

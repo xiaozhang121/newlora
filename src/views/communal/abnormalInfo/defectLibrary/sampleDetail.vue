@@ -45,7 +45,7 @@
                 v-model="form.stationName"
                 :disabled="isEdit"
                 @change="changeStation"
-                placeholder="请选择"
+                :placeholder="placeholder"
               >
                 <el-option
                   v-for="(item,index) in substationData"
@@ -62,7 +62,7 @@
                 v-model="form.monitorDeviceName"
                 @change="changeMonitor"
                 :disabled="isEdit"
-                placeholder="请选择"
+                :placeholder="placeholder"
               >
                 <el-option
                   v-for="(item,index) in cameraData"
@@ -78,7 +78,7 @@
                 v-model="form.areaName"
                 @change="changeArea"
                 :disabled="isEdit"
-                placeholder="请选择"
+                :placeholder="placeholder"
               >
                 <el-option
                   v-for="(item,index) in diviceData"
@@ -93,8 +93,8 @@
             </el-form-item>
             <!--<survey :monitor="form.powerDeviceName" :isEdit="isEdit"></survey>-->
             <div class="submit">
-              <span v-if="isEdit" @click="isEdit=false">编辑</span>
-              <span v-if="!isEdit" @click="isEdit=true">取消</span>
+              <span v-if="isEdit" @click="handleChangeEdit">编辑</span>
+              <span v-if="!isEdit" @click="handelCancelEdit">取消</span>
               <span v-if="!isEdit" @click="handleSubmit">确认</span>
             </div>
           </el-form>
@@ -339,6 +339,14 @@ export default {
     };
   },
   methods: {
+    handleChangeEdit(){
+      this.isEdit = false;
+      this.placeholder = '请选择'
+    },
+    handelCancelEdit(){
+      this.isEdit = true;
+      this.placeholder = ''
+    },
     onSure(){
       this.deleteDetail()
     },
@@ -481,6 +489,7 @@ export default {
       putAxiosData(url, query).then(res => {
         this.isEdit = true
         this.$message.info("修改成功");
+        this.placeholder = ''
       });
     },
     deleteDetail() {
@@ -729,6 +738,9 @@ export default {
   .tab_link:hover {
     background-color: rgba(0, 0, 0, 0);
   }
+  input::placeholder {
+        color: #000;
+    }
   //-------------------表格样式
   .ivu-table {
     font-size: 16px;
