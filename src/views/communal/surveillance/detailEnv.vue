@@ -256,7 +256,6 @@
     />
     <enlarge v-if="isEnlarge" :isShow="isEnlarge" :srcData="srcData" @closeEnlarge="closeEnlarge" />
     <Remarks
-      v-if="dialogVisible"
       :isShow="dialogVisible"
       :alarmId="alarmId"
       @beforeClose="beforeClose"
