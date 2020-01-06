@@ -423,12 +423,16 @@ export default {
     timeHandle(arr) {
      let data = this.deviceShowHandle(arr);
      this.sevenDates = data.join(",");
-     this.sevenData();
+      this.$nextTick(()=>{
+        this.sevenData()
+      })
     },
      deviceHandle(arr) {
       let data = this.deviceShowHandle(arr, true);
       this.sevenIds = data.join(",");
-      this.sevenData()
+      this.$nextTick(()=>{
+        this.sevenData()
+      })
       // this.getRegion(true);
     },
     sevenData(now) {
