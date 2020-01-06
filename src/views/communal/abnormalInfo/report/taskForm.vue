@@ -377,7 +377,7 @@
                     axisTick: {
                         show: false
                     },
-                    data: []
+                    data: ['0','2','4','6','8','10','12','14','16','18','20','22','24']
                 },
                 yAxisOption: {
                     type: "value",
@@ -1031,7 +1031,7 @@
                     const yMin = [];
                     that.legendOption.data = [];
                     that.seriesOption = [];
-                    that.xAxisOption.data = [];
+                    // that.xAxisOption.data = [];
                     for (let i = 0; i < dataList.length; i++) {
                         legendData.push(dataList[i].deviceName);
                         const itemDataList = dataList[i].dataList;
@@ -1054,7 +1054,7 @@
                     that.yAxisOption.min = Math.floor(yMin.sort((a, b) => a - b)[0]);
                     that.legendOption.data.push(...legendData);
                     that.seriesOption.push(...seriesData);
-                    that.xAxisOption.data.push(...xAxisData);
+                    // that.xAxisOption.data.push(...xAxisData);
                     that.$forceUpdate();
                     that.isChangeFlag = !that.isChangeFlag;
                 });
@@ -1104,6 +1104,7 @@
                             .add(1, "days")
                             .format("YYYY-MM-DD HH:mm:ss");
                             this.titleTime=moment(data).format("YYYY.MM.DD")+'（日）'
+                            this.xAxisOption.data=['0','2','4','6','8','10','12','14','16','18','20','22','24']
                         break;
                     case "2":
                         startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
@@ -1111,6 +1112,7 @@
                             .add(1, "weeks")
                             .format("YYYY-MM-DD HH:mm:ss");
                             this.titleTime=moment(data).format("YYYY.MM.DD")+'至'+moment(data).add(1, "weeks").format("MM.DD");+'（周）'
+                            this.xAxisOption.data=['周日','周一','周二','周三','周四','周五','周六']
                         break;
                     case "3":
                         startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
@@ -1118,6 +1120,7 @@
                             .add(1, "months")
                             .format("YYYY-MM-DD HH:mm:ss");
                             this.titleTime=moment(data).format("YYYY.MM.DD")+'至'+moment(data).add(1, "months").format("MM.DD");+'（月）'
+                            this.xAxisOption.data=['1','3','5','7','9','11','13','15','17','19','21','23','25','27','29','30']
                         break;
                     case "4":
                         startTime = moment(data).format("YYYY-MM-DD HH:mm:ss");
@@ -1125,6 +1128,7 @@
                             .add(1, "years")
                             .format("YYYY-MM-DD HH:mm:ss");
                             this.titleTime=moment(data).format("YYYY")+'（年）'
+                            this.xAxisOption.data=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
                         break;
                 }
                 this.startTime = startTime;
