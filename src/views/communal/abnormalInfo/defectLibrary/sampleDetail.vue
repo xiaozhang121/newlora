@@ -163,7 +163,7 @@ export default {
       isEdit: true,
       src: require("@/assets/noPic.png"),
       // imgsrc: "",
-      placeholder: "请选择",
+      placeholder: "",
       calibratData: {},
       dataList: [],
       ImgInfo: {},
