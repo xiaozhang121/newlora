@@ -1026,9 +1026,9 @@
                         // this.modeList[modelIndex].isShowClassifyVisble = flag
                         this.modeList[modelIndex].isShowPowerVisible = flag
                     }
-                    if(!('monitorDeviceType' in item) && this.isDiagram != 1){
-                        this.modeList[modelIndex].isShowPowerVisible = flag
-                    }
+                    // if(!('monitorDeviceType' in item) && this.isDiagram != 1){
+                    //     this.modeList[modelIndex].isShowPowerVisible = flag
+                    // }
                     if(item.monitorDeviceType == '1' || item.monitorDeviceType == '5'){
                         this.modeList[modelIndex].popupinfoVisable = flag
                     }else if(item.monitorDeviceType == '2'){

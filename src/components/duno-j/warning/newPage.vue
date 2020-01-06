@@ -43,7 +43,7 @@
                   自动截图未成功
                 </div>
               </KeyMonitor>
-              <img :src="ImgScreenshot" class="Img_screenshot" v-if="isImgVideo" />
+              <img :src="ImgScreenshot" class="Img_screenshot" v-if="!isImgVideo" />
               <i
                 v-if="isImgVideo"
                 class="fullScreen iconfont icon-quanping"
