@@ -290,7 +290,13 @@ export default {
     & > div {
       width: calc(20% - 20px);
       float: left;
-      height: 300px;
+      height: 370px;
+      @media screen and(max-width: 1366px){
+        height: 300px;
+      }
+      @media screen and(min-width: 3500px){
+        height: 300px;
+      }
       margin-right: 20px;
     }
   }
