@@ -396,7 +396,7 @@ export default {
   },
   created() {
     this.sevenData();
-    this.getRegion();
+    this.getRegion(true);
     this.getType();
   },
   methods: {
@@ -428,13 +428,14 @@ export default {
      deviceHandle(arr) {
       let data = this.deviceShowHandle(arr, true);
       this.sevenIds = data.join(",");
-      this.getRegion(true);
+      this.sevenData()
+      // this.getRegion(true);
     },
     sevenData(now) {
       const that = this;
       let date = this.sevenDates?this.sevenDates:(this.$refs.btnTopRef?this.$refs.btnTopRef.checkedCities.join(','):'')
       let monitorDeviceId = this.sevenRIds()
-      if (this.isBack && date && monitorDeviceId.split(',').length) {
+      if (this.isBack && date && monitorDeviceId) {
         this.isBack = false;
         that.loadingOption = true
         that.sevenValue = []
