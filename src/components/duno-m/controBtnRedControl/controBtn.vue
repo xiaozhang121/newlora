@@ -148,7 +148,7 @@ export default {
                     }
                     resolve(res)
                 },error=>{
-                    this.$message.error(error.message);
+                  this.$message.error(error.response.data.message)
                 })
             })
         },
