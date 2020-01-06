@@ -645,6 +645,7 @@ export default {
   },
   methods: {
     onFresh(){
+      this.pageIndex = 1
       this.getDataList();
     },
     isPushCamera() {

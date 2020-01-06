@@ -878,6 +878,8 @@ export default {
   },
   methods: {
     onFresh(){
+      this.envPageIndex = 1
+      this.pageIndex = 1
       this.getDataList();
       this.getEnvData()
     },

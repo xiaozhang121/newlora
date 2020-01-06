@@ -813,6 +813,8 @@ export default {
   },
   methods: {
     onFresh(){
+      this.pageIndex = 1
+      this.envPageIndex = 1
       this.getEnvData()
       this.getDataList();
     },
