@@ -1274,6 +1274,7 @@ export default {
     },
     selectDownloadType(item) {
       const that = this;
+      that.mixinViewModuleOptions.exportURL='/lenovo-plan/api/task/result/list/export'
       that.queryForm.type = item.monitorDeviceType;
       that.queryForm.monitorDeviceId = this.$route.query.monitorDeviceId;
       that.exportHandle();
