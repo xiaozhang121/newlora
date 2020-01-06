@@ -517,7 +517,7 @@
       position: absolute;
 
       cursor: pointer;
-      z-index: 10;
+      z-index: 1;
     }
     .sideShrink {
       top: 10px;

@@ -56,6 +56,7 @@
       :isAlarmLog="true"
       :popData="remarkData"
       :modalBody="false"
+      :modal="false"
       :visible="visible"
       @handleClose="handleClose"
     />
@@ -209,6 +210,9 @@ export default {
   border-radius: 2px;
   display: flex;
   justify-content: space-around;
+  .el-dialog__wrapper{
+    background: rgba(0,0,0,0.7);
+  }
   .img {
     width: 40%;
     height: 180px;
