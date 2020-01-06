@@ -421,34 +421,28 @@ export default {
       return arr.join(",");
     },
     timeHandle(arr) {
-      let data = this.deviceShowHandle(arr);
-      this.sevenDates = data.join(",");
-      this.count++;
-      if (this.count > 3) {
-        this.$nextTick(()=>{
-          setTimeout(()=>{
-            this.sevenData();
-          })
-        })
-      }
+     let data = this.deviceShowHandle(arr);
+     this.sevenDates = data.join(",");
+     this.sevenData();
     },
      deviceHandle(arr) {
       let data = this.deviceShowHandle(arr, true);
       this.sevenIds = data.join(",");
-      this.count++;
-      if (this.count > 3) this.getRegion(true);
+      this.getRegion(true);
     },
     sevenData(now) {
       const that = this;
-      if (this.isBack) {
+      let date = this.sevenDates?this.sevenDates:(this.$refs.btnTopRef?this.$refs.btnTopRef.checkedCities.join(','):'')
+      let monitorDeviceId = this.sevenRIds()
+      if (this.isBack && date && monitorDeviceId.split(',').length) {
         this.isBack = false;
         that.loadingOption = true
         that.sevenValue = []
         getAxiosData("/lenovo-device/device/video/record/videos/seven-days", {
-          date: this.sevenDates?this.sevenDates:(this.$refs.btnTopRef?this.$refs.btnTopRef.checkedCities.join(','):''),
+          date: date,
    /*       startTime: this.chosenDate[0]?moment(this.chosenDate[0]).format('YYYY-MM-DD'):'',
           endTime: this.chosenDate[1]?moment(this.chosenDate[1]).format('YYYY-MM-DD'):'',*/
-          monitorDeviceId: this.sevenRIds()
+          monitorDeviceId: monitorDeviceId
         }).then(res => {
           let data = res.data;
           for(let i=0; i<data.length; i++){
@@ -478,6 +472,7 @@ export default {
             })
             data[i].data = arr
           }
+          debugger
           this.sevenValue = data;
           let arr = []
           for(let i=0; i<data.length; i++){
@@ -507,8 +502,9 @@ export default {
             }
           }
           this.isBack = true;
-          this.count++;
         });
+      }else{
+          this.videoList = []
       }
     },
     deviceShowHandle(arr, flag) {

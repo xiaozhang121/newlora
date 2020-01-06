@@ -25,7 +25,7 @@
       </div>
       <div v-if="isCheck" class="btn_main dropSelf isCheck checkbox" ref="showListRef" style="display: none">
         <div v-if="showAll" class="checkbox">
-          <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange">{{ allLabelName }}</el-checkbox>
+          <el-checkbox :indeterminate="isIndeterminate"  v-model="checkAll" @change="handleCheckAllChange" @click.native="changeCheckBox">{{ allLabelName }}</el-checkbox>
         </div>
         <el-checkbox-group  v-model="checkedCities"  @change="handleCheckedCitiesChange">
           <!-- <duno-btn-top-item v-for="(item, index) in dataList" :key="index" @click.native="handleActive(index)" class="btnItem" :isActive="item['isActive']"  :circleColor="item['circleColor']"  :describeName="item['describeName']"/> -->
@@ -105,6 +105,7 @@
                 isFullscreen: false,
                 showListFlag: false,
                 checkAll: false,
+                clickCheckAll: false,
                 checkedCities: [],
                 isIndeterminate: true,
                 topBtnList:[
@@ -270,8 +271,9 @@
             }
         },
         methods:{
-            mousedown(){
-
+            changeCheckBox(){
+              debugger
+              // clickCheckAll
             },
             handleControlBall(){
                 this.$emit('on-controlBall')
@@ -383,13 +385,14 @@
                     return
                 }
                 if(!this.isClick){
-                    this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
                     // this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']
                     this.$forceUpdate();
                     if(this.isCheck && this.dataBackup.length){
-                        this.$emit('on-active',this.dataBackup)
+                      this.dataBackup[index]['isActive'] = !this.dataBackup[index]['isActive']
+                      this.$emit('on-active',this.dataBackup)
                     }else{
-                        this.$emit('on-active',this.dataList)
+                      this.dataList[index]['isActive'] = !this.dataList[index]['isActive']
+                      this.$emit('on-active',this.dataList)
                     }
                     this.isNow = true
                     this.isClick = true
