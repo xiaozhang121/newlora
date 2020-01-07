@@ -12,9 +12,9 @@
       :before-close="handleClose"
     >
       <p>
-        <span>{{dataList.userId}}</span>
+        <span>{{dataList.applyName?dataList.applyName:dataList.userId}}</span>
         申请锁具
-        <span>{{dataList.devId}}</span>
+        <span>{{dataList.deviceName}}</span>
         开锁授权
       </p>
       <span slot="footer" class="dialog-footer">
