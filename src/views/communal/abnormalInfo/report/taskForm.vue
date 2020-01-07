@@ -764,128 +764,6 @@
                         this.isShow();
                     })
                 });
-               /* this.dataListInfo['tableData'] = [
-                    {
-                        "id": 74815,
-                        "planId": "74989",
-                        "planType": "p2Jr0McduY",
-                        "date": "1563260432054",
-                        "timeLong": "v8qp3wYfGo",
-                        "alarmNum": 83429,
-                        "pic": "edvYLdodQK",
-                        "monitorDeviceList": [
-                            {
-                                "monitorDeviceName": "wMlsOuG6dv",
-                                "monitorDeviceId": 75913
-                            },
-                            {
-                                "monitorDeviceName": "t3YJ8ZhxHG",
-                                "monitorDeviceId": 76028
-                            },
-                            {
-                                "monitorDeviceName": "amsFEkXZzj",
-                                "monitorDeviceId": 76393
-                            }
-                        ],
-                        "batchId": "83339"
-                    },
-                    {
-                        "id": 70848,
-                        "planId": "71750",
-                        "planType": "UkrgJnkTYf",
-                        "date": "1563262026546",
-                        "timeLong": "Xo0kf2utPd",
-                        "alarmNum": 65846,
-                        "pic": "RXwocIMUkv",
-                        "monitorDeviceList": [
-                            {
-                                "monitorDeviceName": "ZUtfcjfb9l",
-                                "monitorDeviceId": 71879
-                            },
-                            {
-                                "monitorDeviceName": "MamJRdkLcY",
-                                "monitorDeviceId": 72238
-                            },
-                            {
-                                "monitorDeviceName": "pcuYkceh1b",
-                                "monitorDeviceId": 72891
-                            }
-                        ],
-                        "batchId": "99051"
-                    },
-                    {
-                        "id": 73166,
-                        "planId": "73395",
-                        "planType": "x6trIqZ76b",
-                        "date": "1563260687270",
-                        "timeLong": "uOav4gmBOv",
-                        "alarmNum": 65580,
-                        "pic": "PtEYa4Txzc",
-                        "monitorDeviceList": [
-                            {
-                                "monitorDeviceName": "9OHsYf5d4G",
-                                "monitorDeviceId": 74153
-                            },
-                            {
-                                "monitorDeviceName": "8XLJgYsQhz",
-                                "monitorDeviceId": 74310
-                            },
-                            {
-                                "monitorDeviceName": "lxuy6vvRPy",
-                                "monitorDeviceId": 74444
-                            }
-                        ],
-                        "batchId": "89776"
-                    },
-                    {
-                        "id": 70848,
-                        "planId": "71750",
-                        "planType": "UkrgJnkTYf",
-                        "date": "1563262026546",
-                        "timeLong": "Xo0kf2utPd",
-                        "alarmNum": 65846,
-                        "pic": "RXwocIMUkv",
-                        "monitorDeviceList": [
-                            {
-                                "monitorDeviceName": "ZUtfcjfb9l",
-                                "monitorDeviceId": 71879
-                            },
-                            {
-                                "monitorDeviceName": "MamJRdkLcY",
-                                "monitorDeviceId": 72238
-                            },
-                            {
-                                "monitorDeviceName": "pcuYkceh1b",
-                                "monitorDeviceId": 72891
-                            }
-                        ],
-                        "batchId": "99051"
-                    },
-                    {
-                        "id": 73166,
-                        "planId": "73395",
-                        "planType": "x6trIqZ76b",
-                        "date": "1563260687270",
-                        "timeLong": "uOav4gmBOv",
-                        "alarmNum": 65580,
-                        "pic": "PtEYa4Txzc",
-                        "monitorDeviceList": [
-                            {
-                                "monitorDeviceName": "9OHsYf5d4G",
-                                "monitorDeviceId": 74153
-                            },
-                            {
-                                "monitorDeviceName": "8XLJgYsQhz",
-                                "monitorDeviceId": 74310
-                            },
-                            {
-                                "monitorDeviceName": "lxuy6vvRPy",
-                                "monitorDeviceId": 74444
-                            }
-                        ],
-                        "batchId": "89776"
-                    },
-                ]*/
             },
             closeEnlarge() {
                 this.isEnlarge = false;
@@ -954,7 +832,7 @@
                 let that = this;
                 that.legendOption.data = [];
                 that.seriesOption = [];
-                that.xAxisOption.data = [];
+                // that.xAxisOption.data = [];
                 that.$forceUpdate();
                 that.isChangeFlag = !that.isChangeFlag;
             },
