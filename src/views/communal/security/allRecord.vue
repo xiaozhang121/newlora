@@ -474,7 +474,6 @@ export default {
             })
             data[i].data = arr
           }
-          debugger
           this.sevenValue = data;
           let arr = []
           for(let i=0; i<data.length; i++){
@@ -615,7 +614,7 @@ export default {
         this.$refs.btnTopRef.checkAll = true;
         this.sevenDates = arr.join(",");
         this.regionList = map;
-        if (flag) this.sevenData();
+        this.sevenData();
       });
     },
     getType() {
@@ -661,6 +660,7 @@ export default {
           that.$refs.btnTopRefD.checkAll = true;
           that.sevenIds = arr.join(",");
           that.typeList = dataB;
+          this.sevenData()
         }
       });
     },
