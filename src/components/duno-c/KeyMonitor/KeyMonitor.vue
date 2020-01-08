@@ -886,7 +886,6 @@
         this.cameraList.forEach((item,index)=>{
           obj["cameraPos0" + (index+1)] = item
         })
-        console.log(this.cameraList)
         let query = {
           // ["cameraPos0" + index]: this.monitorInfoR["monitorDeviceId"],
           ...obj,
@@ -915,7 +914,10 @@
           });
           let count = this.displayType == 1 ? 5 : 8
           let rest = this.cameraList.slice(count, 8)
-          this.cameraList=this.cameraList.slice(1, count)
+          if(this.cameraList.length < this.displayType == 1 ? 5 : 8){
+          }else{
+            this.cameraList=this.cameraList.slice(1, count)
+          }
           this.cameraList.push(this.monitorInfoR['monitorDeviceId'])
           this.cameraList.push(...rest)
           this.onPushReal()

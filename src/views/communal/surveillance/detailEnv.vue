@@ -259,6 +259,7 @@
       :isShow="dialogVisible"
       :alarmId="alarmId"
       @beforeClose="beforeClose"
+      @beforeSubmit='beforeSubmit'
     />
   </div>
 </template>
@@ -996,6 +997,9 @@ export default {
     },
     beforeClose() {
       this.dialogVisible = false;
+    },
+    beforeSubmit(){
+      this.getEnvData()
     },
     restoration(row) {
       const url = "/lenovo-alarm/api/alarm/deal";

@@ -82,6 +82,7 @@ export default {
           if (res.data.isSuccess) that.$message.success(res.msg);
           else that.$message.error(res.msg);
           this.$emit("beforeClose");
+          this.$emit("beforeSubmit");
         });
       } else {
         dealRemarks(query).then(res => {

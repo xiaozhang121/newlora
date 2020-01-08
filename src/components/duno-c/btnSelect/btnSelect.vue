@@ -60,6 +60,11 @@ export default {
       type: Array
     }
   },
+  watch:{
+    userId(now){
+      this.init()
+    }
+  },
   data() {
     return {
       isClick: true,
