@@ -62,6 +62,11 @@ export default {
       type: Object
     }
   },
+  watch:{
+    userId(now){
+      this.init()
+    }
+  },
   data() {
     return {
       titleMain: "",

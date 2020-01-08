@@ -914,10 +914,7 @@
           });
           let count = this.displayType == 1 ? 5 : 8
           let rest = this.cameraList.slice(count, 8)
-          if(this.cameraList.length < this.displayType == 1 ? 5 : 8){
-          }else{
-            this.cameraList=this.cameraList.slice(1, count)
-          }
+          this.cameraList=this.cameraList.slice(1, count)
           this.cameraList.push(this.monitorInfoR['monitorDeviceId'])
           this.cameraList.push(...rest)
           this.onPushReal()
