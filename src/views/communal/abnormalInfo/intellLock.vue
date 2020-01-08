@@ -62,7 +62,7 @@ export default {
       ],
       infoColumns: [
         {
-          key: "id",
+          key: "deviceId",
           title: "锁具ID",
           align: "center"
         },
@@ -100,12 +100,18 @@ export default {
         {
           key: "applyName",
           title: "申请人姓名",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            return h("div", params.row.applyName ? params.row.applyName : "/");
+          }
         },
         {
           key: "grantName",
           title: "授权人姓名",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            return h("div", params.row.grantName ? params.row.grantName : "/");
+          }
         },
         {
           key: "opTime",
@@ -135,7 +141,7 @@ export default {
                 )
               ])
             ]);
-            return h("div", newArr);
+            return h("div", params.row.startTime ? newArr : "/");
           }
         }
       ]
