@@ -908,10 +908,18 @@
           userId: this.$store.state.user.userId
         }).then(res => {
           this.cameraList=[];
+          let isHave=false;
           let ArrayList =res.data
           ArrayList.forEach(el => {
+            if(this.monitorInfoR['monitorDeviceId']==el.monitorDeviceId){
+              isHave=true;
+            }
             this.cameraList.push(el.monitorDeviceId);
           });
+          if(isHave){
+            this.$message.warning('该摄像头已在视频监控页面');
+            return false
+          }
           let count = this.displayType == 1 ? 5 : 8
           let rest = this.cameraList.slice(count, 8)
           this.cameraList=this.cameraList.slice(1, count)

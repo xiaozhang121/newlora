@@ -31,6 +31,7 @@
                   @click.native="hideSelect"
                   :title="child['item']['describeName']"
                   :label="child['item']['monitorDeviceId']"
+                  :disabled="child['item']['isSelected']=='1'?true:false"
                   :key="child['item']['monitorDeviceId']"
                 >{{child['item']['describeName']}}</el-radio>
               </div>
