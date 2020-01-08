@@ -394,8 +394,9 @@ export default {
   },
   watch: {
   },
+  mounted(){
+  },
   created() {
-    this.sevenData();
     this.getRegion(true);
     this.getType();
   },
@@ -428,9 +429,7 @@ export default {
      deviceHandle(arr) {
       let data = this.deviceShowHandle(arr, true);
       this.sevenIds = data.join(",");
-      this.$nextTick(()=>{
-          this.sevenData()
-      })
+      this.sevenData()
       // this.getRegion(true);
     },
     sevenData(now) {
