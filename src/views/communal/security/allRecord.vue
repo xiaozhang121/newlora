@@ -424,14 +424,18 @@ export default {
      let data = this.deviceShowHandle(arr);
      this.sevenDates = data.join(",");
       this.$nextTick(()=>{
-        this.sevenData()
+        setTimeout(()=>{
+          this.sevenData()
+        },0)
       })
     },
      deviceHandle(arr) {
       let data = this.deviceShowHandle(arr, true);
       this.sevenIds = data.join(",");
       this.$nextTick(()=>{
-        this.sevenData()
+        setTimeout(()=>{
+          this.sevenData()
+        },0)
       })
       // this.getRegion(true);
     },
