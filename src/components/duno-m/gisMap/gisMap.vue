@@ -1496,10 +1496,18 @@
         },
         beforeDestroy(){
             this.removeAFeature()
+            this.vector.getSource().clear()
+            this.vectord.getSource().clear()
             this.coverList = []
             this.pointListObj = []
             this.mapTarget.getOverlays().clear()
             this.clearAllEvent()
+            let arr = this.mapTarget.getLayers().array_.filter(el=>{
+              return true
+            })
+            for(let i=0; i<arr.length; i++){
+                this.mapTarget.removeLayer(arr[i])
+            }
             this.mapTarget = null
         }
     }
