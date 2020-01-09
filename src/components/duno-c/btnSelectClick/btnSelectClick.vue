@@ -202,6 +202,7 @@ export default {
             if (res.data.isSuccess) {
               that.$message.success("切换成功");
               this.$parent.initConfigure(this.displayType);
+              this.init();
             } else that.$message.error(res.msg);
           });
         }
