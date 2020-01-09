@@ -12,18 +12,18 @@
           <div>历史巡检报告</div>
           <div @click="getMoreReport">查看更多 ></div>
         </div>
-        <div class="rightItem">
-          <div
-            class="inspection"
-            v-loading="loadingOptionF"
-            element-loading-background="rgba(0, 0, 0, 0)"
-            element-loading-text="请稍后，正在加载数据…"
-          >
-            <div v-for="(item,index) in inspecReport" :key="index">
-              <ReportTable :url="url" :reportData="item" />
-            </div>
+        <!-- <div class="rightItem"> -->
+        <div
+          class="inspection"
+          v-loading="loadingOptionF"
+          element-loading-background="rgba(0, 0, 0, 0)"
+          element-loading-text="请稍后，正在加载数据…"
+        >
+          <div v-for="(item,index) in inspecReport" :key="index">
+            <ReportTable :url="url" :reportData="item" />
           </div>
         </div>
+        <!-- </div> -->
       </div>
       <div class="left">
         <div class="recode">
@@ -156,7 +156,7 @@ export default {
           flag: 0
         }
       });
-     /* this.$router.push({
+      /* this.$router.push({
         name: "allReport-detail",
         query: {
           title: "信息总览记录信息",
@@ -351,13 +351,13 @@ export default {
       }
     }
     .right {
-      .rightItem{
-        height: 910px;
-        background-color: #142838;
-      }
+      // .rightItem {
+      //   height: 910px;
+      //   background-color: #142838;
+      // }
       .inspection {
         position: relative;
-        // height: 910px;
+        height: 910px;
         padding: 20px 0 0 20px;
         background-color: #142838;
         overflow: hidden;
