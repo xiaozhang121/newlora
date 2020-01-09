@@ -975,10 +975,6 @@ export default {
 
 <style lang="scss">
 .surveillance {
-  //   .icon-xiala {
-  //     /* width: 12px;
-  //     height: 15px;*/
-  //   }
   .keyMonitor .camera .explain .block{
     visibility: hidden;
   }
@@ -1044,21 +1040,6 @@ export default {
     .btnSelect {
       width: 551px;
       display: -webkit-box;
-      // & > div:nth-child(2) {
-      //   margin-left: 20px;
-      //   // .dunoBtnTop {
-      //   width: 225px;
-      //   display: inline-flex;
-      //   padding-bottom: 0;
-      //   .btnList {
-      //     top: inherit !important;
-      //     width: 370px;
-      //     .title {
-      //       font-size: 15px;
-      //     }
-      //   }
-      //   // }
-      // }
     }
   }
   .main {
@@ -1084,13 +1065,10 @@ export default {
     }
   }
   .oltagevMainBig {
-    height: 218px;
+    height: 380px;
     width: 100%;
-    @media screen and (min-width: 3500px) {
-      height: 250px;
-    }
     .swiper-container {
-      height: 250px;
+      height: 330px;
     }
   }
   .oltagevMain {
