@@ -403,7 +403,7 @@
         <!--<popupinfod   :showClassify="true"  :isDiagram="isDiagram" :itemData="item['itemData']"  @onClose="onClose"  :index="index" :monitorDeviceType="item['isShowClassifyVisble']"  v-if="item['isShowClassifyVisble']" :visible="item['isShowClassifyVisble']"></popupinfod>-->
         <hotcamera-pop @onClose="onClose" :itemData="item['itemData']" :index="index" v-if="item['hotcameraFlagVisible']" :visible="item['hotcameraFlagVisible']"/>
         <camera-pop-back-u-p @on-alarm="onAlarm" @chang-Point="changPoint" @onClose="onClose" :index="index" v-if="item['cameraFlagVisible']" :itemData="item['itemData']" :visible="item['cameraFlagVisible']"/>
-        <camera-power :itemData="item['itemData']" :visible="item['isShowPowerVisible']" :mapType='isDiagram'  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
+        <camera-power ref="cameraPowerRef" :itemData="item['itemData']" :visible="item['isShowPowerVisible']" :mapType='isDiagram'  v-if="item['isShowPowerVisible'] && index==modeList.length-1" />
         <ball-control-d @on-reset="resetM" ref="ballControl" @on-draw="onDrawPoint"  @on-close="hideControlBall"  v-if="index==modeList.length-1 && controlBallVisible" :visible="controlBallVisible"></ball-control-d>
         <ball-control-panel :popData="ballPopData" v-if="index==modeList.length-1  && ballVisible" :visible="ballVisible" @show-ball="showBallPanel" @onClose="onClose"/>
       </div>
@@ -1024,7 +1024,26 @@
                     if(!('monitorDeviceType' in item) && this.isDiagram == 1){
                         // debugger
                         // this.modeList[modelIndex].isShowClassifyVisble = flag
-                        this.modeList[modelIndex].isShowPowerVisible = flag
+                      let mapTypeDevice = ''
+                      if(this.isDiagram == '1'){
+                        mapTypeDevice = "2";
+                      } else {
+                        mapTypeDevice = "1";
+                      }
+                      if(flag){
+                        getAxiosData('/lenovo-device/api/device/newrtmp', {powerDeviceId: this.modeList[modelIndex].itemData.deviceIdStr, mapType: mapTypeDevice}).then(res=>{
+                          let data = res.data.dmDeviceRtmpOutputs
+                          let dataList=[]
+                          data.forEach((el,i) => {
+                            if(el.powerDevicePhase=='A'){
+                              dataList.push(data[i])
+                            }
+                          });
+                          if(dataList.length){
+                            this.modeList[modelIndex].isShowPowerVisible = flag
+                          }
+                        })
+                      }
                     }
                     // if(!('monitorDeviceType' in item) && this.isDiagram != 1){
                     //     this.modeList[modelIndex].isShowPowerVisible = flag
@@ -1051,16 +1070,17 @@
                     target: target,
                     modelIndex: modelIndex
                 }
+              // 赋值----
+              this.modeList[modelIndex].deviceId = item['monitorDeviceId']
+              this.modeList[modelIndex].monitorDeviceType = item['monitorDeviceType']
+              this.modeList[modelIndex].itemData = item
+              //-----
                 if(target && !flag){
                     this.appendModel(target, modelIndex)
                 }
                 console.log(item)
                 this.visableHandle(item, false, modelIndex)
-                // 赋值----
-                this.modeList[modelIndex].deviceId = item['monitorDeviceId']
-                this.modeList[modelIndex].monitorDeviceType = item['monitorDeviceType']
-                this.modeList[modelIndex].itemData = item
-                //-----
+
                 this.$nextTick(()=> {
                     this.visableHandle(item, true, modelIndex)
                 })
