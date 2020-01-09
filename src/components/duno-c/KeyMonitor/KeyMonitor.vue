@@ -431,6 +431,7 @@
       monitorInfo: {
         handler(now) {
           this.monitorInfoR = now;
+          this.initCamera()
         },
         deep: true,
         immediate: true

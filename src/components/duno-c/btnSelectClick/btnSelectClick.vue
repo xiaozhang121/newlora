@@ -63,9 +63,9 @@ export default {
       type: Object
     }
   },
-  watch:{
-    userId(now){
-      this.init()
+  watch: {
+    userId(now) {
+      this.init();
     }
   },
   data() {
@@ -88,7 +88,7 @@ export default {
     }
   },
   methods: {
-    hideSelect(){
+    hideSelect() {
       this.$refs.btnSelectClick.style.display = "none";
     },
     showHide(event, item) {
@@ -140,7 +140,7 @@ export default {
       let that = this;
       let url = "/lenovo-device/api/monitor/all/select-list";
       let query = {
-        userId: this.userId
+        userId: this.$store.state.user.userId,
       };
       getAxiosData(url, query).then(res => {
         if (res.data) {
@@ -203,6 +203,7 @@ export default {
               that.$message.success("切换成功");
               this.$parent.initConfigure(this.displayType);
               this.init();
+              this.titleMain = "";
             } else that.$message.error(res.msg);
           });
         }
