@@ -337,6 +337,7 @@
       :displayType="displayType"
       :cameraList="cameraList"
       :userId="$store.state.user.configInfo['userId']"
+      @change-camera='changeCamera'
     ></btn-select-click>
   </div>
 </template>
@@ -765,31 +766,19 @@ export default {
       });
     },
     initConfigure(type) {
-      // this.ajaxCount++;
-      // if (this.ajaxCount > MAXAJAX) {
-      //   this.setDefault = "0";
-      // }
       const that = this;
       if (type != null) {
         initConfigure({
           userId: this.$store.state.user.userId,
           type: type
-          // setDefault: this.setDefault
         }).then(res => {
           that.$store.state.user.configInfo = res.data;
         });
       }
     },
     getArea() {
-      // this.ajaxCount++;
-      // if (this.ajaxCount > MAXAJAX) {
-      //   this.setDefault = "0";
-      // }
       getAxiosData(
         "/lenovo-device/api/area-circuit/select-list"
-        //  {
-        //   setDefault: this.setDefault
-        // }
       ).then(res => {
         let data = res.data;
         let arr = [];
@@ -805,28 +794,10 @@ export default {
         this.getCamera(arr[0]["areaId"]);
         this.$forceUpdate();
       });
-      /* getAreaList().then(res => {
-        let data = res.data.areaList;
-        let arr = [];
-        data.forEach(item => {
-          arr.push({
-            describeName: item["areaName"],
-            areaId: item["areaId"],
-            id: item["id"]
-          });
-        });
-        this.oltagevLevelList = arr;
-        this.$forceUpdate();
-      });*/
     },
     initData() {
-      // this.ajaxCount++;
-      // if (this.ajaxCount > MAXAJAX) {
-      //   this.setDefault = "0";
-      // }
       const that = this;
       getAxiosData("/lenovo-device/api/monitor/layout-list", {
-        //   setDefault: this.setDefault,
         userId: this.$store.state.user.userId
       }).then(res => {
         that.cameraList = res.data;
@@ -922,16 +893,11 @@ export default {
       });
     },
     getCamera(areaId) {
-      // this.ajaxCount++;
-      // if (this.ajaxCount > MAXAJAX) {
-      //   this.setDefault = "0";
-      // }
       const that = this;
       let query = {};
       if (areaId) {
         query["showType"] = areaId;
       }
-      // query["setDefault"] = this.setDefault;
       getAxiosData("/lenovo-device/api/monitor/vol-list", query).then(res => {
         if (res.code == 200) {
           let data = res.data;
@@ -949,6 +915,12 @@ export default {
       dom.style.top = pageY - 80 + "px";
       this.$refs.selectTop.$refs.btnSelectClick.style.display = "block";
       // this.$refs.selectTop.checkedCities = item["monitorDeviceId"];
+    },
+    changeCamera(){
+      let that = this
+      that.initConfigure(this.displayType);
+      that.initData();
+      that.$refs.btnTopRef.init()
     }
   },
   created() {

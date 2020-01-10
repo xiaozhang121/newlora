@@ -201,7 +201,8 @@ export default {
             that.$store.state.app.isPush = true;
             if (res.data.isSuccess) {
               that.$message.success("切换成功");
-              this.$parent.initConfigure(this.displayType);
+              // this.$parent.initConfigure(this.displayType);
+              this.$emit('change-camera')
               this.init();
               this.titleMain = "";
             } else that.$message.error(res.msg);
