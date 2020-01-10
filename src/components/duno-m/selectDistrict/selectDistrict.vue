@@ -119,7 +119,7 @@ export default {
                 arr = [...arr,...item['value']]
             })
             postAxiosData('/lenovo-robot/rest/deviceTask',{linkIds: arr,taskName: this.taskName}).then(res=>{
-                if(res.data.resConf){
+                if(Number(res.data.resConf)){
                     that.$message.success('新增成功')
                     that.drawList = []
                     that.$refs.gisMapRef.drawList = []
@@ -231,7 +231,7 @@ export default {
                 .select{
                     margin-left: 20px;
                     flex-grow: 1;
-                    height: 300px;
+                    /*height: 300px;*/
                     overflow-y: auto;
                     .el-select{
                         width: 100%;
