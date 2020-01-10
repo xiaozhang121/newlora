@@ -28,11 +28,11 @@
             </div>
             <div class="groupCheck" :class="{'hideGroup':!item['isShow']}">
               <div class="selectItem" v-for="(child, Cindex) in item['children']" :key="Cindex">
-                  <el-checkbox
-                    :title="child['item']['describeName']"
-                    :label="child['item']['monitorDeviceId']"
-                    :key="child['item']['monitorDeviceId']"
-                  >{{child['item']['describeName']}}</el-checkbox>
+                <el-checkbox
+                  :title="child['item']['describeName']"
+                  :label="child['item']['monitorDeviceId']"
+                  :key="child['item']['monitorDeviceId']"
+                >{{child['item']['describeName']}}</el-checkbox>
               </div>
             </div>
           </div>
@@ -44,25 +44,15 @@
 
 <script>
 import { getAxiosData, postAxiosData } from "@/api/axiosType";
+import { mapState } from "vuex";
 export default {
   name: "btnSelect",
   props: {
-    setDefault: {
-      type: String
-    },
-    userId: {
-      type: String
-    },
     displayType: {
       type: String | Number
     },
     cameraList: {
       type: Array
-    }
-  },
-  watch:{
-    userId(now){
-      this.init()
     }
   },
   data() {
@@ -77,8 +67,12 @@ export default {
       showDataBackUp: [],
       TypeData: [],
       maxLength: 0,
-      cameraListId: []
+      cameraListId: [],
+      cameraList: []
     };
+  },
+  computed: {
+    ...mapState(["user"])
   },
   methods: {
     handleShow() {
@@ -133,8 +127,7 @@ export default {
       let that = this;
       let url = "/lenovo-device/api/monitor/all/select-list";
       let query = {
-        userId: this.userId,
-        setDefault: this.setDefault
+        userId: this.$store.state.user.configInfo["userId"]
       };
       getAxiosData(url, query).then(res => {
         if (res.data) {
@@ -214,11 +207,11 @@ export default {
       });
       if (this.displayType == "1" && this.checkedCities.length < 5) {
         this.$emit("on-active", this.checkedCities);
-        return
+        return;
       }
       if (this.displayType == "3" && this.checkedCities.length < 8) {
         this.$emit("on-active", this.checkedCities);
-        return
+        return;
       }
       if (this.displayType == "1") {
         this.cameraListId = this.cameraListId.slice(0, 5);
@@ -232,32 +225,6 @@ export default {
       this.cameraListId.push(arr[0]);
       this.checkedCities = this.cameraListId;
       this.$emit("on-active", this.checkedCities);
-      // if (this.cameraListId.length < 8) {
-      //   console.log(this.cameraListId);
-      //   console.log(this.checkedCities);
-      //   if (this.cameraListId.length > this.checkedCities.length) {
-      //     let arr = this.getArrEqual(this.cameraListId, this.checkedCities);
-      //     this.checkedCities = arr;
-      //     console.log(arr);
-      //     this.$emit("on-active", this.checkedCities);
-      //   } else {
-      //     let arr = this.getArrDifference(
-      //       this.cameraListId,
-      //       this.checkedCities
-      //     );
-      //     this.cameraListId.push(arr[0]);
-      //     this.checkedCities = this.cameraListId;
-      //     console.log(arr);
-      //     this.$emit("on-active", this.checkedCities);
-      //   }
-      // } else {
-      //   let arr = this.getArrDifference(this.cameraListId, this.checkedCities);
-      //   this.cameraListId = this.cameraListId.slice(1);
-      //   this.cameraListId.push(arr[0]);
-      //   this.checkedCities = this.cameraListId;
-      //   console.log(arr);
-      //   this.$emit("on-active", this.checkedCities);
-      // }
       this.$forceUpdate();
     },
     getArrDifference(arr1, arr2) {

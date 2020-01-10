@@ -16,13 +16,7 @@
           title="切换布局"
           :showBtnList="false"
         ></duno-btn-top>
-        <btn-select
-          ref="btnTopRef"
-          :displayType="displayType"
-          :cameraList="cameraList"
-          :userId="$store.state.user.configInfo['userId']"
-          @on-active="handleActiveBtn"
-        ></btn-select>
+        <btn-select ref="btnTopRef" :cameraList='cameraList' :displayType="displayType" @on-active="handleActiveBtn"></btn-select>
       </div>
     </div>
     <div class="first" v-if="displayType == '1'">
@@ -632,7 +626,7 @@ export default {
       handler(now) {
         if (now) {
           // this.cameraList = this.$store.state.app.pushData;
-          this.initData()
+          this.initData();
           this.initConfigure(1);
           this.$forceUpdate();
           this.$store.state.app.isPush = false;
@@ -700,10 +694,6 @@ export default {
     handleActiveBtn(data) {
       let that = this;
       let type = that.displayType;
-      // this.ajaxCount++;
-      // if (this.ajaxCount > MAXAJAX) {
-      //   this.setDefault = "0";
-      // }
       let cameraPos0 = null;
       let obj = {};
       for (let i = 0; i < data.length; i++) {
@@ -713,11 +703,11 @@ export default {
         ...obj,
         userId: this.$store.state.user.configInfo["userId"],
         id: this.$store.state.user.configInfo.id
-        // setDefault: this.setDefault
       };
       editConfig(query).then(res => {
         if (res.data.isSuccess) {
           that.initConfigure(type);
+          that.initData()
           that.$forceUpdate();
         } else that.$message.error(res.msg);
       });
@@ -975,10 +965,10 @@ export default {
 
 <style lang="scss">
 .surveillance {
-  .keyMonitor .camera .explain .block{
+  .keyMonitor .camera .explain .block {
     visibility: hidden;
   }
-  .keyMonitor .camera .explain .record{
+  .keyMonitor .camera .explain .record {
     display: flex;
   }
   .noMarginRight {
@@ -1112,13 +1102,13 @@ export default {
   .first {
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 65px; 
+    margin-bottom: 65px;
     @media screen and (max-width: 1366px) {
-        margin-bottom: 40px; 
-      }
-      @media screen and (min-width: 3500px) {
-        margin-bottom: 40px; 
-      }
+      margin-bottom: 40px;
+    }
+    @media screen and (min-width: 3500px) {
+      margin-bottom: 40px;
+    }
     .left {
       width: 50.9%;
       @media screen and (max-width: 1366px) {
@@ -1206,11 +1196,11 @@ export default {
   .swiper-button-prev {
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'%3E%3Cpath d='M0 22L22 0l2.1 2.1L4.2 22l19.9 19.9L22 44 0 22z' fill='%23ffffff'/%3E%3C/svg%3E");
   }
-  .powerLevelSelect{
-    .selfInput{
+  .powerLevelSelect {
+    .selfInput {
       height: 0;
     }
-    .icon-xiala{
+    .icon-xiala {
       font-size: 9px;
       position: absolute;
       right: 20px;
