@@ -271,6 +271,11 @@ export default {
         this.$message.info('仅可拖拽微型气象站')
         return;
       }
+      let xAxisOptionName = that.yAxisOption.name
+      if(xAxisOptionName != "温度(℃)"){
+        this.$message.info('只有温度类才可和微型气象站作比较')
+        return;
+      }
       $(ev.target).append(`<img src="${data.src}" />`);
       if (data.name == "weatherCheck") {
         let timeData = this.xAxisOption.data;
