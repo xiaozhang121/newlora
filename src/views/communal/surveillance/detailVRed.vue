@@ -688,7 +688,7 @@ export default {
       that.legendData = legendData;
       that.seriesData = seriesData;
       if (!flag) that.isChangeFlag = !that.isChangeFlag;
-      return { legendData: legendData, seriesData: seriesData };
+      return { legendData: legendData, seriesData: seriesData};
     },
     getAxisData(data) {
       let xAxisData = [];
@@ -947,10 +947,14 @@ export default {
           legendData.push(...obj.legendData);
           seriesData.push(...obj.seriesData);
         }
+        let yName = ''
+        if(dataList.length)
+          yName = dataList[0].unit
         this.echartData = {
           legendData: legendData,
           seriesData: seriesData,
-          xAxisData: xAxisData
+          xAxisData: xAxisData,
+          yName: yName
         };
         this.echartTitle = res.data.title;
       });

@@ -99,7 +99,7 @@ export default {
       },
       yAxisOption: {
         type: "value",
-        name: that.yName,
+        name: '',
         minInterval: 1,
         data: ["合", "分"],
         // max: that.yMax,
@@ -142,6 +142,8 @@ export default {
             this.yAxisOption["type"] = "value";
             this.yAxisOption.splitLine.show = false;
           }
+          if(now.yName)
+            that.yAxisOption.name = now.yName
           that.legendOption.data.push(...now.legendData);
           that.seriesOption.push(...now.seriesData);
           that.xAxisOption.data.push(...now.xAxisData);
