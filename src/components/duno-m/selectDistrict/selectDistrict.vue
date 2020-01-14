@@ -54,6 +54,7 @@ export default {
     },
     data() {
         return {
+            isSubmit: false,
             disgramList: [],
             deviceList: [],
             dataList: [],
@@ -104,6 +105,10 @@ export default {
         },
         saveTask(){
             const that = this
+            if(this.isSubmit){
+              return
+            }
+            this.isSubmit = true
             if(this.taskName == ''){
               this.$message.info('任务名不能为空!')
               return;
@@ -131,6 +136,7 @@ export default {
                 }else{
                     that.$message.error(res.data.resInfo)
                 }
+                this.isSubmit = false
            /*     that.dialogVisible = false
                 that.$emit('on-close')*/
             })
