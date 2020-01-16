@@ -180,7 +180,7 @@
             align: "center",
             tooltip: true,
             render: (h, params) => {
-              return h("div", '入口摄像头');
+              return h("div", `${params.row.deviceName}摄像头`);
             }
           },
           {
