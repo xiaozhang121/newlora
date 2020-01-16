@@ -139,7 +139,7 @@
             monitorType: ""
           },
           {
-            describeName: "进场",
+            describeName: "入场",
             monitorType: "0"
           },
           {
