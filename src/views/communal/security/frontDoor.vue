@@ -139,11 +139,11 @@
             monitorType: ""
           },
           {
-            describeName: "进口",
+            describeName: "进场",
             monitorType: "0"
           },
           {
-            describeName: "出口",
+            describeName: "出场",
             monitorType: "1"
           }
         ],
