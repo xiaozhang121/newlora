@@ -8,7 +8,7 @@
             :autoplay="true"
             :isLive="false"
             width="100%"
-            :pushCamera="false"
+            :pushCamera="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3 || monitorDeviceType == 5)?true:false"
             :monitorInfo="{monitorDeviceId: deviceId}"
             :isNav="true"
             :videoAbsolute='true'
@@ -21,7 +21,7 @@
             :autoplay="true"
             :isLive="false"
             width="100%"
-            :pushCamera="false"
+            :pushCamera="(isShowClassify || monitorDeviceType == 1 || monitorDeviceType == 3 || monitorDeviceType == 5)?true:false"
             :videoAbsolute='true'
             :monitorInfo="{monitorDeviceId: deviceId}"
             :isNav="true"
