@@ -299,14 +299,12 @@
                 movTimer: null,
                 boatNow: true,
                 radioValue: '1',
-                selectValue: '30000',
+                selectValue: '9000',
                 dataCharts: [{
                     data: [820, 932, 901, 934, 1290, 1330, 1320],
                     type: 'line'
                 }],
                 timeOptions:[
-                    { value:'3000', label: '3秒/控制位' },
-                    { value:'6000', label: '6秒/控制位' },
                     { value:'9000', label: '9秒/控制位' },
                     { value:'12000', label: '12秒/控制位' },
                     { value:'15000', label: '15秒/控制位' }
