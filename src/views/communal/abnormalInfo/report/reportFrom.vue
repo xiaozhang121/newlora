@@ -107,7 +107,7 @@ export default {
       dataBread: [
         { path: "/abnormalInfoPath/home", name: "功能卡片" },
         { path: "/abnormalInfoPath/taskForm", name: "报表" },
-        { path: "", name: "全面巡视报告" }
+        { path: "", name:`${this.$route.query.planType?(this.$route.query.planType==9?"全面巡视报告":"其他巡视报告"):"历史巡检报告"}` }
       ],
       titleValue: "所有巡检报表",
       value: "",
@@ -217,6 +217,9 @@ export default {
       if (planType == 9) {
         this.selectVisible = true
         this.dataUrl = "/lenovo-plan/api/report/template/list";
+        this.mainTitle = '全面巡视报告'
+      }else if(planType == "2,3,4,5"){
+        this.mainTitle = '其他巡视报告'
       }
       if(this.$route.query.nav == 2){
         this.dataBread =  [
@@ -227,6 +230,8 @@ export default {
         this.queryData = {nav: 2}
         this.mainTitle = '全面巡视报告'
       }
+    }else{
+      this.mainTitle = '历史巡检报告'
     }
   },
   mounted() {
@@ -345,7 +350,7 @@ export default {
   }
   .taskN {
     & > div {
-      height: 250px;
+      height: 350px;
     }
   }
   //分页--
