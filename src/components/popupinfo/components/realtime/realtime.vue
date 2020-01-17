@@ -11,6 +11,7 @@
             :pushCamera="false"
             :monitorInfo="{monitorDeviceId: deviceId}"
             :isNav="true"
+            :videoAbsolute='true'
             :streamAddr="streamAddrD"
             :showBtmOption="false"
           ></key-monitor>
@@ -21,6 +22,7 @@
             :isLive="false"
             width="100%"
             :pushCamera="false"
+            :videoAbsolute='true'
             :monitorInfo="{monitorDeviceId: deviceId}"
             :isNav="true"
             :streamAddr="playerOptionf.sources[0].src"

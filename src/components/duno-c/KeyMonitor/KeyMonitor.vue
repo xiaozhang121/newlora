@@ -236,6 +236,12 @@
         type: Number,
         default: 20000
       },
+      videoAbsolute: {//红外双目视频流接口判断
+        type: Boolean,
+        default: () => {
+          return false;
+        }
+      },
       picCutAbsolute: {//红外双目截图判断
         type: Boolean,
         default: () => {
@@ -840,7 +846,11 @@
         if(type==1||type==3||type==6||type==9){
           url = `/lenovo-visible/api/visible-equipment/sdk/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
         }else if(type==2){
-          url = `/lenovo-iir/device/video/url/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
+          if(this.picCutAbsolute || this.videoAbsolute){
+            url = `/lenovo-iir/device/visible/url/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
+          }else{
+            url = `/lenovo-iir/device/video/url/rtmp/${this.monitorInfoR["monitorDeviceId"]}`
+          }
         }
         if(this.noHighVideo){
             this.mainstream = this.streamAddr
