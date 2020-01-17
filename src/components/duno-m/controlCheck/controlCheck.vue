@@ -76,9 +76,9 @@
         methods:{
             getPression(){
                 if(this.pressions){
-                    this.permissionUse()
+                    this.permissionUse(this.clearInitTimer, this.createInitTimer)
                 }else{
-                    this.permissionApply()
+                    this.permissionApply(this.clearInitTimer, this.createInitTimer)
                 }
             },
             setInterval(){
@@ -197,7 +197,8 @@
                     })
                 }
             },
-            permissionApply(){
+            permissionApply(beforeFn, afterFn){
+                beforeFn()
                 //普通使用权限申请
                 if(this.deviceType == 2) {
                     getAxiosData(`/lenovo-iir/device/permission/apply/${this.deviceId}/${waitTime}`).then(res => {
@@ -210,6 +211,7 @@
                             this.$message.error(res.data.msg)
                             this.$emit('on-disable', false)
                         }
+                        afterFn()
                     })
                 }else{
                     getAxiosData(`/lenovo-visible/api/device/permission/apply/${this.deviceId}/${waitTime}`).then(res => {
@@ -222,10 +224,12 @@
                             this.$message.error(res.data.msg)
                             this.$emit('on-disable', false)
                         }
+                        afterFn()
                     })
                 }
             },
-            permissionUse(){
+            permissionUse(beforeFn, afterFn){
+                beforeFn()
                 //设备强制申请使用
                 if(this.deviceType == 2){
                     getAxiosData(`/lenovo-iir/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
@@ -237,6 +241,7 @@
                         }
                         this.$message.info(res.data.msg)
                         // this.getpermissionCheck()
+                        afterFn()
                     })
                 }else{
                     getAxiosData(`/lenovo-visible/api/device/permission/use/${this.deviceId}/${waitTime}`).then(res=>{
@@ -249,6 +254,7 @@
                             this.$message.error(res.data.msg)
                             this.$emit('on-disable', false)
                         }
+                        afterFn()
                     })
                 }
             },
@@ -277,6 +283,23 @@
                 // Chrome requires returnValue to be set
                 e.returnValue = "hello";
                 that.releaseNow()
+            },
+            clearInitTimer(){
+               clearInterval(this.initTimer)
+            },
+            createInitTimer(){
+              const that = this
+              this.initTimer = setInterval(()=>{
+                that.getpermissionCheck()
+                console.log(that.count)
+                if(that.getPress){
+                  that.count++
+                  if(that.count >= 10){
+                    if(!that.timer)
+                      that.clearIn()
+                  }
+                }
+              },1000)
             }
         },
         created(){
@@ -284,17 +307,7 @@
             this.count = 0
             // 超级管理员
             this.pressions = (this.$store.state.user.userinfo.userType == '超级管理员')
-            this.initTimer = setInterval(()=>{
-                that.getpermissionCheck()
-                console.log(that.count)
-                if(that.getPress){
-                    that.count++
-                    if(that.count >= 10){
-                        if(!that.timer)
-                            that.clearIn()
-                    }
-                }
-            },1000)
+            this.createInitTimer()
             document.addEventListener('mousemove', function () {
                 clearInterval(that.timer)
                 that.showTimer = false
@@ -308,7 +321,7 @@
 
         },
         beforeDestroy(){
-            clearInterval(this.initTimer)
+           this.clearInitTimer()
         }
     }
 </script>

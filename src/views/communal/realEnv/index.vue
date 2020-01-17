@@ -15,7 +15,7 @@
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-if="isDiagram == 2 || isDiagram == 3"/>
             <img style="position: relative; left: 40px" @click="alarmSet" :src="towardAround" v-else-if="isDiagram == 1"/>
           </div>
-          <img v-if="showWeather && isDiagram!=1" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+          <img v-if="showWeather && isDiagram!=1" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
           <!--<div style="width: 1900px; height: 675px; background: pink; position: fixed"></div>-->
           <!-- <div v-for="(item, index) in deviceList" class="anchorPoint" :id="'anchor'+index" :key="index" >
                <img draggable="true" @dragstart="drag($event, item)" @click="toDevice(item,index)" v-if="item['show']" :src="item['src']"/>
@@ -43,7 +43,7 @@
             <div  class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
             <!-- <drappable class="drappable_assembly" width="1900px" height="675px">
                <div class="allShowPic">
@@ -71,7 +71,7 @@
           <div class="toward" style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
           <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"  v-if="isDiagram == 2"></gis-map>
           <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -83,7 +83,7 @@
               <div class="toward" style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
               <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.35:8202"  @toDetail="toDevice" :kind="1000" :isDiagram="isDiagram" :deviceList="kilovolt1000Pic"></gis-map>
             </div>
@@ -98,7 +98,7 @@
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
             <!--  <drappable  class="drappable_assembly" width="1900px" height="675px">
                 <div class="allShowPic">
@@ -126,7 +126,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
           <gis-map ref="gisMapObj" @on-drag="drag" @toDetail="toDevice" :kind="500" :powerPointList="powerPointListB" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"  v-if="isDiagram == 2"></gis-map>
           <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -138,7 +138,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
               <gis-map ref="gisMapObj" @on-drag="drag"  :powerPointList="powerPointListB" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="500" :isDiagram="isDiagram" :deviceList="kilovolt500Pic"></gis-map>
               <!--    <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -153,7 +153,7 @@
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
             <!--  <drappable class="drappable_assembly" width="1900px" height="675px">
                 <div class="allShowPic">
@@ -181,7 +181,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
           <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 2"></gis-map>
           <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -193,7 +193,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
               <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="220" :isDiagram="isDiagram" :deviceList="kilovolt220Pic"  v-if="isDiagram == 3"></gis-map>
               <!-- <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -208,7 +208,7 @@
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
             <!-- <drappable class="drappable_assembly" width="1900px" height="675px">
                <div class="allShowPic">
@@ -236,7 +236,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+          <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
           <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 2"></gis-map>
           <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -248,7 +248,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
               <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="110" :isDiagram="isDiagram" :deviceList="kilovolt110Pic"  v-if="isDiagram == 3"></gis-map>
               <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -263,7 +263,7 @@
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
             <!-- <drappable class="drappable_assembly" width="1900px" height="675px">
                <div class="allShowPic">
@@ -294,7 +294,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+              <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>
 
               <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 2"></gis-map>
               <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -309,7 +309,7 @@
                 <div class="toward"  style="left: 60px">
                   <img :src="towardAround"/>
                 </div>
-                <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>
+                <img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1 !important"/>
 
                 <gis-map ref="gisMapObj" @on-drag="drag" :powerPointList="powerPointListB" mapUrl="http://10.0.10.35:8202" @toDetail="toDevice" :kind="35" :isDiagram="isDiagram" :deviceList="kilovolt35Pic"  v-if="isDiagram == 3"></gis-map>
                 <!--   <i class="fullScreen iconfont icon-quanping" v-if="!isFullscreen" @click="changeFullScreen($refs.secondElE)"></i>
@@ -326,7 +326,7 @@
             <div class="toward">
               <img :src="toward" style="position: relative; left: 40px"/>
             </div>
-            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+            <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
             <gis-map fillColor="#1d2026" mapUrl="http://10.0.10.35:8204" :kind="10" @on-alarm="onAlarmC" @on-drag="drag" ref="gisMapObj" :powerPointList="disgramList" @toDetail="toDevice" v-if="isDiagram == 1"  :isDiagram="isDiagram" :deviceList="deviceList"></gis-map>
           </div>
@@ -354,7 +354,7 @@
           <div class="toward"  style="left: 60px">
             <img :src="towardAround"/>
           </div>
-          <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+          <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
           <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
             <div class="allShowPic center" style="position: absolute;top:-80px;transform: scale(1.3)">
@@ -374,7 +374,7 @@
               <div class="toward"  style="left: 60px">
                 <img :src="towardAround"/>
               </div>
-              <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:9999!important"/>-->
+              <!--<img v-if="showWeather" id="weatherCheck" class="weatherCheck" draggable="true" @dragstart="drag($event, {'src':weatherCheck,'name':'weatherCheck'})"  :src="weatherCheck" style="width: 40px; height: 40px;zIndex:1!important"/>-->
 
               <drappable  idName="other" class="drappable_assembly" width="1900px" height="675px">
                 <div class="allShowPic center" style="position: absolute;top:-80px;transform: scale(1.3)">
