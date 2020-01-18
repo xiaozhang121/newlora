@@ -459,7 +459,7 @@
                     autoplay: true,
                     controls: false
                 },
-                activeNum: -1,
+                activeNum: -2,
                 sliderValueold: 1,
                 clearCameraTimer: null,
                 maxSecond: 0
@@ -576,7 +576,15 @@
                   this.xjBtnClick = require('@/assets/camera/xjBtnClick.png')
                   this.squeraClick = require('@/assets/camera/squeraClick.png')
                 }else{
+                  clearInterval(this.lightTimer)
+                  clearInterval(this.showTimer)
+                  clearInterval(this.timer)
+                  clearInterval(this.timerTime)
+                  this.secondLastShow = 9
                   this.activeStyle = false
+                  this.boatNow = true
+                  this.initGrey()
+                  this.flagNow = -1;
                   this.xjBtn = require('@/assets/camera/xjBtn.png')
                   this.squera = require('@/assets/camera/squera.png')
                   this.xjBtnClick = require('@/assets/camera/xjBtn.png')
@@ -763,6 +771,10 @@
             },
             startBoat(){
                 const that = this
+                if(that.disabled || this.activeNum == -2){
+                  that.$message.error('请先申请获取控制权')
+                  return
+                }
                 this.boatNow = !this.boatNow
                 if(!this.boatNow){
                     clearInterval(that.showTimer)
