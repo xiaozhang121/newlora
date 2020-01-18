@@ -108,7 +108,7 @@ export default {
   props: {
     originTitle: {
       type: String,
-      default: '室外巡检机器人'
+      default: '室外巡检机器人一'
     },
     dataBread:{},
     warnData:{},

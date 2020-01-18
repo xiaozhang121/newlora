@@ -99,6 +99,7 @@ export default {
   },
   data() {
     return {
+      isSubmit: false,
       visible: false,
       filterText: "",
       allDevice: false,
@@ -110,6 +111,9 @@ export default {
   methods: {
     saveTask() {
       const that = this;
+      if(this.isSubmit){
+        return
+      }
       let arr = [];
       this.drawList.forEach(item => {
         arr = [...arr, item["linkId"]];
@@ -124,6 +128,7 @@ export default {
         this.$message.info('任务名不能包含特殊字符!')
         return;
       }
+      this.isSubmit = true
       postAxiosData("/lenovo-robot-indoor/rest/deviceTask", {
         lunengDeviceIds: arr,
         taskName: this.inspectionName
@@ -137,6 +142,7 @@ export default {
         } else {
           that.$message.error(res.data.resInfo);
         }
+        this.isSubmit = false
       });
     },
     initData() {

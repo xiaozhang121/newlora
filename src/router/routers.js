@@ -1226,6 +1226,7 @@ export default [{
               title: '室外巡检机器人二',
               notCache: true,
               toListName: 'robot-twoL',
+              access: ['10011001']
             },
             component: parentView,
             children: [{
@@ -1248,6 +1249,7 @@ export default [{
                   hideInMenu: true,
                   isDetails: true,
                   active: "robot-twoL",
+                  access: ['10011003']
                 },
                 component: () => import('@/views/communal/robotF/viewReportDetail.vue')
               },

@@ -121,7 +121,7 @@ export default {
         },
         {
           path: "/robot-one/list",
-          name: "室外巡检机器人"
+          name: "室外巡检机器人一"
         },
         {
           path: that.$route.query.path,

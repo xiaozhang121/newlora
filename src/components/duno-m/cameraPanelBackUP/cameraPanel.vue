@@ -94,6 +94,7 @@
                     </div>
                 </div>
             </div>
+            <control-check style="visibility: hidden" @on-disable="onDisable"  ref="controlCheckRef" v-if="lockPress && deviceId"  :deviceType="1"  :deviceId="deviceId" />
         </template>
         <template  v-else-if="panelType == 'third'">
             <div class="cameraMain">
@@ -288,8 +289,8 @@
                 editIndex: -1,
                 addPosInput: '',
                 flagNow: -1,
-                secondLast: 2,
-                secondLastShow: 3,
+                secondLast: 10,
+                secondLastShow: 9,
                 timerMove: null,
                 timer: null,
                 showTimer: null,

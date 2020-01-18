@@ -205,8 +205,9 @@
                 editIndex: -1,
                 addPosInput: '',
                 flagNow: -1,
-                secondLast: 2,
-                secondLastShow: 2,
+                place:false,//预置位权限
+                secondLast: 10,
+                secondLastShow: 9,
                 timer: null,
                 showTimer: null,
                 lightTimer: null,

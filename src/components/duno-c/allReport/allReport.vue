@@ -221,7 +221,7 @@ export default {
           monitorDeviceType: "3"
         },
         {
-          describeName: "室外巡检机器人",
+          describeName: "室外巡检机器人一",
           monitorDeviceType: "4"
         }
       ],

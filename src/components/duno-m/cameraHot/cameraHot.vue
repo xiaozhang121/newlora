@@ -126,6 +126,7 @@
                     </div>
                 </div>
             </div>
+            <control-check  @on-disable="onDisable" ref="controlCheckRef" v-if="deviceId && lockPress" :deviceType="2" :deviceId="deviceId" style="top: 9px; left: 85px; bottom: inherit; visibility: hidden"/>
         </template>
         <template  v-if="panelType == 'third'">
             <div style="padding-bottom: 15px">
@@ -263,8 +264,8 @@
                 editIndex: -1,
                 addPosInput: '',
                 flagNow: -1,
-                secondLast: 2,
-                secondLastShow: 3,
+                secondLast: 10,
+                secondLastShow: 9,
                 timer: null,
                 showTimer: null,
                 lightTimer: null,

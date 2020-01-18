@@ -108,7 +108,6 @@ export default {
             if(this.isSubmit){
               return
             }
-            this.isSubmit = true
             if(this.taskName == ''){
               this.$message.info('任务名不能为空!')
               return;
@@ -123,7 +122,8 @@ export default {
             this.drawList.forEach(item=>{
                 arr = [...arr,...item['value']]
             })
-            postAxiosData('/lenovo-robot/rest/deviceTask',{linkIds: arr,taskName: this.taskName}).then(res=>{
+          this.isSubmit = true
+          postAxiosData('/lenovo-robot/rest/deviceTask',{linkIds: arr,taskName: this.taskName}).then(res=>{
                 if(Number(res.data.resConf)){
                     that.$message.success('新增成功')
                     that.drawList = []
