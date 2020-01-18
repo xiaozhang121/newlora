@@ -64,6 +64,7 @@
       <div v-if="!screenWidth">
         <inspection
           @on-edit="onEdit"
+          :disabled="disabled"
           :bigScreen="false"
           ref="inspectionRef"
           :deviceId="dataForm.monitorDeviceId"

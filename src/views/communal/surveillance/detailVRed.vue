@@ -74,6 +74,7 @@
         <div class="right nr contain" style="position: relative" v-if="screenWidth">
           <inspection-red-control
             @on-edit="onEdit"
+            :disabled="disabled"
             ref="inspectionRef"
             :deviceId="dataForm.monitorDeviceId"
           ></inspection-red-control>

@@ -505,6 +505,17 @@ export default {
     }
   },
   watch: {
+    disabled(now){
+      if(now){
+        clearInterval(this.lightTimer)
+        clearInterval(this.timer)
+        clearInterval(this.showTimer)
+        this.secondLastShow = 9
+        this.flagNow = -1;
+        this.boatNow = true
+        this.initGrey()
+      }
+    },
     bigScreen(now){
       this.screenWidth = now;
     },
@@ -579,6 +590,12 @@ export default {
     }
   },
   props: {
+    disabled: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     bigScreen: {
       type: Boolean,
       default: () => {
@@ -751,6 +768,10 @@ export default {
     },
     startBoat() {
       const that = this;
+      if(this.disabled){
+        that.$message.error('请先申请获取控制权')
+        return
+      }
       this.boatNow = !this.boatNow;
       if (!this.boatNow) {
         clearInterval(that.showTimer);
