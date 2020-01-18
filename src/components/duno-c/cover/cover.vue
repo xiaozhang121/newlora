@@ -1,7 +1,7 @@
 <template>
   <div class="cover">
     <div>
-      <img :src="srcData.pic" class="imgBack" alt />
+      <img :src="srcData.pic" class="imgBack" alt  @click="handleShowImg" />
       <i class="iconfont icon-bofang" v-if="iconShow" @click="handleShow"></i>
       <!-- <img src="@/assets/iconFunction/icon_bofang.png" class="icon-bofang" @click="handleShow" alt /> -->
     </div>
@@ -21,6 +21,7 @@
       :isShow="isEnlarge"
       :modalBody="false"
       :srcData="srcData"
+      :fileType="iconShow?'':'1'"
       @closeEnlarge="closeEnlarge"
       @on-end="toNext"
     ></enlarge>
@@ -119,6 +120,12 @@ export default {
     };
   },
   methods: {
+    handleShowImg(){
+      if(this.iconShow){
+        return
+      }
+      this.isEnlarge = true;
+    },
     findIndex() {
       let addr = this.srcData.alarmFileAddress
         ? this.srcData.alarmFileAddress
