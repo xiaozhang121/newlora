@@ -285,7 +285,7 @@
       onChangeTime(data) {
         let startTime = "";
         let endTime = "";
-        if (data) {
+        if (Object.prototype.toString.call(data) == '[object Array]') {
           startTime = moment(data[0]).format("YYYY-MM-DD 00:00:00");
           endTime = moment(data[1]).format("YYYY-MM-DD 23:59:59");
         }
