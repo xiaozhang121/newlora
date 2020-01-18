@@ -444,6 +444,8 @@ export default {
     }
   },
   created() {
+    this.$route.query.substationId = this.$route.query.substationId?this.$route.query.substationId:10
+    this.$route.query.robotId = this.$route.query.robotId?this.$route.query.robotId:26
     this.initData();
     this.timer = setInterval(() => {
       this.getInfor();
