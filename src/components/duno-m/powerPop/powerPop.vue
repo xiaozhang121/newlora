@@ -327,6 +327,16 @@
             },
             initData(){
                 const that = this
+                getAxiosData('/lenovo-mon/api/monitoring/wifi/device').then(res=>{
+                  let data = res.data
+                  data.map(item=>{
+                    if(item['deviceType'] == 'AR眼镜'){
+                      that.ARClass = item['count']
+                    }else if(item['deviceType'] == 'PAD'){
+                      that.PAD = item['count']
+                    }
+                  })
+                })
                 getAxiosData('/lenovo-mon/api/monitoring/zabbix/health-status').then(res=>{
                     let data = res.data.data
                 })
