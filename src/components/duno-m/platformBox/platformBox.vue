@@ -82,7 +82,7 @@
             <div class="patteryContain">
                 <div class="top">
                     <div class="robotTitle">
-                        室外巡检机器人
+                        室外巡检机器人一
                     </div>
                     <pattery :rate="battery" class="pattery"></pattery>
                     <!--<div class="robotStauts green">{{ robotStatus }}</div>-->

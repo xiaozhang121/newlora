@@ -148,7 +148,7 @@
                 routeChange: true,
                 rtspCDD: '',
                 rtspINF: '',
-                insideTitle: '室外巡检机器人',
+                insideTitle: '室外巡检机器人一',
                 noPic: require("@/assets/noPic.png"),
                 visible: false,
                 ischange: false,
@@ -168,7 +168,7 @@
                 dataBread: [
                     { path: "/realEnv/list", name: "操作中台" },
                     { path: "/robot-one/list", name: "机器人巡视" },
-                    { path: "", name: "室外巡检机器人" }
+                    { path: "", name: "室外巡检机器人一" }
                 ],
                 baseUrl:
                     process.env.NODE_ENV === "development"
@@ -266,14 +266,14 @@
             },
             initVideo(){
               const that = this
-              if(that.robotId == 1){
+           /*   if(that.robotId == 1){
                 this.rtspCDD = 'rtmp://10.0.10.39/rtsp59/stream'
                 this.rtspINF = 'rtmp://10.0.10.39/rtsp60/stream'
               }else{
                 this.rtspCDD = ''
                 this.rtspINF = ''
-              }
-            /*  postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
+              }*/
+              postAxiosData('/lenovo-robot/getRobotVedioPath',{substationID: that.substationId, robotID: that.robotId}).then(res=>{
                 that.cameraPath = res.data
                 let rtspCDD =  that.cameraPath['rtspCDD']
                 let rtspINF = that.cameraPath['rtspINF']
@@ -283,7 +283,7 @@
                 postAxiosData('/lenovo-device/api/stream/transfer',{rtspUrl: rtspINF}).then(res=>{
                   this.rtspINF = res.data.rtmpUrl
                 })
-              })*/
+              })
             },
             initReport(){
                 const that = this
