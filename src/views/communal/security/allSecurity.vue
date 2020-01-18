@@ -19,6 +19,7 @@
           </div>
           <div>
             <duno-btn-top
+              v-show="!isCarManager"
               @on-select="onSelect"
               class="dunoBtnTop"
               :isCheck="false"
@@ -89,7 +90,7 @@
       />
       <Remarks :isShow="dialogVisible" :alarmId="alarmId" @beforeClose="beforeClose" />
     </div>
-    <front-door :noHeader="true" v-if="isCarManager" />
+    <front-door ref="fontDoorRef" :date="value" :noHeader="true" v-if="isCarManager" />
   </div>
 </template>
 
@@ -465,6 +466,10 @@ export default {
     },
     selectDownloadType(item) {
       const that = this;
+      if(that.isCarManager){
+        that.$refs.fontDoorRef.selectDownloadType(item)
+        return
+      }
       this.dataForm.type = item.monitorDeviceType;
       this.queryForm = this.dataForm;
       that.exportHandle();

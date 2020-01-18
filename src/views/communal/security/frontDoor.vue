@@ -230,6 +230,12 @@
       };
     },
     props: {
+      date: {
+        type: String | Object | Array,
+        default: ()=>{
+          return {}
+        }
+      },
       noHeader:{
         type: Boolean,
         default: ()=>{
@@ -238,6 +244,13 @@
       }
     },
     watch: {
+      date:{
+        handler(now){
+          this.onChangeTime(now)
+        },
+        deep: true,
+        immediate: true
+      },
       $route(to) {
 
       },
