@@ -91,7 +91,7 @@
                 addPosInput: '',
                 flagNow: -1,
                 secondLast: 10,
-                secondLastShow: 10,
+                secondLastShow: 9,
                 timer: null,
                 showTimer: null,
                 lightTimer: null,
