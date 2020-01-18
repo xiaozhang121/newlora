@@ -2,7 +2,7 @@
   <div class="cover">
     <div>
       <img :src="srcData.pic" class="imgBack" alt />
-      <i class="iconfont icon-bofang" @click="handleShow"></i>
+      <i class="iconfont icon-bofang" v-if="iconShow" @click="handleShow"></i>
       <!-- <img src="@/assets/iconFunction/icon_bofang.png" class="icon-bofang" @click="handleShow" alt /> -->
     </div>
     <el-tooltip effect="dark" content="点击查看摄像头详情" placement="top">
@@ -58,6 +58,12 @@ export default {
     }
   },
   props: {
+    iconShow: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
+    },
     showTime: {
       type: Boolean,
       default: () => {

@@ -351,6 +351,9 @@ export default {
   .taskN {
     & > div {
       height: 350px;
+      @media screen and(max-width: 1366px){
+        height: 250px;
+      }
     }
   }
   //分页--

@@ -525,7 +525,7 @@ export default {
           return obj;
         });
         map.unshift({
-          describeName: "所有区域",
+          describeName: "全部电压等级",
           monitorDeviceType: "",
           title: "titleTypeL"
         });
