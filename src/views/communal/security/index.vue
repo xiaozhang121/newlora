@@ -38,7 +38,7 @@
         <div class="alarmTitle">
           <div>
             <span>历史</span>
-            <span :style="{color:'#F5A623'}">异常</span>记录
+            <span :style="{color:'#F5A623'}">异常</span>和进出记录
           </div>
           <div>
             <div @click="clickToDetail(2)">查看更多 ></div>

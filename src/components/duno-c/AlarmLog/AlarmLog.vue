@@ -7,7 +7,7 @@
         :src="remarkData.fileAddress?remarkData.fileAddress:remarkData.alarmFileAddress"
         alt
       />
-      <cover v-else :isSecond='false' :srcData="remarkData"></cover>
+      <cover v-else :isSecond='false' :iconShow='!securityType' :srcData="remarkData"></cover>
     </div>
     <div class="contentMain" @click="handleWain">
       <div class="top">
@@ -154,6 +154,9 @@ export default {
       this.visible = false;
     },
     handleWain() {
+      if(this.securityType){
+        return
+      }
       this.visible = true;
     },
     addReturn() {
