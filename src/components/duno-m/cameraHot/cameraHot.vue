@@ -491,7 +491,7 @@
             flagNow(now){
                 const that = this
                 // putAxiosData('/lenovo-iir/device/operate/ptz/'+that.deviceId+'/'+this.dataList[0]['dataList'][now]['psIndex'])
-                putAxiosData('/lenovo-iir/device/operate/set/ptz/'+that.deviceId+'?cmd='+10+'&value='+this.dataList[0]['dataList'][now]['number'])
+                putAxiosData('/lenovo-iir/device/operate/set/ptz/'+that.deviceId+'?cmd='+10+'&value='+this.dataList[0]['dataList'][now]['number']+'&page=首页弹窗')
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
                 that.lightTimer = setInterval(()=>{
@@ -598,7 +598,7 @@
             checkPostion(data){
                 let pid = data.number
                 const that = this
-                let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+10+'&value='+pid
+                let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+10+'&value='+pid+'&page=首页弹窗'
                 putAxiosData(url).then(res=>{
                     this.$message.info(res.msg)
                 }, error => {
@@ -680,7 +680,7 @@
             delTableData(params){
                 const that = this
                 deleteDataId(
-                    '/lenovo-iir/manager/preset/delete/'+params.row.id
+                    '/lenovo-iir/manager/preset/delete/'+params.row.id+'?page=首页弹窗'
                 ).then(res => {
                     that.getListData();
                     that.$message.info(res.msg)
@@ -695,7 +695,7 @@
                         return
                     }
                     let tempName = that.addPosInput
-                    postAxiosData('/lenovo-iir/manager/preset/add',{'deviceId': that.deviceId, 'name':that.addPosInput}).then(res=>{
+                    postAxiosData('/lenovo-iir/manager/preset/add',{'deviceId': that.deviceId, 'name':that.addPosInput, page: '首页弹窗'}).then(res=>{
                         that.getListData()
                         that.$message.info(res.msg)
                     }, error => {
@@ -708,7 +708,7 @@
                     this.$forceUpdate()
                     that.addPosInput = ''
                     that.isEdit = !that.isEdit
-                    putAxiosData('/lenovo-iir/manager/preset/update', { deviceId: that.deviceId, id: that.temparams.row.id.toString(), name:temp }).then(res=>{
+                    putAxiosData('/lenovo-iir/manager/preset/update', { deviceId: that.deviceId, id: that.temparams.row.id.toString(), name:temp, page: '首页弹窗' }).then(res=>{
                         that.getListData()
                         that.$message.info(res.msg)
                     }, error => {
@@ -842,7 +842,7 @@
                 }
 
 
-                let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value
+                let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value+'&page=首页弹窗'
                 console.log(typeof cmd)
                 putAxiosData(url).then(res=>{
                     try{

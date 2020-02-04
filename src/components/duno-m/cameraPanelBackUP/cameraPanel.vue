@@ -508,7 +508,7 @@
             },
             flagNow(now){
                 const that = this
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/20/8/'+this.dataList[0]['dataList'][now]['psIndex']+'/'+that.deviceId)
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/20/8/'+this.dataList[0]['dataList'][now]['psIndex']+'/'+that.deviceId+'?page=首页弹窗')
                 this.dataList[0]['dataList'][now]['ago'] = true
                 this.dataList[0]['dataList'][now]['flag'] = 'orangePointP'
                 that.lightTimer = setInterval(()=>{
@@ -706,7 +706,7 @@
             getListData(){
                 const that = this
                 let url = '/lenovo-visible/api/visible-equipment/preset/list-name'
-                getAxiosData(url, {deviceId: that.deviceId}).then(res=>{
+                getAxiosData(url, {deviceId: that.deviceId, page: '首页弹窗'}).then(res=>{
                     let data = res.data
                     data.map(item=>{
                         item['flag'] = 'play'
@@ -720,7 +720,7 @@
             },
             checkPostion(pid){
                 const that = this
-                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/20/8/'+pid+'/'+that.deviceId).then(res=>{
+                putAxiosData('/lenovo-visible/api/visible-equipment/ptz/preset-move'+'/20/8/'+pid+'/'+that.deviceId+'?page=首页弹窗').then(res=>{
                     this.$message.info(res.msg)
                 })
             },
@@ -733,7 +733,7 @@
             },
             delTableData(params){
                 const that = this
-                deleteDataId('/lenovo-visible/api/visible-equipment/preset/delete/'+params.row.id, {id:params.row.id}).then(res=>{
+                deleteDataId('/lenovo-visible/api/visible-equipment/preset/delete/'+params.row.id, {id:params.row.id, page: '首页弹窗'}).then(res=>{
                     that.getListData()
                     this.$message.info(res.msg)
                 })
@@ -747,7 +747,7 @@
                         return
                     }
                     let tempName = that.addPosInput
-                    postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId}).then(res=>{
+                    postAxiosData('/lenovo-visible/api/visible-equipment/preset/create/'+ that.deviceId,{'presetName':that.addPosInput, id: that.deviceId, page: '首页弹窗'}).then(res=>{
                         that.getListData()
                         this.$message.info(res.msg)
                     }, error => {
@@ -760,7 +760,7 @@
                     this.$forceUpdate()
                     that.addPosInput = ''
                     that.isEdit = !that.isEdit
-                    putAxiosData('/lenovo-visible/api/visible-equipment/preset/edit', { deviceId: that.deviceId.toString(), id: that.temparams.row.id.toString(), presetName:temp }).then(res=>{
+                    putAxiosData('/lenovo-visible/api/visible-equipment/preset/edit', { deviceId: that.deviceId.toString(), id: that.temparams.row.id.toString(), presetName:temp, page: '首页弹窗' }).then(res=>{
                         that.getListData()
                         this.$message.info(res.msg)
                     }, error => {
@@ -880,7 +880,7 @@
                 let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
                     .replace("{step}", 8);
                 return new Promise((resolve, reject)=>{
-                    putAxiosData(url).then(res => {
+                    putAxiosData(url+'?page=首页弹窗').then(res => {
                        try{ 
                         this.$message.info(res.msg)
                        }catch (e) {

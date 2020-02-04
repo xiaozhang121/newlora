@@ -571,7 +571,7 @@ export default {
           "/20/8/" +
           this.dataList[0]["dataList"][now]["psIndex"] +
           "/" +
-          that.deviceId
+          that.deviceId+'?page=摄像头详情页'
       );
       this.dataList[0]["dataList"][now]["ago"] = true;
       this.dataList[0]["dataList"][now]["flag"] = "orangePointP";
@@ -670,7 +670,7 @@ export default {
     getListData() {
       const that = this;
       let url = "/lenovo-visible/api/visible-equipment/preset/list-name";
-      getAxiosData(url, { deviceId: that.deviceId }).then(
+      getAxiosData(url, { deviceId: that.deviceId, page: '摄像头详情页' }).then(
         res => {
           let data = res.data;
           data.map(item => {
@@ -696,7 +696,7 @@ export default {
           "/20/8/" +
           pid +
           "/" +
-          that.deviceId
+          that.deviceId+'?page=摄像头详情页'
       ).then(
         res => {
           this.$message.info("操作成功");
@@ -718,7 +718,7 @@ export default {
       const that = this;
       deleteDataId(
         "/lenovo-visible/api/visible-equipment/preset/delete/" + params.row.id,
-        { id: params.row.id }
+        { id: params.row.id, page: '摄像头详情页' }
       ).then(res => {
         that.getListData();
       });
@@ -735,7 +735,7 @@ export default {
         postAxiosData(
           "/lenovo-visible/api/visible-equipment/preset/create/" +
             that.deviceId,
-          { presetName: that.addPosInput, id: that.deviceId }
+          { presetName: that.addPosInput, id: that.deviceId, page: '摄像头详情页' }
         ).then(
           res => {
             that.getListData();
@@ -755,7 +755,8 @@ export default {
         putAxiosData("/lenovo-visible/api/visible-equipment/preset/edit", {
           deviceId: that.deviceId.toString(),
           id: that.temparams.row.id.toString(),
-          presetName: temp
+          presetName: temp,
+          page: '摄像头详情页'
         }).then(
           res => {
             that.getListData();
@@ -897,7 +898,7 @@ export default {
       let url = this.operateUrl.ptzSet
         .replace("{cmd}", command)
         .replace("{id}", this.deviceId)
-        .replace("{step}", 8);
+        .replace("{step}", 8)+'?page=摄像头详情页';
       return new Promise((resolve, reject) => {
         putAxiosData(url).then(
           res => {

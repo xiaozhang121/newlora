@@ -133,7 +133,7 @@ export default {
                 cmd = 0
                 value = 0
             }
-            let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value
+            let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+cmd+'&value='+value+'&page=摄像头详情页'
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
                     try{

@@ -507,7 +507,7 @@ export default {
       const that = this;
       // alert(now)
       console.log(now);
-      putAxiosData('/lenovo-iir/device/operate/set/ptz/'+that.deviceId+'?cmd='+10+'&value='+this.dataList[0]['dataList'][now]['number'])
+      putAxiosData('/lenovo-iir/device/operate/set/ptz/'+that.deviceId+'?cmd='+10+'&value='+this.dataList[0]['dataList'][now]['number']+'&page=摄像头详情页')
       this.dataList[0]["dataList"][now]["ago"] = true;
       this.dataList[0]["dataList"][now]["flag"] = "orangePointP";
       that.lightTimer = setInterval(() => {
@@ -618,7 +618,7 @@ export default {
     checkPostion(data) {
       const that = this;
       let pid = data.number
-      let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+10+'&value='+pid
+      let url = '/lenovo-iir/device/operate/set/ptz/'+this.deviceId+'?cmd='+10+'&value='+pid+'&page=摄像头详情页'
       putAxiosData(url).then(res=>{
           this.$message.info('操作成功')
       }, error => {
@@ -636,7 +636,7 @@ export default {
     delTableData(params) {
         const that = this;
         deleteDataId(
-            '/lenovo-iir/manager/preset/delete/'+params.row.id
+            '/lenovo-iir/manager/preset/delete/'+params.row.id+'?page=摄像头详情页'
         ).then(res => {
             that.getListData();
             this.$message.info(res.msg)
@@ -651,7 +651,7 @@ export default {
           return;
         }
         let tempName = that.addPosInput;
-        postAxiosData('/lenovo-iir/manager/preset/add',{'deviceId': that.deviceId, 'name':that.addPosInput}).then(res=>{
+        postAxiosData('/lenovo-iir/manager/preset/add',{'deviceId': that.deviceId, 'name':that.addPosInput, page: '摄像头详情页'}).then(res=>{
             that.getListData()
         }, error => {
           this.$message.error(error.response.data.msg)
@@ -663,7 +663,7 @@ export default {
         this.$forceUpdate();
         that.addPosInput = "";
         that.isEdit = !that.isEdit;
-        putAxiosData('/lenovo-iir/manager/preset/update', { deviceId: that.deviceId, id: that.temparams.row.id.toString(), name:temp }).then(res=>{
+        putAxiosData('/lenovo-iir/manager/preset/update', { deviceId: that.deviceId, id: that.temparams.row.id.toString(), name:temp, page: '摄像头详情页' }).then(res=>{
             that.getListData()
         }, error => {
           this.$message.error(error.response.data.msg)
@@ -798,7 +798,7 @@ export default {
       let value = 20
       let url = "/lenovo-iir/device/operate/ptz"
       return new Promise((resolve, reject) => {
-        putAxiosData(url, {deviceId:this.deviceId ,cmd: command, value: value}).then(
+        putAxiosData(url, {deviceId:this.deviceId ,cmd: command, value: value, page: '摄像头详情页'}).then(
           res => {
             resolve(res);
           },

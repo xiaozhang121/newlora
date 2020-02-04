@@ -134,7 +134,7 @@ export default {
               this.activeNum = command
             }
             let url = this.operateUrl.ptzSet.replace("{cmd}", command).replace("{id}", this.deviceId)
-                .replace("{step}", Number(that.speed));
+                .replace("{step}", Number(that.speed))+'?page=摄像头详情页';
             return new Promise((resolve, reject)=>{
                 putAxiosData(url).then(res => {
                     try{
