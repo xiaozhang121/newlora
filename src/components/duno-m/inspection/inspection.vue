@@ -717,7 +717,7 @@ export default {
     delTableData(params) {
       const that = this;
       deleteDataId(
-        "/lenovo-visible/api/visible-equipment/preset/delete/" + params.row.id,
+        "/lenovo-visible/api/visible-equipment/preset/delete/" + params.row.id+'?page=摄像头详情页',
         { id: params.row.id, page: '摄像头详情页' }
       ).then(res => {
         that.getListData();

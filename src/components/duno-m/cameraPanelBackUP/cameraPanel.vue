@@ -733,7 +733,7 @@
             },
             delTableData(params){
                 const that = this
-                deleteDataId('/lenovo-visible/api/visible-equipment/preset/delete/'+params.row.id, {id:params.row.id, page: '首页弹窗'}).then(res=>{
+                deleteDataId('/lenovo-visible/api/visible-equipment/preset/delete/'+params.row.id+'?page=首页弹窗', {id:params.row.id, page: '首页弹窗'}).then(res=>{
                     that.getListData()
                     this.$message.info(res.msg)
                 })
