@@ -14,6 +14,7 @@
                           :pushCamera="false"
                           :showBtmOption="false"
                           :Initialization="true"
+                          :videoAbsolute='true'
                           :isLive='false'
                           :isNav='true'
                           :isAux='true'
@@ -72,6 +73,7 @@
                           :pushCamera="false"
                           :showBtmOption="false"
                           :Initialization="true"
+                          :videoAbsolute='true'
                           :isLive='false'
                           :isNav='true'
                           :isAux='true'
@@ -143,6 +145,7 @@
                           :Initialization="true"
                           :isLive='false'
                           :isNav='true'
+                          :videoAbsolute='true'
                           :isRecord="false"
                           :isAux='true'
                         ></key-monitor>
