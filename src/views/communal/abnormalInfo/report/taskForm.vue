@@ -1011,6 +1011,8 @@
                 }
                 this.startTime = startTime;
                 this.endTime = endTime;
+                this.$forceUpdate();
+                this.isChangeFlag = !this.isChangeFlag;
                 this.getEcharts();
             },
             getJump(row) {
